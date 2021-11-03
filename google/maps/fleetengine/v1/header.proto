@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package maps.fleetengine.v1;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "google.maps.fleetengine.v1";
+option java_outer_classname = "Headers";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/fleetengine/v1;fleetengine";
+option objc_class_prefix = "CFE";
+
+
+message RequestHeader {
+
+	string language_code = 1;
+	string region_code = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string sdk_version = 3;
+	string os_version = 4;
+	string device_model = 5;
+}

@@ -64,6 +64,7 @@ message RecurringSchedule {
 		FREQUENCY_UNSPECIFIED = 0;
 		WEEKLY = 1;
 		MONTHLY = 2;
+		DAILY = 3;
 	}
 
 	google.type.TimeZone time_zone = 1 [

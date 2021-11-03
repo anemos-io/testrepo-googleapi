@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+import "google/actions/sdk/v2/conversation/prompt/content/canvas.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/content.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/link.proto";
+import "google/actions/sdk/v2/conversation/prompt/simple.proto";
+import "google/actions/sdk/v2/conversation/prompt/suggestion.proto";
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "PromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Prompt {
+
+	bool append = 1 [
+		deprecated = true
+	];
+	bool override = 8;
+	google.actions.sdk.v2.conversation.Simple first_simple = 2;
+	google.actions.sdk.v2.conversation.Content content = 3;
+	google.actions.sdk.v2.conversation.Simple last_simple = 4;
+	repeated google.actions.sdk.v2.conversation.Suggestion suggestions = 5;
+	google.actions.sdk.v2.conversation.Link link = 6;
+	google.actions.sdk.v2.conversation.Canvas canvas = 9;
+}

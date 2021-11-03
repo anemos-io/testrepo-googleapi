@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.migration.v2alpha;
+
+import "google/api/field_behavior.proto";
+import "google/rpc/error_details.proto";
+
+option java_package = "com.google.cloud.bigquery.migration.v2alpha";
+option java_outer_classname = "MigrationErrorDetailsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/migration/v2alpha;migration";
+option csharp_namespace = "Google.Cloud.BigQuery.Migration.V2Alpha";
+option php_namespace = "Google\\Cloud\\BigQuery\\Migration\\V2alpha";
+
+
+message ResourceErrorDetail {
+
+	google.rpc.ResourceInfo resource_info = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ErrorDetail error_details = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 error_count = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ErrorDetail {
+
+	ErrorLocation location = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.rpc.ErrorInfo error_info = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ErrorLocation {
+
+	int32 line = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 column = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

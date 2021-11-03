@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1.schema.predict.params;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1.schema.predict.params";
+option java_outer_classname = "VideoObjectTrackingPredictionParamsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1/schema/predict/params;params";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1.Schema.Predict.Params";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1\\Schema\\Predict\\Params";
+option ruby_package = "Google::Cloud::AIPlatform::V1::Schema::Predict::Params";
+
+
+message VideoObjectTrackingPredictionParams {
+
+	float confidence_threshold = 1;
+	int32 max_predictions = 2;
+	float min_bounding_box_size = 3;
+}

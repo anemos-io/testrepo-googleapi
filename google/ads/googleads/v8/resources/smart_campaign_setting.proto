@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "SmartCampaignSettingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message SmartCampaignSetting {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/SmartCampaignSetting"
+		pattern: ["customers/{customer_id}/smartCampaignSettings/{campaign_id}"]
+	};
+
+	message PhoneNumber {
+
+		oneof _phone_number {
+			string phone_number = 1;
+		}
+		oneof _country_code {
+			string country_code = 2;
+		}
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/SmartCampaignSetting"
+		}
+	];
+	string campaign = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	PhoneNumber phone_number = 3;
+	string final_url = 4;
+	string advertising_language_code = 7;
+	oneof business_setting {
+		string business_name = 5;
+		int64 business_location_id = 6;
+	}
+}

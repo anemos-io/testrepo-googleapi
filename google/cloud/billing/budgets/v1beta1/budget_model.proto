@@ -5,12 +5,21 @@ package google.cloud.billing.budgets.v1beta1;
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/struct.proto";
+import "google/type/date.proto";
 import "google/type/money.proto";
 
 option java_package = "com.google.cloud.billing.budgets.v1beta1";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/billing/budgets/v1beta1;budgets";
 
+
+enum CalendarPeriod {
+
+	CALENDAR_PERIOD_UNSPECIFIED = 0;
+	MONTH = 1;
+	QUARTER = 2;
+	YEAR = 3;
+}
 
 message Budget {
 	option (google.api.resource) = {
@@ -71,12 +80,15 @@ message ThresholdRule {
 message AllUpdatesRule {
 
 	string pubsub_topic = 1 [
-		(google.api.field_behavior) = REQUIRED
+		(google.api.field_behavior) = OPTIONAL
 	];
 	string schema_version = 2 [
-		(google.api.field_behavior) = REQUIRED
+		(google.api.field_behavior) = OPTIONAL
 	];
 	repeated string monitoring_notification_channels = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool disable_default_iam_recipients = 4 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -88,9 +100,13 @@ message Filter {
 		CREDIT_TYPES_TREATMENT_UNSPECIFIED = 0;
 		INCLUDE_ALL_CREDITS = 1;
 		EXCLUDE_ALL_CREDITS = 2;
+		INCLUDE_SPECIFIED_CREDITS = 3;
 	}
 
 	repeated string projects = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string credit_types = 7 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 	CreditTypesTreatment credit_types_treatment = 4 [
@@ -103,6 +119,24 @@ message Filter {
 		(google.api.field_behavior) = OPTIONAL
 	];
 	map<string, google.protobuf.ListValue> labels = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof usage_period {
+		CalendarPeriod calendar_period = 8 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		CustomPeriod custom_period = 9 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+}
+
+message CustomPeriod {
+
+	google.type.Date start_date = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.type.Date end_date = 2 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.enums";
+option java_outer_classname = "ChangeEventResourceTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V8::Enums";
+
+
+message ChangeEventResourceTypeEnum {
+
+	enum ChangeEventResourceType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		AD = 2;
+		AD_GROUP = 3;
+		AD_GROUP_CRITERION = 4;
+		CAMPAIGN = 5;
+		CAMPAIGN_BUDGET = 6;
+		AD_GROUP_BID_MODIFIER = 7;
+		CAMPAIGN_CRITERION = 8;
+		FEED = 9;
+		FEED_ITEM = 10;
+		CAMPAIGN_FEED = 11;
+		AD_GROUP_FEED = 12;
+		AD_GROUP_AD = 13;
+		ASSET = 14;
+		CUSTOMER_ASSET = 15;
+		CAMPAIGN_ASSET = 16;
+		AD_GROUP_ASSET = 17;
+	}
+
+}

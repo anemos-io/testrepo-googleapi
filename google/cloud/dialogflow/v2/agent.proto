@@ -28,6 +28,9 @@ service Agents {
 		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v2/{parent=projects/*}/agent"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*}/agent"
+			}
 		};
 
 	}
@@ -36,6 +39,10 @@ service Agents {
 		option (google.api.http) = {
 			post: "/v2/{agent.parent=projects/*}/agent"
 			body: "agent"
+			additional_bindings: {
+				post: "/v2/{agent.parent=projects/*/locations/*}/agent"
+				body: "agent"
+			}
 		};
 
 	}
@@ -43,6 +50,9 @@ service Agents {
 		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			delete: "/v2/{parent=projects/*}/agent"
+			additional_bindings: {
+				delete: "/v2/{parent=projects/*/locations/*}/agent"
+			}
 		};
 
 	}
@@ -50,6 +60,9 @@ service Agents {
 		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v2/{parent=projects/*}/agent:search"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*}/agent:search"
+			}
 		};
 
 	}
@@ -62,6 +75,10 @@ service Agents {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*}/agent:train"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*}/agent:train"
+				body: "*"
+			}
 		};
 
 	}
@@ -74,6 +91,10 @@ service Agents {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*}/agent:export"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*}/agent:export"
+				body: "*"
+			}
 		};
 
 	}
@@ -85,6 +106,10 @@ service Agents {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*}/agent:import"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*}/agent:import"
+				body: "*"
+			}
 		};
 
 	}
@@ -96,12 +121,19 @@ service Agents {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*}/agent:restore"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*}/agent:restore"
+				body: "*"
+			}
 		};
 
 	}
 	rpc GetValidationResult(google.cloud.dialogflow.v2.GetValidationResultRequest) returns (google.cloud.dialogflow.v2.ValidationResult) {
 		option (google.api.http) = {
 			get: "/v2/{parent=projects/*}/agent/validationResult"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*}/agent/validationResult"
+			}
 		};
 
 	}
@@ -110,7 +142,7 @@ service Agents {
 message Agent {
 	option (google.api.resource) = {
 		type: "dialogflow.googleapis.com/Agent"
-		pattern: ["projects/{project}/agent"]
+		pattern: ["projects/{project}/agent","projects/{project}/locations/{location}/agent"]
 	};
 
 	enum MatchMode {
@@ -133,7 +165,9 @@ message Agent {
 		TIER_UNSPECIFIED = 0;
 		TIER_STANDARD = 1;
 		TIER_ENTERPRISE = 2;
-		TIER_ENTERPRISE_PLUS = 3;
+		TIER_ENTERPRISE_PLUS = 3 [
+			deprecated = true
+		];
 	}
 
 	string parent = 1 [
@@ -164,6 +198,7 @@ message Agent {
 		(google.api.field_behavior) = OPTIONAL
 	];
 	MatchMode match_mode = 9 [
+		deprecated = true,
 		(google.api.field_behavior) = OPTIONAL
 	];
 	float classification_threshold = 10 [

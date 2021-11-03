@@ -7,6 +7,7 @@ import "google/api/field_behavior.proto";
 import "google/cloud/bigquery/v2/encryption_config.proto";
 import "google/cloud/bigquery/v2/model_reference.proto";
 import "google/cloud/bigquery/v2/standard_sql.proto";
+import "google/cloud/bigquery/v2/table_reference.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
@@ -23,23 +24,51 @@ service ModelService {
 
 	rpc GetModel(google.cloud.bigquery.v2.GetModelRequest) returns (google.cloud.bigquery.v2.Model) {
 		option (google.api.method_signature) = "project_id,dataset_id,model_id";
+		option (google.api.http) = {
+			get: "/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/models/{model_id=*}"
+		};
 
 	}
 	rpc ListModels(google.cloud.bigquery.v2.ListModelsRequest) returns (google.cloud.bigquery.v2.ListModelsResponse) {
 		option (google.api.method_signature) = "project_id,dataset_id,max_results";
+		option (google.api.http) = {
+			get: "/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/models"
+		};
 
 	}
 	rpc PatchModel(google.cloud.bigquery.v2.PatchModelRequest) returns (google.cloud.bigquery.v2.Model) {
 		option (google.api.method_signature) = "project_id,dataset_id,model_id,model";
+		option (google.api.http) = {
+			patch: "/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/models/{model_id=*}"
+			body: "model"
+		};
 
 	}
 	rpc DeleteModel(google.cloud.bigquery.v2.DeleteModelRequest) returns (google.protobuf.Empty) {
 		option (google.api.method_signature) = "project_id,dataset_id,model_id";
+		option (google.api.http) = {
+			delete: "/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/models/{model_id=*}"
+		};
 
 	}
 }
 
 message Model {
+
+	message SeasonalPeriod {
+
+		enum SeasonalPeriodType {
+
+			SEASONAL_PERIOD_TYPE_UNSPECIFIED = 0;
+			NO_SEASONALITY = 1;
+			DAILY = 2;
+			WEEKLY = 3;
+			MONTHLY = 4;
+			QUARTERLY = 5;
+			YEARLY = 6;
+		}
+
+	}
 
 	message KmeansEnums {
 
@@ -48,6 +77,7 @@ message Model {
 			KMEANS_INITIALIZATION_METHOD_UNSPECIFIED = 0;
 			RANDOM = 1;
 			CUSTOM = 2;
+			KMEANS_PLUS_PLUS = 3;
 		}
 
 	}
@@ -151,6 +181,47 @@ message Model {
 		repeated Cluster clusters = 3;
 	}
 
+	message RankingMetrics {
+
+		google.protobuf.DoubleValue mean_average_precision = 1;
+		google.protobuf.DoubleValue mean_squared_error = 2;
+		google.protobuf.DoubleValue normalized_discounted_cumulative_gain = 3;
+		google.protobuf.DoubleValue average_rank = 4;
+	}
+
+	message ArimaForecastingMetrics {
+
+		message ArimaSingleModelForecastingMetrics {
+
+			ArimaOrder non_seasonal_order = 1;
+			ArimaFittingMetrics arima_fitting_metrics = 2;
+			bool has_drift = 3;
+			string time_series_id = 4;
+			repeated string time_series_ids = 9;
+			repeated SeasonalPeriodType seasonal_periods = 5;
+			google.protobuf.BoolValue has_holiday_effect = 6;
+			google.protobuf.BoolValue has_spikes_and_dips = 7;
+			google.protobuf.BoolValue has_step_changes = 8;
+		}
+
+		repeated ArimaOrder non_seasonal_order = 1 [
+			deprecated = true
+		];
+		repeated ArimaFittingMetrics arima_fitting_metrics = 2 [
+			deprecated = true
+		];
+		repeated SeasonalPeriodType seasonal_periods = 3 [
+			deprecated = true
+		];
+		repeated bool has_drift = 4 [
+			deprecated = true
+		];
+		repeated string time_series_id = 5 [
+			deprecated = true
+		];
+		repeated ArimaSingleModelForecastingMetrics arima_single_model_forecasting_metrics = 6;
+	}
+
 	message EvaluationMetrics {
 
 		oneof metrics {
@@ -158,7 +229,41 @@ message Model {
 			BinaryClassificationMetrics binary_classification_metrics = 2;
 			MultiClassClassificationMetrics multi_class_classification_metrics = 3;
 			ClusteringMetrics clustering_metrics = 4;
+			RankingMetrics ranking_metrics = 5;
+			ArimaForecastingMetrics arima_forecasting_metrics = 6;
 		}
+	}
+
+	message DataSplitResult {
+
+		google.cloud.bigquery.v2.TableReference training_table = 1;
+		google.cloud.bigquery.v2.TableReference evaluation_table = 2;
+	}
+
+	message ArimaOrder {
+
+		int64 p = 1;
+		int64 d = 2;
+		int64 q = 3;
+	}
+
+	message ArimaFittingMetrics {
+
+		double log_likelihood = 1;
+		double aic = 2;
+		double variance = 3;
+	}
+
+	message GlobalExplanation {
+
+		message Explanation {
+
+			string feature_name = 1;
+			google.protobuf.DoubleValue attribution = 2;
+		}
+
+		repeated Explanation explanations = 1;
+		string class_label = 2;
 	}
 
 	message TrainingRun {
@@ -180,12 +285,38 @@ message Model {
 			LearnRateStrategy learn_rate_strategy = 13;
 			double initial_learn_rate = 16;
 			map<string, double> label_class_weights = 17;
+			string user_column = 18;
+			string item_column = 19;
 			DistanceType distance_type = 20;
 			int64 num_clusters = 21;
 			string model_uri = 22;
 			OptimizationStrategy optimization_strategy = 23;
+			repeated int64 hidden_units = 24;
+			int64 batch_size = 25;
+			google.protobuf.DoubleValue dropout = 26;
+			int64 max_tree_depth = 27;
+			double subsample = 28;
+			google.protobuf.DoubleValue min_split_loss = 29;
+			int64 num_factors = 30;
+			FeedbackType feedback_type = 31;
+			google.protobuf.DoubleValue wals_alpha = 32;
 			KmeansInitializationMethod kmeans_initialization_method = 33;
 			string kmeans_initialization_column = 34;
+			string time_series_timestamp_column = 35;
+			string time_series_data_column = 36;
+			bool auto_arima = 37;
+			ArimaOrder non_seasonal_order = 38;
+			DataFrequency data_frequency = 39;
+			bool include_drift = 41;
+			HolidayRegion holiday_region = 42;
+			string time_series_id_column = 43;
+			repeated string time_series_id_columns = 51;
+			int64 horizon = 44;
+			bool preserve_input_structs = 45;
+			int64 auto_arima_max_order = 46;
+			google.protobuf.BoolValue decompose_time_series = 50;
+			google.protobuf.BoolValue clean_spikes_and_dips = 52;
+			google.protobuf.BoolValue adjust_step_changes = 53;
 		}
 
 		message IterationResult {
@@ -197,18 +328,48 @@ message Model {
 				google.protobuf.Int64Value cluster_size = 3;
 			}
 
+			message ArimaResult {
+
+				message ArimaCoefficients {
+
+					repeated double auto_regressive_coefficients = 1;
+					repeated double moving_average_coefficients = 2;
+					double intercept_coefficient = 3;
+				}
+
+				message ArimaModelInfo {
+
+					ArimaOrder non_seasonal_order = 1;
+					ArimaCoefficients arima_coefficients = 2;
+					ArimaFittingMetrics arima_fitting_metrics = 3;
+					bool has_drift = 4;
+					string time_series_id = 5;
+					repeated string time_series_ids = 10;
+					repeated SeasonalPeriodType seasonal_periods = 6;
+					google.protobuf.BoolValue has_holiday_effect = 7;
+					google.protobuf.BoolValue has_spikes_and_dips = 8;
+					google.protobuf.BoolValue has_step_changes = 9;
+				}
+
+				repeated ArimaModelInfo arima_model_info = 1;
+				repeated SeasonalPeriodType seasonal_periods = 2;
+			}
+
 			google.protobuf.Int32Value index = 1;
 			google.protobuf.Int64Value duration_ms = 4;
 			google.protobuf.DoubleValue training_loss = 5;
 			google.protobuf.DoubleValue eval_loss = 6;
 			double learn_rate = 7;
 			repeated ClusterInfo cluster_infos = 8;
+			ArimaResult arima_result = 9;
 		}
 
 		TrainingOptions training_options = 1;
 		google.protobuf.Timestamp start_time = 8;
 		repeated IterationResult results = 6;
 		EvaluationMetrics evaluation_metrics = 7;
+		DataSplitResult data_split_result = 9;
+		repeated GlobalExplanation global_explanations = 10;
 	}
 
 	enum ModelType {
@@ -217,7 +378,16 @@ message Model {
 		LINEAR_REGRESSION = 1;
 		LOGISTIC_REGRESSION = 2;
 		KMEANS = 3;
+		MATRIX_FACTORIZATION = 4;
+		DNN_CLASSIFIER = 5;
 		TENSORFLOW = 6;
+		DNN_REGRESSOR = 7;
+		BOOSTED_TREE_REGRESSOR = 9;
+		BOOSTED_TREE_CLASSIFIER = 10;
+		ARIMA = 11;
+		AUTOML_REGRESSOR = 12;
+		AUTOML_CLASSIFIER = 13;
+		ARIMA_PLUS = 19;
 	}
 
 	enum LossType {
@@ -244,6 +414,92 @@ message Model {
 		AUTO_SPLIT = 5;
 	}
 
+	enum DataFrequency {
+
+		DATA_FREQUENCY_UNSPECIFIED = 0;
+		AUTO_FREQUENCY = 1;
+		YEARLY = 2;
+		QUARTERLY = 3;
+		MONTHLY = 4;
+		WEEKLY = 5;
+		DAILY = 6;
+		HOURLY = 7;
+		PER_MINUTE = 8;
+	}
+
+	enum HolidayRegion {
+
+		HOLIDAY_REGION_UNSPECIFIED = 0;
+		GLOBAL = 1;
+		NA = 2;
+		JAPAC = 3;
+		EMEA = 4;
+		LAC = 5;
+		AE = 6;
+		AR = 7;
+		AT = 8;
+		AU = 9;
+		BE = 10;
+		BR = 11;
+		CA = 12;
+		CH = 13;
+		CL = 14;
+		CN = 15;
+		CO = 16;
+		CS = 17;
+		CZ = 18;
+		DE = 19;
+		DK = 20;
+		DZ = 21;
+		EC = 22;
+		EE = 23;
+		EG = 24;
+		ES = 25;
+		FI = 26;
+		FR = 27;
+		GB = 28;
+		GR = 29;
+		HK = 30;
+		HU = 31;
+		ID = 32;
+		IE = 33;
+		IL = 34;
+		IN = 35;
+		IR = 36;
+		IT = 37;
+		JP = 38;
+		KR = 39;
+		LV = 40;
+		MA = 41;
+		MX = 42;
+		MY = 43;
+		NG = 44;
+		NL = 45;
+		NO = 46;
+		NZ = 47;
+		PE = 48;
+		PH = 49;
+		PK = 50;
+		PL = 51;
+		PT = 52;
+		RO = 53;
+		RS = 54;
+		RU = 55;
+		SA = 56;
+		SE = 57;
+		SG = 58;
+		SI = 59;
+		SK = 60;
+		TH = 61;
+		TR = 62;
+		TW = 63;
+		UA = 64;
+		US = 65;
+		VE = 66;
+		VN = 67;
+		ZA = 68;
+	}
+
 	enum LearnRateStrategy {
 
 		LEARN_RATE_STRATEGY_UNSPECIFIED = 0;
@@ -256,6 +512,13 @@ message Model {
 		OPTIMIZATION_STRATEGY_UNSPECIFIED = 0;
 		BATCH_GRADIENT_DESCENT = 1;
 		NORMAL_EQUATION = 2;
+	}
+
+	enum FeedbackType {
+
+		FEEDBACK_TYPE_UNSPECIFIED = 0;
+		IMPLICIT = 1;
+		EXPLICIT = 2;
 	}
 
 	string etag = 1 [
@@ -295,6 +558,9 @@ message Model {
 	];
 	repeated google.cloud.bigquery.v2.StandardSqlField label_columns = 11 [
 		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 best_trial_id = 19 [
+		deprecated = true
 	];
 }
 

@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.migration.v2alpha;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/bigquery/migration/v2alpha/migration_entities.proto";
+import "google/cloud/bigquery/migration/v2alpha/migration_error_details.proto";
+import "google/cloud/bigquery/migration/v2alpha/migration_metrics.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/error_details.proto";
+
+option java_package = "com.google.cloud.bigquery.migration.v2alpha";
+option java_outer_classname = "MigrationServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/migration/v2alpha;migration";
+option csharp_namespace = "Google.Cloud.BigQuery.Migration.V2Alpha";
+option php_namespace = "Google\\Cloud\\BigQuery\\Migration\\V2alpha";
+
+
+service MigrationService {
+	option (google.api.default_host) = "bigquerymigration.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateMigrationWorkflow(google.cloud.bigquery.migration.v2alpha.CreateMigrationWorkflowRequest) returns (google.cloud.bigquery.migration.v2alpha.MigrationWorkflow) {
+		option (google.api.method_signature) = "parent,migration_workflow";
+		option (google.api.http) = {
+			post: "/v2alpha/{parent=projects/*/locations/*}/workflows"
+			body: "migration_workflow"
+		};
+
+	}
+	rpc GetMigrationWorkflow(google.cloud.bigquery.migration.v2alpha.GetMigrationWorkflowRequest) returns (google.cloud.bigquery.migration.v2alpha.MigrationWorkflow) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2alpha/{name=projects/*/locations/*/workflows/*}"
+		};
+
+	}
+	rpc ListMigrationWorkflows(google.cloud.bigquery.migration.v2alpha.ListMigrationWorkflowsRequest) returns (google.cloud.bigquery.migration.v2alpha.ListMigrationWorkflowsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2alpha/{parent=projects/*/locations/*}/workflows"
+		};
+
+	}
+	rpc DeleteMigrationWorkflow(google.cloud.bigquery.migration.v2alpha.DeleteMigrationWorkflowRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2alpha/{name=projects/*/locations/*/workflows/*}"
+		};
+
+	}
+	rpc StartMigrationWorkflow(google.cloud.bigquery.migration.v2alpha.StartMigrationWorkflowRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v2alpha/{name=projects/*/locations/*/workflows/*}:start"
+			body: "*"
+		};
+
+	}
+	rpc GetMigrationSubtask(google.cloud.bigquery.migration.v2alpha.GetMigrationSubtaskRequest) returns (google.cloud.bigquery.migration.v2alpha.MigrationSubtask) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2alpha/{name=projects/*/locations/*/workflows/*/subtasks/*}"
+		};
+
+	}
+	rpc ListMigrationSubtasks(google.cloud.bigquery.migration.v2alpha.ListMigrationSubtasksRequest) returns (google.cloud.bigquery.migration.v2alpha.ListMigrationSubtasksResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2alpha/{parent=projects/*/locations/*/workflows/*}/subtasks"
+		};
+
+	}
+}
+
+message CreateMigrationWorkflowRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.bigquery.migration.v2alpha.MigrationWorkflow migration_workflow = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetMigrationWorkflowRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerymigration.googleapis.com/MigrationWorkflow"
+		}
+	];
+	google.protobuf.FieldMask read_mask = 2;
+}
+
+message ListMigrationWorkflowsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.protobuf.FieldMask read_mask = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListMigrationWorkflowsResponse {
+
+	repeated google.cloud.bigquery.migration.v2alpha.MigrationWorkflow migration_workflows = 1;
+	string next_page_token = 2;
+}
+
+message DeleteMigrationWorkflowRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerymigration.googleapis.com/MigrationWorkflow"
+		}
+	];
+}
+
+message StartMigrationWorkflowRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerymigration.googleapis.com/MigrationWorkflow"
+		}
+	];
+}
+
+message GetMigrationSubtaskRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerymigration.googleapis.com/MigrationSubtask"
+		}
+	];
+	google.protobuf.FieldMask read_mask = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListMigrationSubtasksRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerymigration.googleapis.com/MigrationWorkflow"
+		}
+	];
+	google.protobuf.FieldMask read_mask = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListMigrationSubtasksResponse {
+
+	repeated google.cloud.bigquery.migration.v2alpha.MigrationSubtask migration_subtasks = 1;
+	string next_page_token = 2;
+}

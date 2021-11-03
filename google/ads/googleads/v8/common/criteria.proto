@@ -1,0 +1,486 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.common;
+
+import "google/ads/googleads/v8/enums/age_range_type.proto";
+import "google/ads/googleads/v8/enums/app_payment_model_type.proto";
+import "google/ads/googleads/v8/enums/content_label_type.proto";
+import "google/ads/googleads/v8/enums/day_of_week.proto";
+import "google/ads/googleads/v8/enums/device.proto";
+import "google/ads/googleads/v8/enums/gender_type.proto";
+import "google/ads/googleads/v8/enums/hotel_date_selection_type.proto";
+import "google/ads/googleads/v8/enums/income_range_type.proto";
+import "google/ads/googleads/v8/enums/interaction_type.proto";
+import "google/ads/googleads/v8/enums/keyword_match_type.proto";
+import "google/ads/googleads/v8/enums/listing_group_type.proto";
+import "google/ads/googleads/v8/enums/location_group_radius_units.proto";
+import "google/ads/googleads/v8/enums/minute_of_hour.proto";
+import "google/ads/googleads/v8/enums/parental_status_type.proto";
+import "google/ads/googleads/v8/enums/preferred_content_type.proto";
+import "google/ads/googleads/v8/enums/product_bidding_category_level.proto";
+import "google/ads/googleads/v8/enums/product_channel.proto";
+import "google/ads/googleads/v8/enums/product_channel_exclusivity.proto";
+import "google/ads/googleads/v8/enums/product_condition.proto";
+import "google/ads/googleads/v8/enums/product_custom_attribute_index.proto";
+import "google/ads/googleads/v8/enums/product_type_level.proto";
+import "google/ads/googleads/v8/enums/proximity_radius_units.proto";
+import "google/ads/googleads/v8/enums/webpage_condition_operand.proto";
+import "google/ads/googleads/v8/enums/webpage_condition_operator.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.common";
+option java_outer_classname = "CriteriaProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V8::Common";
+
+
+message KeywordInfo {
+
+	oneof _text {
+		string text = 3;
+	}
+	google.ads.googleads.v8.enums.KeywordMatchTypeEnum.KeywordMatchType match_type = 2;
+}
+
+message PlacementInfo {
+
+	oneof _url {
+		string url = 2;
+	}
+}
+
+message MobileAppCategoryInfo {
+
+	oneof _mobile_app_category_constant {
+		string mobile_app_category_constant = 2;
+	}
+}
+
+message MobileApplicationInfo {
+
+	oneof _app_id {
+		string app_id = 4;
+	}
+	oneof _name {
+		string name = 5;
+	}
+}
+
+message LocationInfo {
+
+	oneof _geo_target_constant {
+		string geo_target_constant = 2;
+	}
+}
+
+message DeviceInfo {
+
+	google.ads.googleads.v8.enums.DeviceEnum.Device type = 1;
+}
+
+message PreferredContentInfo {
+
+	google.ads.googleads.v8.enums.PreferredContentTypeEnum.PreferredContentType type = 2;
+}
+
+message ListingGroupInfo {
+
+	google.ads.googleads.v8.enums.ListingGroupTypeEnum.ListingGroupType type = 1;
+	ListingDimensionInfo case_value = 2;
+	oneof _parent_ad_group_criterion {
+		string parent_ad_group_criterion = 4;
+	}
+}
+
+message ListingScopeInfo {
+
+	repeated ListingDimensionInfo dimensions = 2;
+}
+
+message ListingDimensionInfo {
+
+	oneof dimension {
+		HotelIdInfo hotel_id = 2;
+		HotelClassInfo hotel_class = 3;
+		HotelCountryRegionInfo hotel_country_region = 4;
+		HotelStateInfo hotel_state = 5;
+		HotelCityInfo hotel_city = 6;
+		ProductBiddingCategoryInfo product_bidding_category = 13;
+		ProductBrandInfo product_brand = 15;
+		ProductChannelInfo product_channel = 8;
+		ProductChannelExclusivityInfo product_channel_exclusivity = 9;
+		ProductConditionInfo product_condition = 10;
+		ProductCustomAttributeInfo product_custom_attribute = 16;
+		ProductItemIdInfo product_item_id = 11;
+		ProductTypeInfo product_type = 12;
+		UnknownListingDimensionInfo unknown_listing_dimension = 14;
+	}
+}
+
+message HotelIdInfo {
+
+	oneof _value {
+		string value = 2;
+	}
+}
+
+message HotelClassInfo {
+
+	oneof _value {
+		int64 value = 2;
+	}
+}
+
+message HotelCountryRegionInfo {
+
+	oneof _country_region_criterion {
+		string country_region_criterion = 2;
+	}
+}
+
+message HotelStateInfo {
+
+	oneof _state_criterion {
+		string state_criterion = 2;
+	}
+}
+
+message HotelCityInfo {
+
+	oneof _city_criterion {
+		string city_criterion = 2;
+	}
+}
+
+message ProductBiddingCategoryInfo {
+
+	oneof _id {
+		int64 id = 4;
+	}
+	oneof _country_code {
+		string country_code = 5;
+	}
+	google.ads.googleads.v8.enums.ProductBiddingCategoryLevelEnum.ProductBiddingCategoryLevel level = 3;
+}
+
+message ProductBrandInfo {
+
+	oneof _value {
+		string value = 2;
+	}
+}
+
+message ProductChannelInfo {
+
+	google.ads.googleads.v8.enums.ProductChannelEnum.ProductChannel channel = 1;
+}
+
+message ProductChannelExclusivityInfo {
+
+	google.ads.googleads.v8.enums.ProductChannelExclusivityEnum.ProductChannelExclusivity channel_exclusivity = 1;
+}
+
+message ProductConditionInfo {
+
+	google.ads.googleads.v8.enums.ProductConditionEnum.ProductCondition condition = 1;
+}
+
+message ProductCustomAttributeInfo {
+
+	oneof _value {
+		string value = 3;
+	}
+	google.ads.googleads.v8.enums.ProductCustomAttributeIndexEnum.ProductCustomAttributeIndex index = 2;
+}
+
+message ProductItemIdInfo {
+
+	oneof _value {
+		string value = 2;
+	}
+}
+
+message ProductTypeInfo {
+
+	oneof _value {
+		string value = 3;
+	}
+	google.ads.googleads.v8.enums.ProductTypeLevelEnum.ProductTypeLevel level = 2;
+}
+
+message UnknownListingDimensionInfo {
+
+}
+
+message HotelDateSelectionTypeInfo {
+
+	google.ads.googleads.v8.enums.HotelDateSelectionTypeEnum.HotelDateSelectionType type = 1;
+}
+
+message HotelAdvanceBookingWindowInfo {
+
+	oneof _min_days {
+		int64 min_days = 3;
+	}
+	oneof _max_days {
+		int64 max_days = 4;
+	}
+}
+
+message HotelLengthOfStayInfo {
+
+	oneof _min_nights {
+		int64 min_nights = 3;
+	}
+	oneof _max_nights {
+		int64 max_nights = 4;
+	}
+}
+
+message HotelCheckInDateRangeInfo {
+
+	string start_date = 1;
+	string end_date = 2;
+}
+
+message HotelCheckInDayInfo {
+
+	google.ads.googleads.v8.enums.DayOfWeekEnum.DayOfWeek day_of_week = 1;
+}
+
+message InteractionTypeInfo {
+
+	google.ads.googleads.v8.enums.InteractionTypeEnum.InteractionType type = 1;
+}
+
+message AdScheduleInfo {
+
+	google.ads.googleads.v8.enums.MinuteOfHourEnum.MinuteOfHour start_minute = 1;
+	google.ads.googleads.v8.enums.MinuteOfHourEnum.MinuteOfHour end_minute = 2;
+	oneof _start_hour {
+		int32 start_hour = 6;
+	}
+	oneof _end_hour {
+		int32 end_hour = 7;
+	}
+	google.ads.googleads.v8.enums.DayOfWeekEnum.DayOfWeek day_of_week = 5;
+}
+
+message AgeRangeInfo {
+
+	google.ads.googleads.v8.enums.AgeRangeTypeEnum.AgeRangeType type = 1;
+}
+
+message GenderInfo {
+
+	google.ads.googleads.v8.enums.GenderTypeEnum.GenderType type = 1;
+}
+
+message IncomeRangeInfo {
+
+	google.ads.googleads.v8.enums.IncomeRangeTypeEnum.IncomeRangeType type = 1;
+}
+
+message ParentalStatusInfo {
+
+	google.ads.googleads.v8.enums.ParentalStatusTypeEnum.ParentalStatusType type = 1;
+}
+
+message YouTubeVideoInfo {
+
+	oneof _video_id {
+		string video_id = 2;
+	}
+}
+
+message YouTubeChannelInfo {
+
+	oneof _channel_id {
+		string channel_id = 2;
+	}
+}
+
+message UserListInfo {
+
+	oneof _user_list {
+		string user_list = 2;
+	}
+}
+
+message ProximityInfo {
+
+	GeoPointInfo geo_point = 1;
+	oneof _radius {
+		double radius = 5;
+	}
+	google.ads.googleads.v8.enums.ProximityRadiusUnitsEnum.ProximityRadiusUnits radius_units = 3;
+	AddressInfo address = 4;
+}
+
+message GeoPointInfo {
+
+	oneof _longitude_in_micro_degrees {
+		int32 longitude_in_micro_degrees = 3;
+	}
+	oneof _latitude_in_micro_degrees {
+		int32 latitude_in_micro_degrees = 4;
+	}
+}
+
+message AddressInfo {
+
+	oneof _postal_code {
+		string postal_code = 8;
+	}
+	oneof _province_code {
+		string province_code = 9;
+	}
+	oneof _country_code {
+		string country_code = 10;
+	}
+	oneof _province_name {
+		string province_name = 11;
+	}
+	oneof _street_address {
+		string street_address = 12;
+	}
+	oneof _street_address2 {
+		string street_address2 = 13;
+	}
+	oneof _city_name {
+		string city_name = 14;
+	}
+}
+
+message TopicInfo {
+
+	oneof _topic_constant {
+		string topic_constant = 3;
+	}
+	repeated string path = 4;
+}
+
+message LanguageInfo {
+
+	oneof _language_constant {
+		string language_constant = 2;
+	}
+}
+
+message IpBlockInfo {
+
+	oneof _ip_address {
+		string ip_address = 2;
+	}
+}
+
+message ContentLabelInfo {
+
+	google.ads.googleads.v8.enums.ContentLabelTypeEnum.ContentLabelType type = 1;
+}
+
+message CarrierInfo {
+
+	oneof _carrier_constant {
+		string carrier_constant = 2;
+	}
+}
+
+message UserInterestInfo {
+
+	oneof _user_interest_category {
+		string user_interest_category = 2;
+	}
+}
+
+message WebpageInfo {
+
+	oneof _criterion_name {
+		string criterion_name = 3;
+	}
+	repeated WebpageConditionInfo conditions = 2;
+	double coverage_percentage = 4;
+	WebpageSampleInfo sample = 5;
+}
+
+message WebpageConditionInfo {
+
+	google.ads.googleads.v8.enums.WebpageConditionOperandEnum.WebpageConditionOperand operand = 1;
+	google.ads.googleads.v8.enums.WebpageConditionOperatorEnum.WebpageConditionOperator operator = 2;
+	oneof _argument {
+		string argument = 4;
+	}
+}
+
+message WebpageSampleInfo {
+
+	repeated string sample_urls = 1;
+}
+
+message OperatingSystemVersionInfo {
+
+	oneof _operating_system_version_constant {
+		string operating_system_version_constant = 2;
+	}
+}
+
+message AppPaymentModelInfo {
+
+	google.ads.googleads.v8.enums.AppPaymentModelTypeEnum.AppPaymentModelType type = 1;
+}
+
+message MobileDeviceInfo {
+
+	oneof _mobile_device_constant {
+		string mobile_device_constant = 2;
+	}
+}
+
+message CustomAffinityInfo {
+
+	oneof _custom_affinity {
+		string custom_affinity = 2;
+	}
+}
+
+message CustomIntentInfo {
+
+	oneof _custom_intent {
+		string custom_intent = 2;
+	}
+}
+
+message LocationGroupInfo {
+
+	oneof _feed {
+		string feed = 5;
+	}
+	repeated string geo_target_constants = 6;
+	oneof _radius {
+		int64 radius = 7;
+	}
+	google.ads.googleads.v8.enums.LocationGroupRadiusUnitsEnum.LocationGroupRadiusUnits radius_units = 4;
+	repeated string feed_item_sets = 8;
+}
+
+message CustomAudienceInfo {
+
+	string custom_audience = 1;
+}
+
+message CombinedAudienceInfo {
+
+	string combined_audience = 1;
+}
+
+message KeywordThemeInfo {
+
+	oneof keyword_theme {
+		string keyword_theme_constant = 1;
+		string free_form_keyword_theme = 2;
+	}
+}

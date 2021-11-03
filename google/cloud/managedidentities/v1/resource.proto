@@ -12,6 +12,8 @@ option java_outer_classname = "ResourceProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/managedidentities/v1;managedidentities";
 option csharp_namespace = "Google.Cloud.ManagedIdentities.V1";
+option php_namespace = "Google\\Cloud\\ManagedIdentities\\V1";
+option ruby_package = "Google::Cloud::ManagedIdentities::V1";
 
 
 message Domain {

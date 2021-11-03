@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.orchestration.airflow.service.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/type/date.proto";
+
+option java_package = "com.google.cloud.orchestration.airflow.service.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/orchestration/airflow/service/v1beta1;service";
+
+
+service ImageVersions {
+	option (google.api.default_host) = "composer.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListImageVersions(google.cloud.orchestration.airflow.service.v1beta1.ListImageVersionsRequest) returns (google.cloud.orchestration.airflow.service.v1beta1.ListImageVersionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/imageVersions"
+		};
+
+	}
+}
+
+message ListImageVersionsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	bool include_past_releases = 4;
+}
+
+message ListImageVersionsResponse {
+
+	repeated ImageVersion image_versions = 1;
+	string next_page_token = 2;
+}
+
+message ImageVersion {
+
+	string image_version_id = 1;
+	bool is_default = 2;
+	repeated string supported_python_versions = 3;
+	google.type.Date release_date = 4;
+	bool creation_disabled = 5;
+	bool upgrade_disabled = 6;
+}

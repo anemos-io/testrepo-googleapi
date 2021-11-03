@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.apps.script.type;
+
+option java_package = "com.google.apps.script.type";
+option java_outer_classname = "AddOnWidgetSetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/script/type";
+option csharp_namespace = "Google.Apps.Script.Type";
+option php_namespace = "Google\\Apps\\Script\\Type";
+option ruby_package = "Google::Apps::Script::Type";
+
+
+message AddOnWidgetSet {
+
+	enum WidgetType {
+
+		WIDGET_TYPE_UNSPECIFIED = 0;
+		DATE_PICKER = 1;
+		STYLED_BUTTONS = 2;
+		PERSISTENT_FORMS = 3;
+		FIXED_FOOTER = 4;
+		UPDATE_SUBJECT_AND_RECIPIENTS = 5;
+		GRID_WIDGET = 6;
+		ADDON_COMPOSE_UI_ACTION = 7;
+	}
+
+	repeated WidgetType used_widgets = 1;
+}

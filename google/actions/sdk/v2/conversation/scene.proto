@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+import "google/actions/sdk/v2/conversation/prompt/prompt.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "SceneProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+enum SlotFillingStatus {
+
+	UNSPECIFIED = 0;
+	INITIALIZED = 1;
+	COLLECTING = 2;
+	FINAL = 4;
+}
+
+message Slot {
+
+	enum SlotMode {
+
+		MODE_UNSPECIFIED = 0;
+		OPTIONAL = 1;
+		REQUIRED = 2;
+	}
+
+	enum SlotStatus {
+
+		SLOT_UNSPECIFIED = 0;
+		EMPTY = 1;
+		INVALID = 2;
+		FILLED = 3;
+	}
+
+	SlotMode mode = 1;
+	SlotStatus status = 2;
+	google.protobuf.Value value = 3;
+	bool updated = 4;
+	google.actions.sdk.v2.conversation.Prompt prompt = 5;
+}

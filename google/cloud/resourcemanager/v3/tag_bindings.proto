@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package google.cloud.resourcemanager.v3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+
+option java_package = "com.google.cloud.resourcemanager.v3";
+option java_outer_classname = "TagBindingsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/resourcemanager/v3;resourcemanager";
+option csharp_namespace = "Google.Cloud.ResourceManager.V3";
+option php_namespace = "Google\\Cloud\\ResourceManager\\V3";
+option ruby_package = "Google::Cloud::ResourceManager::V3";
+
+
+service TagBindings {
+	option (google.api.default_host) = "cloudresourcemanager.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListTagBindings(google.cloud.resourcemanager.v3.ListTagBindingsRequest) returns (google.cloud.resourcemanager.v3.ListTagBindingsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3/tagBindings"
+		};
+
+	}
+	rpc CreateTagBinding(google.cloud.resourcemanager.v3.CreateTagBindingRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "TagBinding"
+			metadata_type: "CreateTagBindingMetadata"
+		};
+		option (google.api.method_signature) = "tag_binding";
+		option (google.api.http) = {
+			post: "/v3/tagBindings"
+			body: "tag_binding"
+		};
+
+	}
+	rpc DeleteTagBinding(google.cloud.resourcemanager.v3.DeleteTagBindingRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteTagBindingMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3/{name=tagBindings/**}"
+		};
+
+	}
+}
+
+message TagBinding {
+	option (google.api.resource) = {
+		type: "cloudresourcemanager.googleapis.com/TagBinding"
+		pattern: ["tagBindings/{tag_binding}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string parent = 2;
+	string tag_value = 3;
+}
+
+message CreateTagBindingMetadata {
+
+}
+
+message CreateTagBindingRequest {
+
+	TagBinding tag_binding = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteTagBindingMetadata {
+
+}
+
+message DeleteTagBindingRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/TagBinding"
+		}
+	];
+}
+
+message ListTagBindingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "*"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListTagBindingsResponse {
+
+	repeated TagBinding tag_bindings = 1;
+	string next_page_token = 2;
+}

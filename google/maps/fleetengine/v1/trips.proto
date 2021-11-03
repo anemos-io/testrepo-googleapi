@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package maps.fleetengine.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/maps/fleetengine/v1/fleetengine.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/latlng.proto";
+
+option java_package = "google.maps.fleetengine.v1";
+option java_outer_classname = "Trips";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/fleetengine/v1;fleetengine";
+option objc_class_prefix = "CFE";
+
+
+enum TripStatus {
+
+	UNKNOWN_TRIP_STATUS = 0;
+	NEW = 1;
+	ENROUTE_TO_PICKUP = 2;
+	ARRIVED_AT_PICKUP = 3;
+	ARRIVED_AT_INTERMEDIATE_DESTINATION = 7;
+	ENROUTE_TO_INTERMEDIATE_DESTINATION = 8;
+	ENROUTE_TO_DROPOFF = 4;
+	COMPLETE = 5;
+	CANCELED = 6;
+}
+
+enum BillingPlatformIdentifier {
+
+	BILLING_PLATFORM_IDENTIFIER_UNSPECIFIED = 0;
+	SERVER = 1;
+	WEB = 2;
+	ANDROID = 3;
+	IOS = 4;
+	OTHERS = 5;
+}
+
+enum TripView {
+
+	TRIP_VIEW_UNSPECIFIED = 0;
+	SDK = 1;
+	JOURNEY_SHARING_V1S = 2;
+}
+
+message Trip {
+	option (google.api.resource) = {
+		type: "fleetengine.googleapis.com/Trip"
+		pattern: ["providers/{provider}/trips/{trip}"]
+	};
+
+	string name = 1;
+	string vehicle_id = 2;
+	TripStatus trip_status = 3;
+	maps.fleetengine.v1.TripType trip_type = 4;
+	maps.fleetengine.v1.TerminalLocation pickup_point = 5;
+	StopLocation actual_pickup_point = 22 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	StopLocation actual_pickup_arrival_point = 32 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.protobuf.Timestamp pickup_time = 6;
+	repeated maps.fleetengine.v1.TerminalLocation intermediate_destinations = 14;
+	google.protobuf.Timestamp intermediate_destinations_version = 25;
+	int32 intermediate_destination_index = 15;
+	repeated StopLocation actual_intermediate_destination_arrival_points = 33 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	repeated StopLocation actual_intermediate_destinations = 34 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	maps.fleetengine.v1.TerminalLocation dropoff_point = 7;
+	StopLocation actual_dropoff_point = 23 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.protobuf.Timestamp dropoff_time = 8;
+	repeated maps.fleetengine.v1.TripWaypoint remaining_waypoints = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated maps.fleetengine.v1.TripWaypoint vehicle_waypoints = 20;
+	repeated google.type.LatLng route = 9;
+	maps.fleetengine.v1.TripWaypoint current_route_segment_end_point = 24;
+	google.protobuf.Int32Value remaining_distance_meters = 12;
+	google.protobuf.Timestamp eta_to_first_waypoint = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Duration remaining_time_to_first_waypoint = 27 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp remaining_waypoints_version = 19;
+	google.protobuf.Timestamp remaining_waypoints_route_version = 29;
+	int32 number_of_passengers = 10;
+	maps.fleetengine.v1.VehicleLocation last_location = 11;
+	bool last_location_snappable = 26;
+	TripView view = 31;
+}
+
+message StopLocation {
+
+	google.type.LatLng point = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp timestamp = 2;
+	google.protobuf.Timestamp stop_time = 3;
+}

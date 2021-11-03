@@ -2,12 +2,14 @@ syntax = "proto3";
 
 package google.cloud.securitycenter.v1;
 
-import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "google/cloud/securitycenter/v1/indicator.proto";
 import "google/cloud/securitycenter/v1/security_marks.proto";
+import "google/cloud/securitycenter/v1/vulnerability.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.securitycenter.v1";
 option java_multiple_files = true;
@@ -20,7 +22,7 @@ option ruby_package = "Google::Cloud::SecurityCenter::V1";
 message Finding {
 	option (google.api.resource) = {
 		type: "securitycenter.googleapis.com/Finding"
-		pattern: ["organizations/{organization}/sources/{source}/findings/{finding}"]
+		pattern: ["organizations/{organization}/sources/{source}/findings/{finding}","folders/{folder}/sources/{source}/findings/{finding}","projects/{project}/sources/{source}/findings/{finding}"]
 	};
 
 	enum State {
@@ -28,6 +30,24 @@ message Finding {
 		STATE_UNSPECIFIED = 0;
 		ACTIVE = 1;
 		INACTIVE = 2;
+	}
+
+	enum Severity {
+
+		SEVERITY_UNSPECIFIED = 0;
+		CRITICAL = 1;
+		HIGH = 2;
+		MEDIUM = 3;
+		LOW = 4;
+	}
+
+	enum FindingClass {
+
+		FINDING_CLASS_UNSPECIFIED = 0;
+		THREAT = 1;
+		VULNERABILITY = 2;
+		MISCONFIGURATION = 3;
+		OBSERVATION = 4;
 	}
 
 	string name = 1;
@@ -42,4 +62,9 @@ message Finding {
 	];
 	google.protobuf.Timestamp event_time = 9;
 	google.protobuf.Timestamp create_time = 10;
+	Severity severity = 12;
+	string canonical_name = 14;
+	FindingClass finding_class = 17;
+	google.cloud.securitycenter.v1.Indicator indicator = 18;
+	google.cloud.securitycenter.v1.Vulnerability vulnerability = 20;
 }

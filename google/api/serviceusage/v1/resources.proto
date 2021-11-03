@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package google.api.serviceusage.v1;
+
+import "google/api/auth.proto";
+import "google/api/documentation.proto";
+import "google/api/endpoint.proto";
+import "google/api/monitored_resource.proto";
+import "google/api/monitoring.proto";
+import "google/api/quota.proto";
+import "google/api/usage.proto";
+import "google/protobuf/api.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.api.serviceusage.v1";
+option java_outer_classname = "ResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/serviceusage/v1;serviceusage";
+option csharp_namespace = "Google.Cloud.ServiceUsage.V1";
+option php_namespace = "Google\\Cloud\\ServiceUsage\\V1";
+option ruby_package = "Google::Cloud::ServiceUsage::V1";
+
+
+enum State {
+
+	STATE_UNSPECIFIED = 0;
+	DISABLED = 1;
+	ENABLED = 2;
+}
+
+message Service {
+
+	string name = 1;
+	string parent = 5;
+	ServiceConfig config = 2;
+	State state = 4;
+}
+
+message ServiceConfig {
+
+	string name = 1;
+	string title = 2;
+	repeated google.protobuf.Api apis = 3;
+	google.api.Documentation documentation = 6;
+	google.api.Quota quota = 10;
+	google.api.Authentication authentication = 11;
+	google.api.Usage usage = 15;
+	repeated google.api.Endpoint endpoints = 18;
+	repeated google.api.MonitoredResourceDescriptor monitored_resources = 25;
+	google.api.Monitoring monitoring = 28;
+}
+
+message OperationMetadata {
+
+	repeated string resource_names = 2;
+}

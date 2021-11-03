@@ -1,0 +1,357 @@
+syntax = "proto3";
+
+package google.cloud.networkmanagement.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.networkmanagement.v1";
+option java_outer_classname = "TraceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/networkmanagement/v1;networkmanagement";
+option csharp_namespace = "Google.Cloud.NetworkManagement.V1";
+option php_namespace = "Google\\Cloud\\NetworkManagement\\V1";
+option ruby_package = "Google::Cloud::NetworkManagement::V1";
+
+
+message Trace {
+
+	EndpointInfo endpoint_info = 1;
+	repeated Step steps = 2;
+}
+
+message Step {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		START_FROM_INSTANCE = 1;
+		START_FROM_INTERNET = 2;
+		START_FROM_PRIVATE_NETWORK = 3;
+		START_FROM_GKE_MASTER = 21;
+		START_FROM_CLOUD_SQL_INSTANCE = 22;
+		APPLY_INGRESS_FIREWALL_RULE = 4;
+		APPLY_EGRESS_FIREWALL_RULE = 5;
+		APPLY_ROUTE = 6;
+		APPLY_FORWARDING_RULE = 7;
+		SPOOFING_APPROVED = 8;
+		ARRIVE_AT_INSTANCE = 9;
+		ARRIVE_AT_INTERNAL_LOAD_BALANCER = 10;
+		ARRIVE_AT_EXTERNAL_LOAD_BALANCER = 11;
+		ARRIVE_AT_VPN_GATEWAY = 12;
+		ARRIVE_AT_VPN_TUNNEL = 13;
+		NAT = 14;
+		PROXY_CONNECTION = 15;
+		DELIVER = 16;
+		DROP = 17;
+		FORWARD = 18;
+		ABORT = 19;
+		VIEWER_PERMISSION_MISSING = 20;
+	}
+
+	string description = 1;
+	State state = 2;
+	bool causes_drop = 3;
+	string project_id = 4;
+	oneof step_info {
+		InstanceInfo instance = 5;
+		FirewallInfo firewall = 6;
+		RouteInfo route = 7;
+		EndpointInfo endpoint = 8;
+		ForwardingRuleInfo forwarding_rule = 9;
+		VpnGatewayInfo vpn_gateway = 10;
+		VpnTunnelInfo vpn_tunnel = 11;
+		DeliverInfo deliver = 12;
+		ForwardInfo forward = 13;
+		AbortInfo abort = 14;
+		DropInfo drop = 15;
+		LoadBalancerInfo load_balancer = 16;
+		NetworkInfo network = 17;
+		GKEMasterInfo gke_master = 18;
+		CloudSQLInstanceInfo cloud_sql_instance = 19;
+	}
+}
+
+message InstanceInfo {
+
+	string display_name = 1;
+	string uri = 2;
+	string interface = 3;
+	string network_uri = 4;
+	string internal_ip = 5;
+	string external_ip = 6;
+	repeated string network_tags = 7;
+	string service_account = 8 [
+		deprecated = true
+	];
+}
+
+message NetworkInfo {
+
+	string display_name = 1;
+	string uri = 2;
+	string matched_ip_range = 4;
+}
+
+message FirewallInfo {
+
+	enum FirewallRuleType {
+
+		FIREWALL_RULE_TYPE_UNSPECIFIED = 0;
+		HIERARCHICAL_FIREWALL_POLICY_RULE = 1;
+		VPC_FIREWALL_RULE = 2;
+		IMPLIED_VPC_FIREWALL_RULE = 3;
+	}
+
+	string display_name = 1;
+	string uri = 2;
+	string direction = 3;
+	string action = 4;
+	int32 priority = 5;
+	string network_uri = 6;
+	repeated string target_tags = 7;
+	repeated string target_service_accounts = 8;
+	string policy = 9;
+	FirewallRuleType firewall_rule_type = 10;
+}
+
+message RouteInfo {
+
+	enum RouteType {
+
+		ROUTE_TYPE_UNSPECIFIED = 0;
+		SUBNET = 1;
+		STATIC = 2;
+		DYNAMIC = 3;
+		PEERING_SUBNET = 4;
+		PEERING_STATIC = 5;
+		PEERING_DYNAMIC = 6;
+	}
+
+	enum NextHopType {
+
+		NEXT_HOP_TYPE_UNSPECIFIED = 0;
+		NEXT_HOP_IP = 1;
+		NEXT_HOP_INSTANCE = 2;
+		NEXT_HOP_NETWORK = 3;
+		NEXT_HOP_PEERING = 4;
+		NEXT_HOP_INTERCONNECT = 5;
+		NEXT_HOP_VPN_TUNNEL = 6;
+		NEXT_HOP_VPN_GATEWAY = 7;
+		NEXT_HOP_INTERNET_GATEWAY = 8;
+		NEXT_HOP_BLACKHOLE = 9;
+		NEXT_HOP_ILB = 10;
+	}
+
+	RouteType route_type = 8;
+	NextHopType next_hop_type = 9;
+	string display_name = 1;
+	string uri = 2;
+	string dest_ip_range = 3;
+	string next_hop = 4;
+	string network_uri = 5;
+	int32 priority = 6;
+	repeated string instance_tags = 7;
+}
+
+message ForwardingRuleInfo {
+
+	string display_name = 1;
+	string uri = 2;
+	string matched_protocol = 3;
+	string matched_port_range = 6;
+	string vip = 4;
+	string target = 5;
+	string network_uri = 7;
+}
+
+message LoadBalancerInfo {
+
+	enum LoadBalancerType {
+
+		LOAD_BALANCER_TYPE_UNSPECIFIED = 0;
+		INTERNAL_TCP_UDP = 1;
+		NETWORK_TCP_UDP = 2;
+		HTTP_PROXY = 3;
+		TCP_PROXY = 4;
+		SSL_PROXY = 5;
+	}
+
+	enum BackendType {
+
+		BACKEND_TYPE_UNSPECIFIED = 0;
+		BACKEND_SERVICE = 1;
+		TARGET_POOL = 2;
+	}
+
+	LoadBalancerType load_balancer_type = 1;
+	string health_check_uri = 2;
+	repeated LoadBalancerBackend backends = 3;
+	BackendType backend_type = 4;
+	string backend_uri = 5;
+}
+
+message LoadBalancerBackend {
+
+	enum HealthCheckFirewallState {
+
+		HEALTH_CHECK_FIREWALL_STATE_UNSPECIFIED = 0;
+		CONFIGURED = 1;
+		MISCONFIGURED = 2;
+	}
+
+	string display_name = 1;
+	string uri = 2;
+	HealthCheckFirewallState health_check_firewall_state = 3;
+	repeated string health_check_allowing_firewall_rules = 4;
+	repeated string health_check_blocking_firewall_rules = 5;
+}
+
+message VpnGatewayInfo {
+
+	string display_name = 1;
+	string uri = 2;
+	string network_uri = 3;
+	string ip_address = 4;
+	string vpn_tunnel_uri = 5;
+	string region = 6;
+}
+
+message VpnTunnelInfo {
+
+	enum RoutingType {
+
+		ROUTING_TYPE_UNSPECIFIED = 0;
+		ROUTE_BASED = 1;
+		POLICY_BASED = 2;
+		DYNAMIC = 3;
+	}
+
+	string display_name = 1;
+	string uri = 2;
+	string source_gateway = 3;
+	string remote_gateway = 4;
+	string remote_gateway_ip = 5;
+	string source_gateway_ip = 6;
+	string network_uri = 7;
+	string region = 8;
+	RoutingType routing_type = 9;
+}
+
+message EndpointInfo {
+
+	string source_ip = 1;
+	string destination_ip = 2;
+	string protocol = 3;
+	int32 source_port = 4;
+	int32 destination_port = 5;
+	string source_network_uri = 6;
+	string destination_network_uri = 7;
+}
+
+message DeliverInfo {
+
+	enum Target {
+
+		TARGET_UNSPECIFIED = 0;
+		INSTANCE = 1;
+		INTERNET = 2;
+		GOOGLE_API = 3;
+		GKE_MASTER = 4;
+		CLOUD_SQL_INSTANCE = 5;
+	}
+
+	Target target = 1;
+	string resource_uri = 2;
+}
+
+message ForwardInfo {
+
+	enum Target {
+
+		TARGET_UNSPECIFIED = 0;
+		PEERING_VPC = 1;
+		VPN_GATEWAY = 2;
+		INTERCONNECT = 3;
+		GKE_MASTER = 4;
+		IMPORTED_CUSTOM_ROUTE_NEXT_HOP = 5;
+		CLOUD_SQL_INSTANCE = 6;
+	}
+
+	Target target = 1;
+	string resource_uri = 2;
+}
+
+message AbortInfo {
+
+	enum Cause {
+
+		CAUSE_UNSPECIFIED = 0;
+		UNKNOWN_NETWORK = 1;
+		UNKNOWN_IP = 2;
+		UNKNOWN_PROJECT = 3;
+		PERMISSION_DENIED = 4;
+		NO_SOURCE_LOCATION = 5;
+		INVALID_ARGUMENT = 6;
+		NO_EXTERNAL_IP = 7;
+		UNINTENDED_DESTINATION = 8;
+		TRACE_TOO_LONG = 9;
+		INTERNAL_ERROR = 10;
+		SOURCE_ENDPOINT_NOT_FOUND = 11;
+		MISMATCHED_SOURCE_NETWORK = 12;
+		DESTINATION_ENDPOINT_NOT_FOUND = 13;
+		MISMATCHED_DESTINATION_NETWORK = 14;
+	}
+
+	Cause cause = 1;
+	string resource_uri = 2;
+}
+
+message DropInfo {
+
+	enum Cause {
+
+		CAUSE_UNSPECIFIED = 0;
+		UNKNOWN_EXTERNAL_ADDRESS = 1;
+		FOREIGN_IP_DISALLOWED = 2;
+		FIREWALL_RULE = 3;
+		NO_ROUTE = 4;
+		ROUTE_BLACKHOLE = 5;
+		ROUTE_WRONG_NETWORK = 6;
+		PRIVATE_TRAFFIC_TO_INTERNET = 7;
+		PRIVATE_GOOGLE_ACCESS_DISALLOWED = 8;
+		NO_EXTERNAL_ADDRESS = 9;
+		UNKNOWN_INTERNAL_ADDRESS = 10;
+		FORWARDING_RULE_MISMATCH = 11;
+		FORWARDING_RULE_NO_INSTANCES = 12;
+		FIREWALL_BLOCKING_LOAD_BALANCER_BACKEND_HEALTH_CHECK = 13;
+		INSTANCE_NOT_RUNNING = 14;
+		TRAFFIC_TYPE_BLOCKED = 15;
+		GKE_MASTER_UNAUTHORIZED_ACCESS = 16;
+		CLOUD_SQL_INSTANCE_UNAUTHORIZED_ACCESS = 17;
+		DROPPED_INSIDE_GKE_SERVICE = 18;
+		DROPPED_INSIDE_CLOUD_SQL_SERVICE = 19;
+		GOOGLE_MANAGED_SERVICE_NO_PEERING = 20;
+		CLOUD_SQL_INSTANCE_NO_IP_ADDRESS = 21;
+	}
+
+	Cause cause = 1;
+	string resource_uri = 2;
+}
+
+message GKEMasterInfo {
+
+	string cluster_uri = 2;
+	string cluster_network_uri = 4;
+	string internal_ip = 5;
+	string external_ip = 6;
+}
+
+message CloudSQLInstanceInfo {
+
+	string display_name = 1;
+	string uri = 2;
+	string network_uri = 4;
+	string internal_ip = 5;
+	string external_ip = 6;
+	string region = 7;
+}

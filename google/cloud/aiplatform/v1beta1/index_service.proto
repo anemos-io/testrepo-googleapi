@@ -1,0 +1,184 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/index.proto";
+import "google/cloud/aiplatform/v1beta1/operation.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "IndexServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+service IndexService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateIndex(google.cloud.aiplatform.v1beta1.CreateIndexRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Index"
+			metadata_type: "CreateIndexOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,index";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/indexes"
+			body: "index"
+		};
+
+	}
+	rpc GetIndex(google.cloud.aiplatform.v1beta1.GetIndexRequest) returns (google.cloud.aiplatform.v1beta1.Index) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/indexes/*}"
+		};
+
+	}
+	rpc ListIndexes(google.cloud.aiplatform.v1beta1.ListIndexesRequest) returns (google.cloud.aiplatform.v1beta1.ListIndexesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/indexes"
+		};
+
+	}
+	rpc UpdateIndex(google.cloud.aiplatform.v1beta1.UpdateIndexRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Index"
+			metadata_type: "UpdateIndexOperationMetadata"
+		};
+		option (google.api.method_signature) = "index,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{index.name=projects/*/locations/*/indexes/*}"
+			body: "index"
+		};
+
+	}
+	rpc DeleteIndex(google.cloud.aiplatform.v1beta1.DeleteIndexRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/indexes/*}"
+		};
+
+	}
+}
+
+message CreateIndexRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Index index = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateIndexOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+	NearestNeighborSearchOperationMetadata nearest_neighbor_search_operation_metadata = 2;
+}
+
+message GetIndexRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Index"
+		}
+	];
+}
+
+message ListIndexesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+}
+
+message ListIndexesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Index indexes = 1;
+	string next_page_token = 2;
+}
+
+message UpdateIndexRequest {
+
+	google.cloud.aiplatform.v1beta1.Index index = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateIndexOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+	NearestNeighborSearchOperationMetadata nearest_neighbor_search_operation_metadata = 2;
+}
+
+message DeleteIndexRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Index"
+		}
+	];
+}
+
+message NearestNeighborSearchOperationMetadata {
+
+	message RecordError {
+
+		enum RecordErrorType {
+
+			ERROR_TYPE_UNSPECIFIED = 0;
+			EMPTY_LINE = 1;
+			INVALID_JSON_SYNTAX = 2;
+			INVALID_CSV_SYNTAX = 3;
+			INVALID_AVRO_SYNTAX = 4;
+			INVALID_EMBEDDING_ID = 5;
+			EMBEDDING_SIZE_MISMATCH = 6;
+			NAMESPACE_MISSING = 7;
+		}
+
+		RecordErrorType error_type = 1;
+		string error_message = 2;
+		string source_gcs_uri = 3;
+		string embedding_id = 4;
+		string raw_record = 5;
+	}
+
+	message ContentValidationStats {
+
+		string source_gcs_uri = 1;
+		int64 valid_record_count = 2;
+		int64 invalid_record_count = 3;
+		repeated RecordError partial_errors = 4;
+	}
+
+	repeated ContentValidationStats content_validation_stats = 1;
+	int64 data_bytes_count = 2;
+}

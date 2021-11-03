@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.migration.tasks.assessment.v2alpha;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.bigquery.migration.tasks.assessment.v2alpha";
+option java_outer_classname = "AssessmentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/migration/tasks/assessment/v2alpha;assessment";
+option csharp_namespace = "Google.Cloud.BigQuery.Migration.Tasks.Assessment.V2Alpha";
+option php_namespace = "Google\\Cloud\\BigQuery\\Migration\\Tasks\\Assessment\\V2alpha";
+
+
+message AssessmentTaskDetails {
+
+	string input_path = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string output_dataset = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string querylogs_path = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string data_source = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

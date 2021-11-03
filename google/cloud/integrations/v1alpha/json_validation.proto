@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package google.cloud.integrations.v1alpha;
+
+option java_package = "com.google.cloud.integrations.v1alpha";
+option java_outer_classname = "JsonValidationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/integrations/v1alpha;integrations";
+
+
+enum JsonValidationOption {
+
+	JSON_VALIDATION_OPTION_UNSPECIFIED = 0;
+	SKIP = 1;
+	PRE_EXECUTION = 2;
+	POST_EXECUTION = 3;
+	PRE_POST_EXECUTION = 4;
+}

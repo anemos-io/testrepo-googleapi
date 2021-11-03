@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package google.monitoring.v3;
 
+import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/monitoring/v3/common.proto";
 import "google/monitoring/v3/mutation_record.proto";
@@ -46,7 +47,9 @@ message AlertPolicy {
 
 		message MetricThreshold {
 
-			string filter = 2;
+			string filter = 2 [
+				(google.api.field_behavior) = REQUIRED
+			];
 			repeated google.monitoring.v3.Aggregation aggregations = 8;
 			string denominator_filter = 9;
 			repeated google.monitoring.v3.Aggregation denominator_aggregations = 10;
@@ -58,8 +61,25 @@ message AlertPolicy {
 
 		message MetricAbsence {
 
-			string filter = 1;
+			string filter = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
 			repeated google.monitoring.v3.Aggregation aggregations = 5;
+			google.protobuf.Duration duration = 2;
+			Trigger trigger = 3;
+		}
+
+		message LogMatch {
+
+			string filter = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			map<string, string> label_extractors = 2;
+		}
+
+		message MonitoringQueryLanguageCondition {
+
+			string query = 1;
 			google.protobuf.Duration duration = 2;
 			Trigger trigger = 3;
 		}
@@ -69,7 +89,19 @@ message AlertPolicy {
 		oneof condition {
 			MetricThreshold condition_threshold = 1;
 			MetricAbsence condition_absent = 2;
+			LogMatch condition_matched_log = 20;
+			MonitoringQueryLanguageCondition condition_monitoring_query_language = 19;
 		}
+	}
+
+	message AlertStrategy {
+
+		message NotificationRateLimit {
+
+			google.protobuf.Duration period = 1;
+		}
+
+		NotificationRateLimit notification_rate_limit = 1;
 	}
 
 	enum ConditionCombinerType {
@@ -91,4 +123,5 @@ message AlertPolicy {
 	repeated string notification_channels = 14;
 	google.monitoring.v3.MutationRecord creation_record = 10;
 	google.monitoring.v3.MutationRecord mutation_record = 11;
+	AlertStrategy alert_strategy = 21;
 }

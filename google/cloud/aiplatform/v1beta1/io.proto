@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "IoProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message AvroSource {
+
+	GcsSource gcs_source = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CsvSource {
+
+	GcsSource gcs_source = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GcsSource {
+
+	repeated string uris = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GcsDestination {
+
+	string output_uri_prefix = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BigQuerySource {
+
+	string input_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BigQueryDestination {
+
+	string output_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CsvDestination {
+
+	GcsDestination gcs_destination = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message TFRecordDestination {
+
+	GcsDestination gcs_destination = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ContainerRegistryDestination {
+
+	string output_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

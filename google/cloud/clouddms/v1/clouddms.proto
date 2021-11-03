@@ -1,0 +1,457 @@
+syntax = "proto3";
+
+package google.cloud.clouddms.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/clouddms/v1/clouddms_resources.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.clouddms.v1";
+option java_outer_classname = "ClouddmsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/clouddms/v1;clouddms";
+option csharp_namespace = "Google.Cloud.CloudDms.V1";
+option php_namespace = "Google\\Cloud\\CloudDms\\V1";
+option ruby_package = "Google::Cloud::CloudDMS::V1";
+
+
+service DataMigrationService {
+	option (google.api.default_host) = "datamigration.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListMigrationJobs(google.cloud.clouddms.v1.ListMigrationJobsRequest) returns (google.cloud.clouddms.v1.ListMigrationJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/migrationJobs"
+		};
+
+	}
+	rpc GetMigrationJob(google.cloud.clouddms.v1.GetMigrationJobRequest) returns (google.cloud.clouddms.v1.MigrationJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/migrationJobs/*}"
+		};
+
+	}
+	rpc CreateMigrationJob(google.cloud.clouddms.v1.CreateMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MigrationJob"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,migration_job,migration_job_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/migrationJobs"
+			body: "migration_job"
+		};
+
+	}
+	rpc UpdateMigrationJob(google.cloud.clouddms.v1.UpdateMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MigrationJob"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "migration_job,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{migration_job.name=projects/*/locations/*/migrationJobs/*}"
+			body: "migration_job"
+		};
+
+	}
+	rpc DeleteMigrationJob(google.cloud.clouddms.v1.DeleteMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/migrationJobs/*}"
+		};
+
+	}
+	rpc StartMigrationJob(google.cloud.clouddms.v1.StartMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MigrationJob"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/migrationJobs/*}:start"
+			body: "*"
+		};
+
+	}
+	rpc StopMigrationJob(google.cloud.clouddms.v1.StopMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MigrationJob"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/migrationJobs/*}:stop"
+			body: "*"
+		};
+
+	}
+	rpc ResumeMigrationJob(google.cloud.clouddms.v1.ResumeMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MigrationJob"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/migrationJobs/*}:resume"
+			body: "*"
+		};
+
+	}
+	rpc PromoteMigrationJob(google.cloud.clouddms.v1.PromoteMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MigrationJob"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/migrationJobs/*}:promote"
+			body: "*"
+		};
+
+	}
+	rpc VerifyMigrationJob(google.cloud.clouddms.v1.VerifyMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MigrationJob"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/migrationJobs/*}:verify"
+			body: "*"
+		};
+
+	}
+	rpc RestartMigrationJob(google.cloud.clouddms.v1.RestartMigrationJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MigrationJob"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/migrationJobs/*}:restart"
+			body: "*"
+		};
+
+	}
+	rpc GenerateSshScript(google.cloud.clouddms.v1.GenerateSshScriptRequest) returns (google.cloud.clouddms.v1.SshScript) {
+		option (google.api.http) = {
+			post: "/v1/{migration_job=projects/*/locations/*/migrationJobs/*}:generateSshScript"
+			body: "*"
+		};
+
+	}
+	rpc ListConnectionProfiles(google.cloud.clouddms.v1.ListConnectionProfilesRequest) returns (google.cloud.clouddms.v1.ListConnectionProfilesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/connectionProfiles"
+		};
+
+	}
+	rpc GetConnectionProfile(google.cloud.clouddms.v1.GetConnectionProfileRequest) returns (google.cloud.clouddms.v1.ConnectionProfile) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/connectionProfiles/*}"
+		};
+
+	}
+	rpc CreateConnectionProfile(google.cloud.clouddms.v1.CreateConnectionProfileRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ConnectionProfile"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,connection_profile,connection_profile_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/connectionProfiles"
+			body: "connection_profile"
+		};
+
+	}
+	rpc UpdateConnectionProfile(google.cloud.clouddms.v1.UpdateConnectionProfileRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ConnectionProfile"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "connection_profile,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{connection_profile.name=projects/*/locations/*/connectionProfiles/*}"
+			body: "connection_profile"
+		};
+
+	}
+	rpc DeleteConnectionProfile(google.cloud.clouddms.v1.DeleteConnectionProfileRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/connectionProfiles/*}"
+		};
+
+	}
+}
+
+message ListMigrationJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListMigrationJobsResponse {
+
+	repeated google.cloud.clouddms.v1.MigrationJob migration_jobs = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetMigrationJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+}
+
+message CreateMigrationJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+	string migration_job_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.clouddms.v1.MigrationJob migration_job = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4;
+}
+
+message UpdateMigrationJobRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.clouddms.v1.MigrationJob migration_job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3;
+}
+
+message DeleteMigrationJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+	string request_id = 2;
+	bool force = 3;
+}
+
+message StartMigrationJobRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+}
+
+message StopMigrationJobRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+}
+
+message ResumeMigrationJobRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+}
+
+message PromoteMigrationJobRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+}
+
+message VerifyMigrationJobRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+}
+
+message RestartMigrationJobRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+}
+
+message GenerateSshScriptRequest {
+
+	string migration_job = 1 [
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/MigrationJob"
+		}
+	];
+	string vm = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof vm_config {
+		VmCreationConfig vm_creation_config = 100;
+		VmSelectionConfig vm_selection_config = 101;
+	}
+	int32 vm_port = 3;
+}
+
+message VmCreationConfig {
+
+	string vm_machine_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string vm_zone = 2;
+	string subnet = 3;
+}
+
+message VmSelectionConfig {
+
+	string vm_zone = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SshScript {
+
+	string script = 1;
+}
+
+message ListConnectionProfilesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datamigration.googleapis.com/ConnectionProfile"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListConnectionProfilesResponse {
+
+	repeated google.cloud.clouddms.v1.ConnectionProfile connection_profiles = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetConnectionProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/ConnectionProfile"
+		}
+	];
+}
+
+message CreateConnectionProfileRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/ConnectionProfile"
+		}
+	];
+	string connection_profile_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.clouddms.v1.ConnectionProfile connection_profile = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4;
+}
+
+message UpdateConnectionProfileRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.clouddms.v1.ConnectionProfile connection_profile = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3;
+}
+
+message DeleteConnectionProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datamigration.googleapis.com/ConnectionProfile"
+		}
+	];
+	string request_id = 2;
+	bool force = 3;
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

@@ -11,7 +11,9 @@ import "google/longrunning/operations.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
 import "google/type/expr.proto";
 
 option java_package = "com.google.cloud.asset.v1";
@@ -29,6 +31,8 @@ enum ContentType {
 	IAM_POLICY = 2;
 	ORG_POLICY = 4;
 	ACCESS_POLICY = 5;
+	OS_INVENTORY = 6;
+	RELATIONSHIP = 7;
 }
 
 service AssetService {
@@ -43,6 +47,13 @@ service AssetService {
 		option (google.api.http) = {
 			post: "/v1/{parent=*/*}:exportAssets"
 			body: "*"
+		};
+
+	}
+	rpc ListAssets(google.cloud.asset.v1.ListAssetsRequest) returns (google.cloud.asset.v1.ListAssetsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=*/*}/assets"
 		};
 
 	}
@@ -109,17 +120,30 @@ service AssetService {
 		};
 
 	}
-	rpc ExportIamPolicyAnalysis(google.cloud.asset.v1.ExportIamPolicyAnalysisRequest) returns (google.longrunning.Operation) {
+	rpc AnalyzeIamPolicyLongrunning(google.cloud.asset.v1.AnalyzeIamPolicyLongrunningRequest) returns (google.longrunning.Operation) {
 		option (google.longrunning.operation_info) = {
-			response_type: "google.cloud.asset.v1.ExportIamPolicyAnalysisResponse"
-			metadata_type: "google.cloud.asset.v1.ExportIamPolicyAnalysisRequest"
+			response_type: "google.cloud.asset.v1.AnalyzeIamPolicyLongrunningResponse"
+			metadata_type: "google.cloud.asset.v1.AnalyzeIamPolicyLongrunningMetadata"
 		};
 		option (google.api.http) = {
-			post: "/v1/{analysis_query.scope=*/*}:exportIamPolicyAnalysis"
+			post: "/v1/{analysis_query.scope=*/*}:analyzeIamPolicyLongrunning"
 			body: "*"
 		};
 
 	}
+	rpc AnalyzeMove(google.cloud.asset.v1.AnalyzeMoveRequest) returns (google.cloud.asset.v1.AnalyzeMoveResponse) {
+		option (google.api.http) = {
+			get: "/v1/{resource=*/*}:analyzeMove"
+		};
+
+	}
+}
+
+message AnalyzeIamPolicyLongrunningMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message ExportAssetsRequest {
@@ -136,6 +160,7 @@ message ExportAssetsRequest {
 	OutputConfig output_config = 5 [
 		(google.api.field_behavior) = REQUIRED
 	];
+	repeated string relationship_types = 6;
 }
 
 message ExportAssetsResponse {
@@ -143,6 +168,29 @@ message ExportAssetsResponse {
 	google.protobuf.Timestamp read_time = 1;
 	OutputConfig output_config = 2;
 	OutputResult output_result = 3;
+}
+
+message ListAssetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudasset.googleapis.com/Asset"
+		}
+	];
+	google.protobuf.Timestamp read_time = 2;
+	repeated string asset_types = 3;
+	ContentType content_type = 4;
+	int32 page_size = 5;
+	string page_token = 6;
+	repeated string relationship_types = 7;
+}
+
+message ListAssetsResponse {
+
+	google.protobuf.Timestamp read_time = 1;
+	repeated google.cloud.asset.v1.Asset assets = 2;
+	string next_page_token = 3;
 }
 
 message BatchGetAssetsHistoryRequest {
@@ -158,6 +206,9 @@ message BatchGetAssetsHistoryRequest {
 		(google.api.field_behavior) = OPTIONAL
 	];
 	google.cloud.asset.v1.TimeWindow read_time_window = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string relationship_types = 5 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -259,6 +310,20 @@ message BigQueryDestination {
 		(google.api.field_behavior) = REQUIRED
 	];
 	bool force = 3;
+	PartitionSpec partition_spec = 4;
+	bool separate_tables_per_asset_type = 5;
+}
+
+message PartitionSpec {
+
+	enum PartitionKey {
+
+		PARTITION_KEY_UNSPECIFIED = 0;
+		READ_TIME = 1;
+		REQUEST_TIME = 2;
+	}
+
+	PartitionKey partition_key = 1;
 }
 
 message PubsubDestination {
@@ -290,6 +355,7 @@ message Feed {
 		(google.api.field_behavior) = REQUIRED
 	];
 	google.type.Expr condition = 6;
+	repeated string relationship_types = 7;
 }
 
 message SearchAllResourcesRequest {
@@ -312,6 +378,9 @@ message SearchAllResourcesRequest {
 	string order_by = 6 [
 		(google.api.field_behavior) = OPTIONAL
 	];
+	google.protobuf.FieldMask read_mask = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message SearchAllResourcesResponse {
@@ -332,6 +401,12 @@ message SearchAllIamPoliciesRequest {
 		(google.api.field_behavior) = OPTIONAL
 	];
 	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string asset_types = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 7 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -388,12 +463,13 @@ message IamPolicyAnalysisQuery {
 		bool analyze_service_account_impersonation = 6 [
 			(google.api.field_behavior) = OPTIONAL
 		];
-		int32 max_fanouts_per_group = 7 [
-			(google.api.field_behavior) = OPTIONAL
-		];
-		int32 max_fanouts_per_resource = 8 [
-			(google.api.field_behavior) = OPTIONAL
-		];
+	}
+
+	message ConditionContext {
+
+		oneof TimeContext {
+			google.protobuf.Timestamp access_time = 1;
+		}
 	}
 
 	string scope = 1 [
@@ -409,6 +485,9 @@ message IamPolicyAnalysisQuery {
 		(google.api.field_behavior) = OPTIONAL
 	];
 	Options options = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ConditionContext condition_context = 6 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -427,31 +506,9 @@ message AnalyzeIamPolicyResponse {
 
 	message IamPolicyAnalysis {
 
-		message Stats {
-
-			enum NodeType {
-
-				NODE_TYPE_UNSPECIFIED = 0;
-				BINDING = 1;
-				IDENTITY = 2;
-				RESOURCE = 3;
-				ACCESS = 4;
-			}
-
-			NodeType node_type = 1;
-			string node_subtype = 2;
-			int32 discovered_node_count = 3;
-			int32 matched_node_count = 4;
-			int32 explored_node_count = 5;
-			int32 capped_node_count = 6;
-			int32 permision_denied_node_count = 7;
-			int32 execution_timeout_node_count = 8;
-		}
-
 		IamPolicyAnalysisQuery analysis_query = 1;
 		repeated google.cloud.asset.v1.IamPolicyAnalysisResult analysis_results = 2;
 		bool fully_explored = 3;
-		repeated Stats stats = 4;
 		repeated google.cloud.asset.v1.IamPolicyAnalysisState non_critical_errors = 5;
 	}
 
@@ -477,13 +534,6 @@ message IamPolicyAnalysisOutputConfig {
 			REQUEST_TIME = 1;
 		}
 
-		enum WriteMode {
-
-			WRITE_MODE_UNSPECIFIED = 0;
-			ABORT = 1;
-			OVERWRITE = 2;
-		}
-
 		string dataset = 1 [
 			(google.api.field_behavior) = REQUIRED
 		];
@@ -491,7 +541,9 @@ message IamPolicyAnalysisOutputConfig {
 			(google.api.field_behavior) = REQUIRED
 		];
 		PartitionKey partition_key = 3;
-		WriteMode write_mode = 4;
+		string write_disposition = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
 	}
 
 	oneof destination {
@@ -500,7 +552,7 @@ message IamPolicyAnalysisOutputConfig {
 	}
 }
 
-message ExportIamPolicyAnalysisRequest {
+message AnalyzeIamPolicyLongrunningRequest {
 
 	IamPolicyAnalysisQuery analysis_query = 1 [
 		(google.api.field_behavior) = REQUIRED
@@ -510,6 +562,49 @@ message ExportIamPolicyAnalysisRequest {
 	];
 }
 
-message ExportIamPolicyAnalysisResponse {
+message AnalyzeIamPolicyLongrunningResponse {
 
+}
+
+message AnalyzeMoveRequest {
+
+	enum AnalysisView {
+
+		ANALYSIS_VIEW_UNSPECIFIED = 0;
+		FULL = 1;
+		BASIC = 2;
+	}
+
+	string resource = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination_parent = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	AnalysisView view = 3;
+}
+
+message AnalyzeMoveResponse {
+
+	repeated MoveAnalysis move_analysis = 1;
+}
+
+message MoveAnalysis {
+
+	string display_name = 1;
+	oneof result {
+		MoveAnalysisResult analysis = 2;
+		google.rpc.Status error = 3;
+	}
+}
+
+message MoveAnalysisResult {
+
+	repeated MoveImpact blockers = 1;
+	repeated MoveImpact warnings = 2;
+}
+
+message MoveImpact {
+
+	string detail = 1;
 }

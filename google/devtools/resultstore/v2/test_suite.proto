@@ -6,6 +6,7 @@ import "google/devtools/resultstore/v2/common.proto";
 import "google/devtools/resultstore/v2/file.proto";
 
 option java_package = "com.google.devtools.resultstore.v2";
+option java_outer_classname = "TestSuiteProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
 

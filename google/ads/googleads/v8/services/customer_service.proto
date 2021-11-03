@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/enums/access_role.proto";
+import "google/ads/googleads/v8/enums/response_content_type.proto";
+import "google/ads/googleads/v8/resources/customer.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "CustomerServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service CustomerService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetCustomer(google.ads.googleads.v8.services.GetCustomerRequest) returns (google.ads.googleads.v8.resources.Customer) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v8/{resource_name=customers/*}"
+		};
+
+	}
+	rpc MutateCustomer(google.ads.googleads.v8.services.MutateCustomerRequest) returns (google.ads.googleads.v8.services.MutateCustomerResponse) {
+		option (google.api.method_signature) = "customer_id,operation";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}:mutate"
+			body: "*"
+		};
+
+	}
+	rpc ListAccessibleCustomers(google.ads.googleads.v8.services.ListAccessibleCustomersRequest) returns (google.ads.googleads.v8.services.ListAccessibleCustomersResponse) {
+		option (google.api.http) = {
+			get: "/v8/customers:listAccessibleCustomers"
+		};
+
+	}
+	rpc CreateCustomerClient(google.ads.googleads.v8.services.CreateCustomerClientRequest) returns (google.ads.googleads.v8.services.CreateCustomerClientResponse) {
+		option (google.api.method_signature) = "customer_id,customer_client";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}:createCustomerClient"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCustomerRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Customer"
+		}
+	];
+}
+
+message MutateCustomerRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CustomerOperation operation = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 5;
+	google.ads.googleads.v8.enums.ResponseContentTypeEnum.ResponseContentType response_content_type = 6;
+}
+
+message CreateCustomerClientRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.ads.googleads.v8.resources.Customer customer_client = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof _email_address {
+		string email_address = 5;
+	}
+	google.ads.googleads.v8.enums.AccessRoleEnum.AccessRole access_role = 4;
+	bool validate_only = 6;
+}
+
+message CustomerOperation {
+
+	google.ads.googleads.v8.resources.Customer update = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message CreateCustomerClientResponse {
+
+	string resource_name = 2;
+	string invitation_link = 3;
+}
+
+message MutateCustomerResponse {
+
+	MutateCustomerResult result = 2;
+}
+
+message MutateCustomerResult {
+
+	string resource_name = 1;
+	google.ads.googleads.v8.resources.Customer customer = 2;
+}
+
+message ListAccessibleCustomersRequest {
+
+}
+
+message ListAccessibleCustomersResponse {
+
+	repeated string resource_names = 1;
+}

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "ThemeCustomizationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message ThemeCustomization {
+
+	enum ImageCornerStyle {
+
+		IMAGE_CORNER_STYLE_UNSPECIFIED = 0;
+		CURVED = 1;
+		ANGLED = 2;
+	}
+
+	string background_color = 1;
+	string primary_color = 2;
+	string font_family = 3;
+	ImageCornerStyle image_corner_style = 4;
+	string landscape_background_image = 5;
+	string portrait_background_image = 6;
+}

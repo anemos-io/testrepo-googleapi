@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "ExplorerAutoOptimizerSettingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message ExplorerAutoOptimizerSetting {
+
+	oneof _opt_in {
+		bool opt_in = 2;
+	}
+}

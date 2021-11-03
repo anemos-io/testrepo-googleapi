@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package google.cloud.integrations.v1alpha;
+
+import "google/cloud/integrations/v1alpha/event_parameter.proto";
+import "google/cloud/integrations/v1alpha/product.proto";
+import "google/cloud/integrations/v1alpha/task_config.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.integrations.v1alpha";
+option java_outer_classname = "LogEntriesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/integrations/v1alpha;integrations";
+
+
+message ExecutionInfo {
+
+	enum PostMethod {
+
+		POST_METHOD_UNSPECIFIED = 0;
+		POST = 1;
+		SCHEDULE = 2;
+	}
+
+	string event_execution_info_id = 1;
+	string integration = 2;
+	string integration_version = 3;
+	string project_id = 4;
+	string trigger_id = 5;
+	map<string, google.cloud.integrations.v1alpha.EventParameter> request_params = 6;
+	map<string, google.cloud.integrations.v1alpha.EventParameter> response_params = 7;
+	PostMethod post_method = 8;
+	EventExecutionDetails event_execution_details = 9;
+	repeated ErrorDetail errors = 10;
+	google.cloud.integrations.v1alpha.Product product = 11;
+	string request_id = 12;
+	repeated google.cloud.integrations.v1alpha.TaskConfig task_configs = 13;
+}
+
+message EventExecutionDetails {
+
+	enum EventExecutionState {
+
+		EVENT_EXECUTION_STATE_UNSPECIFIED = 0;
+		ON_HOLD = 1;
+		IN_PROCESS = 2;
+		SUCCEEDED = 3;
+		FAILED = 4;
+		CANCELLED = 5;
+		RETRY_ON_HOLD = 6;
+		SUSPENDED = 7;
+	}
+
+	EventExecutionState event_execution_state = 1;
+	repeated EventExecutionSnapshot event_execution_snapshot = 2;
+	repeated AttemptStats event_attempt_stats = 3;
+	google.protobuf.Timestamp next_execution_time = 4;
+	int32 event_retries_count = 5;
+}
+
+message EventExecutionSnapshot {
+
+	message EventExecutionSnapshotMetadata {
+
+		string task_number = 1;
+		string task = 2;
+		int32 event_attempt_num = 3;
+		int32 task_attempt_num = 4;
+	}
+
+	string checkpoint_task_number = 1;
+	google.protobuf.Timestamp snapshot_time = 2;
+	EventExecutionSnapshotMetadata event_execution_snapshot_metadata = 3;
+	repeated TaskExecutionDetails task_execution_details = 4;
+	repeated ConditionResult condition_results = 5;
+	map<string, google.cloud.integrations.v1alpha.EventParameter> event_params = 6;
+	map<string, google.cloud.integrations.v1alpha.EventParameter> diff_params = 7;
+}
+
+message TaskExecutionDetails {
+
+	enum TaskExecutionState {
+
+		TASK_EXECUTION_STATE_UNSPECIFIED = 0;
+		PENDING_EXECUTION = 1;
+		IN_PROCESS = 2;
+		SUCCEED = 3;
+		FAILED = 4;
+		FATAL = 5;
+		RETRY_ON_HOLD = 6;
+		SKIPPED = 7;
+		CANCELLED = 8;
+		PENDING_ROLLBACK = 9;
+		ROLLBACK_IN_PROCESS = 10;
+		ROLLEDBACK = 11;
+		SUSPENDED = 12;
+	}
+
+	string task_number = 1;
+	TaskExecutionState task_execution_state = 2;
+	repeated AttemptStats task_attempt_stats = 3;
+}
+
+message AttemptStats {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+}
+
+message ErrorDetail {
+
+	string error_message = 1;
+	int32 task_number = 2;
+}
+
+message ConditionResult {
+
+	string current_task_number = 1;
+	string next_task_number = 2;
+	bool result = 3;
+}

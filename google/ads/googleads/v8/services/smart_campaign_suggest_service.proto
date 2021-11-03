@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/common/ad_type_infos.proto";
+import "google/ads/googleads/v8/common/criteria.proto";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "SmartCampaignSuggestServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service SmartCampaignSuggestService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc SuggestSmartCampaignBudgetOptions(google.ads.googleads.v8.services.SuggestSmartCampaignBudgetOptionsRequest) returns (google.ads.googleads.v8.services.SuggestSmartCampaignBudgetOptionsResponse) {
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}:suggestSmartCampaignBudgetOptions"
+			body: "*"
+		};
+
+	}
+	rpc SuggestSmartCampaignAd(google.ads.googleads.v8.services.SuggestSmartCampaignAdRequest) returns (google.ads.googleads.v8.services.SuggestSmartCampaignAdResponse) {
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}:suggestSmartCampaignAd"
+			body: "*"
+		};
+
+	}
+}
+
+message SuggestSmartCampaignBudgetOptionsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof suggestion_data {
+		string campaign = 2 [
+			(google.api.field_behavior) = REQUIRED
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Campaign"
+			}
+		];
+		SmartCampaignSuggestionInfo suggestion_info = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+}
+
+message SmartCampaignSuggestionInfo {
+
+	message LocationList {
+
+		repeated google.ads.googleads.v8.common.LocationInfo locations = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message BusinessContext {
+
+		string business_name = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	string final_url = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string language_code = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated google.ads.googleads.v8.common.AdScheduleInfo ad_schedules = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated google.ads.googleads.v8.common.KeywordThemeInfo keyword_themes = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof business_setting {
+		BusinessContext business_context = 8 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		int64 business_location_id = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	oneof geo_target {
+		LocationList location_list = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		google.ads.googleads.v8.common.ProximityInfo proximity = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+}
+
+message SuggestSmartCampaignBudgetOptionsResponse {
+
+	message Metrics {
+
+		int64 min_daily_clicks = 1;
+		int64 max_daily_clicks = 2;
+	}
+
+	message BudgetOption {
+
+		int64 daily_amount_micros = 1;
+		Metrics metrics = 2;
+	}
+
+	oneof _low {
+		BudgetOption low = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	oneof _recommended {
+		BudgetOption recommended = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	oneof _high {
+		BudgetOption high = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+}
+
+message SuggestSmartCampaignAdRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	SmartCampaignSuggestionInfo suggestion_info = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SuggestSmartCampaignAdResponse {
+
+	google.ads.googleads.v8.common.SmartCampaignAdInfo ad_info = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

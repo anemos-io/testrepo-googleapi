@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.migration.v2alpha;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.cloud.bigquery.migration.v2alpha";
+option java_outer_classname = "TranslationServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/migration/v2alpha;migration";
+option csharp_namespace = "Google.Cloud.BigQuery.Migration.V2Alpha";
+option php_namespace = "Google\\Cloud\\BigQuery\\Migration\\V2alpha";
+
+
+service SqlTranslationService {
+	option (google.api.default_host) = "bigquerymigration.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc TranslateQuery(google.cloud.bigquery.migration.v2alpha.TranslateQueryRequest) returns (google.cloud.bigquery.migration.v2alpha.TranslateQueryResponse) {
+		option (google.api.method_signature) = "parent,source_dialect,query";
+		option (google.api.http) = {
+			post: "/v2alpha/{parent=projects/*/locations/*}:translateQuery"
+			body: "*"
+		};
+
+	}
+}
+
+message TranslateQueryRequest {
+
+	enum SqlTranslationSourceDialect {
+
+		SQL_TRANSLATION_SOURCE_DIALECT_UNSPECIFIED = 0;
+		TERADATA = 1;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	SqlTranslationSourceDialect source_dialect = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message TranslateQueryResponse {
+
+	string translated_query = 1;
+	repeated SqlTranslationError errors = 2;
+	repeated SqlTranslationWarning warnings = 3;
+}
+
+message SqlTranslationErrorDetail {
+
+	int64 row = 1;
+	int64 column = 2;
+	string message = 3;
+}
+
+message SqlTranslationError {
+
+	enum SqlTranslationErrorType {
+
+		SQL_TRANSLATION_ERROR_TYPE_UNSPECIFIED = 0;
+		SQL_PARSE_ERROR = 1;
+		UNSUPPORTED_SQL_FUNCTION = 2;
+	}
+
+	SqlTranslationErrorType error_type = 1;
+	SqlTranslationErrorDetail error_detail = 2;
+}
+
+message SqlTranslationWarning {
+
+	SqlTranslationErrorDetail warning_detail = 1;
+}

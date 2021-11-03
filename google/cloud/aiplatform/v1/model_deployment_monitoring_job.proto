@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1/feature_monitoring_stats.proto";
+import "google/cloud/aiplatform/v1/io.proto";
+import "google/cloud/aiplatform/v1/job_state.proto";
+import "google/cloud/aiplatform/v1/model_monitoring.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "ModelDeploymentMonitoringJobProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+enum ModelDeploymentMonitoringObjectiveType {
+
+	MODEL_DEPLOYMENT_MONITORING_OBJECTIVE_TYPE_UNSPECIFIED = 0;
+	RAW_FEATURE_SKEW = 1;
+	RAW_FEATURE_DRIFT = 2;
+	FEATURE_ATTRIBUTION_SKEW = 3;
+	FEATURE_ATTRIBUTION_DRIFT = 4;
+}
+
+message ModelDeploymentMonitoringJob {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/ModelDeploymentMonitoringJob"
+		pattern: ["projects/{project}/locations/{location}/modelDeploymentMonitoringJobs/{model_deployment_monitoring_job}"]
+	};
+
+	enum MonitoringScheduleState {
+
+		MONITORING_SCHEDULE_STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		OFFLINE = 2;
+		RUNNING = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string endpoint = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Endpoint"
+		}
+	];
+	google.cloud.aiplatform.v1.JobState state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	MonitoringScheduleState schedule_state = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated ModelDeploymentMonitoringObjectiveConfig model_deployment_monitoring_objective_configs = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ModelDeploymentMonitoringScheduleConfig model_deployment_monitoring_schedule_config = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1.SamplingStrategy logging_sampling_strategy = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1.ModelMonitoringAlertConfig model_monitoring_alert_config = 15;
+	string predict_instance_schema_uri = 9;
+	google.protobuf.Value sample_predict_instance = 19;
+	string analysis_instance_schema_uri = 16;
+	repeated ModelDeploymentMonitoringBigQueryTable bigquery_tables = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Duration log_ttl = 17;
+	map<string, string> labels = 11;
+	google.protobuf.Timestamp create_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp next_schedule_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1.GcsDestination stats_anomalies_base_directory = 20;
+	google.cloud.aiplatform.v1.EncryptionSpec encryption_spec = 21;
+	bool enable_monitoring_pipeline_logs = 22;
+	google.rpc.Status error = 23 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ModelDeploymentMonitoringBigQueryTable {
+
+	enum LogSource {
+
+		LOG_SOURCE_UNSPECIFIED = 0;
+		TRAINING = 1;
+		SERVING = 2;
+	}
+
+	enum LogType {
+
+		LOG_TYPE_UNSPECIFIED = 0;
+		PREDICT = 1;
+		EXPLAIN = 2;
+	}
+
+	LogSource log_source = 1;
+	LogType log_type = 2;
+	string bigquery_table_path = 3;
+}
+
+message ModelDeploymentMonitoringObjectiveConfig {
+
+	string deployed_model_id = 1;
+	google.cloud.aiplatform.v1.ModelMonitoringObjectiveConfig objective_config = 2;
+}
+
+message ModelDeploymentMonitoringScheduleConfig {
+
+	google.protobuf.Duration monitor_interval = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ModelMonitoringStatsAnomalies {
+
+	message FeatureHistoricStatsAnomalies {
+
+		string feature_display_name = 1;
+		google.cloud.aiplatform.v1.ThresholdConfig threshold = 3;
+		google.cloud.aiplatform.v1.FeatureStatsAnomaly training_stats = 4;
+		repeated google.cloud.aiplatform.v1.FeatureStatsAnomaly prediction_stats = 5;
+	}
+
+	ModelDeploymentMonitoringObjectiveType objective = 1;
+	string deployed_model_id = 2;
+	int32 anomaly_count = 3;
+	repeated FeatureHistoricStatsAnomalies feature_stats = 4;
+}

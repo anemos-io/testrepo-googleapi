@@ -2,12 +2,16 @@ syntax = "proto3";
 
 package google.appengine.v1beta;
 
+import "google/appengine/v1beta/network_settings.proto";
 import "google/api/annotations.proto";
 
 option java_package = "com.google.appengine.v1beta";
 option java_outer_classname = "ServiceProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+option csharp_namespace = "Google.Cloud.AppEngine.V1Beta";
+option php_namespace = "Google\\Cloud\\AppEngine\\V1beta";
+option ruby_package = "Google::Cloud::AppEngine::V1beta";
 
 
 message Service {
@@ -15,6 +19,7 @@ message Service {
 	string name = 1;
 	string id = 2;
 	TrafficSplit split = 3;
+	google.appengine.v1beta.NetworkSettings network_settings = 6;
 }
 
 message TrafficSplit {

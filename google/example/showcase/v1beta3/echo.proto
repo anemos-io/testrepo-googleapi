@@ -1,0 +1,146 @@
+syntax = "proto3";
+
+package google.example.showcase.v1beta3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.example.showcase.v1beta3";
+option java_outer_classname = "EchoProto";
+option java_multiple_files = true;
+option go_package = "github.com/googleapis/gapic-showcase/server/genproto";
+option ruby_package = "Google::Example::Showcase::V1beta3";
+
+
+enum Severity {
+
+	UNNECESSARY = 0;
+	NECESSARY = 1;
+	URGENT = 2;
+	CRITICAL = 3;
+}
+
+service Echo {
+	option (google.api.default_host) = "showcase.googleapis.com";
+
+	rpc Echo(google.example.showcase.v1beta3.EchoRequest) returns (google.example.showcase.v1beta3.EchoResponse) {
+		option (google.api.http) = {
+			post: "/v1beta3/echo:echo"
+			body: "*"
+		};
+
+	}
+	rpc Expand(google.example.showcase.v1beta3.ExpandRequest) returns (stream google.example.showcase.v1beta3.EchoResponse) {
+		option (google.api.method_signature) = "content,error";
+		option (google.api.http) = {
+			post: "/v1beta3/echo:expand"
+			body: "*"
+		};
+
+	}
+	rpc Collect(stream google.example.showcase.v1beta3.EchoRequest) returns (google.example.showcase.v1beta3.EchoResponse) {
+		option (google.api.http) = {
+			post: "/v1beta3/echo:collect"
+			body: "*"
+		};
+
+	}
+	rpc Chat(stream google.example.showcase.v1beta3.EchoRequest) returns (stream google.example.showcase.v1beta3.EchoResponse) {}
+	rpc PagedExpand(google.example.showcase.v1beta3.PagedExpandRequest) returns (google.example.showcase.v1beta3.PagedExpandResponse) {
+		option (google.api.http) = {
+			post: "/v1beta3/echo:pagedExpand"
+			body: "*"
+		};
+
+	}
+	rpc Wait(google.example.showcase.v1beta3.WaitRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WaitResponse"
+			metadata_type: "WaitMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta3/echo:wait"
+			body: "*"
+		};
+
+	}
+	rpc Block(google.example.showcase.v1beta3.BlockRequest) returns (google.example.showcase.v1beta3.BlockResponse) {
+		option (google.api.http) = {
+			post: "/v1beta3/echo:block"
+			body: "*"
+		};
+
+	}
+}
+
+message EchoRequest {
+
+	oneof response {
+		string content = 1;
+		google.rpc.Status error = 2;
+	}
+	Severity severity = 3;
+}
+
+message EchoResponse {
+
+	string content = 1;
+	Severity severity = 2;
+}
+
+message ExpandRequest {
+
+	string content = 1;
+	google.rpc.Status error = 2;
+}
+
+message PagedExpandRequest {
+
+	string content = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message PagedExpandResponse {
+
+	repeated EchoResponse responses = 1;
+	string next_page_token = 2;
+}
+
+message WaitRequest {
+
+	oneof end {
+		google.protobuf.Timestamp end_time = 1;
+		google.protobuf.Duration ttl = 4;
+	}
+	oneof response {
+		google.rpc.Status error = 2;
+		WaitResponse success = 3;
+	}
+}
+
+message WaitResponse {
+
+	string content = 1;
+}
+
+message BlockRequest {
+
+	oneof response {
+		google.rpc.Status error = 2;
+		BlockResponse success = 3;
+	}
+	google.protobuf.Duration response_delay = 1;
+}
+
+message BlockResponse {
+
+	string content = 1;
+}

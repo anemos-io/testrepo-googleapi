@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package google.devtools.artifactregistry.v1beta2;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.artifactregistry.v1beta2";
+option java_outer_classname = "SettingsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/artifactregistry/v1beta2;artifactregistry";
+option csharp_namespace = "Google.Cloud.ArtifactRegistry.V1Beta2";
+option php_namespace = "Google\\Cloud\\ArtifactRegistry\\V1beta2";
+option ruby_package = "Google::Cloud::ArtifactRegistry::V1beta2";
+

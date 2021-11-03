@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package google.cloud.workflows.type;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.workflows.type";
+option java_outer_classname = "EngineCallProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/workflows/type";
+
+
+message EngineCallLog {
+
+	message CallArg {
+
+		string argument = 1;
+	}
+
+	message Begun {
+
+		repeated CallArg args = 1;
+	}
+
+	message Succeeded {
+
+		google.protobuf.Timestamp call_start_time = 1;
+		string response = 2;
+	}
+
+	message ExceptionRaised {
+
+		google.protobuf.Timestamp call_start_time = 1;
+		string exception = 2;
+		string origin = 3;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		BEGUN = 1;
+		SUCCEEDED = 2;
+		EXCEPTION_RAISED = 3;
+	}
+
+	string execution_id = 1;
+	google.protobuf.Timestamp activity_time = 2;
+	State state = 3;
+	string step = 4;
+	string callee = 5;
+	oneof details {
+		Begun begun = 6;
+		Succeeded succeeded = 7;
+		ExceptionRaised exception_raised = 8;
+	}
+}

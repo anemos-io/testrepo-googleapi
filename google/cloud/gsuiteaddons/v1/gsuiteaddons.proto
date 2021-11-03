@@ -1,0 +1,246 @@
+syntax = "proto3";
+
+package google.cloud.gsuiteaddons.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/apps/script/type/calendar/calendar_addon_manifest.proto";
+import "google/apps/script/type/docs/docs_addon_manifest.proto";
+import "google/apps/script/type/drive/drive_addon_manifest.proto";
+import "google/apps/script/type/gmail/gmail_addon_manifest.proto";
+import "google/apps/script/type/script_manifest.proto";
+import "google/apps/script/type/sheets/sheets_addon_manifest.proto";
+import "google/apps/script/type/slides/slides_addon_manifest.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.cloud.gsuiteaddons.v1";
+option java_outer_classname = "GSuiteAddOnsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gsuiteaddons/v1;gsuiteaddons";
+option csharp_namespace = "Google.Cloud.GSuiteAddOns.V1";
+option php_namespace = "Google\\Cloud\\GSuiteAddOns\\V1";
+option ruby_package = "Google::Cloud::GSuiteAddOns::V1";
+
+
+service GSuiteAddOns {
+	option (google.api.default_host) = "gsuiteaddons.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetAuthorization(google.cloud.gsuiteaddons.v1.GetAuthorizationRequest) returns (google.cloud.gsuiteaddons.v1.Authorization) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/authorization}"
+		};
+
+	}
+	rpc CreateDeployment(google.cloud.gsuiteaddons.v1.CreateDeploymentRequest) returns (google.cloud.gsuiteaddons.v1.Deployment) {
+		option (google.api.method_signature) = "parent,deployment,deployment_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/deployments"
+			body: "deployment"
+		};
+
+	}
+	rpc ReplaceDeployment(google.cloud.gsuiteaddons.v1.ReplaceDeploymentRequest) returns (google.cloud.gsuiteaddons.v1.Deployment) {
+		option (google.api.method_signature) = "deployment";
+		option (google.api.http) = {
+			put: "/v1/{deployment.name=projects/*/deployments/*}"
+			body: "deployment"
+		};
+
+	}
+	rpc GetDeployment(google.cloud.gsuiteaddons.v1.GetDeploymentRequest) returns (google.cloud.gsuiteaddons.v1.Deployment) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/deployments/*}"
+		};
+
+	}
+	rpc ListDeployments(google.cloud.gsuiteaddons.v1.ListDeploymentsRequest) returns (google.cloud.gsuiteaddons.v1.ListDeploymentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/deployments"
+		};
+
+	}
+	rpc DeleteDeployment(google.cloud.gsuiteaddons.v1.DeleteDeploymentRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/deployments/*}"
+		};
+
+	}
+	rpc InstallDeployment(google.cloud.gsuiteaddons.v1.InstallDeploymentRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/deployments/*}:install"
+			body: "*"
+		};
+
+	}
+	rpc UninstallDeployment(google.cloud.gsuiteaddons.v1.UninstallDeploymentRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/deployments/*}:uninstall"
+			body: "*"
+		};
+
+	}
+	rpc GetInstallStatus(google.cloud.gsuiteaddons.v1.GetInstallStatusRequest) returns (google.cloud.gsuiteaddons.v1.InstallStatus) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/deployments/*/installStatus}"
+		};
+
+	}
+}
+
+message GetAuthorizationRequest {
+
+	string name = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gsuiteaddons.googleapis.com/Authorization"
+		}
+	];
+}
+
+message Authorization {
+	option (google.api.resource) = {
+		type: "gsuiteaddons.googleapis.com/Authorization"
+		pattern: ["projects/{project}/authorization"]
+	};
+
+	string name = 1;
+	string service_account_email = 2;
+	string oauth_client_id = 3;
+}
+
+message CreateDeploymentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string deployment_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Deployment deployment = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReplaceDeploymentRequest {
+
+	Deployment deployment = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gsuiteaddons.googleapis.com/Deployment"
+		}
+	];
+}
+
+message ListDeploymentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListDeploymentsResponse {
+
+	repeated Deployment deployments = 1;
+	string next_page_token = 2;
+}
+
+message DeleteDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gsuiteaddons.googleapis.com/Deployment"
+		}
+	];
+	string etag = 2;
+}
+
+message InstallDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gsuiteaddons.googleapis.com/Deployment"
+		}
+	];
+}
+
+message UninstallDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gsuiteaddons.googleapis.com/Deployment"
+		}
+	];
+}
+
+message GetInstallStatusRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gsuiteaddons.googleapis.com/InstallStatus"
+		}
+	];
+}
+
+message InstallStatus {
+	option (google.api.resource) = {
+		type: "gsuiteaddons.googleapis.com/InstallStatus"
+		pattern: ["projects/{project}/deployments/{deployment}/installStatus"]
+	};
+
+	string name = 1;
+	google.protobuf.BoolValue installed = 2;
+}
+
+message Deployment {
+	option (google.api.resource) = {
+		type: "gsuiteaddons.googleapis.com/Deployment"
+		pattern: ["projects/{project}/deployments/{deployment}"]
+	};
+
+	string name = 1;
+	repeated string oauth_scopes = 2;
+	AddOns add_ons = 3;
+	string etag = 5;
+}
+
+message AddOns {
+
+	google.apps.script.type.CommonAddOnManifest common = 1;
+	google.apps.script.type.gmail.GmailAddOnManifest gmail = 2;
+	google.apps.script.type.drive.DriveAddOnManifest drive = 5;
+	google.apps.script.type.calendar.CalendarAddOnManifest calendar = 6;
+	google.apps.script.type.docs.DocsAddOnManifest docs = 7;
+	google.apps.script.type.sheets.SheetsAddOnManifest sheets = 8;
+	google.apps.script.type.slides.SlidesAddOnManifest slides = 10;
+	google.apps.script.type.HttpOptions http_options = 15;
+}

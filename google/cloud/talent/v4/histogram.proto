@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.talent.v4";
+option java_outer_classname = "HistogramProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4;talent";
+option objc_class_prefix = "CTS";
+
+
+message HistogramQuery {
+
+	string histogram_query = 1;
+}
+
+message HistogramQueryResult {
+
+	string histogram_query = 1;
+	map<string, int64> histogram = 2;
+}

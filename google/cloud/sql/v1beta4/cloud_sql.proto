@@ -1,0 +1,604 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1beta4;
+
+import "google/api/annotations.proto";
+import "google/cloud/sql/v1beta4/cloud_sql_resources.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1beta4";
+option java_outer_classname = "CloudSqlServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1beta4;sql";
+
+
+service SqlBackupRunsService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc Delete(google.cloud.sql.v1beta4.SqlBackupRunsDeleteRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			delete: "/sql/v1beta4/projects/{project}/instances/{instance}/backupRuns/{id}"
+		};
+
+	}
+	rpc Get(google.cloud.sql.v1beta4.SqlBackupRunsGetRequest) returns (google.cloud.sql.v1beta4.BackupRun) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances/{instance}/backupRuns/{id}"
+		};
+
+	}
+	rpc Insert(google.cloud.sql.v1beta4.SqlBackupRunsInsertRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/backupRuns"
+			body: "body"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1beta4.SqlBackupRunsListRequest) returns (google.cloud.sql.v1beta4.BackupRunsListResponse) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances/{instance}/backupRuns"
+		};
+
+	}
+}
+
+service SqlDatabasesService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc Delete(google.cloud.sql.v1beta4.SqlDatabasesDeleteRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			delete: "/sql/v1beta4/projects/{project}/instances/{instance}/databases/{database}"
+		};
+
+	}
+	rpc Get(google.cloud.sql.v1beta4.SqlDatabasesGetRequest) returns (google.cloud.sql.v1beta4.Database) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances/{instance}/databases/{database}"
+		};
+
+	}
+	rpc Insert(google.cloud.sql.v1beta4.SqlDatabasesInsertRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/databases"
+			body: "body"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1beta4.SqlDatabasesListRequest) returns (google.cloud.sql.v1beta4.DatabasesListResponse) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances/{instance}/databases"
+		};
+
+	}
+	rpc Patch(google.cloud.sql.v1beta4.SqlDatabasesUpdateRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			patch: "/sql/v1beta4/projects/{project}/instances/{instance}/databases/{database}"
+			body: "body"
+		};
+
+	}
+	rpc Update(google.cloud.sql.v1beta4.SqlDatabasesUpdateRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			put: "/sql/v1beta4/projects/{project}/instances/{instance}/databases/{database}"
+			body: "body"
+		};
+
+	}
+}
+
+service SqlFlagsService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc List(google.cloud.sql.v1beta4.SqlFlagsListRequest) returns (google.cloud.sql.v1beta4.FlagsListResponse) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/flags"
+		};
+
+	}
+}
+
+service SqlInstancesService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc AddServerCa(google.cloud.sql.v1beta4.SqlInstancesAddServerCaRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/addServerCa"
+		};
+
+	}
+	rpc Clone(google.cloud.sql.v1beta4.SqlInstancesCloneRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/clone"
+			body: "body"
+		};
+
+	}
+	rpc Delete(google.cloud.sql.v1beta4.SqlInstancesDeleteRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			delete: "/sql/v1beta4/projects/{project}/instances/{instance}"
+		};
+
+	}
+	rpc DemoteMaster(google.cloud.sql.v1beta4.SqlInstancesDemoteMasterRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/demoteMaster"
+			body: "body"
+		};
+
+	}
+	rpc Export(google.cloud.sql.v1beta4.SqlInstancesExportRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/export"
+			body: "body"
+		};
+
+	}
+	rpc Failover(google.cloud.sql.v1beta4.SqlInstancesFailoverRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/failover"
+			body: "body"
+		};
+
+	}
+	rpc Get(google.cloud.sql.v1beta4.SqlInstancesGetRequest) returns (google.cloud.sql.v1beta4.DatabaseInstance) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances/{instance}"
+		};
+
+	}
+	rpc Import(google.cloud.sql.v1beta4.SqlInstancesImportRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/import"
+			body: "body"
+		};
+
+	}
+	rpc Insert(google.cloud.sql.v1beta4.SqlInstancesInsertRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances"
+			body: "body"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1beta4.SqlInstancesListRequest) returns (google.cloud.sql.v1beta4.InstancesListResponse) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances"
+		};
+
+	}
+	rpc ListServerCas(google.cloud.sql.v1beta4.SqlInstancesListServerCasRequest) returns (google.cloud.sql.v1beta4.InstancesListServerCasResponse) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances/{instance}/listServerCas"
+		};
+
+	}
+	rpc Patch(google.cloud.sql.v1beta4.SqlInstancesPatchRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			patch: "/sql/v1beta4/projects/{project}/instances/{instance}"
+			body: "body"
+		};
+
+	}
+	rpc PromoteReplica(google.cloud.sql.v1beta4.SqlInstancesPromoteReplicaRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/promoteReplica"
+		};
+
+	}
+	rpc ResetSslConfig(google.cloud.sql.v1beta4.SqlInstancesResetSslConfigRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/resetSslConfig"
+		};
+
+	}
+	rpc Restart(google.cloud.sql.v1beta4.SqlInstancesRestartRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/restart"
+		};
+
+	}
+	rpc RestoreBackup(google.cloud.sql.v1beta4.SqlInstancesRestoreBackupRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/restoreBackup"
+			body: "body"
+		};
+
+	}
+	rpc RotateServerCa(google.cloud.sql.v1beta4.SqlInstancesRotateServerCaRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/rotateServerCa"
+			body: "body"
+		};
+
+	}
+	rpc StartReplica(google.cloud.sql.v1beta4.SqlInstancesStartReplicaRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/startReplica"
+		};
+
+	}
+	rpc StopReplica(google.cloud.sql.v1beta4.SqlInstancesStopReplicaRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/stopReplica"
+		};
+
+	}
+	rpc TruncateLog(google.cloud.sql.v1beta4.SqlInstancesTruncateLogRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/truncateLog"
+			body: "body"
+		};
+
+	}
+	rpc Update(google.cloud.sql.v1beta4.SqlInstancesUpdateRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			put: "/sql/v1beta4/projects/{project}/instances/{instance}"
+			body: "body"
+		};
+
+	}
+	rpc CreateEphemeral(google.cloud.sql.v1beta4.SqlInstancesCreateEphemeralCertRequest) returns (google.cloud.sql.v1beta4.SslCert) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/createEphemeral"
+			body: "body"
+		};
+
+	}
+	rpc RescheduleMaintenance(google.cloud.sql.v1beta4.SqlInstancesRescheduleMaintenanceRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/rescheduleMaintenance"
+			body: "body"
+		};
+
+	}
+	rpc VerifyExternalSyncSettings(google.cloud.sql.v1beta4.SqlInstancesVerifyExternalSyncSettingsRequest) returns (google.cloud.sql.v1beta4.SqlInstancesVerifyExternalSyncSettingsResponse) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/verifyExternalSyncSettings"
+		};
+
+	}
+	rpc StartExternalSync(google.cloud.sql.v1beta4.SqlInstancesStartExternalSyncRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/startExternalSync"
+		};
+
+	}
+}
+
+service SqlOperationsService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc Get(google.cloud.sql.v1beta4.SqlOperationsGetRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/operations/{operation}"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1beta4.SqlOperationsListRequest) returns (google.cloud.sql.v1beta4.OperationsListResponse) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/operations"
+		};
+
+	}
+}
+
+service SqlSslCertsService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc Delete(google.cloud.sql.v1beta4.SqlSslCertsDeleteRequest) returns (google.cloud.sql.v1beta4.Operation) {
+		option (google.api.http) = {
+			delete: "/sql/v1beta4/projects/{project}/instances/{instance}/sslCerts/{sha1_fingerprint}"
+		};
+
+	}
+	rpc Get(google.cloud.sql.v1beta4.SqlSslCertsGetRequest) returns (google.cloud.sql.v1beta4.SslCert) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances/{instance}/sslCerts/{sha1_fingerprint}"
+		};
+
+	}
+	rpc Insert(google.cloud.sql.v1beta4.SqlSslCertsInsertRequest) returns (google.cloud.sql.v1beta4.SslCertsInsertResponse) {
+		option (google.api.http) = {
+			post: "/sql/v1beta4/projects/{project}/instances/{instance}/sslCerts"
+			body: "body"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1beta4.SqlSslCertsListRequest) returns (google.cloud.sql.v1beta4.SslCertsListResponse) {
+		option (google.api.http) = {
+			get: "/sql/v1beta4/projects/{project}/instances/{instance}/sslCerts"
+		};
+
+	}
+}
+
+message SqlBackupRunsDeleteRequest {
+
+	int64 id = 1;
+	string instance = 2;
+	string project = 3;
+}
+
+message SqlBackupRunsGetRequest {
+
+	int64 id = 1;
+	string instance = 2;
+	string project = 3;
+}
+
+message SqlBackupRunsInsertRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.BackupRun body = 100;
+}
+
+message SqlBackupRunsListRequest {
+
+	string instance = 1;
+	int32 max_results = 2;
+	string page_token = 3;
+	string project = 4;
+}
+
+message SqlDatabasesDeleteRequest {
+
+	string database = 1;
+	string instance = 2;
+	string project = 3;
+}
+
+message SqlDatabasesGetRequest {
+
+	string database = 1;
+	string instance = 2;
+	string project = 3;
+}
+
+message SqlDatabasesInsertRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.Database body = 100;
+}
+
+message SqlDatabasesListRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlDatabasesUpdateRequest {
+
+	string database = 1;
+	string instance = 2;
+	string project = 3;
+	google.cloud.sql.v1beta4.Database body = 100;
+}
+
+message SqlFlagsListRequest {
+
+	string database_version = 1;
+}
+
+message SqlInstancesAddServerCaRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesCloneRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.InstancesCloneRequest body = 100;
+}
+
+message SqlInstancesDeleteRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesDemoteMasterRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.InstancesDemoteMasterRequest body = 100;
+}
+
+message SqlInstancesExportRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.InstancesExportRequest body = 100;
+}
+
+message SqlInstancesFailoverRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.InstancesFailoverRequest body = 100;
+}
+
+message SqlInstancesGetRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesImportRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.InstancesImportRequest body = 100;
+}
+
+message SqlInstancesInsertRequest {
+
+	string project = 1;
+	google.cloud.sql.v1beta4.DatabaseInstance body = 100;
+}
+
+message SqlInstancesListRequest {
+
+	string filter = 1;
+	uint32 max_results = 2;
+	string page_token = 3;
+	string project = 4;
+}
+
+message SqlInstancesListServerCasRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesPatchRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.DatabaseInstance body = 100;
+}
+
+message SqlInstancesPromoteReplicaRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesResetSslConfigRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesRestartRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesRestoreBackupRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.InstancesRestoreBackupRequest body = 100;
+}
+
+message SqlInstancesRotateServerCaRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.InstancesRotateServerCaRequest body = 100;
+}
+
+message SqlInstancesStartReplicaRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesStopReplicaRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesTruncateLogRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.InstancesTruncateLogRequest body = 100;
+}
+
+message SqlInstancesUpdateRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.DatabaseInstance body = 100;
+}
+
+message SqlInstancesRescheduleMaintenanceRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.SqlInstancesRescheduleMaintenanceRequestBody body = 100;
+}
+
+message SqlInstancesVerifyExternalSyncSettingsRequest {
+
+	enum ExternalSyncMode {
+
+		EXTERNAL_SYNC_MODE_UNSPECIFIED = 0;
+		ONLINE = 1;
+		OFFLINE = 2;
+	}
+
+	string instance = 1;
+	string project = 2;
+	bool verify_connection_only = 3;
+	ExternalSyncMode sync_mode = 4;
+}
+
+message SqlInstancesStartExternalSyncRequest {
+
+	string instance = 1;
+	string project = 2;
+	ExternalSyncMode sync_mode = 3;
+	bool skip_verification = 4;
+}
+
+message SqlOperationsGetRequest {
+
+	string operation = 1;
+	string project = 2;
+}
+
+message SqlOperationsListRequest {
+
+	string instance = 1;
+	uint32 max_results = 2;
+	string page_token = 3;
+	string project = 4;
+}
+
+message SqlInstancesCreateEphemeralCertRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.SslCertsCreateEphemeralRequest body = 100;
+}
+
+message SqlSslCertsDeleteRequest {
+
+	string instance = 1;
+	string project = 2;
+	string sha1_fingerprint = 3;
+}
+
+message SqlSslCertsGetRequest {
+
+	string instance = 1;
+	string project = 2;
+	string sha1_fingerprint = 3;
+}
+
+message SqlSslCertsInsertRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.cloud.sql.v1beta4.SslCertsInsertRequest body = 100;
+}
+
+message SqlSslCertsListRequest {
+
+	string instance = 1;
+	string project = 2;
+}

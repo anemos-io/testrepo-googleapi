@@ -17,6 +17,7 @@ option go_package = "google.golang.org/genproto/googleapis/cloud/managedidentiti
 option objc_class_prefix = "GCMI";
 option csharp_namespace = "Google.Cloud.ManagedIdentities.V1Beta1";
 option php_namespace = "Google\\Cloud\\ManagedIdentities\\V1beta1";
+option ruby_package = "Google::Cloud::ManagedIdentities::V1beta1";
 
 
 service ManagedIdentitiesService {

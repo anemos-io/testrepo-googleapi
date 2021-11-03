@@ -3,11 +3,19 @@ syntax = "proto3";
 package google.cloud.osconfig.agentendpoint.v1;
 
 import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/osconfig/agentendpoint/v1/config_common.proto";
+import "google/cloud/osconfig/agentendpoint/v1/os_policy.proto";
 import "google/cloud/osconfig/agentendpoint/v1/patch_jobs.proto";
 
 option java_package = "com.google.cloud.osconfig.agentendpoint.v1";
 option java_outer_classname = "Tasks";
+option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1;agentendpoint";
+option (google.api.resource_definition) = {
+	type: "osconfig.googleapis.com/OSPolicyAssignment"
+	pattern: ["projects/{project}/locations/{location}/osPolicyAssignments/{os_policy_assignment}"]
+};
 
 
 enum TaskDirective {
@@ -22,6 +30,7 @@ enum TaskType {
 	TASK_TYPE_UNSPECIFIED = 0;
 	APPLY_PATCHES = 1;
 	EXEC_STEP_TASK = 2;
+	APPLY_CONFIG_TASK = 3;
 }
 
 message Task {
@@ -32,6 +41,7 @@ message Task {
 	oneof task_details {
 		ApplyPatchesTask apply_patches_task = 4;
 		ExecStepTask exec_step_task = 5;
+		ApplyConfigTask apply_config_task = 7;
 	}
 	map<string, string> service_labels = 6;
 }
@@ -107,4 +117,60 @@ message ExecStepTaskOutput {
 	int32 exit_code = 2 [
 		(google.api.field_behavior) = REQUIRED
 	];
+}
+
+message ApplyConfigTask {
+
+	message OSPolicy {
+
+		string id = 1;
+		google.cloud.osconfig.agentendpoint.v1.OSPolicy.Mode mode = 2;
+		string os_policy_assignment = 3 [
+			(google.api.resource_reference) = {
+				type: "osconfig.googleapis.com/OSPolicyAssignment"
+			}
+		];
+		repeated google.cloud.osconfig.agentendpoint.v1.OSPolicy.Resource resources = 4;
+	}
+
+	repeated OSPolicy os_policies = 1;
+}
+
+message ApplyConfigTaskProgress {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		STARTED = 1;
+		APPLYING_CONFIG = 2;
+	}
+
+	State state = 1;
+}
+
+message ApplyConfigTaskOutput {
+
+	message OSPolicyResult {
+
+		string os_policy_id = 1;
+		string os_policy_assignment = 2 [
+			(google.api.resource_reference) = {
+				type: "osconfig.googleapis.com/OSPolicyAssignment"
+			}
+		];
+		repeated google.cloud.osconfig.agentendpoint.v1.OSPolicyResourceCompliance os_policy_resource_compliances = 3;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		SUCCEEDED = 1;
+		FAILED = 2;
+		CANCELLED = 3;
+	}
+
+	State state = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated OSPolicyResult os_policy_results = 2;
 }

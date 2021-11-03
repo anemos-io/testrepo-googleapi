@@ -1,0 +1,323 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "StudyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message Study {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Study"
+		pattern: ["projects/{project}/locations/{location}/studies/{study}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		INACTIVE = 2;
+		COMPLETED = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	StudySpec study_spec = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string inactive_reason = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Trial {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Trial"
+		pattern: ["projects/{project}/locations/{location}/studies/{study}/trials/{trial}"]
+	};
+
+	message Parameter {
+
+		string parameter_id = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.protobuf.Value value = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		REQUESTED = 1;
+		ACTIVE = 2;
+		STOPPING = 3;
+		SUCCEEDED = 4;
+		INFEASIBLE = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Parameter parameters = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Measurement final_measurement = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Measurement measurements = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string client_id = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string infeasible_reason = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string custom_job = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/CustomJob"
+		}
+	];
+	map<string, string> web_access_uris = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message StudySpec {
+
+	message MetricSpec {
+
+		enum GoalType {
+
+			GOAL_TYPE_UNSPECIFIED = 0;
+			MAXIMIZE = 1;
+			MINIMIZE = 2;
+		}
+
+		string metric_id = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		GoalType goal = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message ParameterSpec {
+
+		message DoubleValueSpec {
+
+			double min_value = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			double max_value = 2 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			oneof _default_value {
+				double default_value = 4;
+			}
+		}
+
+		message IntegerValueSpec {
+
+			int64 min_value = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			int64 max_value = 2 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			oneof _default_value {
+				int64 default_value = 4;
+			}
+		}
+
+		message CategoricalValueSpec {
+
+			repeated string values = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			oneof _default_value {
+				string default_value = 3;
+			}
+		}
+
+		message DiscreteValueSpec {
+
+			repeated double values = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			oneof _default_value {
+				double default_value = 3;
+			}
+		}
+
+		message ConditionalParameterSpec {
+
+			message DiscreteValueCondition {
+
+				repeated double values = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			message IntValueCondition {
+
+				repeated int64 values = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			message CategoricalValueCondition {
+
+				repeated string values = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			oneof parent_value_condition {
+				DiscreteValueCondition parent_discrete_values = 2;
+				IntValueCondition parent_int_values = 3;
+				CategoricalValueCondition parent_categorical_values = 4;
+			}
+			ParameterSpec parameter_spec = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+		}
+
+		enum ScaleType {
+
+			SCALE_TYPE_UNSPECIFIED = 0;
+			UNIT_LINEAR_SCALE = 1;
+			UNIT_LOG_SCALE = 2;
+			UNIT_REVERSE_LOG_SCALE = 3;
+		}
+
+		oneof parameter_value_spec {
+			DoubleValueSpec double_value_spec = 2;
+			IntegerValueSpec integer_value_spec = 3;
+			CategoricalValueSpec categorical_value_spec = 4;
+			DiscreteValueSpec discrete_value_spec = 5;
+		}
+		string parameter_id = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		ScaleType scale_type = 6;
+		repeated ConditionalParameterSpec conditional_parameter_specs = 10;
+	}
+
+	message DecayCurveAutomatedStoppingSpec {
+
+		bool use_elapsed_duration = 1;
+	}
+
+	message MedianAutomatedStoppingSpec {
+
+		bool use_elapsed_duration = 1;
+	}
+
+	message ConvexStopConfig {
+		option deprecated = true;
+
+		int64 max_num_steps = 1;
+		int64 min_num_steps = 2;
+		int64 autoregressive_order = 3;
+		string learning_rate_parameter_name = 4;
+		bool use_seconds = 5;
+	}
+
+	enum Algorithm {
+
+		ALGORITHM_UNSPECIFIED = 0;
+		GRID_SEARCH = 2;
+		RANDOM_SEARCH = 3;
+	}
+
+	enum ObservationNoise {
+
+		OBSERVATION_NOISE_UNSPECIFIED = 0;
+		LOW = 1;
+		HIGH = 2;
+	}
+
+	enum MeasurementSelectionType {
+
+		MEASUREMENT_SELECTION_TYPE_UNSPECIFIED = 0;
+		LAST_MEASUREMENT = 1;
+		BEST_MEASUREMENT = 2;
+	}
+
+	oneof automated_stopping_spec {
+		DecayCurveAutomatedStoppingSpec decay_curve_stopping_spec = 4;
+		MedianAutomatedStoppingSpec median_automated_stopping_spec = 5;
+		ConvexStopConfig convex_stop_config = 8 [
+			deprecated = true
+		];
+	}
+	repeated MetricSpec metrics = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ParameterSpec parameters = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Algorithm algorithm = 3;
+	ObservationNoise observation_noise = 6;
+	MeasurementSelectionType measurement_selection_type = 7;
+}
+
+message Measurement {
+
+	message Metric {
+
+		string metric_id = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		double value = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	google.protobuf.Duration elapsed_duration = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 step_count = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Metric metrics = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

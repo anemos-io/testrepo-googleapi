@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.apps.script.type.sheets;
+
+import "google/api/field_behavior.proto";
+import "google/apps/script/type/extension_point.proto";
+
+option java_package = "com.google.apps.script.type.sheets";
+option java_outer_classname = "SheetsAddOnManifestProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/script/type/sheets";
+option csharp_namespace = "Google.Apps.Script.Type.Sheets";
+option php_namespace = "Google\\Apps\\Script\\Type\\Sheets";
+option ruby_package = "Google::Apps::Script::Type::Sheets";
+
+
+message SheetsAddOnManifest {
+
+	google.apps.script.type.HomepageExtensionPoint homepage_trigger = 3;
+	SheetsExtensionPoint on_file_scope_granted_trigger = 5;
+}
+
+message SheetsExtensionPoint {
+
+	string run_function = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

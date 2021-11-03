@@ -1,0 +1,280 @@
+syntax = "proto3";
+
+package google.cloud.iap.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.iap.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/iap/v1;iap";
+option csharp_namespace = "Google.Cloud.Iap.V1";
+option php_namespace = "Google\\Cloud\\Iap\\V1";
+option ruby_package = "Google::Cloud::Iap::V1";
+
+
+service IdentityAwareProxyAdminService {
+	option (google.api.default_host) = "iap.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=**}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=**}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{resource=**}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+	rpc GetIapSettings(google.cloud.iap.v1.GetIapSettingsRequest) returns (google.cloud.iap.v1.IapSettings) {
+		option (google.api.http) = {
+			get: "/v1/{name=**}:iapSettings"
+		};
+
+	}
+	rpc UpdateIapSettings(google.cloud.iap.v1.UpdateIapSettingsRequest) returns (google.cloud.iap.v1.IapSettings) {
+		option (google.api.http) = {
+			patch: "/v1/{iap_settings.name=**}:iapSettings"
+			body: "iap_settings"
+		};
+
+	}
+}
+
+service IdentityAwareProxyOAuthService {
+	option (google.api.default_host) = "iap.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListBrands(google.cloud.iap.v1.ListBrandsRequest) returns (google.cloud.iap.v1.ListBrandsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/brands"
+		};
+
+	}
+	rpc CreateBrand(google.cloud.iap.v1.CreateBrandRequest) returns (google.cloud.iap.v1.Brand) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/brands"
+			body: "brand"
+		};
+
+	}
+	rpc GetBrand(google.cloud.iap.v1.GetBrandRequest) returns (google.cloud.iap.v1.Brand) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/brands/*}"
+		};
+
+	}
+	rpc CreateIdentityAwareProxyClient(google.cloud.iap.v1.CreateIdentityAwareProxyClientRequest) returns (google.cloud.iap.v1.IdentityAwareProxyClient) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/brands/*}/identityAwareProxyClients"
+			body: "identity_aware_proxy_client"
+		};
+
+	}
+	rpc ListIdentityAwareProxyClients(google.cloud.iap.v1.ListIdentityAwareProxyClientsRequest) returns (google.cloud.iap.v1.ListIdentityAwareProxyClientsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/brands/*}/identityAwareProxyClients"
+		};
+
+	}
+	rpc GetIdentityAwareProxyClient(google.cloud.iap.v1.GetIdentityAwareProxyClientRequest) returns (google.cloud.iap.v1.IdentityAwareProxyClient) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/brands/*/identityAwareProxyClients/*}"
+		};
+
+	}
+	rpc ResetIdentityAwareProxyClientSecret(google.cloud.iap.v1.ResetIdentityAwareProxyClientSecretRequest) returns (google.cloud.iap.v1.IdentityAwareProxyClient) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/brands/*/identityAwareProxyClients/*}:resetSecret"
+			body: "*"
+		};
+
+	}
+	rpc DeleteIdentityAwareProxyClient(google.cloud.iap.v1.DeleteIdentityAwareProxyClientRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/brands/*/identityAwareProxyClients/*}"
+		};
+
+	}
+}
+
+message GetIapSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateIapSettingsRequest {
+
+	IapSettings iap_settings = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message IapSettings {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	AccessSettings access_settings = 5;
+	ApplicationSettings application_settings = 6;
+}
+
+message AccessSettings {
+
+	GcipSettings gcip_settings = 1;
+	CorsSettings cors_settings = 2;
+	OAuthSettings oauth_settings = 3;
+}
+
+message GcipSettings {
+
+	repeated string tenant_ids = 1;
+	google.protobuf.StringValue login_page_uri = 2;
+}
+
+message CorsSettings {
+
+	google.protobuf.BoolValue allow_http_options = 1;
+}
+
+message OAuthSettings {
+
+	google.protobuf.StringValue login_hint = 2;
+}
+
+message ApplicationSettings {
+
+	CsmSettings csm_settings = 1;
+	AccessDeniedPageSettings access_denied_page_settings = 2;
+	google.protobuf.StringValue cookie_domain = 3;
+}
+
+message CsmSettings {
+
+	google.protobuf.StringValue rctoken_aud = 1;
+}
+
+message AccessDeniedPageSettings {
+
+	google.protobuf.StringValue access_denied_page_uri = 1;
+	google.protobuf.BoolValue generate_troubleshooting_uri = 2;
+}
+
+message ListBrandsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListBrandsResponse {
+
+	repeated Brand brands = 1;
+}
+
+message CreateBrandRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Brand brand = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetBrandRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListIdentityAwareProxyClientsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListIdentityAwareProxyClientsResponse {
+
+	repeated IdentityAwareProxyClient identity_aware_proxy_clients = 1;
+	string next_page_token = 2;
+}
+
+message CreateIdentityAwareProxyClientRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	IdentityAwareProxyClient identity_aware_proxy_client = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetIdentityAwareProxyClientRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ResetIdentityAwareProxyClientSecretRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteIdentityAwareProxyClientRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Brand {
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string support_email = 2;
+	string application_title = 3;
+	bool org_internal_only = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message IdentityAwareProxyClient {
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string secret = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 3;
+}

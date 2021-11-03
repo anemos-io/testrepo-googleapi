@@ -5,12 +5,12 @@ package google.cloud.speech.v1p1beta1;
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
-import "google/api/resource.proto";
 import "google/cloud/speech/v1p1beta1/resource.proto";
 import "google/longrunning/operations.proto";
 import "google/protobuf/any.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "google/rpc/status.proto";
 
 option java_package = "com.google.cloud.speech.v1p1beta1";
@@ -66,6 +66,16 @@ message LongRunningRecognizeRequest {
 	RecognitionAudio audio = 2 [
 		(google.api.field_behavior) = REQUIRED
 	];
+	TranscriptOutputConfig output_config = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TranscriptOutputConfig {
+
+	oneof output_type {
+		string gcs_uri = 1;
+	}
 }
 
 message StreamingRecognizeRequest {
@@ -98,6 +108,7 @@ message RecognitionConfig {
 		OGG_OPUS = 6;
 		SPEEX_WITH_HEADER_BYTE = 7;
 		MP3 = 8;
+		WEBM_OPUS = 9;
 	}
 
 	AudioEncoding encoding = 1;
@@ -111,10 +122,13 @@ message RecognitionConfig {
 	int32 max_alternatives = 4;
 	bool profanity_filter = 5;
 	google.cloud.speech.v1p1beta1.SpeechAdaptation adaptation = 20;
+	google.cloud.speech.v1p1beta1.TranscriptNormalization transcript_normalization = 24;
 	repeated SpeechContext speech_contexts = 6;
 	bool enable_word_time_offsets = 8;
 	bool enable_word_confidence = 15;
 	bool enable_automatic_punctuation = 11;
+	google.protobuf.BoolValue enable_spoken_punctuation = 22;
+	google.protobuf.BoolValue enable_spoken_emojis = 23;
 	bool enable_speaker_diarization = 16 [
 		deprecated = true
 	];
@@ -209,11 +223,15 @@ message RecognitionAudio {
 message RecognizeResponse {
 
 	repeated SpeechRecognitionResult results = 2;
+	google.protobuf.Duration total_billed_time = 3;
 }
 
 message LongRunningRecognizeResponse {
 
 	repeated SpeechRecognitionResult results = 2;
+	google.protobuf.Duration total_billed_time = 3;
+	TranscriptOutputConfig output_config = 6;
+	google.rpc.Status output_error = 7;
 }
 
 message LongRunningRecognizeMetadata {
@@ -222,6 +240,9 @@ message LongRunningRecognizeMetadata {
 	google.protobuf.Timestamp start_time = 2;
 	google.protobuf.Timestamp last_update_time = 3;
 	string uri = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	TranscriptOutputConfig output_config = 5 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 }
@@ -237,6 +258,7 @@ message StreamingRecognizeResponse {
 	google.rpc.Status error = 1;
 	repeated StreamingRecognitionResult results = 2;
 	SpeechEventType speech_event_type = 4;
+	google.protobuf.Duration total_billed_time = 5;
 }
 
 message StreamingRecognitionResult {

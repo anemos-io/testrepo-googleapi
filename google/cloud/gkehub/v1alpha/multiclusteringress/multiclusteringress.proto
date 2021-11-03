@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.cloud.gkehub.multiclusteringress.v1alpha;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.gkehub.multiclusteringress.v1alpha";
+option java_outer_classname = "MultiClusterIngressProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkehub/multiclusteringress/v1alpha;multiclusteringress";
+option csharp_namespace = "Google.Cloud.GkeHub.MultiClusterIngress.V1Alpha";
+option php_namespace = "Google\\Cloud\\GkeHub\\MultiClusterIngress\\V1alpha";
+option ruby_package = "Google::Cloud::GkeHub::MultiClusterIngress::V1alpha";
+
+
+enum Billing {
+
+	BILLING_UNSPECIFIED = 0;
+	PAY_AS_YOU_GO = 1;
+	ANTHOS_LICENSE = 2;
+}
+
+message FeatureSpec {
+
+	string config_membership = 1;
+	Billing billing = 2;
+}

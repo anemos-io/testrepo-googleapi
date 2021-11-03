@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.cloud.essentialcontacts.v1;
+
+option java_package = "com.google.cloud.essentialcontacts.v1";
+option java_outer_classname = "EnumsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/essentialcontacts/v1;essentialcontacts";
+option csharp_namespace = "Google.Cloud.EssentialContacts.V1";
+option php_namespace = "Google\\Cloud\\EssentialContacts\\V1";
+option ruby_package = "Google::Cloud::EssentialContacts::V1";
+
+
+enum NotificationCategory {
+
+	NOTIFICATION_CATEGORY_UNSPECIFIED = 0;
+	ALL = 2;
+	SUSPENSION = 3;
+	SECURITY = 5;
+	TECHNICAL = 6;
+	BILLING = 7;
+	LEGAL = 8;
+	PRODUCT_UPDATES = 9;
+	TECHNICAL_INCIDENTS = 10;
+}
+
+enum ValidationState {
+
+	VALIDATION_STATE_UNSPECIFIED = 0;
+	VALID = 1;
+	INVALID = 2;
+}

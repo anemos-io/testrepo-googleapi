@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.monitoring.metricsscope.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.monitoring.metricsscope.v1";
+option java_outer_classname = "MetricsScopeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/metricsscope/v1;metricsscope";
+option csharp_namespace = "Google.Cloud.Monitoring.MetricsScope.V1";
+option php_namespace = "Google\\Cloud\\Monitoring\\MetricsScope\\V1";
+option ruby_package = "Google::Cloud::Monitoring::MetricsScope::V1";
+
+
+message MetricsScope {
+	option (google.api.resource) = {
+		type: "monitoring.googleapis.com/MetricsScope"
+		pattern: ["locations/global/metricsScope/{metrics_scope}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated MonitoredProject monitored_projects = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message MonitoredProject {
+	option (google.api.resource) = {
+		type: "monitoring.googleapis.com/MonitoredProject"
+		pattern: ["locations/global/metricsScopes/{metrics_scope}/projects/{project}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

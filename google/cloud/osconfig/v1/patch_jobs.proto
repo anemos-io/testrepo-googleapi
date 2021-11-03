@@ -4,6 +4,7 @@ package google.cloud.osconfig.v1;
 
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "google/cloud/osconfig/v1/osconfig_common.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -31,6 +32,7 @@ message ExecutePatchJobRequest {
 	google.protobuf.Duration duration = 5;
 	bool dry_run = 6;
 	string display_name = 8;
+	PatchRollout rollout = 9;
 }
 
 message GetPatchJobRequest {
@@ -150,6 +152,7 @@ message PatchJob {
 			type: "osconfig.googleapis.com/PatchDeployment"
 		}
 	];
+	PatchRollout rollout = 16;
 }
 
 message PatchConfig {
@@ -311,4 +314,17 @@ message PatchInstanceFilter {
 	repeated string zones = 3;
 	repeated string instances = 4;
 	repeated string instance_name_prefixes = 5;
+}
+
+message PatchRollout {
+
+	enum Mode {
+
+		MODE_UNSPECIFIED = 0;
+		ZONE_BY_ZONE = 1;
+		CONCURRENT_ZONES = 2;
+	}
+
+	Mode mode = 1;
+	google.cloud.osconfig.v1.FixedOrPercent disruption_budget = 2;
 }

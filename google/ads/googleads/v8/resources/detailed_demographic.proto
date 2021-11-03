@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/common/criterion_category_availability.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "DetailedDemographicProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message DetailedDemographic {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/DetailedDemographic"
+		pattern: ["customers/{customer_id}/detailedDemographics/{detailed_demographic_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/DetailedDemographic"
+		}
+	];
+	int64 id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string name = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string parent = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/DetailedDemographic"
+		}
+	];
+	bool launched_to_all = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.ads.googleads.v8.common.CriterionCategoryAvailability availabilities = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

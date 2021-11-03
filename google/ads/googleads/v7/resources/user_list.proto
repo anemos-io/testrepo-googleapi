@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.resources;
+
+import "google/ads/googleads/v7/common/user_lists.proto";
+import "google/ads/googleads/v7/enums/access_reason.proto";
+import "google/ads/googleads/v7/enums/user_list_access_status.proto";
+import "google/ads/googleads/v7/enums/user_list_closing_reason.proto";
+import "google/ads/googleads/v7/enums/user_list_membership_status.proto";
+import "google/ads/googleads/v7/enums/user_list_size_range.proto";
+import "google/ads/googleads/v7/enums/user_list_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.resources";
+option java_outer_classname = "UserListProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V7::Resources";
+
+
+message UserList {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/UserList"
+		pattern: ["customers/{customer_id}/userLists/{user_list_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/UserList"
+		}
+	];
+	oneof _id {
+		int64 id = 25 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _read_only {
+		bool read_only = 26 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 27;
+	}
+	oneof _description {
+		string description = 28;
+	}
+	google.ads.googleads.v7.enums.UserListMembershipStatusEnum.UserListMembershipStatus membership_status = 6;
+	oneof _integration_code {
+		string integration_code = 29;
+	}
+	oneof _membership_life_span {
+		int64 membership_life_span = 30;
+	}
+	oneof _size_for_display {
+		int64 size_for_display = 31 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v7.enums.UserListSizeRangeEnum.UserListSizeRange size_range_for_display = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _size_for_search {
+		int64 size_for_search = 32 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v7.enums.UserListSizeRangeEnum.UserListSizeRange size_range_for_search = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v7.enums.UserListTypeEnum.UserListType type = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v7.enums.UserListClosingReasonEnum.UserListClosingReason closing_reason = 14;
+	google.ads.googleads.v7.enums.AccessReasonEnum.AccessReason access_reason = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v7.enums.UserListAccessStatusEnum.UserListAccessStatus account_user_list_status = 16;
+	oneof _eligible_for_search {
+		bool eligible_for_search = 33;
+	}
+	oneof _eligible_for_display {
+		bool eligible_for_display = 34 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _match_rate_percentage {
+		int32 match_rate_percentage = 24 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof user_list {
+		google.ads.googleads.v7.common.CrmBasedUserListInfo crm_based_user_list = 19;
+		google.ads.googleads.v7.common.SimilarUserListInfo similar_user_list = 20 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v7.common.RuleBasedUserListInfo rule_based_user_list = 21;
+		google.ads.googleads.v7.common.LogicalUserListInfo logical_user_list = 22;
+		google.ads.googleads.v7.common.BasicUserListInfo basic_user_list = 23;
+	}
+}

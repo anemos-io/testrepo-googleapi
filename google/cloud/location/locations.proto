@@ -4,6 +4,7 @@ package google.cloud.location;
 
 import "google/api/annotations.proto";
 import "google/protobuf/any.proto";
+import "google/api/client.proto";
 
 option java_package = "com.google.cloud.location";
 option java_outer_classname = "LocationsProto";
@@ -13,16 +14,24 @@ option cc_enable_arenas = true;
 
 
 service Locations {
+	option (google.api.default_host) = "cloud.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
 
 	rpc ListLocations(google.cloud.location.ListLocationsRequest) returns (google.cloud.location.ListLocationsResponse) {
 		option (google.api.http) = {
-			get: "/v1/{name=projects/*}/locations"
+			get: "/v1/{name=locations}"
+			additional_bindings: {
+				get: "/v1/{name=projects/*}/locations"
+			}
 		};
 
 	}
 	rpc GetLocation(google.cloud.location.GetLocationRequest) returns (google.cloud.location.Location) {
 		option (google.api.http) = {
-			get: "/v1/{name=projects/*/locations/*}"
+			get: "/v1/{name=locations/*}"
+			additional_bindings: {
+				get: "/v1/{name=projects/*/locations/*}"
+			}
 		};
 
 	}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package google.type;
+
+option java_package = "com.google.type";
+option java_outer_classname = "LocalizedTextProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/type/localized_text;localized_text";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GTP";
+
+
+message LocalizedText {
+
+	string text = 1;
+	string language_code = 2;
+}

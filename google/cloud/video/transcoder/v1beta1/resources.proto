@@ -5,6 +5,7 @@ package google.cloud.video.transcoder.v1beta1;
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
 option java_package = "com.google.cloud.video.transcoder.v1beta1";
 option java_outer_classname = "ResourcesProto";
@@ -62,6 +63,16 @@ message Job {
 	repeated FailureDetail failure_details = 11 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
+	google.protobuf.Timestamp create_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 ttl_after_completion_days = 15;
 }
 
 message JobTemplate {
@@ -176,6 +187,7 @@ message SpriteSheet {
 		int32 total_count = 9;
 		google.protobuf.Duration interval = 10;
 	}
+	int32 quality = 11;
 }
 
 message Overlay {
@@ -264,10 +276,28 @@ message PreprocessingConfig {
 		bool low_boost = 3;
 	}
 
+	message Crop {
+
+		int32 top_pixels = 1;
+		int32 bottom_pixels = 2;
+		int32 left_pixels = 3;
+		int32 right_pixels = 4;
+	}
+
+	message Pad {
+
+		int32 top_pixels = 1;
+		int32 bottom_pixels = 2;
+		int32 left_pixels = 3;
+		int32 right_pixels = 4;
+	}
+
 	Color color = 1;
 	Denoise denoise = 2;
 	Deblock deblock = 3;
 	Audio audio = 4;
+	Crop crop = 5;
+	Pad pad = 6;
 }
 
 message VideoStream {
@@ -276,12 +306,8 @@ message VideoStream {
 	string profile = 2;
 	string tune = 3;
 	string preset = 4;
-	int32 height_pixels = 5 [
-		(google.api.field_behavior) = REQUIRED
-	];
-	int32 width_pixels = 6 [
-		(google.api.field_behavior) = REQUIRED
-	];
+	int32 height_pixels = 5;
+	int32 width_pixels = 6;
 	string pixel_format = 7;
 	int32 bitrate_bps = 8 [
 		(google.api.field_behavior) = REQUIRED

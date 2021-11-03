@@ -2,14 +2,20 @@ syntax = "proto3";
 
 package google.devtools.resultstore.v2;
 
+import "google/api/resource.proto";
 import "google/devtools/resultstore/v2/file.proto";
 
 option java_package = "com.google.devtools.resultstore.v2";
+option java_outer_classname = "FileSetProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
 
 
 message FileSet {
+	option (google.api.resource) = {
+		type: "resultstore.googleapis.com/FileSet"
+		pattern: ["invocations/{invocation}/fileSets/{file_set}"]
+	};
 
 	message Id {
 

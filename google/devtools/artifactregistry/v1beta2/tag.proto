@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.devtools.artifactregistry.v1beta2;
+
+import "google/protobuf/field_mask.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.artifactregistry.v1beta2";
+option java_outer_classname = "TagProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/artifactregistry/v1beta2;artifactregistry";
+option csharp_namespace = "Google.Cloud.ArtifactRegistry.V1Beta2";
+option php_namespace = "Google\\Cloud\\ArtifactRegistry\\V1beta2";
+option ruby_package = "Google::Cloud::ArtifactRegistry::V1beta2";
+
+
+message Tag {
+
+	string name = 1;
+	string version = 2;
+}
+
+message ListTagsRequest {
+
+	string parent = 1;
+	string filter = 4;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTagsResponse {
+
+	repeated Tag tags = 1;
+	string next_page_token = 2;
+}
+
+message GetTagRequest {
+
+	string name = 1;
+}
+
+message CreateTagRequest {
+
+	string parent = 1;
+	string tag_id = 2;
+	Tag tag = 3;
+}
+
+message UpdateTagRequest {
+
+	Tag tag = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteTagRequest {
+
+	string name = 1;
+}

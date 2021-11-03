@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1";
+option java_outer_classname = "CloudSqlTiersProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1;sql";
+
+
+service SqlTiersService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc List(google.cloud.sql.v1.SqlTiersListRequest) returns (google.cloud.sql.v1.TiersListResponse) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/tiers"
+		};
+
+	}
+}
+
+message SqlTiersListRequest {
+
+	string project = 1;
+}
+
+message TiersListResponse {
+
+	string kind = 1;
+	repeated Tier items = 2;
+}
+
+message Tier {
+
+	string tier = 1;
+	int64 RAM = 2;
+	string kind = 3;
+	int64 Disk_Quota = 4;
+	repeated string region = 5;
+}

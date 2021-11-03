@@ -214,7 +214,7 @@ message GetInstanceRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 }
@@ -252,7 +252,7 @@ message DeleteInstanceRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 }
@@ -262,7 +262,7 @@ message CreateClusterRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 	string cluster_id = 2 [
@@ -278,7 +278,7 @@ message GetClusterRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Cluster"
+			type: "bigtableadmin.googleapis.com/Cluster"
 		}
 	];
 }
@@ -288,7 +288,7 @@ message ListClustersRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 	string page_token = 2;
@@ -306,7 +306,7 @@ message DeleteClusterRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Cluster"
+			type: "bigtableadmin.googleapis.com/Cluster"
 		}
 	];
 }
@@ -344,7 +344,7 @@ message CreateAppProfileRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 	string app_profile_id = 2 [
@@ -361,7 +361,7 @@ message GetAppProfileRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/AppProfile"
+			type: "bigtableadmin.googleapis.com/AppProfile"
 		}
 	];
 }
@@ -371,7 +371,7 @@ message ListAppProfilesRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 	int32 page_size = 3;
@@ -401,10 +401,12 @@ message DeleteAppProfileRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/AppProfile"
+			type: "bigtableadmin.googleapis.com/AppProfile"
 		}
 	];
-	bool ignore_warnings = 2;
+	bool ignore_warnings = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
 }
 
 message UpdateAppProfileMetadata {

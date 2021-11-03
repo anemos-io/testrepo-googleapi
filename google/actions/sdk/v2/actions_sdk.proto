@@ -1,0 +1,298 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+import "google/actions/sdk/v2/account_linking_secret.proto";
+import "google/actions/sdk/v2/files.proto";
+import "google/actions/sdk/v2/release_channel.proto";
+import "google/actions/sdk/v2/validation_results.proto";
+import "google/actions/sdk/v2/version.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "ActionsSdkProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+service ActionsSdk {
+	option (google.api.default_host) = "actions.googleapis.com";
+
+	rpc WriteDraft(stream google.actions.sdk.v2.WriteDraftRequest) returns (google.actions.sdk.v2.Draft) {
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/draft:write"
+			body: "*"
+		};
+
+	}
+	rpc WritePreview(stream google.actions.sdk.v2.WritePreviewRequest) returns (google.actions.sdk.v2.Preview) {
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/preview:write"
+			body: "*"
+		};
+
+	}
+	rpc CreateVersion(stream google.actions.sdk.v2.CreateVersionRequest) returns (google.actions.sdk.v2.Version) {
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/versions:create"
+			body: "*"
+		};
+
+	}
+	rpc ReadDraft(google.actions.sdk.v2.ReadDraftRequest) returns (stream google.actions.sdk.v2.ReadDraftResponse) {
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*/draft}:read"
+			body: "*"
+		};
+
+	}
+	rpc ReadVersion(google.actions.sdk.v2.ReadVersionRequest) returns (stream google.actions.sdk.v2.ReadVersionResponse) {
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*/versions/*}:read"
+			body: "*"
+		};
+
+	}
+	rpc EncryptSecret(google.actions.sdk.v2.EncryptSecretRequest) returns (google.actions.sdk.v2.EncryptSecretResponse) {
+		option (google.api.http) = {
+			post: "/v2:encryptSecret"
+			body: "*"
+		};
+
+	}
+	rpc DecryptSecret(google.actions.sdk.v2.DecryptSecretRequest) returns (google.actions.sdk.v2.DecryptSecretResponse) {
+		option (google.api.http) = {
+			post: "/v2:decryptSecret"
+			body: "*"
+		};
+
+	}
+	rpc ListSampleProjects(google.actions.sdk.v2.ListSampleProjectsRequest) returns (google.actions.sdk.v2.ListSampleProjectsResponse) {
+		option (google.api.http) = {
+			get: "/v2/sampleProjects"
+		};
+
+	}
+	rpc ListReleaseChannels(google.actions.sdk.v2.ListReleaseChannelsRequest) returns (google.actions.sdk.v2.ListReleaseChannelsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/releaseChannels"
+		};
+
+	}
+	rpc ListVersions(google.actions.sdk.v2.ListVersionsRequest) returns (google.actions.sdk.v2.ListVersionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/versions"
+		};
+
+	}
+}
+
+message WriteDraftRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "actions.googleapis.com/Draft"
+		}
+	];
+	google.actions.sdk.v2.Files files = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Draft {
+	option (google.api.resource) = {
+		type: "actions.googleapis.com/Draft"
+		pattern: ["projects/{project}/draft"]
+	};
+
+	string name = 1;
+	google.actions.sdk.v2.ValidationResults validation_results = 2;
+}
+
+message WritePreviewRequest {
+
+	message ContentFromDraft {
+
+	}
+
+	message ContentFromSubmittedVersion {
+
+		string version = 1 [
+			(google.api.field_behavior) = REQUIRED
+			(google.api.resource_reference) = {
+				type: "actions.googleapis.com/Version"
+			}
+		];
+	}
+
+	message PreviewSettings {
+
+		google.protobuf.BoolValue sandbox = 1;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "actions.googleapis.com/Preview"
+		}
+	];
+	oneof source {
+		google.actions.sdk.v2.Files files = 5;
+		ContentFromDraft draft = 6;
+		ContentFromSubmittedVersion submitted_version = 7;
+	}
+	PreviewSettings preview_settings = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Preview {
+	option (google.api.resource) = {
+		type: "actions.googleapis.com/Preview"
+		pattern: ["projects/{project}/previews/{preview}"]
+	};
+
+	string name = 1;
+	google.actions.sdk.v2.ValidationResults validation_results = 2;
+	string simulator_url = 3;
+}
+
+message CreateVersionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "actions.googleapis.com/Version"
+		}
+	];
+	google.actions.sdk.v2.Files files = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string release_channel = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ReadDraftRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string client_secret_encryption_key_version = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ReadDraftResponse {
+
+	google.actions.sdk.v2.Files files = 3;
+}
+
+message ReadVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string client_secret_encryption_key_version = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ReadVersionResponse {
+
+	google.actions.sdk.v2.Files files = 1;
+}
+
+message EncryptSecretRequest {
+
+	string client_secret = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message EncryptSecretResponse {
+
+	google.actions.sdk.v2.AccountLinkingSecret account_linking_secret = 1;
+}
+
+message DecryptSecretRequest {
+
+	bytes encrypted_client_secret = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DecryptSecretResponse {
+
+	string client_secret = 1;
+}
+
+message ListSampleProjectsRequest {
+
+	int32 page_size = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListSampleProjectsResponse {
+
+	repeated SampleProject sample_projects = 1;
+	string next_page_token = 2;
+}
+
+message SampleProject {
+	option (google.api.resource) = {
+		type: "actions.googleapis.com/SampleProject"
+		pattern: ["sampleProjects/{sample_project}"]
+	};
+
+	string name = 1;
+	string hosted_url = 2;
+	string description = 3;
+}
+
+message ListReleaseChannelsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "actions.googleapis.com/ReleaseChannel"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListReleaseChannelsResponse {
+
+	repeated google.actions.sdk.v2.ReleaseChannel release_channels = 1;
+	string next_page_token = 2;
+}
+
+message ListVersionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "actions.googleapis.com/Version"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListVersionsResponse {
+
+	repeated google.actions.sdk.v2.Version versions = 1;
+	string next_page_token = 2;
+}

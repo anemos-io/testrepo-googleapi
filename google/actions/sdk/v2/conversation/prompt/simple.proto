@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "SimpleProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Simple {
+
+	string speech = 1;
+	string text = 2;
+}

@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/value.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "ContextProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message Context {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Context"
+		pattern: ["projects/{project}/locations/{location}/metadataStores/{metadata_store}/contexts/{context}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2;
+	string etag = 8;
+	map<string, string> labels = 9;
+	google.protobuf.Timestamp create_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string parent_contexts = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Context"
+		}
+	];
+	string schema_title = 13;
+	string schema_version = 14;
+	google.protobuf.Struct metadata = 15;
+	string description = 16;
+}

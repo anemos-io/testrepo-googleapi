@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.errors";
+option java_outer_classname = "ConversionValueRuleErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V8::Errors";
+
+
+message ConversionValueRuleErrorEnum {
+
+	enum ConversionValueRuleError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		INVALID_GEO_TARGET_CONSTANT = 2;
+		CONFLICTING_INCLUDED_AND_EXCLUDED_GEO_TARGET = 3;
+		CONFLICTING_CONDITIONS = 4;
+		CANNOT_REMOVE_IF_INCLUDED_IN_VALUE_RULE_SET = 5;
+		CONDITION_NOT_ALLOWED = 6;
+		FIELD_MUST_BE_UNSET = 7;
+		CANNOT_PAUSE_UNLESS_VALUE_RULE_SET_IS_PAUSED = 8;
+		UNTARGETABLE_GEO_TARGET = 9;
+		INVALID_AUDIENCE_USER_LIST = 10;
+		INACCESSIBLE_USER_LIST = 11;
+		INVALID_AUDIENCE_USER_INTEREST = 12;
+		CANNOT_ADD_RULE_WITH_STATUS_REMOVED = 13;
+	}
+
+}

@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1/io.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "DatasetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message Dataset {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Dataset"
+		pattern: ["projects/{project}/locations/{location}/datasets/{dataset}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 16 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string metadata_schema_uri = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Value metadata = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string etag = 6;
+	map<string, string> labels = 7;
+	google.cloud.aiplatform.v1.EncryptionSpec encryption_spec = 11;
+}
+
+message ImportDataConfig {
+
+	oneof source {
+		google.cloud.aiplatform.v1.GcsSource gcs_source = 1;
+	}
+	map<string, string> data_item_labels = 2;
+	string import_schema_uri = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportDataConfig {
+
+	oneof destination {
+		google.cloud.aiplatform.v1.GcsDestination gcs_destination = 1;
+	}
+	string annotations_filter = 2;
+}

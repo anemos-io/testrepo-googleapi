@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.networking.trafficdirector.type;
+
+option java_package = "com.google.networking.trafficdirector.type";
+option java_outer_classname = "TrafficDirectorLogEntryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/networking/trafficdirector/type";
+option objc_class_prefix = "TRFCD";
+option csharp_namespace = "Google.Cloud.Networking.TrafficDirector.Type";
+option php_namespace = "Google\\Cloud\\Networking\\TrafficDirector\\Type";
+option ruby_package = "Google::Cloud::Networking::TrafficDirector::Type";
+
+
+message TrafficDirectorLogEntry {
+
+	enum ClientType {
+
+		CLIENT_TYPE_UNSPECIFIED = 0;
+		ENVOY = 1;
+		GRPC_JAVA = 2;
+		GRPC_CPP = 3;
+		GRPC_PYTHON = 4;
+		GRPC_GO = 5;
+		GRPC_RUBY = 6;
+		GRPC_PHP = 7;
+		GRPC_NODE = 8;
+		GRPC_CSHARP = 9;
+		UNKNOWN = 10;
+	}
+
+	enum TransportApiVersion {
+
+		TRANSPORT_API_VERSION_UNSPECIFIED = 0;
+		V2 = 1;
+		V3 = 2;
+	}
+
+	string node_id = 1;
+	string node_ip = 2;
+	string description = 4;
+	ClientType client_type = 5;
+	string client_version = 6;
+	TransportApiVersion transport_api_version = 7;
+}

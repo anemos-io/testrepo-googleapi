@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/common/custom_parameter.proto";
+import "google/ads/googleads/v8/common/explorer_auto_optimizer_setting.proto";
+import "google/ads/googleads/v8/common/targeting_setting.proto";
+import "google/ads/googleads/v8/enums/ad_group_ad_rotation_mode.proto";
+import "google/ads/googleads/v8/enums/ad_group_status.proto";
+import "google/ads/googleads/v8/enums/ad_group_type.proto";
+import "google/ads/googleads/v8/enums/asset_field_type.proto";
+import "google/ads/googleads/v8/enums/bidding_source.proto";
+import "google/ads/googleads/v8/enums/targeting_dimension.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "AdGroupProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message AdGroup {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AdGroup"
+		pattern: ["customers/{customer_id}/adGroups/{ad_group_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroup"
+		}
+	];
+	oneof _id {
+		int64 id = 34 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 35;
+	}
+	google.ads.googleads.v8.enums.AdGroupStatusEnum.AdGroupStatus status = 5;
+	google.ads.googleads.v8.enums.AdGroupTypeEnum.AdGroupType type = 12 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v8.enums.AdGroupAdRotationModeEnum.AdGroupAdRotationMode ad_rotation_mode = 22;
+	oneof _base_ad_group {
+		string base_ad_group = 36 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroup"
+			}
+		];
+	}
+	oneof _tracking_url_template {
+		string tracking_url_template = 37;
+	}
+	repeated google.ads.googleads.v8.common.CustomParameter url_custom_parameters = 6;
+	oneof _campaign {
+		string campaign = 38 [
+			(google.api.field_behavior) = IMMUTABLE
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Campaign"
+			}
+		];
+	}
+	oneof _cpc_bid_micros {
+		int64 cpc_bid_micros = 39;
+	}
+	oneof _cpm_bid_micros {
+		int64 cpm_bid_micros = 40;
+	}
+	oneof _target_cpa_micros {
+		int64 target_cpa_micros = 41;
+	}
+	oneof _cpv_bid_micros {
+		int64 cpv_bid_micros = 42 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _target_cpm_micros {
+		int64 target_cpm_micros = 43;
+	}
+	oneof _target_roas {
+		double target_roas = 44;
+	}
+	oneof _percent_cpc_bid_micros {
+		int64 percent_cpc_bid_micros = 45;
+	}
+	google.ads.googleads.v8.common.ExplorerAutoOptimizerSetting explorer_auto_optimizer_setting = 21;
+	google.ads.googleads.v8.enums.TargetingDimensionEnum.TargetingDimension display_custom_bid_dimension = 23;
+	oneof _final_url_suffix {
+		string final_url_suffix = 46;
+	}
+	google.ads.googleads.v8.common.TargetingSetting targeting_setting = 25;
+	oneof _effective_target_cpa_micros {
+		int64 effective_target_cpa_micros = 47 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v8.enums.BiddingSourceEnum.BiddingSource effective_target_cpa_source = 29 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _effective_target_roas {
+		double effective_target_roas = 48 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v8.enums.BiddingSourceEnum.BiddingSource effective_target_roas_source = 32 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string labels = 49 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupLabel"
+		}
+	];
+	repeated google.ads.googleads.v8.enums.AssetFieldTypeEnum.AssetFieldType excluded_parent_asset_field_types = 54;
+}

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.spanner.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.spanner.v1";
+option java_outer_classname = "CommitResponseProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/v1;spanner";
+option csharp_namespace = "Google.Cloud.Spanner.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\V1";
+option ruby_package = "Google::Cloud::Spanner::V1";
+
+
+message CommitResponse {
+
+	message CommitStats {
+
+		int64 mutation_count = 1;
+	}
+
+	google.protobuf.Timestamp commit_timestamp = 1;
+	CommitStats commit_stats = 2;
+}

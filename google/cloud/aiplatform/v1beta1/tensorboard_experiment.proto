@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "TensorboardExperimentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message TensorboardExperiment {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/TensorboardExperiment"
+		pattern: ["projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2;
+	string description = 3;
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 6;
+	string etag = 7;
+	string source = 8 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}

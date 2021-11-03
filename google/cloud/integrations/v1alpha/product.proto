@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package google.cloud.integrations.v1alpha;
+
+option java_package = "com.google.cloud.integrations.v1alpha";
+option java_outer_classname = "ProductProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/integrations/v1alpha;integrations";
+
+
+enum Product {
+
+	PRODUCT_UNSPECIFIED = 0;
+	IP = 1;
+	APIGEE = 2;
+	SECURITY = 3;
+}

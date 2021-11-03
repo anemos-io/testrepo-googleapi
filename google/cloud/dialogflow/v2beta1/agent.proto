@@ -132,6 +132,9 @@ service Agents {
 	rpc GetValidationResult(google.cloud.dialogflow.v2beta1.GetValidationResultRequest) returns (google.cloud.dialogflow.v2beta1.ValidationResult) {
 		option (google.api.http) = {
 			get: "/v2beta1/{parent=projects/*}/agent/validationResult"
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*}/agent/validationResult"
+			}
 		};
 
 	}
@@ -163,10 +166,17 @@ message Agent {
 		TIER_UNSPECIFIED = 0;
 		TIER_STANDARD = 1;
 		TIER_ENTERPRISE = 2;
-		TIER_ENTERPRISE_PLUS = 3;
+		TIER_ENTERPRISE_PLUS = 3 [
+			deprecated = true
+		];
 	}
 
-	string parent = 1;
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
 	string display_name = 2;
 	string default_language_code = 3;
 	repeated string supported_language_codes = 4;
@@ -174,7 +184,9 @@ message Agent {
 	string description = 6;
 	string avatar_uri = 7;
 	bool enable_logging = 8;
-	MatchMode match_mode = 9;
+	MatchMode match_mode = 9 [
+		deprecated = true
+	];
 	float classification_threshold = 10;
 	ApiVersion api_version = 14;
 	Tier tier = 15;

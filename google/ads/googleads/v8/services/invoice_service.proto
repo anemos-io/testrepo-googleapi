@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/enums/month_of_year.proto";
+import "google/ads/googleads/v8/resources/invoice.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "InvoiceServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service InvoiceService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc ListInvoices(google.ads.googleads.v8.services.ListInvoicesRequest) returns (google.ads.googleads.v8.services.ListInvoicesResponse) {
+		option (google.api.method_signature) = "customer_id,billing_setup,issue_year,issue_month";
+		option (google.api.http) = {
+			get: "/v8/customers/{customer_id=*}/invoices"
+		};
+
+	}
+}
+
+message ListInvoicesRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string billing_setup = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string issue_year = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.ads.googleads.v8.enums.MonthOfYearEnum.MonthOfYear issue_month = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListInvoicesResponse {
+
+	repeated google.ads.googleads.v8.resources.Invoice invoices = 1;
+}

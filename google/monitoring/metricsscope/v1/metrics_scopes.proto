@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package google.monitoring.metricsscope.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/monitoring/metricsscope/v1/metrics_scope.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.monitoring.metricsscope.v1";
+option java_outer_classname = "MetricsScopesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/metricsscope/v1;metricsscope";
+option csharp_namespace = "Google.Cloud.Monitoring.MetricsScope.V1";
+option php_namespace = "Google\\Cloud\\Monitoring\\MetricsScope\\V1";
+option ruby_package = "Google::Cloud::Monitoring::MetricsScope::V1";
+
+
+service MetricsScopes {
+	option (google.api.default_host) = "monitoring.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/monitoring,https://www.googleapis.com/auth/monitoring.read,https://www.googleapis.com/auth/monitoring.write";
+
+	rpc GetMetricsScope(google.monitoring.metricsscope.v1.GetMetricsScopeRequest) returns (google.monitoring.metricsscope.v1.MetricsScope) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=locations/global/metricsScopes/*}"
+		};
+
+	}
+	rpc ListMetricsScopesByMonitoredProject(google.monitoring.metricsscope.v1.ListMetricsScopesByMonitoredProjectRequest) returns (google.monitoring.metricsscope.v1.ListMetricsScopesByMonitoredProjectResponse) {
+		option (google.api.http) = {
+			get: "/v1/locations/global/metricsScopes:listMetricsScopesByMonitoredProject"
+		};
+
+	}
+	rpc CreateMonitoredProject(google.monitoring.metricsscope.v1.CreateMonitoredProjectRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MonitoredProject"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,monitored_project";
+		option (google.api.http) = {
+			post: "/v1/{parent=locations/global/metricsScopes/*}/projects"
+			body: "monitored_project"
+		};
+
+	}
+	rpc DeleteMonitoredProject(google.monitoring.metricsscope.v1.DeleteMonitoredProjectRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=locations/global/metricsScopes/*/projects/*}"
+		};
+
+	}
+}
+
+message GetMetricsScopeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "monitoring.googleapis.com/MetricsScope"
+		}
+	];
+}
+
+message ListMetricsScopesByMonitoredProjectRequest {
+
+	string monitored_resource_container = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListMetricsScopesByMonitoredProjectResponse {
+
+	repeated google.monitoring.metricsscope.v1.MetricsScope metrics_scopes = 1;
+}
+
+message CreateMonitoredProjectRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "monitoring.googleapis.com/MetricsScope"
+		}
+	];
+	google.monitoring.metricsscope.v1.MonitoredProject monitored_project = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteMonitoredProjectRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "monitoring.googleapis.com/MonitoredProject"
+		}
+	];
+}
+
+message OperationMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATED = 1;
+		RUNNING = 2;
+		DONE = 3;
+		CANCELLED = 4;
+	}
+
+	State state = 1;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp update_time = 6;
+}

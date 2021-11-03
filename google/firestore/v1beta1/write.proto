@@ -25,6 +25,7 @@ message Write {
 		DocumentTransform transform = 6;
 	}
 	google.firestore.v1beta1.DocumentMask update_mask = 3;
+	repeated FieldTransform update_transforms = 7;
 	google.firestore.v1beta1.Precondition current_document = 4;
 }
 

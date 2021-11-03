@@ -57,6 +57,7 @@ message Version {
 	int32 epoch = 1;
 	string name = 2;
 	string revision = 3;
+	bool inclusive = 6;
 	VersionKind kind = 4;
 	string full_name = 5;
 }

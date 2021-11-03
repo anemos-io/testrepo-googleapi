@@ -8,6 +8,7 @@ import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/longrunning/operations.proto";
 import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
 
 option java_package = "com.google.cloud.translate.v3beta1";
 option java_outer_classname = "TranslationServiceProto";
@@ -56,6 +57,13 @@ service TranslationService {
 		};
 
 	}
+	rpc TranslateDocument(google.cloud.translation.v3beta1.TranslateDocumentRequest) returns (google.cloud.translation.v3beta1.TranslateDocumentResponse) {
+		option (google.api.http) = {
+			post: "/v3beta1/{parent=projects/*/locations/*}:translateDocument"
+			body: "*"
+		};
+
+	}
 	rpc BatchTranslateText(google.cloud.translation.v3beta1.BatchTranslateTextRequest) returns (google.longrunning.Operation) {
 		option (google.longrunning.operation_info) = {
 			response_type: "BatchTranslateResponse"
@@ -63,6 +71,18 @@ service TranslationService {
 		};
 		option (google.api.http) = {
 			post: "/v3beta1/{parent=projects/*/locations/*}:batchTranslateText"
+			body: "*"
+		};
+
+	}
+	rpc BatchTranslateDocument(google.cloud.translation.v3beta1.BatchTranslateDocumentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "BatchTranslateDocumentResponse"
+			metadata_type: "BatchTranslateDocumentMetadata"
+		};
+		option (google.api.method_signature) = "parent,source_language_code,target_language_codes,input_configs,output_config";
+		option (google.api.http) = {
+			post: "/v3beta1/{parent=projects/*/locations/*}:batchTranslateDocument"
 			body: "*"
 		};
 
@@ -80,7 +100,6 @@ service TranslationService {
 
 	}
 	rpc ListGlossaries(google.cloud.translation.v3beta1.ListGlossariesRequest) returns (google.cloud.translation.v3beta1.ListGlossariesResponse) {
-		option (google.api.method_signature) = "parent";
 		option (google.api.method_signature) = "parent,filter";
 		option (google.api.http) = {
 			get: "/v3beta1/{parent=projects/*/locations/*}/glossaries"
@@ -179,7 +198,9 @@ message DetectLanguageRequest {
 	string mime_type = 3 [
 		(google.api.field_behavior) = OPTIONAL
 	];
-	map<string, string> labels = 6;
+	map<string, string> labels = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message DetectedLanguage {
@@ -251,6 +272,70 @@ message OutputConfig {
 	oneof destination {
 		GcsDestination gcs_destination = 1;
 	}
+}
+
+message DocumentInputConfig {
+
+	oneof source {
+		bytes content = 1;
+		GcsSource gcs_source = 2;
+	}
+	string mime_type = 4;
+}
+
+message DocumentOutputConfig {
+
+	oneof destination {
+		GcsDestination gcs_destination = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	string mime_type = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TranslateDocumentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string source_language_code = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string target_language_code = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	DocumentInputConfig document_input_config = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	DocumentOutputConfig document_output_config = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string model = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	TranslateTextGlossaryConfig glossary_config = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DocumentTranslation {
+
+	repeated bytes byte_stream_outputs = 1;
+	string mime_type = 2;
+	string detected_language_code = 3;
+}
+
+message TranslateDocumentResponse {
+
+	DocumentTranslation document_translation = 1;
+	DocumentTranslation glossary_document_translation = 2;
+	string model = 3;
+	TranslateTextGlossaryConfig glossary_config = 4;
 }
 
 message BatchTranslateTextRequest {
@@ -452,4 +537,87 @@ message DeleteGlossaryResponse {
 	string name = 1;
 	google.protobuf.Timestamp submit_time = 2;
 	google.protobuf.Timestamp end_time = 3;
+}
+
+message BatchTranslateDocumentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string source_language_code = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string target_language_codes = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated BatchDocumentInputConfig input_configs = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	BatchDocumentOutputConfig output_config = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> models = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, TranslateTextGlossaryConfig> glossaries = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> format_conversions = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message BatchDocumentInputConfig {
+
+	oneof source {
+		GcsSource gcs_source = 1;
+	}
+}
+
+message BatchDocumentOutputConfig {
+
+	oneof destination {
+		GcsDestination gcs_destination = 1;
+	}
+}
+
+message BatchTranslateDocumentResponse {
+
+	int64 total_pages = 1;
+	int64 translated_pages = 2;
+	int64 failed_pages = 3;
+	int64 total_billable_pages = 4;
+	int64 total_characters = 5;
+	int64 translated_characters = 6;
+	int64 failed_characters = 7;
+	int64 total_billable_characters = 8;
+	google.protobuf.Timestamp submit_time = 9;
+	google.protobuf.Timestamp end_time = 10;
+}
+
+message BatchTranslateDocumentMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+		CANCELLING = 4;
+		CANCELLED = 5;
+	}
+
+	State state = 1;
+	int64 total_pages = 2;
+	int64 translated_pages = 3;
+	int64 failed_pages = 4;
+	int64 total_billable_pages = 5;
+	int64 total_characters = 6;
+	int64 translated_characters = 7;
+	int64 failed_characters = 8;
+	int64 total_billable_characters = 9;
+	google.protobuf.Timestamp submit_time = 10;
 }

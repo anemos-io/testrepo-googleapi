@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.enums";
+option java_outer_classname = "DisplayUploadProductTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V7::Enums";
+
+
+message DisplayUploadProductTypeEnum {
+
+	enum DisplayUploadProductType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		HTML5_UPLOAD_AD = 2;
+		DYNAMIC_HTML5_EDUCATION_AD = 3;
+		DYNAMIC_HTML5_FLIGHT_AD = 4;
+		DYNAMIC_HTML5_HOTEL_RENTAL_AD = 5;
+		DYNAMIC_HTML5_JOB_AD = 6;
+		DYNAMIC_HTML5_LOCAL_AD = 7;
+		DYNAMIC_HTML5_REAL_ESTATE_AD = 8;
+		DYNAMIC_HTML5_CUSTOM_AD = 9;
+		DYNAMIC_HTML5_TRAVEL_AD = 10;
+		DYNAMIC_HTML5_HOTEL_AD = 11;
+	}
+
+}

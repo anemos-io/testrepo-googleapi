@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.cloud.channel.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.channel.v1";
+option java_outer_classname = "OperationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/channel/v1;channel";
+
+
+message OperationMetadata {
+
+	enum OperationType {
+
+		OPERATION_TYPE_UNSPECIFIED = 0;
+		CREATE_ENTITLEMENT = 1;
+		CHANGE_RENEWAL_SETTINGS = 3;
+		START_PAID_SERVICE = 5;
+		ACTIVATE_ENTITLEMENT = 7;
+		SUSPEND_ENTITLEMENT = 8;
+		CANCEL_ENTITLEMENT = 9;
+		TRANSFER_ENTITLEMENTS = 10;
+		TRANSFER_ENTITLEMENTS_TO_GOOGLE = 11;
+		CHANGE_OFFER = 14;
+		CHANGE_PARAMETERS = 15;
+		PROVISION_CLOUD_IDENTITY = 16;
+	}
+
+	OperationType operation_type = 1;
+}

@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "ActionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message Actions {
+
+	message Engagement {
+
+		message PushNotification {
+
+		}
+
+		message DailyUpdate {
+
+		}
+
+		message ActionLink {
+			option deprecated = true;
+
+			string title = 1;
+		}
+
+		message AssistantLink {
+
+			string title = 1;
+		}
+
+		string title = 1;
+		PushNotification push_notification = 2;
+		oneof recurring_update {
+			DailyUpdate daily_update = 3;
+		}
+		ActionLink action_link = 4 [
+			deprecated = true
+		];
+		AssistantLink assistant_link = 6;
+	}
+
+	message CustomAction {
+
+		Engagement engagement = 2;
+	}
+
+	map<string, CustomAction> custom = 3;
+}

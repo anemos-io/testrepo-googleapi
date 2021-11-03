@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.apps.drive.activity.v2;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.apps.drive.activity.v2";
+option java_outer_classname = "CommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/drive/activity/v2;activity";
+option objc_class_prefix = "GADA";
+option csharp_namespace = "Google.Apps.Drive.Activity.V2";
+option php_namespace = "Google\\Apps\\Drive\\Activity\\V2";
+
+
+message TimeRange {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+}
+
+message Group {
+
+	string email = 1;
+	string title = 2;
+}
+
+message Domain {
+
+	string name = 1;
+	string legacy_id = 3;
+}

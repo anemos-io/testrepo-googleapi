@@ -1,0 +1,563 @@
+syntax = "proto3";
+
+package google.identity.accesscontextmanager.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/identity/accesscontextmanager/v1/access_level.proto";
+import "google/identity/accesscontextmanager/v1/access_policy.proto";
+import "google/identity/accesscontextmanager/v1/gcp_user_access_binding.proto";
+import "google/identity/accesscontextmanager/v1/service_perimeter.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.identity.accesscontextmanager.v1";
+option java_outer_classname = "AccessContextManagerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/identity/accesscontextmanager/v1;accesscontextmanager";
+option objc_class_prefix = "GACM";
+option csharp_namespace = "Google.Identity.AccessContextManager.V1";
+option php_namespace = "Google\\Identity\\AccessContextManager\\V1";
+option ruby_package = "Google::Identity::AccessContextManager::V1";
+
+
+enum LevelFormat {
+
+	LEVEL_FORMAT_UNSPECIFIED = 0;
+	AS_DEFINED = 1;
+	CEL = 2;
+}
+
+service AccessContextManager {
+	option (google.api.default_host) = "accesscontextmanager.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListAccessPolicies(google.identity.accesscontextmanager.v1.ListAccessPoliciesRequest) returns (google.identity.accesscontextmanager.v1.ListAccessPoliciesResponse) {
+		option (google.api.http) = {
+			get: "/v1/accessPolicies"
+		};
+
+	}
+	rpc GetAccessPolicy(google.identity.accesscontextmanager.v1.GetAccessPolicyRequest) returns (google.identity.accesscontextmanager.v1.AccessPolicy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=accessPolicies/*}"
+		};
+
+	}
+	rpc CreateAccessPolicy(google.identity.accesscontextmanager.v1.AccessPolicy) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AccessPolicy"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/accessPolicies"
+			body: "*"
+		};
+
+	}
+	rpc UpdateAccessPolicy(google.identity.accesscontextmanager.v1.UpdateAccessPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AccessPolicy"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.method_signature) = "policy,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{policy.name=accessPolicies/*}"
+			body: "policy"
+		};
+
+	}
+	rpc DeleteAccessPolicy(google.identity.accesscontextmanager.v1.DeleteAccessPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=accessPolicies/*}"
+		};
+
+	}
+	rpc ListAccessLevels(google.identity.accesscontextmanager.v1.ListAccessLevelsRequest) returns (google.identity.accesscontextmanager.v1.ListAccessLevelsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=accessPolicies/*}/accessLevels"
+		};
+
+	}
+	rpc GetAccessLevel(google.identity.accesscontextmanager.v1.GetAccessLevelRequest) returns (google.identity.accesscontextmanager.v1.AccessLevel) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=accessPolicies/*/accessLevels/*}"
+		};
+
+	}
+	rpc CreateAccessLevel(google.identity.accesscontextmanager.v1.CreateAccessLevelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AccessLevel"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,access_level";
+		option (google.api.http) = {
+			post: "/v1/{parent=accessPolicies/*}/accessLevels"
+			body: "access_level"
+		};
+
+	}
+	rpc UpdateAccessLevel(google.identity.accesscontextmanager.v1.UpdateAccessLevelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AccessLevel"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.method_signature) = "access_level,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{access_level.name=accessPolicies/*/accessLevels/*}"
+			body: "access_level"
+		};
+
+	}
+	rpc DeleteAccessLevel(google.identity.accesscontextmanager.v1.DeleteAccessLevelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=accessPolicies/*/accessLevels/*}"
+		};
+
+	}
+	rpc ReplaceAccessLevels(google.identity.accesscontextmanager.v1.ReplaceAccessLevelsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ReplaceAccessLevelsResponse"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=accessPolicies/*}/accessLevels:replaceAll"
+			body: "*"
+		};
+
+	}
+	rpc ListServicePerimeters(google.identity.accesscontextmanager.v1.ListServicePerimetersRequest) returns (google.identity.accesscontextmanager.v1.ListServicePerimetersResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=accessPolicies/*}/servicePerimeters"
+		};
+
+	}
+	rpc GetServicePerimeter(google.identity.accesscontextmanager.v1.GetServicePerimeterRequest) returns (google.identity.accesscontextmanager.v1.ServicePerimeter) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=accessPolicies/*/servicePerimeters/*}"
+		};
+
+	}
+	rpc CreateServicePerimeter(google.identity.accesscontextmanager.v1.CreateServicePerimeterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ServicePerimeter"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,service_perimeter";
+		option (google.api.http) = {
+			post: "/v1/{parent=accessPolicies/*}/servicePerimeters"
+			body: "service_perimeter"
+		};
+
+	}
+	rpc UpdateServicePerimeter(google.identity.accesscontextmanager.v1.UpdateServicePerimeterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ServicePerimeter"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.method_signature) = "service_perimeter,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{service_perimeter.name=accessPolicies/*/servicePerimeters/*}"
+			body: "service_perimeter"
+		};
+
+	}
+	rpc DeleteServicePerimeter(google.identity.accesscontextmanager.v1.DeleteServicePerimeterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=accessPolicies/*/servicePerimeters/*}"
+		};
+
+	}
+	rpc ReplaceServicePerimeters(google.identity.accesscontextmanager.v1.ReplaceServicePerimetersRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ReplaceServicePerimetersResponse"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=accessPolicies/*}/servicePerimeters:replaceAll"
+			body: "*"
+		};
+
+	}
+	rpc CommitServicePerimeters(google.identity.accesscontextmanager.v1.CommitServicePerimetersRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CommitServicePerimetersResponse"
+			metadata_type: "AccessContextManagerOperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=accessPolicies/*}/servicePerimeters:commit"
+			body: "*"
+		};
+
+	}
+	rpc ListGcpUserAccessBindings(google.identity.accesscontextmanager.v1.ListGcpUserAccessBindingsRequest) returns (google.identity.accesscontextmanager.v1.ListGcpUserAccessBindingsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=organizations/*}/gcpUserAccessBindings"
+		};
+
+	}
+	rpc GetGcpUserAccessBinding(google.identity.accesscontextmanager.v1.GetGcpUserAccessBindingRequest) returns (google.identity.accesscontextmanager.v1.GcpUserAccessBinding) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=organizations/*/gcpUserAccessBindings/*}"
+		};
+
+	}
+	rpc CreateGcpUserAccessBinding(google.identity.accesscontextmanager.v1.CreateGcpUserAccessBindingRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "GcpUserAccessBinding"
+			metadata_type: "GcpUserAccessBindingOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,gcp_user_access_binding";
+		option (google.api.http) = {
+			post: "/v1/{parent=organizations/*}/gcpUserAccessBindings"
+			body: "gcp_user_access_binding"
+		};
+
+	}
+	rpc UpdateGcpUserAccessBinding(google.identity.accesscontextmanager.v1.UpdateGcpUserAccessBindingRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "GcpUserAccessBinding"
+			metadata_type: "GcpUserAccessBindingOperationMetadata"
+		};
+		option (google.api.method_signature) = "gcp_user_access_binding,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{gcp_user_access_binding.name=organizations/*/gcpUserAccessBindings/*}"
+			body: "gcp_user_access_binding"
+		};
+
+	}
+	rpc DeleteGcpUserAccessBinding(google.identity.accesscontextmanager.v1.DeleteGcpUserAccessBindingRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "GcpUserAccessBindingOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=organizations/*/gcpUserAccessBindings/*}"
+		};
+
+	}
+}
+
+message ListAccessPoliciesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListAccessPoliciesResponse {
+
+	repeated google.identity.accesscontextmanager.v1.AccessPolicy access_policies = 1;
+	string next_page_token = 2;
+}
+
+message GetAccessPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/AccessPolicy"
+		}
+	];
+}
+
+message UpdateAccessPolicyRequest {
+
+	google.identity.accesscontextmanager.v1.AccessPolicy policy = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteAccessPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/AccessPolicy"
+		}
+	];
+}
+
+message ListAccessLevelsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "accesscontextmanager.googleapis.com/AccessLevel"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	LevelFormat access_level_format = 4;
+}
+
+message ListAccessLevelsResponse {
+
+	repeated google.identity.accesscontextmanager.v1.AccessLevel access_levels = 1;
+	string next_page_token = 2;
+}
+
+message GetAccessLevelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/AccessLevel"
+		}
+	];
+	LevelFormat access_level_format = 2;
+}
+
+message CreateAccessLevelRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "accesscontextmanager.googleapis.com/AccessLevel"
+		}
+	];
+	google.identity.accesscontextmanager.v1.AccessLevel access_level = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateAccessLevelRequest {
+
+	google.identity.accesscontextmanager.v1.AccessLevel access_level = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteAccessLevelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/AccessLevel"
+		}
+	];
+}
+
+message ReplaceAccessLevelsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "accesscontextmanager.googleapis.com/AccessLevel"
+		}
+	];
+	repeated google.identity.accesscontextmanager.v1.AccessLevel access_levels = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string etag = 4;
+}
+
+message ReplaceAccessLevelsResponse {
+
+	repeated google.identity.accesscontextmanager.v1.AccessLevel access_levels = 1;
+}
+
+message ListServicePerimetersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "accesscontextmanager.googleapis.com/ServicePerimeter"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListServicePerimetersResponse {
+
+	repeated google.identity.accesscontextmanager.v1.ServicePerimeter service_perimeters = 1;
+	string next_page_token = 2;
+}
+
+message GetServicePerimeterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/ServicePerimeter"
+		}
+	];
+}
+
+message CreateServicePerimeterRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "accesscontextmanager.googleapis.com/ServicePerimeter"
+		}
+	];
+	google.identity.accesscontextmanager.v1.ServicePerimeter service_perimeter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateServicePerimeterRequest {
+
+	google.identity.accesscontextmanager.v1.ServicePerimeter service_perimeter = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteServicePerimeterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/ServicePerimeter"
+		}
+	];
+}
+
+message ReplaceServicePerimetersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "accesscontextmanager.googleapis.com/ServicePerimeter"
+		}
+	];
+	repeated google.identity.accesscontextmanager.v1.ServicePerimeter service_perimeters = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string etag = 3;
+}
+
+message ReplaceServicePerimetersResponse {
+
+	repeated google.identity.accesscontextmanager.v1.ServicePerimeter service_perimeters = 1;
+}
+
+message CommitServicePerimetersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "accesscontextmanager.googleapis.com/ServicePerimeter"
+		}
+	];
+	string etag = 2;
+}
+
+message CommitServicePerimetersResponse {
+
+	repeated google.identity.accesscontextmanager.v1.ServicePerimeter service_perimeters = 1;
+}
+
+message ListGcpUserAccessBindingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListGcpUserAccessBindingsResponse {
+
+	repeated google.identity.accesscontextmanager.v1.GcpUserAccessBinding gcp_user_access_bindings = 1;
+	string next_page_token = 2;
+}
+
+message GetGcpUserAccessBindingRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/GcpUserAccessBinding"
+		}
+	];
+}
+
+message CreateGcpUserAccessBindingRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	google.identity.accesscontextmanager.v1.GcpUserAccessBinding gcp_user_access_binding = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateGcpUserAccessBindingRequest {
+
+	google.identity.accesscontextmanager.v1.GcpUserAccessBinding gcp_user_access_binding = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteGcpUserAccessBindingRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/GcpUserAccessBinding"
+		}
+	];
+}
+
+message GcpUserAccessBindingOperationMetadata {
+
+}
+
+message AccessContextManagerOperationMetadata {
+
+}

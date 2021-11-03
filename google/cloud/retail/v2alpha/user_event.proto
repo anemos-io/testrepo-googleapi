@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2alpha;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/retail/v2alpha/common.proto";
+import "google/cloud/retail/v2alpha/product.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.cloud.retail.v2alpha";
+option java_outer_classname = "UserEventProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2alpha;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2Alpha";
+option php_namespace = "Google\\Cloud\\Retail\\V2alpha";
+option ruby_package = "Google::Cloud::Retail::V2alpha";
+
+
+message UserEvent {
+
+	string event_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string visitor_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string session_id = 21;
+	google.protobuf.Timestamp event_time = 3;
+	repeated string experiment_ids = 4;
+	string attribution_token = 5;
+	repeated ProductDetail product_details = 6;
+	CompletionDetail completion_detail = 22;
+	map<string, google.cloud.retail.v2alpha.CustomAttribute> attributes = 7;
+	string cart_id = 8;
+	PurchaseTransaction purchase_transaction = 9;
+	string search_query = 10;
+	string filter = 16;
+	string order_by = 17;
+	int32 offset = 18;
+	repeated string page_categories = 11;
+	google.cloud.retail.v2alpha.UserInfo user_info = 12;
+	string uri = 13;
+	string referrer_uri = 14;
+	string page_view_id = 15;
+}
+
+message ProductDetail {
+
+	google.cloud.retail.v2alpha.Product product = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int32Value quantity = 2;
+}
+
+message CompletionDetail {
+
+	string completion_attribution_token = 1;
+	string selected_suggestion = 2;
+	int32 selected_position = 3;
+}
+
+message PurchaseTransaction {
+
+	string id = 1;
+	float revenue = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	float tax = 3;
+	float cost = 4;
+	string currency_code = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

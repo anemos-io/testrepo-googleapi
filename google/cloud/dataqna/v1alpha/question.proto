@@ -1,0 +1,186 @@
+syntax = "proto3";
+
+package google.cloud.dataqna.v1alpha;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dataqna/v1alpha/annotated_string.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.dataqna.v1alpha";
+option java_outer_classname = "QuestionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataqna/v1alpha;dataqna";
+option csharp_namespace = "Google.Cloud.DataQnA.V1Alpha";
+option php_namespace = "Google\\Cloud\\DataQnA\\V1alpha";
+option ruby_package = "Google::Cloud::DataQnA::V1alpha";
+
+
+enum InterpretEntity {
+
+	INTERPRET_ENTITY_UNSPECIFIED = 0;
+	DIMENSION = 1;
+	METRIC = 2;
+}
+
+message Question {
+	option (google.api.resource) = {
+		type: "dataqna.googleapis.com/Question"
+		pattern: ["projects/{project}/locations/{location}/questions/{question}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated string scopes = 2 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string query = 3 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated string data_source_annotations = 4;
+	InterpretError interpret_error = 5;
+	repeated Interpretation interpretations = 6;
+	google.protobuf.Timestamp create_time = 7;
+	string user_email = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	DebugFlags debug_flags = 9 [
+		(google.api.field_behavior) = IMMUTABLE,
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.protobuf.Any debug_info = 10;
+}
+
+message InterpretError {
+
+	message InterpretErrorDetails {
+
+		InterpretUnsupportedDetails unsupported_details = 1;
+		InterpretIncompleteQueryDetails incomplete_query_details = 2;
+		InterpretAmbiguityDetails ambiguity_details = 3;
+	}
+
+	message InterpretUnsupportedDetails {
+
+		repeated string operators = 1;
+		repeated string intent = 2;
+	}
+
+	message InterpretIncompleteQueryDetails {
+
+		repeated InterpretEntity entities = 1;
+	}
+
+	message InterpretAmbiguityDetails {
+
+	}
+
+	enum InterpretErrorCode {
+
+		INTERPRET_ERROR_CODE_UNSPECIFIED = 0;
+		INVALID_QUERY = 1;
+		FAILED_TO_UNDERSTAND = 2;
+		FAILED_TO_ANSWER = 3;
+	}
+
+	string message = 1;
+	InterpretErrorCode code = 2;
+	InterpretErrorDetails details = 3;
+}
+
+message ExecutionInfo {
+
+	enum JobExecutionState {
+
+		JOB_EXECUTION_STATE_UNSPECIFIED = 0;
+		NOT_EXECUTED = 1;
+		RUNNING = 2;
+		SUCCEEDED = 3;
+		FAILED = 4;
+	}
+
+	google.rpc.Status job_creation_status = 1;
+	JobExecutionState job_execution_state = 2;
+	google.protobuf.Timestamp create_time = 3;
+	BigQueryJob bigquery_job = 4;
+}
+
+message BigQueryJob {
+
+	string job_id = 1;
+	string project_id = 2;
+	string location = 3;
+}
+
+message Interpretation {
+
+	repeated string data_sources = 1;
+	double confidence = 2;
+	repeated string unused_phrases = 3;
+	HumanReadable human_readable = 4;
+	InterpretationStructure interpretation_structure = 5;
+	DataQuery data_query = 6;
+	ExecutionInfo execution_info = 7;
+}
+
+message DataQuery {
+
+	string sql = 1;
+}
+
+message HumanReadable {
+
+	google.cloud.dataqna.v1alpha.AnnotatedString generated_interpretation = 1;
+	google.cloud.dataqna.v1alpha.AnnotatedString original_question = 2;
+}
+
+message InterpretationStructure {
+
+	message ColumnInfo {
+
+		string output_alias = 1;
+		string display_name = 2;
+	}
+
+	enum VisualizationType {
+
+		VISUALIZATION_TYPE_UNSPECIFIED = 0;
+		TABLE = 1;
+		BAR_CHART = 2;
+		COLUMN_CHART = 3;
+		TIMELINE = 4;
+		SCATTER_PLOT = 5;
+		PIE_CHART = 6;
+		LINE_CHART = 7;
+		AREA_CHART = 8;
+		COMBO_CHART = 9;
+		HISTOGRAM = 10;
+		GENERIC_CHART = 11;
+		CHART_NOT_UNDERSTOOD = 12;
+	}
+
+	repeated VisualizationType visualization_types = 1;
+	repeated ColumnInfo column_info = 2;
+}
+
+message DebugFlags {
+
+	bool include_va_query = 1;
+	bool include_nested_va_query = 2;
+	bool include_human_interpretation = 3;
+	bool include_aqua_debug_response = 4;
+	int64 time_override = 5;
+	bool is_internal_google_user = 6;
+	bool ignore_cache = 7;
+	bool include_search_entities_rpc = 8;
+	bool include_list_column_annotations_rpc = 9;
+	bool include_virtual_analyst_entities = 10;
+	bool include_table_list = 11;
+	bool include_domain_list = 12;
+}

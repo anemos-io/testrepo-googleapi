@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package google.home.enterprise.sdm.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.home.enterprise.sdm.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/home/enterprise/sdm/v1;sdm";
+option objc_class_prefix = "GHENTSDM";
+option csharp_namespace = "Google.Home.Enterprise.Sdm.V1";
+option php_namespace = "Google\\Home\\Enterprise\\Sdm\\V1";
+
+
+message Device {
+	option (google.api.resource) = {
+		type: "smartdevicemanagement.googleapis.com/Device"
+		pattern: ["enterprises/{enterprise}/devices/{device}"]
+	};
+
+	string name = 1;
+	string type = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Struct traits = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated ParentRelation parent_relations = 5;
+}
+
+message ParentRelation {
+
+	string parent = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

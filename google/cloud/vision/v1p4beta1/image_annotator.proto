@@ -272,6 +272,11 @@ message WebDetectionParams {
 	bool include_geo_results = 2;
 }
 
+message TextDetectionParams {
+
+	bool enable_text_detection_confidence_score = 9;
+}
+
 message ImageContext {
 
 	LatLongRect lat_long_rect = 1;
@@ -280,6 +285,7 @@ message ImageContext {
 	google.cloud.vision.v1p4beta1.FaceRecognitionParams face_recognition_params = 10;
 	google.cloud.vision.v1p4beta1.ProductSearchParams product_search_params = 5;
 	WebDetectionParams web_detection_params = 6;
+	TextDetectionParams text_detection_params = 12;
 }
 
 message AnnotateImageRequest {

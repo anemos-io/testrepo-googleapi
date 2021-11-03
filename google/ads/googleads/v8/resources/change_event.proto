@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/enums/ad_type.proto";
+import "google/ads/googleads/v8/enums/advertising_channel_sub_type.proto";
+import "google/ads/googleads/v8/enums/advertising_channel_type.proto";
+import "google/ads/googleads/v8/enums/asset_type.proto";
+import "google/ads/googleads/v8/enums/change_client_type.proto";
+import "google/ads/googleads/v8/enums/change_event_resource_type.proto";
+import "google/ads/googleads/v8/enums/criterion_type.proto";
+import "google/ads/googleads/v8/enums/feed_origin.proto";
+import "google/ads/googleads/v8/enums/resource_change_operation.proto";
+import "google/ads/googleads/v8/resources/ad.proto";
+import "google/ads/googleads/v8/resources/ad_group.proto";
+import "google/ads/googleads/v8/resources/ad_group_ad.proto";
+import "google/ads/googleads/v8/resources/ad_group_asset.proto";
+import "google/ads/googleads/v8/resources/ad_group_bid_modifier.proto";
+import "google/ads/googleads/v8/resources/ad_group_criterion.proto";
+import "google/ads/googleads/v8/resources/ad_group_feed.proto";
+import "google/ads/googleads/v8/resources/asset.proto";
+import "google/ads/googleads/v8/resources/campaign.proto";
+import "google/ads/googleads/v8/resources/campaign_asset.proto";
+import "google/ads/googleads/v8/resources/campaign_budget.proto";
+import "google/ads/googleads/v8/resources/campaign_criterion.proto";
+import "google/ads/googleads/v8/resources/campaign_feed.proto";
+import "google/ads/googleads/v8/resources/customer_asset.proto";
+import "google/ads/googleads/v8/resources/feed.proto";
+import "google/ads/googleads/v8/resources/feed_item.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "ChangeEventProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message ChangeEvent {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/ChangeEvent"
+		pattern: ["customers/{customer_id}/changeEvents/{timestamp_micros}~{command_index}~{mutate_index}"]
+	};
+
+	message ChangedResource {
+
+		google.ads.googleads.v8.resources.Ad ad = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.AdGroup ad_group = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.AdGroupCriterion ad_group_criterion = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.Campaign campaign = 4 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.CampaignBudget campaign_budget = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.AdGroupBidModifier ad_group_bid_modifier = 6 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.CampaignCriterion campaign_criterion = 7 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.Feed feed = 8 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.FeedItem feed_item = 9 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.CampaignFeed campaign_feed = 10 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.AdGroupFeed ad_group_feed = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.AdGroupAd ad_group_ad = 12 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.Asset asset = 13 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.CustomerAsset customer_asset = 14 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.CampaignAsset campaign_asset = 15 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.resources.AdGroupAsset ad_group_asset = 16 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/ChangeEvent"
+		}
+	];
+	string change_date_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.ChangeEventResourceTypeEnum.ChangeEventResourceType change_resource_type = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string change_resource_name = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.ChangeClientTypeEnum.ChangeClientType client_type = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string user_email = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ChangedResource old_resource = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ChangedResource new_resource = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.ResourceChangeOperationEnum.ResourceChangeOperation resource_change_operation = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.FieldMask changed_fields = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string campaign = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	string ad_group = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroup"
+		}
+	];
+	string feed = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Feed"
+		}
+	];
+	string feed_item = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/FeedItem"
+		}
+	];
+	string asset = 20 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Asset"
+		}
+	];
+}

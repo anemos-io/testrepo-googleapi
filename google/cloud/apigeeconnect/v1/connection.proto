@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package google.cloud.apigeeconnect.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.cloud.apigeeconnect.v1";
+option java_outer_classname = "ConnectionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/apigeeconnect/v1;apigeeconnect";
+option csharp_namespace = "Google.Cloud.ApigeeConnect.V1";
+option php_namespace = "Google\\Cloud\\ApigeeConnect\\V1";
+option ruby_package = "Google::Cloud::ApigeeConnect::V1";
+option (google.api.resource_definition) = {
+	type: "apigeeconnect.googleapis.com/Endpoint"
+	pattern: ["projects/{project}/endpoints/{endpoint}"]
+};
+
+
+service ConnectionService {
+	option (google.api.default_host) = "apigeeconnect.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListConnections(google.cloud.apigeeconnect.v1.ListConnectionsRequest) returns (google.cloud.apigeeconnect.v1.ListConnectionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/endpoints/*}/connections"
+		};
+
+	}
+}
+
+message ListConnectionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigeeconnect.googleapis.com/Endpoint"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListConnectionsResponse {
+
+	repeated Connection connections = 1;
+	string next_page_token = 2;
+}
+
+message Connection {
+
+	string endpoint = 1;
+	Cluster cluster = 2;
+	int32 stream_count = 3;
+}
+
+message Cluster {
+
+	string name = 1;
+	string region = 2;
+}

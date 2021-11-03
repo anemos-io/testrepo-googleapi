@@ -1,0 +1,270 @@
+syntax = "proto3";
+
+package google.cloud.lifesciences.v2beta;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/code.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.lifesciences.v2beta";
+option java_outer_classname = "WorkflowsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/lifesciences/v2beta;lifesciences";
+option objc_class_prefix = "CLSW";
+option csharp_namespace = "Google.Cloud.LifeSciences.V2Beta";
+option php_namespace = "Google\\Cloud\\LifeSciences\\V2beta";
+option ruby_package = "Google::Cloud::LifeSciences::V2beta";
+
+
+service WorkflowsServiceV2Beta {
+	option (google.api.default_host) = "lifesciences.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc RunPipeline(google.cloud.lifesciences.v2beta.RunPipelineRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "RunPipelineResponse"
+			metadata_type: "Metadata"
+		};
+		option (google.api.http) = {
+			post: "/v2beta/{parent=projects/*/locations/*}/pipelines:run"
+			body: "*"
+		};
+
+	}
+}
+
+message RunPipelineRequest {
+
+	string parent = 4;
+	Pipeline pipeline = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> labels = 2;
+	string pub_sub_topic = 3;
+}
+
+message RunPipelineResponse {
+
+}
+
+message Pipeline {
+
+	repeated Action actions = 1;
+	Resources resources = 2;
+	map<string, string> environment = 3;
+	google.protobuf.Duration timeout = 4;
+}
+
+message Action {
+
+	string container_name = 1;
+	string image_uri = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string commands = 3;
+	string entrypoint = 4;
+	map<string, string> environment = 5;
+	string pid_namespace = 6;
+	map<int32, int32> port_mappings = 8;
+	repeated Mount mounts = 9;
+	map<string, string> labels = 10;
+	Secret credentials = 11;
+	google.protobuf.Duration timeout = 12;
+	bool ignore_exit_status = 13;
+	bool run_in_background = 14;
+	bool always_run = 15;
+	bool enable_fuse = 16;
+	bool publish_exposed_ports = 17;
+	bool disable_image_prefetch = 18;
+	bool disable_standard_error_capture = 19;
+	bool block_external_network = 20;
+}
+
+message Secret {
+
+	string key_name = 1;
+	string cipher_text = 2;
+}
+
+message Mount {
+
+	string disk = 1;
+	string path = 2;
+	bool read_only = 3;
+}
+
+message Resources {
+
+	repeated string regions = 2;
+	repeated string zones = 3;
+	VirtualMachine virtual_machine = 4;
+}
+
+message VirtualMachine {
+
+	string machine_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool preemptible = 2;
+	map<string, string> labels = 3;
+	repeated Disk disks = 4;
+	Network network = 5;
+	repeated Accelerator accelerators = 6;
+	ServiceAccount service_account = 7;
+	int32 boot_disk_size_gb = 8;
+	string cpu_platform = 9;
+	string boot_image = 10;
+	string nvidia_driver_version = 11 [
+		deprecated = true
+	];
+	bool enable_stackdriver_monitoring = 12;
+	repeated string docker_cache_images = 13;
+	repeated Volume volumes = 14;
+}
+
+message ServiceAccount {
+
+	string email = 1;
+	repeated string scopes = 2;
+}
+
+message Accelerator {
+
+	string type = 1;
+	int64 count = 2;
+}
+
+message Network {
+
+	string network = 1;
+	bool use_private_address = 2;
+	string subnetwork = 3;
+}
+
+message Disk {
+
+	string name = 1;
+	int32 size_gb = 2;
+	string type = 3;
+	string source_image = 4;
+}
+
+message Volume {
+
+	string volume = 1;
+	oneof storage {
+		PersistentDisk persistent_disk = 2;
+		ExistingDisk existing_disk = 3;
+		NFSMount nfs_mount = 4;
+	}
+}
+
+message PersistentDisk {
+
+	int32 size_gb = 1;
+	string type = 2;
+	string source_image = 3;
+}
+
+message ExistingDisk {
+
+	string disk = 1;
+}
+
+message NFSMount {
+
+	string target = 1;
+}
+
+message Metadata {
+
+	Pipeline pipeline = 1;
+	map<string, string> labels = 2;
+	repeated Event events = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp start_time = 5;
+	google.protobuf.Timestamp end_time = 6;
+	string pub_sub_topic = 7;
+}
+
+message Event {
+
+	google.protobuf.Timestamp timestamp = 1;
+	string description = 2;
+	oneof details {
+		DelayedEvent delayed = 17;
+		WorkerAssignedEvent worker_assigned = 18;
+		WorkerReleasedEvent worker_released = 19;
+		PullStartedEvent pull_started = 20;
+		PullStoppedEvent pull_stopped = 21;
+		ContainerStartedEvent container_started = 22;
+		ContainerStoppedEvent container_stopped = 23;
+		ContainerKilledEvent container_killed = 24;
+		UnexpectedExitStatusEvent unexpected_exit_status = 25;
+		FailedEvent failed = 26;
+	}
+}
+
+message DelayedEvent {
+
+	string cause = 1;
+	repeated string metrics = 2;
+}
+
+message WorkerAssignedEvent {
+
+	string zone = 1;
+	string instance = 2;
+	string machine_type = 3;
+}
+
+message WorkerReleasedEvent {
+
+	string zone = 1;
+	string instance = 2;
+}
+
+message PullStartedEvent {
+
+	string image_uri = 1;
+}
+
+message PullStoppedEvent {
+
+	string image_uri = 1;
+}
+
+message ContainerStartedEvent {
+
+	int32 action_id = 1;
+	map<int32, int32> port_mappings = 2;
+	string ip_address = 3;
+}
+
+message ContainerStoppedEvent {
+
+	int32 action_id = 1;
+	int32 exit_status = 2;
+	string stderr = 3;
+}
+
+message UnexpectedExitStatusEvent {
+
+	int32 action_id = 1;
+	int32 exit_status = 2;
+}
+
+message ContainerKilledEvent {
+
+	int32 action_id = 1;
+}
+
+message FailedEvent {
+
+	google.rpc.Code code = 1;
+	string cause = 2;
+}

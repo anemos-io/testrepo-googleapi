@@ -1,0 +1,681 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/operation.proto";
+import "google/cloud/aiplatform/v1beta1/tensorboard.proto";
+import "google/cloud/aiplatform/v1beta1/tensorboard_data.proto";
+import "google/cloud/aiplatform/v1beta1/tensorboard_experiment.proto";
+import "google/cloud/aiplatform/v1beta1/tensorboard_run.proto";
+import "google/cloud/aiplatform/v1beta1/tensorboard_time_series.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "TensorboardServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+service TensorboardService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateTensorboard(google.cloud.aiplatform.v1beta1.CreateTensorboardRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Tensorboard"
+			metadata_type: "CreateTensorboardOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,tensorboard";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/tensorboards"
+			body: "tensorboard"
+		};
+
+	}
+	rpc GetTensorboard(google.cloud.aiplatform.v1beta1.GetTensorboardRequest) returns (google.cloud.aiplatform.v1beta1.Tensorboard) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/tensorboards/*}"
+		};
+
+	}
+	rpc UpdateTensorboard(google.cloud.aiplatform.v1beta1.UpdateTensorboardRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Tensorboard"
+			metadata_type: "UpdateTensorboardOperationMetadata"
+		};
+		option (google.api.method_signature) = "tensorboard,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{tensorboard.name=projects/*/locations/*/tensorboards/*}"
+			body: "tensorboard"
+		};
+
+	}
+	rpc ListTensorboards(google.cloud.aiplatform.v1beta1.ListTensorboardsRequest) returns (google.cloud.aiplatform.v1beta1.ListTensorboardsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/tensorboards"
+		};
+
+	}
+	rpc DeleteTensorboard(google.cloud.aiplatform.v1beta1.DeleteTensorboardRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/tensorboards/*}"
+		};
+
+	}
+	rpc CreateTensorboardExperiment(google.cloud.aiplatform.v1beta1.CreateTensorboardExperimentRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardExperiment) {
+		option (google.api.method_signature) = "parent,tensorboard_experiment,tensorboard_experiment_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/tensorboards/*}/experiments"
+			body: "tensorboard_experiment"
+		};
+
+	}
+	rpc GetTensorboardExperiment(google.cloud.aiplatform.v1beta1.GetTensorboardExperimentRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardExperiment) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/tensorboards/*/experiments/*}"
+		};
+
+	}
+	rpc UpdateTensorboardExperiment(google.cloud.aiplatform.v1beta1.UpdateTensorboardExperimentRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardExperiment) {
+		option (google.api.method_signature) = "tensorboard_experiment,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{tensorboard_experiment.name=projects/*/locations/*/tensorboards/*/experiments/*}"
+			body: "tensorboard_experiment"
+		};
+
+	}
+	rpc ListTensorboardExperiments(google.cloud.aiplatform.v1beta1.ListTensorboardExperimentsRequest) returns (google.cloud.aiplatform.v1beta1.ListTensorboardExperimentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/tensorboards/*}/experiments"
+		};
+
+	}
+	rpc DeleteTensorboardExperiment(google.cloud.aiplatform.v1beta1.DeleteTensorboardExperimentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/tensorboards/*/experiments/*}"
+		};
+
+	}
+	rpc CreateTensorboardRun(google.cloud.aiplatform.v1beta1.CreateTensorboardRunRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardRun) {
+		option (google.api.method_signature) = "parent,tensorboard_run,tensorboard_run_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/tensorboards/*/experiments/*}/runs"
+			body: "tensorboard_run"
+		};
+
+	}
+	rpc BatchCreateTensorboardRuns(google.cloud.aiplatform.v1beta1.BatchCreateTensorboardRunsRequest) returns (google.cloud.aiplatform.v1beta1.BatchCreateTensorboardRunsResponse) {
+		option (google.api.method_signature) = "parent,requests";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/tensorboards/*/experiments/*}/runs:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc GetTensorboardRun(google.cloud.aiplatform.v1beta1.GetTensorboardRunRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardRun) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/tensorboards/*/experiments/*/runs/*}"
+		};
+
+	}
+	rpc UpdateTensorboardRun(google.cloud.aiplatform.v1beta1.UpdateTensorboardRunRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardRun) {
+		option (google.api.method_signature) = "tensorboard_run,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{tensorboard_run.name=projects/*/locations/*/tensorboards/*/experiments/*/runs/*}"
+			body: "tensorboard_run"
+		};
+
+	}
+	rpc ListTensorboardRuns(google.cloud.aiplatform.v1beta1.ListTensorboardRunsRequest) returns (google.cloud.aiplatform.v1beta1.ListTensorboardRunsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/tensorboards/*/experiments/*}/runs"
+		};
+
+	}
+	rpc DeleteTensorboardRun(google.cloud.aiplatform.v1beta1.DeleteTensorboardRunRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/tensorboards/*/experiments/*/runs/*}"
+		};
+
+	}
+	rpc BatchCreateTensorboardTimeSeries(google.cloud.aiplatform.v1beta1.BatchCreateTensorboardTimeSeriesRequest) returns (google.cloud.aiplatform.v1beta1.BatchCreateTensorboardTimeSeriesResponse) {
+		option (google.api.method_signature) = "parent,requests";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/tensorboards/*/experiments/*}/runs/*/timeSeries:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc CreateTensorboardTimeSeries(google.cloud.aiplatform.v1beta1.CreateTensorboardTimeSeriesRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardTimeSeries) {
+		option (google.api.method_signature) = "parent,tensorboard_time_series";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/tensorboards/*/experiments/*/runs/*}/timeSeries"
+			body: "tensorboard_time_series"
+		};
+
+	}
+	rpc GetTensorboardTimeSeries(google.cloud.aiplatform.v1beta1.GetTensorboardTimeSeriesRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardTimeSeries) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/tensorboards/*/experiments/*/runs/*/timeSeries/*}"
+		};
+
+	}
+	rpc UpdateTensorboardTimeSeries(google.cloud.aiplatform.v1beta1.UpdateTensorboardTimeSeriesRequest) returns (google.cloud.aiplatform.v1beta1.TensorboardTimeSeries) {
+		option (google.api.method_signature) = "tensorboard_time_series,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{tensorboard_time_series.name=projects/*/locations/*/tensorboards/*/experiments/*/runs/*/timeSeries/*}"
+			body: "tensorboard_time_series"
+		};
+
+	}
+	rpc ListTensorboardTimeSeries(google.cloud.aiplatform.v1beta1.ListTensorboardTimeSeriesRequest) returns (google.cloud.aiplatform.v1beta1.ListTensorboardTimeSeriesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/tensorboards/*/experiments/*/runs/*}/timeSeries"
+		};
+
+	}
+	rpc DeleteTensorboardTimeSeries(google.cloud.aiplatform.v1beta1.DeleteTensorboardTimeSeriesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/tensorboards/*/experiments/*/runs/*/timeSeries/*}"
+		};
+
+	}
+	rpc BatchReadTensorboardTimeSeriesData(google.cloud.aiplatform.v1beta1.BatchReadTensorboardTimeSeriesDataRequest) returns (google.cloud.aiplatform.v1beta1.BatchReadTensorboardTimeSeriesDataResponse) {
+		option (google.api.method_signature) = "tensorboard";
+		option (google.api.http) = {
+			get: "/v1beta1/{tensorboard=projects/*/locations/*/tensorboards/*}/experiments/*/runs/*/timeSeries:batchRead"
+		};
+
+	}
+	rpc ReadTensorboardTimeSeriesData(google.cloud.aiplatform.v1beta1.ReadTensorboardTimeSeriesDataRequest) returns (google.cloud.aiplatform.v1beta1.ReadTensorboardTimeSeriesDataResponse) {
+		option (google.api.method_signature) = "tensorboard_time_series";
+		option (google.api.http) = {
+			get: "/v1beta1/{tensorboard_time_series=projects/*/locations/*/tensorboards/*/experiments/*/runs/*/timeSeries/*}:read"
+		};
+
+	}
+	rpc ReadTensorboardBlobData(google.cloud.aiplatform.v1beta1.ReadTensorboardBlobDataRequest) returns (stream google.cloud.aiplatform.v1beta1.ReadTensorboardBlobDataResponse) {
+		option (google.api.method_signature) = "time_series";
+		option (google.api.http) = {
+			get: "/v1beta1/{time_series=projects/*/locations/*/tensorboards/*/experiments/*/runs/*/timeSeries/*}:readBlobData"
+		};
+
+	}
+	rpc WriteTensorboardExperimentData(google.cloud.aiplatform.v1beta1.WriteTensorboardExperimentDataRequest) returns (google.cloud.aiplatform.v1beta1.WriteTensorboardExperimentDataResponse) {
+		option (google.api.method_signature) = "tensorboard_experiment,write_run_data_requests";
+		option (google.api.http) = {
+			post: "/v1beta1/{tensorboard_experiment=projects/*/locations/*/tensorboards/*/experiments/*}:write"
+			body: "*"
+		};
+
+	}
+	rpc WriteTensorboardRunData(google.cloud.aiplatform.v1beta1.WriteTensorboardRunDataRequest) returns (google.cloud.aiplatform.v1beta1.WriteTensorboardRunDataResponse) {
+		option (google.api.method_signature) = "tensorboard_run,time_series_data";
+		option (google.api.http) = {
+			post: "/v1beta1/{tensorboard_run=projects/*/locations/*/tensorboards/*/experiments/*/runs/*}:write"
+			body: "*"
+		};
+
+	}
+	rpc ExportTensorboardTimeSeriesData(google.cloud.aiplatform.v1beta1.ExportTensorboardTimeSeriesDataRequest) returns (google.cloud.aiplatform.v1beta1.ExportTensorboardTimeSeriesDataResponse) {
+		option (google.api.method_signature) = "tensorboard_time_series";
+		option (google.api.http) = {
+			post: "/v1beta1/{tensorboard_time_series=projects/*/locations/*/tensorboards/*/experiments/*/runs/*/timeSeries/*}:exportTensorboardTimeSeries"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateTensorboardRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Tensorboard"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Tensorboard tensorboard = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTensorboardRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Tensorboard"
+		}
+	];
+}
+
+message ListTensorboardsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Tensorboard"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	string order_by = 5;
+	google.protobuf.FieldMask read_mask = 6;
+}
+
+message ListTensorboardsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Tensorboard tensorboards = 1;
+	string next_page_token = 2;
+}
+
+message UpdateTensorboardRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.Tensorboard tensorboard = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteTensorboardRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Tensorboard"
+		}
+	];
+}
+
+message CreateTensorboardExperimentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardExperiment"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.TensorboardExperiment tensorboard_experiment = 2;
+	string tensorboard_experiment_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTensorboardExperimentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardExperiment"
+		}
+	];
+}
+
+message ListTensorboardExperimentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/TensorboardExperiment"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	string order_by = 5;
+	google.protobuf.FieldMask read_mask = 6;
+}
+
+message ListTensorboardExperimentsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.TensorboardExperiment tensorboard_experiments = 1;
+	string next_page_token = 2;
+}
+
+message UpdateTensorboardExperimentRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.TensorboardExperiment tensorboard_experiment = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteTensorboardExperimentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardExperiment"
+		}
+	];
+}
+
+message BatchCreateTensorboardRunsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardExperiment"
+		}
+	];
+	repeated CreateTensorboardRunRequest requests = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateTensorboardRunsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.TensorboardRun tensorboard_runs = 1;
+}
+
+message CreateTensorboardRunRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardRun"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.TensorboardRun tensorboard_run = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string tensorboard_run_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTensorboardRunRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardRun"
+		}
+	];
+}
+
+message ReadTensorboardBlobDataRequest {
+
+	string time_series = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		}
+	];
+	repeated string blob_ids = 2;
+}
+
+message ReadTensorboardBlobDataResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.TensorboardBlob blobs = 1;
+}
+
+message ListTensorboardRunsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/TensorboardRun"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	string order_by = 5;
+	google.protobuf.FieldMask read_mask = 6;
+}
+
+message ListTensorboardRunsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.TensorboardRun tensorboard_runs = 1;
+	string next_page_token = 2;
+}
+
+message UpdateTensorboardRunRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.TensorboardRun tensorboard_run = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteTensorboardRunRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardRun"
+		}
+	];
+}
+
+message BatchCreateTensorboardTimeSeriesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardExperiment"
+		}
+	];
+	repeated CreateTensorboardTimeSeriesRequest requests = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateTensorboardTimeSeriesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.TensorboardTimeSeries tensorboard_time_series = 1;
+}
+
+message CreateTensorboardTimeSeriesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		}
+	];
+	string tensorboard_time_series_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.aiplatform.v1beta1.TensorboardTimeSeries tensorboard_time_series = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTensorboardTimeSeriesRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		}
+	];
+}
+
+message ListTensorboardTimeSeriesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	string order_by = 5;
+	google.protobuf.FieldMask read_mask = 6;
+}
+
+message ListTensorboardTimeSeriesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.TensorboardTimeSeries tensorboard_time_series = 1;
+	string next_page_token = 2;
+}
+
+message UpdateTensorboardTimeSeriesRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.TensorboardTimeSeries tensorboard_time_series = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteTensorboardTimeSeriesRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		}
+	];
+}
+
+message BatchReadTensorboardTimeSeriesDataRequest {
+
+	string tensorboard = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Tensorboard"
+		}
+	];
+	repeated string time_series = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		}
+	];
+}
+
+message BatchReadTensorboardTimeSeriesDataResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.TimeSeriesData time_series_data = 1;
+}
+
+message ReadTensorboardTimeSeriesDataRequest {
+
+	string tensorboard_time_series = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		}
+	];
+	int32 max_data_points = 2;
+	string filter = 3;
+}
+
+message ReadTensorboardTimeSeriesDataResponse {
+
+	google.cloud.aiplatform.v1beta1.TimeSeriesData time_series_data = 1;
+}
+
+message WriteTensorboardExperimentDataRequest {
+
+	string tensorboard_experiment = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardExperiment"
+		}
+	];
+	repeated WriteTensorboardRunDataRequest write_run_data_requests = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message WriteTensorboardExperimentDataResponse {
+
+}
+
+message WriteTensorboardRunDataRequest {
+
+	string tensorboard_run = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardRun"
+		}
+	];
+	repeated google.cloud.aiplatform.v1beta1.TimeSeriesData time_series_data = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message WriteTensorboardRunDataResponse {
+
+}
+
+message ExportTensorboardTimeSeriesDataRequest {
+
+	string tensorboard_time_series = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	string order_by = 5;
+}
+
+message ExportTensorboardTimeSeriesDataResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.TimeSeriesDataPoint time_series_data_points = 1;
+	string next_page_token = 2;
+}
+
+message CreateTensorboardOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message UpdateTensorboardOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}

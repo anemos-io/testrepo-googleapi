@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.agentendpoint.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/type/date.proto";
+
+option java_package = "com.google.cloud.osconfig.agentendpoint.v1";
+option java_outer_classname = "InventoryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1;agentendpoint";
+
+
+message Inventory {
+
+	message OsInfo {
+
+		string hostname = 1;
+		string long_name = 2;
+		string short_name = 3;
+		string version = 4;
+		string architecture = 5;
+		string kernel_version = 6;
+		string kernel_release = 7;
+		string osconfig_agent_version = 8;
+	}
+
+	message SoftwarePackage {
+
+		oneof details {
+			VersionedPackage yum_package = 1;
+			VersionedPackage apt_package = 2;
+			VersionedPackage zypper_package = 3;
+			VersionedPackage googet_package = 4;
+			ZypperPatch zypper_patch = 5;
+			WindowsUpdatePackage wua_package = 6;
+			WindowsQuickFixEngineeringPackage qfe_package = 7;
+			VersionedPackage cos_package = 8;
+			WindowsApplication windows_application = 9;
+		}
+	}
+
+	message VersionedPackage {
+
+		string package_name = 1;
+		string architecture = 2;
+		string version = 3;
+	}
+
+	message WindowsQuickFixEngineeringPackage {
+
+		string caption = 1;
+		string description = 2;
+		string hot_fix_id = 3;
+		google.protobuf.Timestamp install_time = 4;
+	}
+
+	message ZypperPatch {
+
+		string patch_name = 1;
+		string category = 2;
+		string severity = 3;
+		string summary = 4;
+	}
+
+	message WindowsUpdatePackage {
+
+		message WindowsUpdateCategory {
+
+			string id = 1;
+			string name = 2;
+		}
+
+		string title = 1;
+		string description = 2;
+		repeated WindowsUpdateCategory categories = 3;
+		repeated string kb_article_ids = 4;
+		string support_url = 5;
+		repeated string more_info_urls = 6;
+		string update_id = 7;
+		int32 revision_number = 8;
+		google.protobuf.Timestamp last_deployment_change_time = 9;
+	}
+
+	message WindowsApplication {
+
+		string display_name = 1;
+		string display_version = 2;
+		string publisher = 3;
+		google.type.Date install_date = 4;
+		string help_link = 5;
+	}
+
+	OsInfo os_info = 1;
+	repeated SoftwarePackage installed_packages = 2;
+	repeated SoftwarePackage available_packages = 3;
+}

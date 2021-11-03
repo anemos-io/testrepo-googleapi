@@ -8,6 +8,8 @@ option java_package = "com.google.monitoring.dashboard.v1";
 option java_outer_classname = "LayoutsProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option csharp_namespace = "Google.Cloud.Monitoring.Dashboard.V1";
+option php_namespace = "Google\\Cloud\\Monitoring\\Dashboard\\V1";
 option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
 
 
@@ -15,6 +17,21 @@ message GridLayout {
 
 	int64 columns = 1;
 	repeated google.monitoring.dashboard.v1.Widget widgets = 2;
+}
+
+message MosaicLayout {
+
+	message Tile {
+
+		int32 x_pos = 1;
+		int32 y_pos = 2;
+		int32 width = 3;
+		int32 height = 4;
+		google.monitoring.dashboard.v1.Widget widget = 5;
+	}
+
+	int32 columns = 1;
+	repeated Tile tiles = 3;
 }
 
 message RowLayout {

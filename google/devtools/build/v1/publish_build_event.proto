@@ -14,6 +14,7 @@ option java_outer_classname = "BackendProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/devtools/build/v1;build";
 option cc_enable_arenas = true;
+option php_namespace = "Google\\Cloud\\Build\\V1";
 
 
 service PublishBuildEvent {

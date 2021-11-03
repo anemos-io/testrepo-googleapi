@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/httpbody.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/explanation.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "PredictionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+service PredictionService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc Predict(google.cloud.aiplatform.v1.PredictRequest) returns (google.cloud.aiplatform.v1.PredictResponse) {
+		option (google.api.method_signature) = "endpoint,instances,parameters";
+		option (google.api.http) = {
+			post: "/v1/{endpoint=projects/*/locations/*/endpoints/*}:predict"
+			body: "*"
+		};
+
+	}
+	rpc RawPredict(google.cloud.aiplatform.v1.RawPredictRequest) returns (google.api.HttpBody) {
+		option (google.api.method_signature) = "endpoint,http_body";
+		option (google.api.http) = {
+			post: "/v1/{endpoint=projects/*/locations/*/endpoints/*}:rawPredict"
+			body: "*"
+		};
+
+	}
+	rpc Explain(google.cloud.aiplatform.v1.ExplainRequest) returns (google.cloud.aiplatform.v1.ExplainResponse) {
+		option (google.api.method_signature) = "endpoint,instances,parameters,deployed_model_id";
+		option (google.api.http) = {
+			post: "/v1/{endpoint=projects/*/locations/*/endpoints/*}:explain"
+			body: "*"
+		};
+
+	}
+}
+
+message PredictRequest {
+
+	string endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Endpoint"
+		}
+	];
+	repeated google.protobuf.Value instances = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Value parameters = 3;
+}
+
+message PredictResponse {
+
+	repeated google.protobuf.Value predictions = 1;
+	string deployed_model_id = 2;
+	string model = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Model"
+		}
+	];
+	string model_display_name = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message RawPredictRequest {
+
+	string endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Endpoint"
+		}
+	];
+	google.api.HttpBody http_body = 2;
+}
+
+message ExplainRequest {
+
+	string endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Endpoint"
+		}
+	];
+	repeated google.protobuf.Value instances = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Value parameters = 4;
+	google.cloud.aiplatform.v1.ExplanationSpecOverride explanation_spec_override = 5;
+	string deployed_model_id = 3;
+}
+
+message ExplainResponse {
+
+	repeated google.cloud.aiplatform.v1.Explanation explanations = 1;
+	string deployed_model_id = 2;
+	repeated google.protobuf.Value predictions = 3;
+}

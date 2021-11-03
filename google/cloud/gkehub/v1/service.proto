@@ -1,0 +1,335 @@
+syntax = "proto3";
+
+package google.cloud.gkehub.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/gkehub/v1/feature.proto";
+import "google/cloud/gkehub/v1/membership.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.gkehub.v1";
+option java_outer_classname = "ServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkehub/v1;gkehub";
+option csharp_namespace = "Google.Cloud.GkeHub.V1";
+option php_namespace = "Google\\Cloud\\GkeHub\\V1";
+option ruby_package = "Google::Cloud::GkeHub::V1";
+
+
+service GkeHub {
+	option (google.api.default_host) = "gkehub.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListMemberships(google.cloud.gkehub.v1.ListMembershipsRequest) returns (google.cloud.gkehub.v1.ListMembershipsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/memberships"
+		};
+
+	}
+	rpc ListFeatures(google.cloud.gkehub.v1.ListFeaturesRequest) returns (google.cloud.gkehub.v1.ListFeaturesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/features"
+		};
+
+	}
+	rpc GetMembership(google.cloud.gkehub.v1.GetMembershipRequest) returns (google.cloud.gkehub.v1.Membership) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/memberships/*}"
+		};
+
+	}
+	rpc GetFeature(google.cloud.gkehub.v1.GetFeatureRequest) returns (google.cloud.gkehub.v1.Feature) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/features/*}"
+		};
+
+	}
+	rpc CreateMembership(google.cloud.gkehub.v1.CreateMembershipRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Membership"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,resource,membership_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/memberships"
+			body: "resource"
+		};
+
+	}
+	rpc CreateFeature(google.cloud.gkehub.v1.CreateFeatureRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Feature"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,resource,feature_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/features"
+			body: "resource"
+		};
+
+	}
+	rpc DeleteMembership(google.cloud.gkehub.v1.DeleteMembershipRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/memberships/*}"
+		};
+
+	}
+	rpc DeleteFeature(google.cloud.gkehub.v1.DeleteFeatureRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/features/*}"
+		};
+
+	}
+	rpc UpdateMembership(google.cloud.gkehub.v1.UpdateMembershipRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Membership"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,resource,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{name=projects/*/locations/*/memberships/*}"
+			body: "resource"
+		};
+
+	}
+	rpc UpdateFeature(google.cloud.gkehub.v1.UpdateFeatureRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Feature"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,resource,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{name=projects/*/locations/*/features/*}"
+			body: "resource"
+		};
+
+	}
+	rpc GenerateConnectManifest(google.cloud.gkehub.v1.GenerateConnectManifestRequest) returns (google.cloud.gkehub.v1.GenerateConnectManifestResponse) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/memberships/*}:generateConnectManifest"
+		};
+
+	}
+}
+
+message ListMembershipsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gkehub.googleapis.com/Membership"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListMembershipsResponse {
+
+	repeated google.cloud.gkehub.v1.Membership resources = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetMembershipRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gkehub.googleapis.com/Membership"
+		}
+	];
+}
+
+message CreateMembershipRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gkehub.googleapis.com/Membership"
+		}
+	];
+	string membership_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.gkehub.v1.Membership resource = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteMembershipRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gkehub.googleapis.com/Membership"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateMembershipRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.gkehub.v1.Membership resource = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GenerateConnectManifestRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string namespace = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes proxy = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string version = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool is_upgrade = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string registry = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes image_pull_secret_content = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GenerateConnectManifestResponse {
+
+	repeated ConnectAgentResource manifest = 1;
+}
+
+message ConnectAgentResource {
+
+	TypeMeta type = 1;
+	string manifest = 2;
+}
+
+message TypeMeta {
+
+	string kind = 1;
+	string api_version = 2;
+}
+
+message ListFeaturesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListFeaturesResponse {
+
+	repeated google.cloud.gkehub.v1.Feature resources = 1;
+	string next_page_token = 2;
+}
+
+message GetFeatureRequest {
+
+	string name = 1;
+}
+
+message CreateFeatureRequest {
+
+	string parent = 1;
+	string feature_id = 2;
+	google.cloud.gkehub.v1.Feature resource = 3;
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteFeatureRequest {
+
+	string name = 1;
+	bool force = 2;
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateFeatureRequest {
+
+	string name = 1;
+	google.protobuf.FieldMask update_mask = 2;
+	google.cloud.gkehub.v1.Feature resource = 3;
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_detail = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool cancel_requested = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

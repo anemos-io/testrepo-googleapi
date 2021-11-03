@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package maps.fleetengine.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/maps/fleetengine/v1/fleetengine.proto";
+import "google/maps/fleetengine/v1/header.proto";
+import "google/maps/fleetengine/v1/trips.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "google.maps.fleetengine.v1";
+option java_outer_classname = "TripApi";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/fleetengine/v1;fleetengine";
+option objc_class_prefix = "CFE";
+
+
+service TripService {
+	option (google.api.default_host) = "fleetengine.googleapis.com";
+
+	rpc CreateTrip(maps.fleetengine.v1.CreateTripRequest) returns (maps.fleetengine.v1.Trip) {
+		option (google.api.http) = {
+			post: "/v1/{parent=providers/*}/trips"
+			body: "trip"
+		};
+
+	}
+	rpc GetTrip(maps.fleetengine.v1.GetTripRequest) returns (maps.fleetengine.v1.Trip) {
+		option (google.api.http) = {
+			get: "/v1/{name=providers/*/trips/*}"
+		};
+
+	}
+	rpc ReportBillableTrip(maps.fleetengine.v1.ReportBillableTripRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{name=providers/*/billableTrips/*}:report"
+			body: "*"
+		};
+
+	}
+	rpc SearchTrips(maps.fleetengine.v1.SearchTripsRequest) returns (maps.fleetengine.v1.SearchTripsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=providers/*}/trips:search"
+			body: "*"
+		};
+
+	}
+	rpc UpdateTrip(maps.fleetengine.v1.UpdateTripRequest) returns (maps.fleetengine.v1.Trip) {
+		option (google.api.http) = {
+			put: "/v1/{name=providers/*/trips/*}"
+			body: "trip"
+		};
+
+	}
+}
+
+message CreateTripRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string parent = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "fleetengine.googleapis.com/Trip"
+		}
+	];
+	string trip_id = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.Trip trip = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTripRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "fleetengine.googleapis.com/Trip"
+		}
+	];
+	maps.fleetengine.v1.TripView view = 11;
+	google.protobuf.Timestamp current_route_segment_version = 6;
+	google.protobuf.Timestamp remaining_waypoints_version = 7;
+	maps.fleetengine.v1.PolylineFormatType route_format_type = 8;
+}
+
+message ReportBillableTripRequest {
+
+	enum SolutionType {
+
+		SOLUTION_TYPE_UNSPECIFIED = 0;
+		ON_DEMAND_RIDESHARING_AND_DELIVERIES = 1;
+	}
+
+	string name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string country_code = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.BillingPlatformIdentifier platform = 5;
+	repeated string related_ids = 6;
+	SolutionType solution_type = 7;
+}
+
+message UpdateTripRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.Trip trip = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SearchTripsRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string parent = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string vehicle_id = 4;
+	bool active_trips_only = 5;
+	int32 page_size = 6;
+	string page_token = 7;
+	google.protobuf.Duration minimum_staleness = 8;
+}
+
+message SearchTripsResponse {
+
+	repeated maps.fleetengine.v1.Trip trips = 1;
+	string next_page_token = 2;
+}

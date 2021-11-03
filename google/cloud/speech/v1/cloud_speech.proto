@@ -9,6 +9,7 @@ import "google/longrunning/operations.proto";
 import "google/protobuf/any.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "google/rpc/status.proto";
 
 option java_package = "com.google.cloud.speech.v1";
@@ -64,6 +65,16 @@ message LongRunningRecognizeRequest {
 	RecognitionAudio audio = 2 [
 		(google.api.field_behavior) = REQUIRED
 	];
+	TranscriptOutputConfig output_config = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TranscriptOutputConfig {
+
+	oneof output_type {
+		string gcs_uri = 1;
+	}
 }
 
 message StreamingRecognizeRequest {
@@ -193,11 +204,13 @@ message RecognitionAudio {
 message RecognizeResponse {
 
 	repeated SpeechRecognitionResult results = 2;
+	google.protobuf.Duration total_billed_time = 3;
 }
 
 message LongRunningRecognizeResponse {
 
 	repeated SpeechRecognitionResult results = 2;
+	google.protobuf.Duration total_billed_time = 3;
 }
 
 message LongRunningRecognizeMetadata {
@@ -205,6 +218,9 @@ message LongRunningRecognizeMetadata {
 	int32 progress_percent = 1;
 	google.protobuf.Timestamp start_time = 2;
 	google.protobuf.Timestamp last_update_time = 3;
+	string uri = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message StreamingRecognizeResponse {
@@ -218,6 +234,7 @@ message StreamingRecognizeResponse {
 	google.rpc.Status error = 1;
 	repeated StreamingRecognitionResult results = 2;
 	SpeechEventType speech_event_type = 4;
+	google.protobuf.Duration total_billed_time = 5;
 }
 
 message StreamingRecognitionResult {

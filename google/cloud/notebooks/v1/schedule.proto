@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package google.cloud.notebooks.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/notebooks/v1/execution.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.notebooks.v1";
+option java_outer_classname = "ScheduleProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1;notebooks";
+
+
+message Schedule {
+	option (google.api.resource) = {
+		type: "notebooks.googleapis.com/Schedule"
+		pattern: ["projects/{project}/location/{location}/schedules/{schedule}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ENABLED = 1;
+		PAUSED = 2;
+		DISABLED = 3;
+		UPDATE_FAILED = 4;
+		INITIALIZING = 5;
+		DELETING = 6;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 3;
+	State state = 4;
+	string cron_schedule = 5;
+	string time_zone = 6;
+	google.protobuf.Timestamp create_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.notebooks.v1.ExecutionTemplate execution_template = 9;
+	repeated google.cloud.notebooks.v1.Execution recent_executions = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

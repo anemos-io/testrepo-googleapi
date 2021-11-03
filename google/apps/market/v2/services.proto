@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package ccc.hosted.marketplace.v2;
+
+import "google/api/annotations.proto";
+import "google/apps/market/v2/resources.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.ccc.hosted.marketplace.v2";
+option java_outer_classname = "ServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ccc/hosted/marketplace/v2;marketplace";
+option php_namespace = "Google\\Apps\\Market\\V2";
+
+
+service CustomerLicenseService {
+	option (google.api.default_host) = "appsmarket.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appsmarketplace.license";
+
+	rpc Get(ccc.hosted.marketplace.v2.CustomerLicenseGetRequest) returns (ccc.hosted.marketplace.v2.CustomerLicense) {
+		option (google.api.http) = {
+			get: "/appsmarket/v2/customerLicense/{application_id}/{customer_id}"
+		};
+
+	}
+}
+
+service LicenseNotificationService {
+	option (google.api.default_host) = "appsmarket.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appsmarketplace.license";
+
+	rpc List(ccc.hosted.marketplace.v2.LicenseNotificationListRequest) returns (ccc.hosted.marketplace.v2.LicenseNotificationList) {
+		option (google.api.http) = {
+			get: "/appsmarket/v2/licenseNotification/{application_id}"
+			body: "*"
+		};
+
+	}
+}
+
+service UserLicenseService {
+	option (google.api.default_host) = "appsmarket.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appsmarketplace.license";
+
+	rpc Get(ccc.hosted.marketplace.v2.UserLicenseGetRequest) returns (ccc.hosted.marketplace.v2.UserLicense) {
+		option (google.api.http) = {
+			get: "/appsmarket/v2/userLicense/{application_id}/{user_id}"
+		};
+
+	}
+}
+
+message CustomerLicenseGetRequest {
+
+	string application_id = 1;
+	string customer_id = 2;
+}
+
+message LicenseNotificationListRequest {
+
+	string application_id = 1;
+	uint32 max_results = 2;
+	string start_token = 3;
+	uint64 timestamp = 4;
+}
+
+message UserLicenseGetRequest {
+
+	string application_id = 1;
+	string user_id = 2;
+}

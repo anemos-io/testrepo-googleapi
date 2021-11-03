@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1p7beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/asset/v1p7beta1/assets.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.asset.v1p7beta1";
+option java_outer_classname = "AssetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1p7beta1;asset";
+option csharp_namespace = "Google.Cloud.Asset.V1P7Beta1";
+option php_namespace = "Google\\Cloud\\Asset\\V1p7beta1";
+
+
+enum ContentType {
+
+	CONTENT_TYPE_UNSPECIFIED = 0;
+	RESOURCE = 1;
+	IAM_POLICY = 2;
+	ORG_POLICY = 4;
+	ACCESS_POLICY = 5;
+	RELATIONSHIP = 7;
+}
+
+service AssetService {
+	option (google.api.default_host) = "cloudasset.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ExportAssets(google.cloud.asset.v1p7beta1.ExportAssetsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.asset.v1p7beta1.ExportAssetsResponse"
+			metadata_type: "google.cloud.asset.v1p7beta1.ExportAssetsRequest"
+		};
+		option (google.api.http) = {
+			post: "/v1p7beta1/{parent=*/*}:exportAssets"
+			body: "*"
+		};
+
+	}
+}
+
+message ExportAssetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudasset.googleapis.com/Asset"
+		}
+	];
+	google.protobuf.Timestamp read_time = 2;
+	repeated string asset_types = 3;
+	ContentType content_type = 4;
+	OutputConfig output_config = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string relationship_types = 6;
+}
+
+message ExportAssetsResponse {
+
+	google.protobuf.Timestamp read_time = 1;
+	OutputConfig output_config = 2;
+	OutputResult output_result = 3;
+}
+
+message OutputConfig {
+
+	oneof destination {
+		GcsDestination gcs_destination = 1;
+		BigQueryDestination bigquery_destination = 2;
+	}
+}
+
+message OutputResult {
+
+	oneof result {
+		GcsOutputResult gcs_result = 1;
+	}
+}
+
+message GcsOutputResult {
+
+	repeated string uris = 1;
+}
+
+message GcsDestination {
+
+	oneof object_uri {
+		string uri = 1;
+		string uri_prefix = 2;
+	}
+}
+
+message BigQueryDestination {
+
+	string dataset = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string table = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool force = 3;
+	PartitionSpec partition_spec = 4;
+	bool separate_tables_per_asset_type = 5;
+}
+
+message PartitionSpec {
+
+	enum PartitionKey {
+
+		PARTITION_KEY_UNSPECIFIED = 0;
+		READ_TIME = 1;
+		REQUEST_TIME = 2;
+	}
+
+	PartitionKey partition_key = 1;
+}

@@ -89,6 +89,13 @@ service LoggingServiceV2 {
 		};
 
 	}
+	rpc TailLogEntries(stream google.logging.v2.TailLogEntriesRequest) returns (stream google.logging.v2.TailLogEntriesResponse) {
+		option (google.api.http) = {
+			post: "/v2/entries:tail"
+			body: "*"
+		};
+
+	}
 }
 
 message DeleteLogRequest {
@@ -193,10 +200,45 @@ message ListLogsRequest {
 	string page_token = 3 [
 		(google.api.field_behavior) = OPTIONAL
 	];
+	repeated string resource_names = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message ListLogsResponse {
 
 	repeated string log_names = 3;
 	string next_page_token = 2;
+}
+
+message TailLogEntriesRequest {
+
+	repeated string resource_names = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Duration buffer_window = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TailLogEntriesResponse {
+
+	message SuppressionInfo {
+
+		enum Reason {
+
+			REASON_UNSPECIFIED = 0;
+			RATE_LIMIT = 1;
+			NOT_CONSUMED = 2;
+		}
+
+		Reason reason = 1;
+		int32 suppressed_count = 2;
+	}
+
+	repeated google.logging.v2.LogEntry entries = 1;
+	repeated SuppressionInfo suppression_info = 2;
 }

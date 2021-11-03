@@ -1,0 +1,297 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/datacatalog/v1/timestamps.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1";
+option java_outer_classname = "PolicyTagManagerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1";
+option ruby_package = "Google::Cloud::DataCatalog::V1";
+
+
+service PolicyTagManager {
+	option (google.api.default_host) = "datacatalog.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateTaxonomy(google.cloud.datacatalog.v1.CreateTaxonomyRequest) returns (google.cloud.datacatalog.v1.Taxonomy) {
+		option (google.api.method_signature) = "parent,taxonomy";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/taxonomies"
+			body: "taxonomy"
+		};
+
+	}
+	rpc DeleteTaxonomy(google.cloud.datacatalog.v1.DeleteTaxonomyRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/taxonomies/*}"
+		};
+
+	}
+	rpc UpdateTaxonomy(google.cloud.datacatalog.v1.UpdateTaxonomyRequest) returns (google.cloud.datacatalog.v1.Taxonomy) {
+		option (google.api.method_signature) = "taxonomy";
+		option (google.api.http) = {
+			patch: "/v1/{taxonomy.name=projects/*/locations/*/taxonomies/*}"
+			body: "taxonomy"
+		};
+
+	}
+	rpc ListTaxonomies(google.cloud.datacatalog.v1.ListTaxonomiesRequest) returns (google.cloud.datacatalog.v1.ListTaxonomiesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/taxonomies"
+		};
+
+	}
+	rpc GetTaxonomy(google.cloud.datacatalog.v1.GetTaxonomyRequest) returns (google.cloud.datacatalog.v1.Taxonomy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/taxonomies/*}"
+		};
+
+	}
+	rpc CreatePolicyTag(google.cloud.datacatalog.v1.CreatePolicyTagRequest) returns (google.cloud.datacatalog.v1.PolicyTag) {
+		option (google.api.method_signature) = "parent,policy_tag";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/taxonomies/*}/policyTags"
+			body: "policy_tag"
+		};
+
+	}
+	rpc DeletePolicyTag(google.cloud.datacatalog.v1.DeletePolicyTagRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/taxonomies/*/policyTags/*}"
+		};
+
+	}
+	rpc UpdatePolicyTag(google.cloud.datacatalog.v1.UpdatePolicyTagRequest) returns (google.cloud.datacatalog.v1.PolicyTag) {
+		option (google.api.method_signature) = "policy_tag";
+		option (google.api.http) = {
+			patch: "/v1/{policy_tag.name=projects/*/locations/*/taxonomies/*/policyTags/*}"
+			body: "policy_tag"
+		};
+
+	}
+	rpc ListPolicyTags(google.cloud.datacatalog.v1.ListPolicyTagsRequest) returns (google.cloud.datacatalog.v1.ListPolicyTagsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/taxonomies/*}/policyTags"
+		};
+
+	}
+	rpc GetPolicyTag(google.cloud.datacatalog.v1.GetPolicyTagRequest) returns (google.cloud.datacatalog.v1.PolicyTag) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/taxonomies/*/policyTags/*}"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/taxonomies/*}:getIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/taxonomies/*/policyTags/*}:getIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/taxonomies/*}:setIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/taxonomies/*/policyTags/*}:setIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/taxonomies/*}:testIamPermissions"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/taxonomies/*/policyTags/*}:testIamPermissions"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message Taxonomy {
+	option (google.api.resource) = {
+		type: "datacatalog.googleapis.com/Taxonomy"
+		pattern: ["projects/{project}/locations/{location}/taxonomies/{taxonomy}"]
+	};
+
+	enum PolicyType {
+
+		POLICY_TYPE_UNSPECIFIED = 0;
+		FINE_GRAINED_ACCESS_CONTROL = 1;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 policy_tag_count = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.datacatalog.v1.SystemTimestamps taxonomy_timestamps = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated PolicyType activated_policy_types = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PolicyTag {
+	option (google.api.resource) = {
+		type: "datacatalog.googleapis.com/PolicyTag"
+		pattern: ["projects/{project}/locations/{location}/taxonomies/{taxonomy}/policyTags/{policy_tag}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3;
+	string parent_policy_tag = 4;
+	repeated string child_policy_tags = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CreateTaxonomyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+	Taxonomy taxonomy = 2;
+}
+
+message DeleteTaxonomyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+}
+
+message UpdateTaxonomyRequest {
+
+	Taxonomy taxonomy = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message ListTaxonomiesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTaxonomiesResponse {
+
+	repeated Taxonomy taxonomies = 1;
+	string next_page_token = 2;
+}
+
+message GetTaxonomyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+}
+
+message CreatePolicyTagRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/PolicyTag"
+		}
+	];
+	PolicyTag policy_tag = 2;
+}
+
+message DeletePolicyTagRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/PolicyTag"
+		}
+	];
+}
+
+message UpdatePolicyTagRequest {
+
+	PolicyTag policy_tag = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message ListPolicyTagsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/PolicyTag"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListPolicyTagsResponse {
+
+	repeated PolicyTag policy_tags = 1;
+	string next_page_token = 2;
+}
+
+message GetPolicyTagRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/PolicyTag"
+		}
+	];
+}

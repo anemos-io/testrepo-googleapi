@@ -136,9 +136,17 @@ service ReservationService {
 
 	}
 	rpc SearchAssignments(google.cloud.bigquery.reservation.v1.SearchAssignmentsRequest) returns (google.cloud.bigquery.reservation.v1.SearchAssignmentsResponse) {
+		option deprecated = true;
 		option (google.api.method_signature) = "parent,query";
 		option (google.api.http) = {
 			get: "/v1/{parent=projects/*/locations/*}:searchAssignments"
+		};
+
+	}
+	rpc SearchAllAssignments(google.cloud.bigquery.reservation.v1.SearchAllAssignmentsRequest) returns (google.cloud.bigquery.reservation.v1.SearchAllAssignmentsResponse) {
+		option (google.api.method_signature) = "parent,query";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}:searchAllAssignments"
 		};
 
 	}
@@ -176,6 +184,12 @@ message Reservation {
 	string name = 1;
 	int64 slot_capacity = 2;
 	bool ignore_idle_slots = 4;
+	google.protobuf.Timestamp creation_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message CapacityCommitment {
@@ -207,6 +221,9 @@ message CapacityCommitment {
 	int64 slot_count = 2;
 	CommitmentPlan plan = 3;
 	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp commitment_start_time = 9 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	google.protobuf.Timestamp commitment_end_time = 5 [
@@ -284,6 +301,7 @@ message CreateCapacityCommitmentRequest {
 	];
 	CapacityCommitment capacity_commitment = 2;
 	bool enforce_single_admin_project_per_org = 4;
+	string capacity_commitment_id = 5;
 }
 
 message ListCapacityCommitmentsRequest {
@@ -322,6 +340,7 @@ message DeleteCapacityCommitmentRequest {
 			type: "bigqueryreservation.googleapis.com/CapacityCommitment"
 		}
 	];
+	bool force = 3;
 }
 
 message UpdateCapacityCommitmentRequest {
@@ -368,6 +387,7 @@ message Assignment {
 		JOB_TYPE_UNSPECIFIED = 0;
 		PIPELINE = 1;
 		QUERY = 2;
+		ML_EXTERNAL = 3;
 	}
 
 	enum State {
@@ -396,6 +416,7 @@ message CreateAssignmentRequest {
 		}
 	];
 	Assignment assignment = 2;
+	string assignment_id = 4;
 }
 
 message ListAssignmentsRequest {
@@ -439,7 +460,26 @@ message SearchAssignmentsRequest {
 	string page_token = 4;
 }
 
+message SearchAllAssignmentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string query = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
 message SearchAssignmentsResponse {
+
+	repeated Assignment assignments = 1;
+	string next_page_token = 2;
+}
+
+message SearchAllAssignmentsResponse {
 
 	repeated Assignment assignments = 1;
 	string next_page_token = 2;
@@ -463,7 +503,7 @@ message MoveAssignmentRequest {
 message BiReservation {
 	option (google.api.resource) = {
 		type: "bigqueryreservation.googleapis.com/BiReservation"
-		pattern: ["projects/{project}/locations/{location}/bireservation"]
+		pattern: ["projects/{project}/locations/{location}/biReservation"]
 	};
 
 	string name = 1;

@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "MigratableResourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+option (google.api.resource_definition) = {
+	type: "ml.googleapis.com/Version"
+	pattern: ["projects/{project}/models/{model}/versions/{version}"]
+};
+option (google.api.resource_definition) = {
+	type: "automl.googleapis.com/Model"
+	pattern: ["projects/{project}/locations/{location}/models/{model}"]
+};
+option (google.api.resource_definition) = {
+	type: "automl.googleapis.com/Dataset"
+	pattern: ["projects/{project}/locations/{location}/datasets/{dataset}"]
+};
+option (google.api.resource_definition) = {
+	type: "datalabeling.googleapis.com/Dataset"
+	pattern: ["projects/{project}/datasets/{dataset}"]
+};
+option (google.api.resource_definition) = {
+	type: "datalabeling.googleapis.com/AnnotatedDataset"
+	pattern: ["projects/{project}/datasets/{dataset}/annotatedDatasets/{annotated_dataset}"]
+};
+
+
+message MigratableResource {
+
+	message MlEngineModelVersion {
+
+		string endpoint = 1;
+		string version = 2 [
+			(google.api.resource_reference) = {
+				type: "ml.googleapis.com/Version"
+			}
+		];
+	}
+
+	message AutomlModel {
+
+		string model = 1 [
+			(google.api.resource_reference) = {
+				type: "automl.googleapis.com/Model"
+			}
+		];
+		string model_display_name = 3;
+	}
+
+	message AutomlDataset {
+
+		string dataset = 1 [
+			(google.api.resource_reference) = {
+				type: "automl.googleapis.com/Dataset"
+			}
+		];
+		string dataset_display_name = 4;
+	}
+
+	message DataLabelingDataset {
+
+		message DataLabelingAnnotatedDataset {
+
+			string annotated_dataset = 1 [
+				(google.api.resource_reference) = {
+					type: "datalabeling.googleapis.com/AnnotatedDataset"
+				}
+			];
+			string annotated_dataset_display_name = 3;
+		}
+
+		string dataset = 1 [
+			(google.api.resource_reference) = {
+				type: "datalabeling.googleapis.com/Dataset"
+			}
+		];
+		string dataset_display_name = 4;
+		repeated DataLabelingAnnotatedDataset data_labeling_annotated_datasets = 3;
+	}
+
+	oneof resource {
+		MlEngineModelVersion ml_engine_model_version = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		AutomlModel automl_model = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		AutomlDataset automl_dataset = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		DataLabelingDataset data_labeling_dataset = 4 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.protobuf.Timestamp last_migrate_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp last_update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

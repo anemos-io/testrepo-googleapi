@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2;
+
+import "google/cloud/dialogflow/v2/participant.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2";
+option java_outer_classname = "HumanAgentAssistantEventProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2";
+
+
+message HumanAgentAssistantEvent {
+
+	string conversation = 1;
+	string participant = 3;
+	repeated google.cloud.dialogflow.v2.SuggestionResult suggestion_results = 5;
+}

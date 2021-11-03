@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package google.cloud.vision.v1;
 
+import "google/api/resource.proto";
 import "google/cloud/vision/v1/geometry.proto";
 import "google/cloud/vision/v1/product_search_service.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
-import "google/api/resource.proto";
 
 option java_package = "com.google.cloud.vision.v1";
 option java_outer_classname = "ProductSearchProto";

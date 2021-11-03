@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1.schema.trainingjob.definition;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/aiplatform/v1/schema/trainingjob/definition/export_evaluated_data_items_config.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1.schema.trainingjob.definition";
+option java_outer_classname = "AutoMLTablesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1/schema/trainingjob/definition;definition";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1.Schema.TrainingJob.Definition";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1\\Schema\\TrainingJob\\Definition";
+option ruby_package = "Google::Cloud::AIPlatform::V1::Schema::TrainingJob::Definition";
+
+
+message AutoMlTables {
+
+	AutoMlTablesInputs inputs = 1;
+	AutoMlTablesMetadata metadata = 2;
+}
+
+message AutoMlTablesInputs {
+
+	message Transformation {
+
+		message AutoTransformation {
+
+			string column_name = 1;
+		}
+
+		message NumericTransformation {
+
+			string column_name = 1;
+			bool invalid_values_allowed = 2;
+		}
+
+		message CategoricalTransformation {
+
+			string column_name = 1;
+		}
+
+		message TimestampTransformation {
+
+			string column_name = 1;
+			string time_format = 2;
+			bool invalid_values_allowed = 3;
+		}
+
+		message TextTransformation {
+
+			string column_name = 1;
+		}
+
+		message NumericArrayTransformation {
+
+			string column_name = 1;
+			bool invalid_values_allowed = 2;
+		}
+
+		message CategoricalArrayTransformation {
+
+			string column_name = 1;
+		}
+
+		message TextArrayTransformation {
+
+			string column_name = 1;
+		}
+
+		oneof transformation_detail {
+			AutoTransformation auto = 1;
+			NumericTransformation numeric = 2;
+			CategoricalTransformation categorical = 3;
+			TimestampTransformation timestamp = 4;
+			TextTransformation text = 5;
+			NumericArrayTransformation repeated_numeric = 6;
+			CategoricalArrayTransformation repeated_categorical = 7;
+			TextArrayTransformation repeated_text = 8;
+		}
+	}
+
+	oneof additional_optimization_objective_config {
+		float optimization_objective_recall_value = 5;
+		float optimization_objective_precision_value = 6;
+	}
+	string prediction_type = 1;
+	string target_column = 2;
+	repeated Transformation transformations = 3;
+	string optimization_objective = 4;
+	int64 train_budget_milli_node_hours = 7;
+	bool disable_early_stopping = 8;
+	string weight_column_name = 9;
+	google.cloud.aiplatform.v1.schema.trainingjob.definition.ExportEvaluatedDataItemsConfig export_evaluated_data_items_config = 10;
+	repeated string additional_experiments = 11;
+}
+
+message AutoMlTablesMetadata {
+
+	int64 train_cost_milli_node_hours = 1;
+}

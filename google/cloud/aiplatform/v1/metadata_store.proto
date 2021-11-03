@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/encryption_spec.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "MetadataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message MetadataStore {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/MetadataStore"
+		pattern: ["projects/{project}/locations/{location}/metadataStores/{metadata_store}"]
+	};
+
+	message MetadataStoreState {
+
+		int64 disk_utilization_bytes = 1;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1.EncryptionSpec encryption_spec = 5;
+	string description = 6;
+	MetadataStoreState state = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

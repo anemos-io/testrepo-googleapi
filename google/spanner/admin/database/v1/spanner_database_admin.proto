@@ -228,6 +228,21 @@ message Database {
 	RestoreInfo restore_info = 4 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
+	google.spanner.admin.database.v1.EncryptionConfig encryption_config = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.spanner.admin.database.v1.EncryptionInfo encryption_info = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string version_retention_period = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp earliest_version_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string default_leader = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message ListDatabasesRequest {
@@ -260,6 +275,9 @@ message CreateDatabaseRequest {
 		(google.api.field_behavior) = REQUIRED
 	];
 	repeated string extra_statements = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.spanner.admin.database.v1.EncryptionConfig encryption_config = 4 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -306,6 +324,10 @@ message UpdateDatabaseDdlMetadata {
 	];
 	repeated string statements = 2;
 	repeated google.protobuf.Timestamp commit_timestamps = 3;
+	bool throttled = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.spanner.admin.database.v1.OperationProgress progress = 5;
 }
 
 message DropDatabaseRequest {
@@ -370,11 +392,39 @@ message RestoreDatabaseRequest {
 			}
 		];
 	}
+	RestoreDatabaseEncryptionConfig encryption_config = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RestoreDatabaseEncryptionConfig {
+
+	enum EncryptionType {
+
+		ENCRYPTION_TYPE_UNSPECIFIED = 0;
+		USE_CONFIG_DEFAULT_OR_BACKUP_ENCRYPTION = 1;
+		GOOGLE_DEFAULT_ENCRYPTION = 2;
+		CUSTOMER_MANAGED_ENCRYPTION = 3;
+	}
+
+	EncryptionType encryption_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string kms_key_name = 2 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
 }
 
 message RestoreDatabaseMetadata {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
 	RestoreSourceType source_type = 2;
 	oneof source_info {
 		google.spanner.admin.database.v1.BackupInfo backup_info = 3;
@@ -386,6 +436,10 @@ message RestoreDatabaseMetadata {
 
 message OptimizeRestoredDatabaseMetadata {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
 	google.spanner.admin.database.v1.OperationProgress progress = 2;
 }

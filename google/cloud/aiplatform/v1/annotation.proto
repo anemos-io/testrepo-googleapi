@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/user_action_reference.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "AnnotationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message Annotation {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Annotation"
+		pattern: ["projects/{project}/locations/{location}/datasets/{dataset}/dataItems/{data_item}/annotations/{annotation}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string payload_schema_uri = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Value payload = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string etag = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.aiplatform.v1.UserActionReference annotation_source = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

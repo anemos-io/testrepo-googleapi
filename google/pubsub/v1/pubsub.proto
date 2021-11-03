@@ -10,6 +10,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/pubsub/v1/schema.proto";
 
 option java_package = "com.google.pubsub.v1";
 option java_outer_classname = "PubsubProto";
@@ -149,6 +150,7 @@ service Subscriber {
 	}
 	rpc Pull(google.pubsub.v1.PullRequest) returns (google.pubsub.v1.PullResponse) {
 		option (google.api.method_signature) = "subscription,return_immediately,max_messages";
+		option (google.api.method_signature) = "subscription,max_messages";
 		option (google.api.http) = {
 			post: "/v1/{subscription=projects/*/subscriptions/*}:pull"
 			body: "*"
@@ -214,6 +216,17 @@ message MessageStoragePolicy {
 	repeated string allowed_persistence_regions = 1;
 }
 
+message SchemaSettings {
+
+	string schema = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Schema"
+		}
+	];
+	google.pubsub.v1.Encoding encoding = 2;
+}
+
 message Topic {
 	option (google.api.resource) = {
 		type: "pubsub.googleapis.com/Topic"
@@ -226,6 +239,9 @@ message Topic {
 	map<string, string> labels = 2;
 	MessageStoragePolicy message_storage_policy = 3;
 	string kms_key_name = 5;
+	SchemaSettings schema_settings = 6;
+	bool satisfies_pzs = 7;
+	google.protobuf.Duration message_retention_duration = 8;
 }
 
 message PubsubMessage {
@@ -383,6 +399,9 @@ message Subscription {
 	DeadLetterPolicy dead_letter_policy = 13;
 	RetryPolicy retry_policy = 14;
 	bool detached = 15;
+	google.protobuf.Duration topic_message_retention_duration = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message RetryPolicy {
@@ -557,7 +576,13 @@ message StreamingPullRequest {
 
 message StreamingPullResponse {
 
+	message SubscriptionProperties {
+
+		bool message_ordering_enabled = 2;
+	}
+
 	repeated ReceivedMessage received_messages = 1;
+	SubscriptionProperties subscription_properties = 4;
 }
 
 message CreateSnapshotRequest {

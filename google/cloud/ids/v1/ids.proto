@@ -1,0 +1,205 @@
+syntax = "proto3";
+
+package google.cloud.ids.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.ids.v1";
+option java_outer_classname = "IdsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/ids/v1;ids";
+
+
+service IDS {
+	option (google.api.default_host) = "ids.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListEndpoints(google.cloud.ids.v1.ListEndpointsRequest) returns (google.cloud.ids.v1.ListEndpointsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/endpoints"
+		};
+
+	}
+	rpc GetEndpoint(google.cloud.ids.v1.GetEndpointRequest) returns (google.cloud.ids.v1.Endpoint) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/endpoints/*}"
+		};
+
+	}
+	rpc CreateEndpoint(google.cloud.ids.v1.CreateEndpointRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Endpoint"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,endpoint,endpoint_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/endpoints"
+			body: "endpoint"
+		};
+
+	}
+	rpc DeleteEndpoint(google.cloud.ids.v1.DeleteEndpointRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/endpoints/*}"
+		};
+
+	}
+}
+
+message Endpoint {
+	option (google.api.resource) = {
+		type: "ids.googleapis.com/Endpoint"
+		pattern: ["projects/{project}/locations/{location}/endpoints/{endpoint}"]
+	};
+
+	enum Severity {
+
+		SEVERITY_UNSPECIFIED = 0;
+		INFORMATIONAL = 1;
+		LOW = 2;
+		MEDIUM = 3;
+		HIGH = 4;
+		CRITICAL = 5;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		DELETING = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string network = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string endpoint_forwarding_rule = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string endpoint_ip = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 8;
+	Severity severity = 9 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	State state = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool traffic_logs = 13;
+}
+
+message ListEndpointsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "ids.googleapis.com/Endpoint"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEndpointsResponse {
+
+	repeated Endpoint endpoints = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetEndpointRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "ids.googleapis.com/Endpoint"
+		}
+	];
+}
+
+message CreateEndpointRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "ids.googleapis.com/Endpoint"
+		}
+	];
+	string endpoint_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Endpoint endpoint = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4;
+}
+
+message DeleteEndpointRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "ids.googleapis.com/Endpoint"
+		}
+	];
+	string request_id = 2;
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

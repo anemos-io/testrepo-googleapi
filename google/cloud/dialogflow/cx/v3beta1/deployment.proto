@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
+option java_outer_classname = "DeploymentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3beta1;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
+
+
+service Deployments {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListDeployments(google.cloud.dialogflow.cx.v3beta1.ListDeploymentsRequest) returns (google.cloud.dialogflow.cx.v3beta1.ListDeploymentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3beta1/{parent=projects/*/locations/*/agents/*/environments/*}/deployments"
+		};
+
+	}
+	rpc GetDeployment(google.cloud.dialogflow.cx.v3beta1.GetDeploymentRequest) returns (google.cloud.dialogflow.cx.v3beta1.Deployment) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3beta1/{name=projects/*/locations/*/agents/*/environments/*/deployments/*}"
+		};
+
+	}
+}
+
+message Deployment {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Deployment"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/environments/{environment}/deployments/{deployment}"]
+	};
+
+	message Result {
+
+		repeated string deployment_test_results = 1 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/TestCaseResult"
+			}
+		];
+		string experiment = 2 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Experiment"
+			}
+		];
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+	}
+
+	string name = 1;
+	string flow_version = 2 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Version"
+		}
+	];
+	State state = 3;
+	Result result = 4;
+	google.protobuf.Timestamp start_time = 5;
+	google.protobuf.Timestamp end_time = 6;
+}
+
+message ListDeploymentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Deployment"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListDeploymentsResponse {
+
+	repeated Deployment deployments = 1;
+	string next_page_token = 2;
+}
+
+message GetDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Deployment"
+		}
+	];
+}

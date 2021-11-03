@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.enums";
+option java_outer_classname = "RecommendationTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V8::Enums";
+
+
+message RecommendationTypeEnum {
+
+	enum RecommendationType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		CAMPAIGN_BUDGET = 2;
+		KEYWORD = 3;
+		TEXT_AD = 4;
+		TARGET_CPA_OPT_IN = 5;
+		MAXIMIZE_CONVERSIONS_OPT_IN = 6;
+		ENHANCED_CPC_OPT_IN = 7;
+		SEARCH_PARTNERS_OPT_IN = 8;
+		MAXIMIZE_CLICKS_OPT_IN = 9;
+		OPTIMIZE_AD_ROTATION = 10;
+		CALLOUT_EXTENSION = 11;
+		SITELINK_EXTENSION = 12;
+		CALL_EXTENSION = 13;
+		KEYWORD_MATCH_TYPE = 14;
+		MOVE_UNUSED_BUDGET = 15;
+		FORECASTING_CAMPAIGN_BUDGET = 16;
+		TARGET_ROAS_OPT_IN = 17;
+		RESPONSIVE_SEARCH_AD = 18;
+		MARGINAL_ROI_CAMPAIGN_BUDGET = 19;
+	}
+
+}

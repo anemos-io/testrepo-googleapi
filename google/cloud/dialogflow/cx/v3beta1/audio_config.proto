@@ -2,10 +2,11 @@ syntax = "proto3";
 
 package google.cloud.dialogflow.cx.v3beta1;
 
-import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
 option java_outer_classname = "AudioConfigProto";
@@ -14,6 +15,7 @@ option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v
 option cc_enable_arenas = true;
 option objc_class_prefix = "DF";
 option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
 
 
 enum AudioEncoding {

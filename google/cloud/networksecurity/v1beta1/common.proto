@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.cloud.networksecurity.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.networksecurity.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/networksecurity/v1beta1;networksecurity";
+option csharp_namespace = "Google.Cloud.NetworkSecurity.V1Beta1";
+option php_namespace = "Google\\Cloud\\NetworkSecurity\\V1beta1";
+option ruby_package = "Google::Cloud::NetworkSecurity::V1beta1";
+
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

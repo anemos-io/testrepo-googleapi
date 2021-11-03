@@ -8,6 +8,8 @@ option java_package = "com.google.iam.admin.v1";
 option java_outer_classname = "AuditDataProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/iam/admin/v1;admin";
+option csharp_namespace = "Google.Cloud.Iam.Admin.V1";
+option php_namespace = "Google\\Cloud\\Iam\\Admin\\V1";
 
 
 message AuditData {

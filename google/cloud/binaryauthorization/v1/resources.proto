@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package google.cloud.binaryauthorization.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.protos.google.cloud.binaryauthorization.v1";
+option java_multiple_files = false;
+option go_package = "google.golang.org/genproto/googleapis/cloud/binaryauthorization/v1;binaryauthorization";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.BinaryAuthorization.V1";
+option php_namespace = "Google\\Cloud\\BinaryAuthorization\\V1";
+option ruby_package = "Google::Cloud::BinaryAuthorization::V1";
+
+
+message Policy {
+	option (google.api.resource) = {
+		type: "binaryauthorization.googleapis.com/Policy"
+		pattern: ["projects/{project}/policy","locations/{location}/policy"]
+	};
+
+	enum GlobalPolicyEvaluationMode {
+
+		GLOBAL_POLICY_EVALUATION_MODE_UNSPECIFIED = 0;
+		ENABLE = 1;
+		DISABLE = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	GlobalPolicyEvaluationMode global_policy_evaluation_mode = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated AdmissionWhitelistPattern admission_whitelist_patterns = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, AdmissionRule> cluster_admission_rules = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, AdmissionRule> kubernetes_namespace_admission_rules = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, AdmissionRule> kubernetes_service_account_admission_rules = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, AdmissionRule> istio_service_identity_admission_rules = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	AdmissionRule default_admission_rule = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message AdmissionWhitelistPattern {
+
+	string name_pattern = 1;
+}
+
+message AdmissionRule {
+
+	enum EvaluationMode {
+
+		EVALUATION_MODE_UNSPECIFIED = 0;
+		ALWAYS_ALLOW = 1;
+		REQUIRE_ATTESTATION = 2;
+		ALWAYS_DENY = 3;
+	}
+
+	enum EnforcementMode {
+
+		ENFORCEMENT_MODE_UNSPECIFIED = 0;
+		ENFORCED_BLOCK_AND_AUDIT_LOG = 1;
+		DRYRUN_AUDIT_LOG_ONLY = 2;
+	}
+
+	EvaluationMode evaluation_mode = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string require_attestations_by = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	EnforcementMode enforcement_mode = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Attestor {
+	option (google.api.resource) = {
+		type: "binaryauthorization.googleapis.com/Attestor"
+		pattern: ["projects/{project}/attestors/{attestor}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof attestor_type {
+		UserOwnedGrafeasNote user_owned_grafeas_note = 3;
+	}
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message UserOwnedGrafeasNote {
+
+	string note_reference = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated AttestorPublicKey public_keys = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string delegation_service_account_email = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message PkixPublicKey {
+
+	enum SignatureAlgorithm {
+		option allow_alias = true;
+
+		SIGNATURE_ALGORITHM_UNSPECIFIED = 0;
+		RSA_PSS_2048_SHA256 = 1;
+		RSA_PSS_3072_SHA256 = 2;
+		RSA_PSS_4096_SHA256 = 3;
+		RSA_PSS_4096_SHA512 = 4;
+		RSA_SIGN_PKCS1_2048_SHA256 = 5;
+		RSA_SIGN_PKCS1_3072_SHA256 = 6;
+		RSA_SIGN_PKCS1_4096_SHA256 = 7;
+		RSA_SIGN_PKCS1_4096_SHA512 = 8;
+		ECDSA_P256_SHA256 = 9;
+		EC_SIGN_P256_SHA256 = 9;
+		ECDSA_P384_SHA384 = 10;
+		EC_SIGN_P384_SHA384 = 10;
+		ECDSA_P521_SHA512 = 11;
+		EC_SIGN_P521_SHA512 = 11;
+	}
+
+	string public_key_pem = 1;
+	SignatureAlgorithm signature_algorithm = 2;
+}
+
+message AttestorPublicKey {
+
+	string comment = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string id = 2;
+	oneof public_key {
+		string ascii_armored_pgp_public_key = 3;
+		PkixPublicKey pkix_public_key = 5;
+	}
+}

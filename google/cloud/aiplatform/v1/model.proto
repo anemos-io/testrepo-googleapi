@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/dataset.proto";
+import "google/cloud/aiplatform/v1/deployed_model_ref.proto";
+import "google/cloud/aiplatform/v1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1/env_var.proto";
+import "google/cloud/aiplatform/v1/explanation.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "ModelProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message Model {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Model"
+		pattern: ["projects/{project}/locations/{location}/models/{model}"]
+	};
+
+	message ExportFormat {
+
+		enum ExportableContent {
+
+			EXPORTABLE_CONTENT_UNSPECIFIED = 0;
+			ARTIFACT = 1;
+			IMAGE = 2;
+		}
+
+		string id = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		repeated ExportableContent exportable_contents = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	enum DeploymentResourcesType {
+
+		DEPLOYMENT_RESOURCES_TYPE_UNSPECIFIED = 0;
+		DEDICATED_RESOURCES = 1;
+		AUTOMATIC_RESOURCES = 2;
+	}
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3;
+	PredictSchemata predict_schemata = 4;
+	string metadata_schema_uri = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Value metadata = 6 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated ExportFormat supported_export_formats = 20 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string training_pipeline = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/TrainingPipeline"
+		}
+	];
+	ModelContainerSpec container_spec = 9 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string artifact_uri = 26 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated DeploymentResourcesType supported_deployment_resources_types = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string supported_input_storage_formats = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string supported_output_storage_formats = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.cloud.aiplatform.v1.DeployedModelRef deployed_models = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1.ExplanationSpec explanation_spec = 23;
+	string etag = 16;
+	map<string, string> labels = 17;
+	google.cloud.aiplatform.v1.EncryptionSpec encryption_spec = 24;
+}
+
+message PredictSchemata {
+
+	string instance_schema_uri = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string parameters_schema_uri = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string prediction_schema_uri = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}
+
+message ModelContainerSpec {
+
+	string image_uri = 1 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated string command = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated string args = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated google.cloud.aiplatform.v1.EnvVar env = 4 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated Port ports = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string predict_route = 6 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string health_route = 7 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}
+
+message Port {
+
+	int32 container_port = 3;
+}

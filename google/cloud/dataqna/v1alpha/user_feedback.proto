@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.cloud.dataqna.v1alpha;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.cloud.dataqna.v1alpha";
+option java_outer_classname = "UserFeedbackProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataqna/v1alpha;dataqna";
+option csharp_namespace = "Google.Cloud.DataQnA.V1Alpha";
+option php_namespace = "Google\\Cloud\\DataQnA\\V1alpha";
+option ruby_package = "Google::Cloud::DataQnA::V1alpha";
+
+
+message UserFeedback {
+	option (google.api.resource) = {
+		type: "dataqna.googleapis.com/UserFeedback"
+		pattern: ["projects/{project}/locations/{location}/questions/{question}/userFeedback"]
+	};
+
+	enum UserFeedbackRating {
+
+		USER_FEEDBACK_RATING_UNSPECIFIED = 0;
+		POSITIVE = 1;
+		NEGATIVE = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string free_form_feedback = 2;
+	UserFeedbackRating rating = 3;
+}

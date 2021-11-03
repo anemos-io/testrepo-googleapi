@@ -1,0 +1,284 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/common/bidding.proto";
+import "google/ads/googleads/v8/common/custom_parameter.proto";
+import "google/ads/googleads/v8/common/frequency_cap.proto";
+import "google/ads/googleads/v8/common/real_time_bidding_setting.proto";
+import "google/ads/googleads/v8/common/targeting_setting.proto";
+import "google/ads/googleads/v8/enums/ad_serving_optimization_status.proto";
+import "google/ads/googleads/v8/enums/advertising_channel_sub_type.proto";
+import "google/ads/googleads/v8/enums/advertising_channel_type.proto";
+import "google/ads/googleads/v8/enums/app_campaign_app_store.proto";
+import "google/ads/googleads/v8/enums/app_campaign_bidding_strategy_goal_type.proto";
+import "google/ads/googleads/v8/enums/asset_field_type.proto";
+import "google/ads/googleads/v8/enums/bidding_strategy_type.proto";
+import "google/ads/googleads/v8/enums/brand_safety_suitability.proto";
+import "google/ads/googleads/v8/enums/campaign_experiment_type.proto";
+import "google/ads/googleads/v8/enums/campaign_serving_status.proto";
+import "google/ads/googleads/v8/enums/campaign_status.proto";
+import "google/ads/googleads/v8/enums/location_source_type.proto";
+import "google/ads/googleads/v8/enums/negative_geo_target_type.proto";
+import "google/ads/googleads/v8/enums/optimization_goal_type.proto";
+import "google/ads/googleads/v8/enums/payment_mode.proto";
+import "google/ads/googleads/v8/enums/positive_geo_target_type.proto";
+import "google/ads/googleads/v8/enums/vanity_pharma_display_url_mode.proto";
+import "google/ads/googleads/v8/enums/vanity_pharma_text.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "CampaignProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message Campaign {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/Campaign"
+		pattern: ["customers/{customer_id}/campaigns/{campaign_id}"]
+	};
+
+	message NetworkSettings {
+
+		oneof _target_google_search {
+			bool target_google_search = 5;
+		}
+		oneof _target_search_network {
+			bool target_search_network = 6;
+		}
+		oneof _target_content_network {
+			bool target_content_network = 7;
+		}
+		oneof _target_partner_search_network {
+			bool target_partner_search_network = 8;
+		}
+	}
+
+	message HotelSettingInfo {
+
+		oneof _hotel_center_id {
+			int64 hotel_center_id = 2 [
+				(google.api.field_behavior) = IMMUTABLE
+			];
+		}
+	}
+
+	message TrackingSetting {
+
+		oneof _tracking_url {
+			string tracking_url = 2 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message SelectiveOptimization {
+
+		repeated string conversion_actions = 2 [
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/ConversionAction"
+			}
+		];
+	}
+
+	message DynamicSearchAdsSetting {
+
+		string domain_name = 6 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string language_code = 7 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		oneof _use_supplied_urls_only {
+			bool use_supplied_urls_only = 8;
+		}
+		repeated string feeds = 9 [
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Feed"
+			}
+		];
+	}
+
+	message ShoppingSetting {
+
+		oneof _merchant_id {
+			int64 merchant_id = 5 [
+				(google.api.field_behavior) = IMMUTABLE
+			];
+		}
+		oneof _sales_country {
+			string sales_country = 6 [
+				(google.api.field_behavior) = IMMUTABLE
+			];
+		}
+		oneof _campaign_priority {
+			int32 campaign_priority = 7;
+		}
+		oneof _enable_local {
+			bool enable_local = 8;
+		}
+	}
+
+	message VanityPharma {
+
+		google.ads.googleads.v8.enums.VanityPharmaDisplayUrlModeEnum.VanityPharmaDisplayUrlMode vanity_pharma_display_url_mode = 1;
+		google.ads.googleads.v8.enums.VanityPharmaTextEnum.VanityPharmaText vanity_pharma_text = 2;
+	}
+
+	message GeoTargetTypeSetting {
+
+		google.ads.googleads.v8.enums.PositiveGeoTargetTypeEnum.PositiveGeoTargetType positive_geo_target_type = 1;
+		google.ads.googleads.v8.enums.NegativeGeoTargetTypeEnum.NegativeGeoTargetType negative_geo_target_type = 2;
+	}
+
+	message LocalCampaignSetting {
+
+		google.ads.googleads.v8.enums.LocationSourceTypeEnum.LocationSourceType location_source_type = 1;
+	}
+
+	message AppCampaignSetting {
+
+		google.ads.googleads.v8.enums.AppCampaignBiddingStrategyGoalTypeEnum.AppCampaignBiddingStrategyGoalType bidding_strategy_goal_type = 1;
+		oneof _app_id {
+			string app_id = 4 [
+				(google.api.field_behavior) = IMMUTABLE
+			];
+		}
+		google.ads.googleads.v8.enums.AppCampaignAppStoreEnum.AppCampaignAppStore app_store = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+
+	message OptimizationGoalSetting {
+
+		repeated google.ads.googleads.v8.enums.OptimizationGoalTypeEnum.OptimizationGoalType optimization_goal_types = 1;
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	oneof _id {
+		int64 id = 59 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 58;
+	}
+	google.ads.googleads.v8.enums.CampaignStatusEnum.CampaignStatus status = 5;
+	google.ads.googleads.v8.enums.CampaignServingStatusEnum.CampaignServingStatus serving_status = 21 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.AdServingOptimizationStatusEnum.AdServingOptimizationStatus ad_serving_optimization_status = 8;
+	google.ads.googleads.v8.enums.AdvertisingChannelTypeEnum.AdvertisingChannelType advertising_channel_type = 9 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v8.enums.AdvertisingChannelSubTypeEnum.AdvertisingChannelSubType advertising_channel_sub_type = 10 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	oneof _tracking_url_template {
+		string tracking_url_template = 60;
+	}
+	repeated google.ads.googleads.v8.common.CustomParameter url_custom_parameters = 12;
+	google.ads.googleads.v8.common.RealTimeBiddingSetting real_time_bidding_setting = 39;
+	NetworkSettings network_settings = 14;
+	HotelSettingInfo hotel_setting = 32 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	DynamicSearchAdsSetting dynamic_search_ads_setting = 33;
+	ShoppingSetting shopping_setting = 36;
+	google.ads.googleads.v8.common.TargetingSetting targeting_setting = 43;
+	GeoTargetTypeSetting geo_target_type_setting = 47;
+	LocalCampaignSetting local_campaign_setting = 50;
+	AppCampaignSetting app_campaign_setting = 51;
+	repeated string labels = 61 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignLabel"
+		}
+	];
+	google.ads.googleads.v8.enums.CampaignExperimentTypeEnum.CampaignExperimentType experiment_type = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _base_campaign {
+		string base_campaign = 56 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Campaign"
+			}
+		];
+	}
+	oneof _campaign_budget {
+		string campaign_budget = 62 [
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/CampaignBudget"
+			}
+		];
+	}
+	google.ads.googleads.v8.enums.BiddingStrategyTypeEnum.BiddingStrategyType bidding_strategy_type = 22 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string accessible_bidding_strategy = 71 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AccessibleBiddingStrategy"
+		}
+	];
+	oneof _start_date {
+		string start_date = 63;
+	}
+	oneof _end_date {
+		string end_date = 64;
+	}
+	oneof _final_url_suffix {
+		string final_url_suffix = 65;
+	}
+	repeated google.ads.googleads.v8.common.FrequencyCapEntry frequency_caps = 40;
+	google.ads.googleads.v8.enums.BrandSafetySuitabilityEnum.BrandSafetySuitability video_brand_safety_suitability = 42 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	VanityPharma vanity_pharma = 44;
+	SelectiveOptimization selective_optimization = 45;
+	OptimizationGoalSetting optimization_goal_setting = 54;
+	TrackingSetting tracking_setting = 46 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.PaymentModeEnum.PaymentMode payment_mode = 52;
+	oneof _optimization_score {
+		double optimization_score = 66 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	repeated google.ads.googleads.v8.enums.AssetFieldTypeEnum.AssetFieldType excluded_parent_asset_field_types = 69;
+	oneof campaign_bidding_strategy {
+		string bidding_strategy = 67 [
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/BiddingStrategy"
+			}
+		];
+		google.ads.googleads.v8.common.Commission commission = 49;
+		google.ads.googleads.v8.common.ManualCpc manual_cpc = 24;
+		google.ads.googleads.v8.common.ManualCpm manual_cpm = 25;
+		google.ads.googleads.v8.common.ManualCpv manual_cpv = 37 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.common.MaximizeConversions maximize_conversions = 30;
+		google.ads.googleads.v8.common.MaximizeConversionValue maximize_conversion_value = 31;
+		google.ads.googleads.v8.common.TargetCpa target_cpa = 26;
+		google.ads.googleads.v8.common.TargetImpressionShare target_impression_share = 48;
+		google.ads.googleads.v8.common.TargetRoas target_roas = 29;
+		google.ads.googleads.v8.common.TargetSpend target_spend = 27;
+		google.ads.googleads.v8.common.PercentCpc percent_cpc = 34;
+		google.ads.googleads.v8.common.TargetCpm target_cpm = 41;
+	}
+}

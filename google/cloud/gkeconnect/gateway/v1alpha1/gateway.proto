@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package google.cloud.gkeconnect.gateway.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/httpbody.proto";
+
+option java_package = "com.google.cloud.gkeconnect.gateway.v1alpha1";
+option java_outer_classname = "GatewayProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkeconnect/gateway/v1alpha1;gateway";
+option csharp_namespace = "Google.Cloud.GkeConnect.Gateway.V1Alpha1";
+option php_namespace = "Google\\Cloud\\GkeConnect\\Gateway\\V1alpha1";
+option ruby_package = "Google::Cloud::GkeConnect::Gateway::V1alpha1";
+
+
+service GatewayService {
+	option (google.api.default_host) = "connectgateway.googleapis.com";
+
+}

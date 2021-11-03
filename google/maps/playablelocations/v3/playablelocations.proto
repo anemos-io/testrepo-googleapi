@@ -16,6 +16,7 @@ option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/maps/playablelocations/v3;playablelocations";
 option objc_class_prefix = "GMPL";
 option csharp_namespace = "Google.Maps.PlayableLocations.V3";
+option php_namespace = "Google\\Maps\\PlayableLocations\\V3";
 
 
 service PlayableLocations {

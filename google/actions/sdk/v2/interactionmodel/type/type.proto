@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.type;
+
+import "google/actions/sdk/v2/interactionmodel/type/free_text_type.proto";
+import "google/actions/sdk/v2/interactionmodel/type/regular_expression_type.proto";
+import "google/actions/sdk/v2/interactionmodel/type/synonym_type.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.type";
+option java_outer_classname = "TypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/type";
+
+
+message Type {
+
+	oneof sub_type {
+		google.actions.sdk.v2.interactionmodel.type.SynonymType synonym = 1;
+		google.actions.sdk.v2.interactionmodel.type.RegularExpressionType regular_expression = 2;
+		google.actions.sdk.v2.interactionmodel.type.FreeTextType free_text = 3;
+	}
+	repeated string exclusions = 4;
+}

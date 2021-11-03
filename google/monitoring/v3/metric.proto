@@ -32,6 +32,7 @@ message TimeSeries {
 	google.api.MetricDescriptor.MetricKind metric_kind = 3;
 	google.api.MetricDescriptor.ValueType value_type = 4;
 	repeated Point points = 5;
+	string unit = 8;
 }
 
 message TimeSeriesDescriptor {
@@ -41,6 +42,7 @@ message TimeSeriesDescriptor {
 		string key = 1;
 		google.api.MetricDescriptor.ValueType value_type = 2;
 		google.api.MetricDescriptor.MetricKind metric_kind = 3;
+		string unit = 4;
 	}
 
 	repeated google.api.LabelDescriptor label_descriptors = 1;

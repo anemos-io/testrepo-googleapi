@@ -1,0 +1,219 @@
+syntax = "proto3";
+
+package google.cloud.clouddms.logging.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.clouddms.logging.v1";
+option java_outer_classname = "ClouddmsPlatformLogsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/clouddms/logging/v1;logging";
+option csharp_namespace = "Google.Cloud.CloudDms.Logging.V1";
+option php_namespace = "Google\\Cloud\\CloudDms\\Logging\\V1";
+option ruby_package = "Google::Cloud::CloudDMS::Logging::V1";
+
+
+enum DatabaseEngine {
+
+	DATABASE_ENGINE_UNSPECIFIED = 0;
+	MYSQL = 1;
+	POSTGRESQL = 2;
+	SQLSERVER = 3;
+}
+
+enum DatabaseProvider {
+
+	DATABASE_PROVIDER_UNSPECIFIED = 0;
+	CLOUDSQL = 1;
+	RDS = 2;
+}
+
+message DatabaseType {
+
+	DatabaseProvider provider = 1;
+	DatabaseEngine engine = 2;
+}
+
+message LoggedMigrationJob {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		MAINTENANCE = 1;
+		DRAFT = 2;
+		CREATING = 3;
+		NOT_STARTED = 4;
+		RUNNING = 5;
+		FAILED = 6;
+		COMPLETED = 7;
+		DELETING = 8;
+		STOPPING = 9;
+		STOPPED = 10;
+		DELETED = 11;
+		UPDATING = 12;
+		STARTING = 13;
+		RESTARTING = 14;
+		RESUMING = 15;
+	}
+
+	enum Phase {
+
+		PHASE_UNSPECIFIED = 0;
+		FULL_DUMP = 1;
+		CDC = 2;
+		PROMOTE_IN_PROGRESS = 3;
+		WAITING_FOR_SOURCE_WRITES_TO_STOP = 4;
+		PREPARING_THE_DUMP = 5;
+	}
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		ONE_TIME = 1;
+		CONTINUOUS = 2;
+	}
+
+	enum ConnectivityType {
+
+		CONNECTIVITY_TYPE_UNSPECIFIED = 0;
+		STATIC_IP = 1;
+		REVERSE_SSH = 2;
+		VPC_PEERING = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> labels = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string display_name = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	State state = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Phase phase = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Type type = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string dump_path = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string source = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination = 9 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration duration = 10 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ConnectivityType connectivity_type = 11 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.rpc.Status error = 12 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp end_time = 13 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	DatabaseType source_database = 14 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	DatabaseType destination_database = 15 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MySqlConnectionProfile {
+
+	enum Version {
+
+		VERSION_UNSPECIFIED = 0;
+		V5_5 = 1;
+		V5_6 = 2;
+		V5_7 = 3;
+		V8_0 = 4;
+	}
+
+	Version version = 1;
+	string cloud_sql_id = 2;
+}
+
+message PostgreSqlConnectionProfile {
+
+	enum Version {
+
+		VERSION_UNSPECIFIED = 0;
+		V9_6 = 1;
+		V11 = 2;
+		V10 = 3;
+		V12 = 4;
+		V13 = 5;
+	}
+
+	Version version = 1;
+	string cloud_sql_id = 2;
+}
+
+message CloudSqlConnectionProfile {
+
+	string cloud_sql_id = 1;
+}
+
+message LoggedConnectionProfile {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		DRAFT = 1;
+		CREATING = 2;
+		READY = 3;
+		UPDATING = 4;
+		DELETING = 5;
+		DELETED = 6;
+		FAILED = 7;
+	}
+
+	string name = 1;
+	map<string, string> labels = 2;
+	State state = 3;
+	string display_name = 4;
+	oneof connection_profile {
+		MySqlConnectionProfile mysql = 100;
+		PostgreSqlConnectionProfile postgresql = 101;
+		CloudSqlConnectionProfile cloudsql = 102;
+	}
+	google.rpc.Status error = 5;
+	DatabaseProvider provider = 6;
+}
+
+message MigrationJobEventLog {
+
+	LoggedMigrationJob migration_job = 1;
+	google.protobuf.Timestamp occurrence_timestamp = 2;
+	int32 code = 3;
+	string text_message = 4;
+	oneof original_cause {
+		int32 original_code = 200;
+		string original_message = 201;
+	}
+}
+
+message ConnectionProfileEventLog {
+
+	LoggedConnectionProfile connection_profile = 1;
+	google.protobuf.Timestamp occurrence_timestamp = 2;
+	int32 code = 3;
+	string text_message = 4;
+	oneof original_cause {
+		int32 original_code = 200;
+		string original_message = 201;
+	}
+}

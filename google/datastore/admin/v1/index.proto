@@ -10,6 +10,7 @@ option java_outer_classname = "IndexProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/datastore/admin/v1;admin";
 option csharp_namespace = "Google.Cloud.Datastore.Admin.V1";
+option php_namespace = "Google\\Cloud\\Datastore\\Admin\\V1";
 option ruby_package = "Google::Cloud::Datastore::Admin::V1";
 
 

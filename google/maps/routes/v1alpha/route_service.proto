@@ -3,6 +3,8 @@ syntax = "proto3";
 package google.maps.routes.v1alpha;
 
 import "google/api/annotations.proto";
+import "google/maps/routes/v1/compute_custom_routes_request.proto";
+import "google/maps/routes/v1/compute_custom_routes_response.proto";
 import "google/maps/routes/v1/compute_route_matrix_request.proto";
 import "google/maps/routes/v1/compute_routes_request.proto";
 import "google/maps/routes/v1/compute_routes_response.proto";
@@ -21,6 +23,7 @@ option php_namespace = "Google\\Maps\\Routes\\V1alpha";
 
 service RoutesAlpha {
 	option (google.api.default_host) = "routespreferred.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/maps-platform.routespreferred";
 
 	rpc ComputeRoutes(google.maps.routes.v1.ComputeRoutesRequest) returns (google.maps.routes.v1.ComputeRoutesResponse) {
 		option (google.api.http) = {
@@ -32,6 +35,13 @@ service RoutesAlpha {
 	rpc ComputeRouteMatrix(google.maps.routes.v1.ComputeRouteMatrixRequest) returns (stream google.maps.routes.v1.RouteMatrixElement) {
 		option (google.api.http) = {
 			post: "/v1alpha:computeRouteMatrix"
+			body: "*"
+		};
+
+	}
+	rpc ComputeCustomRoutes(google.maps.routes.v1.ComputeCustomRoutesRequest) returns (google.maps.routes.v1.ComputeCustomRoutesResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha:computeCustomRoutes"
 			body: "*"
 		};
 

@@ -13,6 +13,9 @@ option java_package = "com.google.cloud.pubsublite.proto";
 option java_outer_classname = "TopicStatsProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
+option csharp_namespace = "Google.Cloud.PubSubLite.V1";
+option php_namespace = "Google\\Cloud\\PubSubLite\\V1";
+option ruby_package = "Google::Cloud::PubSubLite::V1";
 
 
 service TopicStatsService {
@@ -22,6 +25,20 @@ service TopicStatsService {
 	rpc ComputeMessageStats(google.cloud.pubsublite.v1.ComputeMessageStatsRequest) returns (google.cloud.pubsublite.v1.ComputeMessageStatsResponse) {
 		option (google.api.http) = {
 			post: "/v1/topicStats/{topic=projects/*/locations/*/topics/*}:computeMessageStats"
+			body: "*"
+		};
+
+	}
+	rpc ComputeHeadCursor(google.cloud.pubsublite.v1.ComputeHeadCursorRequest) returns (google.cloud.pubsublite.v1.ComputeHeadCursorResponse) {
+		option (google.api.http) = {
+			post: "/v1/topicStats/{topic=projects/*/locations/*/topics/*}:computeHeadCursor"
+			body: "*"
+		};
+
+	}
+	rpc ComputeTimeCursor(google.cloud.pubsublite.v1.ComputeTimeCursorRequest) returns (google.cloud.pubsublite.v1.ComputeTimeCursorResponse) {
+		option (google.api.http) = {
+			post: "/v1/topicStats/{topic=projects/*/locations/*/topics/*}:computeTimeCursor"
 			body: "*"
 		};
 
@@ -49,4 +66,43 @@ message ComputeMessageStatsResponse {
 	int64 message_bytes = 2;
 	google.protobuf.Timestamp minimum_publish_time = 3;
 	google.protobuf.Timestamp minimum_event_time = 4;
+}
+
+message ComputeHeadCursorRequest {
+
+	string topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Topic"
+		}
+	];
+	int64 partition = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ComputeHeadCursorResponse {
+
+	google.cloud.pubsublite.v1.Cursor head_cursor = 1;
+}
+
+message ComputeTimeCursorRequest {
+
+	string topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Topic"
+		}
+	];
+	int64 partition = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.pubsublite.v1.TimeTarget target = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ComputeTimeCursorResponse {
+
+	google.cloud.pubsublite.v1.Cursor cursor = 1;
 }

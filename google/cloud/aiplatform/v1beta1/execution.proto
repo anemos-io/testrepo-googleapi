@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/value.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "ExecutionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message Execution {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Execution"
+		pattern: ["projects/{project}/locations/{location}/metadataStores/{metadata_store}/executions/{execution}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		NEW = 1;
+		RUNNING = 2;
+		COMPLETE = 3;
+		FAILED = 4;
+		CACHED = 5;
+		CANCELLED = 6;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2;
+	State state = 6;
+	string etag = 9;
+	map<string, string> labels = 10;
+	google.protobuf.Timestamp create_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string schema_title = 13;
+	string schema_version = 14;
+	google.protobuf.Struct metadata = 15;
+	string description = 16;
+}

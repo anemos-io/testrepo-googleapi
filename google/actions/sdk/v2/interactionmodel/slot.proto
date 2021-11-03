@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel;
+
+import "google/actions/sdk/v2/interactionmodel/event_handler.proto";
+import "google/actions/sdk/v2/interactionmodel/type/class_reference.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel";
+option java_outer_classname = "SlotProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel;interactionmodel";
+
+
+message Slot {
+
+	message PromptSettings {
+
+		google.actions.sdk.v2.interactionmodel.EventHandler initial_prompt = 1;
+		google.actions.sdk.v2.interactionmodel.EventHandler no_match_prompt1 = 2;
+		google.actions.sdk.v2.interactionmodel.EventHandler no_match_prompt2 = 3;
+		google.actions.sdk.v2.interactionmodel.EventHandler no_match_final_prompt = 4;
+		google.actions.sdk.v2.interactionmodel.EventHandler no_input_prompt1 = 5;
+		google.actions.sdk.v2.interactionmodel.EventHandler no_input_prompt2 = 6;
+		google.actions.sdk.v2.interactionmodel.EventHandler no_input_final_prompt = 7;
+	}
+
+	message CommitBehavior {
+
+		string write_session_param = 1;
+	}
+
+	message DefaultValue {
+
+		string session_param = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		google.protobuf.Value constant = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.actions.sdk.v2.interactionmodel.type.ClassReference type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool required = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	PromptSettings prompt_settings = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	CommitBehavior commit_behavior = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Value config = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	DefaultValue default_value = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

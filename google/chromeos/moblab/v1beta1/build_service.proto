@@ -22,6 +22,19 @@ service BuildService {
 	option (google.api.default_host) = "chromeosmoblab.googleapis.com";
 	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/moblabapi";
 
+	rpc ListBuildTargets(google.chromeos.moblab.v1beta1.ListBuildTargetsRequest) returns (google.chromeos.moblab.v1beta1.ListBuildTargetsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/buildTargets"
+		};
+
+	}
+	rpc ListModels(google.chromeos.moblab.v1beta1.ListModelsRequest) returns (google.chromeos.moblab.v1beta1.ListModelsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=buildTargets/*}/models"
+		};
+
+	}
 	rpc ListBuilds(google.chromeos.moblab.v1beta1.ListBuildsRequest) returns (google.chromeos.moblab.v1beta1.ListBuildsResponse) {
 		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
@@ -48,6 +61,68 @@ service BuildService {
 		};
 
 	}
+	rpc FindMostStableBuild(google.chromeos.moblab.v1beta1.FindMostStableBuildRequest) returns (google.chromeos.moblab.v1beta1.FindMostStableBuildResponse) {
+		option (google.api.method_signature) = "build_target";
+		option (google.api.http) = {
+			get: "/v1beta1/{build_target=buildTargets/*}:findMostStableBuild"
+		};
+
+	}
+}
+
+message FindMostStableBuildRequest {
+
+	string build_target = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "chromeosmoblab.googleapis.com/BuildTarget"
+		}
+	];
+}
+
+message FindMostStableBuildResponse {
+
+	google.chromeos.moblab.v1beta1.Build build = 1;
+}
+
+message ListBuildTargetsRequest {
+
+	int32 page_size = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListBuildTargetsResponse {
+
+	repeated google.chromeos.moblab.v1beta1.BuildTarget build_targets = 1;
+	string next_page_token = 2;
+	int32 total_size = 3;
+}
+
+message ListModelsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "chromeosmoblab.googleapis.com/BuildTarget"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListModelsResponse {
+
+	repeated google.chromeos.moblab.v1beta1.Model models = 1;
+	string next_page_token = 2;
+	int32 total_size = 3;
 }
 
 message ListBuildsRequest {
@@ -90,6 +165,9 @@ message CheckBuildStageStatusRequest {
 			type: "chromeosmoblab.googleapis.com/BuildArtifact"
 		}
 	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message CheckBuildStageStatusResponse {
@@ -106,6 +184,9 @@ message StageBuildRequest {
 		(google.api.resource_reference) = {
 			type: "chromeosmoblab.googleapis.com/BuildArtifact"
 		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
 	];
 }
 

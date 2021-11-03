@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "ManifestProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message Manifest {
+
+	string version = 1;
+}

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.type;
+
+import "google/actions/sdk/v2/interactionmodel/type/entity_display.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.type";
+option java_outer_classname = "FreeTextTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/type";
+
+
+message FreeTextType {
+
+	google.actions.sdk.v2.interactionmodel.type.EntityDisplay display = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

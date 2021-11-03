@@ -1,0 +1,607 @@
+syntax = "proto3";
+
+package google.cloud.datastream.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/datastream/v1alpha1/datastream_resources.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.datastream.v1alpha1";
+option java_outer_classname = "CloudDatastreamServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datastream/v1alpha1;datastream";
+option csharp_namespace = "Google.Cloud.Datastream.V1Alpha1";
+option php_namespace = "Google\\Cloud\\Datastream\\V1alpha1";
+option ruby_package = "Google::Cloud::Datastream::V1alpha1";
+
+
+service Datastream {
+	option (google.api.default_host) = "datastream.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListConnectionProfiles(google.cloud.datastream.v1alpha1.ListConnectionProfilesRequest) returns (google.cloud.datastream.v1alpha1.ListConnectionProfilesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*}/connectionProfiles"
+		};
+
+	}
+	rpc GetConnectionProfile(google.cloud.datastream.v1alpha1.GetConnectionProfileRequest) returns (google.cloud.datastream.v1alpha1.ConnectionProfile) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/connectionProfiles/*}"
+		};
+
+	}
+	rpc CreateConnectionProfile(google.cloud.datastream.v1alpha1.CreateConnectionProfileRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ConnectionProfile"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,connection_profile,connection_profile_id";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*}/connectionProfiles"
+			body: "connection_profile"
+		};
+
+	}
+	rpc UpdateConnectionProfile(google.cloud.datastream.v1alpha1.UpdateConnectionProfileRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ConnectionProfile"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "connection_profile,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha1/{connection_profile.name=projects/*/locations/*/connectionProfiles/*}"
+			body: "connection_profile"
+		};
+
+	}
+	rpc DeleteConnectionProfile(google.cloud.datastream.v1alpha1.DeleteConnectionProfileRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/connectionProfiles/*}"
+		};
+
+	}
+	rpc DiscoverConnectionProfile(google.cloud.datastream.v1alpha1.DiscoverConnectionProfileRequest) returns (google.cloud.datastream.v1alpha1.DiscoverConnectionProfileResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*}/connectionProfiles:discover"
+			body: "*"
+		};
+
+	}
+	rpc ListStreams(google.cloud.datastream.v1alpha1.ListStreamsRequest) returns (google.cloud.datastream.v1alpha1.ListStreamsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*}/streams"
+		};
+
+	}
+	rpc GetStream(google.cloud.datastream.v1alpha1.GetStreamRequest) returns (google.cloud.datastream.v1alpha1.Stream) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/streams/*}"
+		};
+
+	}
+	rpc CreateStream(google.cloud.datastream.v1alpha1.CreateStreamRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Stream"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,stream,stream_id";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*}/streams"
+			body: "stream"
+		};
+
+	}
+	rpc UpdateStream(google.cloud.datastream.v1alpha1.UpdateStreamRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Stream"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "stream,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha1/{stream.name=projects/*/locations/*/streams/*}"
+			body: "stream"
+		};
+
+	}
+	rpc DeleteStream(google.cloud.datastream.v1alpha1.DeleteStreamRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/streams/*}"
+		};
+
+	}
+	rpc FetchErrors(google.cloud.datastream.v1alpha1.FetchErrorsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "FetchErrorsResponse"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1alpha1/{stream=projects/*/locations/*/streams/*}:fetchErrors"
+			body: "*"
+		};
+
+	}
+	rpc FetchStaticIps(google.cloud.datastream.v1alpha1.FetchStaticIpsRequest) returns (google.cloud.datastream.v1alpha1.FetchStaticIpsResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*}:fetchStaticIps"
+		};
+
+	}
+	rpc CreatePrivateConnection(google.cloud.datastream.v1alpha1.CreatePrivateConnectionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "PrivateConnection"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,private_connection,private_connection_id";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*}/privateConnections"
+			body: "private_connection"
+		};
+
+	}
+	rpc GetPrivateConnection(google.cloud.datastream.v1alpha1.GetPrivateConnectionRequest) returns (google.cloud.datastream.v1alpha1.PrivateConnection) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/privateConnections/*}"
+		};
+
+	}
+	rpc ListPrivateConnections(google.cloud.datastream.v1alpha1.ListPrivateConnectionsRequest) returns (google.cloud.datastream.v1alpha1.ListPrivateConnectionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*}/privateConnections"
+		};
+
+	}
+	rpc DeletePrivateConnection(google.cloud.datastream.v1alpha1.DeletePrivateConnectionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/privateConnections/*}"
+		};
+
+	}
+	rpc CreateRoute(google.cloud.datastream.v1alpha1.CreateRouteRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Route"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,route,route_id";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*/privateConnections/*}/routes"
+			body: "route"
+		};
+
+	}
+	rpc GetRoute(google.cloud.datastream.v1alpha1.GetRouteRequest) returns (google.cloud.datastream.v1alpha1.Route) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/privateConnections/*/routes/*}"
+		};
+
+	}
+	rpc ListRoutes(google.cloud.datastream.v1alpha1.ListRoutesRequest) returns (google.cloud.datastream.v1alpha1.ListRoutesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*/privateConnections/*}/routes"
+		};
+
+	}
+	rpc DeleteRoute(google.cloud.datastream.v1alpha1.DeleteRouteRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/privateConnections/*/routes/*}"
+		};
+
+	}
+}
+
+message DiscoverConnectionProfileRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/ConnectionProfile"
+		}
+	];
+	oneof target {
+		google.cloud.datastream.v1alpha1.ConnectionProfile connection_profile = 200;
+		string connection_profile_name = 201;
+	}
+	oneof depth {
+		bool recursive = 3;
+		int32 recursion_depth = 4;
+	}
+	oneof data_object {
+		google.cloud.datastream.v1alpha1.OracleRdbms oracle_rdbms = 100;
+		google.cloud.datastream.v1alpha1.MysqlRdbms mysql_rdbms = 101;
+	}
+}
+
+message DiscoverConnectionProfileResponse {
+
+	oneof data_object {
+		google.cloud.datastream.v1alpha1.OracleRdbms oracle_rdbms = 100;
+		google.cloud.datastream.v1alpha1.MysqlRdbms mysql_rdbms = 101;
+	}
+}
+
+message FetchStaticIpsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message FetchStaticIpsResponse {
+
+	repeated string static_ips = 1;
+	string next_page_token = 2;
+}
+
+message FetchErrorsRequest {
+
+	string stream = 1 [
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/Stream"
+		}
+	];
+}
+
+message FetchErrorsResponse {
+
+	repeated google.cloud.datastream.v1alpha1.Error errors = 1;
+}
+
+message ListConnectionProfilesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/ConnectionProfile"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListConnectionProfilesResponse {
+
+	repeated google.cloud.datastream.v1alpha1.ConnectionProfile connection_profiles = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetConnectionProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/ConnectionProfile"
+		}
+	];
+}
+
+message CreateConnectionProfileRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/ConnectionProfile"
+		}
+	];
+	string connection_profile_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.datastream.v1alpha1.ConnectionProfile connection_profile = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateConnectionProfileRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.datastream.v1alpha1.ConnectionProfile connection_profile = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteConnectionProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/ConnectionProfile"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListStreamsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/Stream"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListStreamsResponse {
+
+	repeated google.cloud.datastream.v1alpha1.Stream streams = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetStreamRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/Stream"
+		}
+	];
+}
+
+message CreateStreamRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/Stream"
+		}
+	];
+	string stream_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.datastream.v1alpha1.Stream stream = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool validate_only = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool force = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateStreamRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.datastream.v1alpha1.Stream stream = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool validate_only = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool force = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteStreamRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/Stream"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.datastream.v1alpha1.ValidationResult validation_result = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CreatePrivateConnectionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/PrivateConnection"
+		}
+	];
+	string private_connection_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.datastream.v1alpha1.PrivateConnection private_connection = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListPrivateConnectionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/PrivateConnection"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListPrivateConnectionsResponse {
+
+	repeated google.cloud.datastream.v1alpha1.PrivateConnection private_connections = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message DeletePrivateConnectionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/PrivateConnection"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool force = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetPrivateConnectionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/PrivateConnection"
+		}
+	];
+}
+
+message CreateRouteRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/Route"
+		}
+	];
+	string route_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.datastream.v1alpha1.Route route = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListRoutesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datastream.googleapis.com/Route"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListRoutesResponse {
+
+	repeated google.cloud.datastream.v1alpha1.Route routes = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message DeleteRouteRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/Route"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetRouteRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datastream.googleapis.com/Route"
+		}
+	];
+}

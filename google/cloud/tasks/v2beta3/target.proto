@@ -22,6 +22,12 @@ enum HttpMethod {
 	OPTIONS = 7;
 }
 
+message PullMessage {
+
+	bytes payload = 1;
+	string tag = 2;
+}
+
 message HttpRequest {
 
 	string url = 1;

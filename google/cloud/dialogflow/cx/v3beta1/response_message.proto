@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package google.cloud.dialogflow.cx.v3beta1;
 
-import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
 option java_outer_classname = "ResponseMessageProto";
@@ -13,6 +13,7 @@ option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v
 option cc_enable_arenas = true;
 option objc_class_prefix = "DF";
 option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
 
 
 message ResponseMessage {
@@ -43,10 +44,23 @@ message ResponseMessage {
 			string text = 1;
 			string ssml = 2;
 		}
+		bool allow_playback_interruption = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
 	}
 
 	message EndInteraction {
 
+	}
+
+	message PlayAudio {
+
+		string audio_uri = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		bool allow_playback_interruption = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
 	}
 
 	message MixedAudio {
@@ -63,16 +77,6 @@ message ResponseMessage {
 		}
 
 		repeated Segment segments = 1;
-	}
-
-	message PlayAudio {
-
-		string audio_uri = 1 [
-			(google.api.field_behavior) = REQUIRED
-		];
-		bool allow_playback_interruption = 2 [
-			(google.api.field_behavior) = OUTPUT_ONLY
-		];
 	}
 
 	oneof message {

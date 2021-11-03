@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/sql/v1/cloud_sql_resources.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1";
+option java_outer_classname = "CloudSqlUsersProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1;sql";
+
+
+service SqlUsersService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc Delete(google.cloud.sql.v1.SqlUsersDeleteRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			delete: "/v1/projects/{project}/instances/{instance}/users"
+		};
+
+	}
+	rpc Insert(google.cloud.sql.v1.SqlUsersInsertRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/users"
+			body: "body"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1.SqlUsersListRequest) returns (google.cloud.sql.v1.UsersListResponse) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances/{instance}/users"
+		};
+
+	}
+	rpc Update(google.cloud.sql.v1.SqlUsersUpdateRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			put: "/v1/projects/{project}/instances/{instance}/users"
+			body: "body"
+		};
+
+	}
+}
+
+message SqlUsersDeleteRequest {
+
+	string host = 1;
+	string instance = 2;
+	string name = 3;
+	string project = 4;
+}
+
+message SqlUsersInsertRequest {
+
+	string instance = 1;
+	string project = 2;
+	User body = 100;
+}
+
+message SqlUsersListRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlUsersUpdateRequest {
+
+	string host = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string instance = 2;
+	string name = 3;
+	string project = 4;
+	User body = 100;
+}
+
+message User {
+
+	enum SqlUserType {
+
+		BUILT_IN = 0;
+		CLOUD_IAM_USER = 1;
+		CLOUD_IAM_SERVICE_ACCOUNT = 2;
+	}
+
+	string kind = 1;
+	string password = 2;
+	string etag = 3;
+	string name = 4;
+	string host = 5;
+	string instance = 6;
+	string project = 7;
+	SqlUserType type = 8;
+	oneof user_details {
+		SqlServerUserDetails sqlserver_user_details = 9;
+	}
+}
+
+message SqlServerUserDetails {
+
+	bool disabled = 1;
+	repeated string server_roles = 2;
+}
+
+message UsersListResponse {
+
+	string kind = 1;
+	repeated User items = 2;
+	string next_page_token = 3;
+}

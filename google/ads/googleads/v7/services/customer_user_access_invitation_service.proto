@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.services;
+
+import "google/ads/googleads/v7/resources/customer_user_access_invitation.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.ads.googleads.v7.services";
+option java_outer_classname = "CustomerUserAccessInvitationServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V7::Services";
+
+
+service CustomerUserAccessInvitationService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetCustomerUserAccessInvitation(google.ads.googleads.v7.services.GetCustomerUserAccessInvitationRequest) returns (google.ads.googleads.v7.resources.CustomerUserAccessInvitation) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v7/{resource_name=customers/*/customerUserAccessInvitations/*}"
+		};
+
+	}
+	rpc MutateCustomerUserAccessInvitation(google.ads.googleads.v7.services.MutateCustomerUserAccessInvitationRequest) returns (google.ads.googleads.v7.services.MutateCustomerUserAccessInvitationResponse) {
+		option (google.api.method_signature) = "customer_id,operation";
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}/customerUserAccessInvitations:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCustomerUserAccessInvitationRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomerUserAccessInvitation"
+		}
+	];
+}
+
+message MutateCustomerUserAccessInvitationRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CustomerUserAccessInvitationOperation operation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CustomerUserAccessInvitationOperation {
+
+	oneof operation {
+		google.ads.googleads.v7.resources.CustomerUserAccessInvitation create = 1;
+		string remove = 2;
+	}
+}
+
+message MutateCustomerUserAccessInvitationResponse {
+
+	MutateCustomerUserAccessInvitationResult result = 1;
+}
+
+message MutateCustomerUserAccessInvitationResult {
+
+	string resource_name = 1;
+}

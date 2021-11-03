@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.enums";
+option java_outer_classname = "LeadFormCallToActionTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V7::Enums";
+
+
+message LeadFormCallToActionTypeEnum {
+
+	enum LeadFormCallToActionType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		LEARN_MORE = 2;
+		GET_QUOTE = 3;
+		APPLY_NOW = 4;
+		SIGN_UP = 5;
+		CONTACT_US = 6;
+		SUBSCRIBE = 7;
+		DOWNLOAD = 8;
+		BOOK_NOW = 9;
+		GET_OFFER = 10;
+		REGISTER = 11;
+		GET_INFO = 12;
+		REQUEST_DEMO = 13;
+		JOIN_NOW = 14;
+		GET_STARTED = 15;
+	}
+
+}

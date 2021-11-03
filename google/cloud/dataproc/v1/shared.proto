@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package google.cloud.dataproc.v1;
 
-import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
 
 option java_package = "com.google.cloud.dataproc.v1";
 option java_outer_classname = "SharedProto";
@@ -14,9 +14,87 @@ enum Component {
 
 	COMPONENT_UNSPECIFIED = 0;
 	ANACONDA = 5;
+	DOCKER = 13;
+	DRUID = 9;
+	FLINK = 14;
+	HBASE = 11;
 	HIVE_WEBHCAT = 3;
 	JUPYTER = 1;
 	PRESTO = 6;
+	RANGER = 12;
+	SOLR = 10;
 	ZEPPELIN = 4;
 	ZOOKEEPER = 8;
+}
+
+enum FailureAction {
+
+	FAILURE_ACTION_UNSPECIFIED = 0;
+	NO_ACTION = 1;
+	DELETE = 2;
+}
+
+message RuntimeConfig {
+
+	map<string, string> properties = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message EnvironmentConfig {
+
+	ExecutionConfig execution_config = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	PeripheralsConfig peripherals_config = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ExecutionConfig {
+
+	string service_account = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof network {
+		string network_uri = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		string subnetwork_uri = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	repeated string network_tags = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string kms_key = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SparkHistoryServerConfig {
+
+	string dataproc_cluster = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PeripheralsConfig {
+
+	string metastore_service = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	SparkHistoryServerConfig spark_history_server_config = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RuntimeInfo {
+
+	map<string, string> endpoints = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string output_uri = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }

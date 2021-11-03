@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package google.example.showcase.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.example.showcase.v1beta1";
+option java_outer_classname = "SequenceProto";
+option java_multiple_files = true;
+option go_package = "github.com/googleapis/gapic-showcase/server/genproto";
+option ruby_package = "Google::Showcase::V1Beta1";
+
+
+service SequenceService {
+	option (google.api.default_host) = "showcase.googleapis.com";
+
+	rpc CreateSequence(google.example.showcase.v1beta1.CreateSequenceRequest) returns (google.example.showcase.v1beta1.Sequence) {
+		option (google.api.method_signature) = "sequence";
+		option (google.api.http) = {
+			post: "/v1beta1/sequences"
+			body: "sequence"
+		};
+
+	}
+	rpc GetSequenceReport(google.example.showcase.v1beta1.GetSequenceReportRequest) returns (google.example.showcase.v1beta1.SequenceReport) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=sequences/*/sequenceReport}"
+		};
+
+	}
+	rpc AttemptSequence(google.example.showcase.v1beta1.AttemptSequenceRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=sequences/*}"
+			body: "*"
+		};
+
+	}
+}
+
+message Sequence {
+	option (google.api.resource) = {
+		type: "showcase.googleapis.com/Sequence"
+		pattern: ["sequences/{sequence}"]
+	};
+
+	message Response {
+
+		google.rpc.Status status = 1;
+		google.protobuf.Duration delay = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Response responses = 2;
+}
+
+message SequenceReport {
+	option (google.api.resource) = {
+		type: "showcase.googleapis.com/SequenceReport"
+		pattern: ["sequences/{sequence}/sequenceReport"]
+	};
+
+	message Attempt {
+
+		int32 attempt_number = 1;
+		google.protobuf.Timestamp attempt_deadline = 2;
+		google.protobuf.Timestamp response_time = 3;
+		google.protobuf.Duration attempt_delay = 4;
+		google.rpc.Status status = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Attempt attempts = 2;
+}
+
+message CreateSequenceRequest {
+
+	Sequence sequence = 1;
+}
+
+message AttemptSequenceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/Sequence"
+		}
+	];
+}
+
+message GetSequenceReportRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/SequenceReport"
+		}
+	];
+}

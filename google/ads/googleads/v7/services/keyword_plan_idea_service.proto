@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.services;
+
+import "google/ads/googleads/v7/common/keyword_plan_common.proto";
+import "google/ads/googleads/v7/enums/keyword_plan_keyword_annotation.proto";
+import "google/ads/googleads/v7/enums/keyword_plan_network.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.ads.googleads.v7.services";
+option java_outer_classname = "KeywordPlanIdeaServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V7::Services";
+
+
+service KeywordPlanIdeaService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GenerateKeywordIdeas(google.ads.googleads.v7.services.GenerateKeywordIdeasRequest) returns (google.ads.googleads.v7.services.GenerateKeywordIdeaResponse) {
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}:generateKeywordIdeas"
+			body: "*"
+		};
+
+	}
+}
+
+message GenerateKeywordIdeasRequest {
+
+	string customer_id = 1;
+	oneof _language {
+		string language = 14;
+	}
+	repeated string geo_target_constants = 15;
+	bool include_adult_keywords = 10;
+	string page_token = 12;
+	int32 page_size = 13;
+	google.ads.googleads.v7.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork keyword_plan_network = 9;
+	repeated google.ads.googleads.v7.enums.KeywordPlanKeywordAnnotationEnum.KeywordPlanKeywordAnnotation keyword_annotation = 17;
+	google.ads.googleads.v7.common.KeywordPlanAggregateMetrics aggregate_metrics = 16;
+	google.ads.googleads.v7.common.HistoricalMetricsOptions historical_metrics_options = 18;
+	oneof seed {
+		KeywordAndUrlSeed keyword_and_url_seed = 2;
+		KeywordSeed keyword_seed = 3;
+		UrlSeed url_seed = 5;
+		SiteSeed site_seed = 11;
+	}
+}
+
+message KeywordAndUrlSeed {
+
+	oneof _url {
+		string url = 3;
+	}
+	repeated string keywords = 4;
+}
+
+message KeywordSeed {
+
+	repeated string keywords = 2;
+}
+
+message SiteSeed {
+
+	oneof _site {
+		string site = 2;
+	}
+}
+
+message UrlSeed {
+
+	oneof _url {
+		string url = 2;
+	}
+}
+
+message GenerateKeywordIdeaResponse {
+
+	repeated GenerateKeywordIdeaResult results = 1;
+	google.ads.googleads.v7.common.KeywordPlanAggregateMetricResults aggregate_metric_results = 4;
+	string next_page_token = 2;
+	int64 total_size = 3;
+}
+
+message GenerateKeywordIdeaResult {
+
+	oneof _text {
+		string text = 5;
+	}
+	google.ads.googleads.v7.common.KeywordPlanHistoricalMetrics keyword_idea_metrics = 3;
+	google.ads.googleads.v7.common.KeywordAnnotations keyword_annotations = 6;
+}

@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/ads/googleads/v7/enums/policy_topic_entry_type.proto";
+import "google/ads/googleads/v7/enums/policy_topic_evidence_destination_mismatch_url_type.proto";
+import "google/ads/googleads/v7/enums/policy_topic_evidence_destination_not_working_device.proto";
+import "google/ads/googleads/v7/enums/policy_topic_evidence_destination_not_working_dns_error_type.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "PolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message PolicyViolationKey {
+
+	oneof _policy_name {
+		string policy_name = 3;
+	}
+	oneof _violating_text {
+		string violating_text = 4;
+	}
+}
+
+message PolicyValidationParameter {
+
+	repeated string ignorable_policy_topics = 3;
+	repeated PolicyViolationKey exempt_policy_violation_keys = 2;
+}
+
+message PolicyTopicEntry {
+
+	oneof _topic {
+		string topic = 5;
+	}
+	google.ads.googleads.v7.enums.PolicyTopicEntryTypeEnum.PolicyTopicEntryType type = 2;
+	repeated PolicyTopicEvidence evidences = 3;
+	repeated PolicyTopicConstraint constraints = 4;
+}
+
+message PolicyTopicEvidence {
+
+	message TextList {
+
+		repeated string texts = 2;
+	}
+
+	message WebsiteList {
+
+		repeated string websites = 2;
+	}
+
+	message DestinationTextList {
+
+		repeated string destination_texts = 2;
+	}
+
+	message DestinationMismatch {
+
+		repeated google.ads.googleads.v7.enums.PolicyTopicEvidenceDestinationMismatchUrlTypeEnum.PolicyTopicEvidenceDestinationMismatchUrlType url_types = 1;
+	}
+
+	message DestinationNotWorking {
+
+		oneof _expanded_url {
+			string expanded_url = 7;
+		}
+		google.ads.googleads.v7.enums.PolicyTopicEvidenceDestinationNotWorkingDeviceEnum.PolicyTopicEvidenceDestinationNotWorkingDevice device = 4;
+		oneof _last_checked_date_time {
+			string last_checked_date_time = 8;
+		}
+		oneof reason {
+			google.ads.googleads.v7.enums.PolicyTopicEvidenceDestinationNotWorkingDnsErrorTypeEnum.PolicyTopicEvidenceDestinationNotWorkingDnsErrorType dns_error_type = 1;
+			int64 http_error_code = 6;
+		}
+	}
+
+	oneof value {
+		WebsiteList website_list = 3;
+		TextList text_list = 4;
+		string language_code = 9;
+		DestinationTextList destination_text_list = 6;
+		DestinationMismatch destination_mismatch = 7;
+		DestinationNotWorking destination_not_working = 8;
+	}
+}
+
+message PolicyTopicConstraint {
+
+	message CountryConstraintList {
+
+		oneof _total_targeted_countries {
+			int32 total_targeted_countries = 3;
+		}
+		repeated CountryConstraint countries = 2;
+	}
+
+	message ResellerConstraint {
+
+	}
+
+	message CountryConstraint {
+
+		oneof _country_criterion {
+			string country_criterion = 2;
+		}
+	}
+
+	oneof value {
+		CountryConstraintList country_constraint_list = 1;
+		ResellerConstraint reseller_constraint = 2;
+		CountryConstraintList certificate_missing_in_country_list = 3;
+		CountryConstraintList certificate_domain_mismatch_in_country_list = 4;
+	}
+}

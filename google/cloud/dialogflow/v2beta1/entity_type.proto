@@ -174,7 +174,9 @@ message EntityType {
 
 	message Entity {
 
-		string value = 1;
+		string value = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
 		repeated string synonyms = 2;
 	}
 

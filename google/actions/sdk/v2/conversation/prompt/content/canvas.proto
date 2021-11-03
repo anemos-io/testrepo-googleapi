@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "CanvasProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Canvas {
+
+	string url = 1;
+	repeated google.protobuf.Value data = 4;
+	bool suppress_mic = 3;
+	bool enable_full_screen = 8;
+}

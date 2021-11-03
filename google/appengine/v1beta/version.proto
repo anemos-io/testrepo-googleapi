@@ -4,6 +4,7 @@ package google.appengine.v1beta;
 
 import "google/appengine/v1beta/app_yaml.proto";
 import "google/appengine/v1beta/deploy.proto";
+import "google/appengine/v1beta/network_settings.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
@@ -12,6 +13,9 @@ option java_package = "com.google.appengine.v1beta";
 option java_outer_classname = "VersionProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+option csharp_namespace = "Google.Cloud.AppEngine.V1Beta";
+option php_namespace = "Google\\Cloud\\AppEngine\\V1beta";
+option ruby_package = "Google::Cloud::AppEngine::V1beta";
 
 
 enum InboundServiceType {
@@ -52,6 +56,7 @@ message Version {
 	string runtime_channel = 117;
 	bool threadsafe = 11;
 	bool vm = 12;
+	bool app_engine_apis = 128;
 	map<string, string> beta_settings = 13;
 	string env = 14;
 	ServingStatus serving_status = 15;
@@ -60,11 +65,13 @@ message Version {
 	int64 disk_usage_bytes = 18;
 	string runtime_api_version = 21;
 	string runtime_main_executable_path = 22;
+	string service_account = 127;
 	repeated google.appengine.v1beta.UrlMap handlers = 100;
 	repeated google.appengine.v1beta.ErrorHandler error_handlers = 101;
 	repeated google.appengine.v1beta.Library libraries = 102;
 	google.appengine.v1beta.ApiConfigHandler api_config = 103;
 	map<string, string> env_variables = 104;
+	map<string, string> build_env_variables = 125;
 	google.protobuf.Duration default_expiration = 105;
 	google.appengine.v1beta.HealthCheck health_check = 106;
 	google.appengine.v1beta.ReadinessCheck readiness_check = 112;
@@ -190,6 +197,7 @@ message Resources {
 	double disk_gb = 2;
 	double memory_gb = 3;
 	repeated Volume volumes = 4;
+	string kms_key_reference = 5;
 }
 
 message VpcAccessConnector {

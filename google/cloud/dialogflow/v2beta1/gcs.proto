@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package google.cloud.dialogflow.v2beta1;
 
+import "google/api/field_behavior.proto";
 import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.dialogflow.v2beta1";
@@ -12,6 +13,13 @@ option cc_enable_arenas = true;
 option objc_class_prefix = "DF";
 option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
 
+
+message GcsSources {
+
+	repeated string uris = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
 
 message GcsSource {
 

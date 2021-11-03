@@ -1,0 +1,557 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/v2beta1/audio_config.proto";
+import "google/cloud/dialogflow/v2beta1/gcs.proto";
+import "google/cloud/dialogflow/v2beta1/session.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "ParticipantProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+
+
+service Participants {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc CreateParticipant(google.cloud.dialogflow.v2beta1.CreateParticipantRequest) returns (google.cloud.dialogflow.v2beta1.Participant) {
+		option (google.api.method_signature) = "parent,participant";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/conversations/*}/participants"
+			body: "participant"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/conversations/*}/participants"
+				body: "participant"
+			}
+		};
+
+	}
+	rpc GetParticipant(google.cloud.dialogflow.v2beta1.GetParticipantRequest) returns (google.cloud.dialogflow.v2beta1.Participant) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2beta1/{name=projects/*/conversations/*/participants/*}"
+			additional_bindings: {
+				get: "/v2beta1/{name=projects/*/locations/*/conversations/*/participants/*}"
+			}
+		};
+
+	}
+	rpc ListParticipants(google.cloud.dialogflow.v2beta1.ListParticipantsRequest) returns (google.cloud.dialogflow.v2beta1.ListParticipantsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2beta1/{parent=projects/*/conversations/*}/participants"
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*/conversations/*}/participants"
+			}
+		};
+
+	}
+	rpc UpdateParticipant(google.cloud.dialogflow.v2beta1.UpdateParticipantRequest) returns (google.cloud.dialogflow.v2beta1.Participant) {
+		option (google.api.method_signature) = "participant,update_mask";
+		option (google.api.http) = {
+			patch: "/v2beta1/{participant.name=projects/*/conversations/*/participants/*}"
+			body: "participant"
+			additional_bindings: {
+				patch: "/v2beta1/{participant.name=projects/*/locations/*/conversations/*/participants/*}"
+				body: "participant"
+			}
+		};
+
+	}
+	rpc AnalyzeContent(google.cloud.dialogflow.v2beta1.AnalyzeContentRequest) returns (google.cloud.dialogflow.v2beta1.AnalyzeContentResponse) {
+		option (google.api.method_signature) = "participant,text_input";
+		option (google.api.method_signature) = "participant,event_input";
+		option (google.api.http) = {
+			post: "/v2beta1/{participant=projects/*/conversations/*/participants/*}:analyzeContent"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{participant=projects/*/locations/*/conversations/*/participants/*}:analyzeContent"
+				body: "*"
+			}
+		};
+
+	}
+	rpc SuggestArticles(google.cloud.dialogflow.v2beta1.SuggestArticlesRequest) returns (google.cloud.dialogflow.v2beta1.SuggestArticlesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/conversations/*/participants/*}/suggestions:suggestArticles"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/conversations/*/participants/*}/suggestions:suggestArticles"
+				body: "*"
+			}
+		};
+
+	}
+	rpc SuggestFaqAnswers(google.cloud.dialogflow.v2beta1.SuggestFaqAnswersRequest) returns (google.cloud.dialogflow.v2beta1.SuggestFaqAnswersResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/conversations/*/participants/*}/suggestions:suggestFaqAnswers"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/conversations/*/participants/*}/suggestions:suggestFaqAnswers"
+				body: "*"
+			}
+		};
+
+	}
+	rpc SuggestSmartReplies(google.cloud.dialogflow.v2beta1.SuggestSmartRepliesRequest) returns (google.cloud.dialogflow.v2beta1.SuggestSmartRepliesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/conversations/*/participants/*}/suggestions:suggestSmartReplies"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/conversations/*/participants/*}/suggestions:suggestSmartReplies"
+				body: "*"
+			}
+		};
+
+	}
+	rpc ListSuggestions(google.cloud.dialogflow.v2beta1.ListSuggestionsRequest) returns (google.cloud.dialogflow.v2beta1.ListSuggestionsResponse) {
+		option deprecated = true;
+		option (google.api.http) = {
+			get: "/v2beta1/{parent=projects/*/conversations/*/participants/*}/suggestions"
+		};
+
+	}
+	rpc CompileSuggestion(google.cloud.dialogflow.v2beta1.CompileSuggestionRequest) returns (google.cloud.dialogflow.v2beta1.CompileSuggestionResponse) {
+		option deprecated = true;
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/conversations/*/participants/*}/suggestions:compile"
+			body: "*"
+		};
+
+	}
+}
+
+message Participant {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Participant"
+		pattern: ["projects/{project}/conversations/{conversation}/participants/{participant}","projects/{project}/locations/{location}/conversations/{conversation}/participants/{participant}"]
+	};
+
+	enum Role {
+
+		ROLE_UNSPECIFIED = 0;
+		HUMAN_AGENT = 1;
+		AUTOMATED_AGENT = 2;
+		END_USER = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Role role = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string obfuscated_external_user_id = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message Message {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Message"
+		pattern: ["projects/{project}/conversations/{conversation}/messages/{message}","projects/{project}/locations/{location}/conversations/{conversation}/messages/{message}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string content = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string participant = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Role participant_role = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp send_time = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	MessageAnnotation message_annotation = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.dialogflow.v2beta1.SentimentAnalysisResult sentiment_analysis = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CreateParticipantRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Participant"
+		}
+	];
+	Participant participant = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetParticipantRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Participant"
+		}
+	];
+}
+
+message ListParticipantsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Participant"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListParticipantsResponse {
+
+	repeated Participant participants = 1;
+	string next_page_token = 2;
+}
+
+message UpdateParticipantRequest {
+
+	Participant participant = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message OutputAudio {
+
+	google.cloud.dialogflow.v2beta1.OutputAudioConfig config = 1;
+	bytes audio = 2;
+}
+
+message AutomatedAgentReply {
+
+	enum AutomatedAgentReplyType {
+
+		AUTOMATED_AGENT_REPLY_TYPE_UNSPECIFIED = 0;
+		PARTIAL = 1;
+		FINAL = 2;
+	}
+
+	oneof response {
+		google.cloud.dialogflow.v2beta1.DetectIntentResponse detect_intent_response = 1;
+	}
+	repeated ResponseMessage response_messages = 3;
+	oneof match {
+		string intent = 4 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Intent"
+			}
+		];
+		string event = 5;
+	}
+	float match_confidence = 9;
+	google.protobuf.Struct parameters = 10;
+	google.protobuf.Struct cx_session_parameters = 6 [
+		deprecated = true
+	];
+	AutomatedAgentReplyType automated_agent_reply_type = 7;
+	bool allow_cancellation = 8;
+}
+
+message SuggestionFeature {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		ARTICLE_SUGGESTION = 1;
+		FAQ = 2;
+		SMART_REPLY = 3;
+	}
+
+	Type type = 1;
+}
+
+message AnalyzeContentRequest {
+
+	string participant = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Participant"
+		}
+	];
+	oneof input {
+		google.cloud.dialogflow.v2beta1.TextInput text_input = 6;
+		google.cloud.dialogflow.v2beta1.EventInput event_input = 8;
+	}
+	google.cloud.dialogflow.v2beta1.OutputAudioConfig reply_audio_config = 5;
+	google.cloud.dialogflow.v2beta1.QueryParameters query_params = 9;
+	google.protobuf.Timestamp message_send_time = 10;
+	string request_id = 11;
+}
+
+message DtmfParameters {
+
+	bool accepts_dtmf_input = 1;
+}
+
+message AnalyzeContentResponse {
+
+	string reply_text = 1;
+	OutputAudio reply_audio = 2;
+	AutomatedAgentReply automated_agent_reply = 3;
+	Message message = 5;
+	repeated SuggestionResult human_agent_suggestion_results = 6;
+	repeated SuggestionResult end_user_suggestion_results = 7;
+	DtmfParameters dtmf_parameters = 9;
+}
+
+message AnnotatedMessagePart {
+
+	string text = 1;
+	string entity_type = 2;
+	google.protobuf.Value formatted_value = 3;
+}
+
+message MessageAnnotation {
+
+	repeated AnnotatedMessagePart parts = 1;
+	bool contain_entities = 2;
+}
+
+message ArticleAnswer {
+
+	string title = 1;
+	string uri = 2;
+	repeated string snippets = 3;
+	map<string, string> metadata = 5;
+	string answer_record = 6;
+}
+
+message FaqAnswer {
+
+	string answer = 1;
+	float confidence = 2;
+	string question = 3;
+	string source = 4;
+	map<string, string> metadata = 5;
+	string answer_record = 6;
+}
+
+message SmartReplyAnswer {
+
+	string reply = 1;
+	float confidence = 2;
+	string answer_record = 3;
+}
+
+message SuggestionResult {
+
+	oneof suggestion_response {
+		google.rpc.Status error = 1;
+		SuggestArticlesResponse suggest_articles_response = 2;
+		SuggestFaqAnswersResponse suggest_faq_answers_response = 3;
+		SuggestSmartRepliesResponse suggest_smart_replies_response = 4;
+	}
+}
+
+message SuggestArticlesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Participant"
+		}
+	];
+	string latest_message = 2 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Message"
+		}
+	];
+	int32 context_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SuggestArticlesResponse {
+
+	repeated ArticleAnswer article_answers = 1;
+	string latest_message = 2;
+	int32 context_size = 3;
+}
+
+message SuggestFaqAnswersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Participant"
+		}
+	];
+	string latest_message = 2 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Message"
+		}
+	];
+	int32 context_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SuggestFaqAnswersResponse {
+
+	repeated FaqAnswer faq_answers = 1;
+	string latest_message = 2;
+	int32 context_size = 3;
+}
+
+message SuggestSmartRepliesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Participant"
+		}
+	];
+	google.cloud.dialogflow.v2beta1.TextInput current_text_input = 4;
+	string latest_message = 2 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Message"
+		}
+	];
+	int32 context_size = 3;
+}
+
+message SuggestSmartRepliesResponse {
+
+	repeated SmartReplyAnswer smart_reply_answers = 1;
+	string latest_message = 2;
+	int32 context_size = 3;
+}
+
+message Suggestion {
+	option deprecated = true;
+
+	message Article {
+
+		string title = 1;
+		string uri = 2;
+		repeated string snippets = 3;
+		map<string, string> metadata = 5;
+		string answer_record = 6;
+	}
+
+	message FaqAnswer {
+
+		string answer = 1;
+		float confidence = 2;
+		string question = 3;
+		string source = 4;
+		map<string, string> metadata = 5;
+		string answer_record = 6;
+	}
+
+	string name = 1;
+	repeated Article articles = 2;
+	repeated FaqAnswer faq_answers = 4;
+	google.protobuf.Timestamp create_time = 5;
+	string latest_message = 7;
+}
+
+message ListSuggestionsRequest {
+	option deprecated = true;
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListSuggestionsResponse {
+	option deprecated = true;
+
+	repeated Suggestion suggestions = 1;
+	string next_page_token = 2;
+}
+
+message CompileSuggestionRequest {
+	option deprecated = true;
+
+	string parent = 1;
+	string latest_message = 2;
+	int32 context_size = 3;
+}
+
+message CompileSuggestionResponse {
+	option deprecated = true;
+
+	Suggestion suggestion = 1;
+	string latest_message = 2;
+	int32 context_size = 3;
+}
+
+message ResponseMessage {
+
+	message Text {
+
+		repeated string text = 1;
+	}
+
+	message LiveAgentHandoff {
+
+		google.protobuf.Struct metadata = 1;
+	}
+
+	message EndInteraction {
+
+	}
+
+	message TelephonyTransferCall {
+
+		oneof endpoint {
+			string phone_number = 1;
+			string sip_uri = 2;
+		}
+	}
+
+	oneof message {
+		Text text = 1;
+		google.protobuf.Struct payload = 2;
+		LiveAgentHandoff live_agent_handoff = 3;
+		EndInteraction end_interaction = 4;
+		TelephonyTransferCall telephony_transfer_call = 6;
+	}
+}

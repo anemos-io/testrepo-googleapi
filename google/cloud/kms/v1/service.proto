@@ -141,6 +141,30 @@ service KeyManagementService {
 		};
 
 	}
+	rpc UpdateCryptoKeyPrimaryVersion(google.cloud.kms.v1.UpdateCryptoKeyPrimaryVersionRequest) returns (google.cloud.kms.v1.CryptoKey) {
+		option (google.api.method_signature) = "name,crypto_key_version_id";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*}:updatePrimaryVersion"
+			body: "*"
+		};
+
+	}
+	rpc DestroyCryptoKeyVersion(google.cloud.kms.v1.DestroyCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:destroy"
+			body: "*"
+		};
+
+	}
+	rpc RestoreCryptoKeyVersion(google.cloud.kms.v1.RestoreCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:restore"
+			body: "*"
+		};
+
+	}
 	rpc Encrypt(google.cloud.kms.v1.EncryptRequest) returns (google.cloud.kms.v1.EncryptResponse) {
 		option (google.api.method_signature) = "name,plaintext";
 		option (google.api.http) = {
@@ -173,26 +197,26 @@ service KeyManagementService {
 		};
 
 	}
-	rpc UpdateCryptoKeyPrimaryVersion(google.cloud.kms.v1.UpdateCryptoKeyPrimaryVersionRequest) returns (google.cloud.kms.v1.CryptoKey) {
-		option (google.api.method_signature) = "name,crypto_key_version_id";
+	rpc MacSign(google.cloud.kms.v1.MacSignRequest) returns (google.cloud.kms.v1.MacSignResponse) {
+		option (google.api.method_signature) = "name,data";
 		option (google.api.http) = {
-			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*}:updatePrimaryVersion"
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:macSign"
 			body: "*"
 		};
 
 	}
-	rpc DestroyCryptoKeyVersion(google.cloud.kms.v1.DestroyCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
-		option (google.api.method_signature) = "name";
+	rpc MacVerify(google.cloud.kms.v1.MacVerifyRequest) returns (google.cloud.kms.v1.MacVerifyResponse) {
+		option (google.api.method_signature) = "name,data,mac";
 		option (google.api.http) = {
-			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:destroy"
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:macVerify"
 			body: "*"
 		};
 
 	}
-	rpc RestoreCryptoKeyVersion(google.cloud.kms.v1.RestoreCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
-		option (google.api.method_signature) = "name";
+	rpc GenerateRandomBytes(google.cloud.kms.v1.GenerateRandomBytesRequest) returns (google.cloud.kms.v1.GenerateRandomBytesResponse) {
+		option (google.api.method_signature) = "location,length_bytes,protection_level";
 		option (google.api.http) = {
-			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:restore"
+			post: "/v1/{location=projects/*/locations/*}:generateRandomBytes"
 			body: "*"
 		};
 
@@ -421,6 +445,12 @@ message ImportCryptoKeyVersionRequest {
 			type: "cloudkms.googleapis.com/CryptoKey"
 		}
 	];
+	string crypto_key_version = 6 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
 	google.cloud.kms.v1.CryptoKeyVersion.CryptoKeyVersionAlgorithm algorithm = 2 [
 		(google.api.field_behavior) = REQUIRED
 	];
@@ -465,6 +495,39 @@ message UpdateCryptoKeyVersionRequest {
 	];
 	google.protobuf.FieldMask update_mask = 2 [
 		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateCryptoKeyPrimaryVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+	string crypto_key_version_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DestroyCryptoKeyVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+}
+
+message RestoreCryptoKeyVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
 	];
 }
 
@@ -521,9 +584,15 @@ message AsymmetricSignRequest {
 		}
 	];
 	Digest digest = 3 [
-		(google.api.field_behavior) = REQUIRED
+		(google.api.field_behavior) = OPTIONAL
 	];
 	google.protobuf.Int64Value digest_crc32c = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes data = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Int64Value data_crc32c = 7 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -544,10 +613,49 @@ message AsymmetricDecryptRequest {
 	];
 }
 
-message DecryptResponse {
+message MacSignRequest {
 
-	bytes plaintext = 1;
-	google.protobuf.Int64Value plaintext_crc32c = 2;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+	bytes data = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value data_crc32c = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message MacVerifyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+	bytes data = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value data_crc32c = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes mac = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value mac_crc32c = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GenerateRandomBytesRequest {
+
+	string location = 1;
+	int32 length_bytes = 2;
+	google.cloud.kms.v1.ProtectionLevel protection_level = 3;
 }
 
 message EncryptResponse {
@@ -557,6 +665,15 @@ message EncryptResponse {
 	google.protobuf.Int64Value ciphertext_crc32c = 4;
 	bool verified_plaintext_crc32c = 5;
 	bool verified_additional_authenticated_data_crc32c = 6;
+	google.cloud.kms.v1.ProtectionLevel protection_level = 7;
+}
+
+message DecryptResponse {
+
+	bytes plaintext = 1;
+	google.protobuf.Int64Value plaintext_crc32c = 2;
+	bool used_primary = 3;
+	google.cloud.kms.v1.ProtectionLevel protection_level = 4;
 }
 
 message AsymmetricSignResponse {
@@ -565,6 +682,8 @@ message AsymmetricSignResponse {
 	google.protobuf.Int64Value signature_crc32c = 2;
 	bool verified_digest_crc32c = 3;
 	string name = 4;
+	bool verified_data_crc32c = 5;
+	google.cloud.kms.v1.ProtectionLevel protection_level = 6;
 }
 
 message AsymmetricDecryptResponse {
@@ -572,39 +691,32 @@ message AsymmetricDecryptResponse {
 	bytes plaintext = 1;
 	google.protobuf.Int64Value plaintext_crc32c = 2;
 	bool verified_ciphertext_crc32c = 3;
+	google.cloud.kms.v1.ProtectionLevel protection_level = 4;
 }
 
-message UpdateCryptoKeyPrimaryVersionRequest {
+message MacSignResponse {
 
-	string name = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "cloudkms.googleapis.com/CryptoKey"
-		}
-	];
-	string crypto_key_version_id = 2 [
-		(google.api.field_behavior) = REQUIRED
-	];
+	string name = 1;
+	bytes mac = 2;
+	google.protobuf.Int64Value mac_crc32c = 3;
+	bool verified_data_crc32c = 4;
+	google.cloud.kms.v1.ProtectionLevel protection_level = 5;
 }
 
-message DestroyCryptoKeyVersionRequest {
+message MacVerifyResponse {
 
-	string name = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "cloudkms.googleapis.com/CryptoKeyVersion"
-		}
-	];
+	string name = 1;
+	bool success = 2;
+	bool verified_data_crc32c = 3;
+	bool verified_mac_crc32c = 4;
+	bool verified_success_integrity = 5;
+	google.cloud.kms.v1.ProtectionLevel protection_level = 6;
 }
 
-message RestoreCryptoKeyVersionRequest {
+message GenerateRandomBytesResponse {
 
-	string name = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "cloudkms.googleapis.com/CryptoKeyVersion"
-		}
-	];
+	bytes data = 1;
+	google.protobuf.Int64Value data_crc32c = 3;
 }
 
 message Digest {

@@ -9,6 +9,7 @@ import "google/api/resource.proto";
 import "google/cloud/dialogflow/v2beta1/agent.proto";
 import "google/cloud/dialogflow/v2beta1/audio_config.proto";
 import "google/cloud/dialogflow/v2beta1/context.proto";
+import "google/cloud/dialogflow/v2beta1/gcs.proto";
 import "google/cloud/dialogflow/v2beta1/intent.proto";
 import "google/cloud/dialogflow/v2beta1/session_entity_type.proto";
 import "google/protobuf/duration.proto";
@@ -26,7 +27,7 @@ option objc_class_prefix = "DF";
 option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
 option (google.api.resource_definition) = {
 	type: "dialogflow.googleapis.com/Session"
-	pattern: ["projects/{project}/agent/sessions/{session}","projects/{project}/agent/environments/{environment}/users/{user}/sessions/{session}","projects/{project}/locations/{location}/agent/sessions/{session}"]
+	pattern: ["projects/{project}/agent/sessions/{session}","projects/{project}/agent/environments/{environment}/users/{user}/sessions/{session}","projects/{project}/locations/{location}/agent/sessions/{session}","projects/{project}/locations/{location}/agent/environments/{environment}/users/{user}/sessions/{session}"]
 };
 
 
@@ -104,6 +105,7 @@ message QueryInput {
 		google.cloud.dialogflow.v2beta1.InputAudioConfig audio_config = 1;
 		TextInput text = 2;
 		EventInput event = 3;
+		google.cloud.dialogflow.v2beta1.TelephonyDtmfEvents dtmf = 4;
 	}
 }
 
@@ -115,6 +117,7 @@ message QueryResult {
 	string action = 3;
 	google.protobuf.Struct parameters = 4;
 	bool all_required_params_present = 5;
+	bool cancels_slot_filling = 21;
 	string fulfillment_text = 6;
 	repeated google.cloud.dialogflow.v2beta1.Intent.Message fulfillment_messages = 7;
 	string webhook_source = 8;
@@ -157,12 +160,17 @@ message StreamingDetectIntentRequest {
 
 	string session = 1 [
 		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Session"
+		}
 	];
 	QueryParameters query_params = 2;
 	QueryInput query_input = 3 [
 		(google.api.field_behavior) = REQUIRED
 	];
-	bool single_utterance = 4;
+	bool single_utterance = 4 [
+		deprecated = true
+	];
 	google.cloud.dialogflow.v2beta1.OutputAudioConfig output_audio_config = 5;
 	google.protobuf.FieldMask output_audio_config_mask = 7;
 	bytes input_audio = 6;
@@ -185,7 +193,9 @@ message StreamingRecognitionResult {
 
 		MESSAGE_TYPE_UNSPECIFIED = 0;
 		TRANSCRIPT = 1;
+		DTMF_DIGITS = 3;
 		END_OF_SINGLE_UTTERANCE = 2;
+		PARTIAL_DTMF_DIGITS = 4;
 	}
 
 	MessageType message_type = 1;
@@ -195,6 +205,8 @@ message StreamingRecognitionResult {
 	float stability = 6;
 	repeated google.cloud.dialogflow.v2beta1.SpeechWordInfo speech_word_info = 7;
 	google.protobuf.Duration speech_end_offset = 8;
+	string language_code = 10;
+	google.cloud.dialogflow.v2beta1.TelephonyDtmfEvents dtmf_digits = 5;
 }
 
 message TextInput {

@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/enums/ad_type.proto";
+import "google/ads/googleads/v8/enums/advertising_channel_sub_type.proto";
+import "google/ads/googleads/v8/enums/advertising_channel_type.proto";
+import "google/ads/googleads/v8/enums/asset_type.proto";
+import "google/ads/googleads/v8/enums/change_status_operation.proto";
+import "google/ads/googleads/v8/enums/change_status_resource_type.proto";
+import "google/ads/googleads/v8/enums/criterion_type.proto";
+import "google/ads/googleads/v8/enums/feed_origin.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "ChangeStatusProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message ChangeStatus {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/ChangeStatus"
+		pattern: ["customers/{customer_id}/changeStatus/{change_status_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/ChangeStatus"
+		}
+	];
+	oneof _last_change_date_time {
+		string last_change_date_time = 24 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v8.enums.ChangeStatusResourceTypeEnum.ChangeStatusResourceType resource_type = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _campaign {
+		string campaign = 17 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Campaign"
+			}
+		];
+	}
+	oneof _ad_group {
+		string ad_group = 18 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroup"
+			}
+		];
+	}
+	google.ads.googleads.v8.enums.ChangeStatusOperationEnum.ChangeStatusOperation resource_status = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _ad_group_ad {
+		string ad_group_ad = 25 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroupAd"
+			}
+		];
+	}
+	oneof _ad_group_criterion {
+		string ad_group_criterion = 26 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroupCriterion"
+			}
+		];
+	}
+	oneof _campaign_criterion {
+		string campaign_criterion = 27 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/CampaignCriterion"
+			}
+		];
+	}
+	oneof _feed {
+		string feed = 28 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Feed"
+			}
+		];
+	}
+	oneof _feed_item {
+		string feed_item = 29 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/FeedItem"
+			}
+		];
+	}
+	oneof _ad_group_feed {
+		string ad_group_feed = 30 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroupFeed"
+			}
+		];
+	}
+	oneof _campaign_feed {
+		string campaign_feed = 31 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/CampaignFeed"
+			}
+		];
+	}
+	oneof _ad_group_bid_modifier {
+		string ad_group_bid_modifier = 32 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroupBidModifier"
+			}
+		];
+	}
+	string shared_set = 33 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/SharedSet"
+		}
+	];
+	string campaign_shared_set = 34 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignSharedSet"
+		}
+	];
+	string asset = 35 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Asset"
+		}
+	];
+	string customer_asset = 36 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomerAsset"
+		}
+	];
+	string campaign_asset = 37 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignAsset"
+		}
+	];
+	string ad_group_asset = 38 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupAsset"
+		}
+	];
+}

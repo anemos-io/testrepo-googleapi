@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/enums/asset_field_type.proto";
+import "google/ads/googleads/v8/enums/asset_link_status.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "CampaignAssetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message CampaignAsset {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/CampaignAsset"
+		pattern: ["customers/{customer_id}/campaignAssets/{campaign_id}~{asset_id}~{field_type}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignAsset"
+		}
+	];
+	oneof _campaign {
+		string campaign = 6 [
+			(google.api.field_behavior) = IMMUTABLE
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Campaign"
+			}
+		];
+	}
+	oneof _asset {
+		string asset = 7 [
+			(google.api.field_behavior) = IMMUTABLE
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Asset"
+			}
+		];
+	}
+	google.ads.googleads.v8.enums.AssetFieldTypeEnum.AssetFieldType field_type = 4 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v8.enums.AssetLinkStatusEnum.AssetLinkStatus status = 5;
+}

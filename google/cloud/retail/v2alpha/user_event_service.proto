@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2alpha;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/httpbody.proto";
+import "google/cloud/retail/v2alpha/export_config.proto";
+import "google/cloud/retail/v2alpha/import_config.proto";
+import "google/cloud/retail/v2alpha/purge_config.proto";
+import "google/cloud/retail/v2alpha/user_event.proto";
+import "google/longrunning/operations.proto";
+
+option java_package = "com.google.cloud.retail.v2alpha";
+option java_outer_classname = "UserEventServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2alpha;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2Alpha";
+option php_namespace = "Google\\Cloud\\Retail\\V2alpha";
+option ruby_package = "Google::Cloud::Retail::V2alpha";
+
+
+service UserEventService {
+	option (google.api.default_host) = "retail.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc WriteUserEvent(google.cloud.retail.v2alpha.WriteUserEventRequest) returns (google.cloud.retail.v2alpha.UserEvent) {
+		option (google.api.http) = {
+			post: "/v2alpha/{parent=projects/*/locations/*/catalogs/*}/userEvents:write"
+			body: "user_event"
+		};
+
+	}
+	rpc CollectUserEvent(google.cloud.retail.v2alpha.CollectUserEventRequest) returns (google.api.HttpBody) {
+		option (google.api.http) = {
+			get: "/v2alpha/{parent=projects/*/locations/*/catalogs/*}/userEvents:collect"
+		};
+
+	}
+	rpc PurgeUserEvents(google.cloud.retail.v2alpha.PurgeUserEventsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.retail.v2alpha.PurgeUserEventsResponse"
+			metadata_type: "google.cloud.retail.v2alpha.PurgeMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2alpha/{parent=projects/*/locations/*/catalogs/*}/userEvents:purge"
+			body: "*"
+		};
+
+	}
+	rpc ImportUserEvents(google.cloud.retail.v2alpha.ImportUserEventsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.retail.v2alpha.ImportUserEventsResponse"
+			metadata_type: "google.cloud.retail.v2alpha.ImportMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2alpha/{parent=projects/*/locations/*/catalogs/*}/userEvents:import"
+			body: "*"
+		};
+
+	}
+	rpc RejoinUserEvents(google.cloud.retail.v2alpha.RejoinUserEventsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "RejoinUserEventsResponse"
+			metadata_type: "RejoinUserEventsMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2alpha/{parent=projects/*/locations/*/catalogs/*}/userEvents:rejoin"
+			body: "*"
+		};
+
+	}
+}
+
+message WriteUserEventRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.retail.v2alpha.UserEvent user_event = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CollectUserEventRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string user_event = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string uri = 3;
+	int64 ets = 4;
+}
+
+message RejoinUserEventsRequest {
+
+	enum UserEventRejoinScope {
+
+		USER_EVENT_REJOIN_SCOPE_UNSPECIFIED = 0;
+		JOINED_EVENTS = 1;
+		UNJOINED_EVENTS = 2;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	UserEventRejoinScope user_event_rejoin_scope = 2;
+}
+
+message RejoinUserEventsResponse {
+
+	int64 rejoined_user_events_count = 1;
+}
+
+message RejoinUserEventsMetadata {
+
+}

@@ -1,0 +1,518 @@
+syntax = "proto3";
+
+package google.devtools.testing.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.devtools.testing.v1";
+option java_outer_classname = "TestExecutionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/testing/v1;testing";
+
+
+enum OrchestratorOption {
+
+	ORCHESTRATOR_OPTION_UNSPECIFIED = 0;
+	USE_ORCHESTRATOR = 1;
+	DO_NOT_USE_ORCHESTRATOR = 2;
+}
+
+enum RoboActionType {
+
+	ACTION_TYPE_UNSPECIFIED = 0;
+	SINGLE_CLICK = 1;
+	ENTER_TEXT = 2;
+	IGNORE = 3;
+}
+
+enum InvalidMatrixDetails {
+
+	INVALID_MATRIX_DETAILS_UNSPECIFIED = 0;
+	DETAILS_UNAVAILABLE = 1;
+	MALFORMED_APK = 2;
+	MALFORMED_TEST_APK = 3;
+	NO_MANIFEST = 4;
+	NO_PACKAGE_NAME = 5;
+	INVALID_PACKAGE_NAME = 31;
+	TEST_SAME_AS_APP = 6;
+	NO_INSTRUMENTATION = 7;
+	NO_SIGNATURE = 20;
+	INSTRUMENTATION_ORCHESTRATOR_INCOMPATIBLE = 18;
+	NO_TEST_RUNNER_CLASS = 19;
+	NO_LAUNCHER_ACTIVITY = 8;
+	FORBIDDEN_PERMISSIONS = 9;
+	INVALID_ROBO_DIRECTIVES = 10;
+	INVALID_RESOURCE_NAME = 33;
+	INVALID_DIRECTIVE_ACTION = 34;
+	TEST_LOOP_INTENT_FILTER_NOT_FOUND = 12;
+	SCENARIO_LABEL_NOT_DECLARED = 13;
+	SCENARIO_LABEL_MALFORMED = 14;
+	SCENARIO_NOT_DECLARED = 15;
+	DEVICE_ADMIN_RECEIVER = 17;
+	MALFORMED_XC_TEST_ZIP = 11;
+	BUILT_FOR_IOS_SIMULATOR = 24;
+	NO_TESTS_IN_XC_TEST_ZIP = 25;
+	USE_DESTINATION_ARTIFACTS = 26;
+	TEST_NOT_APP_HOSTED = 28;
+	PLIST_CANNOT_BE_PARSED = 30;
+	TEST_ONLY_APK = 21 [
+		deprecated = true
+	];
+	MALFORMED_IPA = 22;
+	MISSING_URL_SCHEME = 35;
+	MALFORMED_APP_BUNDLE = 36;
+	NO_CODE_APK = 23;
+	INVALID_INPUT_APK = 27;
+	INVALID_APK_PREVIEW_SDK = 29;
+}
+
+enum TestState {
+
+	TEST_STATE_UNSPECIFIED = 0;
+	VALIDATING = 8;
+	PENDING = 1;
+	RUNNING = 2;
+	FINISHED = 3;
+	ERROR = 4;
+	UNSUPPORTED_ENVIRONMENT = 5;
+	INCOMPATIBLE_ENVIRONMENT = 9;
+	INCOMPATIBLE_ARCHITECTURE = 10;
+	CANCELLED = 6;
+	INVALID = 7;
+}
+
+enum OutcomeSummary {
+
+	OUTCOME_SUMMARY_UNSPECIFIED = 0;
+	SUCCESS = 1;
+	FAILURE = 2;
+	INCONCLUSIVE = 3;
+	SKIPPED = 4;
+}
+
+service TestExecutionService {
+	option (google.api.default_host) = "testing.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc CreateTestMatrix(google.devtools.testing.v1.CreateTestMatrixRequest) returns (google.devtools.testing.v1.TestMatrix) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/testMatrices"
+			body: "test_matrix"
+		};
+
+	}
+	rpc GetTestMatrix(google.devtools.testing.v1.GetTestMatrixRequest) returns (google.devtools.testing.v1.TestMatrix) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/testMatrices/{test_matrix_id}"
+		};
+
+	}
+	rpc CancelTestMatrix(google.devtools.testing.v1.CancelTestMatrixRequest) returns (google.devtools.testing.v1.CancelTestMatrixResponse) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/testMatrices/{test_matrix_id}:cancel"
+		};
+
+	}
+}
+
+message TestMatrix {
+
+	string test_matrix_id = 1;
+	string project_id = 7;
+	ClientInfo client_info = 10;
+	TestSpecification test_specification = 3;
+	EnvironmentMatrix environment_matrix = 4;
+	repeated TestExecution test_executions = 5;
+	ResultStorage result_storage = 6;
+	TestState state = 8;
+	google.protobuf.Timestamp timestamp = 9;
+	InvalidMatrixDetails invalid_matrix_details = 11;
+	int32 flaky_test_attempts = 13;
+	OutcomeSummary outcome_summary = 14;
+	bool fail_fast = 17;
+}
+
+message TestExecution {
+
+	string id = 1;
+	string matrix_id = 9;
+	string project_id = 10;
+	TestSpecification test_specification = 3;
+	Shard shard = 12;
+	Environment environment = 4;
+	TestState state = 5;
+	ToolResultsStep tool_results_step = 11;
+	google.protobuf.Timestamp timestamp = 7;
+	TestDetails test_details = 8;
+}
+
+message TestSpecification {
+
+	google.protobuf.Duration test_timeout = 1;
+	oneof setup {
+		TestSetup test_setup = 6;
+		IosTestSetup ios_test_setup = 14;
+	}
+	oneof test {
+		AndroidInstrumentationTest android_instrumentation_test = 2;
+		AndroidRoboTest android_robo_test = 3;
+		AndroidTestLoop android_test_loop = 9;
+		IosXcTest ios_xc_test = 13;
+		IosTestLoop ios_test_loop = 15;
+	}
+	bool disable_video_recording = 10;
+	bool disable_performance_metrics = 11;
+}
+
+message SystraceSetup {
+
+	int32 duration_seconds = 1;
+}
+
+message TestSetup {
+
+	repeated DeviceFile files_to_push = 1;
+	repeated string directories_to_pull = 2;
+	repeated Apk additional_apks = 3;
+	Account account = 4;
+	string network_profile = 5;
+	repeated EnvironmentVariable environment_variables = 6;
+	SystraceSetup systrace = 9;
+	bool dont_autogrant_permissions = 23;
+}
+
+message IosTestSetup {
+
+	string network_profile = 1;
+	repeated FileReference additional_ipas = 2;
+	repeated IosDeviceFile push_files = 3;
+	repeated IosDeviceFile pull_directories = 4;
+}
+
+message EnvironmentVariable {
+
+	string key = 1;
+	string value = 2;
+}
+
+message Account {
+
+	oneof account_type {
+		GoogleAuto google_auto = 1;
+	}
+}
+
+message GoogleAuto {
+
+}
+
+message Apk {
+
+	FileReference location = 1;
+	string package_name = 2;
+}
+
+message AppBundle {
+
+	oneof bundle {
+		FileReference bundle_location = 1;
+	}
+}
+
+message DeviceFile {
+
+	oneof device_file {
+		ObbFile obb_file = 1;
+		RegularFile regular_file = 2;
+	}
+}
+
+message ObbFile {
+
+	string obb_file_name = 1;
+	FileReference obb = 2;
+}
+
+message RegularFile {
+
+	FileReference content = 1;
+	string device_path = 2;
+}
+
+message IosDeviceFile {
+
+	FileReference content = 1;
+	string bundle_id = 2;
+	string device_path = 3;
+}
+
+message AndroidTestLoop {
+
+	oneof app_under_test {
+		FileReference app_apk = 1;
+		AppBundle app_bundle = 5;
+	}
+	string app_package_id = 2;
+	repeated int32 scenarios = 3;
+	repeated string scenario_labels = 4;
+}
+
+message IosXcTest {
+
+	FileReference tests_zip = 1;
+	FileReference xctestrun = 2;
+	string xcode_version = 3;
+	string app_bundle_id = 4;
+	bool test_special_entitlements = 6;
+}
+
+message IosTestLoop {
+
+	FileReference app_ipa = 1;
+	repeated int32 scenarios = 2;
+	string app_bundle_id = 3;
+}
+
+message AndroidInstrumentationTest {
+
+	oneof app_under_test {
+		FileReference app_apk = 1;
+		AppBundle app_bundle = 8;
+	}
+	FileReference test_apk = 2;
+	string app_package_id = 3;
+	string test_package_id = 4;
+	string test_runner_class = 5;
+	repeated string test_targets = 6;
+	OrchestratorOption orchestrator_option = 7;
+	ShardingOption sharding_option = 9;
+}
+
+message AndroidRoboTest {
+
+	oneof app_under_test {
+		FileReference app_apk = 1;
+		AppBundle app_bundle = 16;
+	}
+	string app_package_id = 2;
+	string app_initial_activity = 3;
+	int32 max_depth = 7 [
+		deprecated = true
+	];
+	int32 max_steps = 8 [
+		deprecated = true
+	];
+	repeated RoboDirective robo_directives = 11;
+	FileReference robo_script = 13;
+	repeated RoboStartingIntent starting_intents = 15;
+}
+
+message RoboDirective {
+
+	string resource_name = 1;
+	string input_text = 2;
+	RoboActionType action_type = 3;
+}
+
+message RoboStartingIntent {
+
+	oneof starting_intent {
+		LauncherActivityIntent launcher_activity = 1;
+		StartActivityIntent start_activity = 2;
+	}
+	google.protobuf.Duration timeout = 3;
+}
+
+message LauncherActivityIntent {
+
+}
+
+message StartActivityIntent {
+
+	string action = 2;
+	string uri = 3;
+	repeated string categories = 4;
+}
+
+message EnvironmentMatrix {
+
+	oneof environment_matrix {
+		AndroidMatrix android_matrix = 1;
+		AndroidDeviceList android_device_list = 2;
+		IosDeviceList ios_device_list = 3;
+	}
+}
+
+message AndroidDeviceList {
+
+	repeated AndroidDevice android_devices = 1;
+}
+
+message IosDeviceList {
+
+	repeated IosDevice ios_devices = 1;
+}
+
+message AndroidMatrix {
+
+	repeated string android_model_ids = 1;
+	repeated string android_version_ids = 2;
+	repeated string locales = 3;
+	repeated string orientations = 4;
+}
+
+message ClientInfo {
+
+	string name = 1;
+	repeated ClientInfoDetail client_info_details = 2;
+}
+
+message ClientInfoDetail {
+
+	string key = 1;
+	string value = 2;
+}
+
+message ResultStorage {
+
+	GoogleCloudStorage google_cloud_storage = 1;
+	ToolResultsHistory tool_results_history = 5;
+	ToolResultsExecution tool_results_execution = 6;
+	string results_url = 7;
+}
+
+message ToolResultsHistory {
+
+	string project_id = 1;
+	string history_id = 2;
+}
+
+message ToolResultsExecution {
+
+	string project_id = 1;
+	string history_id = 2;
+	string execution_id = 3;
+}
+
+message ToolResultsStep {
+
+	string project_id = 1;
+	string history_id = 2;
+	string execution_id = 3;
+	string step_id = 4;
+}
+
+message GoogleCloudStorage {
+
+	string gcs_path = 1;
+}
+
+message FileReference {
+
+	oneof file {
+		string gcs_path = 1;
+	}
+}
+
+message Environment {
+
+	oneof environment {
+		AndroidDevice android_device = 1;
+		IosDevice ios_device = 2;
+	}
+}
+
+message AndroidDevice {
+
+	string android_model_id = 1;
+	string android_version_id = 2;
+	string locale = 3;
+	string orientation = 4;
+}
+
+message IosDevice {
+
+	string ios_model_id = 1;
+	string ios_version_id = 2;
+	string locale = 3;
+	string orientation = 4;
+}
+
+message TestDetails {
+
+	repeated string progress_messages = 3;
+	string error_message = 4;
+}
+
+message InvalidRequestDetail {
+
+	enum Reason {
+
+		REASON_UNSPECIFIED = 0;
+		REQUEST_INVALID = 1;
+		RESOURCE_TOO_BIG = 2;
+		RESOURCE_NOT_FOUND = 3;
+		UNSUPPORTED = 4;
+		NOT_IMPLEMENTED = 5;
+	}
+
+	Reason reason = 1;
+}
+
+message ShardingOption {
+
+	oneof option {
+		UniformSharding uniform_sharding = 1;
+		ManualSharding manual_sharding = 2;
+	}
+}
+
+message UniformSharding {
+
+	int32 num_shards = 1;
+}
+
+message ManualSharding {
+
+	repeated TestTargetsForShard test_targets_for_shard = 1;
+}
+
+message TestTargetsForShard {
+
+	repeated string test_targets = 1;
+}
+
+message Shard {
+
+	int32 shard_index = 1;
+	int32 num_shards = 2;
+	TestTargetsForShard test_targets_for_shard = 3;
+}
+
+message CreateTestMatrixRequest {
+
+	string project_id = 1;
+	TestMatrix test_matrix = 2;
+	string request_id = 3;
+}
+
+message GetTestMatrixRequest {
+
+	string project_id = 1;
+	string test_matrix_id = 2;
+}
+
+message CancelTestMatrixRequest {
+
+	string project_id = 1;
+	string test_matrix_id = 2;
+}
+
+message CancelTestMatrixResponse {
+
+	TestState test_state = 1;
+}

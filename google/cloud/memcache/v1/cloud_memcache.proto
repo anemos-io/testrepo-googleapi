@@ -1,0 +1,330 @@
+syntax = "proto3";
+
+package google.cloud.memcache.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.memcache.v1";
+option java_outer_classname = "CloudMemcacheProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/memcache/v1;memcache";
+
+
+enum MemcacheVersion {
+
+	MEMCACHE_VERSION_UNSPECIFIED = 0;
+	MEMCACHE_1_5 = 1;
+}
+
+service CloudMemcache {
+	option (google.api.default_host) = "memcache.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListInstances(google.cloud.memcache.v1.ListInstancesRequest) returns (google.cloud.memcache.v1.ListInstancesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/instances"
+		};
+
+	}
+	rpc GetInstance(google.cloud.memcache.v1.GetInstanceRequest) returns (google.cloud.memcache.v1.Instance) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/instances/*}"
+		};
+
+	}
+	rpc CreateInstance(google.cloud.memcache.v1.CreateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.memcache.v1.Instance"
+			metadata_type: "google.cloud.memcache.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,instance,instance_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/instances"
+			body: "instance"
+		};
+
+	}
+	rpc UpdateInstance(google.cloud.memcache.v1.UpdateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.memcache.v1.Instance"
+			metadata_type: "google.cloud.memcache.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "instance,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{instance.name=projects/*/locations/*/instances/*}"
+			body: "instance"
+		};
+
+	}
+	rpc UpdateParameters(google.cloud.memcache.v1.UpdateParametersRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.memcache.v1.Instance"
+			metadata_type: "google.cloud.memcache.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,update_mask,parameters";
+		option (google.api.http) = {
+			patch: "/v1/{name=projects/*/locations/*/instances/*}:updateParameters"
+			body: "*"
+		};
+
+	}
+	rpc DeleteInstance(google.cloud.memcache.v1.DeleteInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.cloud.memcache.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/instances/*}"
+		};
+
+	}
+	rpc ApplyParameters(google.cloud.memcache.v1.ApplyParametersRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.memcache.v1.Instance"
+			metadata_type: "google.cloud.memcache.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,node_ids,apply_all";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/instances/*}:applyParameters"
+			body: "*"
+		};
+
+	}
+}
+
+message Instance {
+	option (google.api.resource) = {
+		type: "memcache.googleapis.com/Instance"
+		pattern: ["projects/{project}/locations/{location}/instances/{instance}"]
+	};
+
+	message NodeConfig {
+
+		int32 cpu_count = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 memory_size_mb = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message Node {
+
+		enum State {
+
+			STATE_UNSPECIFIED = 0;
+			CREATING = 1;
+			READY = 2;
+			DELETING = 3;
+			UPDATING = 4;
+		}
+
+		string node_id = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		string zone = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		State state = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		string host = 4 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		int32 port = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		MemcacheParameters parameters = 6;
+	}
+
+	message InstanceMessage {
+
+		enum Code {
+
+			CODE_UNSPECIFIED = 0;
+			ZONE_DISTRIBUTION_UNBALANCED = 1;
+		}
+
+		Code code = 1;
+		string message = 2;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		DELETING = 4;
+		PERFORMING_MAINTENANCE = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string display_name = 2;
+	map<string, string> labels = 3;
+	string authorized_network = 4;
+	repeated string zones = 5;
+	int32 node_count = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	NodeConfig node_config = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	MemcacheVersion memcache_version = 9;
+	MemcacheParameters parameters = 11;
+	repeated Node memcache_nodes = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string memcache_full_version = 18 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated InstanceMessage instance_messages = 19;
+	string discovery_endpoint = 20 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListInstancesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListInstancesResponse {
+
+	repeated Instance instances = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "memcache.googleapis.com/Instance"
+		}
+	];
+}
+
+message CreateInstanceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string instance_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Instance instance = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateInstanceRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Instance instance = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "memcache.googleapis.com/Instance"
+		}
+	];
+}
+
+message ApplyParametersRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "memcache.googleapis.com/Instance"
+		}
+	];
+	repeated string node_ids = 2;
+	bool apply_all = 3;
+}
+
+message UpdateParametersRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "memcache.googleapis.com/Instance"
+		}
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	MemcacheParameters parameters = 3;
+}
+
+message MemcacheParameters {
+
+	string id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> params = 3;
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_detail = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool cancel_requested = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

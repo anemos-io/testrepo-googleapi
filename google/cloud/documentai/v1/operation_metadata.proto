@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.cloud.documentai.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.documentai.v1";
+option java_outer_classname = "OperationMetadataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/documentai/v1;documentai";
+option csharp_namespace = "Google.Cloud.DocumentAI.V1";
+option php_namespace = "Google\\Cloud\\DocumentAI\\V1";
+option ruby_package = "Google::Cloud::DocumentAI::V1";
+
+
+message CommonOperationMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		CANCELLING = 2;
+		SUCCEEDED = 3;
+		FAILED = 4;
+		CANCELLED = 5;
+	}
+
+	State state = 1;
+	string state_message = 2;
+	google.protobuf.Timestamp create_time = 3;
+	google.protobuf.Timestamp update_time = 4;
+}

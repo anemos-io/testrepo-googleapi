@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1/io.proto";
+import "google/cloud/aiplatform/v1/machine_resources.proto";
+import "google/cloud/aiplatform/v1/manual_batch_tuning_parameters.proto";
+import "google/cloud/aiplatform/v1/model.proto";
+import "google/cloud/aiplatform/v1/pipeline_state.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "TrainingPipelineProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message TrainingPipeline {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/TrainingPipeline"
+		pattern: ["projects/{project}/locations/{location}/trainingPipelines/{training_pipeline}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	InputDataConfig input_data_config = 3;
+	string training_task_definition = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Value training_task_inputs = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Value training_task_metadata = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1.Model model_to_upload = 7;
+	google.cloud.aiplatform.v1.PipelineState state = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status error = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 15;
+	google.cloud.aiplatform.v1.EncryptionSpec encryption_spec = 18;
+}
+
+message InputDataConfig {
+
+	oneof split {
+		FractionSplit fraction_split = 2;
+		FilterSplit filter_split = 3;
+		PredefinedSplit predefined_split = 4;
+		TimestampSplit timestamp_split = 5;
+	}
+	oneof destination {
+		google.cloud.aiplatform.v1.GcsDestination gcs_destination = 8;
+		google.cloud.aiplatform.v1.BigQueryDestination bigquery_destination = 10;
+	}
+	string dataset_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string annotations_filter = 6;
+	string annotation_schema_uri = 9;
+}
+
+message FractionSplit {
+
+	double training_fraction = 1;
+	double validation_fraction = 2;
+	double test_fraction = 3;
+}
+
+message FilterSplit {
+
+	string training_filter = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string validation_filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string test_filter = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PredefinedSplit {
+
+	string key = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message TimestampSplit {
+
+	double training_fraction = 1;
+	double validation_fraction = 2;
+	double test_fraction = 3;
+	string key = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

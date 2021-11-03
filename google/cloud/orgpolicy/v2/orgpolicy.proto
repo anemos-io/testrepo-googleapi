@@ -1,0 +1,257 @@
+syntax = "proto3";
+
+package google.cloud.orgpolicy.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/orgpolicy/v2/constraint.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/expr.proto";
+
+option java_package = "com.google.cloud.orgpolicy.v2";
+option java_outer_classname = "OrgPolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/orgpolicy/v2;orgpolicy";
+option csharp_namespace = "Google.Cloud.OrgPolicy.V2";
+option php_namespace = "Google\\Cloud\\OrgPolicy\\V2";
+option ruby_package = "Google::Cloud::OrgPolicy::V2";
+
+
+service OrgPolicy {
+	option (google.api.default_host) = "orgpolicy.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListConstraints(google.cloud.orgpolicy.v2.ListConstraintsRequest) returns (google.cloud.orgpolicy.v2.ListConstraintsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/constraints"
+			additional_bindings: {
+				get: "/v2/{parent=folders/*}/constraints"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=organizations/*}/constraints"
+			}
+		};
+
+	}
+	rpc ListPolicies(google.cloud.orgpolicy.v2.ListPoliciesRequest) returns (google.cloud.orgpolicy.v2.ListPoliciesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/policies"
+			additional_bindings: {
+				get: "/v2/{parent=folders/*}/policies"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=organizations/*}/policies"
+			}
+		};
+
+	}
+	rpc GetPolicy(google.cloud.orgpolicy.v2.GetPolicyRequest) returns (google.cloud.orgpolicy.v2.Policy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/policies/*}"
+			additional_bindings: {
+				get: "/v2/{name=folders/*/policies/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=organizations/*/policies/*}"
+			}
+		};
+
+	}
+	rpc GetEffectivePolicy(google.cloud.orgpolicy.v2.GetEffectivePolicyRequest) returns (google.cloud.orgpolicy.v2.Policy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/policies/*}:getEffectivePolicy"
+			additional_bindings: {
+				get: "/v2/{name=folders/*/policies/*}:getEffectivePolicy"
+			}
+			additional_bindings: {
+				get: "/v2/{name=organizations/*/policies/*}:getEffectivePolicy"
+			}
+		};
+
+	}
+	rpc CreatePolicy(google.cloud.orgpolicy.v2.CreatePolicyRequest) returns (google.cloud.orgpolicy.v2.Policy) {
+		option (google.api.method_signature) = "parent,policy";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/policies"
+			body: "policy"
+			additional_bindings: {
+				post: "/v2/{parent=folders/*}/policies"
+				body: "policy"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=organizations/*}/policies"
+				body: "policy"
+			}
+		};
+
+	}
+	rpc UpdatePolicy(google.cloud.orgpolicy.v2.UpdatePolicyRequest) returns (google.cloud.orgpolicy.v2.Policy) {
+		option (google.api.method_signature) = "policy";
+		option (google.api.http) = {
+			patch: "/v2/{policy.name=projects/*/policies/*}"
+			body: "policy"
+			additional_bindings: {
+				patch: "/v2/{policy.name=folders/*/policies/*}"
+				body: "policy"
+			}
+			additional_bindings: {
+				patch: "/v2/{policy.name=organizations/*/policies/*}"
+				body: "policy"
+			}
+		};
+
+	}
+	rpc DeletePolicy(google.cloud.orgpolicy.v2.DeletePolicyRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/policies/*}"
+			additional_bindings: {
+				delete: "/v2/{name=folders/*/policies/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{name=organizations/*/policies/*}"
+			}
+		};
+
+	}
+}
+
+message Policy {
+	option (google.api.resource) = {
+		type: "orgpolicy.googleapis.com/Policy"
+		pattern: ["projects/{project}/policies/{policy}","folders/{folder}/policies/{policy}","organizations/{organization}/policies/{policy}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	PolicySpec spec = 2;
+	AlternatePolicySpec alternate = 3;
+}
+
+message AlternatePolicySpec {
+
+	string launch = 1;
+	PolicySpec spec = 2;
+}
+
+message PolicySpec {
+
+	message PolicyRule {
+
+		message StringValues {
+
+			repeated string allowed_values = 1;
+			repeated string denied_values = 2;
+		}
+
+		oneof kind {
+			StringValues values = 1;
+			bool allow_all = 2;
+			bool deny_all = 3;
+			bool enforce = 4;
+		}
+		google.type.Expr condition = 5;
+	}
+
+	string etag = 1;
+	google.protobuf.Timestamp update_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated PolicyRule rules = 3;
+	bool inherit_from_parent = 4;
+	bool reset = 5;
+}
+
+message ListConstraintsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "orgpolicy.googleapis.com/Constraint"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListConstraintsResponse {
+
+	repeated google.cloud.orgpolicy.v2.Constraint constraints = 1;
+	string next_page_token = 2;
+}
+
+message ListPoliciesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "orgpolicy.googleapis.com/Policy"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListPoliciesResponse {
+
+	repeated Policy policies = 1;
+	string next_page_token = 2;
+}
+
+message GetPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "orgpolicy.googleapis.com/Policy"
+		}
+	];
+}
+
+message GetEffectivePolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "orgpolicy.googleapis.com/Policy"
+		}
+	];
+}
+
+message CreatePolicyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "orgpolicy.googleapis.com/Policy"
+		}
+	];
+	Policy policy = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdatePolicyRequest {
+
+	Policy policy = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeletePolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "orgpolicy.googleapis.com/Policy"
+		}
+	];
+}

@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package google.cloud.securitycenter.v1p1beta1;
 
-import "google/api/annotations.proto";
 import "google/api/resource.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.securitycenter.v1p1beta1";
 option java_multiple_files = true;
@@ -16,9 +16,10 @@ option ruby_package = "Google::Cloud::SecurityCenter::V1p1beta1";
 message SecurityMarks {
 	option (google.api.resource) = {
 		type: "securitycenter.googleapis.com/SecurityMarks"
-		pattern: ["organizations/{organization}/assets/{asset}/securityMarks","organizations/{organization}/sources/{source}/findings/{finding}/securityMarks"]
+		pattern: ["organizations/{organization}/assets/{asset}/securityMarks","organizations/{organization}/sources/{source}/findings/{finding}/securityMarks","folders/{folder}/assets/{asset}/securityMarks","projects/{project}/assets/{asset}/securityMarks","folders/{folder}/sources/{source}/findings/{finding}/securityMarks","projects/{project}/sources/{source}/findings/{finding}/securityMarks"]
 	};
 
 	string name = 1;
 	map<string, string> marks = 2;
+	string canonical_name = 3;
 }

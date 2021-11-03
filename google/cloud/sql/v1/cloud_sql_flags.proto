@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1;
+
+import "google/api/annotations.proto";
+import "google/cloud/sql/v1/cloud_sql_resources.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1";
+option java_outer_classname = "CloudSqlFlagsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1;sql";
+
+
+enum SqlFlagType {
+
+	SQL_FLAG_TYPE_UNSPECIFIED = 0;
+	BOOLEAN = 1;
+	STRING = 2;
+	INTEGER = 3;
+	NONE = 4;
+	MYSQL_TIMEZONE_OFFSET = 5;
+	FLOAT = 6;
+	REPEATED_STRING = 7;
+}
+
+service SqlFlagsService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc List(google.cloud.sql.v1.SqlFlagsListRequest) returns (google.cloud.sql.v1.FlagsListResponse) {
+		option (google.api.http) = {
+			get: "/v1/flags"
+		};
+
+	}
+}
+
+message SqlFlagsListRequest {
+
+	string database_version = 1;
+}
+
+message FlagsListResponse {
+
+	string kind = 1;
+	repeated Flag items = 2;
+}
+
+message Flag {
+
+	string name = 1;
+	SqlFlagType type = 2;
+	repeated google.cloud.sql.v1.SqlDatabaseVersion applies_to = 3;
+	repeated string allowed_string_values = 4;
+	google.protobuf.Int64Value min_value = 5;
+	google.protobuf.Int64Value max_value = 6;
+	google.protobuf.BoolValue requires_restart = 7;
+	string kind = 8;
+	google.protobuf.BoolValue in_beta = 9;
+	repeated int64 allowed_int_values = 10;
+}

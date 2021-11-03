@@ -1,0 +1,290 @@
+syntax = "proto3";
+
+package google.cloud.orchestration.airflow.service.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.orchestration.airflow.service.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/orchestration/airflow/service/v1;service";
+
+
+service Environments {
+	option (google.api.default_host) = "composer.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateEnvironment(google.cloud.orchestration.airflow.service.v1.CreateEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Environment"
+			metadata_type: "google.cloud.orchestration.airflow.service.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,environment";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/environments"
+			body: "environment"
+		};
+
+	}
+	rpc GetEnvironment(google.cloud.orchestration.airflow.service.v1.GetEnvironmentRequest) returns (google.cloud.orchestration.airflow.service.v1.Environment) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/environments/*}"
+		};
+
+	}
+	rpc ListEnvironments(google.cloud.orchestration.airflow.service.v1.ListEnvironmentsRequest) returns (google.cloud.orchestration.airflow.service.v1.ListEnvironmentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/environments"
+		};
+
+	}
+	rpc UpdateEnvironment(google.cloud.orchestration.airflow.service.v1.UpdateEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Environment"
+			metadata_type: "google.cloud.orchestration.airflow.service.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,environment,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{name=projects/*/locations/*/environments/*}"
+			body: "environment"
+		};
+
+	}
+	rpc DeleteEnvironment(google.cloud.orchestration.airflow.service.v1.DeleteEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.cloud.orchestration.airflow.service.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/environments/*}"
+		};
+
+	}
+}
+
+message CreateEnvironmentRequest {
+
+	string parent = 1;
+	Environment environment = 2;
+}
+
+message GetEnvironmentRequest {
+
+	string name = 1;
+}
+
+message ListEnvironmentsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListEnvironmentsResponse {
+
+	repeated Environment environments = 1;
+	string next_page_token = 2;
+}
+
+message DeleteEnvironmentRequest {
+
+	string name = 1;
+}
+
+message UpdateEnvironmentRequest {
+
+	string name = 2;
+	Environment environment = 1;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message EnvironmentConfig {
+
+	string gke_cluster = 1;
+	string dag_gcs_prefix = 2;
+	int32 node_count = 3;
+	SoftwareConfig software_config = 4;
+	NodeConfig node_config = 5;
+	PrivateEnvironmentConfig private_environment_config = 7;
+	WebServerNetworkAccessControl web_server_network_access_control = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	DatabaseConfig database_config = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	WebServerConfig web_server_config = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	EncryptionConfig encryption_config = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string airflow_uri = 6;
+}
+
+message WebServerNetworkAccessControl {
+
+	message AllowedIpRange {
+
+		string value = 1;
+		string description = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	repeated AllowedIpRange allowed_ip_ranges = 1;
+}
+
+message DatabaseConfig {
+
+	string machine_type = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message WebServerConfig {
+
+	string machine_type = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message EncryptionConfig {
+
+	string kms_key_name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SoftwareConfig {
+
+	string image_version = 1;
+	map<string, string> airflow_config_overrides = 2;
+	map<string, string> pypi_packages = 3;
+	map<string, string> env_variables = 4;
+	string python_version = 6;
+}
+
+message IPAllocationPolicy {
+
+	bool use_ip_aliases = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof cluster_ip_allocation {
+		string cluster_secondary_range_name = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		string cluster_ipv4_cidr_block = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	oneof services_ip_allocation {
+		string services_secondary_range_name = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		string services_ipv4_cidr_block = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+}
+
+message NodeConfig {
+
+	string location = 1;
+	string machine_type = 2;
+	string network = 3;
+	string subnetwork = 4;
+	int32 disk_size_gb = 5;
+	repeated string oauth_scopes = 6;
+	string service_account = 7;
+	repeated string tags = 8;
+	IPAllocationPolicy ip_allocation_policy = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PrivateClusterConfig {
+
+	bool enable_private_endpoint = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string master_ipv4_cidr_block = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string master_ipv4_reserved_range = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message PrivateEnvironmentConfig {
+
+	bool enable_private_environment = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	PrivateClusterConfig private_cluster_config = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string web_server_ipv4_cidr_block = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string cloud_sql_ipv4_cidr_block = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string web_server_ipv4_reserved_range = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Environment {
+	option (google.api.resource) = {
+		type: "composer.googleapis.com/Environment"
+		pattern: ["projects/{project}/locations/{location}/environments/{environment}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		RUNNING = 2;
+		UPDATING = 3;
+		DELETING = 4;
+		ERROR = 5;
+	}
+
+	string name = 1;
+	EnvironmentConfig config = 2;
+	string uuid = 3;
+	State state = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp update_time = 6;
+	map<string, string> labels = 7;
+}
+
+message CheckUpgradeResponse {
+
+	enum ConflictResult {
+
+		CONFLICT_RESULT_UNSPECIFIED = 0;
+		CONFLICT = 1;
+		NO_CONFLICT = 2;
+	}
+
+	string build_log_uri = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ConflictResult contains_pypi_modules_conflict = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string pypi_conflict_build_log_extract = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string image_version = 5;
+	map<string, string> pypi_dependencies = 6;
+}

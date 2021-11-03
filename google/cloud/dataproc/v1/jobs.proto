@@ -300,6 +300,9 @@ message JobPlacement {
 	string cluster_uuid = 2 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
+	map<string, string> cluster_labels = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message JobStatus {
@@ -446,6 +449,9 @@ message Job {
 message JobScheduling {
 
 	int32 max_failures_per_hour = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 max_failures_total = 2 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }

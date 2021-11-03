@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package google.cloud.gkehub.v1alpha;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/gkehub/v1alpha/cloudauditlogging/cloudauditlogging.proto";
+import "google/cloud/gkehub/v1alpha/configmanagement/configmanagement.proto";
+import "google/cloud/gkehub/v1alpha/metering/metering.proto";
+import "google/cloud/gkehub/v1alpha/multiclusteringress/multiclusteringress.proto";
+import "google/cloud/gkehub/v1alpha/servicemesh/servicemesh.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.gkehub.v1alpha";
+option java_outer_classname = "FeatureProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkehub/v1alpha;gkehub";
+option csharp_namespace = "Google.Cloud.GkeHub.V1Alpha";
+option php_namespace = "Google\\Cloud\\GkeHub\\V1alpha";
+option ruby_package = "Google::Cloud::GkeHub::V1alpha";
+
+
+message Feature {
+	option (google.api.resource) = {
+		type: "gkehub.googleapis.com/Feature"
+		pattern: ["projects/{project}/locations/{location}/features/{feature}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 2;
+	FeatureResourceState resource_state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CommonFeatureSpec spec = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, MembershipFeatureSpec> membership_specs = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	CommonFeatureState state = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, MembershipFeatureState> membership_states = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp delete_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message FeatureResourceState {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ENABLING = 1;
+		ACTIVE = 2;
+		DISABLING = 3;
+		UPDATING = 4;
+		SERVICE_UPDATING = 5;
+	}
+
+	State state = 1;
+}
+
+message FeatureState {
+
+	enum Code {
+
+		CODE_UNSPECIFIED = 0;
+		OK = 1;
+		WARNING = 2;
+		ERROR = 3;
+	}
+
+	Code code = 1;
+	string description = 2;
+	google.protobuf.Timestamp update_time = 3;
+}
+
+message CommonFeatureSpec {
+
+	oneof feature_spec {
+		google.cloud.gkehub.multiclusteringress.v1alpha.FeatureSpec multiclusteringress = 102;
+		google.cloud.gkehub.cloudauditlogging.v1alpha.FeatureSpec cloudauditlogging = 108;
+	}
+}
+
+message CommonFeatureState {
+
+	oneof feature_state {
+		google.cloud.gkehub.servicemesh.v1alpha.FeatureState servicemesh = 100;
+	}
+	FeatureState state = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message MembershipFeatureSpec {
+
+	oneof feature_spec {
+		google.cloud.gkehub.configmanagement.v1alpha.MembershipSpec configmanagement = 106;
+	}
+}
+
+message MembershipFeatureState {
+
+	oneof feature_state {
+		google.cloud.gkehub.servicemesh.v1alpha.MembershipState servicemesh = 100;
+		google.cloud.gkehub.metering.v1alpha.MembershipState metering = 104;
+		google.cloud.gkehub.configmanagement.v1alpha.MembershipState configmanagement = 106;
+	}
+	FeatureState state = 1;
+}

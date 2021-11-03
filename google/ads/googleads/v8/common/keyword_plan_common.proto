@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.common;
+
+import "google/ads/googleads/v8/common/dates.proto";
+import "google/ads/googleads/v8/enums/device.proto";
+import "google/ads/googleads/v8/enums/keyword_plan_aggregate_metric_type.proto";
+import "google/ads/googleads/v8/enums/keyword_plan_competition_level.proto";
+import "google/ads/googleads/v8/enums/keyword_plan_concept_group_type.proto";
+import "google/ads/googleads/v8/enums/month_of_year.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.common";
+option java_outer_classname = "KeywordPlanCommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V8::Common";
+
+
+message KeywordPlanHistoricalMetrics {
+
+	oneof _avg_monthly_searches {
+		int64 avg_monthly_searches = 7;
+	}
+	repeated MonthlySearchVolume monthly_search_volumes = 6;
+	google.ads.googleads.v8.enums.KeywordPlanCompetitionLevelEnum.KeywordPlanCompetitionLevel competition = 2;
+	oneof _competition_index {
+		int64 competition_index = 8;
+	}
+	oneof _low_top_of_page_bid_micros {
+		int64 low_top_of_page_bid_micros = 9;
+	}
+	oneof _high_top_of_page_bid_micros {
+		int64 high_top_of_page_bid_micros = 10;
+	}
+}
+
+message HistoricalMetricsOptions {
+
+	oneof _year_month_range {
+		google.ads.googleads.v8.common.YearMonthRange year_month_range = 1;
+	}
+}
+
+message MonthlySearchVolume {
+
+	oneof _year {
+		int64 year = 4;
+	}
+	google.ads.googleads.v8.enums.MonthOfYearEnum.MonthOfYear month = 2;
+	oneof _monthly_searches {
+		int64 monthly_searches = 5;
+	}
+}
+
+message KeywordPlanAggregateMetrics {
+
+	repeated google.ads.googleads.v8.enums.KeywordPlanAggregateMetricTypeEnum.KeywordPlanAggregateMetricType aggregate_metric_types = 1;
+}
+
+message KeywordPlanAggregateMetricResults {
+
+	repeated KeywordPlanDeviceSearches device_searches = 1;
+}
+
+message KeywordPlanDeviceSearches {
+
+	google.ads.googleads.v8.enums.DeviceEnum.Device device = 1;
+	oneof _search_count {
+		int64 search_count = 2;
+	}
+}
+
+message KeywordAnnotations {
+
+	repeated KeywordConcept concepts = 1;
+}
+
+message KeywordConcept {
+
+	string name = 1;
+	ConceptGroup concept_group = 2;
+}
+
+message ConceptGroup {
+
+	string name = 1;
+	google.ads.googleads.v8.enums.KeywordPlanConceptGroupTypeEnum.KeywordPlanConceptGroupType type = 2;
+}

@@ -16,6 +16,7 @@ option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/videointelligence/v1p3beta1;videointelligence";
 option csharp_namespace = "Google.Cloud.VideoIntelligence.V1P3Beta1";
 option php_namespace = "Google\\Cloud\\VideoIntelligence\\V1p3beta1";
+option ruby_package = "Google::Cloud::VideoIntelligence::V1p3beta1";
 
 
 enum LabelDetectionMode {

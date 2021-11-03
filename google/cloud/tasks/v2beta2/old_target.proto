@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package google.cloud.tasks.v2beta2;
+
+import "google/cloud/tasks/v2beta2/target.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.tasks.v2beta2";
+option java_outer_classname = "OldTargetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/tasks/v2beta2;tasks";
+

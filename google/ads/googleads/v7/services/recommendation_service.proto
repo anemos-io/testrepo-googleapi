@@ -1,0 +1,200 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.services;
+
+import "google/ads/googleads/v7/common/extensions.proto";
+import "google/ads/googleads/v7/enums/keyword_match_type.proto";
+import "google/ads/googleads/v7/resources/ad.proto";
+import "google/ads/googleads/v7/resources/recommendation.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v7.services";
+option java_outer_classname = "RecommendationServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V7::Services";
+
+
+service RecommendationService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetRecommendation(google.ads.googleads.v7.services.GetRecommendationRequest) returns (google.ads.googleads.v7.resources.Recommendation) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v7/{resource_name=customers/*/recommendations/*}"
+		};
+
+	}
+	rpc ApplyRecommendation(google.ads.googleads.v7.services.ApplyRecommendationRequest) returns (google.ads.googleads.v7.services.ApplyRecommendationResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}/recommendations:apply"
+			body: "*"
+		};
+
+	}
+	rpc DismissRecommendation(google.ads.googleads.v7.services.DismissRecommendationRequest) returns (google.ads.googleads.v7.services.DismissRecommendationResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}/recommendations:dismiss"
+			body: "*"
+		};
+
+	}
+}
+
+message GetRecommendationRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Recommendation"
+		}
+	];
+}
+
+message ApplyRecommendationRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ApplyRecommendationOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+}
+
+message ApplyRecommendationOperation {
+
+	message CampaignBudgetParameters {
+
+		oneof _new_budget_amount_micros {
+			int64 new_budget_amount_micros = 2;
+		}
+	}
+
+	message TextAdParameters {
+
+		google.ads.googleads.v7.resources.Ad ad = 1;
+	}
+
+	message KeywordParameters {
+
+		oneof _ad_group {
+			string ad_group = 4;
+		}
+		google.ads.googleads.v7.enums.KeywordMatchTypeEnum.KeywordMatchType match_type = 2;
+		oneof _cpc_bid_micros {
+			int64 cpc_bid_micros = 5;
+		}
+	}
+
+	message TargetCpaOptInParameters {
+
+		oneof _target_cpa_micros {
+			int64 target_cpa_micros = 3;
+		}
+		oneof _new_campaign_budget_amount_micros {
+			int64 new_campaign_budget_amount_micros = 4;
+		}
+	}
+
+	message TargetRoasOptInParameters {
+
+		oneof _target_roas {
+			double target_roas = 1;
+		}
+		oneof _new_campaign_budget_amount_micros {
+			int64 new_campaign_budget_amount_micros = 2;
+		}
+	}
+
+	message CalloutExtensionParameters {
+
+		repeated google.ads.googleads.v7.common.CalloutFeedItem callout_extensions = 1;
+	}
+
+	message CallExtensionParameters {
+
+		repeated google.ads.googleads.v7.common.CallFeedItem call_extensions = 1;
+	}
+
+	message SitelinkExtensionParameters {
+
+		repeated google.ads.googleads.v7.common.SitelinkFeedItem sitelink_extensions = 1;
+	}
+
+	message MoveUnusedBudgetParameters {
+
+		oneof _budget_micros_to_move {
+			int64 budget_micros_to_move = 2;
+		}
+	}
+
+	message ResponsiveSearchAdParameters {
+
+		google.ads.googleads.v7.resources.Ad ad = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	string resource_name = 1;
+	oneof apply_parameters {
+		CampaignBudgetParameters campaign_budget = 2;
+		TextAdParameters text_ad = 3;
+		KeywordParameters keyword = 4;
+		TargetCpaOptInParameters target_cpa_opt_in = 5;
+		TargetRoasOptInParameters target_roas_opt_in = 10;
+		CalloutExtensionParameters callout_extension = 6;
+		CallExtensionParameters call_extension = 7;
+		SitelinkExtensionParameters sitelink_extension = 8;
+		MoveUnusedBudgetParameters move_unused_budget = 9;
+		ResponsiveSearchAdParameters responsive_search_ad = 11;
+	}
+}
+
+message ApplyRecommendationResponse {
+
+	repeated ApplyRecommendationResult results = 1;
+	google.rpc.Status partial_failure_error = 2;
+}
+
+message ApplyRecommendationResult {
+
+	string resource_name = 1;
+}
+
+message DismissRecommendationRequest {
+
+	message DismissRecommendationOperation {
+
+		string resource_name = 1;
+	}
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated DismissRecommendationOperation operations = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 2;
+}
+
+message DismissRecommendationResponse {
+
+	message DismissRecommendationResult {
+
+		string resource_name = 1;
+	}
+
+	repeated DismissRecommendationResult results = 1;
+	google.rpc.Status partial_failure_error = 2;
+}

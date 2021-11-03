@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package google.cloud.channel.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/channel/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.channel.v1";
+option java_outer_classname = "ChannelPartnerLinksProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/channel/v1;channel";
+
+
+enum ChannelPartnerLinkView {
+
+	UNSPECIFIED = 0;
+	BASIC = 1;
+	FULL = 2;
+}
+
+enum ChannelPartnerLinkState {
+
+	CHANNEL_PARTNER_LINK_STATE_UNSPECIFIED = 0;
+	INVITED = 1;
+	ACTIVE = 2;
+	REVOKED = 3;
+	SUSPENDED = 4;
+}
+
+message ChannelPartnerLink {
+	option (google.api.resource) = {
+		type: "cloudchannel.googleapis.com/ChannelPartnerLink"
+		pattern: ["accounts/{account}/channelPartnerLinks/{channel_partner_link}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string reseller_cloud_identity_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ChannelPartnerLinkState link_state = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string invite_link_uri = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string public_id = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.channel.v1.CloudIdentityInfo channel_partner_cloud_identity_info = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

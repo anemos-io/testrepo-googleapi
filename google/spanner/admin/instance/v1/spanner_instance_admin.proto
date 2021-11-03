@@ -135,6 +135,7 @@ message InstanceConfig {
 	string name = 1;
 	string display_name = 2;
 	repeated ReplicaInfo replicas = 3;
+	repeated string leader_options = 4;
 }
 
 message Instance {
@@ -158,7 +159,10 @@ message Instance {
 	];
 	string display_name = 3;
 	int32 node_count = 5;
-	State state = 6;
+	int32 processing_units = 9;
+	State state = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 	map<string, string> labels = 7;
 	repeated string endpoint_uris = 8;
 }

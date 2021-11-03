@@ -169,6 +169,8 @@ message Connection {
 	string description = 3;
 	oneof properties {
 		CloudSqlProperties cloud_sql = 4;
+		AwsProperties aws = 8;
+		CloudSpannerProperties cloud_spanner = 21;
 	}
 	int64 creation_time = 5 [
 		(google.api.field_behavior) = OUTPUT_ONLY
@@ -202,4 +204,35 @@ message CloudSqlCredential {
 
 	string username = 1;
 	string password = 2;
+}
+
+message CloudSpannerProperties {
+
+	string database = 1;
+	bool use_parallelism = 2;
+}
+
+message AwsProperties {
+
+	oneof authentication_method {
+		AwsCrossAccountRole cross_account_role = 2;
+		AwsAccessRole access_role = 3;
+	}
+}
+
+message AwsCrossAccountRole {
+
+	string iam_role_id = 1;
+	string iam_user_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string external_id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message AwsAccessRole {
+
+	string iam_role_id = 1;
+	string identity = 2;
 }

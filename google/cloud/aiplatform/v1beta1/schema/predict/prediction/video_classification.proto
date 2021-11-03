@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema.predict.prediction;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema.predict.prediction";
+option java_outer_classname = "VideoClassificationPredictionResultProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema/predict/prediction;prediction";
+
+
+message VideoClassificationPredictionResult {
+
+	string id = 1;
+	string display_name = 2;
+	string type = 3;
+	google.protobuf.Duration time_segment_start = 4;
+	google.protobuf.Duration time_segment_end = 5;
+	google.protobuf.FloatValue confidence = 6;
+}

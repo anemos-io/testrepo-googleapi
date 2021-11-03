@@ -1,0 +1,373 @@
+syntax = "proto3";
+
+package google.cloud.networkconnectivity.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.networkconnectivity.v1alpha1";
+option java_outer_classname = "HubProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/networkconnectivity/v1alpha1;networkconnectivity";
+option csharp_namespace = "Google.Cloud.NetworkConnectivity.V1Alpha1";
+option php_namespace = "Google\\Cloud\\NetworkConnectivity\\V1alpha1";
+option ruby_package = "Google::Cloud::NetworkConnectivity::V1alpha1";
+option (google.api.resource_definition) = {
+	type: "compute.googleapis.com/VpnTunnel"
+	pattern: ["projects/{project}/regions/{region}/vpnTunnels/{resource_id}"]
+};
+option (google.api.resource_definition) = {
+	type: "compute.googleapis.com/InterconnectAttachment"
+	pattern: ["projects/{project}/regions/{region}/interconnectAttachments/{resource_id}"]
+};
+option (google.api.resource_definition) = {
+	type: "compute.googleapis.com/Instance"
+	pattern: ["projects/{project}/zones/{zone}/instances/{instance}"]
+};
+
+
+enum State {
+
+	STATE_UNSPECIFIED = 0;
+	CREATING = 1;
+	ACTIVE = 2;
+	DELETING = 3;
+}
+
+service HubService {
+	option (google.api.default_host) = "networkconnectivity.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListHubs(google.cloud.networkconnectivity.v1alpha1.ListHubsRequest) returns (google.cloud.networkconnectivity.v1alpha1.ListHubsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/global}/hubs"
+		};
+
+	}
+	rpc GetHub(google.cloud.networkconnectivity.v1alpha1.GetHubRequest) returns (google.cloud.networkconnectivity.v1alpha1.Hub) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/global/hubs/*}"
+		};
+
+	}
+	rpc CreateHub(google.cloud.networkconnectivity.v1alpha1.CreateHubRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Hub"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,hub,hub_id";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/global}/hubs"
+			body: "hub"
+		};
+
+	}
+	rpc UpdateHub(google.cloud.networkconnectivity.v1alpha1.UpdateHubRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Hub"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "hub,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha1/{hub.name=projects/*/locations/global/hubs/*}"
+			body: "hub"
+		};
+
+	}
+	rpc DeleteHub(google.cloud.networkconnectivity.v1alpha1.DeleteHubRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/global/hubs/*}"
+		};
+
+	}
+	rpc ListSpokes(google.cloud.networkconnectivity.v1alpha1.ListSpokesRequest) returns (google.cloud.networkconnectivity.v1alpha1.ListSpokesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*}/spokes"
+		};
+
+	}
+	rpc GetSpoke(google.cloud.networkconnectivity.v1alpha1.GetSpokeRequest) returns (google.cloud.networkconnectivity.v1alpha1.Spoke) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/spokes/*}"
+		};
+
+	}
+	rpc CreateSpoke(google.cloud.networkconnectivity.v1alpha1.CreateSpokeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Spoke"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,spoke,spoke_id";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*}/spokes"
+			body: "spoke"
+		};
+
+	}
+	rpc UpdateSpoke(google.cloud.networkconnectivity.v1alpha1.UpdateSpokeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Spoke"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "spoke,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha1/{spoke.name=projects/*/locations/*/spokes/*}"
+			body: "spoke"
+		};
+
+	}
+	rpc DeleteSpoke(google.cloud.networkconnectivity.v1alpha1.DeleteSpokeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/spokes/*}"
+		};
+
+	}
+}
+
+message Hub {
+	option (google.api.resource) = {
+		type: "networkconnectivity.googleapis.com/Hub"
+		pattern: ["projects/{project}/locations/global/hubs/{hub}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 2;
+	google.protobuf.Timestamp update_time = 3;
+	map<string, string> labels = 4;
+	string description = 5;
+	repeated string spokes = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "networkconnectivity.googleapis.com/Spoke"
+		}
+	];
+	string unique_id = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Spoke {
+	option (google.api.resource) = {
+		type: "networkconnectivity.googleapis.com/Spoke"
+		pattern: ["projects/{project}/locations/{location}/spokes/{spoke}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 2;
+	google.protobuf.Timestamp update_time = 3;
+	map<string, string> labels = 4;
+	string description = 5;
+	string hub = 6 [
+		(google.api.resource_reference) = {
+			type: "networkconnectivity.googleapis.com/Hub"
+		}
+	];
+	repeated string linked_vpn_tunnels = 12 [
+		(google.api.resource_reference) = {
+			type: "compute.googleapis.com/VpnTunnel"
+		}
+	];
+	repeated string linked_interconnect_attachments = 13 [
+		(google.api.resource_reference) = {
+			type: "compute.googleapis.com/InterconnectAttachment"
+		}
+	];
+	repeated RouterApplianceInstance linked_router_appliance_instances = 14;
+	string unique_id = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListHubsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListHubsResponse {
+
+	repeated Hub hubs = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetHubRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networkconnectivity.googleapis.com/Hub"
+		}
+	];
+}
+
+message CreateHubRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string hub_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Hub hub = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateHubRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Hub hub = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteHubRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networkconnectivity.googleapis.com/Hub"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListSpokesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListSpokesResponse {
+
+	repeated Spoke spokes = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetSpokeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networkconnectivity.googleapis.com/Spoke"
+		}
+	];
+}
+
+message CreateSpokeRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string spoke_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Spoke spoke = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateSpokeRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Spoke spoke = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteSpokeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networkconnectivity.googleapis.com/Spoke"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RouterApplianceInstance {
+
+	string virtual_machine = 1 [
+		(google.api.resource_reference) = {
+			type: "compute.googleapis.com/Instance"
+		}
+	];
+	string ip_address = 3;
+	string network_interface = 2 [
+		deprecated = true
+	];
+}

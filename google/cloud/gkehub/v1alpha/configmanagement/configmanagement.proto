@@ -1,0 +1,221 @@
+syntax = "proto3";
+
+package google.cloud.gkehub.configmanagement.v1alpha;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.gkehub.configmanagement.v1alpha";
+option java_outer_classname = "ConfigManagementProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkehub/configmanagement/v1alpha;configmanagement";
+option csharp_namespace = "Google.Cloud.GkeHub.ConfigManagement.V1Alpha";
+option php_namespace = "Google\\Cloud\\GkeHub\\ConfigManagement\\V1alpha";
+option ruby_package = "Google::Cloud::GkeHub::ConfigManagement::V1alpha";
+
+
+enum DeploymentState {
+
+	DEPLOYMENT_STATE_UNSPECIFIED = 0;
+	NOT_INSTALLED = 1;
+	INSTALLED = 2;
+	ERROR = 3;
+}
+
+message MembershipState {
+
+	string cluster_name = 1;
+	MembershipSpec membership_spec = 2;
+	OperatorState operator_state = 3;
+	ConfigSyncState config_sync_state = 4;
+	PolicyControllerState policy_controller_state = 5;
+	BinauthzState binauthz_state = 6;
+	HierarchyControllerState hierarchy_controller_state = 7;
+}
+
+message MembershipSpec {
+
+	ConfigSync config_sync = 1;
+	PolicyController policy_controller = 2;
+	BinauthzConfig binauthz = 3;
+	HierarchyControllerConfig hierarchy_controller = 4;
+	string version = 10;
+}
+
+message ConfigSync {
+
+	GitConfig git = 7;
+	string source_format = 8;
+}
+
+message GitConfig {
+
+	string sync_repo = 1;
+	string sync_branch = 2;
+	string policy_dir = 3;
+	int64 sync_wait_secs = 4;
+	string sync_rev = 5;
+	string secret_type = 6;
+	string https_proxy = 7;
+	string gcp_service_account_email = 8;
+}
+
+message PolicyController {
+
+	bool enabled = 1;
+	oneof _template_library_installed {
+		bool template_library_installed = 2;
+	}
+	oneof _audit_interval_seconds {
+		int64 audit_interval_seconds = 3;
+	}
+	repeated string exemptable_namespaces = 4;
+	bool referential_rules_enabled = 5;
+	bool log_denies_enabled = 6;
+	bool mutation_enabled = 7;
+}
+
+message BinauthzConfig {
+
+	bool enabled = 1;
+}
+
+message HierarchyControllerConfig {
+
+	bool enabled = 1;
+	bool enable_pod_tree_labels = 2;
+	bool enable_hierarchical_resource_quota = 3;
+}
+
+message HierarchyControllerDeploymentState {
+
+	DeploymentState hnc = 1;
+	DeploymentState extension = 2;
+}
+
+message HierarchyControllerVersion {
+
+	string hnc = 1;
+	string extension = 2;
+}
+
+message HierarchyControllerState {
+
+	HierarchyControllerVersion version = 1;
+	HierarchyControllerDeploymentState state = 2;
+}
+
+message OperatorState {
+
+	string version = 1;
+	DeploymentState deployment_state = 2;
+	repeated InstallError errors = 3;
+}
+
+message InstallError {
+
+	string error_message = 1;
+}
+
+message ConfigSyncState {
+
+	ConfigSyncVersion version = 1;
+	ConfigSyncDeploymentState deployment_state = 2;
+	SyncState sync_state = 3;
+}
+
+message ConfigSyncVersion {
+
+	string importer = 1;
+	string syncer = 2;
+	string git_sync = 3;
+	string monitor = 4;
+	string reconciler_manager = 5;
+	string root_reconciler = 6;
+}
+
+message ConfigSyncDeploymentState {
+
+	DeploymentState importer = 1;
+	DeploymentState syncer = 2;
+	DeploymentState git_sync = 3;
+	DeploymentState monitor = 4;
+	DeploymentState reconciler_manager = 5;
+	DeploymentState root_reconciler = 6;
+}
+
+message SyncState {
+
+	enum SyncCode {
+
+		SYNC_CODE_UNSPECIFIED = 0;
+		SYNCED = 1;
+		PENDING = 2;
+		ERROR = 3;
+		NOT_CONFIGURED = 4;
+		NOT_INSTALLED = 5;
+		UNAUTHORIZED = 6;
+		UNREACHABLE = 7;
+	}
+
+	string source_token = 1;
+	string import_token = 2;
+	string sync_token = 3;
+	string last_sync = 4 [
+		deprecated = true
+	];
+	google.protobuf.Timestamp last_sync_time = 7;
+	SyncCode code = 5;
+	repeated SyncError errors = 6;
+}
+
+message SyncError {
+
+	string code = 1;
+	string error_message = 2;
+	repeated ErrorResource error_resources = 3;
+}
+
+message ErrorResource {
+
+	string source_path = 1;
+	string resource_name = 2;
+	string resource_namespace = 3;
+	GroupVersionKind resource_gvk = 4;
+}
+
+message GroupVersionKind {
+
+	string group = 1;
+	string version = 2;
+	string kind = 3;
+}
+
+message PolicyControllerState {
+
+	PolicyControllerVersion version = 1;
+	GatekeeperDeploymentState deployment_state = 2;
+}
+
+message PolicyControllerVersion {
+
+	string version = 1;
+}
+
+message BinauthzState {
+
+	DeploymentState webhook = 1;
+	BinauthzVersion version = 2;
+}
+
+message BinauthzVersion {
+
+	string webhook_version = 1;
+}
+
+message GatekeeperDeploymentState {
+
+	DeploymentState gatekeeper_controller_manager_state = 1;
+	DeploymentState gatekeeper_audit = 2;
+	DeploymentState gatekeeper_mutation = 3;
+}

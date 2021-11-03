@@ -1,0 +1,397 @@
+syntax = "proto3";
+
+package google.cloud.servicedirectory.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/servicedirectory/v1/endpoint.proto";
+import "google/cloud/servicedirectory/v1/namespace.proto";
+import "google/cloud/servicedirectory/v1/service.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.servicedirectory.v1";
+option java_outer_classname = "RegistrationServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/servicedirectory/v1;servicedirectory";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.ServiceDirectory.V1";
+option php_namespace = "Google\\Cloud\\ServiceDirectory\\V1";
+option ruby_package = "Google::Cloud::ServiceDirectory::V1";
+
+
+service RegistrationService {
+	option (google.api.default_host) = "servicedirectory.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateNamespace(google.cloud.servicedirectory.v1.CreateNamespaceRequest) returns (google.cloud.servicedirectory.v1.Namespace) {
+		option (google.api.method_signature) = "parent,namespace,namespace_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/namespaces"
+			body: "namespace"
+		};
+
+	}
+	rpc ListNamespaces(google.cloud.servicedirectory.v1.ListNamespacesRequest) returns (google.cloud.servicedirectory.v1.ListNamespacesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/namespaces"
+		};
+
+	}
+	rpc GetNamespace(google.cloud.servicedirectory.v1.GetNamespaceRequest) returns (google.cloud.servicedirectory.v1.Namespace) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/namespaces/*}"
+		};
+
+	}
+	rpc UpdateNamespace(google.cloud.servicedirectory.v1.UpdateNamespaceRequest) returns (google.cloud.servicedirectory.v1.Namespace) {
+		option (google.api.method_signature) = "namespace,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{namespace.name=projects/*/locations/*/namespaces/*}"
+			body: "namespace"
+		};
+
+	}
+	rpc DeleteNamespace(google.cloud.servicedirectory.v1.DeleteNamespaceRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/namespaces/*}"
+		};
+
+	}
+	rpc CreateService(google.cloud.servicedirectory.v1.CreateServiceRequest) returns (google.cloud.servicedirectory.v1.Service) {
+		option (google.api.method_signature) = "parent,service,service_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/namespaces/*}/services"
+			body: "service"
+		};
+
+	}
+	rpc ListServices(google.cloud.servicedirectory.v1.ListServicesRequest) returns (google.cloud.servicedirectory.v1.ListServicesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/namespaces/*}/services"
+		};
+
+	}
+	rpc GetService(google.cloud.servicedirectory.v1.GetServiceRequest) returns (google.cloud.servicedirectory.v1.Service) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/namespaces/*/services/*}"
+		};
+
+	}
+	rpc UpdateService(google.cloud.servicedirectory.v1.UpdateServiceRequest) returns (google.cloud.servicedirectory.v1.Service) {
+		option (google.api.method_signature) = "service,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{service.name=projects/*/locations/*/namespaces/*/services/*}"
+			body: "service"
+		};
+
+	}
+	rpc DeleteService(google.cloud.servicedirectory.v1.DeleteServiceRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/namespaces/*/services/*}"
+		};
+
+	}
+	rpc CreateEndpoint(google.cloud.servicedirectory.v1.CreateEndpointRequest) returns (google.cloud.servicedirectory.v1.Endpoint) {
+		option (google.api.method_signature) = "parent,endpoint,endpoint_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/namespaces/*/services/*}/endpoints"
+			body: "endpoint"
+		};
+
+	}
+	rpc ListEndpoints(google.cloud.servicedirectory.v1.ListEndpointsRequest) returns (google.cloud.servicedirectory.v1.ListEndpointsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/namespaces/*/services/*}/endpoints"
+		};
+
+	}
+	rpc GetEndpoint(google.cloud.servicedirectory.v1.GetEndpointRequest) returns (google.cloud.servicedirectory.v1.Endpoint) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/namespaces/*/services/*/endpoints/*}"
+		};
+
+	}
+	rpc UpdateEndpoint(google.cloud.servicedirectory.v1.UpdateEndpointRequest) returns (google.cloud.servicedirectory.v1.Endpoint) {
+		option (google.api.method_signature) = "endpoint,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{endpoint.name=projects/*/locations/*/namespaces/*/services/*/endpoints/*}"
+			body: "endpoint"
+		};
+
+	}
+	rpc DeleteEndpoint(google.cloud.servicedirectory.v1.DeleteEndpointRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/namespaces/*/services/*/endpoints/*}"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/namespaces/*}:getIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/namespaces/*/services/*}:getIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/namespaces/*}:setIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/namespaces/*/services/*}:setIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/namespaces/*}:testIamPermissions"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/namespaces/*/services/*}:testIamPermissions"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message CreateNamespaceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string namespace_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.servicedirectory.v1.Namespace namespace = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListNamespacesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListNamespacesResponse {
+
+	repeated google.cloud.servicedirectory.v1.Namespace namespaces = 1;
+	string next_page_token = 2;
+}
+
+message GetNamespaceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Namespace"
+		}
+	];
+}
+
+message UpdateNamespaceRequest {
+
+	google.cloud.servicedirectory.v1.Namespace namespace = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteNamespaceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Namespace"
+		}
+	];
+}
+
+message CreateServiceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Namespace"
+		}
+	];
+	string service_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.servicedirectory.v1.Service service = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListServicesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Namespace"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListServicesResponse {
+
+	repeated google.cloud.servicedirectory.v1.Service services = 1;
+	string next_page_token = 2;
+}
+
+message GetServiceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Service"
+		}
+	];
+}
+
+message UpdateServiceRequest {
+
+	google.cloud.servicedirectory.v1.Service service = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteServiceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Service"
+		}
+	];
+}
+
+message CreateEndpointRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Service"
+		}
+	];
+	string endpoint_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.servicedirectory.v1.Endpoint endpoint = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListEndpointsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Service"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEndpointsResponse {
+
+	repeated google.cloud.servicedirectory.v1.Endpoint endpoints = 1;
+	string next_page_token = 2;
+}
+
+message GetEndpointRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Endpoint"
+		}
+	];
+}
+
+message UpdateEndpointRequest {
+
+	google.cloud.servicedirectory.v1.Endpoint endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteEndpointRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Endpoint"
+		}
+	];
+}

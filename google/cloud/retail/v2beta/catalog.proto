@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2beta;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/retail/v2beta/common.proto";
+import "google/cloud/retail/v2beta/import_config.proto";
+
+option java_package = "com.google.cloud.retail.v2beta";
+option java_outer_classname = "CatalogProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2beta;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2Beta";
+option php_namespace = "Google\\Cloud\\Retail\\V2beta";
+option ruby_package = "Google::Cloud::Retail::V2beta";
+
+
+message ProductLevelConfig {
+
+	string ingestion_product_type = 1;
+	string merchant_center_product_id_field = 2;
+}
+
+message Catalog {
+	option (google.api.resource) = {
+		type: "retail.googleapis.com/Catalog"
+		pattern: ["projects/{project}/locations/{location}/catalogs/{catalog}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	ProductLevelConfig product_level_config = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

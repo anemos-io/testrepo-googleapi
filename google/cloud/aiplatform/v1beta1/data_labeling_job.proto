@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/accelerator_type.proto";
+import "google/cloud/aiplatform/v1beta1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1beta1/job_state.proto";
+import "google/cloud/aiplatform/v1beta1/specialist_pool.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/type/money.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "DataLabelingJobProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message DataLabelingJob {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/DataLabelingJob"
+		pattern: ["projects/{project}/locations/{location}/dataLabelingJobs/{data_labeling_job}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string datasets = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Dataset"
+		}
+	];
+	map<string, string> annotation_labels = 12;
+	int32 labeler_count = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string instruction_uri = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string inputs_schema_uri = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Value inputs = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.JobState state = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 labeling_progress = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.type.Money current_spend = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status error = 22 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 11;
+	repeated string specialist_pools = 16;
+	google.cloud.aiplatform.v1beta1.EncryptionSpec encryption_spec = 20;
+	ActiveLearningConfig active_learning_config = 21;
+}
+
+message ActiveLearningConfig {
+
+	oneof human_labeling_budget {
+		int64 max_data_item_count = 1;
+		int32 max_data_item_percentage = 2;
+	}
+	SampleConfig sample_config = 3;
+	TrainingConfig training_config = 4;
+}
+
+message SampleConfig {
+
+	enum SampleStrategy {
+
+		SAMPLE_STRATEGY_UNSPECIFIED = 0;
+		UNCERTAINTY = 1;
+	}
+
+	oneof initial_batch_sample_size {
+		int32 initial_batch_sample_percentage = 1;
+	}
+	oneof following_batch_sample_size {
+		int32 following_batch_sample_percentage = 3;
+	}
+	SampleStrategy sample_strategy = 5;
+}
+
+message TrainingConfig {
+
+	int64 timeout_training_milli_hours = 1;
+}

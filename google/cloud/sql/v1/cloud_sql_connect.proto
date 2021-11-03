@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/sql/v1/cloud_sql_resources.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1";
+option java_outer_classname = "CloudSqlConnectProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1;sql";
+
+
+service SqlConnectService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc GetConnectSettings(google.cloud.sql.v1.GetConnectSettingsRequest) returns (google.cloud.sql.v1.ConnectSettings) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances/{instance}/connectSettings"
+		};
+
+	}
+	rpc GenerateEphemeralCert(google.cloud.sql.v1.GenerateEphemeralCertRequest) returns (google.cloud.sql.v1.GenerateEphemeralCertResponse) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}:generateEphemeralCert"
+			body: "*"
+		};
+
+	}
+}
+
+message GetConnectSettingsRequest {
+
+	string instance = 1;
+	string project = 2;
+	google.protobuf.Timestamp read_time = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ConnectSettings {
+
+	string kind = 1;
+	google.cloud.sql.v1.SslCert server_ca_cert = 2;
+	repeated google.cloud.sql.v1.IpMapping ip_addresses = 3;
+	string region = 4;
+	google.cloud.sql.v1.SqlDatabaseVersion database_version = 31;
+	google.cloud.sql.v1.SqlBackendType backend_type = 32;
+}
+
+message GenerateEphemeralCertRequest {
+
+	string instance = 1;
+	string project = 2;
+	string public_key = 3;
+	string access_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp read_time = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GenerateEphemeralCertResponse {
+
+	google.cloud.sql.v1.SslCert ephemeral_cert = 1;
+}

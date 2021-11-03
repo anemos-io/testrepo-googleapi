@@ -19,6 +19,8 @@ enum NoteKind {
 	DISCOVERY = 6;
 	ATTESTATION = 7;
 	UPGRADE = 8;
+	COMPLIANCE = 9;
+	DSSE_ATTESTATION = 10;
 }
 
 message RelatedUrl {
@@ -31,4 +33,17 @@ message Signature {
 
 	bytes signature = 1;
 	string public_key_id = 2;
+}
+
+message Envelope {
+
+	bytes payload = 1;
+	string payload_type = 2;
+	repeated EnvelopeSignature signatures = 3;
+}
+
+message EnvelopeSignature {
+
+	bytes sig = 1;
+	string keyid = 2;
 }

@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "ModelEvaluationSliceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message ModelEvaluationSlice {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/ModelEvaluationSlice"
+		pattern: ["projects/{project}/locations/{location}/models/{model}/evaluations/{evaluation}/slices/{slice}"]
+	};
+
+	message Slice {
+
+		string dimension = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		string value = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Slice slice = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string metrics_schema_uri = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Value metrics = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

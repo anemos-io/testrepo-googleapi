@@ -1,0 +1,642 @@
+syntax = "proto3";
+
+package google.cloud.domains.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/money.proto";
+import "google/type/postal_address.proto";
+
+option java_package = "com.google.cloud.domains.v1";
+option java_outer_classname = "DomainsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/domains/v1;domains";
+
+
+enum ContactPrivacy {
+
+	CONTACT_PRIVACY_UNSPECIFIED = 0;
+	PUBLIC_CONTACT_DATA = 1;
+	PRIVATE_CONTACT_DATA = 2;
+	REDACTED_CONTACT_DATA = 3;
+}
+
+enum DomainNotice {
+
+	DOMAIN_NOTICE_UNSPECIFIED = 0;
+	HSTS_PRELOADED = 1;
+}
+
+enum ContactNotice {
+
+	CONTACT_NOTICE_UNSPECIFIED = 0;
+	PUBLIC_CONTACT_DATA_ACKNOWLEDGEMENT = 1;
+}
+
+enum TransferLockState {
+
+	TRANSFER_LOCK_STATE_UNSPECIFIED = 0;
+	UNLOCKED = 1;
+	LOCKED = 2;
+}
+
+service Domains {
+	option (google.api.default_host) = "domains.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SearchDomains(google.cloud.domains.v1.SearchDomainsRequest) returns (google.cloud.domains.v1.SearchDomainsResponse) {
+		option (google.api.method_signature) = "location,query";
+		option (google.api.http) = {
+			get: "/v1/{location=projects/*/locations/*}/registrations:searchDomains"
+		};
+
+	}
+	rpc RetrieveRegisterParameters(google.cloud.domains.v1.RetrieveRegisterParametersRequest) returns (google.cloud.domains.v1.RetrieveRegisterParametersResponse) {
+		option (google.api.method_signature) = "location,domain_name";
+		option (google.api.http) = {
+			get: "/v1/{location=projects/*/locations/*}/registrations:retrieveRegisterParameters"
+		};
+
+	}
+	rpc RegisterDomain(google.cloud.domains.v1.RegisterDomainRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Registration"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,registration,yearly_price";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/registrations:register"
+			body: "*"
+		};
+
+	}
+	rpc RetrieveTransferParameters(google.cloud.domains.v1.RetrieveTransferParametersRequest) returns (google.cloud.domains.v1.RetrieveTransferParametersResponse) {
+		option (google.api.method_signature) = "location,domain_name";
+		option (google.api.http) = {
+			get: "/v1/{location=projects/*/locations/*}/registrations:retrieveTransferParameters"
+		};
+
+	}
+	rpc TransferDomain(google.cloud.domains.v1.TransferDomainRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Registration"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,registration,yearly_price,authorization_code";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/registrations:transfer"
+			body: "*"
+		};
+
+	}
+	rpc ListRegistrations(google.cloud.domains.v1.ListRegistrationsRequest) returns (google.cloud.domains.v1.ListRegistrationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/registrations"
+		};
+
+	}
+	rpc GetRegistration(google.cloud.domains.v1.GetRegistrationRequest) returns (google.cloud.domains.v1.Registration) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/registrations/*}"
+		};
+
+	}
+	rpc UpdateRegistration(google.cloud.domains.v1.UpdateRegistrationRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Registration"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "registration,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{registration.name=projects/*/locations/*/registrations/*}"
+			body: "registration"
+		};
+
+	}
+	rpc ConfigureManagementSettings(google.cloud.domains.v1.ConfigureManagementSettingsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Registration"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "registration,management_settings,update_mask";
+		option (google.api.http) = {
+			post: "/v1/{registration=projects/*/locations/*/registrations/*}:configureManagementSettings"
+			body: "*"
+		};
+
+	}
+	rpc ConfigureDnsSettings(google.cloud.domains.v1.ConfigureDnsSettingsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Registration"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "registration,dns_settings,update_mask";
+		option (google.api.http) = {
+			post: "/v1/{registration=projects/*/locations/*/registrations/*}:configureDnsSettings"
+			body: "*"
+		};
+
+	}
+	rpc ConfigureContactSettings(google.cloud.domains.v1.ConfigureContactSettingsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Registration"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "registration,contact_settings,update_mask";
+		option (google.api.http) = {
+			post: "/v1/{registration=projects/*/locations/*/registrations/*}:configureContactSettings"
+			body: "*"
+		};
+
+	}
+	rpc ExportRegistration(google.cloud.domains.v1.ExportRegistrationRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Registration"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/registrations/*}:export"
+			body: "*"
+		};
+
+	}
+	rpc DeleteRegistration(google.cloud.domains.v1.DeleteRegistrationRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/registrations/*}"
+		};
+
+	}
+	rpc RetrieveAuthorizationCode(google.cloud.domains.v1.RetrieveAuthorizationCodeRequest) returns (google.cloud.domains.v1.AuthorizationCode) {
+		option (google.api.method_signature) = "registration";
+		option (google.api.http) = {
+			get: "/v1/{registration=projects/*/locations/*/registrations/*}:retrieveAuthorizationCode"
+		};
+
+	}
+	rpc ResetAuthorizationCode(google.cloud.domains.v1.ResetAuthorizationCodeRequest) returns (google.cloud.domains.v1.AuthorizationCode) {
+		option (google.api.method_signature) = "registration";
+		option (google.api.http) = {
+			post: "/v1/{registration=projects/*/locations/*/registrations/*}:resetAuthorizationCode"
+			body: "*"
+		};
+
+	}
+}
+
+message Registration {
+	option (google.api.resource) = {
+		type: "domains.googleapis.com/Registration"
+		pattern: ["projects/{project}/locations/{location}/registrations/{registration}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		REGISTRATION_PENDING = 1;
+		REGISTRATION_FAILED = 2;
+		TRANSFER_PENDING = 3;
+		TRANSFER_FAILED = 4;
+		ACTIVE = 6;
+		SUSPENDED = 7;
+		EXPORTED = 8;
+	}
+
+	enum Issue {
+
+		ISSUE_UNSPECIFIED = 0;
+		CONTACT_SUPPORT = 1;
+		UNVERIFIED_EMAIL = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string domain_name = 2 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp expire_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Issue issues = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 9;
+	ManagementSettings management_settings = 10;
+	DnsSettings dns_settings = 11;
+	ContactSettings contact_settings = 12 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ContactSettings pending_contact_settings = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated ContactPrivacy supported_privacy = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ManagementSettings {
+
+	enum RenewalMethod {
+
+		RENEWAL_METHOD_UNSPECIFIED = 0;
+		AUTOMATIC_RENEWAL = 1;
+		MANUAL_RENEWAL = 2;
+	}
+
+	RenewalMethod renewal_method = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	TransferLockState transfer_lock_state = 4;
+}
+
+message DnsSettings {
+
+	message CustomDns {
+
+		repeated string name_servers = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		repeated DsRecord ds_records = 2;
+	}
+
+	message GoogleDomainsDns {
+
+		repeated string name_servers = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		DsState ds_state = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		repeated DsRecord ds_records = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message DsRecord {
+
+		enum Algorithm {
+
+			ALGORITHM_UNSPECIFIED = 0;
+			RSAMD5 = 1;
+			DH = 2;
+			DSA = 3;
+			ECC = 4;
+			RSASHA1 = 5;
+			DSANSEC3SHA1 = 6;
+			RSASHA1NSEC3SHA1 = 7;
+			RSASHA256 = 8;
+			RSASHA512 = 10;
+			ECCGOST = 12;
+			ECDSAP256SHA256 = 13;
+			ECDSAP384SHA384 = 14;
+			ED25519 = 15;
+			ED448 = 16;
+			INDIRECT = 252;
+			PRIVATEDNS = 253;
+			PRIVATEOID = 254;
+		}
+
+		enum DigestType {
+
+			DIGEST_TYPE_UNSPECIFIED = 0;
+			SHA1 = 1;
+			SHA256 = 2;
+			GOST3411 = 3;
+			SHA384 = 4;
+		}
+
+		int32 key_tag = 1;
+		Algorithm algorithm = 2;
+		DigestType digest_type = 3;
+		string digest = 4;
+	}
+
+	message GlueRecord {
+
+		string host_name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		repeated string ipv4_addresses = 2;
+		repeated string ipv6_addresses = 3;
+	}
+
+	enum DsState {
+
+		DS_STATE_UNSPECIFIED = 0;
+		DS_RECORDS_UNPUBLISHED = 1;
+		DS_RECORDS_PUBLISHED = 2;
+	}
+
+	oneof dns_provider {
+		CustomDns custom_dns = 1;
+		GoogleDomainsDns google_domains_dns = 2;
+	}
+	repeated GlueRecord glue_records = 4;
+}
+
+message ContactSettings {
+
+	message Contact {
+
+		google.type.PostalAddress postal_address = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string email = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string phone_number = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string fax_number = 4;
+	}
+
+	ContactPrivacy privacy = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Contact registrant_contact = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Contact admin_contact = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Contact technical_contact = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SearchDomainsRequest {
+
+	string query = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string location = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+}
+
+message SearchDomainsResponse {
+
+	repeated RegisterParameters register_parameters = 1;
+}
+
+message RetrieveRegisterParametersRequest {
+
+	string domain_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string location = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+}
+
+message RetrieveRegisterParametersResponse {
+
+	RegisterParameters register_parameters = 1;
+}
+
+message RegisterDomainRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	Registration registration = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated DomainNotice domain_notices = 3;
+	repeated ContactNotice contact_notices = 4;
+	google.type.Money yearly_price = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 6;
+}
+
+message RetrieveTransferParametersRequest {
+
+	string domain_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string location = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+}
+
+message RetrieveTransferParametersResponse {
+
+	TransferParameters transfer_parameters = 1;
+}
+
+message TransferDomainRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	Registration registration = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ContactNotice contact_notices = 3;
+	google.type.Money yearly_price = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	AuthorizationCode authorization_code = 5;
+	bool validate_only = 6;
+}
+
+message ListRegistrationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListRegistrationsResponse {
+
+	repeated Registration registrations = 1;
+	string next_page_token = 2;
+}
+
+message GetRegistrationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "domains.googleapis.com/Registration"
+		}
+	];
+}
+
+message UpdateRegistrationRequest {
+
+	Registration registration = 1;
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ConfigureManagementSettingsRequest {
+
+	string registration = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "domains.googleapis.com/Registration"
+		}
+	];
+	ManagementSettings management_settings = 2;
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ConfigureDnsSettingsRequest {
+
+	string registration = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "domains.googleapis.com/Registration"
+		}
+	];
+	DnsSettings dns_settings = 2;
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 4;
+}
+
+message ConfigureContactSettingsRequest {
+
+	string registration = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "domains.googleapis.com/Registration"
+		}
+	];
+	ContactSettings contact_settings = 2;
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ContactNotice contact_notices = 4;
+	bool validate_only = 5;
+}
+
+message ExportRegistrationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "domains.googleapis.com/Registration"
+		}
+	];
+}
+
+message DeleteRegistrationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "domains.googleapis.com/Registration"
+		}
+	];
+}
+
+message RetrieveAuthorizationCodeRequest {
+
+	string registration = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "domains.googleapis.com/Registration"
+		}
+	];
+}
+
+message ResetAuthorizationCodeRequest {
+
+	string registration = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "domains.googleapis.com/Registration"
+		}
+	];
+}
+
+message RegisterParameters {
+
+	enum Availability {
+
+		AVAILABILITY_UNSPECIFIED = 0;
+		AVAILABLE = 1;
+		UNAVAILABLE = 2;
+		UNSUPPORTED = 3;
+		UNKNOWN = 4;
+	}
+
+	string domain_name = 1;
+	Availability availability = 2;
+	repeated ContactPrivacy supported_privacy = 3;
+	repeated DomainNotice domain_notices = 4;
+	google.type.Money yearly_price = 5;
+}
+
+message TransferParameters {
+
+	string domain_name = 1;
+	string current_registrar = 2;
+	repeated string name_servers = 3;
+	TransferLockState transfer_lock_state = 4;
+	repeated ContactPrivacy supported_privacy = 5;
+	google.type.Money yearly_price = 6;
+}
+
+message AuthorizationCode {
+
+	string code = 1;
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	string target = 3;
+	string verb = 4;
+	string status_detail = 5;
+	string api_version = 6;
+}

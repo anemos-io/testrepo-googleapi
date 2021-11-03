@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package google.cloud.apigeeconnect.v1;
+
+import "google/protobuf/duration.proto";
+import "google/rpc/status.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.apigeeconnect.v1";
+option java_outer_classname = "TetherProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/apigeeconnect/v1;apigeeconnect";
+option csharp_namespace = "Google.Cloud.ApigeeConnect.V1";
+option php_namespace = "Google\\Cloud\\ApigeeConnect\\V1";
+option ruby_package = "Google::Cloud::ApigeeConnect::V1";
+
+
+enum Action {
+
+	ACTION_UNSPECIFIED = 0;
+	OPEN_NEW_STREAM = 1;
+}
+
+enum TetherEndpoint {
+
+	TETHER_ENDPOINT_UNSPECIFIED = 0;
+	APIGEE_MART = 1;
+	APIGEE_RUNTIME = 2;
+	APIGEE_MINT_RATING = 3;
+}
+
+enum Scheme {
+
+	SCHEME_UNSPECIFIED = 0;
+	HTTPS = 1;
+}
+
+service Tether {
+	option (google.api.default_host) = "apigeeconnect.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc Egress(stream google.cloud.apigeeconnect.v1.EgressResponse) returns (stream google.cloud.apigeeconnect.v1.EgressRequest) {}
+}
+
+message EgressRequest {
+
+	string id = 1;
+	Payload payload = 2;
+	TetherEndpoint endpoint = 3;
+	string project = 4;
+	string trace_id = 5;
+	google.protobuf.Duration timeout = 6;
+}
+
+message Payload {
+
+	oneof kind {
+		HttpRequest http_request = 1;
+		StreamInfo stream_info = 2;
+		Action action = 3;
+	}
+}
+
+message StreamInfo {
+
+	string id = 1;
+}
+
+message EgressResponse {
+
+	string id = 1;
+	HttpResponse http_response = 2;
+	google.rpc.Status status = 3;
+	string project = 4;
+	string trace_id = 5;
+	TetherEndpoint endpoint = 6;
+	string name = 7;
+}
+
+message HttpRequest {
+
+	string id = 1;
+	string method = 2;
+	Url url = 3;
+	repeated Header headers = 4;
+	bytes body = 5;
+}
+
+message Url {
+
+	Scheme scheme = 1;
+	string host = 2;
+	string path = 3;
+}
+
+message Header {
+
+	string key = 1;
+	repeated string values = 2;
+}
+
+message HttpResponse {
+
+	string id = 1;
+	string status = 2;
+	int32 status_code = 3;
+	bytes body = 4;
+	repeated Header headers = 5;
+	int64 content_length = 6;
+}

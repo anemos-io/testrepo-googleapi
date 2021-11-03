@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/common/ad_type_infos.proto";
+import "google/ads/googleads/v8/common/custom_parameter.proto";
+import "google/ads/googleads/v8/common/final_app_url.proto";
+import "google/ads/googleads/v8/common/url_collection.proto";
+import "google/ads/googleads/v8/enums/ad_type.proto";
+import "google/ads/googleads/v8/enums/device.proto";
+import "google/ads/googleads/v8/enums/system_managed_entity_source.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "AdProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message Ad {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/Ad"
+		pattern: ["customers/{customer_id}/ads/{ad_id}"]
+	};
+
+	string resource_name = 37 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Ad"
+		}
+	];
+	oneof _id {
+		int64 id = 40 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	repeated string final_urls = 41;
+	repeated google.ads.googleads.v8.common.FinalAppUrl final_app_urls = 35;
+	repeated string final_mobile_urls = 42;
+	oneof _tracking_url_template {
+		string tracking_url_template = 43;
+	}
+	oneof _final_url_suffix {
+		string final_url_suffix = 44;
+	}
+	repeated google.ads.googleads.v8.common.CustomParameter url_custom_parameters = 10;
+	oneof _display_url {
+		string display_url = 45;
+	}
+	google.ads.googleads.v8.enums.AdTypeEnum.AdType type = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _added_by_google_ads {
+		bool added_by_google_ads = 46 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v8.enums.DeviceEnum.Device device_preference = 20;
+	repeated google.ads.googleads.v8.common.UrlCollection url_collections = 26;
+	oneof _name {
+		string name = 47 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	google.ads.googleads.v8.enums.SystemManagedResourceSourceEnum.SystemManagedResourceSource system_managed_resource_source = 27 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof ad_data {
+		google.ads.googleads.v8.common.TextAdInfo text_ad = 6 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v8.common.ExpandedTextAdInfo expanded_text_ad = 7;
+		google.ads.googleads.v8.common.CallAdInfo call_ad = 49;
+		google.ads.googleads.v8.common.ExpandedDynamicSearchAdInfo expanded_dynamic_search_ad = 14 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v8.common.HotelAdInfo hotel_ad = 15;
+		google.ads.googleads.v8.common.ShoppingSmartAdInfo shopping_smart_ad = 17;
+		google.ads.googleads.v8.common.ShoppingProductAdInfo shopping_product_ad = 18;
+		google.ads.googleads.v8.common.GmailAdInfo gmail_ad = 21 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v8.common.ImageAdInfo image_ad = 22 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v8.common.VideoAdInfo video_ad = 24;
+		google.ads.googleads.v8.common.VideoResponsiveAdInfo video_responsive_ad = 39;
+		google.ads.googleads.v8.common.ResponsiveSearchAdInfo responsive_search_ad = 25;
+		google.ads.googleads.v8.common.LegacyResponsiveDisplayAdInfo legacy_responsive_display_ad = 28;
+		google.ads.googleads.v8.common.AppAdInfo app_ad = 29;
+		google.ads.googleads.v8.common.LegacyAppInstallAdInfo legacy_app_install_ad = 30 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v8.common.ResponsiveDisplayAdInfo responsive_display_ad = 31;
+		google.ads.googleads.v8.common.LocalAdInfo local_ad = 32;
+		google.ads.googleads.v8.common.DisplayUploadAdInfo display_upload_ad = 33;
+		google.ads.googleads.v8.common.AppEngagementAdInfo app_engagement_ad = 34;
+		google.ads.googleads.v8.common.ShoppingComparisonListingAdInfo shopping_comparison_listing_ad = 36;
+		google.ads.googleads.v8.common.SmartCampaignAdInfo smart_campaign_ad = 48;
+	}
+}

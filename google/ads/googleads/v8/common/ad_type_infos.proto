@@ -1,0 +1,443 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.common;
+
+import "google/ads/googleads/v8/common/ad_asset.proto";
+import "google/ads/googleads/v8/enums/call_conversion_reporting_state.proto";
+import "google/ads/googleads/v8/enums/display_ad_format_setting.proto";
+import "google/ads/googleads/v8/enums/display_upload_product_type.proto";
+import "google/ads/googleads/v8/enums/legacy_app_install_ad_app_store.proto";
+import "google/ads/googleads/v8/enums/mime_type.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.common";
+option java_outer_classname = "AdTypeInfosProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V8::Common";
+
+
+message TextAdInfo {
+
+	oneof _headline {
+		string headline = 4;
+	}
+	oneof _description1 {
+		string description1 = 5;
+	}
+	oneof _description2 {
+		string description2 = 6;
+	}
+}
+
+message ExpandedTextAdInfo {
+
+	oneof _headline_part1 {
+		string headline_part1 = 8;
+	}
+	oneof _headline_part2 {
+		string headline_part2 = 9;
+	}
+	oneof _headline_part3 {
+		string headline_part3 = 10;
+	}
+	oneof _description {
+		string description = 11;
+	}
+	oneof _description2 {
+		string description2 = 12;
+	}
+	oneof _path1 {
+		string path1 = 13;
+	}
+	oneof _path2 {
+		string path2 = 14;
+	}
+}
+
+message ExpandedDynamicSearchAdInfo {
+
+	oneof _description {
+		string description = 3;
+	}
+	oneof _description2 {
+		string description2 = 4;
+	}
+}
+
+message HotelAdInfo {
+
+}
+
+message ShoppingSmartAdInfo {
+
+}
+
+message ShoppingProductAdInfo {
+
+}
+
+message ShoppingComparisonListingAdInfo {
+
+	oneof _headline {
+		string headline = 2;
+	}
+}
+
+message GmailAdInfo {
+
+	GmailTeaser teaser = 1;
+	oneof _header_image {
+		string header_image = 10;
+	}
+	oneof _marketing_image {
+		string marketing_image = 11;
+	}
+	oneof _marketing_image_headline {
+		string marketing_image_headline = 12;
+	}
+	oneof _marketing_image_description {
+		string marketing_image_description = 13;
+	}
+	DisplayCallToAction marketing_image_display_call_to_action = 6;
+	repeated ProductImage product_images = 7;
+	repeated ProductVideo product_videos = 8;
+}
+
+message GmailTeaser {
+
+	oneof _headline {
+		string headline = 5;
+	}
+	oneof _description {
+		string description = 6;
+	}
+	oneof _business_name {
+		string business_name = 7;
+	}
+	oneof _logo_image {
+		string logo_image = 8;
+	}
+}
+
+message DisplayCallToAction {
+
+	oneof _text {
+		string text = 5;
+	}
+	oneof _text_color {
+		string text_color = 6;
+	}
+	oneof _url_collection_id {
+		string url_collection_id = 7;
+	}
+}
+
+message ProductImage {
+
+	oneof _product_image {
+		string product_image = 4;
+	}
+	oneof _description {
+		string description = 5;
+	}
+	DisplayCallToAction display_call_to_action = 3;
+}
+
+message ProductVideo {
+
+	oneof _product_video {
+		string product_video = 2;
+	}
+}
+
+message ImageAdInfo {
+
+	oneof _pixel_width {
+		int64 pixel_width = 15;
+	}
+	oneof _pixel_height {
+		int64 pixel_height = 16;
+	}
+	oneof _image_url {
+		string image_url = 17;
+	}
+	oneof _preview_pixel_width {
+		int64 preview_pixel_width = 18;
+	}
+	oneof _preview_pixel_height {
+		int64 preview_pixel_height = 19;
+	}
+	oneof _preview_image_url {
+		string preview_image_url = 20;
+	}
+	google.ads.googleads.v8.enums.MimeTypeEnum.MimeType mime_type = 10;
+	oneof _name {
+		string name = 21;
+	}
+	oneof image {
+		string media_file = 12;
+		bytes data = 13;
+		int64 ad_id_to_copy_image_from = 14;
+	}
+}
+
+message VideoBumperInStreamAdInfo {
+
+	oneof _companion_banner {
+		string companion_banner = 2;
+	}
+}
+
+message VideoNonSkippableInStreamAdInfo {
+
+	oneof _companion_banner {
+		string companion_banner = 2;
+	}
+}
+
+message VideoTrueViewInStreamAdInfo {
+
+	oneof _action_button_label {
+		string action_button_label = 4;
+	}
+	oneof _action_headline {
+		string action_headline = 5;
+	}
+	oneof _companion_banner {
+		string companion_banner = 6;
+	}
+}
+
+message VideoOutstreamAdInfo {
+
+	oneof _headline {
+		string headline = 3;
+	}
+	oneof _description {
+		string description = 4;
+	}
+}
+
+message VideoTrueViewDiscoveryAdInfo {
+
+	oneof _headline {
+		string headline = 4;
+	}
+	oneof _description1 {
+		string description1 = 5;
+	}
+	oneof _description2 {
+		string description2 = 6;
+	}
+}
+
+message VideoAdInfo {
+
+	oneof _media_file {
+		string media_file = 7;
+	}
+	oneof format {
+		VideoTrueViewInStreamAdInfo in_stream = 2;
+		VideoBumperInStreamAdInfo bumper = 3;
+		VideoOutstreamAdInfo out_stream = 4;
+		VideoNonSkippableInStreamAdInfo non_skippable = 5;
+		VideoTrueViewDiscoveryAdInfo discovery = 6;
+	}
+}
+
+message VideoResponsiveAdInfo {
+
+	repeated google.ads.googleads.v8.common.AdTextAsset headlines = 1;
+	repeated google.ads.googleads.v8.common.AdTextAsset long_headlines = 2;
+	repeated google.ads.googleads.v8.common.AdTextAsset descriptions = 3;
+	repeated google.ads.googleads.v8.common.AdTextAsset call_to_actions = 4;
+	repeated google.ads.googleads.v8.common.AdVideoAsset videos = 5;
+	repeated google.ads.googleads.v8.common.AdImageAsset companion_banners = 6;
+}
+
+message ResponsiveSearchAdInfo {
+
+	repeated google.ads.googleads.v8.common.AdTextAsset headlines = 1;
+	repeated google.ads.googleads.v8.common.AdTextAsset descriptions = 2;
+	oneof _path1 {
+		string path1 = 5;
+	}
+	oneof _path2 {
+		string path2 = 6;
+	}
+}
+
+message LegacyResponsiveDisplayAdInfo {
+
+	oneof _short_headline {
+		string short_headline = 16;
+	}
+	oneof _long_headline {
+		string long_headline = 17;
+	}
+	oneof _description {
+		string description = 18;
+	}
+	oneof _business_name {
+		string business_name = 19;
+	}
+	oneof _allow_flexible_color {
+		bool allow_flexible_color = 20;
+	}
+	oneof _accent_color {
+		string accent_color = 21;
+	}
+	oneof _main_color {
+		string main_color = 22;
+	}
+	oneof _call_to_action_text {
+		string call_to_action_text = 23;
+	}
+	oneof _logo_image {
+		string logo_image = 24;
+	}
+	oneof _square_logo_image {
+		string square_logo_image = 25;
+	}
+	oneof _marketing_image {
+		string marketing_image = 26;
+	}
+	oneof _square_marketing_image {
+		string square_marketing_image = 27;
+	}
+	google.ads.googleads.v8.enums.DisplayAdFormatSettingEnum.DisplayAdFormatSetting format_setting = 13;
+	oneof _price_prefix {
+		string price_prefix = 28;
+	}
+	oneof _promo_text {
+		string promo_text = 29;
+	}
+}
+
+message AppAdInfo {
+
+	google.ads.googleads.v8.common.AdTextAsset mandatory_ad_text = 1;
+	repeated google.ads.googleads.v8.common.AdTextAsset headlines = 2;
+	repeated google.ads.googleads.v8.common.AdTextAsset descriptions = 3;
+	repeated google.ads.googleads.v8.common.AdImageAsset images = 4;
+	repeated google.ads.googleads.v8.common.AdVideoAsset youtube_videos = 5;
+	repeated google.ads.googleads.v8.common.AdMediaBundleAsset html5_media_bundles = 6;
+}
+
+message AppEngagementAdInfo {
+
+	repeated google.ads.googleads.v8.common.AdTextAsset headlines = 1;
+	repeated google.ads.googleads.v8.common.AdTextAsset descriptions = 2;
+	repeated google.ads.googleads.v8.common.AdImageAsset images = 3;
+	repeated google.ads.googleads.v8.common.AdVideoAsset videos = 4;
+}
+
+message LegacyAppInstallAdInfo {
+
+	oneof _app_id {
+		string app_id = 6;
+	}
+	google.ads.googleads.v8.enums.LegacyAppInstallAdAppStoreEnum.LegacyAppInstallAdAppStore app_store = 2;
+	oneof _headline {
+		string headline = 7;
+	}
+	oneof _description1 {
+		string description1 = 8;
+	}
+	oneof _description2 {
+		string description2 = 9;
+	}
+}
+
+message ResponsiveDisplayAdInfo {
+
+	repeated google.ads.googleads.v8.common.AdImageAsset marketing_images = 1;
+	repeated google.ads.googleads.v8.common.AdImageAsset square_marketing_images = 2;
+	repeated google.ads.googleads.v8.common.AdImageAsset logo_images = 3;
+	repeated google.ads.googleads.v8.common.AdImageAsset square_logo_images = 4;
+	repeated google.ads.googleads.v8.common.AdTextAsset headlines = 5;
+	google.ads.googleads.v8.common.AdTextAsset long_headline = 6;
+	repeated google.ads.googleads.v8.common.AdTextAsset descriptions = 7;
+	repeated google.ads.googleads.v8.common.AdVideoAsset youtube_videos = 8;
+	oneof _business_name {
+		string business_name = 17;
+	}
+	oneof _main_color {
+		string main_color = 18;
+	}
+	oneof _accent_color {
+		string accent_color = 19;
+	}
+	oneof _allow_flexible_color {
+		bool allow_flexible_color = 20;
+	}
+	oneof _call_to_action_text {
+		string call_to_action_text = 21;
+	}
+	oneof _price_prefix {
+		string price_prefix = 22;
+	}
+	oneof _promo_text {
+		string promo_text = 23;
+	}
+	google.ads.googleads.v8.enums.DisplayAdFormatSettingEnum.DisplayAdFormatSetting format_setting = 16;
+	ResponsiveDisplayAdControlSpec control_spec = 24;
+}
+
+message LocalAdInfo {
+
+	repeated google.ads.googleads.v8.common.AdTextAsset headlines = 1;
+	repeated google.ads.googleads.v8.common.AdTextAsset descriptions = 2;
+	repeated google.ads.googleads.v8.common.AdTextAsset call_to_actions = 3;
+	repeated google.ads.googleads.v8.common.AdImageAsset marketing_images = 4;
+	repeated google.ads.googleads.v8.common.AdImageAsset logo_images = 5;
+	repeated google.ads.googleads.v8.common.AdVideoAsset videos = 6;
+	oneof _path1 {
+		string path1 = 9;
+	}
+	oneof _path2 {
+		string path2 = 10;
+	}
+}
+
+message DisplayUploadAdInfo {
+
+	google.ads.googleads.v8.enums.DisplayUploadProductTypeEnum.DisplayUploadProductType display_upload_product_type = 1;
+	oneof media_asset {
+		google.ads.googleads.v8.common.AdMediaBundleAsset media_bundle = 2;
+	}
+}
+
+message ResponsiveDisplayAdControlSpec {
+
+	bool enable_asset_enhancements = 1;
+	bool enable_autogen_video = 2;
+}
+
+message SmartCampaignAdInfo {
+
+	repeated google.ads.googleads.v8.common.AdTextAsset headlines = 1;
+	repeated google.ads.googleads.v8.common.AdTextAsset descriptions = 2;
+}
+
+message CallAdInfo {
+
+	string country_code = 1;
+	string phone_number = 2;
+	string business_name = 3;
+	string headline1 = 11;
+	string headline2 = 12;
+	string description1 = 4;
+	string description2 = 5;
+	bool call_tracked = 6;
+	bool disable_call_conversion = 7;
+	string phone_number_verification_url = 8;
+	string conversion_action = 9;
+	google.ads.googleads.v8.enums.CallConversionReportingStateEnum.CallConversionReportingState conversion_reporting_state = 10;
+	string path1 = 13;
+	string path2 = 14;
+}

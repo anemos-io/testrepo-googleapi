@@ -41,6 +41,12 @@ service Intents {
 			additional_bindings: {
 				get: "/v2beta1/{parent=projects/*/locations/*/agent}/intents"
 			}
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/agent/environments/*}/intents"
+			}
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*/agent/environments/*}/intents"
+			}
 		};
 
 	}
@@ -98,6 +104,8 @@ service Intents {
 			response_type: "google.cloud.dialogflow.v2beta1.BatchUpdateIntentsResponse"
 			metadata_type: "google.protobuf.Struct"
 		};
+		option (google.api.method_signature) = "parent,intent_batch_uri";
+		option (google.api.method_signature) = "parent,intent_batch_inline";
 		option (google.api.http) = {
 			post: "/v2beta1/{parent=projects/*/agent}/intents:batchUpdate"
 			body: "*"
@@ -582,6 +590,9 @@ message Intent {
 		(google.api.field_behavior) = OPTIONAL
 	];
 	bool ml_disabled = 19 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool live_agent_handoff = 20 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 	bool end_interaction = 21 [

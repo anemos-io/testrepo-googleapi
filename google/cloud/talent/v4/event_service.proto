@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/talent/v4/event.proto";
+
+option java_package = "com.google.cloud.talent.v4";
+option java_outer_classname = "EventServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4;talent";
+option objc_class_prefix = "CTS";
+
+
+service EventService {
+	option (google.api.default_host) = "jobs.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/jobs";
+
+	rpc CreateClientEvent(google.cloud.talent.v4.CreateClientEventRequest) returns (google.cloud.talent.v4.ClientEvent) {
+		option (google.api.method_signature) = "parent,client_event";
+		option (google.api.http) = {
+			post: "/v4/{parent=projects/*/tenants/*}/clientEvents"
+			body: "client_event"
+		};
+
+	}
+}
+
+message CreateClientEventRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Tenant"
+		}
+	];
+	google.cloud.talent.v4.ClientEvent client_event = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

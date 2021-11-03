@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/enums/campaign_experiment_status.proto";
+import "google/ads/googleads/v8/enums/campaign_experiment_traffic_split_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "CampaignExperimentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message CampaignExperiment {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/CampaignExperiment"
+		pattern: ["customers/{customer_id}/campaignExperiments/{campaign_experiment_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignExperiment"
+		}
+	];
+	oneof _id {
+		int64 id = 13 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _campaign_draft {
+		string campaign_draft = 14 [
+			(google.api.field_behavior) = IMMUTABLE
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/CampaignDraft"
+			}
+		];
+	}
+	oneof _name {
+		string name = 15;
+	}
+	oneof _description {
+		string description = 16;
+	}
+	oneof _traffic_split_percent {
+		int64 traffic_split_percent = 17 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	google.ads.googleads.v8.enums.CampaignExperimentTrafficSplitTypeEnum.CampaignExperimentTrafficSplitType traffic_split_type = 7 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	oneof _experiment_campaign {
+		string experiment_campaign = 18 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Campaign"
+			}
+		];
+	}
+	google.ads.googleads.v8.enums.CampaignExperimentStatusEnum.CampaignExperimentStatus status = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _long_running_operation {
+		string long_running_operation = 19 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _start_date {
+		string start_date = 20;
+	}
+	oneof _end_date {
+		string end_date = 21;
+	}
+}

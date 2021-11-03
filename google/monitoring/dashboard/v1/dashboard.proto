@@ -10,6 +10,8 @@ option java_package = "com.google.monitoring.dashboard.v1";
 option java_outer_classname = "DashboardsProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option csharp_namespace = "Google.Cloud.Monitoring.Dashboard.V1";
+option php_namespace = "Google\\Cloud\\Monitoring\\Dashboard\\V1";
 option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
 
 
@@ -28,6 +30,7 @@ message Dashboard {
 	string etag = 4;
 	oneof layout {
 		google.monitoring.dashboard.v1.GridLayout grid_layout = 5;
+		google.monitoring.dashboard.v1.MosaicLayout mosaic_layout = 6;
 		google.monitoring.dashboard.v1.RowLayout row_layout = 8;
 		google.monitoring.dashboard.v1.ColumnLayout column_layout = 9;
 	}

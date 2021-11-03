@@ -1,0 +1,647 @@
+syntax = "proto3";
+
+package google.cloud.security.privateca.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/expr.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.security.privateca.v1";
+option java_outer_classname = "PrivateCaResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/security/privateca/v1;privateca";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Security.PrivateCA.V1";
+option php_namespace = "Google\\Cloud\\Security\\PrivateCA\\V1";
+option ruby_package = "Google::Cloud::Security::PrivateCA::V1";
+
+
+enum RevocationReason {
+
+	REVOCATION_REASON_UNSPECIFIED = 0;
+	KEY_COMPROMISE = 1;
+	CERTIFICATE_AUTHORITY_COMPROMISE = 2;
+	AFFILIATION_CHANGED = 3;
+	SUPERSEDED = 4;
+	CESSATION_OF_OPERATION = 5;
+	CERTIFICATE_HOLD = 6;
+	PRIVILEGE_WITHDRAWN = 7;
+	ATTRIBUTE_AUTHORITY_COMPROMISE = 8;
+}
+
+enum SubjectRequestMode {
+
+	SUBJECT_REQUEST_MODE_UNSPECIFIED = 0;
+	DEFAULT = 1;
+	REFLECTED_SPIFFE = 2;
+}
+
+message CertificateAuthority {
+	option (google.api.resource) = {
+		type: "privateca.googleapis.com/CertificateAuthority"
+		pattern: ["projects/{project}/locations/{location}/caPools/{ca_pool}/certificateAuthorities/{certificate_authority}"]
+	};
+
+	message AccessUrls {
+
+		string ca_certificate_access_url = 1;
+		repeated string crl_access_urls = 2;
+	}
+
+	message KeyVersionSpec {
+
+		oneof KeyVersion {
+			string cloud_kms_key_version = 1;
+			SignHashAlgorithm algorithm = 2;
+		}
+	}
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		SELF_SIGNED = 1;
+		SUBORDINATE = 2;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ENABLED = 1;
+		DISABLED = 2;
+		STAGED = 3;
+		AWAITING_USER_ACTIVATION = 4;
+		DELETED = 5;
+	}
+
+	enum SignHashAlgorithm {
+
+		SIGN_HASH_ALGORITHM_UNSPECIFIED = 0;
+		RSA_PSS_2048_SHA256 = 1;
+		RSA_PSS_3072_SHA256 = 2;
+		RSA_PSS_4096_SHA256 = 3;
+		RSA_PKCS1_2048_SHA256 = 6;
+		RSA_PKCS1_3072_SHA256 = 7;
+		RSA_PKCS1_4096_SHA256 = 8;
+		EC_P256_SHA256 = 4;
+		EC_P384_SHA384 = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Type type = 2 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	CertificateConfig config = 3 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Duration lifetime = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	KeyVersionSpec key_spec = 5 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	SubordinateConfig subordinate_config = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Tier tier = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string pem_ca_certificates = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated CertificateDescription ca_certificate_descriptions = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string gcs_bucket = 11 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	AccessUrls access_urls = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp delete_time = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp expire_time = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 17 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CaPool {
+	option (google.api.resource) = {
+		type: "privateca.googleapis.com/CaPool"
+		pattern: ["projects/{project}/locations/{location}/caPools/{ca_pool}"]
+	};
+
+	message PublishingOptions {
+
+		bool publish_ca_cert = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool publish_crl = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	message IssuancePolicy {
+
+		message AllowedKeyType {
+
+			message RsaKeyType {
+
+				int64 min_modulus_size = 1 [
+					(google.api.field_behavior) = OPTIONAL
+				];
+				int64 max_modulus_size = 2 [
+					(google.api.field_behavior) = OPTIONAL
+				];
+			}
+
+			message EcKeyType {
+
+				enum EcSignatureAlgorithm {
+
+					EC_SIGNATURE_ALGORITHM_UNSPECIFIED = 0;
+					ECDSA_P256 = 1;
+					ECDSA_P384 = 2;
+					EDDSA_25519 = 3;
+				}
+
+				EcSignatureAlgorithm signature_algorithm = 1 [
+					(google.api.field_behavior) = OPTIONAL
+				];
+			}
+
+			oneof key_type {
+				RsaKeyType rsa = 1;
+				EcKeyType elliptic_curve = 2;
+			}
+		}
+
+		message IssuanceModes {
+
+			bool allow_csr_based_issuance = 1 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			bool allow_config_based_issuance = 2 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+		}
+
+		repeated AllowedKeyType allowed_key_types = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		google.protobuf.Duration maximum_lifetime = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		IssuanceModes allowed_issuance_modes = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		X509Parameters baseline_values = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		CertificateIdentityConstraints identity_constraints = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		CertificateExtensionConstraints passthrough_extensions = 6 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	enum Tier {
+
+		TIER_UNSPECIFIED = 0;
+		ENTERPRISE = 1;
+		DEVOPS = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Tier tier = 2 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	IssuancePolicy issuance_policy = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	PublishingOptions publishing_options = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CertificateRevocationList {
+	option (google.api.resource) = {
+		type: "privateca.googleapis.com/CertificateRevocationList"
+		pattern: ["projects/{project}/locations/{location}/caPools/{ca_pool}/certificateAuthorities/{certificate_authority}/certificateRevocationLists/{certificate_revocation_list}"]
+	};
+
+	message RevokedCertificate {
+
+		string certificate = 1 [
+			(google.api.resource_reference) = {
+				type: "privateca.googleapis.com/Certificate"
+			}
+		];
+		string hex_serial_number = 2;
+		RevocationReason revocation_reason = 3;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		SUPERSEDED = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 sequence_number = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated RevokedCertificate revoked_certificates = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string pem_crl = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string access_url = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string revision_id = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message Certificate {
+	option (google.api.resource) = {
+		type: "privateca.googleapis.com/Certificate"
+		pattern: ["projects/{project}/locations/{location}/caPools/{ca_pool}/certificates/{certificate}"]
+	};
+
+	message RevocationDetails {
+
+		RevocationReason revocation_state = 1;
+		google.protobuf.Timestamp revocation_time = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/Certificate"
+		}
+	];
+	oneof certificate_config {
+		string pem_csr = 2 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		CertificateConfig config = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	string issuer_certificate_authority = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	google.protobuf.Duration lifetime = 5 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string certificate_template = 6 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateTemplate"
+		}
+	];
+	SubjectRequestMode subject_mode = 7 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	RevocationDetails revocation_details = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string pem_certificate = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CertificateDescription certificate_description = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string pem_certificate_chain = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 14 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CertificateTemplate {
+	option (google.api.resource) = {
+		type: "privateca.googleapis.com/CertificateTemplate"
+		pattern: ["projects/{project}/locations/{location}/certificateTemplates/{certificate_template}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateTemplate"
+		}
+	];
+	X509Parameters predefined_values = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	CertificateIdentityConstraints identity_constraints = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	CertificateExtensionConstraints passthrough_extensions = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string description = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp create_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message X509Parameters {
+
+	message CaOptions {
+
+		oneof _is_ca {
+			bool is_ca = 1 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+		}
+		oneof _max_issuer_path_length {
+			int32 max_issuer_path_length = 2 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+		}
+	}
+
+	KeyUsage key_usage = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	CaOptions ca_options = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated ObjectId policy_ids = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string aia_ocsp_servers = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated X509Extension additional_extensions = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SubordinateConfig {
+
+	message SubordinateConfigChain {
+
+		repeated string pem_certificates = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	oneof subordinate_config {
+		string certificate_authority = 1 [
+			(google.api.field_behavior) = REQUIRED
+			(google.api.resource_reference) = {
+				type: "privateca.googleapis.com/CertificateAuthority"
+			}
+		];
+		SubordinateConfigChain pem_issuer_chain = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+}
+
+message PublicKey {
+
+	enum KeyFormat {
+
+		KEY_FORMAT_UNSPECIFIED = 0;
+		PEM = 1;
+	}
+
+	bytes key = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	KeyFormat format = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CertificateConfig {
+
+	message SubjectConfig {
+
+		Subject subject = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		SubjectAltNames subject_alt_name = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	SubjectConfig subject_config = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	X509Parameters x509_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	PublicKey public_key = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CertificateDescription {
+
+	message SubjectDescription {
+
+		Subject subject = 1;
+		SubjectAltNames subject_alt_name = 2;
+		string hex_serial_number = 3;
+		google.protobuf.Duration lifetime = 4;
+		google.protobuf.Timestamp not_before_time = 5;
+		google.protobuf.Timestamp not_after_time = 6;
+	}
+
+	message KeyId {
+
+		string key_id = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	message CertificateFingerprint {
+
+		string sha256_hash = 1;
+	}
+
+	SubjectDescription subject_description = 1;
+	X509Parameters x509_description = 2;
+	PublicKey public_key = 3;
+	KeyId subject_key_id = 4;
+	KeyId authority_key_id = 5;
+	repeated string crl_distribution_points = 6;
+	repeated string aia_issuing_certificate_urls = 7;
+	CertificateFingerprint cert_fingerprint = 8;
+}
+
+message ObjectId {
+
+	repeated int32 object_id_path = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message X509Extension {
+
+	ObjectId object_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool critical = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes value = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message KeyUsage {
+
+	message KeyUsageOptions {
+
+		bool digital_signature = 1;
+		bool content_commitment = 2;
+		bool key_encipherment = 3;
+		bool data_encipherment = 4;
+		bool key_agreement = 5;
+		bool cert_sign = 6;
+		bool crl_sign = 7;
+		bool encipher_only = 8;
+		bool decipher_only = 9;
+	}
+
+	message ExtendedKeyUsageOptions {
+
+		bool server_auth = 1;
+		bool client_auth = 2;
+		bool code_signing = 3;
+		bool email_protection = 4;
+		bool time_stamping = 5;
+		bool ocsp_signing = 6;
+	}
+
+	KeyUsageOptions base_key_usage = 1;
+	ExtendedKeyUsageOptions extended_key_usage = 2;
+	repeated ObjectId unknown_extended_key_usages = 3;
+}
+
+message Subject {
+
+	string common_name = 1;
+	string country_code = 2;
+	string organization = 3;
+	string organizational_unit = 4;
+	string locality = 5;
+	string province = 6;
+	string street_address = 7;
+	string postal_code = 8;
+}
+
+message SubjectAltNames {
+
+	repeated string dns_names = 1;
+	repeated string uris = 2;
+	repeated string email_addresses = 3;
+	repeated string ip_addresses = 4;
+	repeated X509Extension custom_sans = 5;
+}
+
+message CertificateIdentityConstraints {
+
+	google.type.Expr cel_expression = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof _allow_subject_passthrough {
+		bool allow_subject_passthrough = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+	oneof _allow_subject_alt_names_passthrough {
+		bool allow_subject_alt_names_passthrough = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+}
+
+message CertificateExtensionConstraints {
+
+	enum KnownCertificateExtension {
+
+		KNOWN_CERTIFICATE_EXTENSION_UNSPECIFIED = 0;
+		BASE_KEY_USAGE = 1;
+		EXTENDED_KEY_USAGE = 2;
+		CA_OPTIONS = 3;
+		POLICY_IDS = 4;
+		AIA_OCSP_SERVERS = 5;
+	}
+
+	repeated KnownCertificateExtension known_extensions = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated ObjectId additional_extensions = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

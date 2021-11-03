@@ -18,6 +18,7 @@ message CheckedExpr {
 	map<int64, Reference> reference_map = 2;
 	map<int64, Type> type_map = 3;
 	google.api.expr.v1alpha1.SourceInfo source_info = 5;
+	string expr_version = 6;
 	google.api.expr.v1alpha1.Expr expr = 4;
 }
 

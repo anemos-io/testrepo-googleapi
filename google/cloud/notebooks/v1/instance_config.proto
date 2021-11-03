@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package google.cloud.notebooks.v1;
+
+option java_package = "com.google.cloud.notebooks.v1";
+option java_outer_classname = "InstanceConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1;notebooks";
+option csharp_namespace = "Google.Cloud.Notebooks.V1";
+option php_namespace = "Google\\Cloud\\Notebooks\\V1";
+option ruby_package = "Google::Cloud::Notebooks::V1";
+
+
+message InstanceConfig {
+
+	string notebook_upgrade_schedule = 1;
+	bool enable_health_monitoring = 2;
+}

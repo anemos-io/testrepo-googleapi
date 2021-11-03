@@ -55,6 +55,9 @@ message PatchDeployment {
 	google.protobuf.Timestamp last_execute_time = 10 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
+	google.cloud.osconfig.v1.PatchRollout rollout = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message OneTimeSchedule {
@@ -71,6 +74,7 @@ message RecurringSchedule {
 		FREQUENCY_UNSPECIFIED = 0;
 		WEEKLY = 1;
 		MONTHLY = 2;
+		DAILY = 3;
 	}
 
 	google.type.TimeZone time_zone = 1 [

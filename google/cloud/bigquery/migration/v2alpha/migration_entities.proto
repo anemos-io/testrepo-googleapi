@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.migration.v2alpha;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/bigquery/migration/v2alpha/migration_error_details.proto";
+import "google/cloud/bigquery/migration/v2alpha/migration_metrics.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/error_details.proto";
+
+option java_package = "com.google.cloud.bigquery.migration.v2alpha";
+option java_outer_classname = "MigrationEntitiesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/migration/v2alpha;migration";
+option csharp_namespace = "Google.Cloud.BigQuery.Migration.V2Alpha";
+option php_namespace = "Google\\Cloud\\BigQuery\\Migration\\V2alpha";
+
+
+message MigrationWorkflow {
+	option (google.api.resource) = {
+		type: "bigquerymigration.googleapis.com/MigrationWorkflow"
+		pattern: ["projects/{project}/locations/{location}/workflows/{workflow}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		DRAFT = 1;
+		RUNNING = 2;
+		PAUSED = 3;
+		COMPLETED = 4;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string display_name = 6;
+	map<string, MigrationTask> tasks = 2;
+	State state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp last_update_time = 5;
+}
+
+message MigrationTask {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		ORCHESTRATING = 2;
+		RUNNING = 3;
+		PAUSED = 4;
+		SUCCEEDED = 5;
+		FAILED = 6;
+	}
+
+	string id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string type = 2;
+	google.protobuf.Any details = 3;
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.ErrorInfo processing_error = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 6;
+	google.protobuf.Timestamp last_update_time = 7;
+}
+
+message MigrationSubtask {
+	option (google.api.resource) = {
+		type: "bigquerymigration.googleapis.com/MigrationSubtask"
+		pattern: ["projects/{project}/locations/{location}/workflows/{workflow}/subtasks/{subtask}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		RUNNING = 2;
+		SUCCEEDED = 3;
+		FAILED = 4;
+		PAUSED = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string task_id = 2;
+	string type = 3;
+	State state = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.ErrorInfo processing_error = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.cloud.bigquery.migration.v2alpha.ResourceErrorDetail resource_error_details = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 resource_error_count = 13;
+	google.protobuf.Timestamp create_time = 7;
+	google.protobuf.Timestamp last_update_time = 8;
+	repeated google.cloud.bigquery.migration.v2alpha.TimeSeries metrics = 11;
+}

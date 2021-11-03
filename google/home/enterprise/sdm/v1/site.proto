@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package google.home.enterprise.sdm.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.home.enterprise.sdm.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/home/enterprise/sdm/v1;sdm";
+option objc_class_prefix = "GHENTSDM";
+option csharp_namespace = "Google.Home.Enterprise.Sdm.V1";
+option php_namespace = "Google\\Home\\Enterprise\\Sdm\\V1";
+
+
+message Structure {
+	option (google.api.resource) = {
+		type: "smartdevicemanagement.googleapis.com/Structure"
+		pattern: ["enterprises/{enterprise}/structures/{structure}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Struct traits = 2;
+}
+
+message Room {
+	option (google.api.resource) = {
+		type: "smartdevicemanagement.googleapis.com/Room"
+		pattern: ["enterprises/{enterprise}/structures/{structure}/rooms/{room}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Struct traits = 2;
+}

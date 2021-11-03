@@ -4,6 +4,7 @@ package google.api.servicecontrol.v1;
 
 import "google/api/annotations.proto";
 import "google/api/servicecontrol/v1/metric_value.proto";
+import "google/rpc/status.proto";
 import "google/api/client.proto";
 
 option java_package = "com.google.api.servicecontrol.v1";
@@ -11,6 +12,9 @@ option java_outer_classname = "QuotaControllerProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/api/servicecontrol/v1;servicecontrol";
 option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.ServiceControl.V1";
+option php_namespace = "Google\\Cloud\\ServiceControl\\V1";
+option ruby_package = "Google::Cloud::ServiceControl::V1";
 
 
 service QuotaController {
@@ -76,4 +80,5 @@ message QuotaError {
 	Code code = 1;
 	string subject = 2;
 	string description = 3;
+	google.rpc.Status status = 4;
 }

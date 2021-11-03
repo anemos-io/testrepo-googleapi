@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.errors";
+option java_outer_classname = "DatabaseErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V8::Errors";
+
+
+message DatabaseErrorEnum {
+
+	enum DatabaseError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		CONCURRENT_MODIFICATION = 2;
+		DATA_CONSTRAINT_VIOLATION = 3;
+		REQUEST_TOO_LARGE = 4;
+	}
+
+}

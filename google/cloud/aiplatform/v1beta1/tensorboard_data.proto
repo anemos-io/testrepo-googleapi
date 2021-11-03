@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/aiplatform/v1beta1/tensorboard_time_series.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "TensorboardDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message TimeSeriesData {
+
+	string tensorboard_time_series_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.TensorboardTimeSeries.ValueType value_type = 2 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated TimeSeriesDataPoint values = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message TimeSeriesDataPoint {
+
+	oneof value {
+		Scalar scalar = 3;
+		TensorboardTensor tensor = 4;
+		TensorboardBlobSequence blobs = 5;
+	}
+	google.protobuf.Timestamp wall_time = 1;
+	int64 step = 2;
+}
+
+message Scalar {
+
+	double value = 1;
+}
+
+message TensorboardTensor {
+
+	bytes value = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 version_number = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TensorboardBlobSequence {
+
+	repeated TensorboardBlob values = 1;
+}
+
+message TensorboardBlob {
+
+	string id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bytes data = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

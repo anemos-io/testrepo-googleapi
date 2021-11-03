@@ -5,8 +5,13 @@ package google.container.v1beta1;
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/rpc/code.proto";
+import "google/rpc/status.proto";
+import "google/type/date.proto";
 
 option java_package = "com.google.container.v1beta1";
 option java_outer_classname = "ClusterServiceProto";
@@ -15,7 +20,33 @@ option go_package = "google.golang.org/genproto/googleapis/container/v1beta1;con
 option csharp_namespace = "Google.Cloud.Container.V1Beta1";
 option php_namespace = "Google\\Cloud\\Container\\V1beta1";
 option ruby_package = "Google::Cloud::Container::V1beta1";
+option (google.api.resource_definition) = {
+	type: "pubsub.googleapis.com/Topic"
+	pattern: ["projects/{project}/topics/{topic}"]
+};
 
+
+enum PrivateIPv6GoogleAccess {
+
+	PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED = 0;
+	PRIVATE_IPV6_GOOGLE_ACCESS_DISABLED = 1;
+	PRIVATE_IPV6_GOOGLE_ACCESS_TO_GOOGLE = 2;
+	PRIVATE_IPV6_GOOGLE_ACCESS_BIDIRECTIONAL = 3;
+}
+
+enum DatapathProvider {
+
+	DATAPATH_PROVIDER_UNSPECIFIED = 0;
+	LEGACY_DATAPATH = 1;
+	ADVANCED_DATAPATH = 2;
+}
+
+enum UpgradeResourceType {
+
+	UPGRADE_RESOURCE_TYPE_UNSPECIFIED = 0;
+	MASTER = 1;
+	NODE_POOL = 2;
+}
 
 service ClusterManager {
 	option (google.api.default_host) = "container.googleapis.com";
@@ -124,6 +155,7 @@ service ClusterManager {
 
 	}
 	rpc SetLocations(google.container.v1beta1.SetLocationsRequest) returns (google.container.v1beta1.Operation) {
+		option deprecated = true;
 		option (google.api.method_signature) = "project_id,zone,cluster_id,locations";
 		option (google.api.http) = {
 			post: "/v1beta1/{name=projects/*/locations/*/clusters/*}:setLocations"
@@ -217,6 +249,12 @@ service ClusterManager {
 			additional_bindings: {
 				get: "/v1beta1/projects/{project_id}/zones/{zone}/clusters/{cluster_id}/nodePools"
 			}
+		};
+
+	}
+	rpc GetJSONWebKeys(google.container.v1beta1.GetJSONWebKeysRequest) returns (google.container.v1beta1.GetJSONWebKeysResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/clusters/*}/jwks"
 		};
 
 	}
@@ -375,6 +413,18 @@ service ClusterManager {
 	}
 }
 
+message LinuxNodeConfig {
+
+	map<string, string> sysctls = 1;
+}
+
+message NodeKubeletConfig {
+
+	string cpu_manager_policy = 1;
+	google.protobuf.BoolValue cpu_cfs_quota = 2;
+	string cpu_cfs_quota_period = 3;
+}
+
 message NodeConfig {
 
 	string machine_type = 1;
@@ -388,17 +438,68 @@ message NodeConfig {
 	repeated string tags = 8;
 	bool preemptible = 10;
 	repeated AcceleratorConfig accelerators = 11;
+	SandboxConfig sandbox_config = 17;
+	string node_group = 18;
+	ReservationAffinity reservation_affinity = 19;
 	string disk_type = 12;
 	string min_cpu_platform = 13;
 	WorkloadMetadataConfig workload_metadata_config = 14;
 	repeated NodeTaint taints = 15;
+	string boot_disk_kms_key = 23;
 	ShieldedInstanceConfig shielded_instance_config = 20;
+	LinuxNodeConfig linux_node_config = 21;
+	NodeKubeletConfig kubelet_config = 22;
+	EphemeralStorageConfig ephemeral_storage_config = 24;
+	VirtualNIC gvnic = 29;
+}
+
+message NodeNetworkConfig {
+
+	bool create_pod_range = 4 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string pod_range = 5;
+	string pod_ipv4_cidr_block = 6;
 }
 
 message ShieldedInstanceConfig {
 
 	bool enable_secure_boot = 1;
 	bool enable_integrity_monitoring = 2;
+}
+
+message SandboxConfig {
+
+	enum Type {
+
+		UNSPECIFIED = 0;
+		GVISOR = 1;
+	}
+
+	string sandbox_type = 1 [
+		deprecated = true
+	];
+	Type type = 2;
+}
+
+message EphemeralStorageConfig {
+
+	int32 local_ssd_count = 1;
+}
+
+message ReservationAffinity {
+
+	enum Type {
+
+		UNSPECIFIED = 0;
+		NO_RESERVATION = 1;
+		ANY_RESERVATION = 2;
+		SPECIFIC_RESERVATION = 3;
+	}
+
+	Type consume_reservation_type = 1;
+	string key = 2;
+	repeated string values = 3;
 }
 
 message NodeTaint {
@@ -416,10 +517,29 @@ message NodeTaint {
 	Effect effect = 3;
 }
 
+message NodeTaints {
+
+	repeated NodeTaint taints = 1;
+}
+
+message NodeLabels {
+
+	map<string, string> labels = 1;
+}
+
+message NetworkTags {
+
+	repeated string tags = 1;
+}
+
 message MasterAuth {
 
-	string username = 1;
-	string password = 2;
+	string username = 1 [
+		deprecated = true
+	];
+	string password = 2 [
+		deprecated = true
+	];
 	ClientCertificateConfig client_certificate_config = 3;
 	string cluster_ca_certificate = 100;
 	string client_certificate = 101;
@@ -441,6 +561,12 @@ message AddonsConfig {
 	NetworkPolicyConfig network_policy_config = 4;
 	IstioConfig istio_config = 5;
 	CloudRunConfig cloud_run_config = 7;
+	DnsCacheConfig dns_cache_config = 8;
+	ConfigConnectorConfig config_connector_config = 10;
+	GcePersistentDiskCsiDriverConfig gce_persistent_disk_csi_driver_config = 11;
+	KalmConfig kalm_config = 12 [
+		deprecated = true
+	];
 }
 
 message HttpLoadBalancing {
@@ -463,6 +589,33 @@ message NetworkPolicyConfig {
 	bool disabled = 1;
 }
 
+message DnsCacheConfig {
+
+	bool enabled = 1;
+}
+
+message KalmConfig {
+
+	bool enabled = 1 [
+		deprecated = true
+	];
+}
+
+message ConfigConnectorConfig {
+
+	bool enabled = 1;
+}
+
+message GcePersistentDiskCsiDriverConfig {
+
+	bool enabled = 1;
+}
+
+message PrivateClusterMasterGlobalAccessConfig {
+
+	bool enabled = 1;
+}
+
 message PrivateClusterConfig {
 
 	bool enable_private_nodes = 1;
@@ -470,6 +623,8 @@ message PrivateClusterConfig {
 	string master_ipv4_cidr_block = 3;
 	string private_endpoint = 4;
 	string public_endpoint = 5;
+	string peering_name = 7;
+	PrivateClusterMasterGlobalAccessConfig master_global_access_config = 8;
 }
 
 message IstioConfig {
@@ -486,7 +641,15 @@ message IstioConfig {
 
 message CloudRunConfig {
 
+	enum LoadBalancerType {
+
+		LOAD_BALANCER_TYPE_UNSPECIFIED = 0;
+		LOAD_BALANCER_TYPE_EXTERNAL = 1;
+		LOAD_BALANCER_TYPE_INTERNAL = 2;
+	}
+
 	bool disabled = 1;
+	LoadBalancerType load_balancer_type = 3;
 }
 
 message MasterAuthorizedNetworksConfig {
@@ -539,6 +702,7 @@ message IPAllocationPolicy {
 	string services_ipv4_cidr_block = 11;
 	bool allow_route_overlap = 12;
 	string tpu_ipv4_cidr_block = 13;
+	bool use_routes = 15;
 }
 
 message BinaryAuthorization {
@@ -555,6 +719,19 @@ message AuthenticatorGroupsConfig {
 
 	bool enabled = 1;
 	string security_group = 2;
+}
+
+message ClusterTelemetry {
+
+	enum Type {
+
+		UNSPECIFIED = 0;
+		DISABLED = 1;
+		ENABLED = 2;
+		SYSTEM_ONLY = 3;
+	}
+
+	Type type = 1;
 }
 
 message Cluster {
@@ -610,6 +787,15 @@ message Cluster {
 	AuthenticatorGroupsConfig authenticator_groups_config = 34;
 	PrivateClusterConfig private_cluster_config = 37;
 	VerticalPodAutoscaling vertical_pod_autoscaling = 39;
+	ShieldedNodes shielded_nodes = 40;
+	ReleaseChannel release_channel = 41;
+	WorkloadIdentityConfig workload_identity_config = 43;
+	WorkloadCertificates workload_certificates = 52;
+	ClusterTelemetry cluster_telemetry = 46;
+	TpuConfig tpu_config = 47;
+	NotificationConfig notification_config = 49;
+	ConfidentialNodes confidential_nodes = 50;
+	IdentityServiceConfig identity_service_config = 54;
 	string self_link = 100;
 	string zone = 101 [
 		deprecated = true
@@ -639,6 +825,25 @@ message Cluster {
 	string tpu_ipv4_cidr_block = 116;
 	DatabaseEncryption database_encryption = 38;
 	repeated StatusCondition conditions = 118;
+	Master master = 124;
+	Autopilot autopilot = 128;
+	string id = 129 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _node_pool_defaults {
+		NodePoolDefaults node_pool_defaults = 131;
+	}
+	LoggingConfig logging_config = 132;
+	MonitoringConfig monitoring_config = 133;
+}
+
+message NodePoolDefaults {
+
+	NodeConfigDefaults node_config_defaults = 1;
+}
+
+message NodeConfigDefaults {
+
 }
 
 message ClusterUpdate {
@@ -657,8 +862,28 @@ message ClusterUpdate {
 	string desired_logging_service = 19;
 	ResourceUsageExportConfig desired_resource_usage_export_config = 21;
 	VerticalPodAutoscaling desired_vertical_pod_autoscaling = 22;
+	PrivateClusterConfig desired_private_cluster_config = 25;
 	IntraNodeVisibilityConfig desired_intra_node_visibility_config = 26;
+	DefaultSnatStatus desired_default_snat_status = 28;
+	ClusterTelemetry desired_cluster_telemetry = 30;
+	ReleaseChannel desired_release_channel = 31;
+	TpuConfig desired_tpu_config = 38;
+	ILBSubsettingConfig desired_l4ilb_subsetting_config = 39;
+	DatapathProvider desired_datapath_provider = 50;
+	PrivateIPv6GoogleAccess desired_private_ipv6_google_access = 51;
+	NotificationConfig desired_notification_config = 55;
 	string desired_master_version = 100;
+	DatabaseEncryption desired_database_encryption = 46;
+	WorkloadIdentityConfig desired_workload_identity_config = 47;
+	WorkloadCertificates desired_workload_certificates = 61;
+	ShieldedNodes desired_shielded_nodes = 48;
+	Master desired_master = 52;
+	DNSConfig desired_dns_config = 53;
+	ServiceExternalIPsConfig desired_service_external_ips_config = 60;
+	AuthenticatorGroupsConfig desired_authenticator_groups_config = 63;
+	LoggingConfig desired_logging_config = 64;
+	MonitoringConfig desired_monitoring_config = 65;
+	IdentityServiceConfig desired_identity_service_config = 66;
 }
 
 message Operation {
@@ -701,23 +926,33 @@ message Operation {
 	Status status = 4;
 	string detail = 8;
 	string status_message = 5 [
-		deprecated = true
+		deprecated = true,
+		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	string self_link = 6;
 	string target_link = 7;
 	string location = 9;
 	string start_time = 10;
 	string end_time = 11;
-	OperationProgress progress = 12;
-	repeated StatusCondition cluster_conditions = 13;
-	repeated StatusCondition nodepool_conditions = 14;
+	OperationProgress progress = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated StatusCondition cluster_conditions = 13 [
+		deprecated = true
+	];
+	repeated StatusCondition nodepool_conditions = 14 [
+		deprecated = true
+	];
+	google.rpc.Status error = 15;
 }
 
 message OperationProgress {
 
 	message Metric {
 
-		string name = 1;
+		string name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
 		oneof value {
 			int64 int_value = 2;
 			double double_value = 3;
@@ -808,8 +1043,16 @@ message UpdateNodePoolRequest {
 	string image_type = 6 [
 		(google.api.field_behavior) = REQUIRED
 	];
+	repeated string locations = 13;
 	WorkloadMetadataConfig workload_metadata_config = 14;
 	string name = 8;
+	UpgradeSettings upgrade_settings = 15;
+	NetworkTags tags = 16;
+	NodeTaints taints = 17;
+	NodeLabels labels = 18;
+	LinuxNodeConfig linux_node_config = 19;
+	NodeKubeletConfig kubelet_config = 20;
+	VirtualNIC gvnic = 29;
 }
 
 message SetNodePoolAutoscalingRequest {
@@ -1071,11 +1314,42 @@ message GetServerConfigRequest {
 
 message ServerConfig {
 
+	message ReleaseChannelConfig {
+
+		message AvailableVersion {
+			option deprecated = true;
+
+			string version = 1;
+			string reason = 2;
+		}
+
+		Channel channel = 1;
+		string default_version = 2;
+		repeated AvailableVersion available_versions = 3 [
+			deprecated = true
+		];
+		repeated string valid_versions = 4;
+	}
+
 	string default_cluster_version = 1;
 	repeated string valid_node_versions = 3;
 	string default_image_type = 4;
 	repeated string valid_image_types = 5;
 	repeated string valid_master_versions = 6;
+	repeated ReleaseChannelConfig channels = 9;
+	map<string, WindowsVersions> windows_version_maps = 10;
+}
+
+message WindowsVersions {
+
+	message WindowsVersion {
+
+		string image_type = 1;
+		string os_version = 2;
+		google.type.Date support_end_date = 3;
+	}
+
+	repeated WindowsVersion windows_versions = 1;
 }
 
 message CreateNodePoolRequest {
@@ -1159,6 +1433,12 @@ message GetNodePoolRequest {
 
 message NodePool {
 
+	message UpgradeSettings {
+
+		int32 max_surge = 1;
+		int32 max_unavailable = 2;
+	}
+
 	enum Status {
 
 		STATUS_UNSPECIFIED = 0;
@@ -1173,6 +1453,8 @@ message NodePool {
 	string name = 1;
 	NodeConfig config = 2;
 	int32 initial_node_count = 3;
+	repeated string locations = 13;
+	NodeNetworkConfig network_config = 14;
 	string self_link = 100;
 	string version = 101;
 	repeated string instance_group_urls = 102;
@@ -1185,6 +1467,7 @@ message NodePool {
 	MaxPodsConstraint max_pods_constraint = 6;
 	repeated StatusCondition conditions = 105;
 	int32 pod_ipv4_cidr_size = 7;
+	UpgradeSettings upgrade_settings = 107;
 }
 
 message NodeManagement {
@@ -1309,8 +1592,16 @@ message ListNodePoolsResponse {
 
 message ClusterAutoscaling {
 
+	enum AutoscalingProfile {
+
+		PROFILE_UNSPECIFIED = 0;
+		OPTIMIZE_UTILIZATION = 1;
+		BALANCED = 2;
+	}
+
 	bool enable_node_autoprovisioning = 1;
 	repeated ResourceLimit resource_limits = 2;
+	AutoscalingProfile autoscaling_profile = 3;
 	AutoprovisioningNodePoolDefaults autoprovisioning_node_pool_defaults = 4;
 	repeated string autoprovisioning_locations = 5;
 }
@@ -1319,6 +1610,14 @@ message AutoprovisioningNodePoolDefaults {
 
 	repeated string oauth_scopes = 1;
 	string service_account = 2;
+	UpgradeSettings upgrade_settings = 3;
+	NodeManagement management = 4;
+	string min_cpu_platform = 5;
+	int32 disk_size_gb = 6;
+	string disk_type = 7;
+	ShieldedInstanceConfig shielded_instance_config = 8;
+	string boot_disk_kms_key = 9;
+	string image_type = 10;
 }
 
 message ResourceLimit {
@@ -1418,6 +1717,7 @@ message AcceleratorConfig {
 
 	int64 accelerator_count = 1;
 	string accelerator_type = 2;
+	string gpu_partition_size = 3;
 }
 
 message WorkloadMetadataConfig {
@@ -1427,9 +1727,20 @@ message WorkloadMetadataConfig {
 		UNSPECIFIED = 0;
 		SECURE = 1;
 		EXPOSE = 2;
+		GKE_METADATA_SERVER = 3;
 	}
 
-	NodeMetadata node_metadata = 1;
+	enum Mode {
+
+		MODE_UNSPECIFIED = 0;
+		GCE_METADATA = 1;
+		GKE_METADATA = 2;
+	}
+
+	NodeMetadata node_metadata = 1 [
+		deprecated = true
+	];
+	Mode mode = 2;
 }
 
 message SetNetworkPolicyRequest {
@@ -1499,6 +1810,7 @@ message Location {
 message StatusCondition {
 
 	enum Code {
+		option deprecated = true;
 
 		UNKNOWN = 0;
 		GCE_STOCKOUT = 1;
@@ -1506,10 +1818,14 @@ message StatusCondition {
 		GCE_QUOTA_EXCEEDED = 3;
 		SET_BY_OPERATOR = 4;
 		CLOUD_KMS_KEY_ERROR = 7;
+		CA_EXPIRING = 9;
 	}
 
-	Code code = 1;
+	Code code = 1 [
+		deprecated = true
+	];
 	string message = 2;
+	google.rpc.Code canonical_code = 3;
 }
 
 message NetworkConfig {
@@ -1517,6 +1833,17 @@ message NetworkConfig {
 	string network = 1;
 	string subnetwork = 2;
 	bool enable_intra_node_visibility = 5;
+	DefaultSnatStatus default_snat_status = 7;
+	bool enable_l4ilb_subsetting = 10;
+	DatapathProvider datapath_provider = 11;
+	PrivateIPv6GoogleAccess private_ipv6_google_access = 12;
+	DNSConfig dns_config = 13;
+	ServiceExternalIPsConfig service_external_ips_config = 15;
+}
+
+message ServiceExternalIPsConfig {
+
+	bool enabled = 1;
 }
 
 message ListUsableSubnetworksRequest {
@@ -1565,14 +1892,59 @@ message VerticalPodAutoscaling {
 	bool enabled = 1;
 }
 
+message DefaultSnatStatus {
+
+	bool disabled = 1;
+}
+
 message IntraNodeVisibilityConfig {
 
 	bool enabled = 1;
 }
 
+message ILBSubsettingConfig {
+
+	bool enabled = 1;
+}
+
+message DNSConfig {
+
+	enum Provider {
+
+		PROVIDER_UNSPECIFIED = 0;
+		PLATFORM_DEFAULT = 1;
+		CLOUD_DNS = 2;
+	}
+
+	enum DNSScope {
+
+		DNS_SCOPE_UNSPECIFIED = 0;
+		CLUSTER_SCOPE = 1;
+		VPC_SCOPE = 2;
+	}
+
+	Provider cluster_dns = 1;
+	DNSScope cluster_dns_scope = 2;
+	string cluster_dns_domain = 3;
+}
+
 message MaxPodsConstraint {
 
 	int64 max_pods_per_node = 1;
+}
+
+message WorkloadIdentityConfig {
+
+	string identity_namespace = 1 [
+		deprecated = true
+	];
+	string workload_pool = 2;
+	string identity_provider = 3;
+}
+
+message WorkloadCertificates {
+
+	google.protobuf.BoolValue enable_certificates = 1;
 }
 
 message DatabaseEncryption {
@@ -1603,4 +1975,160 @@ message ResourceUsageExportConfig {
 	BigQueryDestination bigquery_destination = 1;
 	bool enable_network_egress_metering = 2;
 	ConsumptionMeteringConfig consumption_metering_config = 3;
+}
+
+message ShieldedNodes {
+
+	bool enabled = 1;
+}
+
+message VirtualNIC {
+
+	bool enabled = 1;
+}
+
+message GetOpenIDConfigRequest {
+
+	string parent = 1;
+}
+
+message GetOpenIDConfigResponse {
+
+	string issuer = 1;
+	string jwks_uri = 2;
+	repeated string response_types_supported = 3;
+	repeated string subject_types_supported = 4;
+	repeated string id_token_signing_alg_values_supported = 5;
+	repeated string claims_supported = 6;
+	repeated string grant_types = 7;
+}
+
+message GetJSONWebKeysRequest {
+
+	string parent = 1;
+}
+
+message Jwk {
+
+	string kty = 1;
+	string alg = 2;
+	string use = 3;
+	string kid = 4;
+	string n = 5;
+	string e = 6;
+	string x = 7;
+	string y = 8;
+	string crv = 9;
+}
+
+message GetJSONWebKeysResponse {
+
+	repeated Jwk keys = 1;
+}
+
+message ReleaseChannel {
+
+	enum Channel {
+
+		UNSPECIFIED = 0;
+		RAPID = 1;
+		REGULAR = 2;
+		STABLE = 3;
+	}
+
+	Channel channel = 1;
+}
+
+message TpuConfig {
+
+	bool enabled = 1;
+	bool use_service_networking = 2;
+	string ipv4_cidr_block = 3;
+}
+
+message Master {
+
+}
+
+message Autopilot {
+
+	bool enabled = 1;
+}
+
+message NotificationConfig {
+
+	message PubSub {
+
+		bool enabled = 1;
+		string topic = 2 [
+			(google.api.resource_reference) = {
+				type: "pubsub.googleapis.com/Topic"
+			}
+		];
+	}
+
+	PubSub pubsub = 1;
+}
+
+message ConfidentialNodes {
+
+	bool enabled = 1;
+}
+
+message UpgradeEvent {
+
+	UpgradeResourceType resource_type = 1;
+	string operation = 2;
+	google.protobuf.Timestamp operation_start_time = 3;
+	string current_version = 4;
+	string target_version = 5;
+	string resource = 6;
+}
+
+message UpgradeAvailableEvent {
+
+	string version = 1;
+	UpgradeResourceType resource_type = 2;
+	ReleaseChannel release_channel = 3;
+	string resource = 4;
+	WindowsVersions windows_versions = 5;
+}
+
+message IdentityServiceConfig {
+
+	bool enabled = 1;
+}
+
+message LoggingConfig {
+
+	LoggingComponentConfig component_config = 1;
+}
+
+message LoggingComponentConfig {
+
+	enum Component {
+
+		COMPONENT_UNSPECIFIED = 0;
+		SYSTEM_COMPONENTS = 1;
+		WORKLOADS = 2;
+	}
+
+	repeated Component enable_components = 1;
+}
+
+message MonitoringConfig {
+
+	MonitoringComponentConfig component_config = 1;
+}
+
+message MonitoringComponentConfig {
+
+	enum Component {
+
+		COMPONENT_UNSPECIFIED = 0;
+		SYSTEM_COMPONENTS = 1;
+		WORKLOADS = 2;
+	}
+
+	repeated Component enable_components = 1;
 }

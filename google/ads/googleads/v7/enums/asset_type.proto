@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.enums";
+option java_outer_classname = "AssetTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V7::Enums";
+
+
+message AssetTypeEnum {
+
+	enum AssetType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		YOUTUBE_VIDEO = 2;
+		MEDIA_BUNDLE = 3;
+		IMAGE = 4;
+		TEXT = 5;
+		LEAD_FORM = 6;
+		BOOK_ON_GOOGLE = 7;
+		PROMOTION = 8;
+		CALLOUT = 9;
+		STRUCTURED_SNIPPET = 10;
+		SITELINK = 11;
+	}
+
+}

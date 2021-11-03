@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema.predict.params;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema.predict.params";
+option java_outer_classname = "ImageSegmentationPredictionParamsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema/predict/params;params";
+
+
+message ImageSegmentationPredictionParams {
+
+	float confidence_threshold = 1;
+}

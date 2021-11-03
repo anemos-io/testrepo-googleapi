@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.errors";
+option java_outer_classname = "CustomAudienceErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V8::Errors";
+
+
+message CustomAudienceErrorEnum {
+
+	enum CustomAudienceError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		NAME_ALREADY_USED = 2;
+		CANNOT_REMOVE_WHILE_IN_USE = 3;
+		RESOURCE_ALREADY_REMOVED = 4;
+		MEMBER_TYPE_AND_PARAMETER_ALREADY_EXISTED = 5;
+		INVALID_MEMBER_TYPE = 6;
+		MEMBER_TYPE_AND_VALUE_DOES_NOT_MATCH = 7;
+		POLICY_VIOLATION = 8;
+		INVALID_TYPE_CHANGE = 9;
+	}
+
+}

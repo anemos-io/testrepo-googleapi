@@ -17,6 +17,7 @@ option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v
 option cc_enable_arenas = true;
 option objc_class_prefix = "DF";
 option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
 
 
 service SessionEntityTypes {

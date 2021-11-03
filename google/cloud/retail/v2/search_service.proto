@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/retail/v2/common.proto";
+import "google/cloud/retail/v2/product.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.cloud.retail.v2";
+option java_outer_classname = "SearchServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2";
+option php_namespace = "Google\\Cloud\\Retail\\V2";
+option ruby_package = "Google::Cloud::Retail::V2";
+
+
+service SearchService {
+	option (google.api.default_host) = "retail.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc Search(google.cloud.retail.v2.SearchRequest) returns (google.cloud.retail.v2.SearchResponse) {
+		option (google.api.http) = {
+			post: "/v2/{placement=projects/*/locations/*/catalogs/*/placements/*}:search"
+			body: "*"
+		};
+
+	}
+}
+
+message SearchRequest {
+
+	message FacetSpec {
+
+		message FacetKey {
+
+			string key = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			repeated google.cloud.retail.v2.Interval intervals = 2;
+			repeated string restricted_values = 3;
+			repeated string prefixes = 8;
+			repeated string contains = 9;
+			string order_by = 4;
+			string query = 5;
+		}
+
+		FacetKey facet_key = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 limit = 2;
+		repeated string excluded_filter_keys = 3;
+		bool enable_dynamic_position = 4;
+	}
+
+	message DynamicFacetSpec {
+
+		enum Mode {
+
+			MODE_UNSPECIFIED = 0;
+			DISABLED = 1;
+			ENABLED = 2;
+		}
+
+		Mode mode = 1;
+	}
+
+	message BoostSpec {
+
+		message ConditionBoostSpec {
+
+			string condition = 1;
+			float boost = 2;
+		}
+
+		repeated ConditionBoostSpec condition_boost_specs = 1;
+	}
+
+	message QueryExpansionSpec {
+
+		enum Condition {
+
+			CONDITION_UNSPECIFIED = 0;
+			DISABLED = 1;
+			AUTO = 3;
+		}
+
+		Condition condition = 1;
+		bool pin_unexpanded_results = 2;
+	}
+
+	enum SearchMode {
+
+		SEARCH_MODE_UNSPECIFIED = 0;
+		PRODUCT_SEARCH_ONLY = 1;
+		FACETED_SEARCH_ONLY = 2;
+	}
+
+	string placement = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string branch = 2 [
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Branch"
+		}
+	];
+	string query = 3;
+	string visitor_id = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.retail.v2.UserInfo user_info = 5;
+	int32 page_size = 7;
+	string page_token = 8;
+	int32 offset = 9;
+	string filter = 10;
+	string canonical_filter = 28;
+	string order_by = 11;
+	repeated FacetSpec facet_specs = 12;
+	DynamicFacetSpec dynamic_facet_spec = 21;
+	BoostSpec boost_spec = 13;
+	QueryExpansionSpec query_expansion_spec = 14;
+	repeated string variant_rollup_keys = 17;
+	repeated string page_categories = 23;
+	SearchMode search_mode = 31;
+}
+
+message SearchResponse {
+
+	message SearchResult {
+
+		string id = 1;
+		google.cloud.retail.v2.Product product = 2;
+		int32 matching_variant_count = 3;
+		map<string, google.protobuf.FieldMask> matching_variant_fields = 4;
+		map<string, google.protobuf.Value> variant_rollup_values = 5;
+	}
+
+	message Facet {
+
+		message FacetValue {
+
+			oneof facet_value {
+				string value = 1;
+				google.cloud.retail.v2.Interval interval = 2;
+			}
+			int64 count = 3;
+		}
+
+		string key = 1;
+		repeated FacetValue values = 2;
+		bool dynamic_facet = 3;
+	}
+
+	message QueryExpansionInfo {
+
+		bool expanded_query = 1;
+		int64 pinned_result_count = 2;
+	}
+
+	repeated SearchResult results = 1;
+	repeated Facet facets = 2;
+	int32 total_size = 3;
+	string corrected_query = 4;
+	string attribution_token = 5;
+	string next_page_token = 6;
+	QueryExpansionInfo query_expansion_info = 7;
+	string redirect_uri = 10;
+}

@@ -1,0 +1,351 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/common/criteria.proto";
+import "google/ads/googleads/v8/common/extensions.proto";
+import "google/ads/googleads/v8/enums/keyword_match_type.proto";
+import "google/ads/googleads/v8/enums/recommendation_type.proto";
+import "google/ads/googleads/v8/enums/target_cpa_opt_in_recommendation_goal.proto";
+import "google/ads/googleads/v8/resources/ad.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "RecommendationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message Recommendation {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/Recommendation"
+		pattern: ["customers/{customer_id}/recommendations/{recommendation_id}"]
+	};
+
+	message RecommendationImpact {
+
+		RecommendationMetrics base_metrics = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		RecommendationMetrics potential_metrics = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message RecommendationMetrics {
+
+		oneof _impressions {
+			double impressions = 6 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _clicks {
+			double clicks = 7 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _cost_micros {
+			int64 cost_micros = 8 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _conversions {
+			double conversions = 9 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _video_views {
+			double video_views = 10 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message CampaignBudgetRecommendation {
+
+		message CampaignBudgetRecommendationOption {
+
+			oneof _budget_amount_micros {
+				int64 budget_amount_micros = 3 [
+					(google.api.field_behavior) = OUTPUT_ONLY
+				];
+			}
+			RecommendationImpact impact = 2 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+
+		oneof _current_budget_amount_micros {
+			int64 current_budget_amount_micros = 7 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _recommended_budget_amount_micros {
+			int64 recommended_budget_amount_micros = 8 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		repeated CampaignBudgetRecommendationOption budget_options = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message KeywordRecommendation {
+
+		google.ads.googleads.v8.common.KeywordInfo keyword = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		oneof _recommended_cpc_bid_micros {
+			int64 recommended_cpc_bid_micros = 3 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message KeywordMatchTypeRecommendation {
+
+		google.ads.googleads.v8.common.KeywordInfo keyword = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.enums.KeywordMatchTypeEnum.KeywordMatchType recommended_match_type = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message TextAdRecommendation {
+
+		google.ads.googleads.v8.resources.Ad ad = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		oneof _creation_date {
+			string creation_date = 4 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _auto_apply_date {
+			string auto_apply_date = 5 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message MoveUnusedBudgetRecommendation {
+
+		oneof _excess_campaign_budget {
+			string excess_campaign_budget = 3 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		CampaignBudgetRecommendation budget_recommendation = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message TargetCpaOptInRecommendation {
+
+		message TargetCpaOptInRecommendationOption {
+
+			google.ads.googleads.v8.enums.TargetCpaOptInRecommendationGoalEnum.TargetCpaOptInRecommendationGoal goal = 1 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+			oneof _target_cpa_micros {
+				int64 target_cpa_micros = 5 [
+					(google.api.field_behavior) = OUTPUT_ONLY
+				];
+			}
+			oneof _required_campaign_budget_amount_micros {
+				int64 required_campaign_budget_amount_micros = 6 [
+					(google.api.field_behavior) = OUTPUT_ONLY
+				];
+			}
+			RecommendationImpact impact = 4 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+
+		repeated TargetCpaOptInRecommendationOption options = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		oneof _recommended_target_cpa_micros {
+			int64 recommended_target_cpa_micros = 3 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message ResponsiveSearchAdRecommendation {
+
+		google.ads.googleads.v8.resources.Ad ad = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message MaximizeConversionsOptInRecommendation {
+
+		oneof _recommended_budget_amount_micros {
+			int64 recommended_budget_amount_micros = 2 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message CalloutExtensionRecommendation {
+
+		repeated google.ads.googleads.v8.common.CalloutFeedItem recommended_extensions = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message EnhancedCpcOptInRecommendation {
+
+	}
+
+	message SearchPartnersOptInRecommendation {
+
+	}
+
+	message OptimizeAdRotationRecommendation {
+
+	}
+
+	message MaximizeClicksOptInRecommendation {
+
+		oneof _recommended_budget_amount_micros {
+			int64 recommended_budget_amount_micros = 2 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message SitelinkExtensionRecommendation {
+
+		repeated google.ads.googleads.v8.common.SitelinkFeedItem recommended_extensions = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message TargetRoasOptInRecommendation {
+
+		oneof _recommended_target_roas {
+			double recommended_target_roas = 1 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _required_campaign_budget_amount_micros {
+			int64 required_campaign_budget_amount_micros = 2 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message CallExtensionRecommendation {
+
+		repeated google.ads.googleads.v8.common.CallFeedItem recommended_extensions = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Recommendation"
+		}
+	];
+	google.ads.googleads.v8.enums.RecommendationTypeEnum.RecommendationType type = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	RecommendationImpact impact = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _campaign_budget {
+		string campaign_budget = 24 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/CampaignBudget"
+			}
+		];
+	}
+	oneof _campaign {
+		string campaign = 25 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Campaign"
+			}
+		];
+	}
+	oneof _ad_group {
+		string ad_group = 26 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroup"
+			}
+		];
+	}
+	oneof _dismissed {
+		bool dismissed = 27 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof recommendation {
+		CampaignBudgetRecommendation campaign_budget_recommendation = 4 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		CampaignBudgetRecommendation forecasting_campaign_budget_recommendation = 22 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		KeywordRecommendation keyword_recommendation = 8 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		TextAdRecommendation text_ad_recommendation = 9 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		TargetCpaOptInRecommendation target_cpa_opt_in_recommendation = 10 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		MaximizeConversionsOptInRecommendation maximize_conversions_opt_in_recommendation = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		EnhancedCpcOptInRecommendation enhanced_cpc_opt_in_recommendation = 12 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		SearchPartnersOptInRecommendation search_partners_opt_in_recommendation = 14 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		MaximizeClicksOptInRecommendation maximize_clicks_opt_in_recommendation = 15 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		OptimizeAdRotationRecommendation optimize_ad_rotation_recommendation = 16 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		CalloutExtensionRecommendation callout_extension_recommendation = 17 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		SitelinkExtensionRecommendation sitelink_extension_recommendation = 18 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		CallExtensionRecommendation call_extension_recommendation = 19 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		KeywordMatchTypeRecommendation keyword_match_type_recommendation = 20 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		MoveUnusedBudgetRecommendation move_unused_budget_recommendation = 21 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		TargetRoasOptInRecommendation target_roas_opt_in_recommendation = 23 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		ResponsiveSearchAdRecommendation responsive_search_ad_recommendation = 28 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		CampaignBudgetRecommendation marginal_roi_campaign_budget_recommendation = 29 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

@@ -28,6 +28,9 @@ service EntityTypes {
 		option (google.api.method_signature) = "parent,language_code";
 		option (google.api.http) = {
 			get: "/v2/{parent=projects/*/agent}/entityTypes"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*/agent}/entityTypes"
+			}
 		};
 
 	}
@@ -36,6 +39,9 @@ service EntityTypes {
 		option (google.api.method_signature) = "name,language_code";
 		option (google.api.http) = {
 			get: "/v2/{name=projects/*/agent/entityTypes/*}"
+			additional_bindings: {
+				get: "/v2/{name=projects/*/locations/*/agent/entityTypes/*}"
+			}
 		};
 
 	}
@@ -45,6 +51,10 @@ service EntityTypes {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent}/entityTypes"
 			body: "entity_type"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent}/entityTypes"
+				body: "entity_type"
+			}
 		};
 
 	}
@@ -54,6 +64,10 @@ service EntityTypes {
 		option (google.api.http) = {
 			patch: "/v2/{entity_type.name=projects/*/agent/entityTypes/*}"
 			body: "entity_type"
+			additional_bindings: {
+				patch: "/v2/{entity_type.name=projects/*/locations/*/agent/entityTypes/*}"
+				body: "entity_type"
+			}
 		};
 
 	}
@@ -61,6 +75,9 @@ service EntityTypes {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			delete: "/v2/{name=projects/*/agent/entityTypes/*}"
+			additional_bindings: {
+				delete: "/v2/{name=projects/*/locations/*/agent/entityTypes/*}"
+			}
 		};
 
 	}
@@ -72,6 +89,10 @@ service EntityTypes {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent}/entityTypes:batchUpdate"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent}/entityTypes:batchUpdate"
+				body: "*"
+			}
 		};
 
 	}
@@ -84,6 +105,10 @@ service EntityTypes {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent}/entityTypes:batchDelete"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent}/entityTypes:batchDelete"
+				body: "*"
+			}
 		};
 
 	}
@@ -97,6 +122,10 @@ service EntityTypes {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent/entityTypes/*}/entities:batchCreate"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent/entityTypes/*}/entities:batchCreate"
+				body: "*"
+			}
 		};
 
 	}
@@ -110,6 +139,10 @@ service EntityTypes {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent/entityTypes/*}/entities:batchUpdate"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent/entityTypes/*}/entities:batchUpdate"
+				body: "*"
+			}
 		};
 
 	}
@@ -123,6 +156,10 @@ service EntityTypes {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent/entityTypes/*}/entities:batchDelete"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent/entityTypes/*}/entities:batchDelete"
+				body: "*"
+			}
 		};
 
 	}
@@ -131,7 +168,7 @@ service EntityTypes {
 message EntityType {
 	option (google.api.resource) = {
 		type: "dialogflow.googleapis.com/EntityType"
-		pattern: ["projects/{project}/agent/entityTypes/{entity_type}"]
+		pattern: ["projects/{project}/agent/entityTypes/{entity_type}","projects/{project}/locations/{location}/agent/entityTypes/{entity_type}"]
 	};
 
 	message Entity {

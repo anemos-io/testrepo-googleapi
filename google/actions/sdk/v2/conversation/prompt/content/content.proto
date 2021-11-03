@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+import "google/actions/sdk/v2/conversation/prompt/content/canvas.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/card.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/collection.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/image.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/list.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/media.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/table.proto";
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "ContentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Content {
+
+	oneof content {
+		google.actions.sdk.v2.conversation.Card card = 1;
+		google.actions.sdk.v2.conversation.Image image = 2;
+		google.actions.sdk.v2.conversation.Table table = 3;
+		google.actions.sdk.v2.conversation.Media media = 4;
+		google.actions.sdk.v2.conversation.Canvas canvas = 5 [
+			deprecated = true
+		];
+		google.actions.sdk.v2.conversation.Collection collection = 6;
+		google.actions.sdk.v2.conversation.List list = 7;
+	}
+}

@@ -11,6 +11,7 @@ option java_package = "com.google.cloud.osconfig.agentendpoint.v1beta";
 option java_outer_classname = "AgentEndpointProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1beta;agentendpoint";
+option php_namespace = "Google\\Cloud\\OsConfig\\V1beta";
 
 
 service AgentEndpointService {

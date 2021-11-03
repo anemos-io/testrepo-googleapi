@@ -64,6 +64,12 @@ message RouteTravelAdvisory {
 message RouteLegTravelAdvisory {
 
 	TollInfo toll_info = 1;
+	repeated SpeedReadingInterval speed_reading_intervals = 2;
+}
+
+message RouteLegStepTravelAdvisory {
+
+	repeated SpeedReadingInterval speed_reading_intervals = 1;
 }
 
 message TrafficRestriction {
@@ -101,6 +107,7 @@ message RouteLegStep {
 	google.maps.routes.v1.Location start_location = 4;
 	google.maps.routes.v1.Location end_location = 5;
 	NavigationInstruction navigation_instruction = 6;
+	RouteLegStepTravelAdvisory travel_advisory = 7;
 }
 
 message NavigationInstruction {

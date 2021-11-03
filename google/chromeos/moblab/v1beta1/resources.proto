@@ -44,6 +44,22 @@ message Build {
 		pattern: ["buildTargets/{build_target}/models/{model}/builds/{build}"]
 	};
 
+	enum BuildStatus {
+
+		BUILD_STATUS_UNSPECIFIED = 0;
+		PASS = 1;
+		FAIL = 2;
+		RUNNING = 3;
+		ABORTED = 4;
+	}
+
+	enum BuildType {
+
+		BUILD_TYPE_UNSPECIFIED = 0;
+		RELEASE = 1;
+		FIRMWARE = 2;
+	}
+
 	string name = 1;
 	string milestone = 2 [
 		(google.api.resource_reference) = {
@@ -51,6 +67,10 @@ message Build {
 		}
 	];
 	string build_version = 3;
+	BuildStatus status = 4;
+	BuildType type = 5;
+	string branch = 6;
+	string rw_firmware_version = 7;
 }
 
 message BuildArtifact {

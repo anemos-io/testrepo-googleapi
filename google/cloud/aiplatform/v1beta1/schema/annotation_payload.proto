@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema;
+
+import "google/cloud/aiplatform/v1beta1/schema/annotation_spec_color.proto";
+import "google/cloud/aiplatform/v1beta1/schema/geometry.proto";
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema";
+option java_outer_classname = "AnnotationPayloadProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema;schema";
+
+
+message ImageClassificationAnnotation {
+
+	string annotation_spec_id = 1;
+	string display_name = 2;
+}
+
+message ImageBoundingBoxAnnotation {
+
+	string annotation_spec_id = 1;
+	string display_name = 2;
+	double x_min = 3;
+	double x_max = 4;
+	double y_min = 5;
+	double y_max = 6;
+}
+
+message ImageSegmentationAnnotation {
+
+	message MaskAnnotation {
+
+		string mask_gcs_uri = 1;
+		repeated google.cloud.aiplatform.v1beta1.schema.AnnotationSpecColor annotation_spec_colors = 2;
+	}
+
+	message PolygonAnnotation {
+
+		repeated google.cloud.aiplatform.v1beta1.schema.Vertex vertexes = 1;
+		string annotation_spec_id = 2;
+		string display_name = 3;
+	}
+
+	message PolylineAnnotation {
+
+		repeated google.cloud.aiplatform.v1beta1.schema.Vertex vertexes = 1;
+		string annotation_spec_id = 2;
+		string display_name = 3;
+	}
+
+	oneof annotation {
+		MaskAnnotation mask_annotation = 3;
+		PolygonAnnotation polygon_annotation = 4;
+		PolylineAnnotation polyline_annotation = 5;
+	}
+}
+
+message TextClassificationAnnotation {
+
+	string annotation_spec_id = 1;
+	string display_name = 2;
+}
+
+message TextExtractionAnnotation {
+
+	TextSegment text_segment = 1;
+	string annotation_spec_id = 2;
+	string display_name = 3;
+}
+
+message TextSegment {
+
+	uint64 start_offset = 1;
+	uint64 end_offset = 2;
+	string content = 3;
+}
+
+message TextSentimentAnnotation {
+
+	int32 sentiment = 1;
+	int32 sentiment_max = 2;
+	string annotation_spec_id = 3;
+	string display_name = 4;
+}
+
+message VideoClassificationAnnotation {
+
+	TimeSegment time_segment = 1;
+	string annotation_spec_id = 2;
+	string display_name = 3;
+}
+
+message TimeSegment {
+
+	google.protobuf.Duration start_time_offset = 1;
+	google.protobuf.Duration end_time_offset = 2;
+}
+
+message VideoObjectTrackingAnnotation {
+
+	google.protobuf.Duration time_offset = 1;
+	double x_min = 2;
+	double x_max = 3;
+	double y_min = 4;
+	double y_max = 5;
+	int64 instance_id = 6;
+	string annotation_spec_id = 7;
+	string display_name = 8;
+}
+
+message VideoActionRecognitionAnnotation {
+
+	TimeSegment time_segment = 1;
+	string annotation_spec_id = 2;
+	string display_name = 3;
+}

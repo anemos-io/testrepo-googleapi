@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "StaticCanvasPromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message StaticCanvasPrompt {
+
+	string url = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.protobuf.Value data = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool suppress_mic = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool send_state_data_to_canvas_app = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool enable_full_screen = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package google.apps.drive.activity.v2;
+
+import "google/apps/drive/activity/v2/actor.proto";
+import "google/apps/drive/activity/v2/common.proto";
+
+option java_package = "com.google.apps.drive.activity.v2";
+option java_outer_classname = "TargetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/drive/activity/v2;activity";
+option objc_class_prefix = "GADA";
+option csharp_namespace = "Google.Apps.Drive.Activity.V2";
+option php_namespace = "Google\\Apps\\Drive\\Activity\\V2";
+
+
+message Target {
+
+	oneof object {
+		DriveItem drive_item = 1;
+		Drive drive = 5;
+		FileComment file_comment = 3;
+	}
+	TeamDrive team_drive = 2 [
+		deprecated = true
+	];
+}
+
+message TargetReference {
+
+	oneof object {
+		DriveItemReference drive_item = 1;
+		DriveReference drive = 3;
+	}
+	TeamDriveReference team_drive = 2 [
+		deprecated = true
+	];
+}
+
+message FileComment {
+
+	string legacy_comment_id = 1;
+	string legacy_discussion_id = 2;
+	string link_to_discussion = 3;
+	DriveItem parent = 4;
+}
+
+message DriveItem {
+
+	message File {
+		option deprecated = true;
+
+	}
+
+	message Folder {
+		option deprecated = true;
+
+		enum Type {
+			option deprecated = true;
+
+			TYPE_UNSPECIFIED = 0;
+			MY_DRIVE_ROOT = 1;
+			TEAM_DRIVE_ROOT = 2;
+			STANDARD_FOLDER = 3;
+		}
+
+		Type type = 6;
+	}
+
+	message DriveFile {
+
+	}
+
+	message DriveFolder {
+
+		enum Type {
+
+			TYPE_UNSPECIFIED = 0;
+			MY_DRIVE_ROOT = 1;
+			SHARED_DRIVE_ROOT = 2;
+			STANDARD_FOLDER = 3;
+		}
+
+		Type type = 6;
+	}
+
+	string name = 1;
+	string title = 2;
+	File file = 3 [
+		deprecated = true
+	];
+	Folder folder = 4 [
+		deprecated = true
+	];
+	oneof item_type {
+		DriveFile drive_file = 8;
+		DriveFolder drive_folder = 9;
+	}
+	string mime_type = 6;
+	Owner owner = 7;
+}
+
+message Owner {
+
+	oneof owner {
+		google.apps.drive.activity.v2.User user = 1;
+		DriveReference drive = 4;
+	}
+	TeamDriveReference team_drive = 2 [
+		deprecated = true
+	];
+	google.apps.drive.activity.v2.Domain domain = 3;
+}
+
+message TeamDrive {
+	option deprecated = true;
+
+	string name = 1;
+	string title = 2;
+	DriveItem root = 3;
+}
+
+message Drive {
+
+	string name = 1;
+	string title = 2;
+	DriveItem root = 3;
+}
+
+message DriveItemReference {
+
+	string name = 1;
+	string title = 2;
+	File file = 3 [
+		deprecated = true
+	];
+	Folder folder = 4 [
+		deprecated = true
+	];
+	oneof item_type {
+		DriveFile drive_file = 8;
+		DriveFolder drive_folder = 9;
+	}
+}
+
+message TeamDriveReference {
+	option deprecated = true;
+
+	string name = 1;
+	string title = 2;
+}
+
+message DriveReference {
+
+	string name = 1;
+	string title = 2;
+}

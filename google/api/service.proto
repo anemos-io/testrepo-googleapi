@@ -35,11 +35,10 @@ option objc_class_prefix = "GAPI";
 
 message Service {
 
-	google.protobuf.UInt32Value config_version = 20;
 	string name = 1;
-	string id = 33;
 	string title = 2;
 	string producer_project_id = 22;
+	string id = 33;
 	repeated google.protobuf.Api apis = 3;
 	repeated google.protobuf.Type types = 4;
 	repeated google.protobuf.Enum enums = 5;
@@ -60,4 +59,7 @@ message Service {
 	google.api.Monitoring monitoring = 28;
 	google.api.SystemParameters system_parameters = 29;
 	google.api.SourceInfo source_info = 37;
+	google.protobuf.UInt32Value config_version = 20 [
+		deprecated = true
+	];
 }

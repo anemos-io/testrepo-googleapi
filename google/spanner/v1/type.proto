@@ -27,6 +27,7 @@ enum TypeCode {
 	ARRAY = 8;
 	STRUCT = 9;
 	NUMERIC = 10;
+	JSON = 11;
 }
 
 message Type {

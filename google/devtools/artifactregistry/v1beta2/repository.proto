@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package google.devtools.artifactregistry.v1beta2;
+
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.artifactregistry.v1beta2";
+option java_outer_classname = "RepositoryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/artifactregistry/v1beta2;artifactregistry";
+option csharp_namespace = "Google.Cloud.ArtifactRegistry.V1Beta2";
+option php_namespace = "Google\\Cloud\\ArtifactRegistry\\V1beta2";
+option ruby_package = "Google::Cloud::ArtifactRegistry::V1beta2";
+
+
+message Repository {
+	option (google.api.resource) = {
+		type: "artifactregistry.googleapis.com/Repository"
+		pattern: ["projects/{project}/locations/{location}/repositories/{repository}"]
+	};
+
+	enum Format {
+
+		FORMAT_UNSPECIFIED = 0;
+		DOCKER = 1;
+	}
+
+	string name = 1;
+	Format format = 2;
+	string description = 3;
+	map<string, string> labels = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp update_time = 6;
+	string kms_key_name = 8;
+}
+
+message ListRepositoriesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListRepositoriesResponse {
+
+	repeated Repository repositories = 1;
+	string next_page_token = 2;
+}
+
+message GetRepositoryRequest {
+
+	string name = 1;
+}
+
+message CreateRepositoryRequest {
+
+	string parent = 1;
+	string repository_id = 2;
+	Repository repository = 3;
+}
+
+message UpdateRepositoryRequest {
+
+	Repository repository = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteRepositoryRequest {
+
+	string name = 1;
+}

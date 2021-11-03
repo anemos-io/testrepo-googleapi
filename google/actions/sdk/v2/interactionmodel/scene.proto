@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel;
+
+import "google/actions/sdk/v2/interactionmodel/conditional_event.proto";
+import "google/actions/sdk/v2/interactionmodel/event_handler.proto";
+import "google/actions/sdk/v2/interactionmodel/intent_event.proto";
+import "google/actions/sdk/v2/interactionmodel/slot.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel";
+option java_outer_classname = "SceneProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel;interactionmodel";
+
+
+message Scene {
+
+	google.actions.sdk.v2.interactionmodel.EventHandler on_enter = 1;
+	repeated google.actions.sdk.v2.interactionmodel.IntentEvent intent_events = 2;
+	repeated google.actions.sdk.v2.interactionmodel.ConditionalEvent conditional_events = 3;
+	repeated google.actions.sdk.v2.interactionmodel.Slot slots = 4;
+	google.actions.sdk.v2.interactionmodel.EventHandler on_slot_updated = 5;
+}

@@ -15,6 +15,20 @@ option php_namespace = "Google\\Maps\\Routes\\V1";
 enum TollPass {
 
 	TOLL_PASS_UNSPECIFIED = 0;
-	US_WA_GOOD_TO_GO = 1;
 	AU_LINKT = 2;
+	AR_TELEPASE = 3;
+	BR_CONECTCAR = 7;
+	BR_MOVE_MAIS = 8;
+	BR_SEM_PARAR = 9;
+	BR_TAGGY = 10;
+	BR_VELOE = 11;
+	ID_E_TOLL = 16;
+	MX_TAG_IAVE = 12;
+	MX_TAG_TELEVIA = 13;
+	MX_VIAPASS = 14;
+	US_CA_FASTRAK = 4;
+	US_IL_IPASS = 5;
+	US_MA_EZPASSMA = 6;
+	US_NY_EZPASSNY = 15;
+	US_WA_GOOD_TO_GO = 1;
 }

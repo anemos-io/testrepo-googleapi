@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package google.gapic.metadata;
+
+option java_package = "com.google.gapic.metadata";
+option java_outer_classname = "GapicMetadataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/gapic/metadata;metadata";
+option csharp_namespace = "Google.Gapic.Metadata";
+option php_namespace = "Google\\Gapic\\Metadata";
+option ruby_package = "Google::Gapic::Metadata";
+
+
+message GapicMetadata {
+
+	message ServiceForTransport {
+
+		map<string, ServiceAsClient> clients = 1;
+	}
+
+	message ServiceAsClient {
+
+		string library_client = 1;
+		map<string, MethodList> rpcs = 2;
+	}
+
+	message MethodList {
+
+		repeated string methods = 1;
+	}
+
+	string schema = 1;
+	string comment = 2;
+	string language = 3;
+	string proto_package = 4;
+	string library_package = 5;
+	map<string, ServiceForTransport> services = 6;
+}

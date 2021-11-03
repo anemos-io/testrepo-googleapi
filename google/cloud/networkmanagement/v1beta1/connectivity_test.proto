@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package google.cloud.networkmanagement.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/networkmanagement/v1beta1/trace.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.networkmanagement.v1beta1";
+option java_outer_classname = "TestOuterClass";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/networkmanagement/v1beta1;networkmanagement";
+option csharp_namespace = "Google.Cloud.NetworkManagement.V1Beta1";
+option php_namespace = "Google\\Cloud\\NetworkManagement\\V1beta1";
+option ruby_package = "Google::Cloud::NetworkManagement::V1beta1";
+
+
+message ConnectivityTest {
+	option (google.api.resource) = {
+		type: "networkmanagement.googleapis.com/ConnectivityTest"
+		pattern: ["projects/{project}/locations/global/connectivityTests/{test}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2;
+	Endpoint source = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Endpoint destination = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string protocol = 5;
+	repeated string related_projects = 6;
+	string display_name = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 8;
+	google.protobuf.Timestamp create_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ReachabilityDetails reachability_details = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ProbingDetails probing_details = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Endpoint {
+
+	enum NetworkType {
+
+		NETWORK_TYPE_UNSPECIFIED = 0;
+		GCP_NETWORK = 1;
+		NON_GCP_NETWORK = 2;
+	}
+
+	string ip_address = 1;
+	int32 port = 2;
+	string instance = 3;
+	string gke_master_cluster = 7;
+	string cloud_sql_instance = 8;
+	string network = 4;
+	NetworkType network_type = 5;
+	string project_id = 6;
+}
+
+message ReachabilityDetails {
+
+	enum Result {
+
+		RESULT_UNSPECIFIED = 0;
+		REACHABLE = 1;
+		UNREACHABLE = 2;
+		AMBIGUOUS = 4;
+		UNDETERMINED = 5;
+	}
+
+	Result result = 1;
+	google.protobuf.Timestamp verify_time = 2;
+	google.rpc.Status error = 3;
+	repeated google.cloud.networkmanagement.v1beta1.Trace traces = 5;
+}
+
+message LatencyPercentile {
+
+	int32 percent = 1;
+	int64 latency_micros = 2;
+}
+
+message LatencyDistribution {
+
+	repeated LatencyPercentile latency_percentiles = 1;
+}
+
+message ProbingDetails {
+
+	enum ProbingResult {
+
+		PROBING_RESULT_UNSPECIFIED = 0;
+		REACHABLE = 1;
+		UNREACHABLE = 2;
+		REACHABILITY_INCONSISTENT = 3;
+		UNDETERMINED = 4;
+	}
+
+	enum ProbingAbortCause {
+
+		PROBING_ABORT_CAUSE_UNSPECIFIED = 0;
+		PERMISSION_DENIED = 1;
+		NO_SOURCE_LOCATION = 2;
+	}
+
+	ProbingResult result = 1;
+	google.protobuf.Timestamp verify_time = 2;
+	google.rpc.Status error = 3;
+	ProbingAbortCause abort_cause = 4;
+	int32 sent_probe_count = 5;
+	int32 successful_probe_count = 6;
+	google.cloud.networkmanagement.v1beta1.EndpointInfo endpoint_info = 7;
+	LatencyDistribution probing_latency = 8;
+}

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "AcceleratorTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+enum AcceleratorType {
+
+	ACCELERATOR_TYPE_UNSPECIFIED = 0;
+	NVIDIA_TESLA_K80 = 1;
+	NVIDIA_TESLA_P100 = 2;
+	NVIDIA_TESLA_V100 = 3;
+	NVIDIA_TESLA_P4 = 4;
+	NVIDIA_TESLA_T4 = 5;
+	NVIDIA_TESLA_A100 = 8;
+}

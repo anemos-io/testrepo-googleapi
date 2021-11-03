@@ -6,6 +6,7 @@ import "google/api/label.proto";
 import "google/api/launch_stage.proto";
 import "google/api/resource.proto";
 import "google/monitoring/v3/common.proto";
+import "google/monitoring/v3/mutation_record.proto";
 import "google/protobuf/wrappers.proto";
 
 option java_package = "com.google.monitoring.v3";
@@ -55,4 +56,6 @@ message NotificationChannel {
 	map<string, string> user_labels = 8;
 	VerificationStatus verification_status = 9;
 	google.protobuf.BoolValue enabled = 11;
+	google.monitoring.v3.MutationRecord creation_record = 12;
+	repeated google.monitoring.v3.MutationRecord mutation_records = 13;
 }

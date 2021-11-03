@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package google.dataflow.v1beta3;
+
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.dataflow.v1beta3";
+option java_outer_classname = "SnapshotsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/dataflow/v1beta3;dataflow";
+option csharp_namespace = "Google.Cloud.Dataflow.V1Beta3";
+option php_namespace = "Google\\Cloud\\Dataflow\\V1beta3";
+option ruby_package = "Google::Cloud::Dataflow::V1beta3";
+
+
+enum SnapshotState {
+
+	UNKNOWN_SNAPSHOT_STATE = 0;
+	PENDING = 1;
+	RUNNING = 2;
+	READY = 3;
+	FAILED = 4;
+	DELETED = 5;
+}
+
+service SnapshotsV1Beta3 {
+	option (google.api.default_host) = "dataflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/compute,https://www.googleapis.com/auth/compute.readonly,https://www.googleapis.com/auth/userinfo.email";
+
+	rpc GetSnapshot(google.dataflow.v1beta3.GetSnapshotRequest) returns (google.dataflow.v1beta3.Snapshot) {}
+	rpc DeleteSnapshot(google.dataflow.v1beta3.DeleteSnapshotRequest) returns (google.dataflow.v1beta3.DeleteSnapshotResponse) {}
+	rpc ListSnapshots(google.dataflow.v1beta3.ListSnapshotsRequest) returns (google.dataflow.v1beta3.ListSnapshotsResponse) {}
+}
+
+message PubsubSnapshotMetadata {
+
+	string topic_name = 1;
+	string snapshot_name = 2;
+	google.protobuf.Timestamp expire_time = 3;
+}
+
+message Snapshot {
+
+	string id = 1;
+	string project_id = 2;
+	string source_job_id = 3;
+	google.protobuf.Timestamp creation_time = 4;
+	google.protobuf.Duration ttl = 5;
+	SnapshotState state = 6;
+	repeated PubsubSnapshotMetadata pubsub_metadata = 7;
+	string description = 8;
+	int64 disk_size_bytes = 9;
+	string region = 10;
+}
+
+message GetSnapshotRequest {
+
+	string project_id = 1;
+	string snapshot_id = 2;
+	string location = 3;
+}
+
+message DeleteSnapshotRequest {
+
+	string project_id = 1;
+	string snapshot_id = 2;
+	string location = 3;
+}
+
+message DeleteSnapshotResponse {
+
+}
+
+message ListSnapshotsRequest {
+
+	string project_id = 1;
+	string job_id = 3;
+	string location = 2;
+}
+
+message ListSnapshotsResponse {
+
+	repeated Snapshot snapshots = 1;
+}

@@ -1,0 +1,336 @@
+syntax = "proto3";
+
+package google.dataflow.v1beta3;
+
+import "google/api/annotations.proto";
+import "google/dataflow/v1beta3/environment.proto";
+import "google/dataflow/v1beta3/snapshots.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.dataflow.v1beta3";
+option java_outer_classname = "JobsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/dataflow/v1beta3;dataflow";
+option csharp_namespace = "Google.Cloud.Dataflow.V1Beta3";
+option php_namespace = "Google\\Cloud\\Dataflow\\V1beta3";
+option ruby_package = "Google::Cloud::Dataflow::V1beta3";
+
+
+enum KindType {
+
+	UNKNOWN_KIND = 0;
+	PAR_DO_KIND = 1;
+	GROUP_BY_KEY_KIND = 2;
+	FLATTEN_KIND = 3;
+	READ_KIND = 4;
+	WRITE_KIND = 5;
+	CONSTANT_KIND = 6;
+	SINGLETON_KIND = 7;
+	SHUFFLE_KIND = 8;
+}
+
+enum JobState {
+
+	JOB_STATE_UNKNOWN = 0;
+	JOB_STATE_STOPPED = 1;
+	JOB_STATE_RUNNING = 2;
+	JOB_STATE_DONE = 3;
+	JOB_STATE_FAILED = 4;
+	JOB_STATE_CANCELLED = 5;
+	JOB_STATE_UPDATED = 6;
+	JOB_STATE_DRAINING = 7;
+	JOB_STATE_DRAINED = 8;
+	JOB_STATE_PENDING = 9;
+	JOB_STATE_CANCELLING = 10;
+	JOB_STATE_QUEUED = 11;
+	JOB_STATE_RESOURCE_CLEANING_UP = 12;
+}
+
+enum JobView {
+
+	JOB_VIEW_UNKNOWN = 0;
+	JOB_VIEW_SUMMARY = 1;
+	JOB_VIEW_ALL = 2;
+	JOB_VIEW_DESCRIPTION = 3;
+}
+
+service JobsV1Beta3 {
+	option (google.api.default_host) = "dataflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/compute,https://www.googleapis.com/auth/compute.readonly,https://www.googleapis.com/auth/userinfo.email";
+
+	rpc CreateJob(google.dataflow.v1beta3.CreateJobRequest) returns (google.dataflow.v1beta3.Job) {}
+	rpc GetJob(google.dataflow.v1beta3.GetJobRequest) returns (google.dataflow.v1beta3.Job) {}
+	rpc UpdateJob(google.dataflow.v1beta3.UpdateJobRequest) returns (google.dataflow.v1beta3.Job) {}
+	rpc ListJobs(google.dataflow.v1beta3.ListJobsRequest) returns (google.dataflow.v1beta3.ListJobsResponse) {}
+	rpc AggregatedListJobs(google.dataflow.v1beta3.ListJobsRequest) returns (google.dataflow.v1beta3.ListJobsResponse) {}
+	rpc CheckActiveJobs(google.dataflow.v1beta3.CheckActiveJobsRequest) returns (google.dataflow.v1beta3.CheckActiveJobsResponse) {}
+	rpc SnapshotJob(google.dataflow.v1beta3.SnapshotJobRequest) returns (google.dataflow.v1beta3.Snapshot) {}
+}
+
+message Job {
+
+	string id = 1;
+	string project_id = 2;
+	string name = 3;
+	google.dataflow.v1beta3.JobType type = 4;
+	google.dataflow.v1beta3.Environment environment = 5;
+	repeated Step steps = 6;
+	string steps_location = 24;
+	JobState current_state = 7;
+	google.protobuf.Timestamp current_state_time = 8;
+	JobState requested_state = 9;
+	JobExecutionInfo execution_info = 10;
+	google.protobuf.Timestamp create_time = 11;
+	string replace_job_id = 12;
+	map<string, string> transform_name_mapping = 13;
+	string client_request_id = 14;
+	string replaced_by_job_id = 15;
+	repeated string temp_files = 16;
+	map<string, string> labels = 17;
+	string location = 18;
+	PipelineDescription pipeline_description = 19;
+	repeated ExecutionStageState stage_states = 20;
+	JobMetadata job_metadata = 21;
+	google.protobuf.Timestamp start_time = 22;
+	string created_from_snapshot_id = 23;
+	bool satisfies_pzs = 25;
+}
+
+message DatastoreIODetails {
+
+	string namespace = 1;
+	string project_id = 2;
+}
+
+message PubSubIODetails {
+
+	string topic = 1;
+	string subscription = 2;
+}
+
+message FileIODetails {
+
+	string file_pattern = 1;
+}
+
+message BigTableIODetails {
+
+	string project_id = 1;
+	string instance_id = 2;
+	string table_id = 3;
+}
+
+message BigQueryIODetails {
+
+	string table = 1;
+	string dataset = 2;
+	string project_id = 3;
+	string query = 4;
+}
+
+message SpannerIODetails {
+
+	string project_id = 1;
+	string instance_id = 2;
+	string database_id = 3;
+}
+
+message SdkVersion {
+
+	enum SdkSupportStatus {
+
+		UNKNOWN = 0;
+		SUPPORTED = 1;
+		STALE = 2;
+		DEPRECATED = 3;
+		UNSUPPORTED = 4;
+	}
+
+	string version = 1;
+	string version_display_name = 2;
+	SdkSupportStatus sdk_support_status = 3;
+}
+
+message JobMetadata {
+
+	SdkVersion sdk_version = 1;
+	repeated SpannerIODetails spanner_details = 2;
+	repeated BigQueryIODetails bigquery_details = 3;
+	repeated BigTableIODetails big_table_details = 4;
+	repeated PubSubIODetails pubsub_details = 5;
+	repeated FileIODetails file_details = 6;
+	repeated DatastoreIODetails datastore_details = 7;
+}
+
+message ExecutionStageState {
+
+	string execution_stage_name = 1;
+	JobState execution_stage_state = 2;
+	google.protobuf.Timestamp current_state_time = 3;
+}
+
+message PipelineDescription {
+
+	repeated TransformSummary original_pipeline_transform = 1;
+	repeated ExecutionStageSummary execution_pipeline_stage = 2;
+	repeated DisplayData display_data = 3;
+}
+
+message TransformSummary {
+
+	KindType kind = 1;
+	string id = 2;
+	string name = 3;
+	repeated DisplayData display_data = 4;
+	repeated string output_collection_name = 5;
+	repeated string input_collection_name = 6;
+}
+
+message ExecutionStageSummary {
+
+	message StageSource {
+
+		string user_name = 1;
+		string name = 2;
+		string original_transform_or_collection = 3;
+		int64 size_bytes = 4;
+	}
+
+	message ComponentTransform {
+
+		string user_name = 1;
+		string name = 2;
+		string original_transform = 3;
+	}
+
+	message ComponentSource {
+
+		string user_name = 1;
+		string name = 2;
+		string original_transform_or_collection = 3;
+	}
+
+	string name = 1;
+	string id = 2;
+	KindType kind = 3;
+	repeated StageSource input_source = 4;
+	repeated StageSource output_source = 5;
+	repeated string prerequisite_stage = 8;
+	repeated ComponentTransform component_transform = 6;
+	repeated ComponentSource component_source = 7;
+}
+
+message DisplayData {
+
+	string key = 1;
+	string namespace = 2;
+	oneof Value {
+		string str_value = 4;
+		int64 int64_value = 5;
+		float float_value = 6;
+		string java_class_value = 7;
+		google.protobuf.Timestamp timestamp_value = 8;
+		google.protobuf.Duration duration_value = 9;
+		bool bool_value = 10;
+	}
+	string short_str_value = 11;
+	string url = 12;
+	string label = 13;
+}
+
+message Step {
+
+	string kind = 1;
+	string name = 2;
+	google.protobuf.Struct properties = 3;
+}
+
+message JobExecutionInfo {
+
+	map<string, JobExecutionStageInfo> stages = 1;
+}
+
+message JobExecutionStageInfo {
+
+	repeated string step_name = 1;
+}
+
+message CreateJobRequest {
+
+	string project_id = 1;
+	Job job = 2;
+	JobView view = 3;
+	string replace_job_id = 4;
+	string location = 5;
+}
+
+message GetJobRequest {
+
+	string project_id = 1;
+	string job_id = 2;
+	JobView view = 3;
+	string location = 4;
+}
+
+message UpdateJobRequest {
+
+	string project_id = 1;
+	string job_id = 2;
+	Job job = 3;
+	string location = 4;
+}
+
+message ListJobsRequest {
+
+	enum Filter {
+
+		UNKNOWN = 0;
+		ALL = 1;
+		TERMINATED = 2;
+		ACTIVE = 3;
+	}
+
+	Filter filter = 5;
+	string project_id = 1;
+	JobView view = 2 [
+		deprecated = true
+	];
+	int32 page_size = 3;
+	string page_token = 4;
+	string location = 17;
+}
+
+message FailedLocation {
+
+	string name = 1;
+}
+
+message ListJobsResponse {
+
+	repeated Job jobs = 1;
+	string next_page_token = 2;
+	repeated FailedLocation failed_location = 3;
+}
+
+message SnapshotJobRequest {
+
+	string project_id = 1;
+	string job_id = 2;
+	google.protobuf.Duration ttl = 3;
+	string location = 4;
+	bool snapshot_sources = 5;
+	string description = 6;
+}
+
+message CheckActiveJobsRequest {
+
+	string project_id = 1;
+}
+
+message CheckActiveJobsResponse {
+
+	bool active_jobs_exist = 1;
+}

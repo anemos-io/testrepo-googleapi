@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/resource.proto";
+import "google/cloud/osconfig/v1/inventory.proto";
+import "google/cloud/osconfig/v1/vulnerability.proto";
+
+option java_package = "com.google.cloud.osconfig.v1";
+option java_outer_classname = "OsConfigZonalServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1;osconfig";
+option csharp_namespace = "Google.Cloud.OsConfig.V1";
+option php_namespace = "Google\\Cloud\\OsConfig\\V1";
+option ruby_package = "Google::Cloud::OsConfig::V1";
+
+
+service OsConfigZonalService {
+	option (google.api.default_host) = "osconfig.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetInventory(google.cloud.osconfig.v1.GetInventoryRequest) returns (google.cloud.osconfig.v1.Inventory) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/instances/*/inventory}"
+		};
+
+	}
+	rpc ListInventories(google.cloud.osconfig.v1.ListInventoriesRequest) returns (google.cloud.osconfig.v1.ListInventoriesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/instances/*}/inventories"
+		};
+
+	}
+	rpc GetVulnerabilityReport(google.cloud.osconfig.v1.GetVulnerabilityReportRequest) returns (google.cloud.osconfig.v1.VulnerabilityReport) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/instances/*/vulnerabilityReport}"
+		};
+
+	}
+	rpc ListVulnerabilityReports(google.cloud.osconfig.v1.ListVulnerabilityReportsRequest) returns (google.cloud.osconfig.v1.ListVulnerabilityReportsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/instances/*}/vulnerabilityReports"
+		};
+
+	}
+}

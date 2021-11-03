@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.errors";
+option java_outer_classname = "ThirdPartyAppAnalyticsLinkErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V7::Errors";
+
+
+message ThirdPartyAppAnalyticsLinkErrorEnum {
+
+	enum ThirdPartyAppAnalyticsLinkError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		INVALID_ANALYTICS_PROVIDER_ID = 2;
+		INVALID_MOBILE_APP_ID = 3;
+		MOBILE_APP_IS_NOT_ENABLED = 4;
+		CANNOT_REGENERATE_SHAREABLE_LINK_ID_FOR_REMOVED_LINK = 5;
+	}
+
+}

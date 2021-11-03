@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3beta1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
+option java_outer_classname = "AdvancedSettingsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3beta1;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
+
+
+message AdvancedSettings {
+
+	message LoggingSettings {
+
+		bool enable_stackdriver_logging = 2;
+		bool enable_interaction_logging = 3;
+	}
+
+	LoggingSettings logging_settings = 6;
+}

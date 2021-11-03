@@ -4,6 +4,7 @@ package google.cloud.secretmanager.v1;
 
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
@@ -35,6 +36,23 @@ message Secret {
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	map<string, string> labels = 4;
+	repeated Topic topics = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof expiration {
+		google.protobuf.Timestamp expire_time = 6 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		google.protobuf.Duration ttl = 7 [
+			(google.api.field_behavior) = INPUT_ONLY
+		];
+	}
+	string etag = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Rotation rotation = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message SecretVersion {
@@ -63,12 +81,19 @@ message SecretVersion {
 	State state = 4 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
+	ReplicationStatus replication_status = 5;
+	string etag = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message Replication {
 
 	message Automatic {
 
+		CustomerManagedEncryption customer_managed_encryption = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
 	}
 
 	message UserManaged {
@@ -76,6 +101,9 @@ message Replication {
 		message Replica {
 
 			string location = 1;
+			CustomerManagedEncryption customer_managed_encryption = 2 [
+				(google.api.field_behavior) = OPTIONAL
+			];
 		}
 
 		repeated Replica replicas = 1 [
@@ -87,6 +115,73 @@ message Replication {
 		Automatic automatic = 1;
 		UserManaged user_managed = 2;
 	}
+}
+
+message CustomerManagedEncryption {
+
+	string kms_key_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReplicationStatus {
+
+	message AutomaticStatus {
+
+		CustomerManagedEncryptionStatus customer_managed_encryption = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message UserManagedStatus {
+
+		message ReplicaStatus {
+
+			string location = 1 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+			CustomerManagedEncryptionStatus customer_managed_encryption = 2 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+
+		repeated ReplicaStatus replicas = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	oneof replication_status {
+		AutomaticStatus automatic = 1;
+		UserManagedStatus user_managed = 2;
+	}
+}
+
+message CustomerManagedEncryptionStatus {
+
+	string kms_key_version_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Topic {
+	option (google.api.resource) = {
+		type: "pubsub.googleapis.com/Topic"
+		pattern: ["projects/{project}/topics/{topic}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Rotation {
+
+	google.protobuf.Timestamp next_rotation_time = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Duration rotation_period = 2 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
 }
 
 message SecretPayload {

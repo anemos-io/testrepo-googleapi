@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package google.cloud.common;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.common";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/common;common";
+
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_detail = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool cancel_requested = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

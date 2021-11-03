@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.apps.drive.activity.v2;
+
+option java_package = "com.google.apps.drive.activity.v2";
+option java_outer_classname = "QueryDriveActivityRequestProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/drive/activity/v2;activity";
+option objc_class_prefix = "GADA";
+option csharp_namespace = "Google.Apps.Drive.Activity.V2";
+option php_namespace = "Google\\Apps\\Drive\\Activity\\V2";
+
+
+message QueryDriveActivityRequest {
+
+	oneof key {
+		string item_name = 1;
+		string ancestor_name = 2;
+	}
+	ConsolidationStrategy consolidation_strategy = 5;
+	int32 page_size = 6;
+	string page_token = 7;
+	string filter = 8;
+}
+
+message ConsolidationStrategy {
+
+	message NoConsolidation {
+
+	}
+
+	message Legacy {
+
+	}
+
+	oneof strategy {
+		NoConsolidation none = 1;
+		Legacy legacy = 2;
+	}
+}

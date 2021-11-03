@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3/page.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3";
+option java_outer_classname = "TransitionRouteGroupProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3";
+
+
+service TransitionRouteGroups {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListTransitionRouteGroups(google.cloud.dialogflow.cx.v3.ListTransitionRouteGroupsRequest) returns (google.cloud.dialogflow.cx.v3.ListTransitionRouteGroupsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3/{parent=projects/*/locations/*/agents/*/flows/*}/transitionRouteGroups"
+		};
+
+	}
+	rpc GetTransitionRouteGroup(google.cloud.dialogflow.cx.v3.GetTransitionRouteGroupRequest) returns (google.cloud.dialogflow.cx.v3.TransitionRouteGroup) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*/locations/*/agents/*/flows/*/transitionRouteGroups/*}"
+		};
+
+	}
+	rpc CreateTransitionRouteGroup(google.cloud.dialogflow.cx.v3.CreateTransitionRouteGroupRequest) returns (google.cloud.dialogflow.cx.v3.TransitionRouteGroup) {
+		option (google.api.method_signature) = "parent,transition_route_group";
+		option (google.api.http) = {
+			post: "/v3/{parent=projects/*/locations/*/agents/*/flows/*}/transitionRouteGroups"
+			body: "transition_route_group"
+		};
+
+	}
+	rpc UpdateTransitionRouteGroup(google.cloud.dialogflow.cx.v3.UpdateTransitionRouteGroupRequest) returns (google.cloud.dialogflow.cx.v3.TransitionRouteGroup) {
+		option (google.api.method_signature) = "transition_route_group,update_mask";
+		option (google.api.http) = {
+			patch: "/v3/{transition_route_group.name=projects/*/locations/*/agents/*/flows/*/transitionRouteGroups/*}"
+			body: "transition_route_group"
+		};
+
+	}
+	rpc DeleteTransitionRouteGroup(google.cloud.dialogflow.cx.v3.DeleteTransitionRouteGroupRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3/{name=projects/*/locations/*/agents/*/flows/*/transitionRouteGroups/*}"
+		};
+
+	}
+}
+
+message TransitionRouteGroup {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/TransitionRouteGroup"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/flows/{flow}/transitionRouteGroups/{transition_route_group}"]
+	};
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.dialogflow.cx.v3.TransitionRoute transition_routes = 5;
+}
+
+message ListTransitionRouteGroupsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TransitionRouteGroup"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string language_code = 4;
+}
+
+message ListTransitionRouteGroupsResponse {
+
+	repeated TransitionRouteGroup transition_route_groups = 1;
+	string next_page_token = 2;
+}
+
+message GetTransitionRouteGroupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TransitionRouteGroup"
+		}
+	];
+	string language_code = 2;
+}
+
+message CreateTransitionRouteGroupRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TransitionRouteGroup"
+		}
+	];
+	TransitionRouteGroup transition_route_group = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3;
+}
+
+message UpdateTransitionRouteGroupRequest {
+
+	TransitionRouteGroup transition_route_group = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+	string language_code = 3;
+}
+
+message DeleteTransitionRouteGroupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TransitionRouteGroup"
+		}
+	];
+	bool force = 2;
+}

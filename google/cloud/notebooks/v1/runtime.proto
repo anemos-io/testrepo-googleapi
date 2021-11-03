@@ -1,0 +1,270 @@
+syntax = "proto3";
+
+package google.cloud.notebooks.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/notebooks/v1/environment.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.notebooks.v1";
+option java_outer_classname = "RuntimeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1;notebooks";
+option csharp_namespace = "Google.Cloud.Notebooks.V1";
+option php_namespace = "Google\\Cloud\\Notebooks\\V1";
+option ruby_package = "Google::Cloud::Notebooks::V1";
+
+
+message Runtime {
+	option (google.api.resource) = {
+		type: "notebooks.googleapis.com/Runtime"
+		pattern: ["projects/{project}/locations/{location}/runtimes/{runtime}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		STARTING = 1;
+		PROVISIONING = 2;
+		ACTIVE = 3;
+		STOPPING = 4;
+		STOPPED = 5;
+		DELETING = 6;
+		UPGRADING = 7;
+		INITIALIZING = 8;
+	}
+
+	enum HealthState {
+
+		HEALTH_STATE_UNSPECIFIED = 0;
+		HEALTHY = 1;
+		UNHEALTHY = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof runtime_type {
+		VirtualMachine virtual_machine = 2;
+	}
+	State state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	HealthState health_state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	RuntimeAccessConfig access_config = 5;
+	RuntimeSoftwareConfig software_config = 6;
+	RuntimeMetrics metrics = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 20 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 21 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message RuntimeAcceleratorConfig {
+
+	enum AcceleratorType {
+
+		ACCELERATOR_TYPE_UNSPECIFIED = 0;
+		NVIDIA_TESLA_K80 = 1;
+		NVIDIA_TESLA_P100 = 2;
+		NVIDIA_TESLA_V100 = 3;
+		NVIDIA_TESLA_P4 = 4;
+		NVIDIA_TESLA_T4 = 5;
+		NVIDIA_TESLA_A100 = 6;
+		TPU_V2 = 7;
+		TPU_V3 = 8;
+		NVIDIA_TESLA_T4_VWS = 9;
+		NVIDIA_TESLA_P100_VWS = 10;
+		NVIDIA_TESLA_P4_VWS = 11;
+	}
+
+	AcceleratorType type = 1;
+	int64 core_count = 2;
+}
+
+message EncryptionConfig {
+
+	string kms_key = 1;
+}
+
+message LocalDisk {
+
+	message RuntimeGuestOsFeature {
+
+		string type = 1;
+	}
+
+	bool auto_delete = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool boot = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string device_name = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated RuntimeGuestOsFeature guest_os_features = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 index = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	LocalDiskInitializeParams initialize_params = 6 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string interface = 7;
+	string kind = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string licenses = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string mode = 10;
+	string source = 11;
+	string type = 12;
+}
+
+message LocalDiskInitializeParams {
+
+	enum DiskType {
+
+		DISK_TYPE_UNSPECIFIED = 0;
+		PD_STANDARD = 1;
+		PD_SSD = 2;
+		PD_BALANCED = 3;
+	}
+
+	string description = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string disk_name = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int64 disk_size_gb = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	DiskType disk_type = 4 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	map<string, string> labels = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RuntimeAccessConfig {
+
+	enum RuntimeAccessType {
+
+		RUNTIME_ACCESS_TYPE_UNSPECIFIED = 0;
+		SINGLE_USER = 1;
+	}
+
+	RuntimeAccessType access_type = 1;
+	string runtime_owner = 2;
+	string proxy_uri = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message RuntimeSoftwareConfig {
+
+	string notebook_upgrade_schedule = 1;
+	oneof _enable_health_monitoring {
+		bool enable_health_monitoring = 2;
+	}
+	oneof _idle_shutdown {
+		bool idle_shutdown = 3;
+	}
+	int32 idle_shutdown_timeout = 4;
+	bool install_gpu_driver = 5;
+	string custom_gpu_driver_path = 6;
+	string post_startup_script = 7;
+}
+
+message RuntimeMetrics {
+
+	map<string, string> system_metrics = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message RuntimeShieldedInstanceConfig {
+
+	bool enable_secure_boot = 1;
+	bool enable_vtpm = 2;
+	bool enable_integrity_monitoring = 3;
+}
+
+message VirtualMachine {
+
+	string instance_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string instance_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	VirtualMachineConfig virtual_machine_config = 3;
+}
+
+message VirtualMachineConfig {
+
+	enum NicType {
+
+		UNSPECIFIED_NIC_TYPE = 0;
+		VIRTIO_NET = 1;
+		GVNIC = 2;
+	}
+
+	string zone = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string machine_type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.notebooks.v1.ContainerImage container_images = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LocalDisk data_disk = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	EncryptionConfig encryption_config = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	RuntimeShieldedInstanceConfig shielded_instance_config = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	RuntimeAcceleratorConfig accelerator_config = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string network = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string subnet = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool internal_ip_only = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string tags = 13 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> guest_attributes = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> metadata = 15 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 16 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	NicType nic_type = 17 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

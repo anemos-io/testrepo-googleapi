@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package google.cloud.networkservices.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/networkservices/v1beta1/common.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.networkservices.v1beta1";
+option java_outer_classname = "EndpointPolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/networkservices/v1beta1;networkservices";
+option csharp_namespace = "Google.Cloud.NetworkServices.V1Beta1";
+option php_namespace = "Google\\Cloud\\NetworkServices\\V1beta1";
+option ruby_package = "Google::Cloud::NetworkServices::V1beta1";
+option (google.api.resource_definition) = {
+	type: "networksecurity.googleapis.com/AuthorizationPolicy"
+	pattern: ["projects/{project}/locations/{location}/authorizationPolicies/{authorization_policy}"]
+};
+option (google.api.resource_definition) = {
+	type: "networksecurity.googleapis.com/ServerTlsPolicy"
+	pattern: ["projects/{project}/locations/{location}/serverTlsPolicies/{server_tls_policy}"]
+};
+option (google.api.resource_definition) = {
+	type: "networksecurity.googleapis.com/ClientTlsPolicy"
+	pattern: ["projects/{project}/locations/{location}/clientTlsPolicies/{client_tls_policy}"]
+};
+
+
+message EndpointPolicy {
+	option (google.api.resource) = {
+		type: "networkservices.googleapis.com/EndpointPolicy"
+		pattern: ["projects/{project}/locations/{location}/endpointPolicies/{endpoint_policy}"]
+	};
+
+	enum EndpointPolicyType {
+
+		ENDPOINT_POLICY_TYPE_UNSPECIFIED = 0;
+		SIDECAR_PROXY = 1;
+		GRPC_SERVER = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	EndpointPolicyType type = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string authorization_policy = 7 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/AuthorizationPolicy"
+		}
+	];
+	google.cloud.networkservices.v1beta1.EndpointMatcher endpoint_matcher = 9 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.networkservices.v1beta1.TrafficPortSelector traffic_port_selector = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string description = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string server_tls_policy = 12 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/ServerTlsPolicy"
+		}
+	];
+	string client_tls_policy = 13 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/ClientTlsPolicy"
+		}
+	];
+}
+
+message ListEndpointPoliciesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "networkservices.googleapis.com/EndpointPolicy"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListEndpointPoliciesResponse {
+
+	repeated EndpointPolicy endpoint_policies = 1;
+	string next_page_token = 2;
+}
+
+message GetEndpointPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networkservices.googleapis.com/EndpointPolicy"
+		}
+	];
+}
+
+message CreateEndpointPolicyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "networkservices.googleapis.com/EndpointPolicy"
+		}
+	];
+	string endpoint_policy_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	EndpointPolicy endpoint_policy = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateEndpointPolicyRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	EndpointPolicy endpoint_policy = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteEndpointPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networkservices.googleapis.com/EndpointPolicy"
+		}
+	];
+}

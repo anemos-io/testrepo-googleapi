@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package google.cloud.channel.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/channel/v1/common.proto";
+import "google/cloud/channel/v1/products.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/money.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.channel.v1";
+option java_outer_classname = "OffersProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/channel/v1;channel";
+
+
+enum PromotionalOrderType {
+
+	PROMOTIONAL_TYPE_UNSPECIFIED = 0;
+	NEW_UPGRADE = 1;
+	TRANSFER = 2;
+	PROMOTION_SWITCH = 3;
+}
+
+enum PaymentPlan {
+
+	PAYMENT_PLAN_UNSPECIFIED = 0;
+	COMMITMENT = 1;
+	FLEXIBLE = 2;
+	FREE = 3;
+	TRIAL = 4;
+	OFFLINE = 5;
+}
+
+enum PaymentType {
+
+	PAYMENT_TYPE_UNSPECIFIED = 0;
+	PREPAY = 1;
+	POSTPAY = 2;
+}
+
+enum ResourceType {
+
+	RESOURCE_TYPE_UNSPECIFIED = 0;
+	SEAT = 1;
+	MAU = 2;
+	GB = 3;
+	LICENSED_USER = 4;
+	MINUTES = 5;
+	IAAS_USAGE = 6;
+	SUBSCRIPTION = 7;
+}
+
+enum PeriodType {
+
+	PERIOD_TYPE_UNSPECIFIED = 0;
+	DAY = 1;
+	MONTH = 2;
+	YEAR = 3;
+}
+
+message Offer {
+	option (google.api.resource) = {
+		type: "cloudchannel.googleapis.com/Offer"
+		pattern: ["accounts/{account}/offers/{offer}"]
+	};
+
+	string name = 1;
+	google.cloud.channel.v1.MarketingInfo marketing_info = 2;
+	google.cloud.channel.v1.Sku sku = 3;
+	Plan plan = 4;
+	Constraints constraints = 5;
+	repeated PriceByResource price_by_resources = 6;
+	google.protobuf.Timestamp start_time = 7;
+	google.protobuf.Timestamp end_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated ParameterDefinition parameter_definitions = 9;
+}
+
+message ParameterDefinition {
+
+	enum ParameterType {
+
+		PARAMETER_TYPE_UNSPECIFIED = 0;
+		INT64 = 1;
+		STRING = 2;
+		DOUBLE = 3;
+	}
+
+	string name = 1;
+	ParameterType parameter_type = 2;
+	google.cloud.channel.v1.Value min_value = 3;
+	google.cloud.channel.v1.Value max_value = 4;
+	repeated google.cloud.channel.v1.Value allowed_values = 5;
+	bool optional = 6;
+}
+
+message Constraints {
+
+	CustomerConstraints customer_constraints = 1;
+}
+
+message CustomerConstraints {
+
+	repeated string allowed_regions = 1;
+	repeated google.cloud.channel.v1.CloudIdentityInfo.CustomerType allowed_customer_types = 2;
+	repeated PromotionalOrderType promotional_order_types = 3;
+}
+
+message Plan {
+
+	PaymentPlan payment_plan = 1;
+	PaymentType payment_type = 2;
+	Period payment_cycle = 3;
+	Period trial_period = 4;
+	string billing_account = 5;
+}
+
+message PriceByResource {
+
+	ResourceType resource_type = 1;
+	Price price = 2;
+	repeated PricePhase price_phases = 3;
+}
+
+message Price {
+
+	google.type.Money base_price = 1;
+	double discount = 2;
+	google.type.Money effective_price = 3;
+	string external_price_uri = 4;
+}
+
+message PricePhase {
+
+	PeriodType period_type = 1;
+	int32 first_period = 2;
+	int32 last_period = 3;
+	Price price = 4;
+	repeated PriceTier price_tiers = 5;
+}
+
+message PriceTier {
+
+	int32 first_resource = 1;
+	int32 last_resource = 2;
+	Price price = 3;
+}
+
+message Period {
+
+	int32 duration = 1;
+	PeriodType period_type = 2;
+}

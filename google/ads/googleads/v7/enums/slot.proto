@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.enums";
+option java_outer_classname = "SlotProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V7::Enums";
+
+
+message SlotEnum {
+
+	enum Slot {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		SEARCH_SIDE = 2;
+		SEARCH_TOP = 3;
+		SEARCH_OTHER = 4;
+		CONTENT = 5;
+		SEARCH_PARTNER_TOP = 6;
+		SEARCH_PARTNER_OTHER = 7;
+		MIXED = 8;
+	}
+
+}

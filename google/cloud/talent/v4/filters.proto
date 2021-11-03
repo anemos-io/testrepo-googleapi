@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/talent/v4/common.proto";
+import "google/protobuf/duration.proto";
+import "google/type/latlng.proto";
+import "google/type/timeofday.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.talent.v4";
+option java_outer_classname = "FiltersProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4;talent";
+option objc_class_prefix = "CTS";
+
+
+message JobQuery {
+
+	string query = 1;
+	string query_language_code = 14;
+	repeated string companies = 2;
+	repeated LocationFilter location_filters = 3;
+	repeated google.cloud.talent.v4.JobCategory job_categories = 4;
+	CommuteFilter commute_filter = 5;
+	repeated string company_display_names = 6;
+	CompensationFilter compensation_filter = 7;
+	string custom_attribute_filter = 8;
+	bool disable_spell_check = 9;
+	repeated google.cloud.talent.v4.EmploymentType employment_types = 10;
+	repeated string language_codes = 11;
+	google.cloud.talent.v4.TimestampRange publish_time_range = 12;
+	repeated string excluded_jobs = 13;
+}
+
+message LocationFilter {
+
+	enum TelecommutePreference {
+
+		TELECOMMUTE_PREFERENCE_UNSPECIFIED = 0;
+		TELECOMMUTE_EXCLUDED = 1;
+		TELECOMMUTE_ALLOWED = 2;
+	}
+
+	string address = 1;
+	string region_code = 2;
+	google.type.LatLng lat_lng = 3;
+	double distance_in_miles = 4;
+	TelecommutePreference telecommute_preference = 5;
+}
+
+message CompensationFilter {
+
+	enum FilterType {
+
+		FILTER_TYPE_UNSPECIFIED = 0;
+		UNIT_ONLY = 1;
+		UNIT_AND_AMOUNT = 2;
+		ANNUALIZED_BASE_AMOUNT = 3;
+		ANNUALIZED_TOTAL_AMOUNT = 4;
+	}
+
+	FilterType type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.talent.v4.CompensationInfo.CompensationUnit units = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.talent.v4.CompensationInfo.CompensationRange range = 3;
+	bool include_jobs_with_unspecified_compensation_range = 4;
+}
+
+message CommuteFilter {
+
+	enum RoadTraffic {
+
+		ROAD_TRAFFIC_UNSPECIFIED = 0;
+		TRAFFIC_FREE = 1;
+		BUSY_HOUR = 2;
+	}
+
+	google.cloud.talent.v4.CommuteMethod commute_method = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.type.LatLng start_coordinates = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration travel_duration = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool allow_imprecise_addresses = 4;
+	oneof traffic_option {
+		RoadTraffic road_traffic = 5;
+		google.type.TimeOfDay departure_time = 6;
+	}
+}

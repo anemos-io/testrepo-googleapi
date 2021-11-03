@@ -44,9 +44,14 @@ message Queue {
 	RetryConfig retry_config = 5;
 	State state = 6;
 	google.protobuf.Timestamp purge_time = 7;
+	google.protobuf.Duration task_ttl = 8;
+	google.protobuf.Duration tombstone_ttl = 9;
 	StackdriverLoggingConfig stackdriver_logging_config = 10;
 	Type type = 11 [
 		(google.api.field_behavior) = IMMUTABLE
+	];
+	QueueStats stats = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 }
 
@@ -69,4 +74,23 @@ message RetryConfig {
 message StackdriverLoggingConfig {
 
 	double sampling_ratio = 1;
+}
+
+message QueueStats {
+
+	int64 tasks_count = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp oldest_estimated_arrival_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 executed_last_minute_count = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 concurrent_dispatches_count = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	double effective_execution_rate = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }

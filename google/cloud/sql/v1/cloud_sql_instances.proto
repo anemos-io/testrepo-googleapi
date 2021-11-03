@@ -1,0 +1,681 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/sql/v1/cloud_sql_resources.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1";
+option java_outer_classname = "CloudSqlServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1;sql";
+
+
+enum SqlInstanceType {
+
+	SQL_INSTANCE_TYPE_UNSPECIFIED = 0;
+	CLOUD_SQL_INSTANCE = 1;
+	ON_PREMISES_INSTANCE = 2;
+	READ_REPLICA_INSTANCE = 3;
+}
+
+enum SqlSuspensionReason {
+
+	SQL_SUSPENSION_REASON_UNSPECIFIED = 0;
+	BILLING_ISSUE = 2;
+	LEGAL_ISSUE = 3;
+	OPERATIONAL_ISSUE = 4;
+	KMS_KEY_ISSUE = 5;
+}
+
+service SqlInstancesService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc AddServerCa(google.cloud.sql.v1.SqlInstancesAddServerCaRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/addServerCa"
+		};
+
+	}
+	rpc Clone(google.cloud.sql.v1.SqlInstancesCloneRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/clone"
+			body: "body"
+		};
+
+	}
+	rpc Delete(google.cloud.sql.v1.SqlInstancesDeleteRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			delete: "/v1/projects/{project}/instances/{instance}"
+		};
+
+	}
+	rpc DemoteMaster(google.cloud.sql.v1.SqlInstancesDemoteMasterRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/demoteMaster"
+			body: "body"
+		};
+
+	}
+	rpc Export(google.cloud.sql.v1.SqlInstancesExportRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/export"
+			body: "body"
+		};
+
+	}
+	rpc Failover(google.cloud.sql.v1.SqlInstancesFailoverRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/failover"
+			body: "body"
+		};
+
+	}
+	rpc Get(google.cloud.sql.v1.SqlInstancesGetRequest) returns (google.cloud.sql.v1.DatabaseInstance) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances/{instance}"
+		};
+
+	}
+	rpc Import(google.cloud.sql.v1.SqlInstancesImportRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/import"
+			body: "body"
+		};
+
+	}
+	rpc Insert(google.cloud.sql.v1.SqlInstancesInsertRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances"
+			body: "body"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1.SqlInstancesListRequest) returns (google.cloud.sql.v1.InstancesListResponse) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances"
+		};
+
+	}
+	rpc ListServerCas(google.cloud.sql.v1.SqlInstancesListServerCasRequest) returns (google.cloud.sql.v1.InstancesListServerCasResponse) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances/{instance}/listServerCas"
+		};
+
+	}
+	rpc Patch(google.cloud.sql.v1.SqlInstancesPatchRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			patch: "/v1/projects/{project}/instances/{instance}"
+			body: "body"
+		};
+
+	}
+	rpc PromoteReplica(google.cloud.sql.v1.SqlInstancesPromoteReplicaRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/promoteReplica"
+		};
+
+	}
+	rpc ResetSslConfig(google.cloud.sql.v1.SqlInstancesResetSslConfigRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/resetSslConfig"
+		};
+
+	}
+	rpc Restart(google.cloud.sql.v1.SqlInstancesRestartRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/restart"
+		};
+
+	}
+	rpc RestoreBackup(google.cloud.sql.v1.SqlInstancesRestoreBackupRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/restoreBackup"
+			body: "body"
+		};
+
+	}
+	rpc RotateServerCa(google.cloud.sql.v1.SqlInstancesRotateServerCaRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/rotateServerCa"
+			body: "body"
+		};
+
+	}
+	rpc StartReplica(google.cloud.sql.v1.SqlInstancesStartReplicaRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/startReplica"
+		};
+
+	}
+	rpc StopReplica(google.cloud.sql.v1.SqlInstancesStopReplicaRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/stopReplica"
+		};
+
+	}
+	rpc TruncateLog(google.cloud.sql.v1.SqlInstancesTruncateLogRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/truncateLog"
+			body: "body"
+		};
+
+	}
+	rpc Update(google.cloud.sql.v1.SqlInstancesUpdateRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			put: "/v1/projects/{project}/instances/{instance}"
+			body: "body"
+		};
+
+	}
+	rpc CreateEphemeral(google.cloud.sql.v1.SqlInstancesCreateEphemeralCertRequest) returns (google.cloud.sql.v1.SslCert) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/createEphemeral"
+			body: "body"
+		};
+
+	}
+	rpc RescheduleMaintenance(google.cloud.sql.v1.SqlInstancesRescheduleMaintenanceRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/rescheduleMaintenance"
+			body: "body"
+		};
+
+	}
+	rpc VerifyExternalSyncSettings(google.cloud.sql.v1.SqlInstancesVerifyExternalSyncSettingsRequest) returns (google.cloud.sql.v1.SqlInstancesVerifyExternalSyncSettingsResponse) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/verifyExternalSyncSettings"
+			body: "*"
+		};
+
+	}
+	rpc StartExternalSync(google.cloud.sql.v1.SqlInstancesStartExternalSyncRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/startExternalSync"
+			body: "*"
+		};
+
+	}
+}
+
+message SqlInstancesAddServerCaRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesCloneRequest {
+
+	string instance = 1;
+	string project = 2;
+	InstancesCloneRequest body = 100;
+}
+
+message SqlInstancesDeleteRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesDemoteMasterRequest {
+
+	string instance = 1;
+	string project = 2;
+	InstancesDemoteMasterRequest body = 100;
+}
+
+message SqlInstancesExportRequest {
+
+	string instance = 1;
+	string project = 2;
+	InstancesExportRequest body = 100;
+}
+
+message SqlInstancesFailoverRequest {
+
+	string instance = 1;
+	string project = 2;
+	InstancesFailoverRequest body = 100;
+}
+
+message SqlInstancesGetRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesImportRequest {
+
+	string instance = 1;
+	string project = 2;
+	InstancesImportRequest body = 100;
+}
+
+message SqlInstancesInsertRequest {
+
+	string project = 1;
+	DatabaseInstance body = 100;
+}
+
+message SqlInstancesListRequest {
+
+	string filter = 1;
+	uint32 max_results = 2;
+	string page_token = 3;
+	string project = 4;
+}
+
+message SqlInstancesListServerCasRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesPatchRequest {
+
+	string instance = 1;
+	string project = 2;
+	DatabaseInstance body = 100;
+}
+
+message SqlInstancesPromoteReplicaRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesResetSslConfigRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesRestartRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesRestoreBackupRequest {
+
+	string instance = 1;
+	string project = 2;
+	InstancesRestoreBackupRequest body = 100;
+}
+
+message SqlInstancesRotateServerCaRequest {
+
+	string instance = 1;
+	string project = 2;
+	InstancesRotateServerCaRequest body = 100;
+}
+
+message SqlInstancesStartReplicaRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesStopReplicaRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SqlInstancesTruncateLogRequest {
+
+	string instance = 1;
+	string project = 2;
+	InstancesTruncateLogRequest body = 100;
+}
+
+message SqlInstancesUpdateRequest {
+
+	string instance = 1;
+	string project = 2;
+	DatabaseInstance body = 100;
+}
+
+message SqlInstancesRescheduleMaintenanceRequest {
+
+	string instance = 1;
+	string project = 2;
+	SqlInstancesRescheduleMaintenanceRequestBody body = 100;
+}
+
+message SqlInstancesVerifyExternalSyncSettingsRequest {
+
+	enum ExternalSyncMode {
+
+		EXTERNAL_SYNC_MODE_UNSPECIFIED = 0;
+		ONLINE = 1;
+		OFFLINE = 2;
+	}
+
+	string instance = 1;
+	string project = 2;
+	bool verify_connection_only = 3;
+	ExternalSyncMode sync_mode = 4;
+	bool verify_replication_only = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof sync_config {
+		google.cloud.sql.v1.MySqlSyncConfig mysql_sync_config = 6 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+}
+
+message SqlInstancesStartExternalSyncRequest {
+
+	string instance = 1;
+	string project = 2;
+	ExternalSyncMode sync_mode = 3;
+	bool skip_verification = 4;
+	oneof sync_config {
+		google.cloud.sql.v1.MySqlSyncConfig mysql_sync_config = 6;
+	}
+}
+
+message SqlInstancesCreateEphemeralCertRequest {
+
+	string instance = 1;
+	string project = 2;
+	SslCertsCreateEphemeralRequest body = 100;
+}
+
+message InstancesCloneRequest {
+
+	CloneContext clone_context = 1;
+}
+
+message InstancesDemoteMasterRequest {
+
+	DemoteMasterContext demote_master_context = 1;
+}
+
+message InstancesExportRequest {
+
+	google.cloud.sql.v1.ExportContext export_context = 1;
+}
+
+message InstancesFailoverRequest {
+
+	FailoverContext failover_context = 1;
+}
+
+message SslCertsCreateEphemeralRequest {
+
+	string public_key = 1;
+	string access_token = 2;
+}
+
+message InstancesImportRequest {
+
+	google.cloud.sql.v1.ImportContext import_context = 1;
+}
+
+message InstancesListResponse {
+
+	string kind = 1;
+	repeated google.cloud.sql.v1.ApiWarning warnings = 2;
+	repeated DatabaseInstance items = 3;
+	string next_page_token = 4;
+}
+
+message InstancesListServerCasResponse {
+
+	repeated google.cloud.sql.v1.SslCert certs = 1;
+	string active_version = 2;
+	string kind = 3;
+}
+
+message InstancesRestoreBackupRequest {
+
+	RestoreBackupContext restore_backup_context = 1;
+}
+
+message InstancesRotateServerCaRequest {
+
+	RotateServerCaContext rotate_server_ca_context = 1;
+}
+
+message InstancesTruncateLogRequest {
+
+	TruncateLogContext truncate_log_context = 1;
+}
+
+message SqlInstancesVerifyExternalSyncSettingsResponse {
+
+	string kind = 1;
+	repeated SqlExternalSyncSettingError errors = 2;
+	repeated SqlExternalSyncSettingError warnings = 3;
+}
+
+message CloneContext {
+
+	string kind = 1;
+	int64 pitr_timestamp_ms = 2;
+	string destination_instance_name = 3;
+	BinLogCoordinates bin_log_coordinates = 4;
+	google.protobuf.Timestamp point_in_time = 5;
+}
+
+message BinLogCoordinates {
+
+	string bin_log_file_name = 1;
+	int64 bin_log_position = 2;
+	string kind = 3;
+}
+
+message DatabaseInstance {
+
+	message SqlFailoverReplica {
+
+		string name = 1;
+		google.protobuf.BoolValue available = 2;
+	}
+
+	message SqlScheduledMaintenance {
+
+		google.protobuf.Timestamp start_time = 1;
+		bool can_defer = 2 [
+			deprecated = true
+		];
+		bool can_reschedule = 3;
+		oneof _schedule_deadline_time {
+			google.protobuf.Timestamp schedule_deadline_time = 4;
+		}
+	}
+
+	message SqlOutOfDiskReport {
+
+		enum SqlOutOfDiskState {
+
+			SQL_OUT_OF_DISK_STATE_UNSPECIFIED = 0;
+			NORMAL = 1;
+			SOFT_SHUTDOWN = 2;
+		}
+
+		oneof _sql_out_of_disk_state {
+			SqlOutOfDiskState sql_out_of_disk_state = 1;
+		}
+		oneof _sql_min_recommended_increase_size_gb {
+			int32 sql_min_recommended_increase_size_gb = 2;
+		}
+	}
+
+	enum SqlInstanceState {
+
+		SQL_INSTANCE_STATE_UNSPECIFIED = 0;
+		RUNNABLE = 1;
+		SUSPENDED = 2;
+		PENDING_DELETE = 3;
+		PENDING_CREATE = 4;
+		MAINTENANCE = 5;
+		FAILED = 6;
+		ONLINE_MAINTENANCE = 7;
+	}
+
+	string kind = 1;
+	SqlInstanceState state = 2;
+	google.cloud.sql.v1.SqlDatabaseVersion database_version = 3;
+	google.cloud.sql.v1.Settings settings = 4;
+	string etag = 5;
+	SqlFailoverReplica failover_replica = 6;
+	string master_instance_name = 7;
+	repeated string replica_names = 8;
+	google.protobuf.Int64Value max_disk_size = 9 [
+		deprecated = true
+	];
+	google.protobuf.Int64Value current_disk_size = 10 [
+		deprecated = true
+	];
+	repeated google.cloud.sql.v1.IpMapping ip_addresses = 11;
+	google.cloud.sql.v1.SslCert server_ca_cert = 12;
+	SqlInstanceType instance_type = 13;
+	string project = 14;
+	string ipv6_address = 15 [
+		deprecated = true
+	];
+	string service_account_email_address = 16;
+	OnPremisesConfiguration on_premises_configuration = 17;
+	ReplicaConfiguration replica_configuration = 18;
+	google.cloud.sql.v1.SqlBackendType backend_type = 19;
+	string self_link = 20;
+	repeated SqlSuspensionReason suspension_reason = 21;
+	string connection_name = 22;
+	string name = 23;
+	string region = 24;
+	string gce_zone = 25;
+	string secondary_gce_zone = 34;
+	google.cloud.sql.v1.DiskEncryptionConfiguration disk_encryption_configuration = 26;
+	google.cloud.sql.v1.DiskEncryptionStatus disk_encryption_status = 27;
+	string root_password = 29;
+	SqlScheduledMaintenance scheduled_maintenance = 30;
+	google.protobuf.BoolValue satisfies_pzs = 35;
+	oneof _out_of_disk_report {
+		SqlOutOfDiskReport out_of_disk_report = 38;
+	}
+	google.protobuf.Timestamp create_time = 39 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message SqlInstancesRescheduleMaintenanceRequestBody {
+
+	message Reschedule {
+
+		RescheduleType reschedule_type = 1;
+		google.protobuf.Timestamp schedule_time = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	enum RescheduleType {
+
+		RESCHEDULE_TYPE_UNSPECIFIED = 0;
+		IMMEDIATE = 1;
+		NEXT_AVAILABLE_WINDOW = 2;
+		SPECIFIC_TIME = 3;
+	}
+
+	Reschedule reschedule = 3;
+}
+
+message DemoteMasterContext {
+
+	string kind = 1;
+	google.protobuf.BoolValue verify_gtid_consistency = 2;
+	string master_instance_name = 3;
+	google.cloud.sql.v1.DemoteMasterConfiguration replica_configuration = 4;
+	bool skip_replication_setup = 5;
+}
+
+message FailoverContext {
+
+	int64 settings_version = 1;
+	string kind = 2;
+}
+
+message RestoreBackupContext {
+
+	string kind = 1;
+	int64 backup_run_id = 2;
+	string instance_id = 3;
+	string project = 4;
+}
+
+message RotateServerCaContext {
+
+	string kind = 1;
+	string next_version = 2;
+}
+
+message TruncateLogContext {
+
+	string kind = 1;
+	string log_type = 2;
+}
+
+message SqlExternalSyncSettingError {
+
+	enum SqlExternalSyncSettingErrorType {
+
+		SQL_EXTERNAL_SYNC_SETTING_ERROR_TYPE_UNSPECIFIED = 0;
+		CONNECTION_FAILURE = 1;
+		BINLOG_NOT_ENABLED = 2;
+		INCOMPATIBLE_DATABASE_VERSION = 3;
+		REPLICA_ALREADY_SETUP = 4;
+		INSUFFICIENT_PRIVILEGE = 5;
+		UNSUPPORTED_MIGRATION_TYPE = 6;
+		NO_PGLOGICAL_INSTALLED = 7;
+		PGLOGICAL_NODE_ALREADY_EXISTS = 8;
+		INVALID_WAL_LEVEL = 9;
+		INVALID_SHARED_PRELOAD_LIBRARY = 10;
+		INSUFFICIENT_MAX_REPLICATION_SLOTS = 11;
+		INSUFFICIENT_MAX_WAL_SENDERS = 12;
+		INSUFFICIENT_MAX_WORKER_PROCESSES = 13;
+		UNSUPPORTED_EXTENSIONS = 14;
+		INVALID_RDS_LOGICAL_REPLICATION = 15;
+		INVALID_LOGGING_SETUP = 16;
+		INVALID_DB_PARAM = 17;
+		UNSUPPORTED_GTID_MODE = 18;
+		SQLSERVER_AGENT_NOT_RUNNING = 19;
+		UNSUPPORTED_TABLE_DEFINITION = 20;
+		UNSUPPORTED_DEFINER = 21;
+		SQLSERVER_SERVERNAME_MISMATCH = 22;
+		PRIMARY_ALREADY_SETUP = 23;
+		UNSUPPORTED_BINLOG_FORMAT = 24;
+		BINLOG_RETENTION_SETTING = 25;
+	}
+
+	string kind = 1;
+	SqlExternalSyncSettingErrorType type = 2;
+	string detail = 3;
+}
+
+message OnPremisesConfiguration {
+
+	string host_port = 1;
+	string kind = 2;
+	string username = 3;
+	string password = 4;
+	string ca_certificate = 5;
+	string client_certificate = 6;
+	string client_key = 7;
+	string dump_file_path = 8;
+	google.cloud.sql.v1.InstanceReference source_instance = 15;
+}
+
+message ReplicaConfiguration {
+
+	string kind = 1;
+	google.cloud.sql.v1.MySqlReplicaConfiguration mysql_replica_configuration = 2;
+	google.protobuf.BoolValue failover_target = 3;
+}

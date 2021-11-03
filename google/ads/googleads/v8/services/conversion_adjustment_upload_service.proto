@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/common/offline_user_data.proto";
+import "google/ads/googleads/v8/enums/conversion_adjustment_type.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "ConversionAdjustmentUploadServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service ConversionAdjustmentUploadService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc UploadConversionAdjustments(google.ads.googleads.v8.services.UploadConversionAdjustmentsRequest) returns (google.ads.googleads.v8.services.UploadConversionAdjustmentsResponse) {
+		option (google.api.method_signature) = "customer_id,conversion_adjustments,partial_failure";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}:uploadConversionAdjustments"
+			body: "*"
+		};
+
+	}
+}
+
+message UploadConversionAdjustmentsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ConversionAdjustment conversion_adjustments = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 4;
+}
+
+message UploadConversionAdjustmentsResponse {
+
+	google.rpc.Status partial_failure_error = 1;
+	repeated ConversionAdjustmentResult results = 2;
+}
+
+message ConversionAdjustment {
+
+	oneof _conversion_action {
+		string conversion_action = 8;
+	}
+	oneof _adjustment_date_time {
+		string adjustment_date_time = 9;
+	}
+	google.ads.googleads.v8.enums.ConversionAdjustmentTypeEnum.ConversionAdjustmentType adjustment_type = 5;
+	RestatementValue restatement_value = 6;
+	repeated google.ads.googleads.v8.common.UserIdentifier user_identifiers = 10;
+	oneof _user_agent {
+		string user_agent = 11;
+	}
+	oneof conversion_identifier {
+		GclidDateTimePair gclid_date_time_pair = 1;
+		string order_id = 7;
+	}
+}
+
+message RestatementValue {
+
+	oneof _adjusted_value {
+		double adjusted_value = 3;
+	}
+	oneof _currency_code {
+		string currency_code = 4;
+	}
+}
+
+message GclidDateTimePair {
+
+	oneof _gclid {
+		string gclid = 3;
+	}
+	oneof _conversion_date_time {
+		string conversion_date_time = 4;
+	}
+}
+
+message ConversionAdjustmentResult {
+
+	oneof _conversion_action {
+		string conversion_action = 7;
+	}
+	oneof _adjustment_date_time {
+		string adjustment_date_time = 8;
+	}
+	google.ads.googleads.v8.enums.ConversionAdjustmentTypeEnum.ConversionAdjustmentType adjustment_type = 5;
+	oneof conversion_identifier {
+		GclidDateTimePair gclid_date_time_pair = 1;
+		string order_id = 6;
+	}
+}

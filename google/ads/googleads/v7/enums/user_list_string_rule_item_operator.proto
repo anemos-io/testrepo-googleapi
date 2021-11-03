@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.enums";
+option java_outer_classname = "UserListStringRuleItemOperatorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V7::Enums";
+
+
+message UserListStringRuleItemOperatorEnum {
+
+	enum UserListStringRuleItemOperator {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		CONTAINS = 2;
+		EQUALS = 3;
+		STARTS_WITH = 4;
+		ENDS_WITH = 5;
+		NOT_EQUALS = 6;
+		NOT_CONTAINS = 7;
+		NOT_STARTS_WITH = 8;
+		NOT_ENDS_WITH = 9;
+	}
+
+}

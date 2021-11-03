@@ -25,6 +25,15 @@ service Recommender {
 		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v1beta1/{parent=projects/*/locations/*/insightTypes/*}/insights"
+			additional_bindings: {
+				get: "/v1beta1/{parent=billingAccounts/*/locations/*/insightTypes/*}/insights"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{parent=folders/*/locations/*/insightTypes/*}/insights"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{parent=organizations/*/locations/*/insightTypes/*}/insights"
+			}
 		};
 
 	}
@@ -32,6 +41,15 @@ service Recommender {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v1beta1/{name=projects/*/locations/*/insightTypes/*/insights/*}"
+			additional_bindings: {
+				get: "/v1beta1/{name=billingAccounts/*/locations/*/insightTypes/*/insights/*}"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{name=folders/*/locations/*/insightTypes/*/insights/*}"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{name=organizations/*/locations/*/insightTypes/*/insights/*}"
+			}
 		};
 
 	}
@@ -40,6 +58,18 @@ service Recommender {
 		option (google.api.http) = {
 			post: "/v1beta1/{name=projects/*/locations/*/insightTypes/*/insights/*}:markAccepted"
 			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{name=billingAccounts/*/locations/*/insightTypes/*/insights/*}:markAccepted"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{name=folders/*/locations/*/insightTypes/*/insights/*}:markAccepted"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{name=organizations/*/locations/*/insightTypes/*/insights/*}:markAccepted"
+				body: "*"
+			}
 		};
 
 	}
@@ -47,6 +77,15 @@ service Recommender {
 		option (google.api.method_signature) = "parent,filter";
 		option (google.api.http) = {
 			get: "/v1beta1/{parent=projects/*/locations/*/recommenders/*}/recommendations"
+			additional_bindings: {
+				get: "/v1beta1/{parent=billingAccounts/*/locations/*/recommenders/*}/recommendations"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{parent=folders/*/locations/*/recommenders/*}/recommendations"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{parent=organizations/*/locations/*/recommenders/*}/recommendations"
+			}
 		};
 
 	}
@@ -54,6 +93,15 @@ service Recommender {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v1beta1/{name=projects/*/locations/*/recommenders/*/recommendations/*}"
+			additional_bindings: {
+				get: "/v1beta1/{name=billingAccounts/*/locations/*/recommenders/*/recommendations/*}"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{name=folders/*/locations/*/recommenders/*/recommendations/*}"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{name=organizations/*/locations/*/recommenders/*/recommendations/*}"
+			}
 		};
 
 	}
@@ -62,6 +110,18 @@ service Recommender {
 		option (google.api.http) = {
 			post: "/v1beta1/{name=projects/*/locations/*/recommenders/*/recommendations/*}:markClaimed"
 			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{name=billingAccounts/*/locations/*/recommenders/*/recommendations/*}:markClaimed"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{name=folders/*/locations/*/recommenders/*/recommendations/*}:markClaimed"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{name=organizations/*/locations/*/recommenders/*/recommendations/*}:markClaimed"
+				body: "*"
+			}
 		};
 
 	}
@@ -70,6 +130,18 @@ service Recommender {
 		option (google.api.http) = {
 			post: "/v1beta1/{name=projects/*/locations/*/recommenders/*/recommendations/*}:markSucceeded"
 			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{name=billingAccounts/*/locations/*/recommenders/*/recommendations/*}:markSucceeded"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{name=folders/*/locations/*/recommenders/*/recommendations/*}:markSucceeded"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{name=organizations/*/locations/*/recommenders/*/recommendations/*}:markSucceeded"
+				body: "*"
+			}
 		};
 
 	}
@@ -78,6 +150,18 @@ service Recommender {
 		option (google.api.http) = {
 			post: "/v1beta1/{name=projects/*/locations/*/recommenders/*/recommendations/*}:markFailed"
 			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{name=billingAccounts/*/locations/*/recommenders/*/recommendations/*}:markFailed"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{name=folders/*/locations/*/recommenders/*/recommendations/*}:markFailed"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{name=organizations/*/locations/*/recommenders/*/recommendations/*}:markFailed"
+				body: "*"
+			}
 		};
 
 	}

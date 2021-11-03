@@ -2,21 +2,26 @@ syntax = "proto3";
 
 package google.iam.admin.v1;
 
-import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/options.proto";
 import "google/iam/v1/policy.proto";
+import "google/protobuf/any.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/type/expr.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.iam.admin.v1";
 option java_outer_classname = "IamProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/iam/admin/v1;admin";
 option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Iam.Admin.V1";
+option php_namespace = "Google\\Cloud\\Iam\\Admin\\V1";
 
 
 enum ServiceAccountKeyAlgorithm {
@@ -38,6 +43,13 @@ enum ServiceAccountPublicKeyType {
 	TYPE_NONE = 0;
 	TYPE_X509_PEM_FILE = 1;
 	TYPE_RAW_PUBLIC_KEY = 2;
+}
+
+enum ServiceAccountKeyOrigin {
+
+	ORIGIN_UNSPECIFIED = 0;
+	USER_PROVIDED = 1;
+	GOOGLE_PROVIDED = 2;
 }
 
 enum RoleView {
@@ -79,10 +91,38 @@ service IAM {
 		};
 
 	}
+	rpc PatchServiceAccount(google.iam.admin.v1.PatchServiceAccountRequest) returns (google.iam.admin.v1.ServiceAccount) {
+		option (google.api.http) = {
+			patch: "/v1/{service_account.name=projects/*/serviceAccounts/*}"
+			body: "*"
+		};
+
+	}
 	rpc DeleteServiceAccount(google.iam.admin.v1.DeleteServiceAccountRequest) returns (google.protobuf.Empty) {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			delete: "/v1/{name=projects/*/serviceAccounts/*}"
+		};
+
+	}
+	rpc UndeleteServiceAccount(google.iam.admin.v1.UndeleteServiceAccountRequest) returns (google.iam.admin.v1.UndeleteServiceAccountResponse) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/serviceAccounts/*}:undelete"
+			body: "*"
+		};
+
+	}
+	rpc EnableServiceAccount(google.iam.admin.v1.EnableServiceAccountRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/serviceAccounts/*}:enable"
+			body: "*"
+		};
+
+	}
+	rpc DisableServiceAccount(google.iam.admin.v1.DisableServiceAccountRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/serviceAccounts/*}:disable"
+			body: "*"
 		};
 
 	}
@@ -108,6 +148,13 @@ service IAM {
 		};
 
 	}
+	rpc UploadServiceAccountKey(google.iam.admin.v1.UploadServiceAccountKeyRequest) returns (google.iam.admin.v1.ServiceAccountKey) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/serviceAccounts/*}/keys:upload"
+			body: "*"
+		};
+
+	}
 	rpc DeleteServiceAccountKey(google.iam.admin.v1.DeleteServiceAccountKeyRequest) returns (google.protobuf.Empty) {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
@@ -116,6 +163,7 @@ service IAM {
 
 	}
 	rpc SignBlob(google.iam.admin.v1.SignBlobRequest) returns (google.iam.admin.v1.SignBlobResponse) {
+		option deprecated = true;
 		option (google.api.method_signature) = "name,bytes_to_sign";
 		option (google.api.http) = {
 			post: "/v1/{name=projects/*/serviceAccounts/*}:signBlob"
@@ -124,6 +172,7 @@ service IAM {
 
 	}
 	rpc SignJwt(google.iam.admin.v1.SignJwtRequest) returns (google.iam.admin.v1.SignJwtResponse) {
+		option deprecated = true;
 		option (google.api.method_signature) = "name,payload";
 		option (google.api.http) = {
 			post: "/v1/{name=projects/*/serviceAccounts/*}:signJwt"
@@ -235,6 +284,20 @@ service IAM {
 		};
 
 	}
+	rpc QueryAuditableServices(google.iam.admin.v1.QueryAuditableServicesRequest) returns (google.iam.admin.v1.QueryAuditableServicesResponse) {
+		option (google.api.http) = {
+			post: "/v1/iamPolicies:queryAuditableServices"
+			body: "*"
+		};
+
+	}
+	rpc LintPolicy(google.iam.admin.v1.LintPolicyRequest) returns (google.iam.admin.v1.LintPolicyResponse) {
+		option (google.api.http) = {
+			post: "/v1/iamPolicies:lintPolicy"
+			body: "*"
+		};
+
+	}
 }
 
 message ServiceAccount {
@@ -244,12 +307,30 @@ message ServiceAccount {
 	};
 
 	string name = 1;
-	string project_id = 2;
-	string unique_id = 4;
-	string email = 5;
-	string display_name = 6;
-	bytes etag = 7;
-	string oauth2_client_id = 9;
+	string project_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string unique_id = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string email = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes etag = 7 [
+		deprecated = true
+	];
+	string description = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string oauth2_client_id = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool disabled = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message CreateServiceAccountRequest {
@@ -304,6 +385,32 @@ message DeleteServiceAccountRequest {
 	];
 }
 
+message PatchServiceAccountRequest {
+
+	ServiceAccount service_account = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message UndeleteServiceAccountRequest {
+
+	string name = 1;
+}
+
+message UndeleteServiceAccountResponse {
+
+	ServiceAccount restored_account = 1;
+}
+
+message EnableServiceAccountRequest {
+
+	string name = 1;
+}
+
+message DisableServiceAccountRequest {
+
+	string name = 1;
+}
+
 message ListServiceAccountKeysRequest {
 
 	enum KeyType {
@@ -351,6 +458,8 @@ message ServiceAccountKey {
 	bytes public_key_data = 7;
 	google.protobuf.Timestamp valid_after_time = 4;
 	google.protobuf.Timestamp valid_before_time = 5;
+	ServiceAccountKeyOrigin key_origin = 9;
+	KeyType key_type = 10;
 }
 
 message CreateServiceAccountKeyRequest {
@@ -363,6 +472,12 @@ message CreateServiceAccountKeyRequest {
 	];
 	ServiceAccountPrivateKeyType private_key_type = 2;
 	ServiceAccountKeyAlgorithm key_algorithm = 3;
+}
+
+message UploadServiceAccountKeyRequest {
+
+	string name = 1;
+	bytes public_key_data = 2;
 }
 
 message DeleteServiceAccountKeyRequest {
@@ -378,39 +493,51 @@ message DeleteServiceAccountKeyRequest {
 message SignBlobRequest {
 
 	string name = 1 [
+		deprecated = true,
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
 			type: "iam.googleapis.com/ServiceAccount"
 		}
 	];
 	bytes bytes_to_sign = 2 [
+		deprecated = true,
 		(google.api.field_behavior) = REQUIRED
 	];
 }
 
 message SignBlobResponse {
 
-	string key_id = 1;
-	bytes signature = 2;
+	string key_id = 1 [
+		deprecated = true
+	];
+	bytes signature = 2 [
+		deprecated = true
+	];
 }
 
 message SignJwtRequest {
 
 	string name = 1 [
+		deprecated = true,
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
 			type: "iam.googleapis.com/ServiceAccount"
 		}
 	];
 	string payload = 2 [
+		deprecated = true,
 		(google.api.field_behavior) = REQUIRED
 	];
 }
 
 message SignJwtResponse {
 
-	string key_id = 1;
-	string signed_jwt = 2;
+	string key_id = 1 [
+		deprecated = true
+	];
+	string signed_jwt = 2 [
+		deprecated = true
+	];
 }
 
 message Role {
@@ -540,9 +667,13 @@ message Permission {
 	string name = 1;
 	string title = 2;
 	string description = 3;
-	bool only_in_predefined_roles = 4;
+	bool only_in_predefined_roles = 4 [
+		deprecated = true
+	];
 	PermissionLaunchStage stage = 5;
 	CustomRolesSupportLevel custom_roles_support_level = 6;
+	bool api_disabled = 7;
+	string primary_permission = 8;
 }
 
 message QueryTestablePermissionsRequest {
@@ -556,4 +687,58 @@ message QueryTestablePermissionsResponse {
 
 	repeated Permission permissions = 1;
 	string next_page_token = 2;
+}
+
+message QueryAuditableServicesRequest {
+
+	string full_resource_name = 1;
+}
+
+message QueryAuditableServicesResponse {
+
+	message AuditableService {
+
+		string name = 1;
+	}
+
+	repeated AuditableService services = 1;
+}
+
+message LintPolicyRequest {
+
+	string full_resource_name = 1;
+	oneof lint_object {
+		google.type.Expr condition = 5;
+	}
+}
+
+message LintResult {
+
+	enum Level {
+
+		LEVEL_UNSPECIFIED = 0;
+		CONDITION = 3;
+	}
+
+	enum Severity {
+
+		SEVERITY_UNSPECIFIED = 0;
+		ERROR = 1;
+		WARNING = 2;
+		NOTICE = 3;
+		INFO = 4;
+		DEPRECATED = 5;
+	}
+
+	Level level = 1;
+	string validation_unit_name = 2;
+	Severity severity = 3;
+	string field_name = 5;
+	int32 location_offset = 6;
+	string debug_message = 7;
+}
+
+message LintPolicyResponse {
+
+	repeated LintResult lint_results = 1;
 }

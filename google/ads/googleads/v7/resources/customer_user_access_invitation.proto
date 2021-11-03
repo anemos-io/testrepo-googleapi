@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.resources;
+
+import "google/ads/googleads/v7/enums/access_invitation_status.proto";
+import "google/ads/googleads/v7/enums/access_role.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.resources";
+option java_outer_classname = "CustomerUserAccessInvitationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V7::Resources";
+
+
+message CustomerUserAccessInvitation {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/CustomerUserAccessInvitation"
+		pattern: ["customers/{customer_id}/customerUserAccessInvitations/{invitation_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomerUserAccessInvitation"
+		}
+	];
+	int64 invitation_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v7.enums.AccessRoleEnum.AccessRole access_role = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string email_address = 4 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string creation_date_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v7.enums.AccessInvitationStatusEnum.AccessInvitationStatus invitation_status = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

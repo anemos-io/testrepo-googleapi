@@ -32,6 +32,7 @@ message Task {
 	oneof payload_type {
 		google.cloud.tasks.v2beta3.AppEngineHttpRequest app_engine_http_request = 3;
 		google.cloud.tasks.v2beta3.HttpRequest http_request = 11;
+		google.cloud.tasks.v2beta3.PullMessage pull_message = 13;
 	}
 	google.protobuf.Timestamp schedule_time = 4;
 	google.protobuf.Timestamp create_time = 5;

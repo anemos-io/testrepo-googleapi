@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.services;
+
+import "google/ads/googleads/v7/enums/response_content_type.proto";
+import "google/ads/googleads/v7/resources/conversion_custom_variable.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v7.services";
+option java_outer_classname = "ConversionCustomVariableServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V7::Services";
+
+
+service ConversionCustomVariableService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetConversionCustomVariable(google.ads.googleads.v7.services.GetConversionCustomVariableRequest) returns (google.ads.googleads.v7.resources.ConversionCustomVariable) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v7/{resource_name=customers/*/conversionCustomVariables/*}"
+		};
+
+	}
+	rpc MutateConversionCustomVariables(google.ads.googleads.v7.services.MutateConversionCustomVariablesRequest) returns (google.ads.googleads.v7.services.MutateConversionCustomVariablesResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}/conversionCustomVariables:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetConversionCustomVariableRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/ConversionCustomVariable"
+		}
+	];
+}
+
+message MutateConversionCustomVariablesRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ConversionCustomVariableOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+	google.ads.googleads.v7.enums.ResponseContentTypeEnum.ResponseContentType response_content_type = 5;
+}
+
+message ConversionCustomVariableOperation {
+
+	google.protobuf.FieldMask update_mask = 3;
+	oneof operation {
+		google.ads.googleads.v7.resources.ConversionCustomVariable create = 1;
+		google.ads.googleads.v7.resources.ConversionCustomVariable update = 2;
+	}
+}
+
+message MutateConversionCustomVariablesResponse {
+
+	google.rpc.Status partial_failure_error = 1;
+	repeated MutateConversionCustomVariableResult results = 2;
+}
+
+message MutateConversionCustomVariableResult {
+
+	string resource_name = 1;
+	google.ads.googleads.v7.resources.ConversionCustomVariable conversion_custom_variable = 2;
+}

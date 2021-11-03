@@ -161,6 +161,7 @@ message ListNotificationChannelsResponse {
 
 	repeated google.monitoring.v3.NotificationChannel notification_channels = 3;
 	string next_page_token = 2;
+	int32 total_size = 4;
 }
 
 message GetNotificationChannelRequest {

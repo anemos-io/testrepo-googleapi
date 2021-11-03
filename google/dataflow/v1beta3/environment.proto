@@ -1,0 +1,180 @@
+syntax = "proto3";
+
+package google.dataflow.v1beta3;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.dataflow.v1beta3";
+option java_outer_classname = "EnvironmentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/dataflow/v1beta3;dataflow";
+option csharp_namespace = "Google.Cloud.Dataflow.V1Beta3";
+option php_namespace = "Google\\Cloud\\Dataflow\\V1beta3";
+option ruby_package = "Google::Cloud::Dataflow::V1beta3";
+
+
+enum JobType {
+
+	JOB_TYPE_UNKNOWN = 0;
+	JOB_TYPE_BATCH = 1;
+	JOB_TYPE_STREAMING = 2;
+}
+
+enum FlexResourceSchedulingGoal {
+
+	FLEXRS_UNSPECIFIED = 0;
+	FLEXRS_SPEED_OPTIMIZED = 1;
+	FLEXRS_COST_OPTIMIZED = 2;
+}
+
+enum TeardownPolicy {
+
+	TEARDOWN_POLICY_UNKNOWN = 0;
+	TEARDOWN_ALWAYS = 1;
+	TEARDOWN_ON_SUCCESS = 2;
+	TEARDOWN_NEVER = 3;
+}
+
+enum DefaultPackageSet {
+
+	DEFAULT_PACKAGE_SET_UNKNOWN = 0;
+	DEFAULT_PACKAGE_SET_NONE = 1;
+	DEFAULT_PACKAGE_SET_JAVA = 2;
+	DEFAULT_PACKAGE_SET_PYTHON = 3;
+}
+
+enum AutoscalingAlgorithm {
+
+	AUTOSCALING_ALGORITHM_UNKNOWN = 0;
+	AUTOSCALING_ALGORITHM_NONE = 1;
+	AUTOSCALING_ALGORITHM_BASIC = 2;
+}
+
+enum WorkerIPAddressConfiguration {
+
+	WORKER_IP_UNSPECIFIED = 0;
+	WORKER_IP_PUBLIC = 1;
+	WORKER_IP_PRIVATE = 2;
+}
+
+enum ShuffleMode {
+
+	SHUFFLE_MODE_UNSPECIFIED = 0;
+	VM_BASED = 1;
+	SERVICE_BASED = 2;
+}
+
+message Environment {
+
+	string temp_storage_prefix = 1;
+	string cluster_manager_api_service = 2;
+	repeated string experiments = 3;
+	repeated string service_options = 16;
+	string service_kms_key_name = 12;
+	repeated WorkerPool worker_pools = 4;
+	google.protobuf.Struct user_agent = 5;
+	google.protobuf.Struct version = 6;
+	string dataset = 7;
+	google.protobuf.Struct sdk_pipeline_options = 8;
+	google.protobuf.Any internal_experiments = 9;
+	string service_account_email = 10;
+	FlexResourceSchedulingGoal flex_resource_scheduling_goal = 11;
+	string worker_region = 13;
+	string worker_zone = 14;
+	ShuffleMode shuffle_mode = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	DebugOptions debug_options = 17;
+}
+
+message Package {
+
+	string name = 1;
+	string location = 2;
+}
+
+message Disk {
+
+	int32 size_gb = 1;
+	string disk_type = 2;
+	string mount_point = 3;
+}
+
+message WorkerSettings {
+
+	string base_url = 1;
+	bool reporting_enabled = 2;
+	string service_path = 3;
+	string shuffle_service_path = 4;
+	string worker_id = 5;
+	string temp_storage_prefix = 6;
+}
+
+message TaskRunnerSettings {
+
+	string task_user = 1;
+	string task_group = 2;
+	repeated string oauth_scopes = 3;
+	string base_url = 4;
+	string dataflow_api_version = 5;
+	WorkerSettings parallel_worker_settings = 6;
+	string base_task_dir = 7;
+	bool continue_on_exception = 8;
+	bool log_to_serialconsole = 9;
+	bool alsologtostderr = 10;
+	string log_upload_location = 11;
+	string log_dir = 12;
+	string temp_storage_prefix = 13;
+	string harness_command = 14;
+	string workflow_file_name = 15;
+	string commandlines_file_name = 16;
+	string vm_id = 17;
+	string language_hint = 18;
+	string streaming_worker_main_class = 19;
+}
+
+message AutoscalingSettings {
+
+	AutoscalingAlgorithm algorithm = 1;
+	int32 max_num_workers = 2;
+}
+
+message SdkHarnessContainerImage {
+
+	string container_image = 1;
+	bool use_single_core_per_container = 2;
+	string environment_id = 3;
+}
+
+message WorkerPool {
+
+	string kind = 1;
+	int32 num_workers = 2;
+	repeated Package packages = 3;
+	DefaultPackageSet default_package_set = 4;
+	string machine_type = 5;
+	TeardownPolicy teardown_policy = 6;
+	int32 disk_size_gb = 7;
+	string disk_type = 16;
+	string disk_source_image = 8;
+	string zone = 9;
+	TaskRunnerSettings taskrunner_settings = 10;
+	string on_host_maintenance = 11;
+	repeated Disk data_disks = 12;
+	map<string, string> metadata = 13;
+	AutoscalingSettings autoscaling_settings = 14;
+	google.protobuf.Any pool_args = 15;
+	string network = 17;
+	string subnetwork = 19;
+	string worker_harness_container_image = 18;
+	int32 num_threads_per_worker = 20;
+	WorkerIPAddressConfiguration ip_configuration = 21;
+	repeated SdkHarnessContainerImage sdk_harness_container_images = 22;
+}
+
+message DebugOptions {
+
+	bool enable_hot_key_logging = 1;
+}

@@ -1,0 +1,724 @@
+syntax = "proto3";
+
+package google.cloud.contactcenterinsights.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/contactcenterinsights/v1/resources.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.contactcenterinsights.v1";
+option java_outer_classname = "ContactCenterInsightsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/contactcenterinsights/v1;contactcenterinsights";
+option csharp_namespace = "Google.Cloud.ContactCenterInsights.V1";
+option php_namespace = "Google\\Cloud\\ContactCenterInsights\\V1";
+option ruby_package = "Google::Cloud::ContactCenterInsights::V1";
+
+
+enum ConversationView {
+
+	CONVERSATION_VIEW_UNSPECIFIED = 0;
+	BASIC = 1;
+	FULL = 2;
+}
+
+service ContactCenterInsights {
+	option (google.api.default_host) = "contactcenterinsights.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateConversation(google.cloud.contactcenterinsights.v1.CreateConversationRequest) returns (google.cloud.contactcenterinsights.v1.Conversation) {
+		option (google.api.method_signature) = "parent,conversation,conversation_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/conversations"
+			body: "conversation"
+		};
+
+	}
+	rpc UpdateConversation(google.cloud.contactcenterinsights.v1.UpdateConversationRequest) returns (google.cloud.contactcenterinsights.v1.Conversation) {
+		option (google.api.method_signature) = "conversation,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{conversation.name=projects/*/locations/*/conversations/*}"
+			body: "conversation"
+		};
+
+	}
+	rpc GetConversation(google.cloud.contactcenterinsights.v1.GetConversationRequest) returns (google.cloud.contactcenterinsights.v1.Conversation) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/conversations/*}"
+		};
+
+	}
+	rpc ListConversations(google.cloud.contactcenterinsights.v1.ListConversationsRequest) returns (google.cloud.contactcenterinsights.v1.ListConversationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/conversations"
+		};
+
+	}
+	rpc DeleteConversation(google.cloud.contactcenterinsights.v1.DeleteConversationRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/conversations/*}"
+		};
+
+	}
+	rpc CreateAnalysis(google.cloud.contactcenterinsights.v1.CreateAnalysisRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Analysis"
+			metadata_type: "CreateAnalysisOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,analysis";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/conversations/*}/analyses"
+			body: "analysis"
+		};
+
+	}
+	rpc GetAnalysis(google.cloud.contactcenterinsights.v1.GetAnalysisRequest) returns (google.cloud.contactcenterinsights.v1.Analysis) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/conversations/*/analyses/*}"
+		};
+
+	}
+	rpc ListAnalyses(google.cloud.contactcenterinsights.v1.ListAnalysesRequest) returns (google.cloud.contactcenterinsights.v1.ListAnalysesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/conversations/*}/analyses"
+		};
+
+	}
+	rpc DeleteAnalysis(google.cloud.contactcenterinsights.v1.DeleteAnalysisRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/conversations/*/analyses/*}"
+		};
+
+	}
+	rpc ExportInsightsData(google.cloud.contactcenterinsights.v1.ExportInsightsDataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ExportInsightsDataResponse"
+			metadata_type: "ExportInsightsDataMetadata"
+		};
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/insightsdata:export"
+			body: "*"
+		};
+
+	}
+	rpc CreateIssueModel(google.cloud.contactcenterinsights.v1.CreateIssueModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "IssueModel"
+			metadata_type: "CreateIssueModelMetadata"
+		};
+		option (google.api.method_signature) = "parent,issue_model";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/issueModels"
+			body: "issue_model"
+		};
+
+	}
+	rpc UpdateIssueModel(google.cloud.contactcenterinsights.v1.UpdateIssueModelRequest) returns (google.cloud.contactcenterinsights.v1.IssueModel) {
+		option (google.api.method_signature) = "issue_model,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{issue_model.name=projects/*/locations/*/issueModels/*}"
+			body: "issue_model"
+		};
+
+	}
+	rpc GetIssueModel(google.cloud.contactcenterinsights.v1.GetIssueModelRequest) returns (google.cloud.contactcenterinsights.v1.IssueModel) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/issueModels/*}"
+		};
+
+	}
+	rpc ListIssueModels(google.cloud.contactcenterinsights.v1.ListIssueModelsRequest) returns (google.cloud.contactcenterinsights.v1.ListIssueModelsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/issueModels"
+		};
+
+	}
+	rpc DeleteIssueModel(google.cloud.contactcenterinsights.v1.DeleteIssueModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteIssueModelMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/issueModels/*}"
+		};
+
+	}
+	rpc DeployIssueModel(google.cloud.contactcenterinsights.v1.DeployIssueModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "DeployIssueModelResponse"
+			metadata_type: "DeployIssueModelMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/issueModels/*}:deploy"
+			body: "*"
+		};
+
+	}
+	rpc UndeployIssueModel(google.cloud.contactcenterinsights.v1.UndeployIssueModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "UndeployIssueModelResponse"
+			metadata_type: "UndeployIssueModelMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/issueModels/*}:undeploy"
+			body: "*"
+		};
+
+	}
+	rpc GetIssue(google.cloud.contactcenterinsights.v1.GetIssueRequest) returns (google.cloud.contactcenterinsights.v1.Issue) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/issueModels/*/issues/*}"
+		};
+
+	}
+	rpc ListIssues(google.cloud.contactcenterinsights.v1.ListIssuesRequest) returns (google.cloud.contactcenterinsights.v1.ListIssuesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/issueModels/*}/issues"
+		};
+
+	}
+	rpc UpdateIssue(google.cloud.contactcenterinsights.v1.UpdateIssueRequest) returns (google.cloud.contactcenterinsights.v1.Issue) {
+		option (google.api.method_signature) = "issue,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{issue.name=projects/*/locations/*/issueModels/*/issues/*}"
+			body: "issue"
+		};
+
+	}
+	rpc CalculateIssueModelStats(google.cloud.contactcenterinsights.v1.CalculateIssueModelStatsRequest) returns (google.cloud.contactcenterinsights.v1.CalculateIssueModelStatsResponse) {
+		option (google.api.method_signature) = "issue_model";
+		option (google.api.http) = {
+			get: "/v1/{issue_model=projects/*/locations/*/issueModels/*}:calculateIssueModelStats"
+		};
+
+	}
+	rpc CreatePhraseMatcher(google.cloud.contactcenterinsights.v1.CreatePhraseMatcherRequest) returns (google.cloud.contactcenterinsights.v1.PhraseMatcher) {
+		option (google.api.method_signature) = "parent,phrase_matcher";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/phraseMatchers"
+			body: "phrase_matcher"
+		};
+
+	}
+	rpc GetPhraseMatcher(google.cloud.contactcenterinsights.v1.GetPhraseMatcherRequest) returns (google.cloud.contactcenterinsights.v1.PhraseMatcher) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/phraseMatchers/*}"
+		};
+
+	}
+	rpc ListPhraseMatchers(google.cloud.contactcenterinsights.v1.ListPhraseMatchersRequest) returns (google.cloud.contactcenterinsights.v1.ListPhraseMatchersResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/phraseMatchers"
+		};
+
+	}
+	rpc DeletePhraseMatcher(google.cloud.contactcenterinsights.v1.DeletePhraseMatcherRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/phraseMatchers/*}"
+		};
+
+	}
+	rpc CalculateStats(google.cloud.contactcenterinsights.v1.CalculateStatsRequest) returns (google.cloud.contactcenterinsights.v1.CalculateStatsResponse) {
+		option (google.api.method_signature) = "location";
+		option (google.api.http) = {
+			get: "/v1/{location=projects/*/locations/*}/conversations:calculateStats"
+		};
+
+	}
+	rpc GetSettings(google.cloud.contactcenterinsights.v1.GetSettingsRequest) returns (google.cloud.contactcenterinsights.v1.Settings) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/settings}"
+		};
+
+	}
+	rpc UpdateSettings(google.cloud.contactcenterinsights.v1.UpdateSettingsRequest) returns (google.cloud.contactcenterinsights.v1.Settings) {
+		option (google.api.method_signature) = "settings,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{settings.name=projects/*/locations/*/settings}"
+			body: "settings"
+		};
+
+	}
+}
+
+message CalculateStatsRequest {
+
+	string location = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2;
+}
+
+message CalculateStatsResponse {
+
+	message TimeSeries {
+
+		message Interval {
+
+			google.protobuf.Timestamp start_time = 1;
+			int32 conversation_count = 2;
+		}
+
+		google.protobuf.Duration interval_duration = 1;
+		repeated Interval points = 2;
+	}
+
+	google.protobuf.Duration average_duration = 1;
+	int32 average_turn_count = 2;
+	int32 conversation_count = 3;
+	map<string, int32> smart_highlighter_matches = 4;
+	map<string, int32> custom_highlighter_matches = 5;
+	map<string, int32> issue_matches = 6 [
+		deprecated = true
+	];
+	TimeSeries conversation_count_time_series = 7;
+}
+
+message CreateAnalysisOperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string conversation = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Conversation"
+		}
+	];
+}
+
+message CreateConversationRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.contactcenterinsights.v1.Conversation conversation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string conversation_id = 3;
+}
+
+message ListConversationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	ConversationView view = 5;
+}
+
+message ListConversationsResponse {
+
+	repeated google.cloud.contactcenterinsights.v1.Conversation conversations = 1;
+	string next_page_token = 2;
+}
+
+message GetConversationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Conversation"
+		}
+	];
+	ConversationView view = 2;
+}
+
+message UpdateConversationRequest {
+
+	google.cloud.contactcenterinsights.v1.Conversation conversation = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteConversationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Conversation"
+		}
+	];
+	bool force = 2;
+}
+
+message CreateAnalysisRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Conversation"
+		}
+	];
+	google.cloud.contactcenterinsights.v1.Analysis analysis = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListAnalysesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Conversation"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListAnalysesResponse {
+
+	repeated google.cloud.contactcenterinsights.v1.Analysis analyses = 1;
+	string next_page_token = 2;
+}
+
+message GetAnalysisRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Analysis"
+		}
+	];
+}
+
+message DeleteAnalysisRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Analysis"
+		}
+	];
+}
+
+message ExportInsightsDataRequest {
+
+	message BigQueryDestination {
+
+		string project_id = 3;
+		string dataset = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string table = 2;
+	}
+
+	oneof destination {
+		BigQueryDestination big_query_destination = 2;
+	}
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 3;
+	string kms_key = 4;
+}
+
+message ExportInsightsDataMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ExportInsightsDataRequest request = 3;
+	repeated google.rpc.Status partial_errors = 4;
+}
+
+message ExportInsightsDataResponse {
+
+}
+
+message CreateIssueModelRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.contactcenterinsights.v1.IssueModel issue_model = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateIssueModelMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CreateIssueModelRequest request = 3;
+}
+
+message UpdateIssueModelRequest {
+
+	google.cloud.contactcenterinsights.v1.IssueModel issue_model = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message ListIssueModelsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+}
+
+message ListIssueModelsResponse {
+
+	repeated google.cloud.contactcenterinsights.v1.IssueModel issue_models = 1;
+}
+
+message GetIssueModelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/IssueModel"
+		}
+	];
+}
+
+message DeleteIssueModelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/IssueModel"
+		}
+	];
+}
+
+message DeleteIssueModelMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	DeleteIssueModelRequest request = 3;
+}
+
+message DeployIssueModelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/IssueModel"
+		}
+	];
+}
+
+message DeployIssueModelResponse {
+
+}
+
+message DeployIssueModelMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	DeployIssueModelRequest request = 3;
+}
+
+message UndeployIssueModelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/IssueModel"
+		}
+	];
+}
+
+message UndeployIssueModelResponse {
+
+}
+
+message UndeployIssueModelMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	UndeployIssueModelRequest request = 3;
+}
+
+message GetIssueRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Issue"
+		}
+	];
+}
+
+message ListIssuesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/IssueModel"
+		}
+	];
+}
+
+message ListIssuesResponse {
+
+	repeated google.cloud.contactcenterinsights.v1.Issue issues = 1;
+}
+
+message UpdateIssueRequest {
+
+	google.cloud.contactcenterinsights.v1.Issue issue = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message CalculateIssueModelStatsRequest {
+
+	string issue_model = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/IssueModel"
+		}
+	];
+}
+
+message CalculateIssueModelStatsResponse {
+
+	google.cloud.contactcenterinsights.v1.IssueModelLabelStats current_stats = 4;
+}
+
+message CreatePhraseMatcherRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.contactcenterinsights.v1.PhraseMatcher phrase_matcher = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListPhraseMatchersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListPhraseMatchersResponse {
+
+	repeated google.cloud.contactcenterinsights.v1.PhraseMatcher phrase_matchers = 1;
+	string next_page_token = 2;
+}
+
+message GetPhraseMatcherRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/PhraseMatcher"
+		}
+	];
+}
+
+message DeletePhraseMatcherRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/PhraseMatcher"
+		}
+	];
+}
+
+message GetSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "contactcenterinsights.googleapis.com/Settings"
+		}
+	];
+}
+
+message UpdateSettingsRequest {
+
+	google.cloud.contactcenterinsights.v1.Settings settings = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

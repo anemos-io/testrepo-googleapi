@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package google.cloud.notebooks.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.notebooks.v1";
+option java_outer_classname = "ExecutionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1;notebooks";
+
+
+message ExecutionTemplate {
+
+	message SchedulerAcceleratorConfig {
+
+		SchedulerAcceleratorType type = 1;
+		int64 core_count = 2;
+	}
+
+	message DataprocParameters {
+
+		string cluster = 1;
+	}
+
+	enum ScaleTier {
+
+		SCALE_TIER_UNSPECIFIED = 0;
+		BASIC = 1;
+		STANDARD_1 = 2;
+		PREMIUM_1 = 3;
+		BASIC_GPU = 4;
+		BASIC_TPU = 5;
+		CUSTOM = 6;
+	}
+
+	enum SchedulerAcceleratorType {
+
+		SCHEDULER_ACCELERATOR_TYPE_UNSPECIFIED = 0;
+		NVIDIA_TESLA_K80 = 1;
+		NVIDIA_TESLA_P100 = 2;
+		NVIDIA_TESLA_V100 = 3;
+		NVIDIA_TESLA_P4 = 4;
+		NVIDIA_TESLA_T4 = 5;
+		TPU_V2 = 6;
+		TPU_V3 = 7;
+	}
+
+	enum JobType {
+
+		JOB_TYPE_UNSPECIFIED = 0;
+		VERTEX_AI = 1;
+		DATAPROC = 2;
+	}
+
+	ScaleTier scale_tier = 1 [
+		deprecated = true,
+		(google.api.field_behavior) = REQUIRED
+	];
+	string master_type = 2;
+	SchedulerAcceleratorConfig accelerator_config = 3;
+	map<string, string> labels = 4;
+	string input_notebook_file = 5;
+	string container_image_uri = 6;
+	string output_notebook_folder = 7;
+	string params_yaml_file = 8;
+	string parameters = 9;
+	string service_account = 10;
+	JobType job_type = 11;
+	oneof job_parameters {
+		DataprocParameters dataproc_parameters = 12;
+	}
+}
+
+message Execution {
+	option (google.api.resource) = {
+		type: "notebooks.googleapis.com/Execution"
+		pattern: ["projects/{project}/location/{location}/executions/{execution}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		QUEUED = 1;
+		PREPARING = 2;
+		RUNNING = 3;
+		SUCCEEDED = 4;
+		FAILED = 5;
+		CANCELLING = 6;
+		CANCELLED = 7;
+		EXPIRED = 9;
+		INITIALIZING = 10;
+	}
+
+	ExecutionTemplate execution_template = 1;
+	string name = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 4;
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string output_notebook_file = 8;
+	string job_uri = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

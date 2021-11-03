@@ -2,11 +2,12 @@ syntax = "proto3";
 
 package google.cloud.securitycenter.v1p1beta1;
 
-import "google/api/annotations.proto";
 import "google/api/resource.proto";
+import "google/cloud/securitycenter/v1p1beta1/folder.proto";
 import "google/cloud/securitycenter/v1p1beta1/security_marks.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.securitycenter.v1p1beta1";
 option java_multiple_files = true;
@@ -19,7 +20,7 @@ option ruby_package = "Google::Cloud::SecurityCenter::V1p1beta1";
 message Asset {
 	option (google.api.resource) = {
 		type: "securitycenter.googleapis.com/Asset"
-		pattern: ["organizations/{organization}/assets/{asset}"]
+		pattern: ["organizations/{organization}/assets/{asset}","folders/{folder}/assets/{asset}","projects/{project}/assets/{asset}"]
 	};
 
 	message SecurityCenterProperties {
@@ -32,6 +33,7 @@ message Asset {
 		string resource_display_name = 6;
 		string resource_parent_display_name = 7;
 		string resource_project_display_name = 8;
+		repeated google.cloud.securitycenter.v1p1beta1.Folder folders = 10;
 	}
 
 	message IamPolicy {
@@ -46,4 +48,5 @@ message Asset {
 	google.protobuf.Timestamp create_time = 9;
 	google.protobuf.Timestamp update_time = 10;
 	IamPolicy iam_policy = 11;
+	string canonical_name = 13;
 }

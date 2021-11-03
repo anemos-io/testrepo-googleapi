@@ -1,0 +1,220 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/endpoint.proto";
+import "google/cloud/aiplatform/v1/operation.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "EndpointServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+service EndpointService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateEndpoint(google.cloud.aiplatform.v1.CreateEndpointRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Endpoint"
+			metadata_type: "CreateEndpointOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,endpoint";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/endpoints"
+			body: "endpoint"
+		};
+
+	}
+	rpc GetEndpoint(google.cloud.aiplatform.v1.GetEndpointRequest) returns (google.cloud.aiplatform.v1.Endpoint) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/endpoints/*}"
+		};
+
+	}
+	rpc ListEndpoints(google.cloud.aiplatform.v1.ListEndpointsRequest) returns (google.cloud.aiplatform.v1.ListEndpointsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/endpoints"
+		};
+
+	}
+	rpc UpdateEndpoint(google.cloud.aiplatform.v1.UpdateEndpointRequest) returns (google.cloud.aiplatform.v1.Endpoint) {
+		option (google.api.method_signature) = "endpoint,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{endpoint.name=projects/*/locations/*/endpoints/*}"
+			body: "endpoint"
+		};
+
+	}
+	rpc DeleteEndpoint(google.cloud.aiplatform.v1.DeleteEndpointRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/endpoints/*}"
+		};
+
+	}
+	rpc DeployModel(google.cloud.aiplatform.v1.DeployModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "DeployModelResponse"
+			metadata_type: "DeployModelOperationMetadata"
+		};
+		option (google.api.method_signature) = "endpoint,deployed_model,traffic_split";
+		option (google.api.http) = {
+			post: "/v1/{endpoint=projects/*/locations/*/endpoints/*}:deployModel"
+			body: "*"
+		};
+
+	}
+	rpc UndeployModel(google.cloud.aiplatform.v1.UndeployModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "UndeployModelResponse"
+			metadata_type: "UndeployModelOperationMetadata"
+		};
+		option (google.api.method_signature) = "endpoint,deployed_model_id,traffic_split";
+		option (google.api.http) = {
+			post: "/v1/{endpoint=projects/*/locations/*/endpoints/*}:undeployModel"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateEndpointRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1.Endpoint endpoint = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateEndpointOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message GetEndpointRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Endpoint"
+		}
+	];
+}
+
+message ListEndpointsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.FieldMask read_mask = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 6;
+}
+
+message ListEndpointsResponse {
+
+	repeated google.cloud.aiplatform.v1.Endpoint endpoints = 1;
+	string next_page_token = 2;
+}
+
+message UpdateEndpointRequest {
+
+	google.cloud.aiplatform.v1.Endpoint endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteEndpointRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Endpoint"
+		}
+	];
+}
+
+message DeployModelRequest {
+
+	string endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Endpoint"
+		}
+	];
+	google.cloud.aiplatform.v1.DeployedModel deployed_model = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, int32> traffic_split = 3;
+}
+
+message DeployModelResponse {
+
+	google.cloud.aiplatform.v1.DeployedModel deployed_model = 1;
+}
+
+message DeployModelOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message UndeployModelRequest {
+
+	string endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Endpoint"
+		}
+	];
+	string deployed_model_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, int32> traffic_split = 3;
+}
+
+message UndeployModelResponse {
+
+}
+
+message UndeployModelOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}

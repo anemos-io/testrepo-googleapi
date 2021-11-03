@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.enums";
+option java_outer_classname = "CriterionTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V8::Enums";
+
+
+message CriterionTypeEnum {
+
+	enum CriterionType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		KEYWORD = 2;
+		PLACEMENT = 3;
+		MOBILE_APP_CATEGORY = 4;
+		MOBILE_APPLICATION = 5;
+		DEVICE = 6;
+		LOCATION = 7;
+		LISTING_GROUP = 8;
+		AD_SCHEDULE = 9;
+		AGE_RANGE = 10;
+		GENDER = 11;
+		INCOME_RANGE = 12;
+		PARENTAL_STATUS = 13;
+		YOUTUBE_VIDEO = 14;
+		YOUTUBE_CHANNEL = 15;
+		USER_LIST = 16;
+		PROXIMITY = 17;
+		TOPIC = 18;
+		LISTING_SCOPE = 19;
+		LANGUAGE = 20;
+		IP_BLOCK = 21;
+		CONTENT_LABEL = 22;
+		CARRIER = 23;
+		USER_INTEREST = 24;
+		WEBPAGE = 25;
+		OPERATING_SYSTEM_VERSION = 26;
+		APP_PAYMENT_MODEL = 27;
+		MOBILE_DEVICE = 28;
+		CUSTOM_AFFINITY = 29;
+		CUSTOM_INTENT = 30;
+		LOCATION_GROUP = 31;
+		CUSTOM_AUDIENCE = 32;
+		COMBINED_AUDIENCE = 33;
+		KEYWORD_THEME = 34;
+	}
+
+}

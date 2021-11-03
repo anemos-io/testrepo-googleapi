@@ -29,6 +29,7 @@ message TextExtractionDatasetMetadata {
 
 message TextExtractionModelMetadata {
 
+	string model_hint = 3;
 }
 
 message TextSentimentDatasetMetadata {

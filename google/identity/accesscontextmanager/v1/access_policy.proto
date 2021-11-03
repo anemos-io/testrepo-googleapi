@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package google.identity.accesscontextmanager.v1;
 
+import "google/api/resource.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
@@ -16,6 +17,10 @@ option ruby_package = "Google::Identity::AccessContextManager::V1";
 
 
 message AccessPolicy {
+	option (google.api.resource) = {
+		type: "accesscontextmanager.googleapis.com/AccessPolicy"
+		pattern: ["accessPolicies/{access_policy}"]
+	};
 
 	string name = 1;
 	string parent = 2;

@@ -1,0 +1,222 @@
+syntax = "proto3";
+
+package google.cloud.shell.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.shell.v1";
+option java_outer_classname = "CloudShellProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/shell/v1;shell";
+
+
+service CloudShellService {
+	option (google.api.default_host) = "cloudshell.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetEnvironment(google.cloud.shell.v1.GetEnvironmentRequest) returns (google.cloud.shell.v1.Environment) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=users/*/environments/*}"
+		};
+
+	}
+	rpc StartEnvironment(google.cloud.shell.v1.StartEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "StartEnvironmentResponse"
+			metadata_type: "StartEnvironmentMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=users/*/environments/*}:start"
+			body: "*"
+		};
+
+	}
+	rpc AuthorizeEnvironment(google.cloud.shell.v1.AuthorizeEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AuthorizeEnvironmentResponse"
+			metadata_type: "AuthorizeEnvironmentMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=users/*/environments/*}:authorize"
+			body: "*"
+		};
+
+	}
+	rpc AddPublicKey(google.cloud.shell.v1.AddPublicKeyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AddPublicKeyResponse"
+			metadata_type: "AddPublicKeyMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{environment=users/*/environments/*}:addPublicKey"
+			body: "*"
+		};
+
+	}
+	rpc RemovePublicKey(google.cloud.shell.v1.RemovePublicKeyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "RemovePublicKeyResponse"
+			metadata_type: "RemovePublicKeyMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{environment=users/*/environments/*}:removePublicKey"
+			body: "*"
+		};
+
+	}
+}
+
+message Environment {
+	option (google.api.resource) = {
+		type: "cloudshell.googleapis.com/Environment"
+		pattern: ["users/{user}/environments/{environment}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		SUSPENDED = 1;
+		PENDING = 2;
+		RUNNING = 3;
+		DELETING = 4;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string docker_image = 3 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string web_host = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string ssh_username = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string ssh_host = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 ssh_port = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string public_keys = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message GetEnvironmentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudshell.googleapis.com/Environment"
+		}
+	];
+}
+
+message CreateEnvironmentMetadata {
+
+}
+
+message DeleteEnvironmentMetadata {
+
+}
+
+message StartEnvironmentRequest {
+
+	string name = 1;
+	string access_token = 2;
+	repeated string public_keys = 3;
+}
+
+message AuthorizeEnvironmentRequest {
+
+	string name = 1;
+	string access_token = 2;
+	string id_token = 4;
+	google.protobuf.Timestamp expire_time = 3;
+}
+
+message AuthorizeEnvironmentResponse {
+
+}
+
+message AuthorizeEnvironmentMetadata {
+
+}
+
+message StartEnvironmentMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		STARTING = 1;
+		UNARCHIVING_DISK = 2;
+		AWAITING_COMPUTE_RESOURCES = 4;
+		FINISHED = 3;
+	}
+
+	State state = 1;
+}
+
+message StartEnvironmentResponse {
+
+	Environment environment = 1;
+}
+
+message AddPublicKeyRequest {
+
+	string environment = 1;
+	string key = 2;
+}
+
+message AddPublicKeyResponse {
+
+	string key = 1;
+}
+
+message AddPublicKeyMetadata {
+
+}
+
+message RemovePublicKeyRequest {
+
+	string environment = 1;
+	string key = 2;
+}
+
+message RemovePublicKeyResponse {
+
+}
+
+message RemovePublicKeyMetadata {
+
+}
+
+message CloudShellErrorDetails {
+
+	enum CloudShellErrorCode {
+
+		CLOUD_SHELL_ERROR_CODE_UNSPECIFIED = 0;
+		IMAGE_UNAVAILABLE = 1;
+		CLOUD_SHELL_DISABLED = 2;
+		TOS_VIOLATION = 4;
+		QUOTA_EXCEEDED = 5;
+	}
+
+	CloudShellErrorCode code = 1;
+}

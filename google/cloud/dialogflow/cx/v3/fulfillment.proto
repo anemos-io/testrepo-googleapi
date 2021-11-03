@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3;
+
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3/advanced_settings.proto";
+import "google/cloud/dialogflow/cx/v3/response_message.proto";
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3";
+option java_outer_classname = "FulfillmentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3";
+
+
+message Fulfillment {
+
+	message SetParameterAction {
+
+		string parameter = 1;
+		google.protobuf.Value value = 2;
+	}
+
+	message ConditionalCases {
+
+		message Case {
+
+			message CaseContent {
+
+				oneof cases_or_message {
+					google.cloud.dialogflow.cx.v3.ResponseMessage message = 1;
+					ConditionalCases additional_cases = 2;
+				}
+			}
+
+			string condition = 1;
+			repeated CaseContent case_content = 2;
+		}
+
+		repeated Case cases = 1;
+	}
+
+	repeated google.cloud.dialogflow.cx.v3.ResponseMessage messages = 1;
+	string webhook = 2 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Webhook"
+		}
+	];
+	bool return_partial_responses = 8;
+	string tag = 3;
+	repeated SetParameterAction set_parameter_actions = 4;
+	repeated ConditionalCases conditional_cases = 5;
+}

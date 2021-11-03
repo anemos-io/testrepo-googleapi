@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package google.cloud.dataqna.v1alpha;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dataqna/v1alpha/annotated_string.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.dataqna.v1alpha";
+option java_outer_classname = "AutoSuggestionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataqna/v1alpha;dataqna";
+option csharp_namespace = "Google.Cloud.DataQnA.V1Alpha";
+option php_namespace = "Google\\Cloud\\DataQnA\\V1alpha";
+option ruby_package = "Google::Cloud::DataQnA::V1alpha";
+
+
+enum SuggestionType {
+
+	SUGGESTION_TYPE_UNSPECIFIED = 0;
+	ENTITY = 1;
+	TEMPLATE = 2;
+}
+
+service AutoSuggestionService {
+	option (google.api.default_host) = "dataqna.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SuggestQueries(google.cloud.dataqna.v1alpha.SuggestQueriesRequest) returns (google.cloud.dataqna.v1alpha.SuggestQueriesResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha/{parent=projects/*/locations/*}:suggestQueries"
+			body: "*"
+		};
+
+	}
+}
+
+message SuggestQueriesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	repeated string scopes = 2;
+	string query = 3;
+	repeated SuggestionType suggestion_types = 4;
+}
+
+message Suggestion {
+
+	SuggestionInfo suggestion_info = 1;
+	double ranking_score = 2;
+	SuggestionType suggestion_type = 3;
+}
+
+message SuggestionInfo {
+
+	message MatchInfo {
+
+		int32 start_char_index = 1;
+		int32 length = 2;
+	}
+
+	google.cloud.dataqna.v1alpha.AnnotatedString annotated_suggestion = 1;
+	repeated MatchInfo query_matches = 2;
+}
+
+message SuggestQueriesResponse {
+
+	repeated Suggestion suggestions = 1;
+}

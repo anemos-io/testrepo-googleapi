@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_canvas_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_content_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_link_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/static_simple_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/suggestion.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/surface_capabilities.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "StaticPromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message StaticPrompt {
+
+	message StaticPromptCandidate {
+
+		message StaticPromptResponse {
+
+			google.actions.sdk.v2.interactionmodel.prompt.StaticSimplePrompt first_simple = 2 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			google.actions.sdk.v2.interactionmodel.prompt.StaticContentPrompt content = 3 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			google.actions.sdk.v2.interactionmodel.prompt.StaticSimplePrompt last_simple = 4 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			repeated google.actions.sdk.v2.interactionmodel.prompt.Suggestion suggestions = 5 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			google.actions.sdk.v2.interactionmodel.prompt.StaticLinkPrompt link = 6 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			bool override = 7 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			google.actions.sdk.v2.interactionmodel.prompt.StaticCanvasPrompt canvas = 8;
+		}
+
+		Selector selector = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		StaticPromptResponse prompt_response = 2;
+	}
+
+	message Selector {
+
+		google.actions.sdk.v2.interactionmodel.prompt.SurfaceCapabilities surface_capabilities = 1;
+	}
+
+	repeated StaticPromptCandidate candidates = 1;
+}

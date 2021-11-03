@@ -3,10 +3,11 @@ syntax = "proto3";
 package google.cloud.dialogflow.cx.v3beta1;
 
 import "google/api/annotations.proto";
-import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3beta1/advanced_settings.proto";
 import "google/cloud/dialogflow/cx/v3beta1/audio_config.proto";
+import "google/cloud/dialogflow/cx/v3beta1/flow.proto";
 import "google/cloud/dialogflow/cx/v3beta1/intent.proto";
 import "google/cloud/dialogflow/cx/v3beta1/page.proto";
 import "google/cloud/dialogflow/cx/v3beta1/response_message.proto";
@@ -15,6 +16,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/struct.proto";
 import "google/rpc/status.proto";
 import "google/type/latlng.proto";
+import "google/api/client.proto";
 
 option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
 option java_outer_classname = "SessionProto";
@@ -23,6 +25,7 @@ option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v
 option cc_enable_arenas = true;
 option objc_class_prefix = "DF";
 option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
 option (google.api.resource_definition) = {
 	type: "dialogflow.googleapis.com/Session"
 	pattern: ["projects/{project}/locations/{location}/agents/{agent}/sessions/{session}","projects/{project}/locations/{location}/agents/{agent}/environments/{environment}/sessions/{session}"]
@@ -86,10 +89,19 @@ message DetectIntentRequest {
 
 message DetectIntentResponse {
 
+	enum ResponseType {
+
+		RESPONSE_TYPE_UNSPECIFIED = 0;
+		PARTIAL = 1;
+		FINAL = 2;
+	}
+
 	string response_id = 1;
 	QueryResult query_result = 2;
 	bytes output_audio = 4;
 	google.cloud.dialogflow.cx.v3beta1.OutputAudioConfig output_audio_config = 5;
+	ResponseType response_type = 6;
+	bool allow_cancellation = 7;
 }
 
 message StreamingDetectIntentRequest {
@@ -104,6 +116,7 @@ message StreamingDetectIntentRequest {
 		(google.api.field_behavior) = REQUIRED
 	];
 	google.cloud.dialogflow.cx.v3beta1.OutputAudioConfig output_audio_config = 4;
+	bool enable_partial_response = 5;
 }
 
 message StreamingDetectIntentResponse {
@@ -130,6 +143,7 @@ message StreamingRecognitionResult {
 	float stability = 6;
 	repeated google.cloud.dialogflow.cx.v3beta1.SpeechWordInfo speech_word_info = 7;
 	google.protobuf.Duration speech_end_offset = 8;
+	string language_code = 10;
 }
 
 message QueryParameters {
@@ -139,6 +153,19 @@ message QueryParameters {
 	repeated google.cloud.dialogflow.cx.v3beta1.SessionEntityType session_entity_types = 3;
 	google.protobuf.Struct payload = 4;
 	google.protobuf.Struct parameters = 5;
+	string current_page = 6 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Page"
+		}
+	];
+	bool disable_webhook = 7;
+	bool analyze_query_text_sentiment = 8;
+	map<string, string> webhook_headers = 10;
+	repeated string flow_versions = 14 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Version"
+		}
+	];
 }
 
 message QueryInput {
@@ -147,6 +174,8 @@ message QueryInput {
 		TextInput text = 2;
 		IntentInput intent = 3;
 		AudioInput audio = 5;
+		EventInput event = 6;
+		DtmfInput dtmf = 7;
 	}
 	string language_code = 4 [
 		(google.api.field_behavior) = REQUIRED
@@ -157,9 +186,14 @@ message QueryResult {
 
 	oneof query {
 		string text = 1;
-		string trigger_intent = 11;
+		string trigger_intent = 11 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Intent"
+			}
+		];
 		string transcript = 12;
 		string trigger_event = 14;
+		DtmfInput dtmf = 23;
 	}
 	string language_code = 2;
 	google.protobuf.Struct parameters = 3;
@@ -175,6 +209,7 @@ message QueryResult {
 	];
 	Match match = 15;
 	google.protobuf.Struct diagnostic_info = 10;
+	SentimentAnalysisResult sentiment_analysis_result = 17;
 }
 
 message TextInput {
@@ -202,6 +237,17 @@ message AudioInput {
 	bytes audio = 2;
 }
 
+message EventInput {
+
+	string event = 1;
+}
+
+message DtmfInput {
+
+	string digits = 1;
+	string finish_digit = 2;
+}
+
 message Match {
 
 	enum MatchType {
@@ -212,9 +258,11 @@ message Match {
 		PARAMETER_FILLING = 3;
 		NO_MATCH = 4;
 		NO_INPUT = 5;
+		EVENT = 6;
 	}
 
 	google.cloud.dialogflow.cx.v3beta1.Intent intent = 1;
+	string event = 6;
 	google.protobuf.Struct parameters = 2;
 	string resolved_input = 3;
 	MatchType match_type = 4;
@@ -239,8 +287,13 @@ message MatchIntentResponse {
 
 	oneof query {
 		string text = 1;
-		string trigger_intent = 2;
+		string trigger_intent = 2 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Intent"
+			}
+		];
 		string transcript = 3;
+		string trigger_event = 6;
 	}
 	repeated Match matches = 4;
 	google.cloud.dialogflow.cx.v3beta1.Page current_page = 5;
@@ -259,4 +312,10 @@ message FulfillIntentResponse {
 	QueryResult query_result = 2;
 	bytes output_audio = 3;
 	google.cloud.dialogflow.cx.v3beta1.OutputAudioConfig output_audio_config = 4;
+}
+
+message SentimentAnalysisResult {
+
+	float score = 1;
+	float magnitude = 2;
 }

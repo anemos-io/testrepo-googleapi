@@ -1,0 +1,490 @@
+syntax = "proto3";
+
+package google.storage.v2;
+
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/date.proto";
+
+option java_package = "com.google.storage.v2";
+option java_outer_classname = "StorageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/storage/v2;storage";
+option (google.api.resource_definition) = {
+	type: "cloudkms.googleapis.com/CryptoKey"
+	pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}"]
+};
+
+
+enum PredefinedObjectAcl {
+
+	PREDEFINED_OBJECT_ACL_UNSPECIFIED = 0;
+	OBJECT_ACL_AUTHENTICATED_READ = 1;
+	OBJECT_ACL_BUCKET_OWNER_FULL_CONTROL = 2;
+	OBJECT_ACL_BUCKET_OWNER_READ = 3;
+	OBJECT_ACL_PRIVATE = 4;
+	OBJECT_ACL_PROJECT_PRIVATE = 5;
+	OBJECT_ACL_PUBLIC_READ = 6;
+}
+
+service Storage {
+	option (google.api.default_host) = "storage.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/devstorage.full_control,https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/devstorage.read_write";
+
+	rpc ReadObject(google.storage.v2.ReadObjectRequest) returns (stream google.storage.v2.ReadObjectResponse) {
+		option (google.api.method_signature) = "bucket,object";
+		option (google.api.method_signature) = "bucket,object,generation";
+
+	}
+	rpc WriteObject(stream google.storage.v2.WriteObjectRequest) returns (google.storage.v2.WriteObjectResponse) {}
+	rpc StartResumableWrite(google.storage.v2.StartResumableWriteRequest) returns (google.storage.v2.StartResumableWriteResponse) {}
+	rpc QueryWriteStatus(google.storage.v2.QueryWriteStatusRequest) returns (google.storage.v2.QueryWriteStatusResponse) {
+		option (google.api.method_signature) = "upload_id";
+
+	}
+}
+
+message ReadObjectRequest {
+
+	string bucket = 1;
+	string object = 2;
+	int64 generation = 3;
+	int64 read_offset = 4;
+	int64 read_limit = 5;
+	oneof _if_generation_match {
+		int64 if_generation_match = 6;
+	}
+	oneof _if_generation_not_match {
+		int64 if_generation_not_match = 7;
+	}
+	oneof _if_metageneration_match {
+		int64 if_metageneration_match = 8;
+	}
+	oneof _if_metageneration_not_match {
+		int64 if_metageneration_not_match = 9;
+	}
+	CommonObjectRequestParams common_object_request_params = 10;
+	CommonRequestParams common_request_params = 11;
+	oneof _read_mask {
+		google.protobuf.FieldMask read_mask = 12;
+	}
+}
+
+message ReadObjectResponse {
+
+	ChecksummedData checksummed_data = 1;
+	ObjectChecksums object_checksums = 2;
+	ContentRange content_range = 3;
+	Object metadata = 4;
+}
+
+message WriteObjectSpec {
+
+	Object resource = 1;
+	PredefinedObjectAcl predefined_acl = 2;
+	oneof _if_generation_match {
+		int64 if_generation_match = 3;
+	}
+	oneof _if_generation_not_match {
+		int64 if_generation_not_match = 4;
+	}
+	oneof _if_metageneration_match {
+		int64 if_metageneration_match = 5;
+	}
+	oneof _if_metageneration_not_match {
+		int64 if_metageneration_not_match = 6;
+	}
+}
+
+message WriteObjectRequest {
+
+	oneof first_message {
+		string upload_id = 1;
+		WriteObjectSpec write_object_spec = 2;
+	}
+	int64 write_offset = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof data {
+		ChecksummedData checksummed_data = 4;
+	}
+	ObjectChecksums object_checksums = 6;
+	bool finish_write = 7;
+	CommonObjectRequestParams common_object_request_params = 8;
+	CommonRequestParams common_request_params = 9;
+}
+
+message WriteObjectResponse {
+
+	oneof write_status {
+		int64 persisted_size = 1;
+		Object resource = 2;
+	}
+}
+
+message QueryWriteStatusRequest {
+
+	string upload_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonObjectRequestParams common_object_request_params = 2;
+	CommonRequestParams common_request_params = 3;
+}
+
+message QueryWriteStatusResponse {
+
+	oneof write_status {
+		int64 persisted_size = 1;
+		Object resource = 2;
+	}
+}
+
+message StartResumableWriteRequest {
+
+	WriteObjectSpec write_object_spec = 1;
+	CommonObjectRequestParams common_object_request_params = 3;
+	CommonRequestParams common_request_params = 4;
+}
+
+message StartResumableWriteResponse {
+
+	string upload_id = 1;
+}
+
+message CommonObjectRequestParams {
+
+	string encryption_algorithm = 1;
+	bytes encryption_key_bytes = 4;
+	bytes encryption_key_sha256_bytes = 5;
+}
+
+message CommonRequestParams {
+
+	string user_project = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+}
+
+message ServiceConstants {
+
+	enum Values {
+		option allow_alias = true;
+
+		VALUES_UNSPECIFIED = 0;
+		MAX_READ_CHUNK_BYTES = 2097152;
+		MAX_WRITE_CHUNK_BYTES = 2097152;
+		MAX_OBJECT_SIZE_MB = 5242880;
+		MAX_CUSTOM_METADATA_FIELD_NAME_BYTES = 1024;
+		MAX_CUSTOM_METADATA_FIELD_VALUE_BYTES = 4096;
+		MAX_CUSTOM_METADATA_TOTAL_SIZE_BYTES = 8192;
+		MAX_BUCKET_METADATA_TOTAL_SIZE_BYTES = 20480;
+		MAX_NOTIFICATION_CONFIGS_PER_BUCKET = 100;
+		MAX_LIFECYCLE_RULES_PER_BUCKET = 100;
+		MAX_NOTIFICATION_CUSTOM_ATTRIBUTES = 5;
+		MAX_NOTIFICATION_CUSTOM_ATTRIBUTE_KEY_LENGTH = 256;
+		MAX_NOTIFICATION_CUSTOM_ATTRIBUTE_VALUE_LENGTH = 1024;
+		MAX_LABELS_ENTRIES_COUNT = 64;
+		MAX_LABELS_KEY_VALUE_LENGTH = 63;
+		MAX_LABELS_KEY_VALUE_BYTES = 128;
+		MAX_OBJECT_IDS_PER_DELETE_OBJECTS_REQUEST = 1000;
+		SPLIT_TOKEN_MAX_VALID_DAYS = 14;
+	}
+
+}
+
+message Bucket {
+	option (google.api.resource) = {
+		type: "storage.googleapis.com/Bucket"
+		pattern: ["projects/{project}/buckets/{bucket}"]
+	};
+
+	message Billing {
+
+		bool requester_pays = 1;
+	}
+
+	message Cors {
+
+		repeated string origin = 1;
+		repeated string method = 2;
+		repeated string response_header = 3;
+		int32 max_age_seconds = 4;
+	}
+
+	message Encryption {
+
+		string default_kms_key = 1 [
+			(google.api.resource_reference) = {
+				type: "cloudkms.googleapis.com/CryptoKey"
+			}
+		];
+	}
+
+	message IamConfig {
+
+		message UniformBucketLevelAccess {
+
+			bool enabled = 1;
+			google.protobuf.Timestamp lock_time = 2;
+		}
+
+		enum PublicAccessPrevention {
+
+			PUBLIC_ACCESS_PREVENTION_UNSPECIFIED = 0;
+			ENFORCED = 1;
+			INHERITED = 2;
+		}
+
+		UniformBucketLevelAccess uniform_bucket_level_access = 1;
+		PublicAccessPrevention public_access_prevention = 2;
+	}
+
+	message Lifecycle {
+
+		message Rule {
+
+			message Action {
+
+				string type = 1;
+				string storage_class = 2;
+			}
+
+			message Condition {
+
+				oneof _age_days {
+					int32 age_days = 1;
+				}
+				google.type.Date created_before = 2;
+				oneof _is_live {
+					bool is_live = 3;
+				}
+				oneof _num_newer_versions {
+					int32 num_newer_versions = 4;
+				}
+				repeated string matches_storage_class = 5;
+				oneof _days_since_custom_time {
+					int32 days_since_custom_time = 7;
+				}
+				google.type.Date custom_time_before = 8;
+				oneof _days_since_noncurrent_time {
+					int32 days_since_noncurrent_time = 9;
+				}
+				google.type.Date noncurrent_time_before = 10;
+			}
+
+			Action action = 1;
+			Condition condition = 2;
+		}
+
+		repeated Rule rule = 1;
+	}
+
+	message Logging {
+
+		string log_bucket = 1;
+		string log_object_prefix = 2;
+	}
+
+	message RetentionPolicy {
+
+		google.protobuf.Timestamp effective_time = 1;
+		bool is_locked = 2;
+		int64 retention_period = 3;
+	}
+
+	message Versioning {
+
+		bool enabled = 1;
+	}
+
+	message Website {
+
+		string main_page_suffix = 1;
+		string not_found_page = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string bucket_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string project = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int64 metageneration = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string location = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string location_type = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string storage_class = 7;
+	repeated BucketAccessControl acl = 8;
+	repeated ObjectAccessControl default_object_acl = 9;
+	Lifecycle lifecycle = 10;
+	google.protobuf.Timestamp create_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Cors cors = 12;
+	google.protobuf.Timestamp update_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool default_event_based_hold = 14;
+	map<string, string> labels = 15;
+	Website website = 16;
+	Versioning versioning = 17;
+	Logging logging = 18;
+	Owner owner = 19 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Encryption encryption = 20;
+	Billing billing = 21;
+	RetentionPolicy retention_policy = 22;
+	IamConfig iam_config = 23;
+	repeated string zone_affinity = 24 [
+		deprecated = true,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	bool satisfies_pzs = 25;
+}
+
+message BucketAccessControl {
+
+	string role = 1;
+	string id = 2;
+	string entity = 3;
+	string entity_id = 4;
+	string email = 5;
+	string domain = 6;
+	ProjectTeam project_team = 7;
+}
+
+message ChecksummedData {
+
+	bytes content = 1;
+	oneof _crc32c {
+		fixed32 crc32c = 2;
+	}
+}
+
+message ObjectChecksums {
+
+	oneof _crc32c {
+		fixed32 crc32c = 1;
+	}
+	bytes md5_hash = 2;
+}
+
+message Object {
+
+	message CustomerEncryption {
+
+		string encryption_algorithm = 1;
+		bytes key_sha256_bytes = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string bucket = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "storage.googleapis.com/Bucket"
+		}
+	];
+	int64 generation = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	int64 metageneration = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string storage_class = 5;
+	int64 size = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string content_encoding = 7;
+	string content_disposition = 8;
+	string cache_control = 9;
+	repeated ObjectAccessControl acl = 10;
+	string content_language = 11;
+	google.protobuf.Timestamp delete_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string content_type = 13;
+	google.protobuf.Timestamp create_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 component_count = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ObjectChecksums checksums = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string kms_key = 18 [
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+	google.protobuf.Timestamp update_storage_class_time = 19 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool temporary_hold = 20;
+	google.protobuf.Timestamp retention_expire_time = 21;
+	map<string, string> metadata = 22;
+	oneof _event_based_hold {
+		bool event_based_hold = 23;
+	}
+	Owner owner = 24 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CustomerEncryption customer_encryption = 25;
+	google.protobuf.Timestamp custom_time = 26;
+}
+
+message ObjectAccessControl {
+
+	string role = 1;
+	string id = 2;
+	string entity = 3;
+	string entity_id = 4;
+	string email = 5;
+	string domain = 6;
+	ProjectTeam project_team = 7;
+}
+
+message ProjectTeam {
+
+	string project_number = 1;
+	string team = 2;
+}
+
+message Owner {
+
+	string entity = 1;
+	string entity_id = 2;
+}
+
+message ContentRange {
+
+	int64 start = 1;
+	int64 end = 2;
+	int64 complete_length = 3;
+}

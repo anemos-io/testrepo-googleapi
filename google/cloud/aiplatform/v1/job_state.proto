@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "JobStateProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+enum JobState {
+
+	JOB_STATE_UNSPECIFIED = 0;
+	JOB_STATE_QUEUED = 1;
+	JOB_STATE_PENDING = 2;
+	JOB_STATE_RUNNING = 3;
+	JOB_STATE_SUCCEEDED = 4;
+	JOB_STATE_FAILED = 5;
+	JOB_STATE_CANCELLING = 6;
+	JOB_STATE_CANCELLED = 7;
+	JOB_STATE_PAUSED = 8;
+	JOB_STATE_EXPIRED = 9;
+}

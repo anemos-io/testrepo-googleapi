@@ -30,6 +30,12 @@ service SessionEntityTypes {
 			additional_bindings: {
 				get: "/v2/{parent=projects/*/agent/environments/*/users/*/sessions/*}/entityTypes"
 			}
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*/agent/sessions/*}/entityTypes"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*/agent/environments/*/users/*/sessions/*}/entityTypes"
+			}
 		};
 
 	}
@@ -39,6 +45,12 @@ service SessionEntityTypes {
 			get: "/v2/{name=projects/*/agent/sessions/*/entityTypes/*}"
 			additional_bindings: {
 				get: "/v2/{name=projects/*/agent/environments/*/users/*/sessions/*/entityTypes/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=projects/*/locations/*/agent/sessions/*/entityTypes/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=projects/*/locations/*/agent/environments/*/users/*/sessions/*/entityTypes/*}"
 			}
 		};
 
@@ -50,6 +62,14 @@ service SessionEntityTypes {
 			body: "session_entity_type"
 			additional_bindings: {
 				post: "/v2/{parent=projects/*/agent/environments/*/users/*/sessions/*}/entityTypes"
+				body: "session_entity_type"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent/sessions/*}/entityTypes"
+				body: "session_entity_type"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent/environments/*/users/*/sessions/*}/entityTypes"
 				body: "session_entity_type"
 			}
 		};
@@ -65,6 +85,14 @@ service SessionEntityTypes {
 				patch: "/v2/{session_entity_type.name=projects/*/agent/environments/*/users/*/sessions/*/entityTypes/*}"
 				body: "session_entity_type"
 			}
+			additional_bindings: {
+				patch: "/v2/{session_entity_type.name=projects/*/locations/*/agent/sessions/*/entityTypes/*}"
+				body: "session_entity_type"
+			}
+			additional_bindings: {
+				patch: "/v2/{session_entity_type.name=projects/*/locations/*/agent/environments/*/users/*/sessions/*/entityTypes/*}"
+				body: "session_entity_type"
+			}
 		};
 
 	}
@@ -75,6 +103,12 @@ service SessionEntityTypes {
 			additional_bindings: {
 				delete: "/v2/{name=projects/*/agent/environments/*/users/*/sessions/*/entityTypes/*}"
 			}
+			additional_bindings: {
+				delete: "/v2/{name=projects/*/locations/*/agent/sessions/*/entityTypes/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{name=projects/*/locations/*/agent/environments/*/users/*/sessions/*/entityTypes/*}"
+			}
 		};
 
 	}
@@ -83,7 +117,7 @@ service SessionEntityTypes {
 message SessionEntityType {
 	option (google.api.resource) = {
 		type: "dialogflow.googleapis.com/SessionEntityType"
-		pattern: ["projects/{project}/agent/sessions/{session}/entityTypes/{entity_type}","projects/{project}/agent/environments/{environment}/users/{user}/sessions/{session}/entityTypes/{entity_type}"]
+		pattern: ["projects/{project}/agent/sessions/{session}/entityTypes/{entity_type}","projects/{project}/agent/environments/{environment}/users/{user}/sessions/{session}/entityTypes/{entity_type}","projects/{project}/locations/{location}/agent/sessions/{session}/entityTypes/{entity_type}","projects/{project}/locations/{location}/agent/environments/{environment}/users/{user}/sessions/{session}/entityTypes/{entity_type}"]
 	};
 
 	enum EntityOverrideMode {

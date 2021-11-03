@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package google.apps.script.type;
+
+import "google/apps/script/type/addon_widget_set.proto";
+import "google/apps/script/type/extension_point.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.apps.script.type";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/script/type";
+option csharp_namespace = "Google.Apps.Script.Type";
+option php_namespace = "Google\\Apps\\Script\\Type";
+option ruby_package = "Google::Apps::Script::Type";
+
+
+enum HttpAuthorizationHeader {
+
+	HTTP_AUTHORIZATION_HEADER_UNSPECIFIED = 0;
+	SYSTEM_ID_TOKEN = 1;
+	USER_ID_TOKEN = 2;
+	NONE = 3;
+}
+
+message CommonAddOnManifest {
+
+	string name = 1;
+	string logo_url = 2;
+	LayoutProperties layout_properties = 3;
+	google.apps.script.type.AddOnWidgetSet add_on_widget_set = 4;
+	bool use_locale_from_app = 5;
+	google.apps.script.type.HomepageExtensionPoint homepage_trigger = 6;
+	repeated google.apps.script.type.UniversalActionExtensionPoint universal_actions = 7;
+	google.protobuf.ListValue open_link_url_prefixes = 8;
+}
+
+message LayoutProperties {
+
+	string primary_color = 1;
+	string secondary_color = 2;
+}
+
+message HttpOptions {
+
+	HttpAuthorizationHeader authorization_header = 1;
+}

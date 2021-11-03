@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package google.cloud.identitytoolkit.v2;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.identitytoolkit.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/identitytoolkit/v2;identitytoolkit";
+option csharp_namespace = "Google.Cloud.IdentityToolkit.V2";
+option php_namespace = "Google\\Cloud\\IdentityToolkit\\V2";
+option ruby_package = "Google::Cloud::IdentityToolkit::V2";
+
+
+message AutoRetrievalInfo {
+
+	string app_signature_hash = 1;
+}
+
+message StartMfaPhoneRequestInfo {
+
+	string phone_number = 1;
+	string ios_receipt = 2;
+	string ios_secret = 3;
+	string recaptcha_token = 4;
+	AutoRetrievalInfo auto_retrieval_info = 5;
+	string safety_net_token = 6;
+}
+
+message StartMfaPhoneResponseInfo {
+
+	string session_info = 1;
+}
+
+message FinalizeMfaPhoneRequestInfo {
+
+	string session_info = 1;
+	string code = 2;
+	string android_verification_proof = 3;
+	string phone_number = 4;
+}
+
+message FinalizeMfaPhoneResponseInfo {
+
+	string android_verification_proof = 1;
+	google.protobuf.Timestamp android_verification_proof_expire_time = 2;
+	string phone_number = 3;
+}

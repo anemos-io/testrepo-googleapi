@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.enums";
+option java_outer_classname = "PolicyTopicEntryTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V8::Enums";
+
+
+message PolicyTopicEntryTypeEnum {
+
+	enum PolicyTopicEntryType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		PROHIBITED = 2;
+		LIMITED = 4;
+		FULLY_LIMITED = 8;
+		DESCRIPTIVE = 5;
+		BROADENING = 6;
+		AREA_OF_INTEREST_ONLY = 7;
+	}
+
+}

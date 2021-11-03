@@ -234,12 +234,18 @@ message WebDetectionParams {
 	bool include_geo_results = 2;
 }
 
+message TextDetectionParams {
+
+	bool enable_text_detection_confidence_score = 9;
+}
+
 message ImageContext {
 
 	LatLongRect lat_long_rect = 1;
 	repeated string language_hints = 2;
 	CropHintsParams crop_hints_params = 4;
 	WebDetectionParams web_detection_params = 6;
+	TextDetectionParams text_detection_params = 12;
 }
 
 message AnnotateImageRequest {

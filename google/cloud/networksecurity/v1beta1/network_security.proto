@@ -1,0 +1,171 @@
+syntax = "proto3";
+
+package google.cloud.networksecurity.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/cloud/networksecurity/v1beta1/authorization_policy.proto";
+import "google/cloud/networksecurity/v1beta1/client_tls_policy.proto";
+import "google/cloud/networksecurity/v1beta1/server_tls_policy.proto";
+import "google/longrunning/operations.proto";
+
+option java_package = "com.google.cloud.networksecurity.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/networksecurity/v1beta1;networksecurity";
+option csharp_namespace = "Google.Cloud.NetworkSecurity.V1Beta1";
+option php_namespace = "Google\\Cloud\\NetworkSecurity\\V1beta1";
+option ruby_package = "Google::Cloud::NetworkSecurity::V1beta1";
+
+
+service NetworkSecurity {
+	option (google.api.default_host) = "networksecurity.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListAuthorizationPolicies(google.cloud.networksecurity.v1beta1.ListAuthorizationPoliciesRequest) returns (google.cloud.networksecurity.v1beta1.ListAuthorizationPoliciesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/authorizationPolicies"
+		};
+
+	}
+	rpc GetAuthorizationPolicy(google.cloud.networksecurity.v1beta1.GetAuthorizationPolicyRequest) returns (google.cloud.networksecurity.v1beta1.AuthorizationPolicy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/authorizationPolicies/*}"
+		};
+
+	}
+	rpc CreateAuthorizationPolicy(google.cloud.networksecurity.v1beta1.CreateAuthorizationPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AuthorizationPolicy"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,authorization_policy,authorization_policy_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/authorizationPolicies"
+			body: "authorization_policy"
+		};
+
+	}
+	rpc UpdateAuthorizationPolicy(google.cloud.networksecurity.v1beta1.UpdateAuthorizationPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AuthorizationPolicy"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "authorization_policy,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{authorization_policy.name=projects/*/locations/*/authorizationPolicies/*}"
+			body: "authorization_policy"
+		};
+
+	}
+	rpc DeleteAuthorizationPolicy(google.cloud.networksecurity.v1beta1.DeleteAuthorizationPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/authorizationPolicies/*}"
+		};
+
+	}
+	rpc ListServerTlsPolicies(google.cloud.networksecurity.v1beta1.ListServerTlsPoliciesRequest) returns (google.cloud.networksecurity.v1beta1.ListServerTlsPoliciesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/serverTlsPolicies"
+		};
+
+	}
+	rpc GetServerTlsPolicy(google.cloud.networksecurity.v1beta1.GetServerTlsPolicyRequest) returns (google.cloud.networksecurity.v1beta1.ServerTlsPolicy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/serverTlsPolicies/*}"
+		};
+
+	}
+	rpc CreateServerTlsPolicy(google.cloud.networksecurity.v1beta1.CreateServerTlsPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ServerTlsPolicy"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,server_tls_policy,server_tls_policy_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/serverTlsPolicies"
+			body: "server_tls_policy"
+		};
+
+	}
+	rpc UpdateServerTlsPolicy(google.cloud.networksecurity.v1beta1.UpdateServerTlsPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ServerTlsPolicy"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "server_tls_policy,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{server_tls_policy.name=projects/*/locations/*/serverTlsPolicies/*}"
+			body: "server_tls_policy"
+		};
+
+	}
+	rpc DeleteServerTlsPolicy(google.cloud.networksecurity.v1beta1.DeleteServerTlsPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/serverTlsPolicies/*}"
+		};
+
+	}
+	rpc ListClientTlsPolicies(google.cloud.networksecurity.v1beta1.ListClientTlsPoliciesRequest) returns (google.cloud.networksecurity.v1beta1.ListClientTlsPoliciesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/clientTlsPolicies"
+		};
+
+	}
+	rpc GetClientTlsPolicy(google.cloud.networksecurity.v1beta1.GetClientTlsPolicyRequest) returns (google.cloud.networksecurity.v1beta1.ClientTlsPolicy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/clientTlsPolicies/*}"
+		};
+
+	}
+	rpc CreateClientTlsPolicy(google.cloud.networksecurity.v1beta1.CreateClientTlsPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ClientTlsPolicy"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,client_tls_policy,client_tls_policy_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/clientTlsPolicies"
+			body: "client_tls_policy"
+		};
+
+	}
+	rpc UpdateClientTlsPolicy(google.cloud.networksecurity.v1beta1.UpdateClientTlsPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ClientTlsPolicy"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "client_tls_policy,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{client_tls_policy.name=projects/*/locations/*/clientTlsPolicies/*}"
+			body: "client_tls_policy"
+		};
+
+	}
+	rpc DeleteClientTlsPolicy(google.cloud.networksecurity.v1beta1.DeleteClientTlsPolicyRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/clientTlsPolicies/*}"
+		};
+
+	}
+}

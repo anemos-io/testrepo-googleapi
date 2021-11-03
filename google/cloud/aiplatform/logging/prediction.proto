@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.logging;
+
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.aiplatform.logging";
+option java_outer_classname = "PredictionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/logging;logging";
+
+
+message OnlinePredictionLogEntry {
+
+	string endpoint = 1;
+	string deployed_model_id = 2;
+	int64 instance_count = 3;
+	int64 prediction_count = 4;
+	google.rpc.Status error = 5;
+}

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/retail/v2/common.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.cloud.retail.v2";
+option java_outer_classname = "ProductProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2";
+option php_namespace = "Google\\Cloud\\Retail\\V2";
+option ruby_package = "Google::Cloud::Retail::V2";
+option (google.api.resource_definition) = {
+	type: "retail.googleapis.com/Branch"
+	pattern: ["projects/{project}/locations/{location}/catalogs/{catalog}/branches/{branch}"]
+};
+
+
+message Product {
+	option (google.api.resource) = {
+		type: "retail.googleapis.com/Product"
+		pattern: ["projects/{project}/locations/{location}/catalogs/{catalog}/branches/{branch}/products/{product}"]
+	};
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		PRIMARY = 1;
+		VARIANT = 2;
+		COLLECTION = 3;
+	}
+
+	enum Availability {
+
+		AVAILABILITY_UNSPECIFIED = 0;
+		IN_STOCK = 1;
+		OUT_OF_STOCK = 2;
+		PREORDER = 3;
+		BACKORDER = 4;
+	}
+
+	oneof expiration {
+		google.protobuf.Timestamp expire_time = 16;
+		google.protobuf.Duration ttl = 17 [
+			(google.api.field_behavior) = INPUT_ONLY
+		];
+	}
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string id = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	Type type = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string primary_product_id = 4;
+	repeated string collection_member_ids = 5;
+	string gtin = 6;
+	repeated string categories = 7;
+	string title = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string brands = 9;
+	string description = 10;
+	string language_code = 11;
+	map<string, google.cloud.retail.v2.CustomAttribute> attributes = 12;
+	repeated string tags = 13;
+	google.cloud.retail.v2.PriceInfo price_info = 14;
+	google.cloud.retail.v2.Rating rating = 15;
+	google.protobuf.Timestamp available_time = 18;
+	Availability availability = 19;
+	google.protobuf.Int32Value available_quantity = 20;
+	repeated google.cloud.retail.v2.FulfillmentInfo fulfillment_info = 21;
+	string uri = 22;
+	repeated google.cloud.retail.v2.Image images = 23;
+	google.cloud.retail.v2.Audience audience = 24;
+	google.cloud.retail.v2.ColorInfo color_info = 25;
+	repeated string sizes = 26;
+	repeated string materials = 27;
+	repeated string patterns = 28;
+	repeated string conditions = 29;
+	repeated google.cloud.retail.v2.Promotion promotions = 34;
+	google.protobuf.Timestamp publish_time = 33;
+	google.protobuf.FieldMask retrievable_fields = 30;
+	repeated Product variants = 31 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

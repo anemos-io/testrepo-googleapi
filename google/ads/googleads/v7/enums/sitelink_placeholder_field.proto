@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.enums";
+option java_outer_classname = "SitelinkPlaceholderFieldProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V7::Enums";
+
+
+message SitelinkPlaceholderFieldEnum {
+
+	enum SitelinkPlaceholderField {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		TEXT = 2;
+		LINE_1 = 3;
+		LINE_2 = 4;
+		FINAL_URLS = 5;
+		FINAL_MOBILE_URLS = 6;
+		TRACKING_URL = 7;
+		FINAL_URL_SUFFIX = 8;
+	}
+
+}

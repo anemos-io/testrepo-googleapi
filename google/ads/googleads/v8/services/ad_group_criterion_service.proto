@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/common/policy.proto";
+import "google/ads/googleads/v8/enums/response_content_type.proto";
+import "google/ads/googleads/v8/resources/ad_group_criterion.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "AdGroupCriterionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service AdGroupCriterionService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetAdGroupCriterion(google.ads.googleads.v8.services.GetAdGroupCriterionRequest) returns (google.ads.googleads.v8.resources.AdGroupCriterion) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v8/{resource_name=customers/*/adGroupCriteria/*}"
+		};
+
+	}
+	rpc MutateAdGroupCriteria(google.ads.googleads.v8.services.MutateAdGroupCriteriaRequest) returns (google.ads.googleads.v8.services.MutateAdGroupCriteriaResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}/adGroupCriteria:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetAdGroupCriterionRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupCriterion"
+		}
+	];
+}
+
+message MutateAdGroupCriteriaRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated AdGroupCriterionOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+	google.ads.googleads.v8.enums.ResponseContentTypeEnum.ResponseContentType response_content_type = 5;
+}
+
+message AdGroupCriterionOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	repeated google.ads.googleads.v8.common.PolicyViolationKey exempt_policy_violation_keys = 5;
+	oneof operation {
+		google.ads.googleads.v8.resources.AdGroupCriterion create = 1;
+		google.ads.googleads.v8.resources.AdGroupCriterion update = 2;
+		string remove = 3;
+	}
+}
+
+message MutateAdGroupCriteriaResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateAdGroupCriterionResult results = 2;
+}
+
+message MutateAdGroupCriterionResult {
+
+	string resource_name = 1;
+	google.ads.googleads.v8.resources.AdGroupCriterion ad_group_criterion = 2;
+}

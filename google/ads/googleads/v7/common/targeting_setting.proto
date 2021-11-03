@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/ads/googleads/v7/enums/targeting_dimension.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "TargetingSettingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message TargetingSetting {
+
+	repeated TargetRestriction target_restrictions = 1;
+	repeated TargetRestrictionOperation target_restriction_operations = 2;
+}
+
+message TargetRestriction {
+
+	google.ads.googleads.v7.enums.TargetingDimensionEnum.TargetingDimension targeting_dimension = 1;
+	oneof _bid_only {
+		bool bid_only = 3;
+	}
+}
+
+message TargetRestrictionOperation {
+
+	enum Operator {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		ADD = 2;
+		REMOVE = 3;
+	}
+
+	Operator operator = 1;
+	TargetRestriction value = 2;
+}

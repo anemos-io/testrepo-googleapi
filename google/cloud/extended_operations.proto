@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package google.cloud;
+
+import "google/protobuf/descriptor.proto";
+
+option java_package = "com.google.cloud";
+option java_outer_classname = "ExtendedOperationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/extendedops;extendedops";
+option objc_class_prefix = "GAPI";
+
+
+extend google.protobuf.FieldOptions {
+	OperationResponseMapping operation_field = 1149;
+	string operation_request_field = 1150;
+	string operation_response_field = 1151;
+}
+
+
+extend google.protobuf.MethodOptions {
+	string operation_service = 1249;
+	bool operation_polling_method = 1250;
+}
+
+
+enum OperationResponseMapping {
+
+	UNDEFINED = 0;
+	NAME = 1;
+	STATUS = 2;
+	ERROR_CODE = 3;
+	ERROR_MESSAGE = 4;
+}

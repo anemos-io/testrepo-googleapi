@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2beta;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/retail/v2beta/user_event.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.cloud.retail.v2beta";
+option java_outer_classname = "PredictionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2beta;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2Beta";
+option php_namespace = "Google\\Cloud\\Retail\\V2beta";
+option ruby_package = "Google::Cloud::Retail::V2beta";
+
+
+service PredictionService {
+	option (google.api.default_host) = "retail.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc Predict(google.cloud.retail.v2beta.PredictRequest) returns (google.cloud.retail.v2beta.PredictResponse) {
+		option (google.api.http) = {
+			post: "/v2beta/{placement=projects/*/locations/*/catalogs/*/placements/*}:predict"
+			body: "*"
+		};
+
+	}
+}
+
+message PredictRequest {
+
+	string placement = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.retail.v2beta.UserEvent user_event = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 3;
+	string page_token = 4;
+	string filter = 5;
+	bool validate_only = 6;
+	map<string, google.protobuf.Value> params = 7;
+	map<string, string> labels = 8;
+}
+
+message PredictResponse {
+
+	message PredictionResult {
+
+		string id = 1;
+		map<string, google.protobuf.Value> metadata = 2;
+	}
+
+	repeated PredictionResult results = 1;
+	string attribution_token = 2;
+	repeated string missing_ids = 3;
+	bool validate_only = 4;
+}

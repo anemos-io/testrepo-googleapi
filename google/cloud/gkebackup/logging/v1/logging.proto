@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package google.cloud.gkebackup.logging.v1;
+
+import "google/cloud/gkebackup/logging/v1/logged_backup.proto";
+import "google/cloud/gkebackup/logging/v1/logged_backup_plan.proto";
+import "google/cloud/gkebackup/logging/v1/logged_restore.proto";
+import "google/cloud/gkebackup/logging/v1/logged_restore_plan.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "google.cloud.gkebackup.logging.v1";
+option java_outer_classname = "LoggingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkebackup/logging/v1;logging";
+option csharp_namespace = "Google.Cloud.GkeBackup.Logging.V1";
+option php_namespace = "Google\\Cloud\\GkeBackup\\Logging\\V1";
+option ruby_package = "Google::Cloud::GkeBackup::Logging::V1";
+
+
+enum ChangeType {
+
+	CHANGE_TYPE_UNSPECIFIED = 0;
+	CREATION = 1;
+	UPDATE = 2;
+	DELETION = 3;
+}
+
+message BackupPlanChange {
+
+	string backup_plan = 1;
+	ChangeType change_type = 2;
+	google.protobuf.FieldMask update_mask = 3;
+	google.cloud.gkebackup.logging.v1.LoggedBackupPlan input_backup_plan = 4;
+	google.rpc.Status error = 5;
+}
+
+message BackupChange {
+
+	string backup = 1;
+	ChangeType change_type = 2;
+	bool scheduled = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	google.cloud.gkebackup.logging.v1.LoggedBackup input_backup = 5;
+	google.rpc.Status error = 6;
+}
+
+message RestorePlanChange {
+
+	string restore_plan = 1;
+	ChangeType change_type = 2;
+	google.protobuf.FieldMask update_mask = 3;
+	google.cloud.gkebackup.logging.v1.LoggedRestorePlan input_restore_plan = 4;
+	google.rpc.Status error = 5;
+}
+
+message RestoreChange {
+
+	string restore = 1;
+	ChangeType change_type = 2;
+	google.protobuf.FieldMask update_mask = 3;
+	google.cloud.gkebackup.logging.v1.LoggedRestore input_restore = 4;
+	google.rpc.Status error = 5;
+}

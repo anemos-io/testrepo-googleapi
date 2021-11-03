@@ -1,0 +1,507 @@
+syntax = "proto3";
+
+package google.cloud.tpu.v2alpha1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.tpu.v2alpha1";
+option java_outer_classname = "CloudTpuProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/tpu/v2alpha1;tpu";
+
+
+service Tpu {
+	option (google.api.default_host) = "tpu.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListNodes(google.cloud.tpu.v2alpha1.ListNodesRequest) returns (google.cloud.tpu.v2alpha1.ListNodesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2alpha1/{parent=projects/*/locations/*}/nodes"
+		};
+
+	}
+	rpc GetNode(google.cloud.tpu.v2alpha1.GetNodeRequest) returns (google.cloud.tpu.v2alpha1.Node) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2alpha1/{name=projects/*/locations/*/nodes/*}"
+		};
+
+	}
+	rpc CreateNode(google.cloud.tpu.v2alpha1.CreateNodeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Node"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,node,node_id";
+		option (google.api.http) = {
+			post: "/v2alpha1/{parent=projects/*/locations/*}/nodes"
+			body: "node"
+		};
+
+	}
+	rpc DeleteNode(google.cloud.tpu.v2alpha1.DeleteNodeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Node"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2alpha1/{name=projects/*/locations/*/nodes/*}"
+		};
+
+	}
+	rpc StopNode(google.cloud.tpu.v2alpha1.StopNodeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Node"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2alpha1/{name=projects/*/locations/*/nodes/*}:stop"
+			body: "*"
+		};
+
+	}
+	rpc StartNode(google.cloud.tpu.v2alpha1.StartNodeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Node"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2alpha1/{name=projects/*/locations/*/nodes/*}:start"
+			body: "*"
+		};
+
+	}
+	rpc UpdateNode(google.cloud.tpu.v2alpha1.UpdateNodeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Node"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "node,update_mask";
+		option (google.api.http) = {
+			patch: "/v2alpha1/{node.name=projects/*/locations/*/nodes/*}"
+			body: "node"
+		};
+
+	}
+	rpc GenerateServiceIdentity(google.cloud.tpu.v2alpha1.GenerateServiceIdentityRequest) returns (google.cloud.tpu.v2alpha1.GenerateServiceIdentityResponse) {
+		option (google.api.http) = {
+			post: "/v2alpha1/{parent=projects/*/locations/*}:generateServiceIdentity"
+			body: "*"
+		};
+
+	}
+	rpc ListAcceleratorTypes(google.cloud.tpu.v2alpha1.ListAcceleratorTypesRequest) returns (google.cloud.tpu.v2alpha1.ListAcceleratorTypesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2alpha1/{parent=projects/*/locations/*}/acceleratorTypes"
+		};
+
+	}
+	rpc GetAcceleratorType(google.cloud.tpu.v2alpha1.GetAcceleratorTypeRequest) returns (google.cloud.tpu.v2alpha1.AcceleratorType) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2alpha1/{name=projects/*/locations/*/acceleratorTypes/*}"
+		};
+
+	}
+	rpc ListRuntimeVersions(google.cloud.tpu.v2alpha1.ListRuntimeVersionsRequest) returns (google.cloud.tpu.v2alpha1.ListRuntimeVersionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2alpha1/{parent=projects/*/locations/*}/runtimeVersions"
+		};
+
+	}
+	rpc GetRuntimeVersion(google.cloud.tpu.v2alpha1.GetRuntimeVersionRequest) returns (google.cloud.tpu.v2alpha1.RuntimeVersion) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2alpha1/{name=projects/*/locations/*/runtimeVersions/*}"
+		};
+
+	}
+	rpc GetGuestAttributes(google.cloud.tpu.v2alpha1.GetGuestAttributesRequest) returns (google.cloud.tpu.v2alpha1.GetGuestAttributesResponse) {
+		option (google.api.http) = {
+			post: "/v2alpha1/{name=projects/*/locations/*/nodes/*}:getGuestAttributes"
+			body: "*"
+		};
+
+	}
+}
+
+message GuestAttributes {
+
+	string query_path = 1;
+	GuestAttributesValue query_value = 2;
+}
+
+message GuestAttributesValue {
+
+	repeated GuestAttributesEntry items = 1;
+}
+
+message GuestAttributesEntry {
+
+	string namespace = 1;
+	string key = 2;
+	string value = 3;
+}
+
+message AttachedDisk {
+
+	enum DiskMode {
+
+		DISK_MODE_UNSPECIFIED = 0;
+		READ_WRITE = 1;
+		READ_ONLY = 2;
+	}
+
+	string source_disk = 3;
+	DiskMode mode = 4;
+}
+
+message SchedulingConfig {
+
+	bool preemptible = 1;
+	bool reserved = 2;
+}
+
+message NetworkEndpoint {
+
+	string ip_address = 1;
+	int32 port = 2;
+	AccessConfig access_config = 5;
+}
+
+message AccessConfig {
+
+	string external_ip = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message NetworkConfig {
+
+	string network = 1;
+	string subnetwork = 2;
+	bool enable_external_ips = 3;
+}
+
+message ServiceAccount {
+
+	string email = 1;
+	repeated string scope = 2;
+}
+
+message Node {
+	option (google.api.resource) = {
+		type: "tpu.googleapis.com/Node"
+		pattern: ["projects/{project}/locations/{location}/nodes/{node}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		RESTARTING = 3;
+		REIMAGING = 4;
+		DELETING = 5;
+		REPAIRING = 6;
+		STOPPED = 8;
+		STOPPING = 9;
+		STARTING = 10;
+		PREEMPTED = 11;
+		TERMINATED = 12;
+		HIDING = 13;
+		HIDDEN = 14;
+		UNHIDING = 15;
+	}
+
+	enum Health {
+
+		HEALTH_UNSPECIFIED = 0;
+		HEALTHY = 1;
+		TIMEOUT = 3;
+		UNHEALTHY_TENSORFLOW = 4;
+		UNHEALTHY_MAINTENANCE = 5;
+	}
+
+	enum ApiVersion {
+
+		API_VERSION_UNSPECIFIED = 0;
+		V1_ALPHA1 = 1;
+		V1 = 2;
+		V2_ALPHA1 = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string description = 3;
+	string accelerator_type = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	State state = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string health_description = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string runtime_version = 11 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	NetworkConfig network_config = 36;
+	string cidr_block = 13;
+	ServiceAccount service_account = 37;
+	google.protobuf.Timestamp create_time = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	SchedulingConfig scheduling_config = 17;
+	repeated NetworkEndpoint network_endpoints = 21 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Health health = 22;
+	map<string, string> labels = 24;
+	map<string, string> metadata = 34;
+	repeated string tags = 40;
+	int64 id = 33 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated AttachedDisk data_disks = 41;
+	ApiVersion api_version = 38 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Symptom symptoms = 39 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListNodesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "tpu.googleapis.com/Node"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListNodesResponse {
+
+	repeated Node nodes = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetNodeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "tpu.googleapis.com/Node"
+		}
+	];
+}
+
+message CreateNodeRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string node_id = 2;
+	Node node = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteNodeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "tpu.googleapis.com/Node"
+		}
+	];
+}
+
+message StopNodeRequest {
+
+	string name = 1;
+}
+
+message StartNodeRequest {
+
+	string name = 1;
+}
+
+message UpdateNodeRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Node node = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ServiceIdentity {
+
+	string email = 1;
+}
+
+message GenerateServiceIdentityRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+}
+
+message GenerateServiceIdentityResponse {
+
+	ServiceIdentity identity = 1;
+}
+
+message AcceleratorType {
+	option (google.api.resource) = {
+		type: "tpu.googleapis.com/AcceleratorType"
+		pattern: ["projects/{project}/locations/{location}/acceleratorTypes/{accelerator_type}"]
+	};
+
+	string name = 1;
+	string type = 2;
+}
+
+message GetAcceleratorTypeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "tpu.googleapis.com/AcceleratorType"
+		}
+	];
+}
+
+message ListAcceleratorTypesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "tpu.googleapis.com/AcceleratorType"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 5;
+	string order_by = 6;
+}
+
+message ListAcceleratorTypesResponse {
+
+	repeated AcceleratorType accelerator_types = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	string target = 3;
+	string verb = 4;
+	string status_detail = 5;
+	bool cancel_requested = 6;
+	string api_version = 7;
+}
+
+message RuntimeVersion {
+	option (google.api.resource) = {
+		type: "tpu.googleapis.com/RuntimeVersion"
+		pattern: ["projects/{project}/locations/{location}/runtimeVersions/{runtime_version}"]
+	};
+
+	string name = 1;
+	string version = 2;
+}
+
+message GetRuntimeVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "tpu.googleapis.com/RuntimeVersion"
+		}
+	];
+}
+
+message ListRuntimeVersionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "tpu.googleapis.com/RuntimeVersion"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 5;
+	string order_by = 6;
+}
+
+message ListRuntimeVersionsResponse {
+
+	repeated RuntimeVersion runtime_versions = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message Symptom {
+
+	enum SymptomType {
+
+		SYMPTOM_TYPE_UNSPECIFIED = 0;
+		LOW_MEMORY = 1;
+		OUT_OF_MEMORY = 2;
+		EXECUTE_TIMED_OUT = 3;
+		MESH_BUILD_FAIL = 4;
+		HBM_OUT_OF_MEMORY = 5;
+		PROJECT_ABUSE = 6;
+	}
+
+	google.protobuf.Timestamp create_time = 1;
+	SymptomType symptom_type = 2;
+	string details = 3;
+	string worker_id = 4;
+}
+
+message GetGuestAttributesRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "tpu.googleapis.com/Node"
+		}
+	];
+	string query_path = 2;
+	repeated string worker_ids = 3;
+}
+
+message GetGuestAttributesResponse {
+
+	repeated GuestAttributes guest_attributes = 1;
+}

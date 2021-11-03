@@ -1,0 +1,375 @@
+syntax = "proto3";
+
+package google.cloud.clouddms.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.clouddms.v1";
+option java_outer_classname = "ClouddmsResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/clouddms/v1;clouddms";
+option csharp_namespace = "Google.Cloud.CloudDms.V1";
+option php_namespace = "Google\\Cloud\\CloudDms\\V1";
+option ruby_package = "Google::Cloud::CloudDMS::V1";
+
+
+enum DatabaseEngine {
+
+	DATABASE_ENGINE_UNSPECIFIED = 0;
+	MYSQL = 1;
+	POSTGRESQL = 2;
+}
+
+enum DatabaseProvider {
+
+	DATABASE_PROVIDER_UNSPECIFIED = 0;
+	CLOUDSQL = 1;
+	RDS = 2;
+}
+
+message SslConfig {
+
+	enum SslType {
+
+		SSL_TYPE_UNSPECIFIED = 0;
+		SERVER_ONLY = 1;
+		SERVER_CLIENT = 2;
+	}
+
+	SslType type = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string client_key = 2 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string client_certificate = 3 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string ca_certificate = 4 [
+		(google.api.field_behavior) = INPUT_ONLY,
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MySqlConnectionProfile {
+
+	string host = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 port = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string username = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string password = 4 [
+		(google.api.field_behavior) = INPUT_ONLY,
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool password_set = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	SslConfig ssl = 6;
+	string cloud_sql_id = 7;
+}
+
+message PostgreSqlConnectionProfile {
+
+	string host = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 port = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string username = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string password = 4 [
+		(google.api.field_behavior) = INPUT_ONLY,
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool password_set = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	SslConfig ssl = 6;
+	string cloud_sql_id = 7;
+}
+
+message CloudSqlConnectionProfile {
+
+	string cloud_sql_id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CloudSqlSettings settings = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string private_ip = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string public_ip = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message SqlAclEntry {
+
+	string value = 1;
+	oneof expiration {
+		google.protobuf.Timestamp expire_time = 10;
+		google.protobuf.Duration ttl = 11 [
+			(google.api.field_behavior) = INPUT_ONLY
+		];
+	}
+	string label = 3;
+}
+
+message SqlIpConfig {
+
+	google.protobuf.BoolValue enable_ipv4 = 1;
+	string private_network = 2;
+	google.protobuf.BoolValue require_ssl = 3;
+	repeated SqlAclEntry authorized_networks = 4;
+}
+
+message CloudSqlSettings {
+
+	enum SqlActivationPolicy {
+
+		SQL_ACTIVATION_POLICY_UNSPECIFIED = 0;
+		ALWAYS = 1;
+		NEVER = 2;
+	}
+
+	enum SqlDataDiskType {
+
+		SQL_DATA_DISK_TYPE_UNSPECIFIED = 0;
+		PD_SSD = 1;
+		PD_HDD = 2;
+	}
+
+	enum SqlDatabaseVersion {
+
+		SQL_DATABASE_VERSION_UNSPECIFIED = 0;
+		MYSQL_5_6 = 1;
+		MYSQL_5_7 = 2;
+		POSTGRES_9_6 = 3;
+		POSTGRES_11 = 4;
+		POSTGRES_10 = 5;
+		MYSQL_8_0 = 6;
+		POSTGRES_12 = 7;
+		POSTGRES_13 = 8;
+	}
+
+	SqlDatabaseVersion database_version = 1;
+	map<string, string> user_labels = 2;
+	string tier = 3;
+	google.protobuf.Int64Value storage_auto_resize_limit = 4;
+	SqlActivationPolicy activation_policy = 5;
+	SqlIpConfig ip_config = 6;
+	google.protobuf.BoolValue auto_storage_increase = 7;
+	map<string, string> database_flags = 8;
+	SqlDataDiskType data_disk_type = 9;
+	google.protobuf.Int64Value data_disk_size_gb = 10;
+	string zone = 11;
+	string source_id = 12;
+	string root_password = 13 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	bool root_password_set = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string collation = 15;
+}
+
+message StaticIpConnectivity {
+
+}
+
+message ReverseSshConnectivity {
+
+	string vm_ip = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 vm_port = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string vm = 3;
+	string vpc = 4;
+}
+
+message VpcPeeringConnectivity {
+
+	string vpc = 1;
+}
+
+message DatabaseType {
+
+	DatabaseProvider provider = 1;
+	DatabaseEngine engine = 2;
+}
+
+message MigrationJob {
+	option (google.api.resource) = {
+		type: "datamigration.googleapis.com/MigrationJob"
+		pattern: ["projects/{project}/locations/{location}/migrationJobs/{migration_job}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		MAINTENANCE = 1;
+		DRAFT = 2;
+		CREATING = 3;
+		NOT_STARTED = 4;
+		RUNNING = 5;
+		FAILED = 6;
+		COMPLETED = 7;
+		DELETING = 8;
+		STOPPING = 9;
+		STOPPED = 10;
+		DELETED = 11;
+		UPDATING = 12;
+		STARTING = 13;
+		RESTARTING = 14;
+		RESUMING = 15;
+	}
+
+	enum Phase {
+
+		PHASE_UNSPECIFIED = 0;
+		FULL_DUMP = 1;
+		CDC = 2;
+		PROMOTE_IN_PROGRESS = 3;
+		WAITING_FOR_SOURCE_WRITES_TO_STOP = 4;
+		PREPARING_THE_DUMP = 5;
+	}
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		ONE_TIME = 1;
+		CONTINUOUS = 2;
+	}
+
+	string name = 1;
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string display_name = 5;
+	State state = 6;
+	Phase phase = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Type type = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string dump_path = 9;
+	string source = 10 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination = 11 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof connectivity {
+		ReverseSshConnectivity reverse_ssh_connectivity = 101;
+		VpcPeeringConnectivity vpc_peering_connectivity = 102;
+		StaticIpConnectivity static_ip_connectivity = 103;
+	}
+	google.protobuf.Duration duration = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status error = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	DatabaseType source_database = 14;
+	DatabaseType destination_database = 15;
+	google.protobuf.Timestamp end_time = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ConnectionProfile {
+	option (google.api.resource) = {
+		type: "datamigration.googleapis.com/ConnectionProfile"
+		pattern: ["projects/{project}/locations/{location}/connectionProfiles/{connection_profile}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		DRAFT = 1;
+		CREATING = 2;
+		READY = 3;
+		UPDATING = 4;
+		DELETING = 5;
+		DELETED = 6;
+		FAILED = 7;
+	}
+
+	string name = 1;
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	State state = 5;
+	string display_name = 6;
+	oneof connection_profile {
+		MySqlConnectionProfile mysql = 100;
+		PostgreSqlConnectionProfile postgresql = 101;
+		CloudSqlConnectionProfile cloudsql = 102;
+	}
+	google.rpc.Status error = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	DatabaseProvider provider = 8;
+}
+
+message MigrationJobVerificationError {
+
+	enum ErrorCode {
+
+		ERROR_CODE_UNSPECIFIED = 0;
+		CONNECTION_FAILURE = 1;
+		AUTHENTICATION_FAILURE = 2;
+		INVALID_CONNECTION_PROFILE_CONFIG = 3;
+		VERSION_INCOMPATIBILITY = 4;
+		CONNECTION_PROFILE_TYPES_INCOMPATIBILITY = 5;
+		NO_PGLOGICAL_INSTALLED = 7;
+		PGLOGICAL_NODE_ALREADY_EXISTS = 8;
+		INVALID_WAL_LEVEL = 9;
+		INVALID_SHARED_PRELOAD_LIBRARY = 10;
+		INSUFFICIENT_MAX_REPLICATION_SLOTS = 11;
+		INSUFFICIENT_MAX_WAL_SENDERS = 12;
+		INSUFFICIENT_MAX_WORKER_PROCESSES = 13;
+		UNSUPPORTED_EXTENSIONS = 14;
+		UNSUPPORTED_MIGRATION_TYPE = 15;
+		INVALID_RDS_LOGICAL_REPLICATION = 16;
+		UNSUPPORTED_GTID_MODE = 17;
+		UNSUPPORTED_TABLE_DEFINITION = 18;
+		UNSUPPORTED_DEFINER = 19;
+		CANT_RESTART_RUNNING_MIGRATION = 21;
+	}
+
+	ErrorCode error_code = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string error_message = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string error_detail_message = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

@@ -1,0 +1,443 @@
+syntax = "proto3";
+
+package google.cloud.gkehub.v1alpha2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.gkehub.v1alpha2";
+option java_outer_classname = "MembershipProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkehub/v1alpha2;gkehub";
+option csharp_namespace = "Google.Cloud.GkeHub.V1Alpha2";
+option php_namespace = "Google\\Cloud\\GkeHub\\V1alpha2";
+option ruby_package = "Google::Cloud::GkeHub::V1alpha2";
+
+
+service GkeHub {
+	option (google.api.default_host) = "gkehub.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListMemberships(google.cloud.gkehub.v1alpha2.ListMembershipsRequest) returns (google.cloud.gkehub.v1alpha2.ListMembershipsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha2/{parent=projects/*/locations/*}/memberships"
+		};
+
+	}
+	rpc GetMembership(google.cloud.gkehub.v1alpha2.GetMembershipRequest) returns (google.cloud.gkehub.v1alpha2.Membership) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha2/{name=projects/*/locations/*/memberships/*}"
+		};
+
+	}
+	rpc CreateMembership(google.cloud.gkehub.v1alpha2.CreateMembershipRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Membership"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,resource,membership_id";
+		option (google.api.http) = {
+			post: "/v1alpha2/{parent=projects/*/locations/*}/memberships"
+			body: "resource"
+		};
+
+	}
+	rpc DeleteMembership(google.cloud.gkehub.v1alpha2.DeleteMembershipRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha2/{name=projects/*/locations/*/memberships/*}"
+		};
+
+	}
+	rpc UpdateMembership(google.cloud.gkehub.v1alpha2.UpdateMembershipRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Membership"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,resource,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha2/{name=projects/*/locations/*/memberships/*}"
+			body: "resource"
+		};
+
+	}
+	rpc GenerateConnectManifest(google.cloud.gkehub.v1alpha2.GenerateConnectManifestRequest) returns (google.cloud.gkehub.v1alpha2.GenerateConnectManifestResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha2/{name=projects/*/locations/*/memberships/*}:generateConnectManifest"
+		};
+
+	}
+	rpc InitializeHub(google.cloud.gkehub.v1alpha2.InitializeHubRequest) returns (google.cloud.gkehub.v1alpha2.InitializeHubResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha2/{project=projects/*/locations/global/memberships}:initializeHub"
+			body: "*"
+		};
+
+	}
+}
+
+message Membership {
+	option (google.api.resource) = {
+		type: "gkehub.googleapis.com/Membership"
+		pattern: ["projects/{project}/locations/{location}/memberships/{membership}"]
+	};
+
+	enum InfrastructureType {
+
+		INFRASTRUCTURE_TYPE_UNSPECIFIED = 0;
+		ON_PREM = 1;
+		MULTI_CLOUD = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string description = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof type {
+		MembershipEndpoint endpoint = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	MembershipState state = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp delete_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string external_id = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Authority authority = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp last_connection_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string unique_id = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	InfrastructureType infrastructure_type = 13 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message MembershipEndpoint {
+
+	oneof type {
+		GkeCluster gke_cluster = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		OnPremCluster on_prem_cluster = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		MultiCloudCluster multi_cloud_cluster = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	KubernetesMetadata kubernetes_metadata = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	KubernetesResource kubernetes_resource = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message KubernetesResource {
+
+	string membership_cr_manifest = 1 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	repeated ResourceManifest membership_resources = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated ResourceManifest connect_resources = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ResourceOptions resource_options = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ResourceOptions {
+
+	string connect_version = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool v1beta1_crd = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GkeCluster {
+
+	string resource_link = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	bool cluster_missing = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message OnPremCluster {
+
+	string resource_link = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	bool cluster_missing = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool admin_cluster = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}
+
+message MultiCloudCluster {
+
+	string resource_link = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	bool cluster_missing = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message KubernetesMetadata {
+
+	string kubernetes_api_server_version = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string node_provider_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 node_count = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 vcpu_count = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 memory_mb = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 100 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Authority {
+
+	string issuer = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes oidc_jwks = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string identity_provider = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string workload_identity_pool = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message MembershipState {
+
+	enum Code {
+
+		CODE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		DELETING = 3;
+		UPDATING = 4;
+		SERVICE_UPDATING = 5;
+	}
+
+	Code code = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListMembershipsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gkehub.googleapis.com/Membership"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListMembershipsResponse {
+
+	repeated Membership resources = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetMembershipRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gkehub.googleapis.com/Membership"
+		}
+	];
+}
+
+message CreateMembershipRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gkehub.googleapis.com/Membership"
+		}
+	];
+	string membership_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Membership resource = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteMembershipRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gkehub.googleapis.com/Membership"
+		}
+	];
+}
+
+message UpdateMembershipRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Membership resource = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GenerateConnectManifestRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string namespace = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes proxy = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string version = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool is_upgrade = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string registry = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bytes image_pull_secret_content = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GenerateConnectManifestResponse {
+
+	repeated ConnectAgentResource manifest = 1;
+}
+
+message ConnectAgentResource {
+
+	TypeMeta type = 1;
+	string manifest = 2;
+}
+
+message ResourceManifest {
+
+	string manifest = 1;
+	bool cluster_scoped = 2;
+}
+
+message TypeMeta {
+
+	string kind = 1;
+	string api_version = 2;
+}
+
+message InitializeHubRequest {
+
+	string project = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message InitializeHubResponse {
+
+	string service_identity = 1;
+	string workload_identity_pool = 2;
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_detail = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool cancel_requested = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

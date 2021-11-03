@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/custom_job.proto";
+import "google/cloud/aiplatform/v1beta1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1beta1/job_state.proto";
+import "google/cloud/aiplatform/v1beta1/study.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "HyperparameterTuningJobProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message HyperparameterTuningJob {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/HyperparameterTuningJob"
+		pattern: ["projects/{project}/locations/{location}/hyperparameterTuningJobs/{hyperparameter_tuning_job}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.StudySpec study_spec = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 max_trial_count = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 parallel_trial_count = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 max_failed_trial_count = 7;
+	google.cloud.aiplatform.v1beta1.CustomJobSpec trial_job_spec = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.aiplatform.v1beta1.Trial trials = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1beta1.JobState state = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status error = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 16;
+	google.cloud.aiplatform.v1beta1.EncryptionSpec encryption_spec = 17;
+}

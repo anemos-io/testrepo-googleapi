@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.errors";
+option java_outer_classname = "FieldMaskErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V8::Errors";
+
+
+message FieldMaskErrorEnum {
+
+	enum FieldMaskError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		FIELD_MASK_MISSING = 5;
+		FIELD_MASK_NOT_ALLOWED = 4;
+		FIELD_NOT_FOUND = 2;
+		FIELD_HAS_SUBFIELDS = 3;
+	}
+
+}

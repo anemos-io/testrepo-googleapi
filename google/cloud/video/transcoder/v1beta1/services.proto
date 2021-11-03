@@ -16,6 +16,7 @@ option go_package = "google.golang.org/genproto/googleapis/cloud/video/transcode
 
 
 service TranscoderService {
+	option deprecated = true;
 	option (google.api.default_host) = "transcoder.googleapis.com";
 	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
 

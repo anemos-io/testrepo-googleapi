@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.enums";
+option java_outer_classname = "CampaignCriterionStatusProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V8::Enums";
+
+
+message CampaignCriterionStatusEnum {
+
+	enum CampaignCriterionStatus {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		ENABLED = 2;
+		PAUSED = 3;
+		REMOVED = 4;
+	}
+
+}

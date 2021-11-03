@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.resources;
+
+import "google/ads/googleads/v7/enums/affiliate_location_feed_relationship_type.proto";
+import "google/ads/googleads/v7/enums/feed_attribute_type.proto";
+import "google/ads/googleads/v7/enums/feed_origin.proto";
+import "google/ads/googleads/v7/enums/feed_status.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.resources";
+option java_outer_classname = "FeedProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V7::Resources";
+
+
+message Feed {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/Feed"
+		pattern: ["customers/{customer_id}/feeds/{feed_id}"]
+	};
+
+	message PlacesLocationFeedData {
+
+		message OAuthInfo {
+
+			oneof _http_method {
+				string http_method = 4;
+			}
+			oneof _http_request_url {
+				string http_request_url = 5;
+			}
+			oneof _http_authorization_header {
+				string http_authorization_header = 6;
+			}
+		}
+
+		OAuthInfo oauth_info = 1 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		oneof _email_address {
+			string email_address = 7;
+		}
+		string business_account_id = 8;
+		oneof _business_name_filter {
+			string business_name_filter = 9;
+		}
+		repeated string category_filters = 11;
+		repeated string label_filters = 12;
+	}
+
+	message AffiliateLocationFeedData {
+
+		repeated int64 chain_ids = 3;
+		google.ads.googleads.v7.enums.AffiliateLocationFeedRelationshipTypeEnum.AffiliateLocationFeedRelationshipType relationship_type = 2;
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Feed"
+		}
+	];
+	oneof _id {
+		int64 id = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 12 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	repeated FeedAttribute attributes = 4;
+	repeated FeedAttributeOperation attribute_operations = 9;
+	google.ads.googleads.v7.enums.FeedOriginEnum.FeedOrigin origin = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v7.enums.FeedStatusEnum.FeedStatus status = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof system_feed_generation_data {
+		PlacesLocationFeedData places_location_feed_data = 6;
+		AffiliateLocationFeedData affiliate_location_feed_data = 7;
+	}
+}
+
+message FeedAttribute {
+
+	oneof _id {
+		int64 id = 5;
+	}
+	oneof _name {
+		string name = 6;
+	}
+	google.ads.googleads.v7.enums.FeedAttributeTypeEnum.FeedAttributeType type = 3;
+	oneof _is_part_of_key {
+		bool is_part_of_key = 7;
+	}
+}
+
+message FeedAttributeOperation {
+
+	enum Operator {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		ADD = 2;
+	}
+
+	Operator operator = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	FeedAttribute value = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.services;
+
+import "google/ads/googleads/v7/common/offline_user_data.proto";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.ads.googleads.v7.services";
+option java_outer_classname = "UserDataServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V7::Services";
+
+
+service UserDataService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc UploadUserData(google.ads.googleads.v7.services.UploadUserDataRequest) returns (google.ads.googleads.v7.services.UploadUserDataResponse) {
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}:uploadUserData"
+			body: "*"
+		};
+
+	}
+}
+
+message UploadUserDataRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated UserDataOperation operations = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof metadata {
+		google.ads.googleads.v7.common.CustomerMatchUserListMetadata customer_match_user_list_metadata = 2;
+	}
+}
+
+message UserDataOperation {
+
+	oneof operation {
+		google.ads.googleads.v7.common.UserData create = 1;
+		google.ads.googleads.v7.common.UserData remove = 2;
+	}
+}
+
+message UploadUserDataResponse {
+
+	oneof _upload_date_time {
+		string upload_date_time = 3;
+	}
+	oneof _received_operations_count {
+		int32 received_operations_count = 4;
+	}
+}

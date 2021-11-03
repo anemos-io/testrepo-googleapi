@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package grafeas.v1;
+
+import "grafeas/v1/vulnerability.proto";
+
+option java_package = "io.grafeas.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/grafeas/v1;grafeas";
+option objc_class_prefix = "GRA";
+
+
+message ComplianceNote {
+
+	message CisBenchmark {
+
+		int32 profile_level = 1;
+		grafeas.v1.Severity severity = 2;
+	}
+
+	string title = 1;
+	string description = 2;
+	repeated ComplianceVersion version = 3;
+	string rationale = 4;
+	string remediation = 5;
+	oneof compliance_type {
+		CisBenchmark cis_benchmark = 6;
+	}
+	bytes scan_instructions = 7;
+}
+
+message ComplianceVersion {
+
+	string cpe_uri = 1;
+	string version = 2;
+}
+
+message ComplianceOccurrence {
+
+	repeated NonCompliantFile non_compliant_files = 2;
+	string non_compliance_reason = 3;
+}
+
+message NonCompliantFile {
+
+	string path = 1;
+	string display_command = 2;
+	string reason = 3;
+}

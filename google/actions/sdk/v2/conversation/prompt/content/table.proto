@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+import "google/actions/sdk/v2/conversation/prompt/content/image.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/link.proto";
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "TableProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Table {
+
+	string title = 1;
+	string subtitle = 2;
+	google.actions.sdk.v2.conversation.Image image = 4;
+	repeated TableColumn columns = 5;
+	repeated TableRow rows = 6;
+	google.actions.sdk.v2.conversation.Link button = 7;
+}
+
+message TableColumn {
+
+	enum HorizontalAlignment {
+
+		UNSPECIFIED = 0;
+		LEADING = 1;
+		CENTER = 2;
+		TRAILING = 3;
+	}
+
+	string header = 1;
+	HorizontalAlignment align = 2;
+}
+
+message TableCell {
+
+	string text = 1;
+}
+
+message TableRow {
+
+	repeated TableCell cells = 1;
+	bool divider = 2;
+}

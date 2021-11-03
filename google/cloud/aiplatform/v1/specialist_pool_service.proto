@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/operation.proto";
+import "google/cloud/aiplatform/v1/specialist_pool.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "SpecialistPoolServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+service SpecialistPoolService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateSpecialistPool(google.cloud.aiplatform.v1.CreateSpecialistPoolRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "SpecialistPool"
+			metadata_type: "CreateSpecialistPoolOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,specialist_pool";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/specialistPools"
+			body: "specialist_pool"
+		};
+
+	}
+	rpc GetSpecialistPool(google.cloud.aiplatform.v1.GetSpecialistPoolRequest) returns (google.cloud.aiplatform.v1.SpecialistPool) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/specialistPools/*}"
+		};
+
+	}
+	rpc ListSpecialistPools(google.cloud.aiplatform.v1.ListSpecialistPoolsRequest) returns (google.cloud.aiplatform.v1.ListSpecialistPoolsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/specialistPools"
+		};
+
+	}
+	rpc DeleteSpecialistPool(google.cloud.aiplatform.v1.DeleteSpecialistPoolRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/specialistPools/*}"
+		};
+
+	}
+	rpc UpdateSpecialistPool(google.cloud.aiplatform.v1.UpdateSpecialistPoolRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "SpecialistPool"
+			metadata_type: "UpdateSpecialistPoolOperationMetadata"
+		};
+		option (google.api.method_signature) = "specialist_pool,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{specialist_pool.name=projects/*/locations/*/specialistPools/*}"
+			body: "specialist_pool"
+		};
+
+	}
+}
+
+message CreateSpecialistPoolRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1.SpecialistPool specialist_pool = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateSpecialistPoolOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message GetSpecialistPoolRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/SpecialistPool"
+		}
+	];
+}
+
+message ListSpecialistPoolsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	google.protobuf.FieldMask read_mask = 4;
+}
+
+message ListSpecialistPoolsResponse {
+
+	repeated google.cloud.aiplatform.v1.SpecialistPool specialist_pools = 1;
+	string next_page_token = 2;
+}
+
+message DeleteSpecialistPoolRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/SpecialistPool"
+		}
+	];
+	bool force = 2;
+}
+
+message UpdateSpecialistPoolRequest {
+
+	google.cloud.aiplatform.v1.SpecialistPool specialist_pool = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateSpecialistPoolOperationMetadata {
+
+	string specialist_pool = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/SpecialistPool"
+		}
+	];
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 2;
+}

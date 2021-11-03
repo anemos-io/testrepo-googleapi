@@ -1,0 +1,635 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/entity_type.proto";
+import "google/cloud/aiplatform/v1beta1/feature.proto";
+import "google/cloud/aiplatform/v1beta1/feature_monitoring_stats.proto";
+import "google/cloud/aiplatform/v1beta1/feature_selector.proto";
+import "google/cloud/aiplatform/v1beta1/featurestore.proto";
+import "google/cloud/aiplatform/v1beta1/io.proto";
+import "google/cloud/aiplatform/v1beta1/operation.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "FeaturestoreServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+service FeaturestoreService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateFeaturestore(google.cloud.aiplatform.v1beta1.CreateFeaturestoreRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Featurestore"
+			metadata_type: "CreateFeaturestoreOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,featurestore";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/featurestores"
+			body: "featurestore"
+		};
+
+	}
+	rpc GetFeaturestore(google.cloud.aiplatform.v1beta1.GetFeaturestoreRequest) returns (google.cloud.aiplatform.v1beta1.Featurestore) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/featurestores/*}"
+		};
+
+	}
+	rpc ListFeaturestores(google.cloud.aiplatform.v1beta1.ListFeaturestoresRequest) returns (google.cloud.aiplatform.v1beta1.ListFeaturestoresResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/featurestores"
+		};
+
+	}
+	rpc UpdateFeaturestore(google.cloud.aiplatform.v1beta1.UpdateFeaturestoreRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Featurestore"
+			metadata_type: "UpdateFeaturestoreOperationMetadata"
+		};
+		option (google.api.method_signature) = "featurestore,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{featurestore.name=projects/*/locations/*/featurestores/*}"
+			body: "featurestore"
+		};
+
+	}
+	rpc DeleteFeaturestore(google.cloud.aiplatform.v1beta1.DeleteFeaturestoreRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.method_signature) = "name,force";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/featurestores/*}"
+		};
+
+	}
+	rpc CreateEntityType(google.cloud.aiplatform.v1beta1.CreateEntityTypeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "EntityType"
+			metadata_type: "CreateEntityTypeOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,entity_type";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/featurestores/*}/entityTypes"
+			body: "entity_type"
+		};
+
+	}
+	rpc GetEntityType(google.cloud.aiplatform.v1beta1.GetEntityTypeRequest) returns (google.cloud.aiplatform.v1beta1.EntityType) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/featurestores/*/entityTypes/*}"
+		};
+
+	}
+	rpc ListEntityTypes(google.cloud.aiplatform.v1beta1.ListEntityTypesRequest) returns (google.cloud.aiplatform.v1beta1.ListEntityTypesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/featurestores/*}/entityTypes"
+		};
+
+	}
+	rpc UpdateEntityType(google.cloud.aiplatform.v1beta1.UpdateEntityTypeRequest) returns (google.cloud.aiplatform.v1beta1.EntityType) {
+		option (google.api.method_signature) = "entity_type,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{entity_type.name=projects/*/locations/*/featurestores/*/entityTypes/*}"
+			body: "entity_type"
+		};
+
+	}
+	rpc DeleteEntityType(google.cloud.aiplatform.v1beta1.DeleteEntityTypeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.method_signature) = "name,force";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/featurestores/*/entityTypes/*}"
+		};
+
+	}
+	rpc CreateFeature(google.cloud.aiplatform.v1beta1.CreateFeatureRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Feature"
+			metadata_type: "CreateFeatureOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,feature";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/featurestores/*/entityTypes/*}/features"
+			body: "feature"
+		};
+
+	}
+	rpc BatchCreateFeatures(google.cloud.aiplatform.v1beta1.BatchCreateFeaturesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "BatchCreateFeaturesResponse"
+			metadata_type: "BatchCreateFeaturesOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,requests";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/featurestores/*/entityTypes/*}/features:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc GetFeature(google.cloud.aiplatform.v1beta1.GetFeatureRequest) returns (google.cloud.aiplatform.v1beta1.Feature) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/featurestores/*/entityTypes/*/features/*}"
+		};
+
+	}
+	rpc ListFeatures(google.cloud.aiplatform.v1beta1.ListFeaturesRequest) returns (google.cloud.aiplatform.v1beta1.ListFeaturesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/featurestores/*/entityTypes/*}/features"
+		};
+
+	}
+	rpc UpdateFeature(google.cloud.aiplatform.v1beta1.UpdateFeatureRequest) returns (google.cloud.aiplatform.v1beta1.Feature) {
+		option (google.api.method_signature) = "feature,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{feature.name=projects/*/locations/*/featurestores/*/entityTypes/*/features/*}"
+			body: "feature"
+		};
+
+	}
+	rpc DeleteFeature(google.cloud.aiplatform.v1beta1.DeleteFeatureRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/featurestores/*/entityTypes/*/features/*}"
+		};
+
+	}
+	rpc ImportFeatureValues(google.cloud.aiplatform.v1beta1.ImportFeatureValuesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ImportFeatureValuesResponse"
+			metadata_type: "ImportFeatureValuesOperationMetadata"
+		};
+		option (google.api.method_signature) = "entity_type";
+		option (google.api.http) = {
+			post: "/v1beta1/{entity_type=projects/*/locations/*/featurestores/*/entityTypes/*}:importFeatureValues"
+			body: "*"
+		};
+
+	}
+	rpc BatchReadFeatureValues(google.cloud.aiplatform.v1beta1.BatchReadFeatureValuesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "BatchReadFeatureValuesResponse"
+			metadata_type: "BatchReadFeatureValuesOperationMetadata"
+		};
+		option (google.api.method_signature) = "featurestore";
+		option (google.api.http) = {
+			post: "/v1beta1/{featurestore=projects/*/locations/*/featurestores/*}:batchReadFeatureValues"
+			body: "*"
+		};
+
+	}
+	rpc ExportFeatureValues(google.cloud.aiplatform.v1beta1.ExportFeatureValuesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ExportFeatureValuesResponse"
+			metadata_type: "ExportFeatureValuesOperationMetadata"
+		};
+		option (google.api.method_signature) = "entity_type";
+		option (google.api.http) = {
+			post: "/v1beta1/{entity_type=projects/*/locations/*/featurestores/*/entityTypes/*}:exportFeatureValues"
+			body: "*"
+		};
+
+	}
+	rpc SearchFeatures(google.cloud.aiplatform.v1beta1.SearchFeaturesRequest) returns (google.cloud.aiplatform.v1beta1.SearchFeaturesResponse) {
+		option (google.api.method_signature) = "location";
+		option (google.api.method_signature) = "location,query";
+		option (google.api.http) = {
+			get: "/v1beta1/{location=projects/*/locations/*}/featurestores:searchFeatures"
+		};
+
+	}
+}
+
+message CreateFeaturestoreRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Featurestore"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Featurestore featurestore = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string featurestore_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetFeaturestoreRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Featurestore"
+		}
+	];
+}
+
+message ListFeaturestoresRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Featurestore"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	string order_by = 5;
+	google.protobuf.FieldMask read_mask = 6;
+}
+
+message ListFeaturestoresResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Featurestore featurestores = 1;
+	string next_page_token = 2;
+}
+
+message UpdateFeaturestoreRequest {
+
+	google.cloud.aiplatform.v1beta1.Featurestore featurestore = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteFeaturestoreRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Featurestore"
+		}
+	];
+	bool force = 2;
+}
+
+message ImportFeatureValuesRequest {
+
+	message FeatureSpec {
+
+		string id = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string source_field = 2;
+	}
+
+	oneof source {
+		google.cloud.aiplatform.v1beta1.AvroSource avro_source = 2;
+		google.cloud.aiplatform.v1beta1.BigQuerySource bigquery_source = 3;
+		google.cloud.aiplatform.v1beta1.CsvSource csv_source = 4;
+	}
+	oneof feature_time_source {
+		string feature_time_field = 6;
+		google.protobuf.Timestamp feature_time = 7;
+	}
+	string entity_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+	string entity_id_field = 5;
+	repeated FeatureSpec feature_specs = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool disable_online_serving = 9;
+	int32 worker_count = 11;
+}
+
+message ImportFeatureValuesResponse {
+
+	int64 imported_entity_count = 1;
+	int64 imported_feature_value_count = 2;
+	int64 invalid_row_count = 6;
+}
+
+message BatchReadFeatureValuesRequest {
+
+	message PassThroughField {
+
+		string field_name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message EntityTypeSpec {
+
+		string entity_type_id = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		google.cloud.aiplatform.v1beta1.FeatureSelector feature_selector = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		repeated DestinationFeatureSetting settings = 3;
+	}
+
+	oneof read_option {
+		google.cloud.aiplatform.v1beta1.CsvSource csv_read_instances = 3;
+		google.cloud.aiplatform.v1beta1.BigQuerySource bigquery_read_instances = 5;
+	}
+	string featurestore = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Featurestore"
+		}
+	];
+	FeatureValueDestination destination = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated PassThroughField pass_through_fields = 8;
+	repeated EntityTypeSpec entity_type_specs = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportFeatureValuesRequest {
+
+	message SnapshotExport {
+
+		google.protobuf.Timestamp snapshot_time = 1;
+	}
+
+	oneof mode {
+		SnapshotExport snapshot_export = 3;
+	}
+	string entity_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+	FeatureValueDestination destination = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.FeatureSelector feature_selector = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated DestinationFeatureSetting settings = 6;
+}
+
+message DestinationFeatureSetting {
+
+	string feature_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination_field = 2;
+}
+
+message FeatureValueDestination {
+
+	oneof destination {
+		google.cloud.aiplatform.v1beta1.BigQueryDestination bigquery_destination = 1;
+		google.cloud.aiplatform.v1beta1.TFRecordDestination tfrecord_destination = 2;
+		google.cloud.aiplatform.v1beta1.CsvDestination csv_destination = 3;
+	}
+}
+
+message ExportFeatureValuesResponse {
+
+}
+
+message BatchReadFeatureValuesResponse {
+
+}
+
+message CreateEntityTypeRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Featurestore"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.EntityType entity_type = 2;
+	string entity_type_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetEntityTypeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+}
+
+message ListEntityTypesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	string order_by = 5;
+	google.protobuf.FieldMask read_mask = 6;
+}
+
+message ListEntityTypesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.EntityType entity_types = 1;
+	string next_page_token = 2;
+}
+
+message UpdateEntityTypeRequest {
+
+	google.cloud.aiplatform.v1beta1.EntityType entity_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteEntityTypeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+	bool force = 2;
+}
+
+message CreateFeatureRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Feature feature = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string feature_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateFeaturesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+	repeated CreateFeatureRequest requests = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateFeaturesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Feature features = 1;
+}
+
+message GetFeatureRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Feature"
+		}
+	];
+}
+
+message ListFeaturesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Feature"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	string order_by = 5;
+	google.protobuf.FieldMask read_mask = 6;
+	int32 latest_stats_count = 7;
+}
+
+message ListFeaturesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Feature features = 1;
+	string next_page_token = 2;
+}
+
+message SearchFeaturesRequest {
+
+	string location = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string query = 3;
+	int32 page_size = 4;
+	string page_token = 5;
+}
+
+message SearchFeaturesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Feature features = 1;
+	string next_page_token = 2;
+}
+
+message UpdateFeatureRequest {
+
+	google.cloud.aiplatform.v1beta1.Feature feature = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteFeatureRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Feature"
+		}
+	];
+}
+
+message CreateFeaturestoreOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message UpdateFeaturestoreOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message ImportFeatureValuesOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+	int64 imported_entity_count = 2;
+	int64 imported_feature_value_count = 3;
+	int64 invalid_row_count = 6;
+}
+
+message ExportFeatureValuesOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message BatchReadFeatureValuesOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message CreateEntityTypeOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message CreateFeatureOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message BatchCreateFeaturesOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}

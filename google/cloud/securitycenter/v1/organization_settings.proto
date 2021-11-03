@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package google.cloud.securitycenter.v1;
 
-import "google/api/annotations.proto";
 import "google/api/resource.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.securitycenter.v1";
 option java_multiple_files = true;
@@ -30,6 +30,7 @@ message OrganizationSettings {
 
 		repeated string project_ids = 1;
 		InclusionMode inclusion_mode = 2;
+		repeated string folder_ids = 3;
 	}
 
 	string name = 1;

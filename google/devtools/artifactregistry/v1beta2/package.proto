@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package google.devtools.artifactregistry.v1beta2;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.artifactregistry.v1beta2";
+option java_outer_classname = "PackageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/artifactregistry/v1beta2;artifactregistry";
+option csharp_namespace = "Google.Cloud.ArtifactRegistry.V1Beta2";
+option php_namespace = "Google\\Cloud\\ArtifactRegistry\\V1beta2";
+option ruby_package = "Google::Cloud::ArtifactRegistry::V1beta2";
+
+
+message Package {
+
+	string name = 1;
+	string display_name = 2;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp update_time = 6;
+}
+
+message ListPackagesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListPackagesResponse {
+
+	repeated Package packages = 1;
+	string next_page_token = 2;
+}
+
+message GetPackageRequest {
+
+	string name = 1;
+}
+
+message DeletePackageRequest {
+
+	string name = 1;
+}

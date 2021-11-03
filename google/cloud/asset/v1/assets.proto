@@ -7,10 +7,13 @@ import "google/cloud/orgpolicy/v1/orgpolicy.proto";
 import "google/iam/v1/policy.proto";
 import "google/identity/accesscontextmanager/v1/access_level.proto";
 import "google/identity/accesscontextmanager/v1/access_policy.proto";
+import "google/cloud/osconfig/v1/inventory.proto";
 import "google/identity/accesscontextmanager/v1/service_perimeter.proto";
+import "google/protobuf/any.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "google/rpc/code.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.asset.v1";
 option java_outer_classname = "AssetProto";
@@ -62,6 +65,8 @@ message Asset {
 		google.identity.accesscontextmanager.v1.AccessLevel access_level = 8;
 		google.identity.accesscontextmanager.v1.ServicePerimeter service_perimeter = 9;
 	}
+	google.cloud.osconfig.v1.Inventory os_inventory = 12;
+	RelatedAssets related_assets = 13;
 	repeated string ancestors = 10;
 }
 
@@ -76,17 +81,76 @@ message Resource {
 	string location = 8;
 }
 
+message RelatedAssets {
+
+	RelationshipAttributes relationship_attributes = 1;
+	repeated RelatedAsset assets = 2;
+}
+
+message RelationshipAttributes {
+
+	string type = 4;
+	string source_resource_type = 1;
+	string target_resource_type = 2;
+	string action = 3;
+}
+
+message RelatedAsset {
+
+	string asset = 1 [
+		(google.api.resource_reference) = {
+			type: "cloudasset.googleapis.com/Asset"
+		}
+	];
+	string asset_type = 2;
+	repeated string ancestors = 3;
+}
+
 message ResourceSearchResult {
 
 	string name = 1;
 	string asset_type = 2;
 	string project = 3;
+	repeated string folders = 17;
+	string organization = 18;
 	string display_name = 4;
 	string description = 5;
 	string location = 6;
 	map<string, string> labels = 7;
 	repeated string network_tags = 8;
+	string kms_key = 10;
+	google.protobuf.Timestamp create_time = 11;
+	google.protobuf.Timestamp update_time = 12;
+	string state = 13;
 	google.protobuf.Struct additional_attributes = 9;
+	string parent_full_resource_name = 19;
+	repeated VersionedResource versioned_resources = 16;
+	repeated AttachedResource attached_resources = 20;
+	map<string, RelatedResources> relationships = 21;
+	string parent_asset_type = 103;
+}
+
+message VersionedResource {
+
+	string version = 1;
+	google.protobuf.Struct resource = 2;
+}
+
+message AttachedResource {
+
+	string asset_type = 1;
+	repeated VersionedResource versioned_resources = 3;
+}
+
+message RelatedResources {
+
+	repeated RelatedResource related_resources = 1;
+}
+
+message RelatedResource {
+
+	string asset_type = 1;
+	string full_resource_name = 2;
 }
 
 message IamPolicySearchResult {
@@ -102,7 +166,10 @@ message IamPolicySearchResult {
 	}
 
 	string resource = 1;
+	string asset_type = 5;
 	string project = 2;
+	repeated string folders = 6;
+	string organization = 7;
 	google.iam.v1.Policy policy = 3;
 	Explanation explanation = 4;
 }
@@ -111,6 +178,19 @@ message IamPolicyAnalysisState {
 
 	google.rpc.Code code = 1;
 	string cause = 2;
+}
+
+message ConditionEvaluation {
+
+	enum EvaluationValue {
+
+		EVALUATION_VALUE_UNSPECIFIED = 0;
+		TRUE = 1;
+		FALSE = 2;
+		CONDITIONAL = 3;
+	}
+
+	EvaluationValue evaluation_value = 1;
 }
 
 message IamPolicyAnalysisResult {
@@ -147,6 +227,7 @@ message IamPolicyAnalysisResult {
 		repeated Resource resources = 1;
 		repeated Access accesses = 2;
 		repeated Edge resource_edges = 3;
+		ConditionEvaluation condition_evaluation = 4;
 	}
 
 	message IdentityList {

@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package google.cloud.dataqna.v1alpha;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dataqna/v1alpha/question.proto";
+import "google/cloud/dataqna/v1alpha/user_feedback.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.dataqna.v1alpha";
+option java_outer_classname = "QuestionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataqna/v1alpha;dataqna";
+option csharp_namespace = "Google.Cloud.DataQnA.V1Alpha";
+option php_namespace = "Google\\Cloud\\DataQnA\\V1alpha";
+option ruby_package = "Google::Cloud::DataQnA::V1alpha";
+
+
+service QuestionService {
+	option (google.api.default_host) = "dataqna.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetQuestion(google.cloud.dataqna.v1alpha.GetQuestionRequest) returns (google.cloud.dataqna.v1alpha.Question) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/locations/*/questions/*}"
+		};
+
+	}
+	rpc CreateQuestion(google.cloud.dataqna.v1alpha.CreateQuestionRequest) returns (google.cloud.dataqna.v1alpha.Question) {
+		option (google.api.method_signature) = "parent,question";
+		option (google.api.http) = {
+			post: "/v1alpha/{parent=projects/*/locations/*}/questions"
+			body: "question"
+		};
+
+	}
+	rpc ExecuteQuestion(google.cloud.dataqna.v1alpha.ExecuteQuestionRequest) returns (google.cloud.dataqna.v1alpha.Question) {
+		option (google.api.method_signature) = "name,interpretation_index";
+		option (google.api.http) = {
+			post: "/v1alpha/{name=projects/*/locations/*/questions/*}:execute"
+			body: "*"
+		};
+
+	}
+	rpc GetUserFeedback(google.cloud.dataqna.v1alpha.GetUserFeedbackRequest) returns (google.cloud.dataqna.v1alpha.UserFeedback) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/locations/*/questions/*/userFeedback}"
+		};
+
+	}
+	rpc UpdateUserFeedback(google.cloud.dataqna.v1alpha.UpdateUserFeedbackRequest) returns (google.cloud.dataqna.v1alpha.UserFeedback) {
+		option (google.api.method_signature) = "user_feedback,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha/{user_feedback.name=projects/*/locations/*/questions/*/userFeedback}"
+			body: "user_feedback"
+		};
+
+	}
+}
+
+message GetQuestionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dataqna.googleapis.com/Question"
+		}
+	];
+	google.protobuf.FieldMask read_mask = 2;
+}
+
+message CreateQuestionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.dataqna.v1alpha.Question question = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExecuteQuestionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 interpretation_index = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetUserFeedbackRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dataqna.googleapis.com/UserFeedback"
+		}
+	];
+}
+
+message UpdateUserFeedbackRequest {
+
+	google.cloud.dataqna.v1alpha.UserFeedback user_feedback = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}

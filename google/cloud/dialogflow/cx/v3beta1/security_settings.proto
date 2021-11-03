@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
+option java_outer_classname = "SecuritySettingsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3beta1;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
+option (google.api.resource_definition) = {
+	type: "dlp.googleapis.com/InspectTemplate"
+	pattern: ["organizations/{organization}/locations/{location}/inspectTemplates/{inspect_template}","projects/{project}/locations/{location}/inspectTemplates/{inspect_template}"]
+};
+option (google.api.resource_definition) = {
+	type: "dlp.googleapis.com/DeidentifyTemplate"
+	pattern: ["organizations/{organization}/locations/{location}/deidentifyTemplates/{deidentify_template}","projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}"]
+};
+
+
+service SecuritySettingsService {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc CreateSecuritySettings(google.cloud.dialogflow.cx.v3beta1.CreateSecuritySettingsRequest) returns (google.cloud.dialogflow.cx.v3beta1.SecuritySettings) {
+		option (google.api.method_signature) = "parent,security_settings";
+		option (google.api.http) = {
+			post: "/v3beta1/{parent=projects/*/locations/*}/securitySettings"
+			body: "security_settings"
+		};
+
+	}
+	rpc GetSecuritySettings(google.cloud.dialogflow.cx.v3beta1.GetSecuritySettingsRequest) returns (google.cloud.dialogflow.cx.v3beta1.SecuritySettings) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3beta1/{name=projects/*/locations/*/securitySettings/*}"
+		};
+
+	}
+	rpc UpdateSecuritySettings(google.cloud.dialogflow.cx.v3beta1.UpdateSecuritySettingsRequest) returns (google.cloud.dialogflow.cx.v3beta1.SecuritySettings) {
+		option (google.api.method_signature) = "security_settings,update_mask";
+		option (google.api.http) = {
+			patch: "/v3beta1/{security_settings.name=projects/*/locations/*/securitySettings/*}"
+			body: "security_settings"
+		};
+
+	}
+	rpc ListSecuritySettings(google.cloud.dialogflow.cx.v3beta1.ListSecuritySettingsRequest) returns (google.cloud.dialogflow.cx.v3beta1.ListSecuritySettingsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3beta1/{parent=projects/*/locations/*}/securitySettings"
+		};
+
+	}
+	rpc DeleteSecuritySettings(google.cloud.dialogflow.cx.v3beta1.DeleteSecuritySettingsRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3beta1/{name=projects/*/locations/*/securitySettings/*}"
+		};
+
+	}
+}
+
+message GetSecuritySettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/SecuritySettings"
+		}
+	];
+}
+
+message UpdateSecuritySettingsRequest {
+
+	SecuritySettings security_settings = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListSecuritySettingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/SecuritySettings"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListSecuritySettingsResponse {
+
+	repeated SecuritySettings security_settings = 1;
+	string next_page_token = 2;
+}
+
+message CreateSecuritySettingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/SecuritySettings"
+		}
+	];
+	SecuritySettings security_settings = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteSecuritySettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/SecuritySettings"
+		}
+	];
+}
+
+message SecuritySettings {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/SecuritySettings"
+		pattern: ["projects/{project}/locations/{location}/securitySettings/{security_settings}"]
+	};
+
+	message InsightsExportSettings {
+
+		bool enable_insights_export = 1;
+	}
+
+	enum RedactionStrategy {
+
+		REDACTION_STRATEGY_UNSPECIFIED = 0;
+		REDACT_WITH_SERVICE = 1;
+	}
+
+	enum RedactionScope {
+
+		REDACTION_SCOPE_UNSPECIFIED = 0;
+		REDACT_DISK_STORAGE = 2;
+	}
+
+	enum PurgeDataType {
+
+		PURGE_DATA_TYPE_UNSPECIFIED = 0;
+		DIALOGFLOW_HISTORY = 1;
+	}
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	RedactionStrategy redaction_strategy = 3;
+	RedactionScope redaction_scope = 4;
+	string inspect_template = 9 [
+		(google.api.resource_reference) = {
+			type: "dlp.googleapis.com/InspectTemplate"
+		}
+	];
+	string deidentify_template = 17 [
+		(google.api.resource_reference) = {
+			type: "dlp.googleapis.com/DeidentifyTemplate"
+		}
+	];
+	oneof data_retention {
+		int32 retention_window_days = 6;
+	}
+	repeated PurgeDataType purge_data_types = 8;
+	InsightsExportSettings insights_export_settings = 13;
+}

@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package google.apps.drive.activity.v2;
+
+import "google/apps/drive/activity/v2/common.proto";
+
+option java_package = "com.google.apps.drive.activity.v2";
+option java_outer_classname = "ActorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/drive/activity/v2;activity";
+option objc_class_prefix = "GADA";
+option csharp_namespace = "Google.Apps.Drive.Activity.V2";
+option php_namespace = "Google\\Apps\\Drive\\Activity\\V2";
+
+
+message Actor {
+
+	oneof type {
+		User user = 1;
+		AnonymousUser anonymous = 2;
+		Impersonation impersonation = 3;
+		SystemEvent system = 4;
+		Administrator administrator = 5;
+	}
+}
+
+message User {
+
+	message KnownUser {
+
+		string person_name = 1;
+		bool is_current_user = 2;
+	}
+
+	message DeletedUser {
+
+	}
+
+	message UnknownUser {
+
+	}
+
+	oneof type {
+		KnownUser known_user = 2;
+		DeletedUser deleted_user = 3;
+		UnknownUser unknown_user = 4;
+	}
+}
+
+message AnonymousUser {
+
+}
+
+message Impersonation {
+
+	User impersonated_user = 1;
+}
+
+message SystemEvent {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		USER_DELETION = 1;
+		TRASH_AUTO_PURGE = 2;
+	}
+
+	Type type = 1;
+}
+
+message Administrator {
+
+}

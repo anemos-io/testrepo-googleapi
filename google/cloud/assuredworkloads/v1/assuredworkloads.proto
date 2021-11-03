@@ -1,0 +1,250 @@
+syntax = "proto3";
+
+package google.cloud.assuredworkloads.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.assuredworkloads.v1";
+option java_outer_classname = "AssuredworkloadsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/assuredworkloads/v1;assuredworkloads";
+option csharp_namespace = "Google.Cloud.AssuredWorkloads.V1";
+option php_namespace = "Google\\Cloud\\AssuredWorkloads\\V1";
+option ruby_package = "Google::Cloud::AssuredWorkloads::V1";
+option (google.api.resource_definition) = {
+	type: "assuredworkloads.googleapis.com/Location"
+	pattern: ["organizations/{organization}/locations/{location}"]
+};
+
+
+service AssuredWorkloadsService {
+	option (google.api.default_host) = "assuredworkloads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateWorkload(google.cloud.assuredworkloads.v1.CreateWorkloadRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Workload"
+			metadata_type: "CreateWorkloadOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,workload";
+		option (google.api.http) = {
+			post: "/v1/{parent=organizations/*/locations/*}/workloads"
+			body: "workload"
+		};
+
+	}
+	rpc UpdateWorkload(google.cloud.assuredworkloads.v1.UpdateWorkloadRequest) returns (google.cloud.assuredworkloads.v1.Workload) {
+		option (google.api.method_signature) = "workload,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{workload.name=organizations/*/locations/*/workloads/*}"
+			body: "workload"
+		};
+
+	}
+	rpc DeleteWorkload(google.cloud.assuredworkloads.v1.DeleteWorkloadRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=organizations/*/locations/*/workloads/*}"
+		};
+
+	}
+	rpc GetWorkload(google.cloud.assuredworkloads.v1.GetWorkloadRequest) returns (google.cloud.assuredworkloads.v1.Workload) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=organizations/*/locations/*/workloads/*}"
+		};
+
+	}
+	rpc ListWorkloads(google.cloud.assuredworkloads.v1.ListWorkloadsRequest) returns (google.cloud.assuredworkloads.v1.ListWorkloadsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=organizations/*/locations/*}/workloads"
+		};
+
+	}
+}
+
+message CreateWorkloadRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "assuredworkloads.googleapis.com/Workload"
+		}
+	];
+	Workload workload = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string external_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateWorkloadRequest {
+
+	Workload workload = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteWorkloadRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "assuredworkloads.googleapis.com/Workload"
+		}
+	];
+	string etag = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetWorkloadRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "assuredworkloads.googleapis.com/Workload"
+		}
+	];
+}
+
+message ListWorkloadsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "assuredworkloads.googleapis.com/Workload"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListWorkloadsResponse {
+
+	repeated Workload workloads = 1;
+	string next_page_token = 2;
+}
+
+message Workload {
+	option (google.api.resource) = {
+		type: "assuredworkloads.googleapis.com/Workload"
+		pattern: ["organizations/{organization}/locations/{location}/workloads/{workload}"]
+	};
+
+	message ResourceInfo {
+
+		enum ResourceType {
+
+			RESOURCE_TYPE_UNSPECIFIED = 0;
+			CONSUMER_PROJECT = 1;
+			ENCRYPTION_KEYS_PROJECT = 2;
+			KEYRING = 3;
+		}
+
+		int64 resource_id = 1;
+		ResourceType resource_type = 2;
+	}
+
+	message KMSSettings {
+
+		google.protobuf.Timestamp next_rotation_time = 1 [
+			(google.api.field_behavior) = REQUIRED,
+			(google.api.field_behavior) = INPUT_ONLY,
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.protobuf.Duration rotation_period = 2 [
+			(google.api.field_behavior) = REQUIRED,
+			(google.api.field_behavior) = INPUT_ONLY,
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+
+	message ResourceSettings {
+
+		string resource_id = 1;
+		ResourceType resource_type = 2;
+		string display_name = 3;
+	}
+
+	enum ComplianceRegime {
+
+		COMPLIANCE_REGIME_UNSPECIFIED = 0;
+		IL4 = 1;
+		CJIS = 2;
+		FEDRAMP_HIGH = 3;
+		FEDRAMP_MODERATE = 4;
+		US_REGIONAL_ACCESS = 5;
+		HIPAA = 6;
+		HITRUST = 7;
+		EU_REGIONS_AND_SUPPORT = 8;
+		CA_REGIONS_AND_SUPPORT = 9;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ResourceInfo resources = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ComplianceRegime compliance_regime = 4 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string billing_account = 6 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string etag = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string provisioned_resources_parent = 13 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	KMSSettings kms_settings = 14 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	repeated ResourceSettings resource_settings = 15 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+}
+
+message CreateWorkloadOperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string parent = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ComplianceRegime compliance_regime = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

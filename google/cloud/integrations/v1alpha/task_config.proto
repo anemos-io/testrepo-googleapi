@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package google.cloud.integrations.v1alpha;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/integrations/v1alpha/event_parameter.proto";
+import "google/cloud/integrations/v1alpha/json_validation.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.integrations.v1alpha";
+option java_outer_classname = "TaskConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/integrations/v1alpha;integrations";
+
+
+message TaskConfig {
+
+	enum NextTasksExecutionPolicy {
+
+		NEXT_TASKS_EXECUTION_POLICY_UNSPECIFIED = 0;
+		RUN_ALL_MATCH = 1;
+		RUN_FIRST_MATCH = 2;
+	}
+
+	enum TaskExecutionStrategy {
+
+		TASK_EXECUTION_STRATEGY_UNSPECIFIED = 0;
+		WHEN_ALL_SUCCEED = 1;
+		WHEN_ANY_SUCCEED = 2;
+		WHEN_ALL_TASKS_AND_CONDITIONS_SUCCEED = 3;
+	}
+
+	string task = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string task_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, google.cloud.integrations.v1alpha.EventParameter> parameters = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	FailurePolicy failure_policy = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	FailurePolicy synchronous_call_failure_policy = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated NextTask next_tasks = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	NextTasksExecutionPolicy next_tasks_execution_policy = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	TaskExecutionStrategy task_execution_strategy = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string display_name = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	SuccessPolicy success_policy = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.integrations.v1alpha.JsonValidationOption json_validation_option = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SuccessPolicy {
+
+	enum FinalState {
+
+		FINAL_STATE_UNSPECIFIED = 0;
+		SUCCEEDED = 1;
+		SUSPENDED = 2;
+	}
+
+	FinalState final_state = 1;
+}
+
+message FailurePolicy {
+
+	enum RetryStrategy {
+
+		RETRY_STRATEGY_UNSPECIFIED = 0;
+		IGNORE = 1;
+		NONE = 2;
+		FATAL = 3;
+		FIXED_INTERVAL = 4;
+		LINEAR_BACKOFF = 5;
+		EXPONENTIAL_BACKOFF = 6;
+		RESTART_INTEGRATION_WITH_BACKOFF = 7;
+	}
+
+	RetryStrategy retry_strategy = 1;
+	int32 max_retries = 2;
+	google.protobuf.Timestamp interval_time = 3;
+}
+
+message NextTask {
+
+	string task_config_id = 1;
+	string task_id = 2;
+	string condition = 3;
+	string display_name = 4;
+}

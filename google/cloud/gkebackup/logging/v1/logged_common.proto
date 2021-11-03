@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.cloud.gkebackup.logging.v1;
+
+option java_package = "google.cloud.gkebackup.logging.v1";
+option java_outer_classname = "LoggedCommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkebackup/logging/v1;logging";
+option csharp_namespace = "Google.Cloud.GkeBackup.Logging.V1";
+option php_namespace = "Google\\Cloud\\GkeBackup\\Logging\\V1";
+option ruby_package = "Google::Cloud::GkeBackup::Logging::V1";
+
+
+message Namespaces {
+
+	repeated string namespaces = 1;
+}
+
+message NamespacedName {
+
+	string namespace = 1;
+	string name = 2;
+}
+
+message NamespacedNames {
+
+	repeated NamespacedName namespaced_names = 1;
+}
+
+message EncryptionKey {
+
+	string gcp_kms_encryption_key = 1;
+}

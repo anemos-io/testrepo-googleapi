@@ -1,0 +1,338 @@
+syntax = "proto3";
+
+package google.partner.aistreams.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.partner.aistreams.v1alpha1";
+option java_outer_classname = "AIStreamsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/partner/aistreams/v1alpha1;aistreams";
+option cc_enable_arenas = true;
+option php_namespace = "Google\\Cloud\\Partner\\Aistreams\\V1alpha1";
+
+
+service AIStreams {
+	option (google.api.default_host) = "aistreams.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListClusters(google.partner.aistreams.v1alpha1.ListClustersRequest) returns (google.partner.aistreams.v1alpha1.ListClustersResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*}/clusters"
+		};
+
+	}
+	rpc GetCluster(google.partner.aistreams.v1alpha1.GetClusterRequest) returns (google.partner.aistreams.v1alpha1.Cluster) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/clusters/*}"
+		};
+
+	}
+	rpc CreateCluster(google.partner.aistreams.v1alpha1.CreateClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Cluster"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,cluster,cluster_id";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*}/clusters"
+			body: "cluster"
+		};
+
+	}
+	rpc UpdateCluster(google.partner.aistreams.v1alpha1.UpdateClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Cluster"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "cluster,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha1/{cluster.name=projects/*/locations/*/clusters/*}"
+			body: "cluster"
+		};
+
+	}
+	rpc DeleteCluster(google.partner.aistreams.v1alpha1.DeleteClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/clusters/*}"
+		};
+
+	}
+	rpc ListStreams(google.partner.aistreams.v1alpha1.ListStreamsRequest) returns (google.partner.aistreams.v1alpha1.ListStreamsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*/clusters/*}/streams"
+		};
+
+	}
+	rpc GetStream(google.partner.aistreams.v1alpha1.GetStreamRequest) returns (google.partner.aistreams.v1alpha1.Stream) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/clusters/*/streams/*}"
+		};
+
+	}
+	rpc CreateStream(google.partner.aistreams.v1alpha1.CreateStreamRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Stream"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,stream,stream_id";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*/clusters/*}/streams"
+			body: "stream"
+		};
+
+	}
+	rpc UpdateStream(google.partner.aistreams.v1alpha1.UpdateStreamRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Stream"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "stream,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha1/{stream.name=projects/*/locations/*/clusters/*/streams/*}"
+			body: "stream"
+		};
+
+	}
+	rpc DeleteStream(google.partner.aistreams.v1alpha1.DeleteStreamRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/clusters/*/streams/*}"
+		};
+
+	}
+}
+
+message Cluster {
+	option (google.api.resource) = {
+		type: "aistreams.googleapis.com/Cluster"
+		pattern: ["projects/{project}/locations/{location}/clusters/{cluster}"]
+	};
+
+	string name = 1;
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string certificate = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string service_endpoint = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListClustersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListClustersResponse {
+
+	repeated Cluster clusters = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetClusterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aistreams.googleapis.com/Cluster"
+		}
+	];
+}
+
+message CreateClusterRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string cluster_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Cluster cluster = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateClusterRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Cluster cluster = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteClusterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aistreams.googleapis.com/Cluster"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message Stream {
+	option (google.api.resource) = {
+		type: "aistreams.googleapis.com/Stream"
+		pattern: ["projects/{project}/locations/{location}/clusters/{cluster}/streams/{stream}"]
+	};
+
+	string name = 1;
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+}
+
+message ListStreamsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aistreams.googleapis.com/Cluster"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListStreamsResponse {
+
+	repeated Stream streams = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetStreamRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aistreams.googleapis.com/Stream"
+		}
+	];
+}
+
+message CreateStreamRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aistreams.googleapis.com/Cluster"
+		}
+	];
+	string stream_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Stream stream = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateStreamRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Stream stream = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteStreamRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aistreams.googleapis.com/Stream"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

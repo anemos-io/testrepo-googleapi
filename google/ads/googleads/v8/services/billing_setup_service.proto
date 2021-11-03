@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/resources/billing_setup.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "BillingSetupServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service BillingSetupService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetBillingSetup(google.ads.googleads.v8.services.GetBillingSetupRequest) returns (google.ads.googleads.v8.resources.BillingSetup) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v8/{resource_name=customers/*/billingSetups/*}"
+		};
+
+	}
+	rpc MutateBillingSetup(google.ads.googleads.v8.services.MutateBillingSetupRequest) returns (google.ads.googleads.v8.services.MutateBillingSetupResponse) {
+		option (google.api.method_signature) = "customer_id,operation";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}/billingSetups:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetBillingSetupRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/BillingSetup"
+		}
+	];
+}
+
+message MutateBillingSetupRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	BillingSetupOperation operation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BillingSetupOperation {
+
+	oneof operation {
+		google.ads.googleads.v8.resources.BillingSetup create = 2;
+		string remove = 1;
+	}
+}
+
+message MutateBillingSetupResponse {
+
+	MutateBillingSetupResult result = 1;
+}
+
+message MutateBillingSetupResult {
+
+	string resource_name = 1;
+}

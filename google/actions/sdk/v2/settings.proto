@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+import "google/actions/sdk/v2/account_linking.proto";
+import "google/actions/sdk/v2/localized_settings.proto";
+import "google/actions/sdk/v2/surface.proto";
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "SettingsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message Settings {
+
+	enum Category {
+
+		CATEGORY_UNSPECIFIED = 0;
+		BUSINESS_AND_FINANCE = 2;
+		EDUCATION_AND_REFERENCE = 3;
+		FOOD_AND_DRINK = 4;
+		GAMES_AND_TRIVIA = 5;
+		HEALTH_AND_FITNESS = 6;
+		KIDS_AND_FAMILY = 20;
+		LIFESTYLE = 7;
+		LOCAL = 8;
+		MOVIES_AND_TV = 9;
+		MUSIC_AND_AUDIO = 10;
+		NEWS = 1;
+		NOVELTY_AND_HUMOR = 11;
+		PRODUCTIVITY = 12;
+		SHOPPING = 13;
+		SOCIAL = 14;
+		SPORTS = 15;
+		TRAVEL_AND_TRANSPORTATION = 16;
+		UTILITIES = 17;
+		WEATHER = 18;
+		HOME_CONTROL = 19;
+	}
+
+	string project_id = 1;
+	string default_locale = 2;
+	repeated string enabled_regions = 3;
+	repeated string disabled_regions = 4;
+	Category category = 5;
+	bool uses_transactions_api = 6;
+	bool uses_digital_purchase_api = 7;
+	bool uses_interactive_canvas = 8;
+	bool uses_home_storage = 17;
+	bool designed_for_family = 9;
+	bool contains_alcohol_or_tobacco_content = 11;
+	bool keeps_mic_open = 12;
+	google.actions.sdk.v2.SurfaceRequirements surface_requirements = 13;
+	string testing_instructions = 14;
+	google.actions.sdk.v2.LocalizedSettings localized_settings = 15;
+	google.actions.sdk.v2.AccountLinking account_linking = 16;
+	repeated string selected_android_apps = 20;
+}

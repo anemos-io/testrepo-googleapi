@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1.schema.trainingjob.definition;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1.schema.trainingjob.definition";
+option java_outer_classname = "AutoMLVideoActionRecognitionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1/schema/trainingjob/definition;definition";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1.Schema.TrainingJob.Definition";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1\\Schema\\TrainingJob\\Definition";
+option ruby_package = "Google::Cloud::AIPlatform::V1::Schema::TrainingJob::Definition";
+
+
+message AutoMlVideoActionRecognition {
+
+	AutoMlVideoActionRecognitionInputs inputs = 1;
+}
+
+message AutoMlVideoActionRecognitionInputs {
+
+	enum ModelType {
+
+		MODEL_TYPE_UNSPECIFIED = 0;
+		CLOUD = 1;
+		MOBILE_VERSATILE_1 = 2;
+		MOBILE_JETSON_VERSATILE_1 = 3;
+		MOBILE_CORAL_VERSATILE_1 = 4;
+	}
+
+	ModelType model_type = 1;
+}

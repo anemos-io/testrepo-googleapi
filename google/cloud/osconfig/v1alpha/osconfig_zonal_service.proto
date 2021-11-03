@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1alpha;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/resource.proto";
+import "google/cloud/osconfig/v1alpha/instance_os_policies_compliance.proto";
+import "google/cloud/osconfig/v1alpha/inventory.proto";
+import "google/cloud/osconfig/v1alpha/os_policy_assignments.proto";
+import "google/cloud/osconfig/v1alpha/vulnerability.proto";
+import "google/longrunning/operations.proto";
+
+option java_package = "com.google.cloud.osconfig.v1alpha";
+option java_outer_classname = "OsConfigZonalServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1alpha;osconfig";
+option csharp_namespace = "Google.Cloud.OsConfig.V1Alpha";
+option php_namespace = "Google\\Cloud\\OsConfig\\V1alpha";
+option ruby_package = "Google::Cloud::OsConfig::V1alpha";
+option (google.api.resource_definition) = {
+	type: "compute.googleapis.com/Instance"
+	pattern: ["projects/{project}/locations/{location}/instances/{instance}"]
+};
+
+
+service OsConfigZonalService {
+	option (google.api.default_host) = "osconfig.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateOSPolicyAssignment(google.cloud.osconfig.v1alpha.CreateOSPolicyAssignmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "OSPolicyAssignment"
+			metadata_type: "OSPolicyAssignmentOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,os_policy_assignment,os_policy_assignment_id";
+		option (google.api.http) = {
+			post: "/v1alpha/{parent=projects/*/locations/*}/osPolicyAssignments"
+			body: "os_policy_assignment"
+		};
+
+	}
+	rpc UpdateOSPolicyAssignment(google.cloud.osconfig.v1alpha.UpdateOSPolicyAssignmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "OSPolicyAssignment"
+			metadata_type: "OSPolicyAssignmentOperationMetadata"
+		};
+		option (google.api.method_signature) = "os_policy_assignment,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha/{os_policy_assignment.name=projects/*/locations/*/osPolicyAssignments/*}"
+			body: "os_policy_assignment"
+		};
+
+	}
+	rpc GetOSPolicyAssignment(google.cloud.osconfig.v1alpha.GetOSPolicyAssignmentRequest) returns (google.cloud.osconfig.v1alpha.OSPolicyAssignment) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/locations/*/osPolicyAssignments/*}"
+		};
+
+	}
+	rpc ListOSPolicyAssignments(google.cloud.osconfig.v1alpha.ListOSPolicyAssignmentsRequest) returns (google.cloud.osconfig.v1alpha.ListOSPolicyAssignmentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/locations/*}/osPolicyAssignments"
+		};
+
+	}
+	rpc ListOSPolicyAssignmentRevisions(google.cloud.osconfig.v1alpha.ListOSPolicyAssignmentRevisionsRequest) returns (google.cloud.osconfig.v1alpha.ListOSPolicyAssignmentRevisionsResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/locations/*/osPolicyAssignments/*}:listRevisions"
+		};
+
+	}
+	rpc DeleteOSPolicyAssignment(google.cloud.osconfig.v1alpha.DeleteOSPolicyAssignmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OSPolicyAssignmentOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha/{name=projects/*/locations/*/osPolicyAssignments/*}"
+		};
+
+	}
+	rpc GetInstanceOSPoliciesCompliance(google.cloud.osconfig.v1alpha.GetInstanceOSPoliciesComplianceRequest) returns (google.cloud.osconfig.v1alpha.InstanceOSPoliciesCompliance) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/locations/*/instanceOSPoliciesCompliances/*}"
+		};
+
+	}
+	rpc ListInstanceOSPoliciesCompliances(google.cloud.osconfig.v1alpha.ListInstanceOSPoliciesCompliancesRequest) returns (google.cloud.osconfig.v1alpha.ListInstanceOSPoliciesCompliancesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/locations/*}/instanceOSPoliciesCompliances"
+		};
+
+	}
+	rpc GetInventory(google.cloud.osconfig.v1alpha.GetInventoryRequest) returns (google.cloud.osconfig.v1alpha.Inventory) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/locations/*/instances/*/inventory}"
+		};
+
+	}
+	rpc ListInventories(google.cloud.osconfig.v1alpha.ListInventoriesRequest) returns (google.cloud.osconfig.v1alpha.ListInventoriesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/locations/*/instances/*}/inventories"
+		};
+
+	}
+	rpc GetVulnerabilityReport(google.cloud.osconfig.v1alpha.GetVulnerabilityReportRequest) returns (google.cloud.osconfig.v1alpha.VulnerabilityReport) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/locations/*/instances/*/vulnerabilityReport}"
+		};
+
+	}
+	rpc ListVulnerabilityReports(google.cloud.osconfig.v1alpha.ListVulnerabilityReportsRequest) returns (google.cloud.osconfig.v1alpha.ListVulnerabilityReportsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/locations/*/instances/*}/vulnerabilityReports"
+		};
+
+	}
+}

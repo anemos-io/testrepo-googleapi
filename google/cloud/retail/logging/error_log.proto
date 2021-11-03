@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package google.cloud.retail.logging;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.retail.logging";
+option java_outer_classname = "ErrorLogProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/logging;logging";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.Logging";
+option php_namespace = "Google\\Cloud\\Retail\\Logging";
+option ruby_package = "Google::Cloud::Retail::Logging";
+
+
+message ServiceContext {
+
+	string service = 1;
+}
+
+message HttpRequestContext {
+
+	int32 response_status_code = 1;
+}
+
+message SourceLocation {
+
+	string function_name = 1;
+}
+
+message ErrorContext {
+
+	HttpRequestContext http_request = 1;
+	SourceLocation report_location = 2;
+}
+
+message ImportErrorContext {
+
+	string operation_name = 1;
+	string gcs_path = 2;
+	string line_number = 3;
+	oneof line_content {
+		string catalog_item = 4;
+		string product = 5;
+		string user_event = 6;
+	}
+}
+
+message ErrorLog {
+
+	ServiceContext service_context = 1;
+	ErrorContext context = 2;
+	string message = 3;
+	google.rpc.Status status = 4;
+	google.protobuf.Struct request_payload = 5;
+	google.protobuf.Struct response_payload = 6;
+	ImportErrorContext import_payload = 7;
+}

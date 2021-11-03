@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package grafeas.v1;
 
+import "grafeas/v1/intoto_provenance.proto";
+import "grafeas/v1/intoto_statement.proto";
 import "grafeas/v1/provenance.proto";
 
 option java_package = "io.grafeas.v1";
@@ -19,4 +21,6 @@ message BuildOccurrence {
 
 	grafeas.v1.BuildProvenance provenance = 1;
 	string provenance_bytes = 2;
+	grafeas.v1.InTotoProvenance intoto_provenance = 3;
+	grafeas.v1.InTotoStatement intoto_statement = 4;
 }

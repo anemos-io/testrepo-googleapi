@@ -14,14 +14,14 @@ option objc_class_prefix = "CREC";
 option csharp_namespace = "Google.Cloud.Recommender.V1Beta1";
 option (google.api.resource_definition) = {
 	type: "recommender.googleapis.com/InsightType"
-	pattern: ["projects/{project}/locations/{location}/insightTypes/{insight_type}"]
+	pattern: ["projects/{project}/locations/{location}/insightTypes/{insight_type}","billingAccounts/{billing_account}/locations/{location}/insightTypes/{insight_type}","folders/{folder}/locations/{location}/insightTypes/{insight_type}","organizations/{organization}/locations/{location}/insightTypes/{insight_type}"]
 };
 
 
 message Insight {
 	option (google.api.resource) = {
 		type: "recommender.googleapis.com/Insight"
-		pattern: ["projects/{project}/locations/{location}/insightTypes/{insight_type}/insights/{insight}"]
+		pattern: ["projects/{project}/locations/{location}/insightTypes/{insight_type}/insights/{insight}","billingAccounts/{billing_account}/locations/{location}/insightTypes/{insight_type}/insights/{insight}","folders/{folder}/locations/{location}/insightTypes/{insight_type}","organizations/{organization}/locations/{location}/insightTypes/{insight_type}"]
 	};
 
 	message RecommendationReference {

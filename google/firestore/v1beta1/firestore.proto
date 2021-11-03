@@ -39,13 +39,6 @@ service Firestore {
 		};
 
 	}
-	rpc CreateDocument(google.firestore.v1beta1.CreateDocumentRequest) returns (google.firestore.v1beta1.Document) {
-		option (google.api.http) = {
-			post: "/v1beta1/{parent=projects/*/databases/*/documents/**}/{collection_id}"
-			body: "document"
-		};
-
-	}
 	rpc UpdateDocument(google.firestore.v1beta1.UpdateDocumentRequest) returns (google.firestore.v1beta1.Document) {
 		option (google.api.method_signature) = "document,update_mask";
 		option (google.api.http) = {
@@ -103,6 +96,17 @@ service Firestore {
 		};
 
 	}
+	rpc PartitionQuery(google.firestore.v1beta1.PartitionQueryRequest) returns (google.firestore.v1beta1.PartitionQueryResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/databases/*/documents}:partitionQuery"
+			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{parent=projects/*/databases/*/documents/*/**}:partitionQuery"
+				body: "*"
+			}
+		};
+
+	}
 	rpc Write(stream google.firestore.v1beta1.WriteRequest) returns (stream google.firestore.v1beta1.WriteResponse) {
 		option (google.api.http) = {
 			post: "/v1beta1/{database=projects/*/databases/*}/documents:write"
@@ -126,6 +130,20 @@ service Firestore {
 				post: "/v1beta1/{parent=projects/*/databases/*/documents/*/**}:listCollectionIds"
 				body: "*"
 			}
+		};
+
+	}
+	rpc BatchWrite(google.firestore.v1beta1.BatchWriteRequest) returns (google.firestore.v1beta1.BatchWriteResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{database=projects/*/databases/*}/documents:batchWrite"
+			body: "*"
+		};
+
+	}
+	rpc CreateDocument(google.firestore.v1beta1.CreateDocumentRequest) returns (google.firestore.v1beta1.Document) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/databases/*/documents/**}/{collection_id}"
+			body: "document"
 		};
 
 	}
@@ -286,6 +304,25 @@ message RunQueryResponse {
 	int32 skipped_results = 4;
 }
 
+message PartitionQueryRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof query_type {
+		google.firestore.v1beta1.StructuredQuery structured_query = 2;
+	}
+	int64 partition_count = 3;
+	string page_token = 4;
+	int32 page_size = 5;
+}
+
+message PartitionQueryResponse {
+
+	repeated google.firestore.v1beta1.Cursor partitions = 1;
+	string next_page_token = 2;
+}
+
 message WriteRequest {
 
 	string database = 1 [
@@ -386,4 +423,19 @@ message ListCollectionIdsResponse {
 
 	repeated string collection_ids = 1;
 	string next_page_token = 2;
+}
+
+message BatchWriteRequest {
+
+	string database = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.firestore.v1beta1.Write writes = 2;
+	map<string, string> labels = 3;
+}
+
+message BatchWriteResponse {
+
+	repeated google.firestore.v1beta1.WriteResult write_results = 1;
+	repeated google.rpc.Status status = 2;
 }

@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package google.firestore.bundle;
+
+import "google/firestore/v1/document.proto";
+import "google/firestore/v1/query.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.firestore.bundle";
+option java_outer_classname = "BundleProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/firestore/bundle;firestore";
+option objc_class_prefix = "FSTPB";
+option csharp_namespace = "Firestore.Bundle";
+option php_namespace = "Firestore\\Bundle";
+
+
+message BundledQuery {
+
+	enum LimitType {
+
+		FIRST = 0;
+		LAST = 1;
+	}
+
+	string parent = 1;
+	oneof query_type {
+		google.firestore.v1.StructuredQuery structured_query = 2;
+	}
+	LimitType limit_type = 3;
+}
+
+message NamedQuery {
+
+	string name = 1;
+	BundledQuery bundled_query = 2;
+	google.protobuf.Timestamp read_time = 3;
+}
+
+message BundledDocumentMetadata {
+
+	string name = 1;
+	google.protobuf.Timestamp read_time = 2;
+	bool exists = 3;
+	repeated string queries = 4;
+}
+
+message BundleMetadata {
+
+	string id = 1;
+	google.protobuf.Timestamp create_time = 2;
+	uint32 version = 3;
+	uint32 total_documents = 4;
+	uint64 total_bytes = 5;
+}
+
+message BundleElement {
+
+	oneof element_type {
+		BundleMetadata metadata = 1;
+		NamedQuery named_query = 2;
+		BundledDocumentMetadata document_metadata = 3;
+		google.firestore.v1.Document document = 4;
+	}
+}

@@ -3,11 +3,11 @@ syntax = "proto3";
 package google.api.servicecontrol.v1;
 
 import "google/api/annotations.proto";
+import "google/api/client.proto";
 import "google/api/servicecontrol/v1/check_error.proto";
 import "google/api/servicecontrol/v1/operation.proto";
 import "google/protobuf/timestamp.proto";
 import "google/rpc/status.proto";
-import "google/api/client.proto";
 
 option java_package = "com.google.api.servicecontrol.v1";
 option java_outer_classname = "ServiceControllerProto";
@@ -15,6 +15,9 @@ option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/api/servicecontrol/v1;servicecontrol";
 option cc_enable_arenas = true;
 option objc_class_prefix = "GASC";
+option csharp_namespace = "Google.Cloud.ServiceControl.V1";
+option php_namespace = "Google\\Cloud\\ServiceControl\\V1";
+option ruby_package = "Google::Cloud::ServiceControl::V1";
 
 
 service ServiceController {

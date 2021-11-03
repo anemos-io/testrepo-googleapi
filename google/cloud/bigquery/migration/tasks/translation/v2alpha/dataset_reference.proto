@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.migration.tasks.translation.v2alpha;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.bigquery.migration.tasks.translation.v2alpha";
+option java_outer_classname = "DatasetReferenceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/migration/tasks/translation/v2alpha;translation";
+option csharp_namespace = "Google.Cloud.BigQuery.Migration.Tasks.Translation.V2Alpha";
+option php_namespace = "Google\\Cloud\\BigQuery\\Migration\\Tasks\\Translation\\V2alpha";
+
+
+message DatasetReference {
+
+	string dataset_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string project_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

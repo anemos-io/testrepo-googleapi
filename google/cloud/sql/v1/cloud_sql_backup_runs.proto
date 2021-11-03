@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1;
+
+import "google/api/annotations.proto";
+import "google/cloud/sql/v1/cloud_sql_resources.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1";
+option java_outer_classname = "CloudSqlBackupRunsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1;sql";
+
+
+enum SqlBackupRunStatus {
+
+	SQL_BACKUP_RUN_STATUS_UNSPECIFIED = 0;
+	ENQUEUED = 1;
+	OVERDUE = 2;
+	RUNNING = 3;
+	FAILED = 4;
+	SUCCESSFUL = 5;
+	SKIPPED = 6;
+	DELETION_PENDING = 7;
+	DELETION_FAILED = 8;
+	DELETED = 9;
+}
+
+enum SqlBackupKind {
+
+	SQL_BACKUP_KIND_UNSPECIFIED = 0;
+	SNAPSHOT = 1;
+	PHYSICAL = 2;
+}
+
+enum SqlBackupRunType {
+
+	SQL_BACKUP_RUN_TYPE_UNSPECIFIED = 0;
+	AUTOMATED = 1;
+	ON_DEMAND = 2;
+}
+
+service SqlBackupRunsService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc Delete(google.cloud.sql.v1.SqlBackupRunsDeleteRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			delete: "/v1/projects/{project}/instances/{instance}/backupRuns/{id}"
+		};
+
+	}
+	rpc Get(google.cloud.sql.v1.SqlBackupRunsGetRequest) returns (google.cloud.sql.v1.BackupRun) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances/{instance}/backupRuns/{id}"
+		};
+
+	}
+	rpc Insert(google.cloud.sql.v1.SqlBackupRunsInsertRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/backupRuns"
+			body: "body"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1.SqlBackupRunsListRequest) returns (google.cloud.sql.v1.BackupRunsListResponse) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances/{instance}/backupRuns"
+		};
+
+	}
+}
+
+message SqlBackupRunsDeleteRequest {
+
+	int64 id = 1;
+	string instance = 2;
+	string project = 3;
+}
+
+message SqlBackupRunsGetRequest {
+
+	int64 id = 1;
+	string instance = 2;
+	string project = 3;
+}
+
+message SqlBackupRunsInsertRequest {
+
+	string instance = 1;
+	string project = 2;
+	BackupRun body = 100;
+}
+
+message SqlBackupRunsListRequest {
+
+	string instance = 1;
+	int32 max_results = 2;
+	string page_token = 3;
+	string project = 4;
+}
+
+message BackupRun {
+
+	string kind = 1;
+	SqlBackupRunStatus status = 2;
+	google.protobuf.Timestamp enqueued_time = 3;
+	int64 id = 4;
+	google.protobuf.Timestamp start_time = 5;
+	google.protobuf.Timestamp end_time = 6;
+	google.cloud.sql.v1.OperationError error = 7;
+	SqlBackupRunType type = 8;
+	string description = 9;
+	google.protobuf.Timestamp window_start_time = 10;
+	string instance = 11;
+	string self_link = 12;
+	string location = 13;
+	google.cloud.sql.v1.DiskEncryptionConfiguration disk_encryption_configuration = 16;
+	google.cloud.sql.v1.DiskEncryptionStatus disk_encryption_status = 17;
+	SqlBackupKind backup_kind = 19;
+}
+
+message BackupRunsListResponse {
+
+	string kind = 1;
+	repeated BackupRun items = 2;
+	string next_page_token = 3;
+}

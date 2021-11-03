@@ -15,7 +15,7 @@ option java_outer_classname = "NotebooksProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1beta1;notebooks";
 option csharp_namespace = "Google.Cloud.Notebooks.V1Beta1";
-option php_namespace = "Google\\Cloud\\Notebooks\\V1Beta1";
+option php_namespace = "Google\\Cloud\\Notebooks\\V1beta1";
 option ruby_package = "Google::Cloud::Notebooks::V1beta1";
 
 
@@ -216,6 +216,7 @@ message OperationMetadata {
 	string status_message = 5;
 	bool requested_cancellation = 6;
 	string api_version = 7;
+	string endpoint = 8;
 }
 
 message ListInstancesRequest {
@@ -345,6 +346,7 @@ message IsInstanceUpgradeableResponse {
 
 	bool upgradeable = 1;
 	string upgrade_version = 2;
+	string upgrade_info = 3;
 }
 
 message UpgradeInstanceRequest {

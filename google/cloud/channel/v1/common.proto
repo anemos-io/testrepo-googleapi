@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package google.cloud.channel.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/any.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.channel.v1";
+option java_outer_classname = "CommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/channel/v1;channel";
+
+
+message EduData {
+
+	enum InstituteType {
+
+		INSTITUTE_TYPE_UNSPECIFIED = 0;
+		K12 = 1;
+		UNIVERSITY = 2;
+	}
+
+	enum InstituteSize {
+
+		INSTITUTE_SIZE_UNSPECIFIED = 0;
+		SIZE_1_100 = 1;
+		SIZE_101_500 = 2;
+		SIZE_501_1000 = 3;
+		SIZE_1001_2000 = 4;
+		SIZE_2001_5000 = 5;
+		SIZE_5001_10000 = 6;
+		SIZE_10001_OR_MORE = 7;
+	}
+
+	InstituteType institute_type = 1;
+	InstituteSize institute_size = 2;
+	string website = 3;
+}
+
+message CloudIdentityInfo {
+
+	enum CustomerType {
+
+		CUSTOMER_TYPE_UNSPECIFIED = 0;
+		DOMAIN = 1;
+		TEAM = 2;
+	}
+
+	CustomerType customer_type = 1;
+	string primary_domain = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool is_domain_verified = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string alternate_email = 6;
+	string phone_number = 7;
+	string language_code = 8;
+	string admin_console_uri = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	EduData edu_data = 22;
+}
+
+message Value {
+
+	oneof kind {
+		int64 int64_value = 1;
+		string string_value = 2;
+		double double_value = 3;
+		google.protobuf.Any proto_value = 4;
+		bool bool_value = 5;
+	}
+}
+
+message AdminUser {
+
+	string email = 1;
+	string given_name = 2;
+	string family_name = 3;
+}

@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.common;
+
+import "google/ads/googleads/v8/enums/target_impression_share_location.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.common";
+option java_outer_classname = "BiddingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V8::Common";
+
+
+message Commission {
+
+	oneof _commission_rate_micros {
+		int64 commission_rate_micros = 2;
+	}
+}
+
+message EnhancedCpc {
+
+}
+
+message ManualCpc {
+
+	oneof _enhanced_cpc_enabled {
+		bool enhanced_cpc_enabled = 2;
+	}
+}
+
+message ManualCpm {
+
+}
+
+message ManualCpv {
+
+}
+
+message MaximizeConversions {
+
+	int64 target_cpa = 1;
+}
+
+message MaximizeConversionValue {
+
+	double target_roas = 2;
+}
+
+message TargetCpa {
+
+	oneof _target_cpa_micros {
+		int64 target_cpa_micros = 4;
+	}
+	oneof _cpc_bid_ceiling_micros {
+		int64 cpc_bid_ceiling_micros = 5;
+	}
+	oneof _cpc_bid_floor_micros {
+		int64 cpc_bid_floor_micros = 6;
+	}
+}
+
+message TargetCpm {
+
+}
+
+message TargetImpressionShare {
+
+	google.ads.googleads.v8.enums.TargetImpressionShareLocationEnum.TargetImpressionShareLocation location = 1;
+	oneof _location_fraction_micros {
+		int64 location_fraction_micros = 4;
+	}
+	oneof _cpc_bid_ceiling_micros {
+		int64 cpc_bid_ceiling_micros = 5;
+	}
+}
+
+message TargetRoas {
+
+	oneof _target_roas {
+		double target_roas = 4;
+	}
+	oneof _cpc_bid_ceiling_micros {
+		int64 cpc_bid_ceiling_micros = 5;
+	}
+	oneof _cpc_bid_floor_micros {
+		int64 cpc_bid_floor_micros = 6;
+	}
+}
+
+message TargetSpend {
+
+	oneof _target_spend_micros {
+		int64 target_spend_micros = 3 [
+			deprecated = true
+		];
+	}
+	oneof _cpc_bid_ceiling_micros {
+		int64 cpc_bid_ceiling_micros = 4;
+	}
+}
+
+message PercentCpc {
+
+	oneof _cpc_bid_ceiling_micros {
+		int64 cpc_bid_ceiling_micros = 3;
+	}
+	oneof _enhanced_cpc_enabled {
+		bool enhanced_cpc_enabled = 4;
+	}
+}

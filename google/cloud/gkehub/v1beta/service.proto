@@ -1,0 +1,150 @@
+syntax = "proto3";
+
+package google.cloud.gkehub.v1beta;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/gkehub/v1beta/feature.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.gkehub.v1beta";
+option java_outer_classname = "ServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkehub/v1beta;gkehub";
+option csharp_namespace = "Google.Cloud.GkeHub.V1Beta";
+option php_namespace = "Google\\Cloud\\GkeHub\\V1beta";
+option ruby_package = "Google::Cloud::GkeHub::V1beta";
+
+
+service GkeHub {
+	option (google.api.default_host) = "gkehub.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListFeatures(google.cloud.gkehub.v1beta.ListFeaturesRequest) returns (google.cloud.gkehub.v1beta.ListFeaturesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*/locations/*}/features"
+		};
+
+	}
+	rpc GetFeature(google.cloud.gkehub.v1beta.GetFeatureRequest) returns (google.cloud.gkehub.v1beta.Feature) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/locations/*/features/*}"
+		};
+
+	}
+	rpc CreateFeature(google.cloud.gkehub.v1beta.CreateFeatureRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Feature"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,resource,feature_id";
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*/locations/*}/features"
+			body: "resource"
+		};
+
+	}
+	rpc DeleteFeature(google.cloud.gkehub.v1beta.DeleteFeatureRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta/{name=projects/*/locations/*/features/*}"
+		};
+
+	}
+	rpc UpdateFeature(google.cloud.gkehub.v1beta.UpdateFeatureRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Feature"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,resource,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta/{name=projects/*/locations/*/features/*}"
+			body: "resource"
+		};
+
+	}
+}
+
+message ListFeaturesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListFeaturesResponse {
+
+	repeated google.cloud.gkehub.v1beta.Feature resources = 1;
+	string next_page_token = 2;
+}
+
+message GetFeatureRequest {
+
+	string name = 1;
+}
+
+message CreateFeatureRequest {
+
+	string parent = 1;
+	string feature_id = 2;
+	google.cloud.gkehub.v1beta.Feature resource = 3;
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteFeatureRequest {
+
+	string name = 1;
+	bool force = 2;
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateFeatureRequest {
+
+	string name = 1;
+	google.protobuf.FieldMask update_mask = 2;
+	google.cloud.gkehub.v1beta.Feature resource = 3;
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_detail = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool cancel_requested = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

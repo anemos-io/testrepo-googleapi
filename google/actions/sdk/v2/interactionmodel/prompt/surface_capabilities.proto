@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "SurfaceCapabilitiesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message SurfaceCapabilities {
+
+	enum Capability {
+
+		UNSPECIFIED = 0;
+		SPEECH = 1;
+		RICH_RESPONSE = 2;
+		LONG_FORM_AUDIO = 3;
+		INTERACTIVE_CANVAS = 4;
+		WEB_LINK = 5;
+		HOME_STORAGE = 6;
+	}
+
+	repeated Capability capabilities = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

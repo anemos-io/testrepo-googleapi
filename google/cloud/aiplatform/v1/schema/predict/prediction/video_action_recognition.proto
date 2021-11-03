@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1.schema.predict.prediction;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1.schema.predict.prediction";
+option java_outer_classname = "VideoActionRecognitionPredictionResultProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1/schema/predict/prediction;prediction";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1.Schema.Predict.Prediction";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1\\Schema\\Predict\\Prediction";
+option ruby_package = "Google::Cloud::AIPlatform::V1::Schema::Predict::Prediction";
+
+
+message VideoActionRecognitionPredictionResult {
+
+	string id = 1;
+	string display_name = 2;
+	google.protobuf.Duration time_segment_start = 4;
+	google.protobuf.Duration time_segment_end = 5;
+	google.protobuf.FloatValue confidence = 6;
+}

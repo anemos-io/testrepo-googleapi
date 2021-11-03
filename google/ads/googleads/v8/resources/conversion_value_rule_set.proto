@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/enums/conversion_value_rule_set_status.proto";
+import "google/ads/googleads/v8/enums/value_rule_set_attachment_type.proto";
+import "google/ads/googleads/v8/enums/value_rule_set_dimension.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "ConversionValueRuleSetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message ConversionValueRuleSet {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/ConversionValueRuleSet"
+		pattern: ["customers/{customer_id}/conversionValueRuleSets/{conversion_value_rule_set_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/ConversionValueRuleSet"
+		}
+	];
+	int64 id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string conversion_value_rules = 3 [
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/ConversionValueRule"
+		}
+	];
+	repeated google.ads.googleads.v8.enums.ValueRuleSetDimensionEnum.ValueRuleSetDimension dimensions = 4;
+	string owner_customer = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Customer"
+		}
+	];
+	google.ads.googleads.v8.enums.ValueRuleSetAttachmentTypeEnum.ValueRuleSetAttachmentType attachment_type = 6;
+	string campaign = 7 [
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	google.ads.googleads.v8.enums.ConversionValueRuleSetStatusEnum.ConversionValueRuleSetStatus status = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

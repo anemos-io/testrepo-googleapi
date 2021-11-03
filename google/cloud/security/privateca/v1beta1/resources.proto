@@ -15,6 +15,8 @@ option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/security/privateca/v1beta1;privateca";
 option cc_enable_arenas = true;
 option csharp_namespace = "Google.Cloud.Security.PrivateCA.V1Beta1";
+option php_namespace = "Google\\Cloud\\Security\\PrivateCA\\V1beta1";
+option ruby_package = "Google::Cloud::Security::PrivateCA::V1beta1";
 
 
 enum RevocationReason {
@@ -156,9 +158,12 @@ message CertificateAuthority {
 	enum SignHashAlgorithm {
 
 		SIGN_HASH_ALGORITHM_UNSPECIFIED = 0;
-		RSA_PSS_2048_SHA_256 = 1;
-		RSA_PSS_3072_SHA_256 = 2;
-		RSA_PSS_4096_SHA_256 = 3;
+		RSA_PSS_2048_SHA256 = 1;
+		RSA_PSS_3072_SHA256 = 2;
+		RSA_PSS_4096_SHA256 = 3;
+		RSA_PKCS1_2048_SHA256 = 6;
+		RSA_PKCS1_3072_SHA256 = 7;
+		RSA_PKCS1_4096_SHA256 = 8;
 		EC_P256_SHA256 = 4;
 		EC_P384_SHA384 = 5;
 	}
@@ -296,7 +301,8 @@ message Certificate {
 		];
 	}
 	google.protobuf.Duration lifetime = 4 [
-		(google.api.field_behavior) = REQUIRED
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
 	];
 	RevocationDetails revocation_details = 5 [
 		(google.api.field_behavior) = OUTPUT_ONLY

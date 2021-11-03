@@ -103,6 +103,7 @@ message ListAlertPoliciesResponse {
 
 	repeated google.monitoring.v3.AlertPolicy alert_policies = 3;
 	string next_page_token = 2;
+	int32 total_size = 4;
 }
 
 message UpdateAlertPolicyRequest {

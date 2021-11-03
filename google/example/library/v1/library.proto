@@ -7,11 +7,13 @@ import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
 
 option java_package = "com.google.example.library.v1";
 option java_outer_classname = "LibraryProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/example/library/v1;library";
+option php_namespace = "Google\\Cloud\\Example\\Library\\V1";
 
 
 service LibraryService {
@@ -46,7 +48,7 @@ service LibraryService {
 
 	}
 	rpc MergeShelves(google.example.library.v1.MergeShelvesRequest) returns (google.example.library.v1.Shelf) {
-		option (google.api.method_signature) = "name,other_shelf_name";
+		option (google.api.method_signature) = "name,other_shelf";
 		option (google.api.http) = {
 			post: "/v1/{name=shelves/*}:merge"
 			body: "*"
@@ -54,9 +56,9 @@ service LibraryService {
 
 	}
 	rpc CreateBook(google.example.library.v1.CreateBookRequest) returns (google.example.library.v1.Book) {
-		option (google.api.method_signature) = "name,book";
+		option (google.api.method_signature) = "parent,book";
 		option (google.api.http) = {
-			post: "/v1/{name=shelves/*}/books"
+			post: "/v1/{parent=shelves/*}/books"
 			body: "book"
 		};
 
@@ -69,22 +71,23 @@ service LibraryService {
 
 	}
 	rpc ListBooks(google.example.library.v1.ListBooksRequest) returns (google.example.library.v1.ListBooksResponse) {
-		option (google.api.method_signature) = "name";
+		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
-			get: "/v1/{name=shelves/*}/books"
+			get: "/v1/{parent=shelves/*}/books"
 		};
 
 	}
 	rpc DeleteBook(google.example.library.v1.DeleteBookRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			delete: "/v1/{name=shelves/*/books/*}"
 		};
 
 	}
 	rpc UpdateBook(google.example.library.v1.UpdateBookRequest) returns (google.example.library.v1.Book) {
-		option (google.api.method_signature) = "book";
+		option (google.api.method_signature) = "book,update_mask";
 		option (google.api.http) = {
-			put: "/v1/{book.name=shelves/*/books/*}"
+			patch: "/v1/{book.name=shelves/*/books/*}"
 			body: "book"
 		};
 
@@ -102,15 +105,10 @@ service LibraryService {
 message Book {
 	option (google.api.resource) = {
 		type: "library-example.googleapis.com/Book"
-		pattern: ["shelves/{shelf_id}/books/{book_id}"]
+		pattern: ["shelves/{shelf}/books/{book}"]
 	};
 
-	string name = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "library-example.googleapis.com/Book"
-		}
-	];
+	string name = 1;
 	string author = 2;
 	string title = 3;
 	bool read = 4;
@@ -122,12 +120,7 @@ message Shelf {
 		pattern: ["shelves/{shelf_id}"]
 	};
 
-	string name = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "library-example.googleapis.com/Shelf"
-		}
-	];
+	string name = 1;
 	string theme = 2;
 }
 
@@ -143,7 +136,7 @@ message GetShelfRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Shelf"
+			type: "library-example.googleapis.com/Shelf"
 		}
 	];
 }
@@ -165,7 +158,7 @@ message DeleteShelfRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Shelf"
+			type: "library-example.googleapis.com/Shelf"
 		}
 	];
 }
@@ -175,23 +168,23 @@ message MergeShelvesRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Shelf"
+			type: "library-example.googleapis.com/Shelf"
 		}
 	];
-	string other_shelf_name = 2 [
+	string other_shelf = 2 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Shelf"
+			type: "library-example.googleapis.com/Shelf"
 		}
 	];
 }
 
 message CreateBookRequest {
 
-	string name = 1 [
+	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Shelf"
+			type: "library-example.googleapis.com/Shelf"
 		}
 	];
 	Book book = 2 [
@@ -204,17 +197,17 @@ message GetBookRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Book"
+			type: "library-example.googleapis.com/Book"
 		}
 	];
 }
 
 message ListBooksRequest {
 
-	string name = 1 [
+	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Shelf"
+			type: "library-example.googleapis.com/Shelf"
 		}
 	];
 	int32 page_size = 2;
@@ -229,10 +222,10 @@ message ListBooksResponse {
 
 message UpdateBookRequest {
 
-	string name = 1 [
+	Book book = 1 [
 		(google.api.field_behavior) = REQUIRED
 	];
-	Book book = 2 [
+	google.protobuf.FieldMask update_mask = 2 [
 		(google.api.field_behavior) = REQUIRED
 	];
 }
@@ -242,7 +235,7 @@ message DeleteBookRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Book"
+			type: "library-example.googleapis.com/Book"
 		}
 	];
 }
@@ -252,13 +245,13 @@ message MoveBookRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Book"
+			type: "library-example.googleapis.com/Book"
 		}
 	];
 	string other_shelf_name = 2 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "Shelf"
+			type: "library-example.googleapis.com/Shelf"
 		}
 	];
 }

@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/talent/v4/common.proto";
+import "google/cloud/talent/v4/company.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.talent.v4";
+option java_outer_classname = "CompanyServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4;talent";
+option objc_class_prefix = "CTS";
+
+
+service CompanyService {
+	option (google.api.default_host) = "jobs.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/jobs";
+
+	rpc CreateCompany(google.cloud.talent.v4.CreateCompanyRequest) returns (google.cloud.talent.v4.Company) {
+		option (google.api.method_signature) = "parent,company";
+		option (google.api.http) = {
+			post: "/v4/{parent=projects/*/tenants/*}/companies"
+			body: "company"
+		};
+
+	}
+	rpc GetCompany(google.cloud.talent.v4.GetCompanyRequest) returns (google.cloud.talent.v4.Company) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v4/{name=projects/*/tenants/*/companies/*}"
+		};
+
+	}
+	rpc UpdateCompany(google.cloud.talent.v4.UpdateCompanyRequest) returns (google.cloud.talent.v4.Company) {
+		option (google.api.method_signature) = "company,update_mask";
+		option (google.api.http) = {
+			patch: "/v4/{company.name=projects/*/tenants/*/companies/*}"
+			body: "company"
+		};
+
+	}
+	rpc DeleteCompany(google.cloud.talent.v4.DeleteCompanyRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v4/{name=projects/*/tenants/*/companies/*}"
+		};
+
+	}
+	rpc ListCompanies(google.cloud.talent.v4.ListCompaniesRequest) returns (google.cloud.talent.v4.ListCompaniesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v4/{parent=projects/*/tenants/*}/companies"
+		};
+
+	}
+}
+
+message CreateCompanyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Tenant"
+		}
+	];
+	google.cloud.talent.v4.Company company = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetCompanyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Company"
+		}
+	];
+}
+
+message UpdateCompanyRequest {
+
+	google.cloud.talent.v4.Company company = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteCompanyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Company"
+		}
+	];
+}
+
+message ListCompaniesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Tenant"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+	bool require_open_jobs = 4;
+}
+
+message ListCompaniesResponse {
+
+	repeated google.cloud.talent.v4.Company companies = 1;
+	string next_page_token = 2;
+	google.cloud.talent.v4.ResponseMetadata metadata = 3;
+}

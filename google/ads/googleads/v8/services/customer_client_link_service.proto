@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/resources/customer_client_link.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "CustomerClientLinkServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service CustomerClientLinkService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetCustomerClientLink(google.ads.googleads.v8.services.GetCustomerClientLinkRequest) returns (google.ads.googleads.v8.resources.CustomerClientLink) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v8/{resource_name=customers/*/customerClientLinks/*}"
+		};
+
+	}
+	rpc MutateCustomerClientLink(google.ads.googleads.v8.services.MutateCustomerClientLinkRequest) returns (google.ads.googleads.v8.services.MutateCustomerClientLinkResponse) {
+		option (google.api.method_signature) = "customer_id,operation";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}/customerClientLinks:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCustomerClientLinkRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomerClientLink"
+		}
+	];
+}
+
+message MutateCustomerClientLinkRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CustomerClientLinkOperation operation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 3;
+}
+
+message CustomerClientLinkOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	oneof operation {
+		google.ads.googleads.v8.resources.CustomerClientLink create = 1;
+		google.ads.googleads.v8.resources.CustomerClientLink update = 2;
+	}
+}
+
+message MutateCustomerClientLinkResponse {
+
+	MutateCustomerClientLinkResult result = 1;
+}
+
+message MutateCustomerClientLinkResult {
+
+	string resource_name = 1;
+}

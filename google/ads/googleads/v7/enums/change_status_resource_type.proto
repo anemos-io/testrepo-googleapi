@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.enums";
+option java_outer_classname = "ChangeStatusResourceTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V7::Enums";
+
+
+message ChangeStatusResourceTypeEnum {
+
+	enum ChangeStatusResourceType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		AD_GROUP = 3;
+		AD_GROUP_AD = 4;
+		AD_GROUP_CRITERION = 5;
+		CAMPAIGN = 6;
+		CAMPAIGN_CRITERION = 7;
+		FEED = 9;
+		FEED_ITEM = 10;
+		AD_GROUP_FEED = 11;
+		CAMPAIGN_FEED = 12;
+		AD_GROUP_BID_MODIFIER = 13;
+	}
+
+}

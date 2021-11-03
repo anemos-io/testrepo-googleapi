@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package google.cloud.identitytoolkit.v2;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/identitytoolkit/v2/mfa_info.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.identitytoolkit.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/identitytoolkit/v2;identitytoolkit";
+option csharp_namespace = "Google.Cloud.IdentityToolkit.V2";
+option php_namespace = "Google\\Cloud\\IdentityToolkit\\V2";
+option ruby_package = "Google::Cloud::IdentityToolkit::V2";
+
+
+service AuthenticationService {
+	option (google.api.default_host) = "identitytoolkit.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc FinalizeMfaSignIn(google.cloud.identitytoolkit.v2.FinalizeMfaSignInRequest) returns (google.cloud.identitytoolkit.v2.FinalizeMfaSignInResponse) {
+		option (google.api.http) = {
+			post: "/v2/accounts/mfaSignIn:finalize"
+			body: "*"
+		};
+
+	}
+	rpc StartMfaSignIn(google.cloud.identitytoolkit.v2.StartMfaSignInRequest) returns (google.cloud.identitytoolkit.v2.StartMfaSignInResponse) {
+		option (google.api.http) = {
+			post: "/v2/accounts/mfaSignIn:start"
+			body: "*"
+		};
+
+	}
+}
+
+message FinalizeMfaSignInRequest {
+
+	string mfa_pending_credential = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof verification_info {
+		google.cloud.identitytoolkit.v2.FinalizeMfaPhoneRequestInfo phone_verification_info = 3;
+	}
+	string tenant_id = 4;
+}
+
+message FinalizeMfaSignInResponse {
+
+	string id_token = 1;
+	string refresh_token = 2;
+	oneof auxiliary_auth_info {
+		google.cloud.identitytoolkit.v2.FinalizeMfaPhoneResponseInfo phone_auth_info = 3;
+	}
+}
+
+message StartMfaSignInRequest {
+
+	string mfa_pending_credential = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string mfa_enrollment_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof sign_in_info {
+		google.cloud.identitytoolkit.v2.StartMfaPhoneRequestInfo phone_sign_in_info = 4;
+	}
+	string tenant_id = 5;
+}
+
+message StartMfaSignInResponse {
+
+	oneof response_info {
+		google.cloud.identitytoolkit.v2.StartMfaPhoneResponseInfo phone_response_info = 1;
+	}
+}

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_image_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_link_prompt.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "StaticCollectionBrowsePromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message StaticCollectionBrowsePrompt {
+
+	message CollectionBrowseItem {
+
+		string title = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string description = 2;
+		string footer = 3;
+		google.actions.sdk.v2.interactionmodel.prompt.StaticImagePrompt image = 4;
+		google.actions.sdk.v2.interactionmodel.prompt.OpenUrl open_uri_action = 5 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	repeated CollectionBrowseItem items = 1;
+	google.actions.sdk.v2.interactionmodel.prompt.StaticImagePrompt.ImageFill image_fill = 2;
+}

@@ -11,7 +11,7 @@ option java_outer_classname = "TextToSpeechProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/texttospeech/v1beta1;texttospeech";
 option cc_enable_arenas = true;
-option csharp_namespace = "Google.Cloud.TextToSpeech.V1beta1";
+option csharp_namespace = "Google.Cloud.TextToSpeech.V1Beta1";
 option php_namespace = "Google\\Cloud\\TextToSpeech\\V1beta1";
 option ruby_package = "Google::Cloud::TextToSpeech::V1beta1";
 
@@ -32,6 +32,7 @@ enum AudioEncoding {
 	MP3_64_KBPS = 4;
 	OGG_OPUS = 3;
 	MULAW = 5;
+	ALAW = 6;
 }
 
 service TextToSpeech {

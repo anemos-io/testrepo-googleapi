@@ -7,13 +7,18 @@ import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/cloud/pubsublite/v1/common.proto";
+import "google/longrunning/operations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 
 option java_package = "com.google.cloud.pubsublite.proto";
 option java_outer_classname = "AdminProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
+option csharp_namespace = "Google.Cloud.PubSubLite.V1";
+option php_namespace = "Google\\Cloud\\PubSubLite\\V1";
+option ruby_package = "Google::Cloud::PubSubLite::V1";
 
 
 service AdminService {
@@ -105,6 +110,61 @@ service AdminService {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			delete: "/v1/admin/{name=projects/*/locations/*/subscriptions/*}"
+		};
+
+	}
+	rpc SeekSubscription(google.cloud.pubsublite.v1.SeekSubscriptionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "SeekSubscriptionResponse"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/admin/{name=projects/*/locations/*/subscriptions/*}:seek"
+			body: "*"
+		};
+
+	}
+	rpc CreateReservation(google.cloud.pubsublite.v1.CreateReservationRequest) returns (google.cloud.pubsublite.v1.Reservation) {
+		option (google.api.method_signature) = "parent,reservation,reservation_id";
+		option (google.api.http) = {
+			post: "/v1/admin/{parent=projects/*/locations/*}/reservations"
+			body: "reservation"
+		};
+
+	}
+	rpc GetReservation(google.cloud.pubsublite.v1.GetReservationRequest) returns (google.cloud.pubsublite.v1.Reservation) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/admin/{name=projects/*/locations/*/reservations/*}"
+		};
+
+	}
+	rpc ListReservations(google.cloud.pubsublite.v1.ListReservationsRequest) returns (google.cloud.pubsublite.v1.ListReservationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/admin/{parent=projects/*/locations/*}/reservations"
+		};
+
+	}
+	rpc UpdateReservation(google.cloud.pubsublite.v1.UpdateReservationRequest) returns (google.cloud.pubsublite.v1.Reservation) {
+		option (google.api.method_signature) = "reservation,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/admin/{reservation.name=projects/*/locations/*/reservations/*}"
+			body: "reservation"
+		};
+
+	}
+	rpc DeleteReservation(google.cloud.pubsublite.v1.DeleteReservationRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/admin/{name=projects/*/locations/*/reservations/*}"
+		};
+
+	}
+	rpc ListReservationTopics(google.cloud.pubsublite.v1.ListReservationTopicsRequest) returns (google.cloud.pubsublite.v1.ListReservationTopicsResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/admin/{name=projects/*/locations/*/reservations/*}/topics"
 		};
 
 	}
@@ -221,6 +281,7 @@ message CreateSubscriptionRequest {
 	string subscription_id = 3 [
 		(google.api.field_behavior) = REQUIRED
 	];
+	bool skip_backlog = 4;
 }
 
 message GetSubscriptionRequest {
@@ -269,4 +330,119 @@ message DeleteSubscriptionRequest {
 			type: "pubsublite.googleapis.com/Subscription"
 		}
 	];
+}
+
+message SeekSubscriptionRequest {
+
+	enum NamedTarget {
+
+		NAMED_TARGET_UNSPECIFIED = 0;
+		TAIL = 1;
+		HEAD = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Subscription"
+		}
+	];
+	oneof target {
+		NamedTarget named_target = 2;
+		google.cloud.pubsublite.v1.TimeTarget time_target = 3;
+	}
+}
+
+message SeekSubscriptionResponse {
+
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	string target = 3;
+	string verb = 4;
+}
+
+message CreateReservationRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.pubsublite.v1.Reservation reservation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string reservation_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetReservationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Reservation"
+		}
+	];
+}
+
+message ListReservationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListReservationsResponse {
+
+	repeated google.cloud.pubsublite.v1.Reservation reservations = 1;
+	string next_page_token = 2;
+}
+
+message UpdateReservationRequest {
+
+	google.cloud.pubsublite.v1.Reservation reservation = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteReservationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Reservation"
+		}
+	];
+}
+
+message ListReservationTopicsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Reservation"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListReservationTopicsResponse {
+
+	repeated string topics = 1;
+	string next_page_token = 2;
 }

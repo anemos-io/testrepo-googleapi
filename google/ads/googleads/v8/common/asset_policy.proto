@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.common;
+
+import "google/ads/googleads/v8/common/policy.proto";
+import "google/ads/googleads/v8/enums/policy_approval_status.proto";
+import "google/ads/googleads/v8/enums/policy_review_status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.common";
+option java_outer_classname = "AssetPolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V8::Common";
+
+
+message AdAssetPolicySummary {
+
+	repeated google.ads.googleads.v8.common.PolicyTopicEntry policy_topic_entries = 1;
+	google.ads.googleads.v8.enums.PolicyReviewStatusEnum.PolicyReviewStatus review_status = 2;
+	google.ads.googleads.v8.enums.PolicyApprovalStatusEnum.PolicyApprovalStatus approval_status = 3;
+}

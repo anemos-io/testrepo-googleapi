@@ -1,0 +1,202 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/ads/googleads/v7/common/criteria.proto";
+import "google/ads/googleads/v7/common/feed_common.proto";
+import "google/ads/googleads/v7/enums/lead_form_call_to_action_type.proto";
+import "google/ads/googleads/v7/enums/lead_form_desired_intent.proto";
+import "google/ads/googleads/v7/enums/lead_form_field_user_input_type.proto";
+import "google/ads/googleads/v7/enums/lead_form_post_submit_call_to_action_type.proto";
+import "google/ads/googleads/v7/enums/mime_type.proto";
+import "google/ads/googleads/v7/enums/promotion_extension_discount_modifier.proto";
+import "google/ads/googleads/v7/enums/promotion_extension_occasion.proto";
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "AssetTypesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message YoutubeVideoAsset {
+
+	oneof _youtube_video_id {
+		string youtube_video_id = 2;
+	}
+	string youtube_video_title = 3;
+}
+
+message MediaBundleAsset {
+
+	oneof _data {
+		bytes data = 2;
+	}
+}
+
+message ImageAsset {
+
+	oneof _data {
+		bytes data = 5;
+	}
+	oneof _file_size {
+		int64 file_size = 6;
+	}
+	google.ads.googleads.v7.enums.MimeTypeEnum.MimeType mime_type = 3;
+	ImageDimension full_size = 4;
+}
+
+message ImageDimension {
+
+	oneof _height_pixels {
+		int64 height_pixels = 4;
+	}
+	oneof _width_pixels {
+		int64 width_pixels = 5;
+	}
+	oneof _url {
+		string url = 6;
+	}
+}
+
+message TextAsset {
+
+	oneof _text {
+		string text = 2;
+	}
+}
+
+message LeadFormAsset {
+
+	string business_name = 10 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.ads.googleads.v7.enums.LeadFormCallToActionTypeEnum.LeadFormCallToActionType call_to_action_type = 17 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string call_to_action_description = 18 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string headline = 12 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 13 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string privacy_policy_url = 14 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof _post_submit_headline {
+		string post_submit_headline = 15;
+	}
+	oneof _post_submit_description {
+		string post_submit_description = 16;
+	}
+	repeated LeadFormField fields = 8;
+	repeated LeadFormDeliveryMethod delivery_methods = 9;
+	google.ads.googleads.v7.enums.LeadFormPostSubmitCallToActionTypeEnum.LeadFormPostSubmitCallToActionType post_submit_call_to_action_type = 19;
+	oneof _background_image_asset {
+		string background_image_asset = 20;
+	}
+	google.ads.googleads.v7.enums.LeadFormDesiredIntentEnum.LeadFormDesiredIntent desired_intent = 21;
+	oneof _custom_disclosure {
+		string custom_disclosure = 22;
+	}
+}
+
+message LeadFormField {
+
+	google.ads.googleads.v7.enums.LeadFormFieldUserInputTypeEnum.LeadFormFieldUserInputType input_type = 1;
+	oneof answers {
+		LeadFormSingleChoiceAnswers single_choice_answers = 2;
+	}
+}
+
+message LeadFormSingleChoiceAnswers {
+
+	repeated string answers = 1;
+}
+
+message LeadFormDeliveryMethod {
+
+	oneof delivery_details {
+		WebhookDelivery webhook = 1;
+	}
+}
+
+message WebhookDelivery {
+
+	oneof _advertiser_webhook_url {
+		string advertiser_webhook_url = 4;
+	}
+	oneof _google_secret {
+		string google_secret = 5;
+	}
+	oneof _payload_schema_version {
+		int64 payload_schema_version = 6;
+	}
+}
+
+message BookOnGoogleAsset {
+
+}
+
+message PromotionAsset {
+
+	string promotion_target = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.ads.googleads.v7.enums.PromotionExtensionDiscountModifierEnum.PromotionExtensionDiscountModifier discount_modifier = 2;
+	string redemption_start_date = 7;
+	string redemption_end_date = 8;
+	google.ads.googleads.v7.enums.PromotionExtensionOccasionEnum.PromotionExtensionOccasion occasion = 9;
+	string language_code = 10;
+	string start_date = 11;
+	string end_date = 12;
+	repeated google.ads.googleads.v7.common.AdScheduleInfo ad_schedule_targets = 13;
+	oneof discount_type {
+		int64 percent_off = 3;
+		google.ads.googleads.v7.common.Money money_amount_off = 4;
+	}
+	oneof promotion_trigger {
+		string promotion_code = 5;
+		google.ads.googleads.v7.common.Money orders_over_amount = 6;
+	}
+}
+
+message CalloutAsset {
+
+	string callout_text = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string start_date = 2;
+	string end_date = 3;
+	repeated google.ads.googleads.v7.common.AdScheduleInfo ad_schedule_targets = 4;
+}
+
+message StructuredSnippetAsset {
+
+	string header = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string values = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SitelinkAsset {
+
+	string link_text = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description1 = 2;
+	string description2 = 3;
+	string start_date = 4;
+	string end_date = 5;
+	repeated google.ads.googleads.v7.common.AdScheduleInfo ad_schedule_targets = 6;
+}

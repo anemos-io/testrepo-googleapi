@@ -5,12 +5,16 @@ package google.cloud.pubsublite.v1;
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.pubsublite.proto";
 option java_outer_classname = "CommonProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
 option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.PubSubLite.V1";
+option php_namespace = "Google\\Cloud\\PubSubLite\\V1";
+option ruby_package = "Google::Cloud::PubSubLite::V1";
 
 
 message AttributeValues {
@@ -39,6 +43,16 @@ message SequencedMessage {
 	int64 size_bytes = 4;
 }
 
+message Reservation {
+	option (google.api.resource) = {
+		type: "pubsublite.googleapis.com/Reservation"
+		pattern: ["projects/{project}/locations/{location}/reservations/{reservation}"]
+	};
+
+	string name = 1;
+	int64 throughput_capacity = 2;
+}
+
 message Topic {
 	option (google.api.resource) = {
 		type: "pubsublite.googleapis.com/Topic"
@@ -55,7 +69,9 @@ message Topic {
 
 		int64 count = 1;
 		oneof dimension {
-			int32 scale = 2;
+			int32 scale = 2 [
+				deprecated = true
+			];
 			Capacity capacity = 3;
 		}
 	}
@@ -66,9 +82,19 @@ message Topic {
 		google.protobuf.Duration period = 2;
 	}
 
+	message ReservationConfig {
+
+		string throughput_reservation = 1 [
+			(google.api.resource_reference) = {
+				type: "pubsublite.googleapis.com/Reservation"
+			}
+		];
+	}
+
 	string name = 1;
 	PartitionConfig partition_config = 2;
 	RetentionConfig retention_config = 3;
+	ReservationConfig reservation_config = 4;
 }
 
 message Subscription {
@@ -96,4 +122,12 @@ message Subscription {
 		}
 	];
 	DeliveryConfig delivery_config = 3;
+}
+
+message TimeTarget {
+
+	oneof time {
+		google.protobuf.Timestamp publish_time = 1;
+		google.protobuf.Timestamp event_time = 2;
+	}
 }

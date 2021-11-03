@@ -25,7 +25,7 @@ option objc_class_prefix = "DF";
 option csharp_namespace = "Google.Cloud.Dialogflow.V2";
 option (google.api.resource_definition) = {
 	type: "dialogflow.googleapis.com/Session"
-	pattern: ["projects/{project}/agent/sessions/{session}","projects/{project}/agent/environments/{environment}/users/{user}/sessions/{session}"]
+	pattern: ["projects/{project}/agent/sessions/{session}","projects/{project}/agent/environments/{environment}/users/{user}/sessions/{session}","projects/{project}/locations/{location}/agent/sessions/{session}","projects/{project}/locations/{location}/agent/environments/{environment}/users/{user}/sessions/{session}"]
 };
 
 
@@ -40,6 +40,14 @@ service Sessions {
 			body: "*"
 			additional_bindings: {
 				post: "/v2/{session=projects/*/agent/environments/*/users/*/sessions/*}:detectIntent"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v2/{session=projects/*/locations/*/agent/sessions/*}:detectIntent"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v2/{session=projects/*/locations/*/agent/environments/*/users/*/sessions/*}:detectIntent"
 				body: "*"
 			}
 		};
@@ -83,6 +91,7 @@ message QueryParameters {
 	repeated google.cloud.dialogflow.v2.SessionEntityType session_entity_types = 5;
 	google.protobuf.Struct payload = 6;
 	SentimentAnalysisRequestConfig sentiment_analysis_request_config = 10;
+	map<string, string> webhook_headers = 14;
 }
 
 message QueryInput {
@@ -102,6 +111,7 @@ message QueryResult {
 	string action = 3;
 	google.protobuf.Struct parameters = 4;
 	bool all_required_params_present = 5;
+	bool cancels_slot_filling = 21;
 	string fulfillment_text = 6;
 	repeated google.cloud.dialogflow.v2.Intent.Message fulfillment_messages = 7;
 	string webhook_source = 8;
@@ -158,6 +168,7 @@ message StreamingRecognitionResult {
 	float confidence = 4;
 	repeated google.cloud.dialogflow.v2.SpeechWordInfo speech_word_info = 7;
 	google.protobuf.Duration speech_end_offset = 8;
+	string language_code = 10;
 }
 
 message TextInput {

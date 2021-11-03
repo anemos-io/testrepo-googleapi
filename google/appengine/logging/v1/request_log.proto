@@ -10,6 +10,9 @@ option java_package = "com.google.appengine.logging.v1";
 option java_outer_classname = "RequestLogProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/appengine/logging/v1;logging";
+option csharp_namespace = "Google.Cloud.AppEngine.Logging.V1";
+option php_namespace = "Google\\Cloud\\AppEngine\\Logging\\V1";
+option ruby_package = "Google::Cloud::AppEngine::Logging::V1";
 
 
 message LogLine {

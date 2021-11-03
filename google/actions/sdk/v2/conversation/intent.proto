@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "IntentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Intent {
+
+	string name = 1;
+	map<string, IntentParameterValue> params = 2;
+	string query = 3;
+}
+
+message IntentParameterValue {
+
+	string original = 1;
+	google.protobuf.Value resolved = 2;
+}

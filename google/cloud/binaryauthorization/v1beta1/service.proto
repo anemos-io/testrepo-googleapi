@@ -9,8 +9,14 @@ import "google/api/resource.proto";
 import "google/cloud/binaryauthorization/v1beta1/resources.proto";
 import "google/protobuf/empty.proto";
 
+option java_package = "com.google.cloud.binaryauthorization.v1beta1";
+option java_outer_classname = "BinaryAuthorizationServiceProto";
+option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/binaryauthorization/v1beta1;binaryauthorization";
 option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.BinaryAuthorization.V1Beta1";
+option php_namespace = "Google\\Cloud\\BinaryAuthorization\\V1beta1";
+option ruby_package = "Google::Cloud::BinaryAuthorization::V1beta1";
 
 
 service BinauthzManagementServiceV1Beta1 {

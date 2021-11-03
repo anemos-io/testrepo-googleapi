@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.resources;
+
+import "google/ads/googleads/v7/common/dates.proto";
+import "google/ads/googleads/v7/enums/keyword_plan_forecast_interval.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.resources";
+option java_outer_classname = "KeywordPlanProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V7::Resources";
+
+
+message KeywordPlan {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/KeywordPlan"
+		pattern: ["customers/{customer_id}/keywordPlans/{keyword_plan_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/KeywordPlan"
+		}
+	];
+	oneof _id {
+		int64 id = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 6;
+	}
+	KeywordPlanForecastPeriod forecast_period = 4;
+}
+
+message KeywordPlanForecastPeriod {
+
+	oneof interval {
+		google.ads.googleads.v7.enums.KeywordPlanForecastIntervalEnum.KeywordPlanForecastInterval date_interval = 1;
+		google.ads.googleads.v7.common.DateRange date_range = 2;
+	}
+}

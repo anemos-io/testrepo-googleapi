@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.errors";
+option java_outer_classname = "BatchJobErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V7::Errors";
+
+
+message BatchJobErrorEnum {
+
+	enum BatchJobError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		CANNOT_MODIFY_JOB_AFTER_JOB_STARTS_RUNNING = 2;
+		EMPTY_OPERATIONS = 3;
+		INVALID_SEQUENCE_TOKEN = 4;
+		RESULTS_NOT_READY = 5;
+		INVALID_PAGE_SIZE = 6;
+		CAN_ONLY_REMOVE_PENDING_JOB = 7;
+	}
+
+}

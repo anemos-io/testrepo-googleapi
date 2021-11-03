@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.api;
+
+import "google/protobuf/descriptor.proto";
+
+option java_package = "com.google.api";
+option java_outer_classname = "RoutingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/annotations;annotations";
+option objc_class_prefix = "GAPI";
+
+
+extend google.protobuf.MethodOptions {
+	RoutingRule routing = 72295729;
+}
+
+
+message RoutingRule {
+
+	repeated RoutingParameter routing_parameters = 2;
+}
+
+message RoutingParameter {
+
+	string field = 1;
+	string path_template = 2;
+}

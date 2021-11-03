@@ -1,0 +1,300 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3/response_message.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3";
+option java_outer_classname = "WebhookProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3";
+option (google.api.resource_definition) = {
+	type: "servicedirectory.googleapis.com/Service"
+	pattern: ["projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}"]
+};
+
+
+service Webhooks {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListWebhooks(google.cloud.dialogflow.cx.v3.ListWebhooksRequest) returns (google.cloud.dialogflow.cx.v3.ListWebhooksResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3/{parent=projects/*/locations/*/agents/*}/webhooks"
+		};
+
+	}
+	rpc GetWebhook(google.cloud.dialogflow.cx.v3.GetWebhookRequest) returns (google.cloud.dialogflow.cx.v3.Webhook) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*/locations/*/agents/*/webhooks/*}"
+		};
+
+	}
+	rpc CreateWebhook(google.cloud.dialogflow.cx.v3.CreateWebhookRequest) returns (google.cloud.dialogflow.cx.v3.Webhook) {
+		option (google.api.method_signature) = "parent,webhook";
+		option (google.api.http) = {
+			post: "/v3/{parent=projects/*/locations/*/agents/*}/webhooks"
+			body: "webhook"
+		};
+
+	}
+	rpc UpdateWebhook(google.cloud.dialogflow.cx.v3.UpdateWebhookRequest) returns (google.cloud.dialogflow.cx.v3.Webhook) {
+		option (google.api.method_signature) = "webhook,update_mask";
+		option (google.api.http) = {
+			patch: "/v3/{webhook.name=projects/*/locations/*/agents/*/webhooks/*}"
+			body: "webhook"
+		};
+
+	}
+	rpc DeleteWebhook(google.cloud.dialogflow.cx.v3.DeleteWebhookRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3/{name=projects/*/locations/*/agents/*/webhooks/*}"
+		};
+
+	}
+}
+
+message Webhook {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Webhook"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/webhooks/{webhook}"]
+	};
+
+	message GenericWebService {
+
+		string uri = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string username = 2 [
+			deprecated = true
+		];
+		string password = 3 [
+			deprecated = true
+		];
+		map<string, string> request_headers = 4;
+	}
+
+	message ServiceDirectoryConfig {
+
+		string service = 1 [
+			(google.api.field_behavior) = REQUIRED
+			(google.api.resource_reference) = {
+				type: "servicedirectory.googleapis.com/Service"
+			}
+		];
+		GenericWebService generic_web_service = 2;
+	}
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof webhook {
+		GenericWebService generic_web_service = 4;
+		ServiceDirectoryConfig service_directory = 7;
+	}
+	google.protobuf.Duration timeout = 6;
+	bool disabled = 5;
+}
+
+message ListWebhooksRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Webhook"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListWebhooksResponse {
+
+	repeated Webhook webhooks = 1;
+	string next_page_token = 2;
+}
+
+message GetWebhookRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Webhook"
+		}
+	];
+}
+
+message CreateWebhookRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Webhook"
+		}
+	];
+	Webhook webhook = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateWebhookRequest {
+
+	Webhook webhook = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteWebhookRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Webhook"
+		}
+	];
+	bool force = 2;
+}
+
+message WebhookRequest {
+
+	message FulfillmentInfo {
+
+		string tag = 1;
+	}
+
+	message IntentInfo {
+
+		message IntentParameterValue {
+
+			string original_value = 1;
+			google.protobuf.Value resolved_value = 2;
+		}
+
+		string last_matched_intent = 1 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Intent"
+			}
+		];
+		string display_name = 3;
+		map<string, IntentParameterValue> parameters = 2;
+		float confidence = 4;
+	}
+
+	message SentimentAnalysisResult {
+
+		float score = 1;
+		float magnitude = 2;
+	}
+
+	string detect_intent_response_id = 1;
+	oneof query {
+		string text = 10;
+		string trigger_intent = 11 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Intent"
+			}
+		];
+		string transcript = 12;
+		string trigger_event = 14;
+	}
+	string language_code = 15;
+	FulfillmentInfo fulfillment_info = 6;
+	IntentInfo intent_info = 3;
+	PageInfo page_info = 4;
+	SessionInfo session_info = 5;
+	repeated google.cloud.dialogflow.cx.v3.ResponseMessage messages = 7;
+	google.protobuf.Struct payload = 8;
+	SentimentAnalysisResult sentiment_analysis_result = 9;
+}
+
+message WebhookResponse {
+
+	message FulfillmentResponse {
+
+		enum MergeBehavior {
+
+			MERGE_BEHAVIOR_UNSPECIFIED = 0;
+			APPEND = 1;
+			REPLACE = 2;
+		}
+
+		repeated google.cloud.dialogflow.cx.v3.ResponseMessage messages = 1;
+		MergeBehavior merge_behavior = 2;
+	}
+
+	FulfillmentResponse fulfillment_response = 1;
+	PageInfo page_info = 2;
+	SessionInfo session_info = 3;
+	google.protobuf.Struct payload = 4;
+	oneof transition {
+		string target_page = 5 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Page"
+			}
+		];
+		string target_flow = 6 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Flow"
+			}
+		];
+	}
+}
+
+message PageInfo {
+
+	message FormInfo {
+
+		message ParameterInfo {
+
+			enum ParameterState {
+
+				PARAMETER_STATE_UNSPECIFIED = 0;
+				EMPTY = 1;
+				INVALID = 2;
+				FILLED = 3;
+			}
+
+			string display_name = 1;
+			bool required = 2;
+			ParameterState state = 3;
+			google.protobuf.Value value = 4;
+			bool just_collected = 5;
+		}
+
+		repeated ParameterInfo parameter_info = 2;
+	}
+
+	string current_page = 1 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Page"
+		}
+	];
+	FormInfo form_info = 3;
+}
+
+message SessionInfo {
+
+	string session = 1 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Session"
+		}
+	];
+	map<string, google.protobuf.Value> parameters = 2;
+}

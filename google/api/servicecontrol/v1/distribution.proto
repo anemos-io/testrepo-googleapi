@@ -2,11 +2,16 @@ syntax = "proto3";
 
 package google.api.servicecontrol.v1;
 
+import "google/api/distribution.proto";
+
 option java_package = "com.google.api.servicecontrol.v1";
 option java_outer_classname = "DistributionProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/api/servicecontrol/v1;servicecontrol";
 option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.ServiceControl.V1";
+option php_namespace = "Google\\Cloud\\ServiceControl\\V1";
+option ruby_package = "Google::Cloud::ServiceControl::V1";
 
 
 message Distribution {
@@ -41,4 +46,5 @@ message Distribution {
 		ExponentialBuckets exponential_buckets = 8;
 		ExplicitBuckets explicit_buckets = 9;
 	}
+	repeated google.api.Distribution.Exemplar exemplars = 10;
 }

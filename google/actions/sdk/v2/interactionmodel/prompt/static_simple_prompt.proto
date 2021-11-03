@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "StaticSimplePromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message StaticSimplePrompt {
+
+	message Variant {
+
+		string speech = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		string text = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	repeated Variant variants = 1;
+}

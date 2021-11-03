@@ -151,8 +151,12 @@ message Workload {
 		enum ResourceType {
 
 			RESOURCE_TYPE_UNSPECIFIED = 0;
-			CONSUMER_PROJECT = 1;
+			CONSUMER_PROJECT = 1 [
+				deprecated = true
+			];
+			CONSUMER_FOLDER = 4;
 			ENCRYPTION_KEYS_PROJECT = 2;
+			KEYRING = 3;
 		}
 
 		int64 resource_id = 1;
@@ -174,6 +178,7 @@ message Workload {
 	}
 
 	message IL4Settings {
+		option deprecated = true;
 
 		KMSSettings kms_settings = 1 [
 			(google.api.field_behavior) = REQUIRED,
@@ -183,6 +188,7 @@ message Workload {
 	}
 
 	message CJISSettings {
+		option deprecated = true;
 
 		KMSSettings kms_settings = 1 [
 			(google.api.field_behavior) = REQUIRED,
@@ -192,6 +198,7 @@ message Workload {
 	}
 
 	message FedrampHighSettings {
+		option deprecated = true;
 
 		KMSSettings kms_settings = 1 [
 			(google.api.field_behavior) = REQUIRED,
@@ -201,12 +208,20 @@ message Workload {
 	}
 
 	message FedrampModerateSettings {
+		option deprecated = true;
 
 		KMSSettings kms_settings = 1 [
 			(google.api.field_behavior) = REQUIRED,
 			(google.api.field_behavior) = INPUT_ONLY,
 			(google.api.field_behavior) = IMMUTABLE
 		];
+	}
+
+	message ResourceSettings {
+
+		string resource_id = 1;
+		ResourceType resource_type = 2;
+		string display_name = 3;
 	}
 
 	enum ComplianceRegime {
@@ -216,6 +231,11 @@ message Workload {
 		CJIS = 2;
 		FEDRAMP_HIGH = 3;
 		FEDRAMP_MODERATE = 4;
+		US_REGIONAL_ACCESS = 5;
+		HIPAA = 6;
+		HITRUST = 7;
+		EU_REGIONS_AND_SUPPORT = 8;
+		CA_REGIONS_AND_SUPPORT = 9;
 	}
 
 	string name = 1 [
@@ -236,26 +256,29 @@ message Workload {
 		(google.api.field_behavior) = IMMUTABLE
 	];
 	string billing_account = 6 [
-		(google.api.field_behavior) = REQUIRED,
 		(google.api.field_behavior) = INPUT_ONLY
 	];
 	oneof compliance_regime_settings {
 		IL4Settings il4_settings = 7 [
+			deprecated = true,
 			(google.api.field_behavior) = REQUIRED,
 			(google.api.field_behavior) = INPUT_ONLY,
 			(google.api.field_behavior) = IMMUTABLE
 		];
 		CJISSettings cjis_settings = 8 [
+			deprecated = true,
 			(google.api.field_behavior) = REQUIRED,
 			(google.api.field_behavior) = INPUT_ONLY,
 			(google.api.field_behavior) = IMMUTABLE
 		];
 		FedrampHighSettings fedramp_high_settings = 11 [
+			deprecated = true,
 			(google.api.field_behavior) = REQUIRED,
 			(google.api.field_behavior) = INPUT_ONLY,
 			(google.api.field_behavior) = IMMUTABLE
 		];
 		FedrampModerateSettings fedramp_moderate_settings = 12 [
+			deprecated = true,
 			(google.api.field_behavior) = REQUIRED,
 			(google.api.field_behavior) = INPUT_ONLY,
 			(google.api.field_behavior) = IMMUTABLE
@@ -266,6 +289,15 @@ message Workload {
 	];
 	map<string, string> labels = 10 [
 		(google.api.field_behavior) = OPTIONAL
+	];
+	string provisioned_resources_parent = 13 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	KMSSettings kms_settings = 14 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	repeated ResourceSettings resource_settings = 15 [
+		(google.api.field_behavior) = INPUT_ONLY
 	];
 }
 
@@ -281,6 +313,9 @@ message CreateWorkloadOperationMetadata {
 		(google.api.field_behavior) = OPTIONAL
 	];
 	ComplianceRegime compliance_regime = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated ResourceSettings resource_settings = 5 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.enums";
+option java_outer_classname = "ConversionActionCategoryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V8::Enums";
+
+
+message ConversionActionCategoryEnum {
+
+	enum ConversionActionCategory {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		DEFAULT = 2;
+		PAGE_VIEW = 3;
+		PURCHASE = 4;
+		SIGNUP = 5;
+		LEAD = 6;
+		DOWNLOAD = 7;
+		ADD_TO_CART = 8;
+		BEGIN_CHECKOUT = 9;
+		SUBSCRIBE_PAID = 10;
+		PHONE_CALL_LEAD = 11;
+		IMPORTED_LEAD = 12;
+		SUBMIT_LEAD_FORM = 13;
+		BOOK_APPOINTMENT = 14;
+		REQUEST_QUOTE = 15;
+		GET_DIRECTIONS = 16;
+		OUTBOUND_CLICK = 17;
+		CONTACT = 18;
+		ENGAGEMENT = 19;
+		STORE_VISIT = 20;
+		STORE_SALE = 21;
+	}
+
+}

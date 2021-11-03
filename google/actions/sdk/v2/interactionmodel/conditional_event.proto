@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel;
+
+import "google/actions/sdk/v2/interactionmodel/event_handler.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel";
+option java_outer_classname = "ConditionalEventProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel;interactionmodel";
+
+
+message ConditionalEvent {
+
+	string condition = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string transition_to_scene = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.actions.sdk.v2.interactionmodel.EventHandler handler = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

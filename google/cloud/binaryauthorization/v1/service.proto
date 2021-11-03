@@ -1,0 +1,221 @@
+syntax = "proto3";
+
+package google.cloud.binaryauthorization.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/binaryauthorization/v1/resources.proto";
+import "google/protobuf/empty.proto";
+import "grafeas/v1/attestation.proto";
+
+option java_package = "com.google.protos.google.cloud.binaryauthorization.v1";
+option java_multiple_files = false;
+option go_package = "google.golang.org/genproto/googleapis/cloud/binaryauthorization/v1;binaryauthorization";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.BinaryAuthorization.V1";
+option php_namespace = "Google\\Cloud\\BinaryAuthorization\\V1";
+option ruby_package = "Google::Cloud::BinaryAuthorization::V1";
+
+
+service BinauthzManagementServiceV1 {
+	option (google.api.default_host) = "binaryauthorization.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetPolicy(google.cloud.binaryauthorization.v1.GetPolicyRequest) returns (google.cloud.binaryauthorization.v1.Policy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/policy}"
+		};
+
+	}
+	rpc UpdatePolicy(google.cloud.binaryauthorization.v1.UpdatePolicyRequest) returns (google.cloud.binaryauthorization.v1.Policy) {
+		option (google.api.method_signature) = "policy";
+		option (google.api.http) = {
+			put: "/v1/{policy.name=projects/*/policy}"
+			body: "policy"
+		};
+
+	}
+	rpc CreateAttestor(google.cloud.binaryauthorization.v1.CreateAttestorRequest) returns (google.cloud.binaryauthorization.v1.Attestor) {
+		option (google.api.method_signature) = "parent,attestor_id,attestor";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/attestors"
+			body: "attestor"
+		};
+
+	}
+	rpc GetAttestor(google.cloud.binaryauthorization.v1.GetAttestorRequest) returns (google.cloud.binaryauthorization.v1.Attestor) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/attestors/*}"
+		};
+
+	}
+	rpc UpdateAttestor(google.cloud.binaryauthorization.v1.UpdateAttestorRequest) returns (google.cloud.binaryauthorization.v1.Attestor) {
+		option (google.api.method_signature) = "attestor";
+		option (google.api.http) = {
+			put: "/v1/{attestor.name=projects/*/attestors/*}"
+			body: "attestor"
+		};
+
+	}
+	rpc ListAttestors(google.cloud.binaryauthorization.v1.ListAttestorsRequest) returns (google.cloud.binaryauthorization.v1.ListAttestorsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/attestors"
+		};
+
+	}
+	rpc DeleteAttestor(google.cloud.binaryauthorization.v1.DeleteAttestorRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/attestors/*}"
+		};
+
+	}
+}
+
+service SystemPolicyV1 {
+	option (google.api.default_host) = "binaryauthorization.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetSystemPolicy(google.cloud.binaryauthorization.v1.GetSystemPolicyRequest) returns (google.cloud.binaryauthorization.v1.Policy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=locations/*/policy}"
+		};
+
+	}
+}
+
+service ValidationHelperV1 {
+	option (google.api.default_host) = "binaryauthorization.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ValidateAttestationOccurrence(google.cloud.binaryauthorization.v1.ValidateAttestationOccurrenceRequest) returns (google.cloud.binaryauthorization.v1.ValidateAttestationOccurrenceResponse) {
+		option (google.api.http) = {
+			post: "/v1/{attestor=projects/*/attestors/*}:validateAttestationOccurrence"
+			body: "*"
+		};
+
+	}
+}
+
+message GetPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "binaryauthorization.googleapis.com/Policy"
+		}
+	];
+}
+
+message UpdatePolicyRequest {
+
+	google.cloud.binaryauthorization.v1.Policy policy = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateAttestorRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string attestor_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.binaryauthorization.v1.Attestor attestor = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetAttestorRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "binaryauthorization.googleapis.com/Attestor"
+		}
+	];
+}
+
+message UpdateAttestorRequest {
+
+	google.cloud.binaryauthorization.v1.Attestor attestor = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListAttestorsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListAttestorsResponse {
+
+	repeated google.cloud.binaryauthorization.v1.Attestor attestors = 1;
+	string next_page_token = 2;
+}
+
+message DeleteAttestorRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "binaryauthorization.googleapis.com/Attestor"
+		}
+	];
+}
+
+message GetSystemPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "binaryauthorization.googleapis.com/Policy"
+		}
+	];
+}
+
+message ValidateAttestationOccurrenceRequest {
+
+	string attestor = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	grafeas.v1.AttestationOccurrence attestation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string occurrence_note = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string occurrence_resource_uri = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ValidateAttestationOccurrenceResponse {
+
+	enum Result {
+
+		RESULT_UNSPECIFIED = 0;
+		VERIFIED = 1;
+		ATTESTATION_NOT_VERIFIABLE = 2;
+	}
+
+	Result result = 1;
+	string denial_reason = 2;
+}

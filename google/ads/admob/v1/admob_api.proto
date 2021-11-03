@@ -6,6 +6,7 @@ import "google/ads/admob/v1/admob_resources.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
 
 option java_package = "com.google.ads.admob.v1";
 option java_outer_classname = "AdMobApiProto";
@@ -14,8 +15,10 @@ option go_package = "google.golang.org/genproto/googleapis/ads/admob/v1;admob";
 
 service AdMobApi {
 	option (google.api.default_host) = "admob.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/admob.report";
 
 	rpc GetPublisherAccount(google.ads.admob.v1.GetPublisherAccountRequest) returns (google.ads.admob.v1.PublisherAccount) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v1/{name=accounts/*}"
 		};

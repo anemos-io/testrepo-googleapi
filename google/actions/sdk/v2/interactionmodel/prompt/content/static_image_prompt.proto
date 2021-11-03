@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "StaticImagePromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message StaticImagePrompt {
+
+	enum ImageFill {
+
+		UNSPECIFIED = 0;
+		GRAY = 1;
+		WHITE = 2;
+		CROPPED = 3;
+	}
+
+	string url = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string alt = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 height = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 width = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

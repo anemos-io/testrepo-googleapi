@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package google.identity.accesscontextmanager.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.identity.accesscontextmanager.v1";
+option java_outer_classname = "GcpUserAccessBindingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/identity/accesscontextmanager/v1;accesscontextmanager";
+option objc_class_prefix = "GACM";
+option csharp_namespace = "Google.Identity.AccessContextManager.V1";
+option php_namespace = "Google\\Identity\\AccessContextManager\\V1";
+option ruby_package = "Google::Identity::AccessContextManager::V1";
+
+
+message GcpUserAccessBinding {
+	option (google.api.resource) = {
+		type: "accesscontextmanager.googleapis.com/GcpUserAccessBinding"
+		pattern: ["organizations/{organization}/gcpUserAccessBindings/{gcp_user_access_binding}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string group_key = 2 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated string access_levels = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "accesscontextmanager.googleapis.com/AccessLevel"
+		}
+	];
+}

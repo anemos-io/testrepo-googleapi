@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package google.apps.script.type.gmail;
+
+import "google/apps/script/type/addon_widget_set.proto";
+import "google/apps/script/type/extension_point.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.apps.script.type.gmail";
+option java_outer_classname = "GmailAddOnManifestProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/script/type/gmail";
+option csharp_namespace = "Google.Apps.Script.Type.Gmail";
+option php_namespace = "Google\\Apps\\Script\\Type\\Gmail";
+option ruby_package = "Google::Apps::Script::Type::Gmail";
+
+
+message GmailAddOnManifest {
+
+	google.apps.script.type.HomepageExtensionPoint homepage_trigger = 14;
+	repeated ContextualTrigger contextual_triggers = 3;
+	repeated UniversalAction universal_actions = 4;
+	ComposeTrigger compose_trigger = 12;
+	string authorization_check_function = 7;
+}
+
+message UniversalAction {
+
+	string text = 1;
+	oneof action_type {
+		string open_link = 2;
+		string run_function = 3;
+	}
+}
+
+message ComposeTrigger {
+
+	enum DraftAccess {
+
+		UNSPECIFIED = 0;
+		NONE = 1;
+		METADATA = 2;
+	}
+
+	repeated google.apps.script.type.MenuItemExtensionPoint actions = 5;
+	DraftAccess draft_access = 4;
+}
+
+message ContextualTrigger {
+
+	oneof trigger {
+		UnconditionalTrigger unconditional = 1;
+	}
+	string on_trigger_function = 4;
+}
+
+message UnconditionalTrigger {
+
+}

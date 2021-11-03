@@ -6,6 +6,7 @@ import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.dialogflow.v2beta1";
@@ -50,7 +51,30 @@ enum OutputAudioEncoding {
 	OUTPUT_AUDIO_ENCODING_UNSPECIFIED = 0;
 	OUTPUT_AUDIO_ENCODING_LINEAR_16 = 1;
 	OUTPUT_AUDIO_ENCODING_MP3 = 2;
+	OUTPUT_AUDIO_ENCODING_MP3_64_KBPS = 4;
 	OUTPUT_AUDIO_ENCODING_OGG_OPUS = 3;
+	OUTPUT_AUDIO_ENCODING_MULAW = 5;
+}
+
+enum TelephonyDtmf {
+
+	TELEPHONY_DTMF_UNSPECIFIED = 0;
+	DTMF_ONE = 1;
+	DTMF_TWO = 2;
+	DTMF_THREE = 3;
+	DTMF_FOUR = 4;
+	DTMF_FIVE = 5;
+	DTMF_SIX = 6;
+	DTMF_SEVEN = 7;
+	DTMF_EIGHT = 8;
+	DTMF_NINE = 9;
+	DTMF_ZERO = 10;
+	DTMF_A = 11;
+	DTMF_B = 12;
+	DTMF_C = 13;
+	DTMF_D = 14;
+	DTMF_STAR = 15;
+	DTMF_POUND = 16;
 }
 
 message SpeechContext {
@@ -80,6 +104,7 @@ message InputAudioConfig {
 	string model = 7;
 	SpeechModelVariant model_variant = 10;
 	bool single_utterance = 8;
+	bool disable_no_speech_recognized_event = 14;
 }
 
 message VoiceSelectionParams {
@@ -104,4 +129,16 @@ message OutputAudioConfig {
 	];
 	int32 sample_rate_hertz = 2;
 	SynthesizeSpeechConfig synthesize_speech_config = 3;
+}
+
+message TelephonyDtmfEvents {
+
+	repeated TelephonyDtmf dtmf_events = 1;
+}
+
+message SpeechToTextConfig {
+
+	SpeechModelVariant speech_model_variant = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }

@@ -6,17 +6,21 @@ import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "google/cloud/datacatalog/v1/bigquery.proto";
 import "google/cloud/datacatalog/v1/common.proto";
+import "google/cloud/datacatalog/v1/data_source.proto";
 import "google/cloud/datacatalog/v1/gcs_fileset_spec.proto";
 import "google/cloud/datacatalog/v1/schema.proto";
 import "google/cloud/datacatalog/v1/search.proto";
 import "google/cloud/datacatalog/v1/table_spec.proto";
 import "google/cloud/datacatalog/v1/tags.proto";
 import "google/cloud/datacatalog/v1/timestamps.proto";
+import "google/cloud/datacatalog/v1/usage.proto";
 import "google/iam/v1/iam_policy.proto";
 import "google/iam/v1/policy.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 
 option java_package = "com.google.cloud.datacatalog.v1";
 option java_multiple_files = true;
@@ -25,6 +29,10 @@ option cc_enable_arenas = true;
 option csharp_namespace = "Google.Cloud.DataCatalog.V1";
 option php_namespace = "Google\\Cloud\\DataCatalog\\V1";
 option ruby_package = "Google::Cloud::DataCatalog::V1";
+option (google.api.resource_definition) = {
+	type: "datacatalog.googleapis.com/TagTemplateFieldEnumValue"
+	pattern: ["projects/{project}/locations/{location}/tagTemplates/{tag_template}/fields/{tag_template_field_id}/enumValues/{enum_value_display_name}"]
+};
 
 
 enum EntryType {
@@ -34,6 +42,11 @@ enum EntryType {
 	MODEL = 5;
 	DATA_STREAM = 3;
 	FILESET = 4;
+	CLUSTER = 6;
+	DATABASE = 7;
+	DATA_SOURCE_CONNECTION = 8;
+	ROUTINE = 9;
+	SERVICE = 14;
 }
 
 service DataCatalog {
@@ -187,6 +200,14 @@ service DataCatalog {
 		};
 
 	}
+	rpc RenameTagTemplateFieldEnumValue(google.cloud.datacatalog.v1.RenameTagTemplateFieldEnumValueRequest) returns (google.cloud.datacatalog.v1.TagTemplateField) {
+		option (google.api.method_signature) = "name,new_enum_value_display_name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/tagTemplates/*/fields/*/enumValues/*}:rename"
+			body: "*"
+		};
+
+	}
 	rpc DeleteTagTemplateField(google.cloud.datacatalog.v1.DeleteTagTemplateFieldRequest) returns (google.protobuf.Empty) {
 		option (google.api.method_signature) = "name,force";
 		option (google.api.http) = {
@@ -294,13 +315,16 @@ message SearchCatalogRequest {
 		repeated string restricted_locations = 16 [
 			(google.api.field_behavior) = OPTIONAL
 		];
+		bool include_public_tag_templates = 19 [
+			(google.api.field_behavior) = OPTIONAL
+		];
 	}
 
 	Scope scope = 6 [
 		(google.api.field_behavior) = REQUIRED
 	];
 	string query = 1 [
-		(google.api.field_behavior) = REQUIRED
+		(google.api.field_behavior) = OPTIONAL
 	];
 	int32 page_size = 2;
 	string page_token = 3 [
@@ -433,6 +457,7 @@ message LookupEntryRequest {
 	oneof target_name {
 		string linked_resource = 1;
 		string sql_resource = 3;
+		string fully_qualified_name = 5;
 	}
 }
 
@@ -443,11 +468,13 @@ message Entry {
 	};
 
 	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
 		(google.api.resource_reference) = {
 			type: "datacatalog.googleapis.com/EntryGroup"
 		}
 	];
 	string linked_resource = 9;
+	string fully_qualified_name = 29;
 	oneof entry_type {
 		EntryType type = 2;
 		string user_specified_type = 16;
@@ -463,10 +490,73 @@ message Entry {
 		google.cloud.datacatalog.v1.BigQueryTableSpec bigquery_table_spec = 12;
 		google.cloud.datacatalog.v1.BigQueryDateShardedSpec bigquery_date_sharded_spec = 15;
 	}
+	oneof spec {
+		DatabaseTableSpec database_table_spec = 24;
+		DataSourceConnectionSpec data_source_connection_spec = 27;
+		RoutineSpec routine_spec = 28;
+	}
 	string display_name = 3;
 	string description = 4;
 	google.cloud.datacatalog.v1.Schema schema = 5;
 	google.cloud.datacatalog.v1.SystemTimestamps source_system_timestamps = 7;
+	google.cloud.datacatalog.v1.UsageSignal usage_signal = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 14;
+	google.cloud.datacatalog.v1.DataSource data_source = 20 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message DatabaseTableSpec {
+
+	enum TableType {
+
+		TABLE_TYPE_UNSPECIFIED = 0;
+		NATIVE = 1;
+		EXTERNAL = 2;
+	}
+
+	TableType type = 1;
+}
+
+message DataSourceConnectionSpec {
+
+	google.cloud.datacatalog.v1.BigQueryConnectionSpec bigquery_connection_spec = 1;
+}
+
+message RoutineSpec {
+
+	message Argument {
+
+		enum Mode {
+
+			MODE_UNSPECIFIED = 0;
+			IN = 1;
+			OUT = 2;
+			INOUT = 3;
+		}
+
+		string name = 1;
+		Mode mode = 2;
+		string type = 3;
+	}
+
+	enum RoutineType {
+
+		ROUTINE_TYPE_UNSPECIFIED = 0;
+		SCALAR_FUNCTION = 1;
+		PROCEDURE = 2;
+	}
+
+	RoutineType routine_type = 1;
+	string language = 2;
+	repeated Argument routine_arguments = 3;
+	string return_type = 4;
+	string definition_body = 5;
+	oneof system_spec {
+		google.cloud.datacatalog.v1.BigQueryRoutineSpec bigquery_routine_spec = 6;
+	}
 }
 
 message EntryGroup {
@@ -602,6 +692,19 @@ message RenameTagTemplateFieldRequest {
 		}
 	];
 	string new_tag_template_field_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RenameTagTemplateFieldEnumValueRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/TagTemplateFieldEnumValue"
+		}
+	];
+	string new_enum_value_display_name = 2 [
 		(google.api.field_behavior) = REQUIRED
 	];
 }

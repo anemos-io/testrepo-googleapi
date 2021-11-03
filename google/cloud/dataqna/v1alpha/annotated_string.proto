@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package google.cloud.dataqna.v1alpha;
+
+option java_package = "com.google.cloud.dataqna.v1alpha";
+option java_outer_classname = "AnnotatedStringProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataqna/v1alpha;dataqna";
+option csharp_namespace = "Google.Cloud.DataQnA.V1Alpha";
+option php_namespace = "Google\\Cloud\\DataQnA\\V1alpha";
+option ruby_package = "Google::Cloud::DataQnA::V1alpha";
+
+
+message AnnotatedString {
+
+	message SemanticMarkup {
+
+		SemanticMarkupType type = 1;
+		int32 start_char_index = 2;
+		int32 length = 3;
+	}
+
+	enum SemanticMarkupType {
+
+		MARKUP_TYPE_UNSPECIFIED = 0;
+		METRIC = 1;
+		DIMENSION = 2;
+		FILTER = 3;
+		UNUSED = 4;
+		BLOCKED = 5;
+		ROW = 6;
+	}
+
+	string text_formatted = 1;
+	string html_formatted = 2;
+	repeated SemanticMarkup markups = 3;
+}

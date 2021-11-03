@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package google.cloud.gkebackup.logging.v1;
+
+import "google/cloud/gkebackup/logging/v1/logged_common.proto";
+
+option java_package = "google.cloud.gkebackup.logging.v1";
+option java_outer_classname = "LoggedRestorePlanProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkebackup/logging/v1;logging";
+option csharp_namespace = "Google.Cloud.GkeBackup.Logging.V1";
+option php_namespace = "Google\\Cloud\\GkeBackup\\Logging\\V1";
+option ruby_package = "Google::Cloud::GkeBackup::Logging::V1";
+
+
+message LoggedRestorePlan {
+
+	string description = 1;
+	string backup_plan = 2;
+	string cluster = 3;
+	RestoreConfig restore_config = 4;
+	map<string, string> labels = 5;
+}
+
+message RestoreConfig {
+
+	message GroupKind {
+
+		string resource_group = 1;
+		string resource_kind = 2;
+	}
+
+	message ClusterResourceRestoreScope {
+
+		repeated GroupKind selected_group_kinds = 1;
+	}
+
+	message SubstitutionRule {
+
+		repeated string target_namespaces = 1;
+		repeated GroupKind target_group_kinds = 2;
+		string target_json_path = 3;
+		string original_value_pattern = 4;
+		string new_value = 5;
+	}
+
+	enum VolumeDataRestorePolicy {
+
+		VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED = 0;
+		RESTORE_VOLUME_DATA_FROM_BACKUP = 1;
+		REUSE_VOLUME_HANDLE_FROM_BACKUP = 2;
+		NO_VOLUME_DATA_RESTORATION = 3;
+	}
+
+	enum ClusterResourceConflictPolicy {
+
+		CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED = 0;
+		USE_EXISTING_VERSION = 1;
+		USE_BACKUP_VERSION = 2;
+	}
+
+	enum NamespacedResourceRestoreMode {
+
+		NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED = 0;
+		DELETE_AND_RESTORE = 1;
+		FAIL_ON_CONFLICT = 2;
+	}
+
+	VolumeDataRestorePolicy volume_data_restore_policy = 1;
+	ClusterResourceConflictPolicy cluster_resource_conflict_policy = 2;
+	NamespacedResourceRestoreMode namespaced_resource_restore_mode = 3;
+	ClusterResourceRestoreScope cluster_resource_restore_scope = 4;
+	oneof namespaced_resource_restore_scope {
+		bool all_namespaces = 5;
+		google.cloud.gkebackup.logging.v1.Namespaces selected_namespaces = 6;
+		google.cloud.gkebackup.logging.v1.NamespacedNames selected_applications = 7;
+	}
+	repeated SubstitutionRule substitution_rules = 8;
+}

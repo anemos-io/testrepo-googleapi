@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.resources;
+
+import "google/ads/googleads/v7/common/click_location.proto";
+import "google/ads/googleads/v7/common/criteria.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.resources";
+option java_outer_classname = "ClickViewProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V7::Resources";
+
+
+message ClickView {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/ClickView"
+		pattern: ["customers/{customer_id}/clickViews/{date}~{gclid}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/ClickView"
+		}
+	];
+	oneof _gclid {
+		string gclid = 8 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v7.common.ClickLocation area_of_interest = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v7.common.ClickLocation location_of_presence = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _page_number {
+		int64 page_number = 9 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _ad_group_ad {
+		string ad_group_ad = 10 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroupAd"
+			}
+		];
+	}
+	oneof _campaign_location_target {
+		string campaign_location_target = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/GeoTargetConstant"
+			}
+		];
+	}
+	oneof _user_list {
+		string user_list = 12 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/UserList"
+			}
+		];
+	}
+	string keyword = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupCriterion"
+		}
+	];
+	google.ads.googleads.v7.common.KeywordInfo keyword_info = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

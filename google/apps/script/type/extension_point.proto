@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.apps.script.type;
+
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.apps.script.type";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/script/type";
+option csharp_namespace = "Google.Apps.Script.Type";
+option php_namespace = "Google\\Apps\\Script\\Type";
+option ruby_package = "Google::Apps::Script::Type";
+
+
+message MenuItemExtensionPoint {
+
+	string run_function = 1;
+	string label = 2;
+	string logo_url = 3;
+}
+
+message HomepageExtensionPoint {
+
+	string run_function = 1;
+	google.protobuf.BoolValue enabled = 2;
+}
+
+message UniversalActionExtensionPoint {
+
+	string label = 1;
+	oneof action_type {
+		string open_link = 2;
+		string run_function = 3;
+	}
+}

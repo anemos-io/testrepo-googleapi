@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1/explanation.proto";
+import "google/cloud/aiplatform/v1/machine_resources.proto";
+import "google/cloud/aiplatform/v1/model_deployment_monitoring_job.proto";
+import "google/cloud/aiplatform/v1/model_monitoring.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "EndpointProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message Endpoint {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Endpoint"
+		pattern: ["projects/{project}/locations/{location}/endpoints/{endpoint}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3;
+	repeated DeployedModel deployed_models = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, int32> traffic_split = 5;
+	string etag = 6;
+	map<string, string> labels = 7;
+	google.protobuf.Timestamp create_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1.EncryptionSpec encryption_spec = 10;
+	string network = 13 [
+		(google.api.resource_reference) = {
+			type: "compute.googleapis.com/Network"
+		}
+	];
+	string model_deployment_monitoring_job = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/ModelDeploymentMonitoringJob"
+		}
+	];
+}
+
+message DeployedModel {
+
+	oneof prediction_resources {
+		google.cloud.aiplatform.v1.DedicatedResources dedicated_resources = 7;
+		google.cloud.aiplatform.v1.AutomaticResources automatic_resources = 8;
+	}
+	string id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string model = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Model"
+		}
+	];
+	string display_name = 3;
+	google.protobuf.Timestamp create_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1.ExplanationSpec explanation_spec = 9;
+	string service_account = 11;
+	bool disable_container_logging = 15;
+	bool enable_access_logging = 13;
+	PrivateEndpoints private_endpoints = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message PrivateEndpoints {
+
+	string predict_http_uri = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string explain_http_uri = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string health_http_uri = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

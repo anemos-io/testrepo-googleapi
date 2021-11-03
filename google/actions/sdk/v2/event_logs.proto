@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+import "google/actions/sdk/v2/conversation/intent.proto";
+import "google/actions/sdk/v2/conversation/prompt/prompt.proto";
+import "google/actions/sdk/v2/conversation/scene.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "EventLogsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message ExecutionEvent {
+
+	google.protobuf.Timestamp event_time = 1;
+	ExecutionState execution_state = 2;
+	google.rpc.Status status = 3;
+	oneof EventData {
+		UserConversationInput user_input = 4;
+		IntentMatch intent_match = 5;
+		ConditionsEvaluated conditions_evaluated = 6;
+		OnSceneEnter on_scene_enter = 7;
+		WebhookRequest webhook_request = 8;
+		WebhookResponse webhook_response = 9;
+		WebhookInitiatedTransition webhook_initiated_transition = 10;
+		SlotMatch slot_match = 11;
+		SlotRequested slot_requested = 12;
+		SlotValidated slot_validated = 13;
+		FormFilled form_filled = 14;
+		WaitingForUserInput waiting_user_input = 15;
+		EndConversation end_conversation = 16;
+	}
+	repeated string warning_messages = 17;
+}
+
+message ExecutionState {
+
+	string current_scene_id = 1;
+	google.protobuf.Struct session_storage = 2;
+	Slots slots = 5;
+	repeated google.actions.sdk.v2.conversation.Prompt prompt_queue = 7;
+	google.protobuf.Struct user_storage = 6;
+	google.protobuf.Struct household_storage = 8;
+}
+
+message Slots {
+
+	google.actions.sdk.v2.conversation.SlotFillingStatus status = 2;
+	map<string, google.actions.sdk.v2.conversation.Slot> slots = 3;
+}
+
+message UserConversationInput {
+
+	string type = 1;
+	string original_query = 2;
+}
+
+message IntentMatch {
+
+	string intent_id = 1;
+	map<string, google.actions.sdk.v2.conversation.IntentParameterValue> intent_parameters = 5;
+	string handler = 3;
+	string next_scene_id = 4;
+}
+
+message ConditionsEvaluated {
+
+	repeated Condition failed_conditions = 1;
+	Condition success_condition = 2;
+}
+
+message Condition {
+
+	string expression = 1;
+	string handler = 2;
+	string next_scene_id = 3;
+}
+
+message OnSceneEnter {
+
+	string handler = 1;
+}
+
+message WebhookInitiatedTransition {
+
+	string next_scene_id = 1;
+}
+
+message WebhookRequest {
+
+	string request_json = 1;
+}
+
+message WebhookResponse {
+
+	string response_json = 1;
+}
+
+message SlotMatch {
+
+	map<string, google.actions.sdk.v2.conversation.IntentParameterValue> nlu_parameters = 2;
+}
+
+message SlotRequested {
+
+	string slot = 1;
+	google.actions.sdk.v2.conversation.Prompt prompt = 3;
+}
+
+message SlotValidated {
+
+}
+
+message FormFilled {
+
+}
+
+message WaitingForUserInput {
+
+}
+
+message EndConversation {
+
+}

@@ -1,0 +1,776 @@
+syntax = "proto3";
+
+package google.cloud.metastore.v1beta;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/dayofweek.proto";
+
+option java_package = "com.google.cloud.metastore.v1beta";
+option java_outer_classname = "MetastoreProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/metastore/v1beta;metastore";
+option php_namespace = "Google\\Cloud\\Metastore\\V1beta";
+option (google.api.resource_definition) = {
+	type: "compute.googleapis.com/Network"
+	pattern: ["projects/{project}/global/networks/{network}"]
+};
+
+
+service DataprocMetastore {
+	option (google.api.default_host) = "metastore.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListServices(google.cloud.metastore.v1beta.ListServicesRequest) returns (google.cloud.metastore.v1beta.ListServicesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*/locations/*}/services"
+		};
+
+	}
+	rpc GetService(google.cloud.metastore.v1beta.GetServiceRequest) returns (google.cloud.metastore.v1beta.Service) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/locations/*/services/*}"
+		};
+
+	}
+	rpc CreateService(google.cloud.metastore.v1beta.CreateServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Service"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,service,service_id";
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*/locations/*}/services"
+			body: "service"
+		};
+
+	}
+	rpc UpdateService(google.cloud.metastore.v1beta.UpdateServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Service"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "service,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta/{service.name=projects/*/locations/*/services/*}"
+			body: "service"
+		};
+
+	}
+	rpc DeleteService(google.cloud.metastore.v1beta.DeleteServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta/{name=projects/*/locations/*/services/*}"
+		};
+
+	}
+	rpc ListMetadataImports(google.cloud.metastore.v1beta.ListMetadataImportsRequest) returns (google.cloud.metastore.v1beta.ListMetadataImportsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*/locations/*/services/*}/metadataImports"
+		};
+
+	}
+	rpc GetMetadataImport(google.cloud.metastore.v1beta.GetMetadataImportRequest) returns (google.cloud.metastore.v1beta.MetadataImport) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/locations/*/services/*/metadataImports/*}"
+		};
+
+	}
+	rpc CreateMetadataImport(google.cloud.metastore.v1beta.CreateMetadataImportRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MetadataImport"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,metadata_import,metadata_import_id";
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*/locations/*/services/*}/metadataImports"
+			body: "metadata_import"
+		};
+
+	}
+	rpc UpdateMetadataImport(google.cloud.metastore.v1beta.UpdateMetadataImportRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MetadataImport"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "metadata_import,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta/{metadata_import.name=projects/*/locations/*/services/*/metadataImports/*}"
+			body: "metadata_import"
+		};
+
+	}
+	rpc ExportMetadata(google.cloud.metastore.v1beta.ExportMetadataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MetadataExport"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta/{service=projects/*/locations/*/services/*}:exportMetadata"
+			body: "*"
+		};
+
+	}
+	rpc RestoreService(google.cloud.metastore.v1beta.RestoreServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Restore"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "service,backup";
+		option (google.api.http) = {
+			post: "/v1beta/{service=projects/*/locations/*/services/*}:restore"
+			body: "*"
+		};
+
+	}
+	rpc ListBackups(google.cloud.metastore.v1beta.ListBackupsRequest) returns (google.cloud.metastore.v1beta.ListBackupsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*/locations/*/services/*}/backups"
+		};
+
+	}
+	rpc GetBackup(google.cloud.metastore.v1beta.GetBackupRequest) returns (google.cloud.metastore.v1beta.Backup) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/locations/*/services/*/backups/*}"
+		};
+
+	}
+	rpc CreateBackup(google.cloud.metastore.v1beta.CreateBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Backup"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,backup,backup_id";
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*/locations/*/services/*}/backups"
+			body: "backup"
+		};
+
+	}
+	rpc DeleteBackup(google.cloud.metastore.v1beta.DeleteBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta/{name=projects/*/locations/*/services/*/backups/*}"
+		};
+
+	}
+}
+
+message Service {
+	option (google.api.resource) = {
+		type: "metastore.googleapis.com/Service"
+		pattern: ["projects/{project}/locations/{location}/services/{service}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		ACTIVE = 2;
+		SUSPENDING = 3;
+		SUSPENDED = 4;
+		UPDATING = 5;
+		DELETING = 6;
+		ERROR = 7;
+	}
+
+	enum Tier {
+
+		TIER_UNSPECIFIED = 0;
+		DEVELOPER = 1;
+		ENTERPRISE = 3;
+	}
+
+	enum ReleaseChannel {
+
+		RELEASE_CHANNEL_UNSPECIFIED = 0;
+		CANARY = 1;
+		STABLE = 2;
+	}
+
+	oneof metastore_config {
+		HiveMetastoreConfig hive_metastore_config = 5;
+	}
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string network = 7 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "compute.googleapis.com/Network"
+		}
+	];
+	string endpoint_uri = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 port = 9;
+	State state = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string state_message = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string artifact_gcs_uri = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Tier tier = 13;
+	MetadataIntegration metadata_integration = 14;
+	MaintenanceWindow maintenance_window = 15;
+	string uid = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	MetadataManagementActivity metadata_management_activity = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ReleaseChannel release_channel = 19 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}
+
+message MetadataIntegration {
+
+	DataCatalogConfig data_catalog_config = 1;
+}
+
+message DataCatalogConfig {
+
+	bool enabled = 2;
+}
+
+message MaintenanceWindow {
+
+	google.protobuf.Int32Value hour_of_day = 1;
+	google.type.DayOfWeek day_of_week = 2;
+}
+
+message HiveMetastoreConfig {
+
+	string version = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	map<string, string> config_overrides = 2;
+	KerberosConfig kerberos_config = 3;
+}
+
+message KerberosConfig {
+
+	Secret keytab = 1;
+	string principal = 2;
+	string krb5_config_gcs_uri = 3;
+}
+
+message Secret {
+
+	oneof value {
+		string cloud_secret = 2;
+	}
+}
+
+message MetadataManagementActivity {
+
+	repeated MetadataExport metadata_exports = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Restore restores = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message MetadataImport {
+	option (google.api.resource) = {
+		type: "metastore.googleapis.com/MetadataImport"
+		pattern: ["projects/{project}/locations/{location}/services/{service}/metadataImports/{metadata_import}"]
+	};
+
+	message DatabaseDump {
+
+		enum DatabaseType {
+
+			DATABASE_TYPE_UNSPECIFIED = 0;
+			MYSQL = 1;
+		}
+
+		DatabaseType database_type = 1 [
+			deprecated = true
+		];
+		string gcs_uri = 2;
+		string source_database = 3 [
+			deprecated = true
+		];
+		Type type = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		SUCCEEDED = 2;
+		UPDATING = 3;
+		FAILED = 4;
+	}
+
+	oneof metadata {
+		DatabaseDump database_dump = 6 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string description = 2;
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message MetadataExport {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+		CANCELLED = 4;
+	}
+
+	oneof destination {
+		string destination_gcs_uri = 4 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.protobuf.Timestamp start_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Type database_dump_type = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Backup {
+	option (google.api.resource) = {
+		type: "metastore.googleapis.com/Backup"
+		pattern: ["projects/{project}/locations/{location}/services/{service}/backups/{backup}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		DELETING = 2;
+		ACTIVE = 3;
+		FAILED = 4;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Service service_revision = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 6;
+}
+
+message Restore {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+		CANCELLED = 4;
+	}
+
+	enum RestoreType {
+
+		RESTORE_TYPE_UNSPECIFIED = 0;
+		FULL = 1;
+		METADATA_ONLY = 2;
+	}
+
+	google.protobuf.Timestamp start_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string backup = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Backup"
+		}
+	];
+	RestoreType type = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string details = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListServicesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListServicesResponse {
+
+	repeated Service services = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetServiceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+}
+
+message CreateServiceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string service_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Service service = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateServiceRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Service service = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteServiceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListMetadataImportsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListMetadataImportsResponse {
+
+	repeated MetadataImport metadata_imports = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetMetadataImportRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/MetadataImport"
+		}
+	];
+}
+
+message CreateMetadataImportRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	string metadata_import_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	MetadataImport metadata_import = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateMetadataImportRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	MetadataImport metadata_import = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListBackupsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListBackupsResponse {
+
+	repeated Backup backups = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Backup"
+		}
+	];
+}
+
+message CreateBackupRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	string backup_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Backup backup = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Backup"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ExportMetadataRequest {
+
+	oneof destination {
+		string destination_gcs_folder = 2;
+	}
+	string service = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Type database_dump_type = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RestoreServiceRequest {
+
+	string service = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	string backup = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Backup"
+		}
+	];
+	RestoreType restore_type = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message LocationMetadata {
+
+	message HiveMetastoreVersion {
+
+		string version = 1;
+		bool is_default = 2;
+	}
+
+	repeated HiveMetastoreVersion supported_hive_metastore_versions = 1;
+}
+
+message DatabaseDumpSpec {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		MYSQL = 1;
+	}
+
+}

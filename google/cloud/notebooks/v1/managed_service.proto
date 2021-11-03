@@ -1,0 +1,224 @@
+syntax = "proto3";
+
+package google.cloud.notebooks.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/notebooks/v1/event.proto";
+import "google/cloud/notebooks/v1/runtime.proto";
+import "google/longrunning/operations.proto";
+
+option java_package = "com.google.cloud.notebooks.v1";
+option java_outer_classname = "ManagedNotebooksProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1;notebooks";
+option csharp_namespace = "Google.Cloud.Notebooks.V1";
+option php_namespace = "Google\\Cloud\\Notebooks\\V1";
+option ruby_package = "Google::Cloud::Notebooks::V1";
+
+
+service ManagedNotebookService {
+	option (google.api.default_host) = "notebooks.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListRuntimes(google.cloud.notebooks.v1.ListRuntimesRequest) returns (google.cloud.notebooks.v1.ListRuntimesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/runtimes"
+		};
+
+	}
+	rpc GetRuntime(google.cloud.notebooks.v1.GetRuntimeRequest) returns (google.cloud.notebooks.v1.Runtime) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/runtimes/*}"
+		};
+
+	}
+	rpc CreateRuntime(google.cloud.notebooks.v1.CreateRuntimeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Runtime"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,runtime_id,runtime";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/runtimes"
+			body: "runtime"
+		};
+
+	}
+	rpc DeleteRuntime(google.cloud.notebooks.v1.DeleteRuntimeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/runtimes/*}"
+		};
+
+	}
+	rpc StartRuntime(google.cloud.notebooks.v1.StartRuntimeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Runtime"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/runtimes/*}:start"
+			body: "*"
+		};
+
+	}
+	rpc StopRuntime(google.cloud.notebooks.v1.StopRuntimeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Runtime"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/runtimes/*}:stop"
+			body: "*"
+		};
+
+	}
+	rpc SwitchRuntime(google.cloud.notebooks.v1.SwitchRuntimeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Runtime"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/runtimes/*}:switch"
+			body: "*"
+		};
+
+	}
+	rpc ResetRuntime(google.cloud.notebooks.v1.ResetRuntimeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Runtime"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/runtimes/*}:reset"
+			body: "*"
+		};
+
+	}
+	rpc ReportRuntimeEvent(google.cloud.notebooks.v1.ReportRuntimeEventRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Runtime"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/runtimes/*}:reportEvent"
+			body: "*"
+		};
+
+	}
+}
+
+message ListRuntimesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "notebooks.googleapis.com/Runtime"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListRuntimesResponse {
+
+	repeated google.cloud.notebooks.v1.Runtime runtimes = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetRuntimeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "notebooks.googleapis.com/Runtime"
+		}
+	];
+}
+
+message CreateRuntimeRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "notebooks.googleapis.com/Runtime"
+		}
+	];
+	string runtime_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.notebooks.v1.Runtime runtime = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteRuntimeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "notebooks.googleapis.com/Runtime"
+		}
+	];
+}
+
+message StartRuntimeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message StopRuntimeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SwitchRuntimeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string machine_type = 2;
+	google.cloud.notebooks.v1.RuntimeAcceleratorConfig accelerator_config = 3;
+}
+
+message ResetRuntimeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReportRuntimeEventRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "notebooks.googleapis.com/Runtime"
+		}
+	];
+	string vm_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.notebooks.v1.Event event = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

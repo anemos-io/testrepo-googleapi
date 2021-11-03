@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1;
+
+option java_package = "com.google.cloud.osconfig.v1";
+option java_outer_classname = "Common";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1;osconfig";
+option csharp_namespace = "Google.Cloud.OsConfig.V1";
+option php_namespace = "Google\\Cloud\\OsConfig\\V1";
+option ruby_package = "Google::Cloud::OsConfig::V1";
+
+
+message FixedOrPercent {
+
+	oneof mode {
+		int32 fixed = 1;
+		int32 percent = 2;
+	}
+}

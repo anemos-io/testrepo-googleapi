@@ -3,6 +3,9 @@ syntax = "proto3";
 package google.devtools.resultstore.v2;
 
 import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
 import "google/devtools/resultstore/v2/action.proto";
 import "google/devtools/resultstore/v2/configuration.proto";
 import "google/devtools/resultstore/v2/configured_target.proto";
@@ -13,9 +16,9 @@ import "google/devtools/resultstore/v2/upload_metadata.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "google/api/client.proto";
 
 option java_package = "com.google.devtools.resultstore.v2";
+option java_outer_classname = "ResultStoreUploadProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
 
@@ -25,6 +28,7 @@ service ResultStoreUpload {
 	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
 
 	rpc CreateInvocation(google.devtools.resultstore.v2.CreateInvocationRequest) returns (google.devtools.resultstore.v2.Invocation) {
+		option (google.api.method_signature) = "request_id,invocation,invocation_id,authorization_token";
 		option (google.api.http) = {
 			post: "/v2/invocations"
 			body: "invocation"
@@ -32,6 +36,7 @@ service ResultStoreUpload {
 
 	}
 	rpc UpdateInvocation(google.devtools.resultstore.v2.UpdateInvocationRequest) returns (google.devtools.resultstore.v2.Invocation) {
+		option (google.api.method_signature) = "invocation,update_mask,authorization_token";
 		option (google.api.http) = {
 			patch: "/v2/{invocation.name=invocations/*}"
 			body: "invocation"
@@ -66,6 +71,7 @@ service ResultStoreUpload {
 
 	}
 	rpc CreateTarget(google.devtools.resultstore.v2.CreateTargetRequest) returns (google.devtools.resultstore.v2.Target) {
+		option (google.api.method_signature) = "request_id,parent,target,target_id,authorization_token";
 		option (google.api.http) = {
 			post: "/v2/{parent=invocations/*}/targets"
 			body: "target"
@@ -73,6 +79,7 @@ service ResultStoreUpload {
 
 	}
 	rpc UpdateTarget(google.devtools.resultstore.v2.UpdateTargetRequest) returns (google.devtools.resultstore.v2.Target) {
+		option (google.api.method_signature) = "target,update_mask,authorization_token";
 		option (google.api.http) = {
 			patch: "/v2/{target.name=invocations/*/targets/*}"
 			body: "target"
@@ -94,6 +101,7 @@ service ResultStoreUpload {
 
 	}
 	rpc CreateConfiguredTarget(google.devtools.resultstore.v2.CreateConfiguredTargetRequest) returns (google.devtools.resultstore.v2.ConfiguredTarget) {
+		option (google.api.method_signature) = "request_id,parent,configured_target,config_id,authorization_token";
 		option (google.api.http) = {
 			post: "/v2/{parent=invocations/*/targets/*}/configuredTargets"
 			body: "configured_target"
@@ -101,6 +109,7 @@ service ResultStoreUpload {
 
 	}
 	rpc UpdateConfiguredTarget(google.devtools.resultstore.v2.UpdateConfiguredTargetRequest) returns (google.devtools.resultstore.v2.ConfiguredTarget) {
+		option (google.api.method_signature) = "configured_target,update_mask,authorization_token";
 		option (google.api.http) = {
 			patch: "/v2/{configured_target.name=invocations/*/targets/*/configuredTargets/*}"
 			body: "configured_target"
@@ -122,6 +131,7 @@ service ResultStoreUpload {
 
 	}
 	rpc CreateAction(google.devtools.resultstore.v2.CreateActionRequest) returns (google.devtools.resultstore.v2.Action) {
+		option (google.api.method_signature) = "request_id,parent,action,action_id,authorization_token";
 		option (google.api.http) = {
 			post: "/v2/{parent=invocations/*/targets/*/configuredTargets/*}/actions"
 			body: "action"
@@ -129,6 +139,7 @@ service ResultStoreUpload {
 
 	}
 	rpc UpdateAction(google.devtools.resultstore.v2.UpdateActionRequest) returns (google.devtools.resultstore.v2.Action) {
+		option (google.api.method_signature) = "action,update_mask,authorization_token";
 		option (google.api.http) = {
 			patch: "/v2/{action.name=invocations/*/targets/*/configuredTargets/*/actions/*}"
 			body: "action"
@@ -143,6 +154,7 @@ service ResultStoreUpload {
 
 	}
 	rpc CreateConfiguration(google.devtools.resultstore.v2.CreateConfigurationRequest) returns (google.devtools.resultstore.v2.Configuration) {
+		option (google.api.method_signature) = "request_id,parent,configuration,config_id,authorization_token";
 		option (google.api.http) = {
 			post: "/v2/{parent=invocations/*}/configs"
 			body: "configuration"
@@ -150,6 +162,7 @@ service ResultStoreUpload {
 
 	}
 	rpc UpdateConfiguration(google.devtools.resultstore.v2.UpdateConfigurationRequest) returns (google.devtools.resultstore.v2.Configuration) {
+		option (google.api.method_signature) = "configuration,update_mask,authorization_token";
 		option (google.api.http) = {
 			patch: "/v2/{configuration.name=invocations/*/configs/*}"
 			body: "configuration"
@@ -157,6 +170,7 @@ service ResultStoreUpload {
 
 	}
 	rpc CreateFileSet(google.devtools.resultstore.v2.CreateFileSetRequest) returns (google.devtools.resultstore.v2.FileSet) {
+		option (google.api.method_signature) = "request_id,parent,file_set,file_set_id,authorization_token";
 		option (google.api.http) = {
 			post: "/v2/{parent=invocations/*}/fileSets"
 			body: "file_set"
@@ -164,6 +178,7 @@ service ResultStoreUpload {
 
 	}
 	rpc UpdateFileSet(google.devtools.resultstore.v2.UpdateFileSetRequest) returns (google.devtools.resultstore.v2.FileSet) {
+		option (google.api.method_signature) = "file_set,update_mask,authorization_token";
 		option (google.api.http) = {
 			patch: "/v2/{file_set.name=invocations/*/fileSets/*}"
 			body: "file_set"
@@ -185,6 +200,7 @@ service ResultStoreUpload {
 
 	}
 	rpc GetInvocationUploadMetadata(google.devtools.resultstore.v2.GetInvocationUploadMetadataRequest) returns (google.devtools.resultstore.v2.UploadMetadata) {
+		option (google.api.method_signature) = "name,authorization_token";
 		option (google.api.http) = {
 			get: "/v2/{name=invocations/*/uploadMetadata}"
 		};
@@ -196,7 +212,9 @@ message CreateInvocationRequest {
 
 	string request_id = 1;
 	string invocation_id = 2;
-	google.devtools.resultstore.v2.Invocation invocation = 3;
+	google.devtools.resultstore.v2.Invocation invocation = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	string authorization_token = 4;
 	google.protobuf.Timestamp auto_finalize_time = 6;
 	string initial_resume_token = 7;
@@ -220,7 +238,12 @@ message MergeInvocationRequest {
 
 message TouchInvocationRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 	string authorization_token = 2;
 }
 
@@ -232,12 +255,22 @@ message TouchInvocationResponse {
 
 message DeleteInvocationRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 }
 
 message FinalizeInvocationRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 	string authorization_token = 3;
 }
 
@@ -250,9 +283,16 @@ message FinalizeInvocationResponse {
 message CreateTargetRequest {
 
 	string request_id = 1;
-	string parent = 2;
+	string parent = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 	string target_id = 3;
-	google.devtools.resultstore.v2.Target target = 4;
+	google.devtools.resultstore.v2.Target target = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	string authorization_token = 5;
 }
 
@@ -275,7 +315,12 @@ message MergeTargetRequest {
 
 message FinalizeTargetRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Target"
+		}
+	];
 	string authorization_token = 3;
 }
 
@@ -288,9 +333,16 @@ message FinalizeTargetResponse {
 message CreateConfiguredTargetRequest {
 
 	string request_id = 1;
-	string parent = 2;
+	string parent = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Target"
+		}
+	];
 	string config_id = 3;
-	google.devtools.resultstore.v2.ConfiguredTarget configured_target = 4;
+	google.devtools.resultstore.v2.ConfiguredTarget configured_target = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	string authorization_token = 5;
 }
 
@@ -313,7 +365,12 @@ message MergeConfiguredTargetRequest {
 
 message FinalizeConfiguredTargetRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/ConfiguredTarget"
+		}
+	];
 	string authorization_token = 3;
 }
 
@@ -326,9 +383,16 @@ message FinalizeConfiguredTargetResponse {
 message CreateActionRequest {
 
 	string request_id = 1;
-	string parent = 2;
+	string parent = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/ConfiguredTarget"
+		}
+	];
 	string action_id = 3;
-	google.devtools.resultstore.v2.Action action = 4;
+	google.devtools.resultstore.v2.Action action = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	string authorization_token = 5;
 }
 
@@ -352,9 +416,16 @@ message MergeActionRequest {
 message CreateConfigurationRequest {
 
 	string request_id = 1;
-	string parent = 2;
+	string parent = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 	string config_id = 3;
-	google.devtools.resultstore.v2.Configuration configuration = 4;
+	google.devtools.resultstore.v2.Configuration configuration = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	string authorization_token = 5;
 }
 
@@ -369,9 +440,16 @@ message UpdateConfigurationRequest {
 message CreateFileSetRequest {
 
 	string request_id = 1;
-	string parent = 2;
+	string parent = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 	string file_set_id = 3;
-	google.devtools.resultstore.v2.FileSet file_set = 4;
+	google.devtools.resultstore.v2.FileSet file_set = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	string authorization_token = 5;
 }
 
@@ -394,10 +472,18 @@ message MergeFileSetRequest {
 
 message UploadBatchRequest {
 
-	string parent = 1;
-	string authorization_token = 2;
-	string next_resume_token = 3;
-	string resume_token = 4;
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string authorization_token = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string next_resume_token = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string resume_token = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	bytes uploader_state = 6;
 	repeated UploadRequest upload_requests = 5;
 }
@@ -441,6 +527,13 @@ message UploadRequest {
 
 message GetInvocationUploadMetadataRequest {
 
-	string name = 1;
-	string authorization_token = 2;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/UploadMetadata"
+		}
+	];
+	string authorization_token = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
 }

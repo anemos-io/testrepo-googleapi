@@ -1166,6 +1166,11 @@ message AnalyzeDataSourceRiskDetails {
 		repeated DeltaPresenceEstimationHistogramBucket delta_presence_estimation_histogram = 1;
 	}
 
+	message RequestedRiskAnalysisOptions {
+
+		RiskAnalysisJobConfig job_config = 1;
+	}
+
 	PrivacyMetric requested_privacy_metric = 1;
 	google.privacy.dlp.v2.BigQueryTable requested_source_table = 2;
 	oneof result {
@@ -1176,6 +1181,7 @@ message AnalyzeDataSourceRiskDetails {
 		KMapEstimationResult k_map_estimation_result = 7;
 		DeltaPresenceEstimationResult delta_presence_estimation_result = 9;
 	}
+	RequestedRiskAnalysisOptions requested_options = 10;
 }
 
 message ValueFrequency {

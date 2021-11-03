@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package google.cloud.tasks.v2beta2;
 
+import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/cloud/tasks/v2beta2/target.proto";
 import "google/protobuf/duration.proto";
@@ -37,6 +38,11 @@ message Queue {
 	RetryConfig retry_config = 6;
 	State state = 7;
 	google.protobuf.Timestamp purge_time = 8;
+	google.protobuf.Duration task_ttl = 9;
+	google.protobuf.Duration tombstone_ttl = 10;
+	QueueStats stats = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message RateLimits {
@@ -56,4 +62,23 @@ message RetryConfig {
 	google.protobuf.Duration min_backoff = 4;
 	google.protobuf.Duration max_backoff = 5;
 	int32 max_doublings = 6;
+}
+
+message QueueStats {
+
+	int64 tasks_count = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp oldest_estimated_arrival_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 executed_last_minute_count = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 concurrent_dispatches_count = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	double effective_execution_rate = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }

@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package google.cloud.eventarc.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.eventarc.v1";
+option java_outer_classname = "TriggerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/eventarc/v1;eventarc";
+option (google.api.resource_definition) = {
+	type: "cloudfunctions.googleapis.com/CloudFunction"
+	pattern: ["projects/{project}/locations/{location}/functions/{function}"]
+};
+option (google.api.resource_definition) = {
+	type: "iam.googleapis.com/ServiceAccount"
+	pattern: ["projects/{project}/serviceAccounts/{service_account}"]
+};
+option (google.api.resource_definition) = {
+	type: "run.googleapis.com/Service"
+	pattern: ["*"]
+};
+
+
+message Trigger {
+	option (google.api.resource) = {
+		type: "eventarc.googleapis.com/Trigger"
+		pattern: ["projects/{project}/locations/{location}/triggers/{trigger}"]
+		plural: "triggers"
+		singular: "trigger"
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string uid = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated EventFilter event_filters = 8 [
+		(google.api.field_behavior) = UNORDERED_LIST,
+		(google.api.field_behavior) = REQUIRED
+	];
+	string service_account = 9 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/ServiceAccount"
+		}
+	];
+	Destination destination = 10 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Transport transport = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 12 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string etag = 99 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message EventFilter {
+
+	string attribute = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string value = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Destination {
+
+	oneof descriptor {
+		CloudRun cloud_run = 1;
+	}
+}
+
+message Transport {
+
+	oneof intermediary {
+		Pubsub pubsub = 1;
+	}
+}
+
+message CloudRun {
+
+	string service = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "run.googleapis.com/Service"
+		}
+	];
+	string path = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Pubsub {
+
+	string topic = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string subscription = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

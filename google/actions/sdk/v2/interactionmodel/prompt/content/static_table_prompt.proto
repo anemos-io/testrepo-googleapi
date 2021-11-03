@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_image_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_link_prompt.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "StaticTablePromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message StaticTablePrompt {
+
+	string title = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string subtitle = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.actions.sdk.v2.interactionmodel.prompt.StaticImagePrompt image = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated TableColumn columns = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated TableRow rows = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.actions.sdk.v2.interactionmodel.prompt.StaticLinkPrompt button = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TableColumn {
+
+	enum HorizontalAlignment {
+
+		UNSPECIFIED = 0;
+		LEADING = 1;
+		CENTER = 2;
+		TRAILING = 3;
+	}
+
+	string header = 1;
+	HorizontalAlignment align = 2;
+}
+
+message TableCell {
+
+	string text = 1;
+}
+
+message TableRow {
+
+	repeated TableCell cells = 1;
+	bool divider = 2;
+}

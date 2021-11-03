@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "LinkProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+enum UrlHint {
+
+	LINK_UNSPECIFIED = 0;
+	AMP = 1;
+}
+
+message Link {
+
+	string name = 1;
+	OpenUrl open = 2;
+}
+
+message OpenUrl {
+
+	string url = 1;
+	UrlHint hint = 2;
+}

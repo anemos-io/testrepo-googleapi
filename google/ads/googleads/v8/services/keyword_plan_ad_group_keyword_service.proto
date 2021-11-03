@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/resources/keyword_plan_ad_group_keyword.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "KeywordPlanAdGroupKeywordServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service KeywordPlanAdGroupKeywordService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetKeywordPlanAdGroupKeyword(google.ads.googleads.v8.services.GetKeywordPlanAdGroupKeywordRequest) returns (google.ads.googleads.v8.resources.KeywordPlanAdGroupKeyword) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v8/{resource_name=customers/*/keywordPlanAdGroupKeywords/*}"
+		};
+
+	}
+	rpc MutateKeywordPlanAdGroupKeywords(google.ads.googleads.v8.services.MutateKeywordPlanAdGroupKeywordsRequest) returns (google.ads.googleads.v8.services.MutateKeywordPlanAdGroupKeywordsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}/keywordPlanAdGroupKeywords:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetKeywordPlanAdGroupKeywordRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/KeywordPlanAdGroupKeyword"
+		}
+	];
+}
+
+message MutateKeywordPlanAdGroupKeywordsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated KeywordPlanAdGroupKeywordOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+}
+
+message KeywordPlanAdGroupKeywordOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	oneof operation {
+		google.ads.googleads.v8.resources.KeywordPlanAdGroupKeyword create = 1;
+		google.ads.googleads.v8.resources.KeywordPlanAdGroupKeyword update = 2;
+		string remove = 3 [
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/KeywordPlanAdGroupKeyword"
+			}
+		];
+	}
+}
+
+message MutateKeywordPlanAdGroupKeywordsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateKeywordPlanAdGroupKeywordResult results = 2;
+}
+
+message MutateKeywordPlanAdGroupKeywordResult {
+
+	string resource_name = 1;
+}

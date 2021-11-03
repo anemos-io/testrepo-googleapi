@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema;
+
+import "google/cloud/aiplatform/v1beta1/schema/annotation_spec_color.proto";
+import "google/cloud/aiplatform/v1beta1/schema/geometry.proto";
+import "google/cloud/aiplatform/v1beta1/schema/predict/instance/text_sentiment.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "google/rpc/code.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema";
+option java_outer_classname = "IoFormatProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema;schema";
+
+
+message PredictionResult {
+
+	message Error {
+
+		google.rpc.Code status = 1;
+		string message = 2;
+	}
+
+	oneof input {
+		google.protobuf.Struct instance = 1;
+		string key = 2;
+	}
+	google.protobuf.Value prediction = 3;
+	Error error = 4;
+}

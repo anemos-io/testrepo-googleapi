@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "VersionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+
+
+service Versions {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListVersions(google.cloud.dialogflow.v2beta1.ListVersionsRequest) returns (google.cloud.dialogflow.v2beta1.ListVersionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2beta1/{parent=projects/*/agent}/versions"
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*/agent}/versions"
+			}
+		};
+
+	}
+	rpc GetVersion(google.cloud.dialogflow.v2beta1.GetVersionRequest) returns (google.cloud.dialogflow.v2beta1.Version) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2beta1/{name=projects/*/agent/versions/*}"
+			additional_bindings: {
+				get: "/v2beta1/{name=projects/*/locations/*/agent/versions/*}"
+			}
+		};
+
+	}
+	rpc CreateVersion(google.cloud.dialogflow.v2beta1.CreateVersionRequest) returns (google.cloud.dialogflow.v2beta1.Version) {
+		option (google.api.method_signature) = "parent,version";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/agent}/versions"
+			body: "version"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/agent}/versions"
+				body: "version"
+			}
+		};
+
+	}
+	rpc UpdateVersion(google.cloud.dialogflow.v2beta1.UpdateVersionRequest) returns (google.cloud.dialogflow.v2beta1.Version) {
+		option (google.api.method_signature) = "version,update_mask";
+		option (google.api.http) = {
+			patch: "/v2beta1/{version.name=projects/*/agent/versions/*}"
+			body: "version"
+			additional_bindings: {
+				patch: "/v2beta1/{version.name=projects/*/locations/*/agent/versions/*}"
+				body: "version"
+			}
+		};
+
+	}
+	rpc DeleteVersion(google.cloud.dialogflow.v2beta1.DeleteVersionRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2beta1/{name=projects/*/agent/versions/*}"
+			additional_bindings: {
+				delete: "/v2beta1/{name=projects/*/locations/*/agent/versions/*}"
+			}
+		};
+
+	}
+}
+
+message Version {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Version"
+		pattern: ["projects/{project}/agent/versions/{version}","projects/{project}/locations/{location}/agent/versions/{version}"]
+	};
+
+	enum VersionStatus {
+
+		VERSION_STATUS_UNSPECIFIED = 0;
+		IN_PROGRESS = 1;
+		READY = 2;
+		FAILED = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 version_number = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	VersionStatus status = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListVersionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Version"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListVersionsResponse {
+
+	repeated Version versions = 1;
+	string next_page_token = 2;
+}
+
+message GetVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Version"
+		}
+	];
+}
+
+message CreateVersionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Version"
+		}
+	];
+	Version version = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateVersionRequest {
+
+	Version version = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Version"
+		}
+	];
+}

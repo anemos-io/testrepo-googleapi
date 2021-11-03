@@ -3,7 +3,9 @@ syntax = "proto3";
 package google.spanner.admin.database.v1;
 
 import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
 import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
 import "google/api/annotations.proto";
 
 option java_package = "com.google.spanner.admin.database.v1";
@@ -13,6 +15,14 @@ option go_package = "google.golang.org/genproto/googleapis/spanner/admin/databas
 option csharp_namespace = "Google.Cloud.Spanner.Admin.Database.V1";
 option php_namespace = "Google\\Cloud\\Spanner\\Admin\\Database\\V1";
 option ruby_package = "Google::Cloud::Spanner::Admin::Database::V1";
+option (google.api.resource_definition) = {
+	type: "cloudkms.googleapis.com/CryptoKey"
+	pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}"]
+};
+option (google.api.resource_definition) = {
+	type: "cloudkms.googleapis.com/CryptoKeyVersion"
+	pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}"]
+};
 
 
 message OperationProgress {
@@ -20,4 +30,36 @@ message OperationProgress {
 	int32 progress_percent = 1;
 	google.protobuf.Timestamp start_time = 2;
 	google.protobuf.Timestamp end_time = 3;
+}
+
+message EncryptionConfig {
+
+	string kms_key_name = 2 [
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+}
+
+message EncryptionInfo {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		GOOGLE_DEFAULT_ENCRYPTION = 1;
+		CUSTOMER_MANAGED_ENCRYPTION = 2;
+	}
+
+	Type encryption_type = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status encryption_status = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string kms_key_version = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
 }

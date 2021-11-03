@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package google.cloud.gkehub.metering.v1beta;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.gkehub.metering.v1beta";
+option java_outer_classname = "MeteringProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkehub/metering/v1beta;metering";
+option csharp_namespace = "Google.Cloud.GkeHub.Metering.V1Beta";
+option php_namespace = "Google\\Cloud\\GkeHub\\Metering\\V1beta";
+option ruby_package = "Google::Cloud::GkeHub::Metering::V1beta";
+
+
+message MembershipState {
+
+	google.protobuf.Timestamp last_measurement_time = 1;
+	float precise_last_measured_cluster_vcpu_capacity = 3;
+}

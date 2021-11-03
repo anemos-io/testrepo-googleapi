@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package maps.fleetengine.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/maps/fleetengine/v1/fleetengine.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "google.maps.fleetengine.v1";
+option java_outer_classname = "Vehicles";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/fleetengine/v1;fleetengine";
+option objc_class_prefix = "CFE";
+
+
+enum VehicleState {
+
+	UNKNOWN_VEHICLE_STATE = 0;
+	OFFLINE = 1;
+	ONLINE = 2;
+}
+
+enum LocationPowerSaveMode {
+
+	UNKNOWN_LOCATION_POWER_SAVE_MODE = 0;
+	LOCATION_MODE_NO_CHANGE = 1;
+	LOCATION_MODE_GPS_DISABLED_WHEN_SCREEN_OFF = 2;
+	LOCATION_MODE_ALL_DISABLED_WHEN_SCREEN_OFF = 3;
+	LOCATION_MODE_FOREGROUND_ONLY = 4;
+	LOCATION_MODE_THROTTLE_REQUESTS_WHEN_SCREEN_OFF = 5;
+}
+
+enum BatteryStatus {
+
+	UNKNOWN_BATTERY_STATUS = 0;
+	BATTERY_STATUS_CHARGING = 1;
+	BATTERY_STATUS_DISCHARGING = 2;
+	BATTERY_STATUS_FULL = 3;
+	BATTERY_STATUS_NOT_CHARGING = 4;
+	BATTERY_STATUS_POWER_LOW = 5;
+}
+
+enum PowerSource {
+
+	UNKNOWN_POWER_SOURCE = 0;
+	POWER_SOURCE_AC = 1;
+	POWER_SOURCE_USB = 2;
+	POWER_SOURCE_WIRELESS = 3;
+	POWER_SOURCE_UNPLUGGED = 4;
+}
+
+message Vehicle {
+	option (google.api.resource) = {
+		type: "fleetengine.googleapis.com/Vehicle"
+		pattern: ["providers/{provider}/vehicles/{vehicle}"]
+	};
+
+	message VehicleType {
+
+		enum Category {
+
+			UNKNOWN = 0;
+			AUTO = 1;
+			TAXI = 2;
+			TRUCK = 3;
+			TWO_WHEELER = 4;
+		}
+
+		Category category = 1;
+	}
+
+	string name = 1;
+	VehicleState vehicle_state = 2;
+	repeated maps.fleetengine.v1.TripType supported_trip_types = 3;
+	repeated string current_trips = 4;
+	maps.fleetengine.v1.VehicleLocation last_location = 5;
+	int32 maximum_capacity = 6;
+	int32 available_capacity = 7;
+	repeated maps.fleetengine.v1.VehicleAttribute attributes = 8;
+	VehicleType vehicle_type = 9;
+	LicensePlate license_plate = 10;
+	repeated maps.fleetengine.v1.TerminalLocation route = 12 [
+		deprecated = true
+	];
+	string current_route_segment = 20;
+	google.protobuf.Timestamp current_route_segment_version = 15;
+	maps.fleetengine.v1.TripWaypoint current_route_segment_end_point = 24;
+	google.protobuf.Int32Value remaining_distance_meters = 18;
+	google.protobuf.Timestamp eta_to_first_waypoint = 19;
+	google.protobuf.Int32Value remaining_time_seconds = 25;
+	repeated maps.fleetengine.v1.TripWaypoint waypoints = 22;
+	google.protobuf.Timestamp waypoints_version = 16;
+	bool back_to_back_enabled = 23;
+	maps.fleetengine.v1.NavigationStatus navigation_status = 26;
+	DeviceSettings device_settings = 27;
+}
+
+message BatteryInfo {
+
+	BatteryStatus battery_status = 1;
+	PowerSource power_source = 2;
+	float battery_percentage = 3;
+}
+
+message DeviceSettings {
+
+	LocationPowerSaveMode location_power_save_mode = 1;
+	bool is_power_save_mode = 2;
+	bool is_interactive = 3;
+	BatteryInfo battery_info = 4;
+}
+
+message LicensePlate {
+
+	string country_code = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string last_character = 2;
+}

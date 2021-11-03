@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package google.api;
+
+import "google/protobuf/descriptor.proto";
+
+option java_package = "com.google.api";
+option java_outer_classname = "VisibilityProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/visibility;visibility";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GAPI";
+
+
+extend google.protobuf.FieldOptions {
+	VisibilityRule field_visibility = 72295727;
+}
+
+
+extend google.protobuf.EnumValueOptions {
+	VisibilityRule value_visibility = 72295727;
+}
+
+
+extend google.protobuf.MessageOptions {
+	VisibilityRule message_visibility = 72295727;
+}
+
+
+extend google.protobuf.MethodOptions {
+	VisibilityRule method_visibility = 72295727;
+}
+
+
+extend google.protobuf.ServiceOptions {
+	VisibilityRule api_visibility = 72295727;
+}
+
+
+extend google.protobuf.EnumOptions {
+	VisibilityRule enum_visibility = 72295727;
+}
+
+
+message Visibility {
+
+	repeated VisibilityRule rules = 1;
+}
+
+message VisibilityRule {
+
+	string selector = 1;
+	string restriction = 2;
+}

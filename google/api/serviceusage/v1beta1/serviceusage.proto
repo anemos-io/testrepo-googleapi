@@ -1,0 +1,426 @@
+syntax = "proto3";
+
+package google.api.serviceusage.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/serviceusage/v1beta1/resources.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.api.serviceusage.v1beta1";
+option java_outer_classname = "ServiceUsageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/serviceusage/v1beta1;serviceusage";
+option csharp_namespace = "Google.Api.ServiceUsage.V1Beta1";
+option php_namespace = "Google\\Api\\ServiceUsage\\V1beta1";
+option ruby_package = "Google::Api::ServiceUsage::V1beta1";
+
+
+service ServiceUsage {
+	option (google.api.default_host) = "serviceusage.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/service.management";
+
+	rpc EnableService(google.api.serviceusage.v1beta1.EnableServiceRequest) returns (google.longrunning.Operation) {
+		option deprecated = true;
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=*/*/services/*}:enable"
+			body: "*"
+		};
+
+	}
+	rpc DisableService(google.api.serviceusage.v1beta1.DisableServiceRequest) returns (google.longrunning.Operation) {
+		option deprecated = true;
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=*/*/services/*}:disable"
+			body: "*"
+		};
+
+	}
+	rpc GetService(google.api.serviceusage.v1beta1.GetServiceRequest) returns (google.api.serviceusage.v1beta1.Service) {
+		option deprecated = true;
+		option (google.api.http) = {
+			get: "/v1beta1/{name=*/*/services/*}"
+		};
+
+	}
+	rpc ListServices(google.api.serviceusage.v1beta1.ListServicesRequest) returns (google.api.serviceusage.v1beta1.ListServicesResponse) {
+		option deprecated = true;
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=*/*}/services"
+		};
+
+	}
+	rpc BatchEnableServices(google.api.serviceusage.v1beta1.BatchEnableServicesRequest) returns (google.longrunning.Operation) {
+		option deprecated = true;
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=*/*}/services:batchEnable"
+			body: "*"
+		};
+
+	}
+	rpc ListConsumerQuotaMetrics(google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsRequest) returns (google.api.serviceusage.v1beta1.ListConsumerQuotaMetricsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=*/*/services/*}/consumerQuotaMetrics"
+		};
+
+	}
+	rpc GetConsumerQuotaMetric(google.api.serviceusage.v1beta1.GetConsumerQuotaMetricRequest) returns (google.api.serviceusage.v1beta1.ConsumerQuotaMetric) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=*/*/services/*/consumerQuotaMetrics/*}"
+		};
+
+	}
+	rpc GetConsumerQuotaLimit(google.api.serviceusage.v1beta1.GetConsumerQuotaLimitRequest) returns (google.api.serviceusage.v1beta1.ConsumerQuotaLimit) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=*/*/services/*/consumerQuotaMetrics/*/limits/*}"
+		};
+
+	}
+	rpc CreateAdminOverride(google.api.serviceusage.v1beta1.CreateAdminOverrideRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "QuotaOverride"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=*/*/services/*/consumerQuotaMetrics/*/limits/*}/adminOverrides"
+			body: "override"
+		};
+
+	}
+	rpc UpdateAdminOverride(google.api.serviceusage.v1beta1.UpdateAdminOverrideRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "QuotaOverride"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=*/*/services/*/consumerQuotaMetrics/*/limits/*/adminOverrides/*}"
+			body: "override"
+		};
+
+	}
+	rpc DeleteAdminOverride(google.api.serviceusage.v1beta1.DeleteAdminOverrideRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=*/*/services/*/consumerQuotaMetrics/*/limits/*/adminOverrides/*}"
+		};
+
+	}
+	rpc ListAdminOverrides(google.api.serviceusage.v1beta1.ListAdminOverridesRequest) returns (google.api.serviceusage.v1beta1.ListAdminOverridesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=*/*/services/*/consumerQuotaMetrics/*/limits/*}/adminOverrides"
+		};
+
+	}
+	rpc ImportAdminOverrides(google.api.serviceusage.v1beta1.ImportAdminOverridesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ImportAdminOverridesResponse"
+			metadata_type: "ImportAdminOverridesMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=*/*/services/*}/consumerQuotaMetrics:importAdminOverrides"
+			body: "*"
+		};
+
+	}
+	rpc CreateConsumerOverride(google.api.serviceusage.v1beta1.CreateConsumerOverrideRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "QuotaOverride"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=*/*/services/*/consumerQuotaMetrics/*/limits/*}/consumerOverrides"
+			body: "override"
+		};
+
+	}
+	rpc UpdateConsumerOverride(google.api.serviceusage.v1beta1.UpdateConsumerOverrideRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "QuotaOverride"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=*/*/services/*/consumerQuotaMetrics/*/limits/*/consumerOverrides/*}"
+			body: "override"
+		};
+
+	}
+	rpc DeleteConsumerOverride(google.api.serviceusage.v1beta1.DeleteConsumerOverrideRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=*/*/services/*/consumerQuotaMetrics/*/limits/*/consumerOverrides/*}"
+		};
+
+	}
+	rpc ListConsumerOverrides(google.api.serviceusage.v1beta1.ListConsumerOverridesRequest) returns (google.api.serviceusage.v1beta1.ListConsumerOverridesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=*/*/services/*/consumerQuotaMetrics/*/limits/*}/consumerOverrides"
+		};
+
+	}
+	rpc ImportConsumerOverrides(google.api.serviceusage.v1beta1.ImportConsumerOverridesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ImportConsumerOverridesResponse"
+			metadata_type: "ImportConsumerOverridesMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=*/*/services/*}/consumerQuotaMetrics:importConsumerOverrides"
+			body: "*"
+		};
+
+	}
+	rpc GenerateServiceIdentity(google.api.serviceusage.v1beta1.GenerateServiceIdentityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ServiceIdentity"
+			metadata_type: "google.protobuf.Empty"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=*/*/services/*}:generateServiceIdentity"
+		};
+
+	}
+}
+
+message EnableServiceRequest {
+
+	string name = 1;
+}
+
+message DisableServiceRequest {
+
+	string name = 1;
+}
+
+message GetServiceRequest {
+
+	string name = 1;
+}
+
+message ListServicesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListServicesResponse {
+
+	repeated google.api.serviceusage.v1beta1.Service services = 1;
+	string next_page_token = 2;
+}
+
+message BatchEnableServicesRequest {
+
+	string parent = 1;
+	repeated string service_ids = 2;
+}
+
+message ListConsumerQuotaMetricsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	google.api.serviceusage.v1beta1.QuotaView view = 4;
+}
+
+message ListConsumerQuotaMetricsResponse {
+
+	repeated google.api.serviceusage.v1beta1.ConsumerQuotaMetric metrics = 1;
+	string next_page_token = 2;
+}
+
+message GetConsumerQuotaMetricRequest {
+
+	string name = 1;
+	google.api.serviceusage.v1beta1.QuotaView view = 2;
+}
+
+message GetConsumerQuotaLimitRequest {
+
+	string name = 1;
+	google.api.serviceusage.v1beta1.QuotaView view = 2;
+}
+
+message CreateAdminOverrideRequest {
+
+	string parent = 1;
+	google.api.serviceusage.v1beta1.QuotaOverride override = 2;
+	bool force = 3;
+	repeated google.api.serviceusage.v1beta1.QuotaSafetyCheck force_only = 4;
+}
+
+message UpdateAdminOverrideRequest {
+
+	string name = 1;
+	google.api.serviceusage.v1beta1.QuotaOverride override = 2;
+	bool force = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	repeated google.api.serviceusage.v1beta1.QuotaSafetyCheck force_only = 5;
+}
+
+message DeleteAdminOverrideRequest {
+
+	string name = 1;
+	bool force = 2;
+	repeated google.api.serviceusage.v1beta1.QuotaSafetyCheck force_only = 3;
+}
+
+message ListAdminOverridesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListAdminOverridesResponse {
+
+	repeated google.api.serviceusage.v1beta1.QuotaOverride overrides = 1;
+	string next_page_token = 2;
+}
+
+message BatchCreateAdminOverridesResponse {
+
+	repeated google.api.serviceusage.v1beta1.QuotaOverride overrides = 1;
+}
+
+message ImportAdminOverridesRequest {
+
+	string parent = 1;
+	oneof source {
+		google.api.serviceusage.v1beta1.OverrideInlineSource inline_source = 2;
+	}
+	bool force = 3;
+	repeated google.api.serviceusage.v1beta1.QuotaSafetyCheck force_only = 4;
+}
+
+message ImportAdminOverridesResponse {
+
+	repeated google.api.serviceusage.v1beta1.QuotaOverride overrides = 1;
+}
+
+message ImportAdminOverridesMetadata {
+
+}
+
+message CreateConsumerOverrideRequest {
+
+	string parent = 1;
+	google.api.serviceusage.v1beta1.QuotaOverride override = 2;
+	bool force = 3;
+	repeated google.api.serviceusage.v1beta1.QuotaSafetyCheck force_only = 4;
+}
+
+message UpdateConsumerOverrideRequest {
+
+	string name = 1;
+	google.api.serviceusage.v1beta1.QuotaOverride override = 2;
+	bool force = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	repeated google.api.serviceusage.v1beta1.QuotaSafetyCheck force_only = 5;
+}
+
+message DeleteConsumerOverrideRequest {
+
+	string name = 1;
+	bool force = 2;
+	repeated google.api.serviceusage.v1beta1.QuotaSafetyCheck force_only = 3;
+}
+
+message ListConsumerOverridesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListConsumerOverridesResponse {
+
+	repeated google.api.serviceusage.v1beta1.QuotaOverride overrides = 1;
+	string next_page_token = 2;
+}
+
+message BatchCreateConsumerOverridesResponse {
+
+	repeated google.api.serviceusage.v1beta1.QuotaOverride overrides = 1;
+}
+
+message ImportConsumerOverridesRequest {
+
+	string parent = 1;
+	oneof source {
+		google.api.serviceusage.v1beta1.OverrideInlineSource inline_source = 2;
+	}
+	bool force = 3;
+	repeated google.api.serviceusage.v1beta1.QuotaSafetyCheck force_only = 4;
+}
+
+message ImportConsumerOverridesResponse {
+
+	repeated google.api.serviceusage.v1beta1.QuotaOverride overrides = 1;
+}
+
+message ImportConsumerOverridesMetadata {
+
+}
+
+message ImportAdminQuotaPoliciesResponse {
+
+	repeated google.api.serviceusage.v1beta1.AdminQuotaPolicy policies = 1;
+}
+
+message ImportAdminQuotaPoliciesMetadata {
+
+}
+
+message CreateAdminQuotaPolicyMetadata {
+
+}
+
+message UpdateAdminQuotaPolicyMetadata {
+
+}
+
+message DeleteAdminQuotaPolicyMetadata {
+
+}
+
+message GenerateServiceIdentityRequest {
+
+	string parent = 1;
+}
+
+message GetServiceIdentityResponse {
+
+	enum IdentityState {
+
+		IDENTITY_STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+	}
+
+	google.api.serviceusage.v1beta1.ServiceIdentity identity = 1;
+	IdentityState state = 2;
+}
+
+message GetServiceIdentityMetadata {
+
+}

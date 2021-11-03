@@ -1,0 +1,196 @@
+syntax = "proto3";
+
+package google.cloud.video.transcoder.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/video/transcoder/v1/resources.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.cloud.video.transcoder.v1";
+option java_outer_classname = "ServicesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/video/transcoder/v1;transcoder";
+option csharp_namespace = "Google.Cloud.Video.Transcoder.V1";
+option php_namespace = "Google\\Cloud\\Video\\Transcoder\\V1";
+option ruby_package = "Google::Cloud::Video::Transcoder::V1";
+
+
+service TranscoderService {
+	option (google.api.default_host) = "transcoder.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateJob(google.cloud.video.transcoder.v1.CreateJobRequest) returns (google.cloud.video.transcoder.v1.Job) {
+		option (google.api.method_signature) = "parent,job";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/jobs"
+			body: "job"
+		};
+
+	}
+	rpc ListJobs(google.cloud.video.transcoder.v1.ListJobsRequest) returns (google.cloud.video.transcoder.v1.ListJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/jobs"
+		};
+
+	}
+	rpc GetJob(google.cloud.video.transcoder.v1.GetJobRequest) returns (google.cloud.video.transcoder.v1.Job) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/jobs/*}"
+		};
+
+	}
+	rpc DeleteJob(google.cloud.video.transcoder.v1.DeleteJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/jobs/*}"
+		};
+
+	}
+	rpc CreateJobTemplate(google.cloud.video.transcoder.v1.CreateJobTemplateRequest) returns (google.cloud.video.transcoder.v1.JobTemplate) {
+		option (google.api.method_signature) = "parent,job_template,job_template_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/jobTemplates"
+			body: "job_template"
+		};
+
+	}
+	rpc ListJobTemplates(google.cloud.video.transcoder.v1.ListJobTemplatesRequest) returns (google.cloud.video.transcoder.v1.ListJobTemplatesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/jobTemplates"
+		};
+
+	}
+	rpc GetJobTemplate(google.cloud.video.transcoder.v1.GetJobTemplateRequest) returns (google.cloud.video.transcoder.v1.JobTemplate) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/jobTemplates/*}"
+		};
+
+	}
+	rpc DeleteJobTemplate(google.cloud.video.transcoder.v1.DeleteJobTemplateRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/jobTemplates/*}"
+		};
+
+	}
+}
+
+message CreateJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.video.transcoder.v1.Job job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message GetJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "transcoder.googleapis.com/Job"
+		}
+	];
+}
+
+message DeleteJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "transcoder.googleapis.com/Job"
+		}
+	];
+	bool allow_missing = 2;
+}
+
+message ListJobsResponse {
+
+	repeated google.cloud.video.transcoder.v1.Job jobs = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message CreateJobTemplateRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.video.transcoder.v1.JobTemplate job_template = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string job_template_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListJobTemplatesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message GetJobTemplateRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "transcoder.googleapis.com/JobTemplate"
+		}
+	];
+}
+
+message DeleteJobTemplateRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "transcoder.googleapis.com/JobTemplate"
+		}
+	];
+	bool allow_missing = 2;
+}
+
+message ListJobTemplatesResponse {
+
+	repeated google.cloud.video.transcoder.v1.JobTemplate job_templates = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}

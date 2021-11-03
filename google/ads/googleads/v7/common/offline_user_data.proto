@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/ads/googleads/v7/enums/user_identifier_source.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "OfflineUserDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message OfflineUserAddressInfo {
+
+	oneof _hashed_first_name {
+		string hashed_first_name = 7;
+	}
+	oneof _hashed_last_name {
+		string hashed_last_name = 8;
+	}
+	oneof _city {
+		string city = 9;
+	}
+	oneof _state {
+		string state = 10;
+	}
+	oneof _country_code {
+		string country_code = 11;
+	}
+	oneof _postal_code {
+		string postal_code = 12;
+	}
+}
+
+message UserIdentifier {
+
+	google.ads.googleads.v7.enums.UserIdentifierSourceEnum.UserIdentifierSource user_identifier_source = 6;
+	oneof identifier {
+		string hashed_email = 7;
+		string hashed_phone_number = 8;
+		string mobile_id = 9;
+		string third_party_user_id = 10;
+		OfflineUserAddressInfo address_info = 5;
+	}
+}
+
+message TransactionAttribute {
+
+	oneof _transaction_date_time {
+		string transaction_date_time = 8;
+	}
+	oneof _transaction_amount_micros {
+		double transaction_amount_micros = 9;
+	}
+	oneof _currency_code {
+		string currency_code = 10;
+	}
+	oneof _conversion_action {
+		string conversion_action = 11;
+	}
+	oneof _order_id {
+		string order_id = 12;
+	}
+	StoreAttribute store_attribute = 6;
+	oneof _custom_value {
+		string custom_value = 13;
+	}
+}
+
+message StoreAttribute {
+
+	oneof _store_code {
+		string store_code = 2;
+	}
+}
+
+message UserData {
+
+	repeated UserIdentifier user_identifiers = 1;
+	TransactionAttribute transaction_attribute = 2;
+	UserAttribute user_attribute = 3;
+}
+
+message UserAttribute {
+
+	oneof _lifetime_value_micros {
+		int64 lifetime_value_micros = 1;
+	}
+	oneof _lifetime_value_bucket {
+		int32 lifetime_value_bucket = 2;
+	}
+}
+
+message CustomerMatchUserListMetadata {
+
+	oneof _user_list {
+		string user_list = 2;
+	}
+}
+
+message StoreSalesMetadata {
+
+	oneof _loyalty_fraction {
+		double loyalty_fraction = 5;
+	}
+	oneof _transaction_upload_fraction {
+		double transaction_upload_fraction = 6;
+	}
+	oneof _custom_key {
+		string custom_key = 7;
+	}
+	StoreSalesThirdPartyMetadata third_party_metadata = 3;
+}
+
+message StoreSalesThirdPartyMetadata {
+
+	oneof _advertiser_upload_date_time {
+		string advertiser_upload_date_time = 7;
+	}
+	oneof _valid_transaction_fraction {
+		double valid_transaction_fraction = 8;
+	}
+	oneof _partner_match_fraction {
+		double partner_match_fraction = 9;
+	}
+	oneof _partner_upload_fraction {
+		double partner_upload_fraction = 10;
+	}
+	oneof _bridge_map_version_id {
+		string bridge_map_version_id = 11;
+	}
+	oneof _partner_id {
+		int64 partner_id = 12;
+	}
+}

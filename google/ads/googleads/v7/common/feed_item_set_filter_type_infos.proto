@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/ads/googleads/v7/enums/feed_item_set_string_filter_type.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "FeedItemSetFilterTypeInfosProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message DynamicLocationSetFilter {
+
+	repeated string labels = 1;
+	BusinessNameFilter business_name_filter = 2;
+}
+
+message BusinessNameFilter {
+
+	string business_name = 1;
+	google.ads.googleads.v7.enums.FeedItemSetStringFilterTypeEnum.FeedItemSetStringFilterType filter_type = 2;
+}
+
+message DynamicAffiliateLocationSetFilter {
+
+	repeated int64 chain_ids = 1;
+}

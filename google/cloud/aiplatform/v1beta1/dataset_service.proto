@@ -1,0 +1,290 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/annotation.proto";
+import "google/cloud/aiplatform/v1beta1/annotation_spec.proto";
+import "google/cloud/aiplatform/v1beta1/data_item.proto";
+import "google/cloud/aiplatform/v1beta1/dataset.proto";
+import "google/cloud/aiplatform/v1beta1/operation.proto";
+import "google/cloud/aiplatform/v1beta1/training_pipeline.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "DatasetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+service DatasetService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateDataset(google.cloud.aiplatform.v1beta1.CreateDatasetRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Dataset"
+			metadata_type: "CreateDatasetOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,dataset";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/datasets"
+			body: "dataset"
+		};
+
+	}
+	rpc GetDataset(google.cloud.aiplatform.v1beta1.GetDatasetRequest) returns (google.cloud.aiplatform.v1beta1.Dataset) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/datasets/*}"
+		};
+
+	}
+	rpc UpdateDataset(google.cloud.aiplatform.v1beta1.UpdateDatasetRequest) returns (google.cloud.aiplatform.v1beta1.Dataset) {
+		option (google.api.method_signature) = "dataset,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{dataset.name=projects/*/locations/*/datasets/*}"
+			body: "dataset"
+		};
+
+	}
+	rpc ListDatasets(google.cloud.aiplatform.v1beta1.ListDatasetsRequest) returns (google.cloud.aiplatform.v1beta1.ListDatasetsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/datasets"
+		};
+
+	}
+	rpc DeleteDataset(google.cloud.aiplatform.v1beta1.DeleteDatasetRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/datasets/*}"
+		};
+
+	}
+	rpc ImportData(google.cloud.aiplatform.v1beta1.ImportDataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ImportDataResponse"
+			metadata_type: "ImportDataOperationMetadata"
+		};
+		option (google.api.method_signature) = "name,import_configs";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/datasets/*}:import"
+			body: "*"
+		};
+
+	}
+	rpc ExportData(google.cloud.aiplatform.v1beta1.ExportDataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ExportDataResponse"
+			metadata_type: "ExportDataOperationMetadata"
+		};
+		option (google.api.method_signature) = "name,export_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/datasets/*}:export"
+			body: "*"
+		};
+
+	}
+	rpc ListDataItems(google.cloud.aiplatform.v1beta1.ListDataItemsRequest) returns (google.cloud.aiplatform.v1beta1.ListDataItemsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/datasets/*}/dataItems"
+		};
+
+	}
+	rpc GetAnnotationSpec(google.cloud.aiplatform.v1beta1.GetAnnotationSpecRequest) returns (google.cloud.aiplatform.v1beta1.AnnotationSpec) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/datasets/*/annotationSpecs/*}"
+		};
+
+	}
+	rpc ListAnnotations(google.cloud.aiplatform.v1beta1.ListAnnotationsRequest) returns (google.cloud.aiplatform.v1beta1.ListAnnotationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/datasets/*/dataItems/*}/annotations"
+		};
+
+	}
+}
+
+message CreateDatasetRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Dataset dataset = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateDatasetOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message GetDatasetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Dataset"
+		}
+	];
+	google.protobuf.FieldMask read_mask = 2;
+}
+
+message UpdateDatasetRequest {
+
+	google.cloud.aiplatform.v1beta1.Dataset dataset = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListDatasetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+	string order_by = 6;
+}
+
+message ListDatasetsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Dataset datasets = 1;
+	string next_page_token = 2;
+}
+
+message DeleteDatasetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Dataset"
+		}
+	];
+}
+
+message ImportDataRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Dataset"
+		}
+	];
+	repeated google.cloud.aiplatform.v1beta1.ImportDataConfig import_configs = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ImportDataResponse {
+
+}
+
+message ImportDataOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message ExportDataRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Dataset"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.ExportDataConfig export_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportDataResponse {
+
+	repeated string exported_files = 1;
+}
+
+message ExportDataOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+	string gcs_output_directory = 2;
+}
+
+message ListDataItemsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Dataset"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+	string order_by = 6;
+}
+
+message ListDataItemsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.DataItem data_items = 1;
+	string next_page_token = 2;
+}
+
+message GetAnnotationSpecRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/AnnotationSpec"
+		}
+	];
+	google.protobuf.FieldMask read_mask = 2;
+}
+
+message ListAnnotationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/DataItem"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+	string order_by = 6;
+}
+
+message ListAnnotationsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Annotation annotations = 1;
+	string next_page_token = 2;
+}

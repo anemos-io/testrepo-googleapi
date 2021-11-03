@@ -1,0 +1,286 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.services;
+
+import "google/ads/googleads/v7/common/criteria.proto";
+import "google/ads/googleads/v7/enums/frequency_cap_time_unit.proto";
+import "google/ads/googleads/v7/enums/reach_plan_ad_length.proto";
+import "google/ads/googleads/v7/enums/reach_plan_age_range.proto";
+import "google/ads/googleads/v7/enums/reach_plan_network.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.ads.googleads.v7.services";
+option java_outer_classname = "ReachPlanServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V7::Services";
+
+
+service ReachPlanService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc ListPlannableLocations(google.ads.googleads.v7.services.ListPlannableLocationsRequest) returns (google.ads.googleads.v7.services.ListPlannableLocationsResponse) {
+		option (google.api.http) = {
+			post: "/v7:listPlannableLocations"
+			body: "*"
+		};
+
+	}
+	rpc ListPlannableProducts(google.ads.googleads.v7.services.ListPlannableProductsRequest) returns (google.ads.googleads.v7.services.ListPlannableProductsResponse) {
+		option (google.api.method_signature) = "plannable_location_id";
+		option (google.api.http) = {
+			post: "/v7:listPlannableProducts"
+			body: "*"
+		};
+
+	}
+	rpc GenerateProductMixIdeas(google.ads.googleads.v7.services.GenerateProductMixIdeasRequest) returns (google.ads.googleads.v7.services.GenerateProductMixIdeasResponse) {
+		option (google.api.method_signature) = "customer_id,plannable_location_id,currency_code,budget_micros";
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}:generateProductMixIdeas"
+			body: "*"
+		};
+
+	}
+	rpc GenerateReachForecast(google.ads.googleads.v7.services.GenerateReachForecastRequest) returns (google.ads.googleads.v7.services.GenerateReachForecastResponse) {
+		option (google.api.method_signature) = "customer_id,campaign_duration,planned_products";
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}:generateReachForecast"
+			body: "*"
+		};
+
+	}
+}
+
+message ListPlannableLocationsRequest {
+
+}
+
+message ListPlannableLocationsResponse {
+
+	repeated PlannableLocation plannable_locations = 1;
+}
+
+message PlannableLocation {
+
+	oneof _id {
+		string id = 4;
+	}
+	oneof _name {
+		string name = 5;
+	}
+	oneof _parent_country_id {
+		int64 parent_country_id = 6;
+	}
+}
+
+message ListPlannableProductsRequest {
+
+	string plannable_location_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListPlannableProductsResponse {
+
+	repeated ProductMetadata product_metadata = 1;
+}
+
+message ProductMetadata {
+
+	oneof _plannable_product_code {
+		string plannable_product_code = 4;
+	}
+	string plannable_product_name = 3;
+	PlannableTargeting plannable_targeting = 2;
+}
+
+message PlannableTargeting {
+
+	repeated google.ads.googleads.v7.enums.ReachPlanAgeRangeEnum.ReachPlanAgeRange age_ranges = 1;
+	repeated google.ads.googleads.v7.common.GenderInfo genders = 2;
+	repeated google.ads.googleads.v7.common.DeviceInfo devices = 3;
+	repeated google.ads.googleads.v7.enums.ReachPlanNetworkEnum.ReachPlanNetwork networks = 4;
+}
+
+message GenerateProductMixIdeasRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string plannable_location_id = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string currency_code = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 budget_micros = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Preferences preferences = 5;
+}
+
+message Preferences {
+
+	oneof _is_skippable {
+		bool is_skippable = 6;
+	}
+	oneof _starts_with_sound {
+		bool starts_with_sound = 7;
+	}
+	google.ads.googleads.v7.enums.ReachPlanAdLengthEnum.ReachPlanAdLength ad_length = 3;
+	oneof _top_content_only {
+		bool top_content_only = 8;
+	}
+	oneof _has_guaranteed_price {
+		bool has_guaranteed_price = 9;
+	}
+}
+
+message GenerateProductMixIdeasResponse {
+
+	repeated ProductAllocation product_allocation = 1;
+}
+
+message ProductAllocation {
+
+	oneof _plannable_product_code {
+		string plannable_product_code = 3;
+	}
+	oneof _budget_micros {
+		int64 budget_micros = 4;
+	}
+}
+
+message GenerateReachForecastRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof _currency_code {
+		string currency_code = 9;
+	}
+	CampaignDuration campaign_duration = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof _cookie_frequency_cap {
+		int32 cookie_frequency_cap = 10;
+	}
+	FrequencyCap cookie_frequency_cap_setting = 8;
+	oneof _min_effective_frequency {
+		int32 min_effective_frequency = 11;
+	}
+	Targeting targeting = 6;
+	repeated PlannedProduct planned_products = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message FrequencyCap {
+
+	int32 impressions = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.ads.googleads.v7.enums.FrequencyCapTimeUnitEnum.FrequencyCapTimeUnit time_unit = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Targeting {
+
+	oneof _plannable_location_id {
+		string plannable_location_id = 6;
+	}
+	google.ads.googleads.v7.enums.ReachPlanAgeRangeEnum.ReachPlanAgeRange age_range = 2;
+	repeated google.ads.googleads.v7.common.GenderInfo genders = 3;
+	repeated google.ads.googleads.v7.common.DeviceInfo devices = 4;
+	google.ads.googleads.v7.enums.ReachPlanNetworkEnum.ReachPlanNetwork network = 5;
+}
+
+message CampaignDuration {
+
+	oneof _duration_in_days {
+		int32 duration_in_days = 2;
+	}
+}
+
+message PlannedProduct {
+
+	oneof _plannable_product_code {
+		string plannable_product_code = 3;
+	}
+	oneof _budget_micros {
+		int64 budget_micros = 4;
+	}
+}
+
+message GenerateReachForecastResponse {
+
+	OnTargetAudienceMetrics on_target_audience_metrics = 1;
+	ReachCurve reach_curve = 2;
+}
+
+message ReachCurve {
+
+	repeated ReachForecast reach_forecasts = 1;
+}
+
+message ReachForecast {
+
+	int64 cost_micros = 5;
+	Forecast forecast = 2;
+	repeated PlannedProductReachForecast planned_product_reach_forecasts = 4;
+}
+
+message Forecast {
+
+	oneof _on_target_reach {
+		int64 on_target_reach = 5;
+	}
+	oneof _total_reach {
+		int64 total_reach = 6;
+	}
+	oneof _on_target_impressions {
+		int64 on_target_impressions = 7;
+	}
+	oneof _total_impressions {
+		int64 total_impressions = 8;
+	}
+	oneof _viewable_impressions {
+		int64 viewable_impressions = 9;
+	}
+}
+
+message PlannedProductReachForecast {
+
+	string plannable_product_code = 1;
+	int64 cost_micros = 2;
+	PlannedProductForecast planned_product_forecast = 3;
+}
+
+message PlannedProductForecast {
+
+	int64 on_target_reach = 1;
+	int64 total_reach = 2;
+	int64 on_target_impressions = 3;
+	int64 total_impressions = 4;
+	oneof _viewable_impressions {
+		int64 viewable_impressions = 5;
+	}
+}
+
+message OnTargetAudienceMetrics {
+
+	oneof _youtube_audience_size {
+		int64 youtube_audience_size = 3;
+	}
+	oneof _census_audience_size {
+		int64 census_audience_size = 4;
+	}
+}

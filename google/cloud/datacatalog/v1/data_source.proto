@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1";
+option java_outer_classname = "DataSourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1";
+option ruby_package = "Google::Cloud::DataCatalog::V1";
+
+
+message DataSource {
+
+	enum Service {
+
+		SERVICE_UNSPECIFIED = 0;
+		CLOUD_STORAGE = 1;
+		BIGQUERY = 2;
+	}
+
+	Service service = 1;
+	string resource = 2;
+}

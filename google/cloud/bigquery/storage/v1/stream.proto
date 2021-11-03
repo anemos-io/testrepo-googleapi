@@ -6,6 +6,7 @@ import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/cloud/bigquery/storage/v1/arrow.proto";
 import "google/cloud/bigquery/storage/v1/avro.proto";
+import "google/cloud/bigquery/storage/v1/table.proto";
 import "google/protobuf/timestamp.proto";
 
 option java_package = "com.google.cloud.bigquery.storage.v1";
@@ -38,6 +39,11 @@ message ReadSession {
 
 		repeated string selected_fields = 1;
 		string row_restriction = 2;
+		oneof output_format_serialization_options {
+			google.cloud.bigquery.storage.v1.ArrowSerializationOptions arrow_serialization_options = 3 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+		}
 	}
 
 	string name = 1 [
@@ -72,6 +78,9 @@ message ReadSession {
 	repeated ReadStream streams = 10 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
+	int64 estimated_total_bytes_scanned = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message ReadStream {
@@ -81,6 +90,37 @@ message ReadStream {
 	};
 
 	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message WriteStream {
+	option (google.api.resource) = {
+		type: "bigquerystorage.googleapis.com/WriteStream"
+		pattern: ["projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}"]
+	};
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		COMMITTED = 1;
+		PENDING = 2;
+		BUFFERED = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Type type = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp commit_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.bigquery.storage.v1.TableSchema table_schema = 5 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 }

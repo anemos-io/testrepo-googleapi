@@ -1,0 +1,164 @@
+syntax = "proto3";
+
+package google.cloud.workflows.executions.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.workflows.executions.v1";
+option java_outer_classname = "ExecutionsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/workflows/executions/v1;executions";
+option (google.api.resource_definition) = {
+	type: "workflows.googleapis.com/Workflow"
+	pattern: ["projects/{project}/locations/{location}/workflows/{workflow}"]
+};
+
+
+enum ExecutionView {
+
+	EXECUTION_VIEW_UNSPECIFIED = 0;
+	BASIC = 1;
+	FULL = 2;
+}
+
+service Executions {
+	option (google.api.default_host) = "workflowexecutions.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListExecutions(google.cloud.workflows.executions.v1.ListExecutionsRequest) returns (google.cloud.workflows.executions.v1.ListExecutionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/workflows/*}/executions"
+		};
+
+	}
+	rpc CreateExecution(google.cloud.workflows.executions.v1.CreateExecutionRequest) returns (google.cloud.workflows.executions.v1.Execution) {
+		option (google.api.method_signature) = "parent,execution";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/workflows/*}/executions"
+			body: "execution"
+		};
+
+	}
+	rpc GetExecution(google.cloud.workflows.executions.v1.GetExecutionRequest) returns (google.cloud.workflows.executions.v1.Execution) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/workflows/*/executions/*}"
+		};
+
+	}
+	rpc CancelExecution(google.cloud.workflows.executions.v1.CancelExecutionRequest) returns (google.cloud.workflows.executions.v1.Execution) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/workflows/*/executions/*}:cancel"
+			body: "*"
+		};
+
+	}
+}
+
+message Execution {
+	option (google.api.resource) = {
+		type: "workflowexecutions.googleapis.com/Execution"
+		pattern: ["projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution}"]
+	};
+
+	message Error {
+
+		string payload = 1;
+		string context = 2;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+		CANCELLED = 4;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string argument = 5;
+	string result = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Error error = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string workflow_revision_id = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListExecutionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "workflows.googleapis.com/Workflow"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	ExecutionView view = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListExecutionsResponse {
+
+	repeated Execution executions = 1;
+	string next_page_token = 2;
+}
+
+message CreateExecutionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "workflows.googleapis.com/Workflow"
+		}
+	];
+	Execution execution = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetExecutionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "workflowexecutions.googleapis.com/Execution"
+		}
+	];
+	ExecutionView view = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CancelExecutionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "workflowexecutions.googleapis.com/Execution"
+		}
+	];
+}

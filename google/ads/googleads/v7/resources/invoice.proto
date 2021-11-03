@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.resources;
+
+import "google/ads/googleads/v7/common/dates.proto";
+import "google/ads/googleads/v7/enums/invoice_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.resources";
+option java_outer_classname = "InvoiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V7::Resources";
+
+
+message Invoice {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/Invoice"
+		pattern: ["customers/{customer_id}/invoices/{invoice_id}"]
+	};
+
+	message AccountBudgetSummary {
+
+		oneof _customer {
+			string customer = 10 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _customer_descriptive_name {
+			string customer_descriptive_name = 11 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _account_budget {
+			string account_budget = 12 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _account_budget_name {
+			string account_budget_name = 13 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _purchase_order_number {
+			string purchase_order_number = 14 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _subtotal_amount_micros {
+			int64 subtotal_amount_micros = 15 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _tax_amount_micros {
+			int64 tax_amount_micros = 16 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _total_amount_micros {
+			int64 total_amount_micros = 17 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		google.ads.googleads.v7.common.DateRange billable_activity_date_range = 9 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Invoice"
+		}
+	];
+	oneof _id {
+		string id = 25 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v7.enums.InvoiceTypeEnum.InvoiceType type = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _billing_setup {
+		string billing_setup = 26 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _payments_account_id {
+		string payments_account_id = 27 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _payments_profile_id {
+		string payments_profile_id = 28 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _issue_date {
+		string issue_date = 29 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _due_date {
+		string due_date = 30 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v7.common.DateRange service_date_range = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _currency_code {
+		string currency_code = 31 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	int64 adjustments_subtotal_amount_micros = 19 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 adjustments_tax_amount_micros = 20 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 adjustments_total_amount_micros = 21 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 regulatory_costs_subtotal_amount_micros = 22 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 regulatory_costs_tax_amount_micros = 23 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 regulatory_costs_total_amount_micros = 24 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _subtotal_amount_micros {
+		int64 subtotal_amount_micros = 33 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _tax_amount_micros {
+		int64 tax_amount_micros = 34 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _total_amount_micros {
+		int64 total_amount_micros = 35 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _corrected_invoice {
+		string corrected_invoice = 36 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	repeated string replaced_invoices = 37 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _pdf_url {
+		string pdf_url = 38 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	repeated AccountBudgetSummary account_budget_summaries = 18 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package google.cloud.networksecurity.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/networksecurity/v1beta1/tls.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.networksecurity.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/networksecurity/v1beta1;networksecurity";
+option csharp_namespace = "Google.Cloud.NetworkSecurity.V1Beta1";
+option php_namespace = "Google\\Cloud\\NetworkSecurity\\V1beta1";
+option ruby_package = "Google::Cloud::NetworkSecurity::V1beta1";
+
+
+message ClientTlsPolicy {
+	option (google.api.resource) = {
+		type: "networksecurity.googleapis.com/ClientTlsPolicy"
+		pattern: ["projects/{project}/locations/{location}/clientTlsPolicies/{client_tls_policy}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string sni = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.networksecurity.v1beta1.CertificateProvider client_certificate = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated google.cloud.networksecurity.v1beta1.ValidationCA server_validation_ca = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListClientTlsPoliciesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListClientTlsPoliciesResponse {
+
+	repeated ClientTlsPolicy client_tls_policies = 1;
+	string next_page_token = 2;
+}
+
+message GetClientTlsPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/ClientTlsPolicy"
+		}
+	];
+}
+
+message CreateClientTlsPolicyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/ClientTlsPolicy"
+		}
+	];
+	string client_tls_policy_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ClientTlsPolicy client_tls_policy = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateClientTlsPolicyRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ClientTlsPolicy client_tls_policy = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteClientTlsPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/ClientTlsPolicy"
+		}
+	];
+}

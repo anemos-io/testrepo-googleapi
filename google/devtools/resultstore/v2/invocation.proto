@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package google.devtools.resultstore.v2;
 
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
 import "google/devtools/resultstore/v2/common.proto";
 import "google/devtools/resultstore/v2/coverage.proto";
 import "google/devtools/resultstore/v2/coverage_summary.proto";
@@ -9,11 +11,16 @@ import "google/devtools/resultstore/v2/file.proto";
 import "google/devtools/resultstore/v2/file_processing_error.proto";
 
 option java_package = "com.google.devtools.resultstore.v2";
+option java_outer_classname = "InvocationProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
 
 
 message Invocation {
+	option (google.api.resource) = {
+		type: "resultstore.googleapis.com/Invocation"
+		pattern: ["invocations/{invocation}"]
+	};
 
 	message Id {
 
@@ -56,11 +63,14 @@ message CommandLine {
 
 message InvocationAttributes {
 
-	string project_id = 1;
+	string project_id = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
 	repeated string users = 2;
 	repeated string labels = 3;
 	string description = 4;
 	repeated InvocationContext invocation_contexts = 6;
+	int32 exit_code = 7;
 }
 
 message InvocationContext {

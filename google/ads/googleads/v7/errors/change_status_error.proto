@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.errors";
+option java_outer_classname = "ChangeStatusErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V7::Errors";
+
+
+message ChangeStatusErrorEnum {
+
+	enum ChangeStatusError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		START_DATE_TOO_OLD = 3;
+		CHANGE_DATE_RANGE_INFINITE = 4;
+		CHANGE_DATE_RANGE_NEGATIVE = 5;
+		LIMIT_NOT_SPECIFIED = 6;
+		INVALID_LIMIT_CLAUSE = 7;
+	}
+
+}

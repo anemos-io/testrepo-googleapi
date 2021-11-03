@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/talent/v4/common.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.talent.v4";
+option java_outer_classname = "CompletionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4;talent";
+option objc_class_prefix = "CTS";
+
+
+service Completion {
+	option (google.api.default_host) = "jobs.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/jobs";
+
+	rpc CompleteQuery(google.cloud.talent.v4.CompleteQueryRequest) returns (google.cloud.talent.v4.CompleteQueryResponse) {
+		option (google.api.http) = {
+			get: "/v4/{tenant=projects/*/tenants/*}:completeQuery"
+		};
+
+	}
+}
+
+message CompleteQueryRequest {
+
+	enum CompletionScope {
+
+		COMPLETION_SCOPE_UNSPECIFIED = 0;
+		TENANT = 1;
+		PUBLIC = 2;
+	}
+
+	enum CompletionType {
+
+		COMPLETION_TYPE_UNSPECIFIED = 0;
+		JOB_TITLE = 1;
+		COMPANY_NAME = 2;
+		COMBINED = 3;
+	}
+
+	string tenant = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Tenant"
+		}
+	];
+	string query = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string language_codes = 3;
+	int32 page_size = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string company = 5 [
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Company"
+		}
+	];
+	CompletionScope scope = 6;
+	CompletionType type = 7;
+}
+
+message CompleteQueryResponse {
+
+	message CompletionResult {
+
+		string suggestion = 1;
+		CompletionType type = 2;
+		string image_uri = 3;
+	}
+
+	repeated CompletionResult completion_results = 1;
+	google.cloud.talent.v4.ResponseMetadata metadata = 2;
+}

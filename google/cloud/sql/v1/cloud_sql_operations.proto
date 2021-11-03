@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1;
+
+import "google/api/annotations.proto";
+import "google/cloud/sql/v1/cloud_sql_resources.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1";
+option java_outer_classname = "CloudSqlOperationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1;sql";
+
+
+service SqlOperationsService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc Get(google.cloud.sql.v1.SqlOperationsGetRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/operations/{operation}"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1.SqlOperationsListRequest) returns (google.cloud.sql.v1.OperationsListResponse) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/operations"
+		};
+
+	}
+}
+
+message SqlOperationsGetRequest {
+
+	string operation = 1;
+	string project = 2;
+}
+
+message SqlOperationsListRequest {
+
+	string instance = 1;
+	uint32 max_results = 2;
+	string page_token = 3;
+	string project = 4;
+}
+
+message OperationsListResponse {
+
+	string kind = 1;
+	repeated google.cloud.sql.v1.Operation items = 2;
+	string next_page_token = 3;
+}

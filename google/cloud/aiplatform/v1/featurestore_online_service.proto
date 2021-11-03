@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/feature_selector.proto";
+import "google/cloud/aiplatform/v1/types.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "FeaturestoreOnlineServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+service FeaturestoreOnlineServingService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ReadFeatureValues(google.cloud.aiplatform.v1.ReadFeatureValuesRequest) returns (google.cloud.aiplatform.v1.ReadFeatureValuesResponse) {
+		option (google.api.method_signature) = "entity_type";
+		option (google.api.http) = {
+			post: "/v1/{entity_type=projects/*/locations/*/featurestores/*/entityTypes/*}:readFeatureValues"
+			body: "*"
+		};
+
+	}
+	rpc StreamingReadFeatureValues(google.cloud.aiplatform.v1.StreamingReadFeatureValuesRequest) returns (stream google.cloud.aiplatform.v1.ReadFeatureValuesResponse) {
+		option (google.api.method_signature) = "entity_type";
+		option (google.api.http) = {
+			post: "/v1/{entity_type=projects/*/locations/*/featurestores/*/entityTypes/*}:streamingReadFeatureValues"
+			body: "*"
+		};
+
+	}
+}
+
+message ReadFeatureValuesRequest {
+
+	string entity_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+	string entity_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1.FeatureSelector feature_selector = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReadFeatureValuesResponse {
+
+	message FeatureDescriptor {
+
+		string id = 1;
+	}
+
+	message Header {
+
+		string entity_type = 1 [
+			(google.api.resource_reference) = {
+				type: "aiplatform.googleapis.com/EntityType"
+			}
+		];
+		repeated FeatureDescriptor feature_descriptors = 2;
+	}
+
+	message EntityView {
+
+		message Data {
+
+			oneof data {
+				FeatureValue value = 1;
+				FeatureValueList values = 2;
+			}
+		}
+
+		string entity_id = 1;
+		repeated Data data = 2;
+	}
+
+	Header header = 1;
+	EntityView entity_view = 2;
+}
+
+message StreamingReadFeatureValuesRequest {
+
+	string entity_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/EntityType"
+		}
+	];
+	repeated string entity_ids = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1.FeatureSelector feature_selector = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message FeatureValue {
+
+	message Metadata {
+
+		google.protobuf.Timestamp generate_time = 1;
+	}
+
+	oneof value {
+		bool bool_value = 1;
+		double double_value = 2;
+		int64 int64_value = 5;
+		string string_value = 6;
+		google.cloud.aiplatform.v1.BoolArray bool_array_value = 7;
+		google.cloud.aiplatform.v1.DoubleArray double_array_value = 8;
+		google.cloud.aiplatform.v1.Int64Array int64_array_value = 11;
+		google.cloud.aiplatform.v1.StringArray string_array_value = 12;
+		bytes bytes_value = 13;
+	}
+	Metadata metadata = 14;
+}
+
+message FeatureValueList {
+
+	repeated FeatureValue values = 1;
+}

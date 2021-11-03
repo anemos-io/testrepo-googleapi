@@ -17,9 +17,9 @@ option java_package = "com.google.cloud.documentai.v1beta3";
 option java_outer_classname = "DocumentProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/documentai/v1beta3;documentai";
-option csharp_namespace = "Google.Cloud.DocumentAI.v1beta3";
-option php_namespace = "Google\\Cloud\\DocumentAi\\v1beta3";
-option ruby_package = "Google::Cloud::DocumentAI::master";
+option csharp_namespace = "Google.Cloud.DocumentAI.V1Beta3";
+option php_namespace = "Google\\Cloud\\DocumentAI\\V1beta3";
+option ruby_package = "Google::Cloud::DocumentAI::V1beta3";
 
 
 message Document {
@@ -167,6 +167,7 @@ message Document {
 			repeated DetectedLanguage name_detected_languages = 3;
 			repeated DetectedLanguage value_detected_languages = 4;
 			string value_type = 5;
+			Provenance provenance = 8;
 		}
 
 		message DetectedLanguage {
@@ -188,6 +189,7 @@ message Document {
 		repeated VisualElement visual_elements = 9;
 		repeated Table tables = 10;
 		repeated FormField form_fields = 11;
+		Provenance provenance = 16;
 	}
 
 	message Entity {
@@ -199,23 +201,32 @@ message Document {
 				google.type.Date date_value = 3;
 				google.type.DateTime datetime_value = 4;
 				google.type.PostalAddress address_value = 5;
+				bool boolean_value = 6;
 			}
 			string text = 1 [
 				(google.api.field_behavior) = REQUIRED
 			];
 		}
 
-		TextAnchor text_anchor = 1;
+		TextAnchor text_anchor = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
 		string type = 2;
-		string mention_text = 3;
-		string mention_id = 4;
+		string mention_text = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		string mention_id = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
 		float confidence = 5 [
 			(google.api.field_behavior) = OPTIONAL
 		];
 		PageAnchor page_anchor = 6 [
 			(google.api.field_behavior) = OPTIONAL
 		];
-		string id = 7;
+		string id = 7 [
+			(google.api.field_behavior) = OPTIONAL
+		];
 		NormalizedValue normalized_value = 9 [
 			(google.api.field_behavior) = OPTIONAL
 		];
@@ -235,14 +246,6 @@ message Document {
 		string subject_id = 1;
 		string object_id = 2;
 		string relation = 3;
-	}
-
-	message Translation {
-
-		TextAnchor text_anchor = 1;
-		string language_code = 2;
-		string translated_text = 3;
-		repeated Provenance provenance = 4;
 	}
 
 	message TextAnchor {
@@ -286,6 +289,9 @@ message Document {
 			google.cloud.documentai.v1beta3.BoundingPoly bounding_poly = 4 [
 				(google.api.field_behavior) = OPTIONAL
 			];
+			float confidence = 5 [
+				(google.api.field_behavior) = OPTIONAL
+			];
 		}
 
 		repeated PageRef page_refs = 1;
@@ -296,7 +302,10 @@ message Document {
 		message Parent {
 
 			int32 revision = 1;
-			int32 id = 2;
+			int32 index = 3;
+			int32 id = 2 [
+				deprecated = true
+			];
 		}
 
 		enum OperationType {
@@ -307,10 +316,13 @@ message Document {
 			REPLACE = 3;
 			EVAL_REQUESTED = 4;
 			EVAL_APPROVED = 5;
+			EVAL_SKIPPED = 6;
 		}
 
 		int32 revision = 1;
-		int32 id = 2;
+		int32 id = 2 [
+			deprecated = true
+		];
 		repeated Parent parents = 3;
 		OperationType type = 4;
 	}
@@ -341,16 +353,21 @@ message Document {
 	}
 
 	oneof source {
-		string uri = 1;
-		bytes content = 2;
+		string uri = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bytes content = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
 	}
 	string mime_type = 3;
-	string text = 4;
+	string text = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 	repeated Style text_styles = 5;
 	repeated Page pages = 6;
 	repeated Entity entities = 7;
 	repeated EntityRelation entity_relations = 8;
-	repeated Translation translations = 12;
 	repeated TextChange text_changes = 14;
 	ShardInfo shard_info = 9;
 	google.rpc.Status error = 10;

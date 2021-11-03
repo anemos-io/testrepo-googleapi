@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1alpha;
+
+option java_package = "com.google.cloud.osconfig.v1alpha";
+option java_outer_classname = "ConfigCommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1alpha;osconfig";
+option csharp_namespace = "Google.Cloud.OsConfig.V1Alpha";
+option php_namespace = "Google\\Cloud\\OsConfig\\V1alpha";
+option ruby_package = "Google::Cloud::OsConfig::V1alpha";
+
+
+enum OSPolicyComplianceState {
+
+	OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED = 0;
+	COMPLIANT = 1;
+	NON_COMPLIANT = 2;
+	UNKNOWN = 3;
+	NO_OS_POLICIES_APPLICABLE = 4;
+}
+
+message OSPolicyResourceConfigStep {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		VALIDATION = 1;
+		DESIRED_STATE_CHECK = 2;
+		DESIRED_STATE_ENFORCEMENT = 3;
+		DESIRED_STATE_CHECK_POST_ENFORCEMENT = 4;
+	}
+
+	enum Outcome {
+
+		OUTCOME_UNSPECIFIED = 0;
+		SUCCEEDED = 1;
+		FAILED = 2;
+	}
+
+	Type type = 1;
+	Outcome outcome = 2;
+	string error_message = 3;
+}
+
+message OSPolicyResourceCompliance {
+
+	message ExecResourceOutput {
+
+		bytes enforcement_output = 2;
+	}
+
+	string os_policy_resource_id = 1;
+	repeated OSPolicyResourceConfigStep config_steps = 2;
+	OSPolicyComplianceState state = 3;
+	oneof output {
+		ExecResourceOutput exec_resource_output = 4;
+	}
+}

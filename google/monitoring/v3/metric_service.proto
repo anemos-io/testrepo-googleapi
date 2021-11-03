@@ -32,6 +32,14 @@ option (google.api.resource_definition) = {
 	pattern: ["projects/{project}/monitoredResourceDescriptors/{monitored_resource_descriptor}","organizations/{organization}/monitoredResourceDescriptors/{monitored_resource_descriptor}","folders/{folder}/monitoredResourceDescriptors/{monitored_resource_descriptor}","*"]
 	history: ORIGINALLY_SINGLE_PATTERN
 };
+option (google.api.resource_definition) = {
+	type: "monitoring.googleapis.com/Workspace"
+	pattern: ["projects/{project}","workspaces/{workspace}"]
+};
+option (google.api.resource_definition) = {
+	type: "monitoring.googleapis.com/TimeSeries"
+	pattern: ["projects/{project}/timeSeries/{time_series}","organizations/{organization}/timeSeries/{time_series}","folders/{folder}/timeSeries/{time_series}"]
+};
 
 
 service MetricService {
@@ -85,6 +93,12 @@ service MetricService {
 		option (google.api.method_signature) = "name,filter,interval,view";
 		option (google.api.http) = {
 			get: "/v3/{name=projects/*}/timeSeries"
+			additional_bindings: {
+				get: "/v3/{name=organizations/*}/timeSeries"
+			}
+			additional_bindings: {
+				get: "/v3/{name=folders/*}/timeSeries"
+			}
 		};
 
 	}
@@ -92,6 +106,14 @@ service MetricService {
 		option (google.api.method_signature) = "name,time_series";
 		option (google.api.http) = {
 			post: "/v3/{name=projects/*}/timeSeries"
+			body: "*"
+		};
+
+	}
+	rpc CreateServiceTimeSeries(google.monitoring.v3.CreateTimeSeriesRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name,time_series";
+		option (google.api.http) = {
+			post: "/v3/{name=projects/*}/timeSeries:createService"
 			body: "*"
 		};
 
@@ -190,7 +212,7 @@ message ListTimeSeriesRequest {
 	string name = 10 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "cloudresourcemanager.googleapis.com/Project"
+			child_type: "monitoring.googleapis.com/TimeSeries"
 		}
 	];
 	string filter = 2 [
@@ -200,6 +222,7 @@ message ListTimeSeriesRequest {
 		(google.api.field_behavior) = REQUIRED
 	];
 	google.monitoring.v3.Aggregation aggregation = 5;
+	google.monitoring.v3.Aggregation secondary_aggregation = 11;
 	string order_by = 6;
 	TimeSeriesView view = 7 [
 		(google.api.field_behavior) = REQUIRED
@@ -213,6 +236,7 @@ message ListTimeSeriesResponse {
 	repeated google.monitoring.v3.TimeSeries time_series = 1;
 	string next_page_token = 2;
 	repeated google.rpc.Status execution_errors = 3;
+	string unit = 5;
 }
 
 message CreateTimeSeriesRequest {
@@ -253,8 +277,12 @@ message CreateTimeSeriesSummary {
 
 message QueryTimeSeriesRequest {
 
-	string name = 1;
-	string query = 7;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	int32 page_size = 9;
 	string page_token = 10;
 }

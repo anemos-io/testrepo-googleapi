@@ -27,6 +27,9 @@ service KnowledgeBases {
 		option (google.api.http) = {
 			get: "/v2beta1/{parent=projects/*}/knowledgeBases"
 			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*}/knowledgeBases"
+			}
+			additional_bindings: {
 				get: "/v2beta1/{parent=projects/*/agent}/knowledgeBases"
 			}
 		};
@@ -36,6 +39,9 @@ service KnowledgeBases {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v2beta1/{name=projects/*/knowledgeBases/*}"
+			additional_bindings: {
+				get: "/v2beta1/{name=projects/*/locations/*/knowledgeBases/*}"
+			}
 			additional_bindings: {
 				get: "/v2beta1/{name=projects/*/agent/knowledgeBases/*}"
 			}
@@ -48,6 +54,10 @@ service KnowledgeBases {
 			post: "/v2beta1/{parent=projects/*}/knowledgeBases"
 			body: "knowledge_base"
 			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*}/knowledgeBases"
+				body: "knowledge_base"
+			}
+			additional_bindings: {
 				post: "/v2beta1/{parent=projects/*/agent}/knowledgeBases"
 				body: "knowledge_base"
 			}
@@ -58,6 +68,9 @@ service KnowledgeBases {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			delete: "/v2beta1/{name=projects/*/knowledgeBases/*}"
+			additional_bindings: {
+				delete: "/v2beta1/{name=projects/*/locations/*/knowledgeBases/*}"
+			}
 			additional_bindings: {
 				delete: "/v2beta1/{name=projects/*/agent/knowledgeBases/*}"
 			}
@@ -71,6 +84,10 @@ service KnowledgeBases {
 			patch: "/v2beta1/{knowledge_base.name=projects/*/knowledgeBases/*}"
 			body: "knowledge_base"
 			additional_bindings: {
+				patch: "/v2beta1/{knowledge_base.name=projects/*/locations/*/knowledgeBases/*}"
+				body: "knowledge_base"
+			}
+			additional_bindings: {
 				patch: "/v2beta1/{knowledge_base.name=projects/*/agent/knowledgeBases/*}"
 				body: "knowledge_base"
 			}
@@ -82,7 +99,7 @@ service KnowledgeBases {
 message KnowledgeBase {
 	option (google.api.resource) = {
 		type: "dialogflow.googleapis.com/KnowledgeBase"
-		pattern: ["projects/{project}/knowledgeBases/{knowledge_base}"]
+		pattern: ["projects/{project}/knowledgeBases/{knowledge_base}","projects/{project}/locations/{location}/knowledgeBases/{knowledge_base}"]
 	};
 
 	string name = 1;
@@ -100,12 +117,9 @@ message ListKnowledgeBasesRequest {
 			child_type: "dialogflow.googleapis.com/KnowledgeBase"
 		}
 	];
-	int32 page_size = 2 [
-		(google.api.field_behavior) = OPTIONAL
-	];
-	string page_token = 3 [
-		(google.api.field_behavior) = OPTIONAL
-	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
 }
 
 message ListKnowledgeBasesResponse {
@@ -145,7 +159,9 @@ message DeleteKnowledgeBaseRequest {
 			type: "dialogflow.googleapis.com/KnowledgeBase"
 		}
 	];
-	bool force = 2;
+	bool force = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message UpdateKnowledgeBaseRequest {

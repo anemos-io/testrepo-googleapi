@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "EventProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message Event {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		INPUT = 1;
+		OUTPUT = 2;
+	}
+
+	string artifact = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Artifact"
+		}
+	];
+	string execution = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+	google.protobuf.Timestamp event_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Type type = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> labels = 5;
+}

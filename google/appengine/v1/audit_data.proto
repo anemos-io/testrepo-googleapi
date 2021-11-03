@@ -9,6 +9,9 @@ option java_package = "com.google.appengine.v1";
 option java_outer_classname = "AuditDataProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+option csharp_namespace = "Google.Cloud.AppEngine.V1";
+option php_namespace = "Google\\Cloud\\AppEngine\\V1";
+option ruby_package = "Google::Cloud::AppEngine::V1";
 
 
 message AuditData {

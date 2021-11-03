@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1.schema.predict.instance;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1.schema.predict.instance";
+option java_outer_classname = "ImageSegmentationPredictionInstanceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1/schema/predict/instance;instance";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1.Schema.Predict.Instance";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1\\Schema\\Predict\\Instance";
+option ruby_package = "Google::Cloud::AIPlatform::V1::Schema::Predict::Instance";
+
+
+message ImageSegmentationPredictionInstance {
+
+	string content = 1;
+	string mime_type = 2;
+}

@@ -1,0 +1,573 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3/flow.proto";
+import "google/cloud/dialogflow/cx/v3/intent.proto";
+import "google/cloud/dialogflow/cx/v3/page.proto";
+import "google/cloud/dialogflow/cx/v3/response_message.proto";
+import "google/cloud/dialogflow/cx/v3/session.proto";
+import "google/cloud/dialogflow/cx/v3/transition_route_group.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3";
+option java_outer_classname = "TestCaseProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3";
+
+
+enum TestResult {
+
+	TEST_RESULT_UNSPECIFIED = 0;
+	PASSED = 1;
+	FAILED = 2;
+}
+
+service TestCases {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListTestCases(google.cloud.dialogflow.cx.v3.ListTestCasesRequest) returns (google.cloud.dialogflow.cx.v3.ListTestCasesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3/{parent=projects/*/locations/*/agents/*}/testCases"
+		};
+
+	}
+	rpc BatchDeleteTestCases(google.cloud.dialogflow.cx.v3.BatchDeleteTestCasesRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v3/{parent=projects/*/locations/*/agents/*}/testCases:batchDelete"
+			body: "*"
+		};
+
+	}
+	rpc GetTestCase(google.cloud.dialogflow.cx.v3.GetTestCaseRequest) returns (google.cloud.dialogflow.cx.v3.TestCase) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*/locations/*/agents/*/testCases/*}"
+		};
+
+	}
+	rpc CreateTestCase(google.cloud.dialogflow.cx.v3.CreateTestCaseRequest) returns (google.cloud.dialogflow.cx.v3.TestCase) {
+		option (google.api.method_signature) = "parent,test_case";
+		option (google.api.http) = {
+			post: "/v3/{parent=projects/*/locations/*/agents/*}/testCases"
+			body: "test_case"
+		};
+
+	}
+	rpc UpdateTestCase(google.cloud.dialogflow.cx.v3.UpdateTestCaseRequest) returns (google.cloud.dialogflow.cx.v3.TestCase) {
+		option (google.api.method_signature) = "test_case,update_mask";
+		option (google.api.http) = {
+			patch: "/v3/{test_case.name=projects/*/locations/*/agents/*/testCases/*}"
+			body: "test_case"
+		};
+
+	}
+	rpc RunTestCase(google.cloud.dialogflow.cx.v3.RunTestCaseRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "RunTestCaseResponse"
+			metadata_type: "RunTestCaseMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v3/{name=projects/*/locations/*/agents/*/testCases/*}:run"
+			body: "*"
+		};
+
+	}
+	rpc BatchRunTestCases(google.cloud.dialogflow.cx.v3.BatchRunTestCasesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "BatchRunTestCasesResponse"
+			metadata_type: "BatchRunTestCasesMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v3/{parent=projects/*/locations/*/agents/*}/testCases:batchRun"
+			body: "*"
+		};
+
+	}
+	rpc CalculateCoverage(google.cloud.dialogflow.cx.v3.CalculateCoverageRequest) returns (google.cloud.dialogflow.cx.v3.CalculateCoverageResponse) {
+		option (google.api.http) = {
+			get: "/v3/{agent=projects/*/locations/*/agents/*}/testCases:calculateCoverage"
+		};
+
+	}
+	rpc ImportTestCases(google.cloud.dialogflow.cx.v3.ImportTestCasesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ImportTestCasesResponse"
+			metadata_type: "ImportTestCasesMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v3/{parent=projects/*/locations/*/agents/*}/testCases:import"
+			body: "*"
+		};
+
+	}
+	rpc ExportTestCases(google.cloud.dialogflow.cx.v3.ExportTestCasesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ExportTestCasesResponse"
+			metadata_type: "ExportTestCasesMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v3/{parent=projects/*/locations/*/agents/*}/testCases:export"
+			body: "*"
+		};
+
+	}
+	rpc ListTestCaseResults(google.cloud.dialogflow.cx.v3.ListTestCaseResultsRequest) returns (google.cloud.dialogflow.cx.v3.ListTestCaseResultsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3/{parent=projects/*/locations/*/agents/*/testCases/*}/results"
+		};
+
+	}
+	rpc GetTestCaseResult(google.cloud.dialogflow.cx.v3.GetTestCaseResultRequest) returns (google.cloud.dialogflow.cx.v3.TestCaseResult) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*/locations/*/agents/*/testCases/*/results/*}"
+		};
+
+	}
+}
+
+message TestCase {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/TestCase"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/testCases/{test_case}"]
+	};
+
+	string name = 1;
+	repeated string tags = 2;
+	string display_name = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string notes = 4;
+	TestConfig test_config = 13;
+	repeated ConversationTurn test_case_conversation_turns = 5;
+	google.protobuf.Timestamp creation_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	TestCaseResult last_test_result = 12;
+}
+
+message TestCaseResult {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/TestCaseResult"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/testCases/{test_case}/results/{result}"]
+	};
+
+	string name = 1;
+	string environment = 2 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+	repeated ConversationTurn conversation_turns = 3;
+	TestResult test_result = 4;
+	google.protobuf.Timestamp test_time = 5;
+}
+
+message TestConfig {
+
+	repeated string tracking_parameters = 1;
+	string flow = 2 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Flow"
+		}
+	];
+}
+
+message ConversationTurn {
+
+	message UserInput {
+
+		google.cloud.dialogflow.cx.v3.QueryInput input = 5;
+		google.protobuf.Struct injected_parameters = 2;
+		bool is_webhook_enabled = 3;
+		bool enable_sentiment_analysis = 7;
+	}
+
+	message VirtualAgentOutput {
+
+		google.protobuf.Struct session_parameters = 4;
+		repeated TestRunDifference differences = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.protobuf.Struct diagnostic_info = 6 [
+			(google.api.field_behavior) = REQUIRED,
+			(google.api.field_behavior) = INPUT_ONLY
+		];
+		google.cloud.dialogflow.cx.v3.Intent triggered_intent = 7;
+		google.cloud.dialogflow.cx.v3.Page current_page = 8;
+		repeated google.cloud.dialogflow.cx.v3.ResponseMessage.Text text_responses = 9;
+		google.rpc.Status status = 10;
+	}
+
+	UserInput user_input = 1;
+	VirtualAgentOutput virtual_agent_output = 2;
+}
+
+message TestRunDifference {
+
+	enum DiffType {
+
+		DIFF_TYPE_UNSPECIFIED = 0;
+		INTENT = 1;
+		PAGE = 2;
+		PARAMETERS = 3;
+		UTTERANCE = 4;
+	}
+
+	DiffType type = 1;
+	string description = 2;
+}
+
+message TransitionCoverage {
+
+	message TransitionNode {
+
+		oneof kind {
+			google.cloud.dialogflow.cx.v3.Page page = 1;
+			google.cloud.dialogflow.cx.v3.Flow flow = 2;
+		}
+	}
+
+	message Transition {
+
+		TransitionNode source = 1;
+		int32 index = 4;
+		TransitionNode target = 2;
+		bool covered = 3;
+		oneof detail {
+			google.cloud.dialogflow.cx.v3.TransitionRoute transition_route = 5;
+			google.cloud.dialogflow.cx.v3.EventHandler event_handler = 6;
+		}
+	}
+
+	repeated Transition transitions = 1;
+	float coverage_score = 2;
+}
+
+message TransitionRouteGroupCoverage {
+
+	message Coverage {
+
+		message Transition {
+
+			google.cloud.dialogflow.cx.v3.TransitionRoute transition_route = 1;
+			bool covered = 2;
+		}
+
+		google.cloud.dialogflow.cx.v3.TransitionRouteGroup route_group = 1;
+		repeated Transition transitions = 2;
+		float coverage_score = 3;
+	}
+
+	repeated Coverage coverages = 1;
+	float coverage_score = 2;
+}
+
+message IntentCoverage {
+
+	message Intent {
+
+		string intent = 1 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Intent"
+			}
+		];
+		bool covered = 2;
+	}
+
+	repeated Intent intents = 1;
+	float coverage_score = 2;
+}
+
+message CalculateCoverageRequest {
+
+	enum CoverageType {
+
+		COVERAGE_TYPE_UNSPECIFIED = 0;
+		INTENT = 1;
+		PAGE_TRANSITION = 2;
+		TRANSITION_ROUTE_GROUP = 3;
+	}
+
+	string agent = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	CoverageType type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CalculateCoverageResponse {
+
+	string agent = 5 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	oneof coverage_type {
+		IntentCoverage intent_coverage = 2;
+		TransitionCoverage transition_coverage = 4;
+		TransitionRouteGroupCoverage route_group_coverage = 6;
+	}
+}
+
+message ListTestCasesRequest {
+
+	enum TestCaseView {
+
+		TEST_CASE_VIEW_UNSPECIFIED = 0;
+		BASIC = 1;
+		FULL = 2;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	TestCaseView view = 4;
+}
+
+message ListTestCasesResponse {
+
+	repeated TestCase test_cases = 1;
+	string next_page_token = 2;
+}
+
+message BatchDeleteTestCasesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+	repeated string names = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+}
+
+message CreateTestCaseRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+	TestCase test_case = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateTestCaseRequest {
+
+	TestCase test_case = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTestCaseRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+}
+
+message RunTestCaseRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+	string environment = 2 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+}
+
+message RunTestCaseResponse {
+
+	TestCaseResult result = 2;
+}
+
+message RunTestCaseMetadata {
+
+}
+
+message BatchRunTestCasesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+	string environment = 2 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+	repeated string test_cases = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+}
+
+message BatchRunTestCasesResponse {
+
+	repeated TestCaseResult results = 1;
+}
+
+message BatchRunTestCasesMetadata {
+
+	repeated TestError errors = 1;
+}
+
+message TestError {
+
+	string test_case = 1 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+	google.rpc.Status status = 2;
+	google.protobuf.Timestamp test_time = 3;
+}
+
+message ImportTestCasesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+	oneof source {
+		string gcs_uri = 2;
+		bytes content = 3;
+	}
+}
+
+message ImportTestCasesResponse {
+
+	repeated string names = 1 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+}
+
+message ImportTestCasesMetadata {
+
+	repeated TestCaseError errors = 1;
+}
+
+message TestCaseError {
+
+	TestCase test_case = 1;
+	google.rpc.Status status = 2;
+}
+
+message ExportTestCasesRequest {
+
+	enum DataFormat {
+
+		DATA_FORMAT_UNSPECIFIED = 0;
+		BLOB = 1;
+		JSON = 2;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TestCase"
+		}
+	];
+	oneof destination {
+		string gcs_uri = 2;
+	}
+	DataFormat data_format = 3;
+	string filter = 4;
+}
+
+message ExportTestCasesResponse {
+
+	oneof destination {
+		string gcs_uri = 1;
+		bytes content = 2;
+	}
+}
+
+message ExportTestCasesMetadata {
+
+}
+
+message ListTestCaseResultsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/TestCaseResult"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListTestCaseResultsResponse {
+
+	repeated TestCaseResult test_case_results = 1;
+	string next_page_token = 2;
+}
+
+message GetTestCaseResultRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TestCaseResult"
+		}
+	];
+}

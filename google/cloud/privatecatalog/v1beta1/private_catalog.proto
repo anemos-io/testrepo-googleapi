@@ -1,0 +1,273 @@
+syntax = "proto3";
+
+package google.cloud.privatecatalog.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.privatecatalog.v1beta1";
+option java_outer_classname = "PrivateCatalogProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/privatecatalog/v1beta1;privatecatalog";
+option csharp_namespace = "Google.Cloud.PrivateCatalog.V1Beta1";
+option php_namespace = "Google\\Cloud\\PrivateCatalog\\V1beta1";
+option ruby_package = "Google::Cloud::PrivateCatalog::V1beta1";
+
+
+service PrivateCatalog {
+	option (google.api.default_host) = "cloudprivatecatalog.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SearchCatalogs(google.cloud.privatecatalog.v1beta1.SearchCatalogsRequest) returns (google.cloud.privatecatalog.v1beta1.SearchCatalogsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{resource=projects/*}/catalogs:search"
+			additional_bindings: {
+				get: "/v1beta1/{resource=organizations/*}/catalogs:search"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{resource=folders/*}/catalogs:search"
+			}
+		};
+
+	}
+	rpc SearchProducts(google.cloud.privatecatalog.v1beta1.SearchProductsRequest) returns (google.cloud.privatecatalog.v1beta1.SearchProductsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{resource=projects/*}/products:search"
+			additional_bindings: {
+				get: "/v1beta1/{resource=organizations/*}/products:search"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{resource=folders/*}/products:search"
+			}
+		};
+
+	}
+	rpc SearchVersions(google.cloud.privatecatalog.v1beta1.SearchVersionsRequest) returns (google.cloud.privatecatalog.v1beta1.SearchVersionsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{resource=projects/*}/versions:search"
+			additional_bindings: {
+				get: "/v1beta1/{resource=organizations/*}/versions:search"
+			}
+			additional_bindings: {
+				get: "/v1beta1/{resource=folders/*}/versions:search"
+			}
+		};
+
+	}
+}
+
+message SearchCatalogsRequest {
+
+	string resource = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message SearchCatalogsResponse {
+
+	repeated Catalog catalogs = 1;
+	string next_page_token = 2;
+}
+
+message SearchProductsRequest {
+
+	string resource = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message SearchProductsResponse {
+
+	repeated Product products = 1;
+	string next_page_token = 2;
+}
+
+message SearchVersionsRequest {
+
+	string resource = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message SearchVersionsResponse {
+
+	repeated Version versions = 1;
+	string next_page_token = 2;
+}
+
+message Catalog {
+	option (google.api.resource) = {
+		type: "cloudprivatecatalog.googleapis.com/Catalog"
+		pattern: ["catalogs/{catalog}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Product {
+	option (google.api.resource) = {
+		type: "cloudprivatecatalog.googleapis.com/Product"
+		pattern: ["products/{product}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string asset_type = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Struct display_metadata = 3 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string icon_uri = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated AssetReference asset_references = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message AssetReference {
+
+	enum AssetValidationState {
+
+		ASSET_VALIDATION_STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		VALID = 2;
+		INVALID = 3;
+	}
+
+	string id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Inputs inputs = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	AssetValidationState validation_status = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.longrunning.Operation validation_operation = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof source {
+		string asset = 10 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		string gcs_path = 11 [
+			deprecated = true,
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		GitSource git_source = 15 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	GcsSource gcs_source = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string version = 14 [
+		deprecated = true
+	];
+}
+
+message Inputs {
+
+	google.protobuf.Struct parameters = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message GcsSource {
+
+	string gcs_path = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 generation = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message GitSource {
+
+	string repo = 1;
+	string dir = 2;
+	oneof ref {
+		string commit = 3;
+		string branch = 4;
+		string tag = 5;
+	}
+}
+
+message Version {
+	option (google.api.resource) = {
+		type: "cloudprivatecatalog.googleapis.com/Version"
+		pattern: ["catalogs/{catalog}/products/{product}/versions/{version}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Struct asset = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

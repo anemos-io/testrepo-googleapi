@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package google.type;
+
+option java_package = "com.google.type";
+option java_outer_classname = "DecimalProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/type/decimal;decimal";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GTP";
+
+
+message Decimal {
+
+	string value = 1;
+}

@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3";
+option java_outer_classname = "ResponseMessageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3";
+
+
+message ResponseMessage {
+
+	message Text {
+
+		repeated string text = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		bool allow_playback_interruption = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message LiveAgentHandoff {
+
+		google.protobuf.Struct metadata = 1;
+	}
+
+	message ConversationSuccess {
+
+		google.protobuf.Struct metadata = 1;
+	}
+
+	message OutputAudioText {
+
+		oneof source {
+			string text = 1;
+			string ssml = 2;
+		}
+		bool allow_playback_interruption = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message EndInteraction {
+
+	}
+
+	message PlayAudio {
+
+		string audio_uri = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		bool allow_playback_interruption = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message MixedAudio {
+
+		message Segment {
+
+			oneof content {
+				bytes audio = 1;
+				string uri = 2;
+			}
+			bool allow_playback_interruption = 3 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+
+		repeated Segment segments = 1;
+	}
+
+	oneof message {
+		Text text = 1;
+		google.protobuf.Struct payload = 2;
+		ConversationSuccess conversation_success = 9;
+		OutputAudioText output_audio_text = 8;
+		LiveAgentHandoff live_agent_handoff = 10;
+		EndInteraction end_interaction = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		PlayAudio play_audio = 12;
+		MixedAudio mixed_audio = 13 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

@@ -1,0 +1,432 @@
+syntax = "proto3";
+
+package google.cloud.video.transcoder.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.video.transcoder.v1";
+option java_outer_classname = "ResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/video/transcoder/v1;transcoder";
+
+
+message Job {
+	option (google.api.resource) = {
+		type: "transcoder.googleapis.com/Job"
+		pattern: ["projects/{project}/locations/{location}/jobs/{job}"]
+	};
+
+	enum ProcessingState {
+
+		PROCESSING_STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		RUNNING = 2;
+		SUCCEEDED = 3;
+		FAILED = 4;
+	}
+
+	string name = 1;
+	string input_uri = 2 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string output_uri = 3 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	oneof job_config {
+		string template_id = 4 [
+			(google.api.field_behavior) = INPUT_ONLY
+		];
+		JobConfig config = 5;
+	}
+	ProcessingState state = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 ttl_after_completion_days = 15;
+	google.rpc.Status error = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message JobTemplate {
+	option (google.api.resource) = {
+		type: "transcoder.googleapis.com/JobTemplate"
+		pattern: ["projects/{project}/locations/{location}/jobTemplates/{job_template}"]
+	};
+
+	string name = 1;
+	JobConfig config = 2;
+}
+
+message JobConfig {
+
+	repeated Input inputs = 1;
+	repeated EditAtom edit_list = 2;
+	repeated ElementaryStream elementary_streams = 3;
+	repeated MuxStream mux_streams = 4;
+	repeated Manifest manifests = 5;
+	Output output = 6;
+	repeated AdBreak ad_breaks = 7;
+	PubsubDestination pubsub_destination = 8;
+	repeated SpriteSheet sprite_sheets = 9;
+	repeated Overlay overlays = 10;
+}
+
+message Input {
+
+	string key = 1;
+	string uri = 2;
+	PreprocessingConfig preprocessing_config = 3;
+}
+
+message Output {
+
+	string uri = 1;
+}
+
+message EditAtom {
+
+	string key = 1;
+	repeated string inputs = 2;
+	google.protobuf.Duration end_time_offset = 3;
+	google.protobuf.Duration start_time_offset = 4;
+}
+
+message AdBreak {
+
+	google.protobuf.Duration start_time_offset = 1;
+}
+
+message ElementaryStream {
+
+	string key = 4;
+	oneof elementary_stream {
+		VideoStream video_stream = 1;
+		AudioStream audio_stream = 2;
+		TextStream text_stream = 3;
+	}
+}
+
+message MuxStream {
+
+	string key = 1;
+	string file_name = 2;
+	string container = 3;
+	repeated string elementary_streams = 4;
+	SegmentSettings segment_settings = 5;
+}
+
+message Manifest {
+
+	enum ManifestType {
+
+		MANIFEST_TYPE_UNSPECIFIED = 0;
+		HLS = 1;
+		DASH = 2;
+	}
+
+	string file_name = 1;
+	ManifestType type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string mux_streams = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PubsubDestination {
+
+	string topic = 1;
+}
+
+message SpriteSheet {
+
+	string format = 1;
+	string file_prefix = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 sprite_width_pixels = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 sprite_height_pixels = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 column_count = 5;
+	int32 row_count = 6;
+	google.protobuf.Duration start_time_offset = 7;
+	google.protobuf.Duration end_time_offset = 8;
+	oneof extraction_strategy {
+		int32 total_count = 9;
+		google.protobuf.Duration interval = 10;
+	}
+	int32 quality = 11;
+}
+
+message Overlay {
+
+	message NormalizedCoordinate {
+
+		double x = 1;
+		double y = 2;
+	}
+
+	message Image {
+
+		string uri = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		NormalizedCoordinate resolution = 2;
+		double alpha = 3;
+	}
+
+	message AnimationStatic {
+
+		NormalizedCoordinate xy = 1;
+		google.protobuf.Duration start_time_offset = 2;
+	}
+
+	message AnimationFade {
+
+		FadeType fade_type = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		NormalizedCoordinate xy = 2;
+		google.protobuf.Duration start_time_offset = 3;
+		google.protobuf.Duration end_time_offset = 4;
+	}
+
+	message AnimationEnd {
+
+		google.protobuf.Duration start_time_offset = 1;
+	}
+
+	message Animation {
+
+		oneof animation_type {
+			AnimationStatic animation_static = 1;
+			AnimationFade animation_fade = 2;
+			AnimationEnd animation_end = 3;
+		}
+	}
+
+	enum FadeType {
+
+		FADE_TYPE_UNSPECIFIED = 0;
+		FADE_IN = 1;
+		FADE_OUT = 2;
+	}
+
+	Image image = 1;
+	repeated Animation animations = 2;
+}
+
+message PreprocessingConfig {
+
+	message Color {
+
+		double saturation = 1;
+		double contrast = 2;
+		double brightness = 3;
+	}
+
+	message Denoise {
+
+		double strength = 1;
+		string tune = 2;
+	}
+
+	message Deblock {
+
+		double strength = 1;
+		bool enabled = 2;
+	}
+
+	message Audio {
+
+		double lufs = 1;
+		bool high_boost = 2;
+		bool low_boost = 3;
+	}
+
+	message Crop {
+
+		int32 top_pixels = 1;
+		int32 bottom_pixels = 2;
+		int32 left_pixels = 3;
+		int32 right_pixels = 4;
+	}
+
+	message Pad {
+
+		int32 top_pixels = 1;
+		int32 bottom_pixels = 2;
+		int32 left_pixels = 3;
+		int32 right_pixels = 4;
+	}
+
+	Color color = 1;
+	Denoise denoise = 2;
+	Deblock deblock = 3;
+	Audio audio = 4;
+	Crop crop = 5;
+	Pad pad = 6;
+}
+
+message VideoStream {
+
+	message H264CodecSettings {
+
+		int32 width_pixels = 1;
+		int32 height_pixels = 2;
+		double frame_rate = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 bitrate_bps = 4 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string pixel_format = 5;
+		string rate_control_mode = 6;
+		int32 crf_level = 7;
+		bool allow_open_gop = 8;
+		oneof gop_mode {
+			int32 gop_frame_count = 9;
+			google.protobuf.Duration gop_duration = 10;
+		}
+		bool enable_two_pass = 11;
+		int32 vbv_size_bits = 12;
+		int32 vbv_fullness_bits = 13;
+		string entropy_coder = 14;
+		bool b_pyramid = 15;
+		int32 b_frame_count = 16;
+		double aq_strength = 17;
+		string profile = 18;
+		string tune = 19;
+		string preset = 20;
+	}
+
+	message H265CodecSettings {
+
+		int32 width_pixels = 1;
+		int32 height_pixels = 2;
+		double frame_rate = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 bitrate_bps = 4 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string pixel_format = 5;
+		string rate_control_mode = 6;
+		int32 crf_level = 7;
+		bool allow_open_gop = 8;
+		oneof gop_mode {
+			int32 gop_frame_count = 9;
+			google.protobuf.Duration gop_duration = 10;
+		}
+		bool enable_two_pass = 11;
+		int32 vbv_size_bits = 12;
+		int32 vbv_fullness_bits = 13;
+		bool b_pyramid = 14;
+		int32 b_frame_count = 15;
+		double aq_strength = 16;
+		string profile = 17;
+		string tune = 18;
+		string preset = 19;
+	}
+
+	message Vp9CodecSettings {
+
+		int32 width_pixels = 1;
+		int32 height_pixels = 2;
+		double frame_rate = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 bitrate_bps = 4 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string pixel_format = 5;
+		string rate_control_mode = 6;
+		int32 crf_level = 7;
+		oneof gop_mode {
+			int32 gop_frame_count = 8;
+			google.protobuf.Duration gop_duration = 9;
+		}
+		string profile = 10;
+	}
+
+	oneof codec_settings {
+		H264CodecSettings h264 = 1;
+		H265CodecSettings h265 = 2;
+		Vp9CodecSettings vp9 = 3;
+	}
+}
+
+message AudioStream {
+
+	message AudioMapping {
+
+		string atom_key = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string input_key = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 input_track = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 input_channel = 4 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 output_channel = 5 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		double gain_db = 6;
+	}
+
+	string codec = 1;
+	int32 bitrate_bps = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 channel_count = 3;
+	repeated string channel_layout = 4;
+	repeated AudioMapping mapping = 5;
+	int32 sample_rate_hertz = 6;
+}
+
+message TextStream {
+
+	message TextMapping {
+
+		string atom_key = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string input_key = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 input_track = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	string codec = 1;
+	repeated TextMapping mapping = 3;
+}
+
+message SegmentSettings {
+
+	google.protobuf.Duration segment_duration = 1;
+	bool individual_segments = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

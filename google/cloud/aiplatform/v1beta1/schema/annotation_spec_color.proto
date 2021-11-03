@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema;
+
+import "google/type/color.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema";
+option java_outer_classname = "AnnotationSpecColorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema;schema";
+
+
+message AnnotationSpecColor {
+
+	google.type.Color color = 1;
+	string display_name = 2;
+	string id = 3;
+}

@@ -1,0 +1,251 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/retail/v2/common.proto";
+import "google/cloud/retail/v2/import_config.proto";
+import "google/cloud/retail/v2/product.proto";
+import "google/cloud/retail/v2/purge_config.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.retail.v2";
+option java_outer_classname = "ProductServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2";
+option php_namespace = "Google\\Cloud\\Retail\\V2";
+option ruby_package = "Google::Cloud::Retail::V2";
+
+
+service ProductService {
+	option (google.api.default_host) = "retail.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateProduct(google.cloud.retail.v2.CreateProductRequest) returns (google.cloud.retail.v2.Product) {
+		option (google.api.method_signature) = "parent,product,product_id";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/locations/*/catalogs/*/branches/*}/products"
+			body: "product"
+		};
+
+	}
+	rpc GetProduct(google.cloud.retail.v2.GetProductRequest) returns (google.cloud.retail.v2.Product) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/locations/*/catalogs/*/branches/*/products/**}"
+		};
+
+	}
+	rpc ListProducts(google.cloud.retail.v2.ListProductsRequest) returns (google.cloud.retail.v2.ListProductsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*/locations/*/catalogs/*/branches/*}/products"
+		};
+
+	}
+	rpc UpdateProduct(google.cloud.retail.v2.UpdateProductRequest) returns (google.cloud.retail.v2.Product) {
+		option (google.api.method_signature) = "product,update_mask";
+		option (google.api.http) = {
+			patch: "/v2/{product.name=projects/*/locations/*/catalogs/*/branches/*/products/**}"
+			body: "product"
+		};
+
+	}
+	rpc DeleteProduct(google.cloud.retail.v2.DeleteProductRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/locations/*/catalogs/*/branches/*/products/**}"
+		};
+
+	}
+	rpc ImportProducts(google.cloud.retail.v2.ImportProductsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.retail.v2.ImportProductsResponse"
+			metadata_type: "google.cloud.retail.v2.ImportMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/locations/*/catalogs/*/branches/*}/products:import"
+			body: "*"
+		};
+
+	}
+	rpc SetInventory(google.cloud.retail.v2.SetInventoryRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.retail.v2.SetInventoryResponse"
+			metadata_type: "google.cloud.retail.v2.SetInventoryMetadata"
+		};
+		option (google.api.method_signature) = "inventory,set_mask";
+		option (google.api.http) = {
+			post: "/v2/{inventory.name=projects/*/locations/*/catalogs/*/branches/*/products/**}:setInventory"
+			body: "*"
+		};
+
+	}
+	rpc AddFulfillmentPlaces(google.cloud.retail.v2.AddFulfillmentPlacesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.retail.v2.AddFulfillmentPlacesResponse"
+			metadata_type: "google.cloud.retail.v2.AddFulfillmentPlacesMetadata"
+		};
+		option (google.api.method_signature) = "product";
+		option (google.api.http) = {
+			post: "/v2/{product=projects/*/locations/*/catalogs/*/branches/*/products/**}:addFulfillmentPlaces"
+			body: "*"
+		};
+
+	}
+	rpc RemoveFulfillmentPlaces(google.cloud.retail.v2.RemoveFulfillmentPlacesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.retail.v2.RemoveFulfillmentPlacesResponse"
+			metadata_type: "google.cloud.retail.v2.RemoveFulfillmentPlacesMetadata"
+		};
+		option (google.api.method_signature) = "product";
+		option (google.api.http) = {
+			post: "/v2/{product=projects/*/locations/*/catalogs/*/branches/*/products/**}:removeFulfillmentPlaces"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateProductRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Branch"
+		}
+	];
+	google.cloud.retail.v2.Product product = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string product_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetProductRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Product"
+		}
+	];
+}
+
+message UpdateProductRequest {
+
+	google.cloud.retail.v2.Product product = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+	bool allow_missing = 3;
+}
+
+message DeleteProductRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Product"
+		}
+	];
+}
+
+message ListProductsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Branch"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	google.protobuf.FieldMask read_mask = 5;
+}
+
+message ListProductsResponse {
+
+	repeated google.cloud.retail.v2.Product products = 1;
+	string next_page_token = 2;
+}
+
+message SetInventoryRequest {
+
+	google.cloud.retail.v2.Product inventory = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask set_mask = 2;
+	google.protobuf.Timestamp set_time = 3;
+	bool allow_missing = 4;
+}
+
+message SetInventoryMetadata {
+
+}
+
+message SetInventoryResponse {
+
+}
+
+message AddFulfillmentPlacesRequest {
+
+	string product = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Product"
+		}
+	];
+	string type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string place_ids = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp add_time = 4;
+	bool allow_missing = 5;
+}
+
+message AddFulfillmentPlacesMetadata {
+
+}
+
+message AddFulfillmentPlacesResponse {
+
+}
+
+message RemoveFulfillmentPlacesRequest {
+
+	string product = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Product"
+		}
+	];
+	string type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string place_ids = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp remove_time = 4;
+	bool allow_missing = 5;
+}
+
+message RemoveFulfillmentPlacesMetadata {
+
+}
+
+message RemoveFulfillmentPlacesResponse {
+
+}

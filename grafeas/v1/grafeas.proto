@@ -12,8 +12,10 @@ import "google/protobuf/timestamp.proto";
 import "grafeas/v1/attestation.proto";
 import "grafeas/v1/build.proto";
 import "grafeas/v1/common.proto";
+import "grafeas/v1/compliance.proto";
 import "grafeas/v1/deployment.proto";
 import "grafeas/v1/discovery.proto";
+import "grafeas/v1/dsse_attestation.proto";
 import "grafeas/v1/image.proto";
 import "grafeas/v1/package.proto";
 import "grafeas/v1/upgrade.proto";
@@ -160,7 +162,10 @@ message Occurrence {
 		grafeas.v1.DiscoveryOccurrence discovery = 13;
 		grafeas.v1.AttestationOccurrence attestation = 14;
 		grafeas.v1.UpgradeOccurrence upgrade = 15;
+		grafeas.v1.ComplianceOccurrence compliance = 16;
+		grafeas.v1.DSSEAttestationOccurrence dsse_attestation = 17;
 	}
+	grafeas.v1.Envelope envelope = 18;
 }
 
 message Note {
@@ -187,6 +192,8 @@ message Note {
 		grafeas.v1.DiscoveryNote discovery = 15;
 		grafeas.v1.AttestationNote attestation = 16;
 		grafeas.v1.UpgradeNote upgrade = 17;
+		grafeas.v1.ComplianceNote compliance = 18;
+		grafeas.v1.DSSEAttestationNote dsse_attestation = 19;
 	}
 }
 

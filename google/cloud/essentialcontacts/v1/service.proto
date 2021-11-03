@@ -1,0 +1,245 @@
+syntax = "proto3";
+
+package google.cloud.essentialcontacts.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/essentialcontacts/v1/enums.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.essentialcontacts.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/essentialcontacts/v1;essentialcontacts";
+option csharp_namespace = "Google.Cloud.EssentialContacts.V1";
+option php_namespace = "Google\\Cloud\\EssentialContacts\\V1";
+option ruby_package = "Google::Cloud::EssentialContacts::V1";
+
+
+service EssentialContactsService {
+	option (google.api.default_host) = "essentialcontacts.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateContact(google.cloud.essentialcontacts.v1.CreateContactRequest) returns (google.cloud.essentialcontacts.v1.Contact) {
+		option (google.api.method_signature) = "parent,contact";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/contacts"
+			body: "contact"
+			additional_bindings: {
+				post: "/v1/{parent=folders/*}/contacts"
+				body: "contact"
+			}
+			additional_bindings: {
+				post: "/v1/{parent=organizations/*}/contacts"
+				body: "contact"
+			}
+		};
+
+	}
+	rpc UpdateContact(google.cloud.essentialcontacts.v1.UpdateContactRequest) returns (google.cloud.essentialcontacts.v1.Contact) {
+		option (google.api.method_signature) = "contact,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{contact.name=projects/*/contacts/*}"
+			body: "contact"
+			additional_bindings: {
+				patch: "/v1/{contact.name=folders/*/contacts/*}"
+				body: "contact"
+			}
+			additional_bindings: {
+				patch: "/v1/{contact.name=organizations/*/contacts/*}"
+				body: "contact"
+			}
+		};
+
+	}
+	rpc ListContacts(google.cloud.essentialcontacts.v1.ListContactsRequest) returns (google.cloud.essentialcontacts.v1.ListContactsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/contacts"
+			additional_bindings: {
+				get: "/v1/{parent=folders/*}/contacts"
+			}
+			additional_bindings: {
+				get: "/v1/{parent=organizations/*}/contacts"
+			}
+		};
+
+	}
+	rpc GetContact(google.cloud.essentialcontacts.v1.GetContactRequest) returns (google.cloud.essentialcontacts.v1.Contact) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/contacts/*}"
+			additional_bindings: {
+				get: "/v1/{name=folders/*/contacts/*}"
+			}
+			additional_bindings: {
+				get: "/v1/{name=organizations/*/contacts/*}"
+			}
+		};
+
+	}
+	rpc DeleteContact(google.cloud.essentialcontacts.v1.DeleteContactRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/contacts/*}"
+			additional_bindings: {
+				delete: "/v1/{name=folders/*/contacts/*}"
+			}
+			additional_bindings: {
+				delete: "/v1/{name=organizations/*/contacts/*}"
+			}
+		};
+
+	}
+	rpc ComputeContacts(google.cloud.essentialcontacts.v1.ComputeContactsRequest) returns (google.cloud.essentialcontacts.v1.ComputeContactsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/contacts:compute"
+			additional_bindings: {
+				get: "/v1/{parent=folders/*}/contacts:compute"
+			}
+			additional_bindings: {
+				get: "/v1/{parent=organizations/*}/contacts:compute"
+			}
+		};
+
+	}
+	rpc SendTestMessage(google.cloud.essentialcontacts.v1.SendTestMessageRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*}/contacts:sendTestMessage"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=folders/*}/contacts:sendTestMessage"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1/{resource=organizations/*}/contacts:sendTestMessage"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message Contact {
+	option (google.api.resource) = {
+		type: "essentialcontacts.googleapis.com/Contact"
+		pattern: ["projects/{project}/contacts/{contact}","folders/{folder}/contacts/{contact}","organizations/{organization}/contacts/{contact}"]
+	};
+
+	string name = 1;
+	string email = 2;
+	repeated google.cloud.essentialcontacts.v1.NotificationCategory notification_category_subscriptions = 3;
+	string language_tag = 4;
+	google.cloud.essentialcontacts.v1.ValidationState validation_state = 8;
+	google.protobuf.Timestamp validate_time = 9;
+}
+
+message ListContactsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "essentialcontacts.googleapis.com/Contact"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListContactsResponse {
+
+	repeated Contact contacts = 1;
+	string next_page_token = 2;
+}
+
+message GetContactRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "essentialcontacts.googleapis.com/Contact"
+		}
+	];
+}
+
+message DeleteContactRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "essentialcontacts.googleapis.com/Contact"
+		}
+	];
+}
+
+message CreateContactRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "essentialcontacts.googleapis.com/Contact"
+		}
+	];
+	Contact contact = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateContactRequest {
+
+	Contact contact = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ComputeContactsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "essentialcontacts.googleapis.com/Contact"
+		}
+	];
+	repeated google.cloud.essentialcontacts.v1.NotificationCategory notification_categories = 6;
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ComputeContactsResponse {
+
+	repeated Contact contacts = 1;
+	string next_page_token = 2;
+}
+
+message SendTestMessageRequest {
+
+	repeated string contacts = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "essentialcontacts.googleapis.com/Contact"
+		}
+	];
+	string resource = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "essentialcontacts.googleapis.com/Contact"
+		}
+	];
+	google.cloud.essentialcontacts.v1.NotificationCategory notification_category = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

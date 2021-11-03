@@ -3,6 +3,10 @@ syntax = "proto3";
 package google.storagetransfer.v1;
 
 import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/storagetransfer/v1/transfer_types.proto";
@@ -13,9 +17,12 @@ option go_package = "google.golang.org/genproto/googleapis/storagetransfer/v1;st
 option cc_enable_arenas = true;
 option csharp_namespace = "Google.Cloud.StorageTransfer.V1";
 option php_namespace = "Google\\Cloud\\StorageTransfer\\V1";
+option ruby_package = "Google::Cloud::StorageTransfer::V1";
 
 
 service StorageTransferService {
+	option (google.api.default_host) = "storagetransfer.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
 
 	rpc GetGoogleServiceAccount(google.storagetransfer.v1.GetGoogleServiceAccountRequest) returns (google.storagetransfer.v1.GoogleServiceAccount) {
 		option (google.api.http) = {
@@ -63,35 +70,62 @@ service StorageTransferService {
 		};
 
 	}
+	rpc RunTransferJob(google.storagetransfer.v1.RunTransferJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "TransferOperation"
+		};
+		option (google.api.http) = {
+			post: "/v1/{job_name=transferJobs/**}:run"
+			body: "*"
+		};
+
+	}
 }
 
 message GetGoogleServiceAccountRequest {
 
-	string project_id = 1;
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
 }
 
 message CreateTransferJobRequest {
 
-	google.storagetransfer.v1.TransferJob transfer_job = 1;
+	google.storagetransfer.v1.TransferJob transfer_job = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
 }
 
 message UpdateTransferJobRequest {
 
-	string job_name = 1;
-	string project_id = 2;
-	google.storagetransfer.v1.TransferJob transfer_job = 3;
+	string job_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string project_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storagetransfer.v1.TransferJob transfer_job = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	google.protobuf.FieldMask update_transfer_job_field_mask = 4;
 }
 
 message GetTransferJobRequest {
 
-	string job_name = 1;
-	string project_id = 2;
+	string job_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string project_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
 }
 
 message ListTransferJobsRequest {
 
-	string filter = 1;
+	string filter = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
 	int32 page_size = 4;
 	string page_token = 5;
 }
@@ -104,10 +138,24 @@ message ListTransferJobsResponse {
 
 message PauseTransferOperationRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
 }
 
 message ResumeTransferOperationRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RunTransferJobRequest {
+
+	string job_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string project_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
 }

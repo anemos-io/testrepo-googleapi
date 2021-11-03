@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/ads/googleads/v7/enums/tracking_code_page_format.proto";
+import "google/ads/googleads/v7/enums/tracking_code_type.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "TagSnippetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message TagSnippet {
+
+	google.ads.googleads.v7.enums.TrackingCodeTypeEnum.TrackingCodeType type = 1;
+	google.ads.googleads.v7.enums.TrackingCodePageFormatEnum.TrackingCodePageFormat page_format = 2;
+	oneof _global_site_tag {
+		string global_site_tag = 5;
+	}
+	oneof _event_snippet {
+		string event_snippet = 6;
+	}
+}

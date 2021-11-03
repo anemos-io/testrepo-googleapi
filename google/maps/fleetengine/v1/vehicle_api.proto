@@ -1,0 +1,277 @@
+syntax = "proto3";
+
+package maps.fleetengine.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/maps/fleetengine/v1/fleetengine.proto";
+import "google/maps/fleetengine/v1/header.proto";
+import "google/maps/fleetengine/v1/vehicles.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/latlng.proto";
+import "google/api/client.proto";
+
+option java_package = "google.maps.fleetengine.v1";
+option java_outer_classname = "VehicleApi";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/fleetengine/v1;fleetengine";
+option objc_class_prefix = "CFE";
+
+
+service VehicleService {
+	option (google.api.default_host) = "fleetengine.googleapis.com";
+
+	rpc CreateVehicle(maps.fleetengine.v1.CreateVehicleRequest) returns (maps.fleetengine.v1.Vehicle) {
+		option (google.api.http) = {
+			post: "/v1/{parent=providers/*}/vehicles"
+			body: "vehicle"
+		};
+
+	}
+	rpc GetVehicle(maps.fleetengine.v1.GetVehicleRequest) returns (maps.fleetengine.v1.Vehicle) {
+		option (google.api.http) = {
+			get: "/v1/{name=providers/*/vehicles/*}"
+		};
+
+	}
+	rpc UpdateVehicle(maps.fleetengine.v1.UpdateVehicleRequest) returns (maps.fleetengine.v1.Vehicle) {
+		option (google.api.http) = {
+			put: "/v1/{name=providers/*/vehicles/*}"
+			body: "vehicle"
+		};
+
+	}
+	rpc UpdateVehicleLocation(maps.fleetengine.v1.UpdateVehicleLocationRequest) returns (maps.fleetengine.v1.VehicleLocation) {
+		option deprecated = true;
+		option (google.api.http) = {
+			put: "/v1/{name=providers/*/vehicles/*}:updateLocation"
+			body: "*"
+		};
+
+	}
+	rpc UpdateVehicleAttributes(maps.fleetengine.v1.UpdateVehicleAttributesRequest) returns (maps.fleetengine.v1.UpdateVehicleAttributesResponse) {
+		option (google.api.http) = {
+			post: "/v1/{name=providers/*/vehicles/*}:updateAttributes"
+			body: "*"
+		};
+
+	}
+	rpc ListVehicles(maps.fleetengine.v1.ListVehiclesRequest) returns (maps.fleetengine.v1.ListVehiclesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=providers/*}/vehicles"
+		};
+
+	}
+	rpc SearchVehicles(maps.fleetengine.v1.SearchVehiclesRequest) returns (maps.fleetengine.v1.SearchVehiclesResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=providers/*}/vehicles:search"
+			body: "*"
+		};
+
+	}
+	rpc SearchFuzzedVehicles(maps.fleetengine.v1.SearchVehiclesRequest) returns (maps.fleetengine.v1.SearchVehiclesResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=providers/*}/vehicles:searchFuzzed"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateVehicleRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string parent = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string vehicle_id = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.Vehicle vehicle = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetVehicleRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "fleetengine.googleapis.com/Vehicle"
+		}
+	];
+	google.protobuf.Timestamp current_route_segment_version = 4;
+	google.protobuf.Timestamp waypoints_version = 5;
+}
+
+message UpdateVehicleRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.Vehicle vehicle = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateVehicleLocationRequest {
+	option deprecated = true;
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.VehicleLocation current_location = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.VehicleState current_state = 5;
+}
+
+message UpdateVehicleAttributesRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated maps.fleetengine.v1.VehicleAttribute attributes = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateVehicleAttributesResponse {
+
+	repeated maps.fleetengine.v1.VehicleAttribute attributes = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SearchVehiclesRequest {
+
+	enum VehicleMatchOrder {
+
+		UNKNOWN_VEHICLE_MATCH_ORDER = 0;
+		PICKUP_POINT_ETA = 1;
+		PICKUP_POINT_DISTANCE = 2;
+		DROPOFF_POINT_ETA = 3;
+		PICKUP_POINT_STRAIGHT_DISTANCE = 4;
+		COST = 5;
+	}
+
+	maps.fleetengine.v1.RequestHeader header = 1;
+	string parent = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.TerminalLocation pickup_point = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	maps.fleetengine.v1.TerminalLocation dropoff_point = 5;
+	int32 pickup_radius_meters = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 count = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 minimum_capacity = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated maps.fleetengine.v1.TripType trip_types = 9 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration maximum_staleness = 10;
+	repeated maps.fleetengine.v1.Vehicle.VehicleType vehicle_types = 14 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated maps.fleetengine.v1.VehicleAttribute required_attributes = 12;
+	repeated VehicleAttributeList required_one_of_attributes = 15;
+	repeated VehicleAttributeList required_one_of_attribute_sets = 20;
+	VehicleMatchOrder order_by = 13 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool include_back_to_back = 18;
+	string trip_id = 19;
+}
+
+message SearchVehiclesResponse {
+
+	repeated VehicleMatch matches = 1;
+}
+
+message ListVehiclesRequest {
+
+	maps.fleetengine.v1.RequestHeader header = 12;
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.Int32Value minimum_capacity = 6;
+	repeated maps.fleetengine.v1.TripType trip_types = 7;
+	google.protobuf.Duration maximum_staleness = 8;
+	repeated maps.fleetengine.v1.Vehicle.VehicleType.Category vehicle_type_categories = 9 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string required_attributes = 10;
+	repeated string required_one_of_attributes = 13;
+	repeated string required_one_of_attribute_sets = 15;
+	maps.fleetengine.v1.VehicleState vehicle_state = 11;
+	bool on_trip_only = 14;
+}
+
+message ListVehiclesResponse {
+
+	repeated maps.fleetengine.v1.Vehicle vehicles = 1;
+	string next_page_token = 2;
+	int64 total_size = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Waypoint {
+
+	google.type.LatLng lat_lng = 1;
+	google.protobuf.Timestamp eta = 2;
+}
+
+message VehicleMatch {
+
+	enum VehicleMatchType {
+
+		UNKNOWN = 0;
+		EXCLUSIVE = 1;
+		BACK_TO_BACK = 2;
+		CARPOOL = 3;
+		CARPOOL_BACK_TO_BACK = 4;
+	}
+
+	maps.fleetengine.v1.Vehicle vehicle = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp vehicle_pickup_eta = 2;
+	google.protobuf.Int32Value vehicle_pickup_distance_meters = 3;
+	google.protobuf.Int32Value vehicle_pickup_straight_line_distance_meters = 11 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp vehicle_dropoff_eta = 4;
+	google.protobuf.Int32Value vehicle_pickup_to_dropoff_distance_meters = 5;
+	maps.fleetengine.v1.TripType trip_type = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated Waypoint vehicle_trips_waypoints = 7;
+	VehicleMatchType vehicle_match_type = 8;
+	VehicleMatchOrder requested_ordered_by = 9;
+	VehicleMatchOrder ordered_by = 10;
+}
+
+message VehicleAttributeList {
+
+	repeated maps.fleetengine.v1.VehicleAttribute attributes = 1;
+}

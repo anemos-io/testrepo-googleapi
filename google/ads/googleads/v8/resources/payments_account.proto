@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "PaymentsAccountProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message PaymentsAccount {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/PaymentsAccount"
+		pattern: ["customers/{customer_id}/paymentsAccounts/{payments_account_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/PaymentsAccount"
+		}
+	];
+	oneof _payments_account_id {
+		string payments_account_id = 8 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 9 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _currency_code {
+		string currency_code = 10 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _payments_profile_id {
+		string payments_profile_id = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _secondary_payments_profile_id {
+		string secondary_payments_profile_id = 12 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _paying_manager_customer {
+		string paying_manager_customer = 13 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Customer"
+			}
+		];
+	}
+}

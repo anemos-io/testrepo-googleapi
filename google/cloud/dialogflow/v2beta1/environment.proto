@@ -7,6 +7,7 @@ import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/cloud/dialogflow/v2beta1/audio_config.proto";
+import "google/cloud/dialogflow/v2beta1/fulfillment.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
@@ -30,6 +31,55 @@ service Environments {
 			get: "/v2beta1/{parent=projects/*/agent}/environments"
 			additional_bindings: {
 				get: "/v2beta1/{parent=projects/*/locations/*/agent}/environments"
+			}
+		};
+
+	}
+	rpc GetEnvironment(google.cloud.dialogflow.v2beta1.GetEnvironmentRequest) returns (google.cloud.dialogflow.v2beta1.Environment) {
+		option (google.api.http) = {
+			get: "/v2beta1/{name=projects/*/agent/environments/*}"
+			additional_bindings: {
+				get: "/v2beta1/{name=projects/*/locations/*/agent/environments/*}"
+			}
+		};
+
+	}
+	rpc CreateEnvironment(google.cloud.dialogflow.v2beta1.CreateEnvironmentRequest) returns (google.cloud.dialogflow.v2beta1.Environment) {
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/agent}/environments"
+			body: "environment"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/agent}/environments"
+				body: "environment"
+			}
+		};
+
+	}
+	rpc UpdateEnvironment(google.cloud.dialogflow.v2beta1.UpdateEnvironmentRequest) returns (google.cloud.dialogflow.v2beta1.Environment) {
+		option (google.api.http) = {
+			patch: "/v2beta1/{environment.name=projects/*/agent/environments/*}"
+			body: "environment"
+			additional_bindings: {
+				patch: "/v2beta1/{environment.name=projects/*/locations/*/agent/environments/*}"
+				body: "environment"
+			}
+		};
+
+	}
+	rpc DeleteEnvironment(google.cloud.dialogflow.v2beta1.DeleteEnvironmentRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v2beta1/{name=projects/*/agent/environments/*}"
+			additional_bindings: {
+				delete: "/v2beta1/{name=projects/*/locations/*/agent/environments/*}"
+			}
+		};
+
+	}
+	rpc GetEnvironmentHistory(google.cloud.dialogflow.v2beta1.GetEnvironmentHistoryRequest) returns (google.cloud.dialogflow.v2beta1.EnvironmentHistory) {
+		option (google.api.http) = {
+			get: "/v2beta1/{parent=projects/*/agent/environments/*}/history"
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*/agent/environments/*}/history"
 			}
 		};
 
@@ -58,12 +108,37 @@ message Environment {
 	];
 	string agent_version = 3 [
 		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Version"
+		}
 	];
 	State state = 4 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	google.protobuf.Timestamp update_time = 5 [
 		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	TextToSpeechSettings text_to_speech_settings = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.dialogflow.v2beta1.Fulfillment fulfillment = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TextToSpeechSettings {
+
+	bool enable_text_to_speech = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.dialogflow.v2beta1.OutputAudioEncoding output_audio_encoding = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 sample_rate_hertz = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, google.cloud.dialogflow.v2beta1.SynthesizeSpeechConfig> synthesize_speech_configs = 4 [
+		(google.api.field_behavior) = OPTIONAL
 	];
 }
 
@@ -87,4 +162,89 @@ message ListEnvironmentsResponse {
 
 	repeated Environment environments = 1;
 	string next_page_token = 2;
+}
+
+message GetEnvironmentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+}
+
+message CreateEnvironmentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+	Environment environment = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string environment_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateEnvironmentRequest {
+
+	Environment environment = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool allow_load_to_draft_and_discard_changes = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteEnvironmentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+}
+
+message GetEnvironmentHistoryRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message EnvironmentHistory {
+
+	message Entry {
+
+		string agent_version = 1;
+		string description = 2;
+		google.protobuf.Timestamp create_time = 3;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Entry entries = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string next_page_token = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }

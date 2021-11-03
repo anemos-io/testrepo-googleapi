@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package google.cloud.dataproc.logging;
+
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.cloud.dataproc.logging";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataproc/logging;logging";
+
+
+enum AutoscalerState {
+
+	AUTOSCALER_STATE_UNSPECIFIED = 0;
+	COOLDOWN = 1;
+	RECOMMENDING = 6;
+	SCALING = 2;
+	STOPPED = 3;
+	FAILED = 4;
+	INITIALIZING = 5;
+}
+
+enum ScalingDecisionType {
+
+	SCALING_DECISION_TYPE_UNSPECIFIED = 0;
+	SCALE_UP = 1;
+	SCALE_DOWN = 2;
+	NO_SCALE = 3;
+	MIXED = 4;
+}
+
+enum ConstrainingFactor {
+
+	CONSTRAINING_FACTOR_UNSPECIFIED = 0;
+	SCALING_CAPPED_DUE_TO_LACK_OF_QUOTA = 1;
+	REACHED_MAXIMUM_CLUSTER_SIZE = 2;
+	REACHED_MINIMUM_CLUSTER_SIZE = 3;
+}
+
+message ClusterSize {
+
+	int32 primary_worker_count = 1;
+	int32 secondary_worker_count = 2;
+}
+
+message AutoscalerLog {
+
+	AutoscalerStatus status = 1;
+	AutoscalerRecommendation recommendation = 2;
+}
+
+message AutoscalerStatus {
+
+	AutoscalerState state = 1;
+	string details = 2;
+	string update_cluster_operation_id = 3;
+	string error = 4;
+}
+
+message AutoscalerRecommendation {
+
+	message Inputs {
+
+		map<string, string> cluster_metrics = 1;
+		ClusterSize current_cluster_size = 2;
+		ClusterSize min_worker_counts = 3;
+		ClusterSize max_worker_counts = 4;
+	}
+
+	message Outputs {
+
+		ScalingDecisionType decision = 1;
+		ClusterSize recommended_cluster_size = 2;
+		google.protobuf.Duration graceful_decommission_timeout = 3;
+		repeated ConstrainingFactor constraints_reached = 4;
+		repeated string additional_recommendation_details = 5;
+		string recommendation_id = 6;
+	}
+
+	Inputs inputs = 1;
+	Outputs outputs = 2;
+}

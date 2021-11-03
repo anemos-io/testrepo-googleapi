@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package google.devtools.artifactregistry.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.artifactregistry.v1";
+option java_outer_classname = "RepositoryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/artifactregistry/v1;artifactregistry";
+option csharp_namespace = "Google.Cloud.ArtifactRegistry.V1";
+option php_namespace = "Google\\Cloud\\ArtifactRegistry\\V1";
+option ruby_package = "Google::Cloud::ArtifactRegistry::V1";
+
+
+message Repository {
+	option (google.api.resource) = {
+		type: "artifactregistry.googleapis.com/Repository"
+		pattern: ["projects/{project}/locations/{location}/repositories/{repository}"]
+	};
+
+	enum Format {
+
+		FORMAT_UNSPECIFIED = 0;
+		DOCKER = 1;
+		MAVEN = 2;
+		NPM = 3;
+		APT = 5;
+		YUM = 6;
+		PYTHON = 8;
+	}
+
+	string name = 1;
+	Format format = 2;
+	string description = 3;
+	map<string, string> labels = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp update_time = 6;
+	string kms_key_name = 8;
+}
+
+message ListRepositoriesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "artifactregistry.googleapis.com/Repository"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListRepositoriesResponse {
+
+	repeated Repository repositories = 1;
+	string next_page_token = 2;
+}
+
+message GetRepositoryRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "artifactregistry.googleapis.com/Repository"
+		}
+	];
+}

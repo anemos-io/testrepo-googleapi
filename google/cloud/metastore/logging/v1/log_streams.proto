@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.cloud.metastore.logging.v1;
+
+option java_package = "google.cloud.metastore.logging.v1";
+option java_outer_classname = "LogStreamsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/metastore/logging/v1;logging";
+
+
+message RequestsLogEntry {
+
+	string message = 1;
+}
+
+message SystemActivityLogEntry {
+
+	string message = 1;
+}

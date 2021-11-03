@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema.trainingjob.definition;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema.trainingjob.definition";
+option java_outer_classname = "AutoMLVideoClassificationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema/trainingjob/definition;definition";
+
+
+message AutoMlVideoClassification {
+
+	AutoMlVideoClassificationInputs inputs = 1;
+}
+
+message AutoMlVideoClassificationInputs {
+
+	enum ModelType {
+
+		MODEL_TYPE_UNSPECIFIED = 0;
+		CLOUD = 1;
+		MOBILE_VERSATILE_1 = 2;
+		MOBILE_JETSON_VERSATILE_1 = 3;
+	}
+
+	ModelType model_type = 1;
+}

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "FeatureMonitoringStatsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message FeatureStatsAnomaly {
+
+	double score = 1;
+	string stats_uri = 3;
+	string anomaly_uri = 4;
+	double distribution_deviation = 5;
+	double anomaly_detection_threshold = 9;
+	google.protobuf.Timestamp start_time = 7;
+	google.protobuf.Timestamp end_time = 8;
+}

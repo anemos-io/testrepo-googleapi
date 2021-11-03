@@ -1,0 +1,401 @@
+syntax = "proto3";
+
+package google.analytics.data.v1beta;
+
+option java_package = "com.google.analytics.data.v1beta";
+option java_outer_classname = "ReportingApiProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/analytics/data/v1beta;data";
+
+
+enum MetricAggregation {
+
+	METRIC_AGGREGATION_UNSPECIFIED = 0;
+	TOTAL = 1;
+	MINIMUM = 5;
+	MAXIMUM = 6;
+	COUNT = 4;
+}
+
+enum MetricType {
+
+	METRIC_TYPE_UNSPECIFIED = 0;
+	TYPE_INTEGER = 1;
+	TYPE_FLOAT = 2;
+	TYPE_SECONDS = 4;
+	TYPE_MILLISECONDS = 5;
+	TYPE_MINUTES = 6;
+	TYPE_HOURS = 7;
+	TYPE_STANDARD = 8;
+	TYPE_CURRENCY = 9;
+	TYPE_FEET = 10;
+	TYPE_MILES = 11;
+	TYPE_METERS = 12;
+	TYPE_KILOMETERS = 13;
+}
+
+enum RestrictedMetricType {
+
+	RESTRICTED_METRIC_TYPE_UNSPECIFIED = 0;
+	COST_DATA = 1;
+	REVENUE_DATA = 2;
+}
+
+enum Compatibility {
+
+	COMPATIBILITY_UNSPECIFIED = 0;
+	COMPATIBLE = 1;
+	INCOMPATIBLE = 2;
+}
+
+message DateRange {
+
+	string start_date = 1;
+	string end_date = 2;
+	string name = 3;
+}
+
+message MinuteRange {
+
+	oneof _start_minutes_ago {
+		int32 start_minutes_ago = 1;
+	}
+	oneof _end_minutes_ago {
+		int32 end_minutes_ago = 2;
+	}
+	string name = 3;
+}
+
+message Dimension {
+
+	string name = 1;
+	DimensionExpression dimension_expression = 2;
+}
+
+message DimensionExpression {
+
+	message CaseExpression {
+
+		string dimension_name = 1;
+	}
+
+	message ConcatenateExpression {
+
+		repeated string dimension_names = 1;
+		string delimiter = 2;
+	}
+
+	oneof one_expression {
+		CaseExpression lower_case = 4;
+		CaseExpression upper_case = 5;
+		ConcatenateExpression concatenate = 6;
+	}
+}
+
+message Metric {
+
+	string name = 1;
+	string expression = 2;
+	bool invisible = 3;
+}
+
+message FilterExpression {
+
+	oneof expr {
+		FilterExpressionList and_group = 1;
+		FilterExpressionList or_group = 2;
+		FilterExpression not_expression = 3;
+		Filter filter = 4;
+	}
+}
+
+message FilterExpressionList {
+
+	repeated FilterExpression expressions = 1;
+}
+
+message Filter {
+
+	message StringFilter {
+
+		enum MatchType {
+
+			MATCH_TYPE_UNSPECIFIED = 0;
+			EXACT = 1;
+			BEGINS_WITH = 2;
+			ENDS_WITH = 3;
+			CONTAINS = 4;
+			FULL_REGEXP = 5;
+			PARTIAL_REGEXP = 6;
+		}
+
+		MatchType match_type = 1;
+		string value = 2;
+		bool case_sensitive = 3;
+	}
+
+	message InListFilter {
+
+		repeated string values = 1;
+		bool case_sensitive = 2;
+	}
+
+	message NumericFilter {
+
+		enum Operation {
+
+			OPERATION_UNSPECIFIED = 0;
+			EQUAL = 1;
+			LESS_THAN = 2;
+			LESS_THAN_OR_EQUAL = 3;
+			GREATER_THAN = 4;
+			GREATER_THAN_OR_EQUAL = 5;
+		}
+
+		Operation operation = 1;
+		NumericValue value = 2;
+	}
+
+	message BetweenFilter {
+
+		NumericValue from_value = 1;
+		NumericValue to_value = 2;
+	}
+
+	string field_name = 1;
+	oneof one_filter {
+		StringFilter string_filter = 3;
+		InListFilter in_list_filter = 4;
+		NumericFilter numeric_filter = 5;
+		BetweenFilter between_filter = 6;
+	}
+}
+
+message OrderBy {
+
+	message MetricOrderBy {
+
+		string metric_name = 1;
+	}
+
+	message DimensionOrderBy {
+
+		enum OrderType {
+
+			ORDER_TYPE_UNSPECIFIED = 0;
+			ALPHANUMERIC = 1;
+			CASE_INSENSITIVE_ALPHANUMERIC = 2;
+			NUMERIC = 3;
+		}
+
+		string dimension_name = 1;
+		OrderType order_type = 2;
+	}
+
+	message PivotOrderBy {
+
+		message PivotSelection {
+
+			string dimension_name = 1;
+			string dimension_value = 2;
+		}
+
+		string metric_name = 1;
+		repeated PivotSelection pivot_selections = 2;
+	}
+
+	oneof one_order_by {
+		MetricOrderBy metric = 1;
+		DimensionOrderBy dimension = 2;
+		PivotOrderBy pivot = 3;
+	}
+	bool desc = 4;
+}
+
+message Pivot {
+
+	repeated string field_names = 1;
+	repeated OrderBy order_bys = 2;
+	int64 offset = 3;
+	int64 limit = 4;
+	repeated MetricAggregation metric_aggregations = 5;
+}
+
+message CohortSpec {
+
+	repeated Cohort cohorts = 1;
+	CohortsRange cohorts_range = 2;
+	CohortReportSettings cohort_report_settings = 3;
+}
+
+message Cohort {
+
+	string name = 1;
+	string dimension = 2;
+	DateRange date_range = 3;
+}
+
+message CohortsRange {
+
+	enum Granularity {
+
+		GRANULARITY_UNSPECIFIED = 0;
+		DAILY = 1;
+		WEEKLY = 2;
+		MONTHLY = 3;
+	}
+
+	Granularity granularity = 1;
+	int32 start_offset = 2;
+	int32 end_offset = 3;
+}
+
+message CohortReportSettings {
+
+	bool accumulate = 1;
+}
+
+message ResponseMetaData {
+
+	message SchemaRestrictionResponse {
+
+		message ActiveMetricRestriction {
+
+			oneof _metric_name {
+				string metric_name = 1;
+			}
+			repeated RestrictedMetricType restricted_metric_types = 2;
+		}
+
+		repeated ActiveMetricRestriction active_metric_restrictions = 1;
+	}
+
+	bool data_loss_from_other_row = 3;
+	oneof _schema_restriction_response {
+		SchemaRestrictionResponse schema_restriction_response = 4;
+	}
+	oneof _currency_code {
+		string currency_code = 5;
+	}
+	oneof _time_zone {
+		string time_zone = 6;
+	}
+	oneof _empty_reason {
+		string empty_reason = 7;
+	}
+}
+
+message DimensionHeader {
+
+	string name = 1;
+}
+
+message MetricHeader {
+
+	string name = 1;
+	MetricType type = 2;
+}
+
+message PivotHeader {
+
+	repeated PivotDimensionHeader pivot_dimension_headers = 1;
+	int32 row_count = 2;
+}
+
+message PivotDimensionHeader {
+
+	repeated DimensionValue dimension_values = 1;
+}
+
+message Row {
+
+	repeated DimensionValue dimension_values = 1;
+	repeated MetricValue metric_values = 2;
+}
+
+message DimensionValue {
+
+	oneof one_value {
+		string value = 1;
+	}
+}
+
+message MetricValue {
+
+	oneof one_value {
+		string value = 4;
+	}
+}
+
+message NumericValue {
+
+	oneof one_value {
+		int64 int64_value = 1;
+		double double_value = 2;
+	}
+}
+
+message PropertyQuota {
+
+	QuotaStatus tokens_per_day = 1;
+	QuotaStatus tokens_per_hour = 2;
+	QuotaStatus concurrent_requests = 3;
+	QuotaStatus server_errors_per_project_per_hour = 4;
+	QuotaStatus potentially_thresholded_requests_per_hour = 5;
+}
+
+message QuotaStatus {
+
+	int32 consumed = 1;
+	int32 remaining = 2;
+}
+
+message DimensionMetadata {
+
+	string api_name = 1;
+	string ui_name = 2;
+	string description = 3;
+	repeated string deprecated_api_names = 4;
+	bool custom_definition = 5;
+	string category = 7;
+}
+
+message MetricMetadata {
+
+	enum BlockedReason {
+
+		BLOCKED_REASON_UNSPECIFIED = 0;
+		NO_REVENUE_METRICS = 1;
+		NO_COST_METRICS = 2;
+	}
+
+	string api_name = 1;
+	string ui_name = 2;
+	string description = 3;
+	repeated string deprecated_api_names = 4;
+	MetricType type = 5;
+	string expression = 6;
+	bool custom_definition = 7;
+	repeated BlockedReason blocked_reasons = 8;
+	string category = 10;
+}
+
+message DimensionCompatibility {
+
+	oneof _dimension_metadata {
+		DimensionMetadata dimension_metadata = 1;
+	}
+	oneof _compatibility {
+		Compatibility compatibility = 2;
+	}
+}
+
+message MetricCompatibility {
+
+	oneof _metric_metadata {
+		MetricMetadata metric_metadata = 1;
+	}
+	oneof _compatibility {
+		Compatibility compatibility = 2;
+	}
+}

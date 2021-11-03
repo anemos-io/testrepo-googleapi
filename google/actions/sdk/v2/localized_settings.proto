@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+import "google/actions/sdk/v2/theme_customization.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "LocalizedSettingsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message LocalizedSettings {
+
+	string display_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string pronunciation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string short_description = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string full_description = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string small_logo_image = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string large_banner_image = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string developer_name = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string developer_email = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string terms_of_service_url = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string voice = 10 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string voice_locale = 14 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string privacy_policy_url = 11 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string sample_invocations = 12 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.actions.sdk.v2.ThemeCustomization theme_customization = 13 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

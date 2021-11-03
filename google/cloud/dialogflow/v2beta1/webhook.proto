@@ -35,6 +35,7 @@ message WebhookResponse {
 	google.protobuf.Struct payload = 4;
 	repeated google.cloud.dialogflow.v2beta1.Context output_contexts = 5;
 	google.cloud.dialogflow.v2beta1.EventInput followup_event_input = 6;
+	bool live_agent_handoff = 7;
 	bool end_interaction = 8;
 	repeated google.cloud.dialogflow.v2beta1.SessionEntityType session_entity_types = 10;
 }

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.enums";
+option java_outer_classname = "AgeRangeTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V7::Enums";
+
+
+message AgeRangeTypeEnum {
+
+	enum AgeRangeType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		AGE_RANGE_18_24 = 503001;
+		AGE_RANGE_25_34 = 503002;
+		AGE_RANGE_35_44 = 503003;
+		AGE_RANGE_45_54 = 503004;
+		AGE_RANGE_55_64 = 503005;
+		AGE_RANGE_65_UP = 503006;
+		AGE_RANGE_UNDETERMINED = 503999;
+	}
+
+}

@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package google.api.serviceusage.v1beta1;
+
+import "google/api/auth.proto";
+import "google/api/documentation.proto";
+import "google/api/endpoint.proto";
+import "google/api/monitored_resource.proto";
+import "google/api/monitoring.proto";
+import "google/api/quota.proto";
+import "google/api/usage.proto";
+import "google/protobuf/api.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.api.serviceusage.v1beta1";
+option java_outer_classname = "ResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/serviceusage/v1beta1;serviceusage";
+option csharp_namespace = "Google.Api.ServiceUsage.V1Beta1";
+option php_namespace = "Google\\Api\\ServiceUsage\\V1beta1";
+option ruby_package = "Google::Api::ServiceUsage::V1beta1";
+
+
+enum State {
+
+	STATE_UNSPECIFIED = 0;
+	DISABLED = 1;
+	ENABLED = 2;
+}
+
+enum QuotaView {
+
+	QUOTA_VIEW_UNSPECIFIED = 0;
+	BASIC = 1;
+	FULL = 2;
+}
+
+enum QuotaSafetyCheck {
+
+	QUOTA_SAFETY_CHECK_UNSPECIFIED = 0;
+	LIMIT_DECREASE_BELOW_USAGE = 1;
+	LIMIT_DECREASE_PERCENTAGE_TOO_HIGH = 2;
+}
+
+message Service {
+
+	string name = 1;
+	string parent = 5;
+	ServiceConfig config = 2;
+	State state = 4;
+}
+
+message ServiceConfig {
+
+	string name = 1;
+	string title = 2;
+	repeated google.protobuf.Api apis = 3;
+	google.api.Documentation documentation = 6;
+	google.api.Quota quota = 10;
+	google.api.Authentication authentication = 11;
+	google.api.Usage usage = 15;
+	repeated google.api.Endpoint endpoints = 18;
+	repeated google.api.MonitoredResourceDescriptor monitored_resources = 25;
+	google.api.Monitoring monitoring = 28;
+}
+
+message OperationMetadata {
+
+	repeated string resource_names = 2;
+}
+
+message ConsumerQuotaMetric {
+
+	string name = 1;
+	string metric = 4;
+	string display_name = 2;
+	repeated ConsumerQuotaLimit consumer_quota_limits = 3;
+	repeated ConsumerQuotaLimit descendant_consumer_quota_limits = 6;
+	string unit = 5;
+}
+
+message ConsumerQuotaLimit {
+
+	string name = 1;
+	string metric = 8;
+	string unit = 2;
+	bool is_precise = 3;
+	bool allows_admin_overrides = 7;
+	repeated QuotaBucket quota_buckets = 9;
+}
+
+message QuotaBucket {
+
+	int64 effective_limit = 1;
+	int64 default_limit = 2;
+	QuotaOverride producer_override = 3;
+	QuotaOverride consumer_override = 4;
+	QuotaOverride admin_override = 5;
+	map<string, string> dimensions = 6;
+}
+
+message QuotaOverride {
+
+	string name = 1;
+	int64 override_value = 2;
+	map<string, string> dimensions = 3;
+	string metric = 4;
+	string unit = 5;
+	string admin_override_ancestor = 6;
+}
+
+message OverrideInlineSource {
+
+	repeated QuotaOverride overrides = 1;
+}
+
+message AdminQuotaPolicy {
+
+	string name = 1;
+	int64 policy_value = 2;
+	map<string, string> dimensions = 3;
+	string metric = 4;
+	string unit = 5;
+	string container = 6;
+}
+
+message ServiceIdentity {
+
+	string email = 1;
+	string unique_id = 2;
+}

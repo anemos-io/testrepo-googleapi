@@ -1,0 +1,215 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/artifact.proto";
+import "google/cloud/aiplatform/v1beta1/context.proto";
+import "google/cloud/aiplatform/v1beta1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1beta1/execution.proto";
+import "google/cloud/aiplatform/v1beta1/pipeline_state.proto";
+import "google/cloud/aiplatform/v1beta1/value.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "Pipeline";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+option (google.api.resource_definition) = {
+	type: "compute.googleapis.com/Network"
+	pattern: ["projects/{project}/global/networks/{network}"]
+};
+
+
+message PipelineJob {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/PipelineJob"
+		pattern: ["projects/{project}/locations/{location}/pipelineJobs/{pipeline_job}"]
+	};
+
+	message RuntimeConfig {
+
+		map<string, google.cloud.aiplatform.v1beta1.Value> parameters = 1 [
+			deprecated = true
+		];
+		string gcs_output_directory = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		map<string, google.protobuf.Value> parameter_values = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2;
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Struct pipeline_spec = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1beta1.PipelineState state = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	PipelineJobDetail job_detail = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status error = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 11;
+	RuntimeConfig runtime_config = 12;
+	google.cloud.aiplatform.v1beta1.EncryptionSpec encryption_spec = 16;
+	string service_account = 17;
+	string network = 18 [
+		(google.api.resource_reference) = {
+			type: "compute.googleapis.com/Network"
+		}
+	];
+}
+
+message PipelineJobDetail {
+
+	google.cloud.aiplatform.v1beta1.Context pipeline_context = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1beta1.Context pipeline_run_context = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated PipelineTaskDetail task_details = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message PipelineTaskDetail {
+
+	message PipelineTaskStatus {
+
+		google.protobuf.Timestamp update_time = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		State state = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.rpc.Status error = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message ArtifactList {
+
+		repeated google.cloud.aiplatform.v1beta1.Artifact artifacts = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		RUNNING = 2;
+		SUCCEEDED = 3;
+		CANCEL_PENDING = 4;
+		CANCELLING = 5;
+		CANCELLED = 6;
+		FAILED = 7;
+		SKIPPED = 8;
+		NOT_TRIGGERED = 9;
+	}
+
+	int64 task_id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 parent_task_id = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string task_name = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	PipelineTaskExecutorDetail executor_detail = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.aiplatform.v1beta1.Execution execution = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status error = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated PipelineTaskStatus pipeline_task_status = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, ArtifactList> inputs = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, ArtifactList> outputs = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message PipelineTaskExecutorDetail {
+
+	message ContainerDetail {
+
+		string main_job = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "aiplatform.googleapis.com/CustomJob"
+			}
+		];
+		string pre_caching_check_job = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "aiplatform.googleapis.com/CustomJob"
+			}
+		];
+	}
+
+	message CustomJobDetail {
+		option deprecated = true;
+
+		string job = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "aiplatform.googleapis.com/CustomJob"
+			}
+		];
+	}
+
+	oneof details {
+		ContainerDetail container_detail = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		CustomJobDetail custom_job_detail = 2 [
+			deprecated = true,
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

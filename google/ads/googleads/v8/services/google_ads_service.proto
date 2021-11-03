@@ -1,0 +1,555 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/common/metrics.proto";
+import "google/ads/googleads/v8/common/segments.proto";
+import "google/ads/googleads/v8/enums/response_content_type.proto";
+import "google/ads/googleads/v8/enums/summary_row_setting.proto";
+import "google/ads/googleads/v8/resources/accessible_bidding_strategy.proto";
+import "google/ads/googleads/v8/resources/account_budget.proto";
+import "google/ads/googleads/v8/resources/account_budget_proposal.proto";
+import "google/ads/googleads/v8/resources/account_link.proto";
+import "google/ads/googleads/v8/resources/ad_group.proto";
+import "google/ads/googleads/v8/resources/ad_group_ad.proto";
+import "google/ads/googleads/v8/resources/ad_group_ad_asset_view.proto";
+import "google/ads/googleads/v8/resources/ad_group_ad_label.proto";
+import "google/ads/googleads/v8/resources/ad_group_asset.proto";
+import "google/ads/googleads/v8/resources/ad_group_audience_view.proto";
+import "google/ads/googleads/v8/resources/ad_group_bid_modifier.proto";
+import "google/ads/googleads/v8/resources/ad_group_criterion.proto";
+import "google/ads/googleads/v8/resources/ad_group_criterion_label.proto";
+import "google/ads/googleads/v8/resources/ad_group_criterion_simulation.proto";
+import "google/ads/googleads/v8/resources/ad_group_extension_setting.proto";
+import "google/ads/googleads/v8/resources/ad_group_feed.proto";
+import "google/ads/googleads/v8/resources/ad_group_label.proto";
+import "google/ads/googleads/v8/resources/ad_group_simulation.proto";
+import "google/ads/googleads/v8/resources/ad_parameter.proto";
+import "google/ads/googleads/v8/resources/ad_schedule_view.proto";
+import "google/ads/googleads/v8/resources/age_range_view.proto";
+import "google/ads/googleads/v8/resources/asset.proto";
+import "google/ads/googleads/v8/resources/asset_field_type_view.proto";
+import "google/ads/googleads/v8/resources/batch_job.proto";
+import "google/ads/googleads/v8/resources/bidding_data_exclusion.proto";
+import "google/ads/googleads/v8/resources/bidding_seasonality_adjustment.proto";
+import "google/ads/googleads/v8/resources/bidding_strategy.proto";
+import "google/ads/googleads/v8/resources/bidding_strategy_simulation.proto";
+import "google/ads/googleads/v8/resources/billing_setup.proto";
+import "google/ads/googleads/v8/resources/call_view.proto";
+import "google/ads/googleads/v8/resources/campaign.proto";
+import "google/ads/googleads/v8/resources/campaign_asset.proto";
+import "google/ads/googleads/v8/resources/campaign_audience_view.proto";
+import "google/ads/googleads/v8/resources/campaign_bid_modifier.proto";
+import "google/ads/googleads/v8/resources/campaign_budget.proto";
+import "google/ads/googleads/v8/resources/campaign_criterion.proto";
+import "google/ads/googleads/v8/resources/campaign_criterion_simulation.proto";
+import "google/ads/googleads/v8/resources/campaign_draft.proto";
+import "google/ads/googleads/v8/resources/campaign_experiment.proto";
+import "google/ads/googleads/v8/resources/campaign_extension_setting.proto";
+import "google/ads/googleads/v8/resources/campaign_feed.proto";
+import "google/ads/googleads/v8/resources/campaign_label.proto";
+import "google/ads/googleads/v8/resources/campaign_shared_set.proto";
+import "google/ads/googleads/v8/resources/campaign_simulation.proto";
+import "google/ads/googleads/v8/resources/carrier_constant.proto";
+import "google/ads/googleads/v8/resources/change_event.proto";
+import "google/ads/googleads/v8/resources/change_status.proto";
+import "google/ads/googleads/v8/resources/click_view.proto";
+import "google/ads/googleads/v8/resources/combined_audience.proto";
+import "google/ads/googleads/v8/resources/conversion_action.proto";
+import "google/ads/googleads/v8/resources/conversion_custom_variable.proto";
+import "google/ads/googleads/v8/resources/conversion_value_rule.proto";
+import "google/ads/googleads/v8/resources/conversion_value_rule_set.proto";
+import "google/ads/googleads/v8/resources/currency_constant.proto";
+import "google/ads/googleads/v8/resources/custom_audience.proto";
+import "google/ads/googleads/v8/resources/custom_interest.proto";
+import "google/ads/googleads/v8/resources/customer.proto";
+import "google/ads/googleads/v8/resources/customer_asset.proto";
+import "google/ads/googleads/v8/resources/customer_client.proto";
+import "google/ads/googleads/v8/resources/customer_client_link.proto";
+import "google/ads/googleads/v8/resources/customer_extension_setting.proto";
+import "google/ads/googleads/v8/resources/customer_feed.proto";
+import "google/ads/googleads/v8/resources/customer_label.proto";
+import "google/ads/googleads/v8/resources/customer_manager_link.proto";
+import "google/ads/googleads/v8/resources/customer_negative_criterion.proto";
+import "google/ads/googleads/v8/resources/customer_user_access.proto";
+import "google/ads/googleads/v8/resources/customer_user_access_invitation.proto";
+import "google/ads/googleads/v8/resources/detail_placement_view.proto";
+import "google/ads/googleads/v8/resources/detailed_demographic.proto";
+import "google/ads/googleads/v8/resources/display_keyword_view.proto";
+import "google/ads/googleads/v8/resources/distance_view.proto";
+import "google/ads/googleads/v8/resources/domain_category.proto";
+import "google/ads/googleads/v8/resources/dynamic_search_ads_search_term_view.proto";
+import "google/ads/googleads/v8/resources/expanded_landing_page_view.proto";
+import "google/ads/googleads/v8/resources/extension_feed_item.proto";
+import "google/ads/googleads/v8/resources/feed.proto";
+import "google/ads/googleads/v8/resources/feed_item.proto";
+import "google/ads/googleads/v8/resources/feed_item_set.proto";
+import "google/ads/googleads/v8/resources/feed_item_set_link.proto";
+import "google/ads/googleads/v8/resources/feed_item_target.proto";
+import "google/ads/googleads/v8/resources/feed_mapping.proto";
+import "google/ads/googleads/v8/resources/feed_placeholder_view.proto";
+import "google/ads/googleads/v8/resources/gender_view.proto";
+import "google/ads/googleads/v8/resources/geo_target_constant.proto";
+import "google/ads/googleads/v8/resources/geographic_view.proto";
+import "google/ads/googleads/v8/resources/group_placement_view.proto";
+import "google/ads/googleads/v8/resources/hotel_group_view.proto";
+import "google/ads/googleads/v8/resources/hotel_performance_view.proto";
+import "google/ads/googleads/v8/resources/income_range_view.proto";
+import "google/ads/googleads/v8/resources/keyword_plan.proto";
+import "google/ads/googleads/v8/resources/keyword_plan_ad_group.proto";
+import "google/ads/googleads/v8/resources/keyword_plan_ad_group_keyword.proto";
+import "google/ads/googleads/v8/resources/keyword_plan_campaign.proto";
+import "google/ads/googleads/v8/resources/keyword_plan_campaign_keyword.proto";
+import "google/ads/googleads/v8/resources/keyword_theme_constant.proto";
+import "google/ads/googleads/v8/resources/keyword_view.proto";
+import "google/ads/googleads/v8/resources/label.proto";
+import "google/ads/googleads/v8/resources/landing_page_view.proto";
+import "google/ads/googleads/v8/resources/language_constant.proto";
+import "google/ads/googleads/v8/resources/life_event.proto";
+import "google/ads/googleads/v8/resources/location_view.proto";
+import "google/ads/googleads/v8/resources/managed_placement_view.proto";
+import "google/ads/googleads/v8/resources/media_file.proto";
+import "google/ads/googleads/v8/resources/mobile_app_category_constant.proto";
+import "google/ads/googleads/v8/resources/mobile_device_constant.proto";
+import "google/ads/googleads/v8/resources/offline_user_data_job.proto";
+import "google/ads/googleads/v8/resources/operating_system_version_constant.proto";
+import "google/ads/googleads/v8/resources/paid_organic_search_term_view.proto";
+import "google/ads/googleads/v8/resources/parental_status_view.proto";
+import "google/ads/googleads/v8/resources/product_bidding_category_constant.proto";
+import "google/ads/googleads/v8/resources/product_group_view.proto";
+import "google/ads/googleads/v8/resources/recommendation.proto";
+import "google/ads/googleads/v8/resources/remarketing_action.proto";
+import "google/ads/googleads/v8/resources/search_term_view.proto";
+import "google/ads/googleads/v8/resources/shared_criterion.proto";
+import "google/ads/googleads/v8/resources/shared_set.proto";
+import "google/ads/googleads/v8/resources/shopping_performance_view.proto";
+import "google/ads/googleads/v8/resources/smart_campaign_search_term_view.proto";
+import "google/ads/googleads/v8/resources/smart_campaign_setting.proto";
+import "google/ads/googleads/v8/resources/third_party_app_analytics_link.proto";
+import "google/ads/googleads/v8/resources/topic_constant.proto";
+import "google/ads/googleads/v8/resources/topic_view.proto";
+import "google/ads/googleads/v8/resources/user_interest.proto";
+import "google/ads/googleads/v8/resources/user_list.proto";
+import "google/ads/googleads/v8/resources/user_location_view.proto";
+import "google/ads/googleads/v8/resources/video.proto";
+import "google/ads/googleads/v8/resources/webpage_view.proto";
+import "google/ads/googleads/v8/services/ad_group_ad_label_service.proto";
+import "google/ads/googleads/v8/services/ad_group_ad_service.proto";
+import "google/ads/googleads/v8/services/ad_group_asset_service.proto";
+import "google/ads/googleads/v8/services/ad_group_bid_modifier_service.proto";
+import "google/ads/googleads/v8/services/ad_group_criterion_label_service.proto";
+import "google/ads/googleads/v8/services/ad_group_criterion_service.proto";
+import "google/ads/googleads/v8/services/ad_group_extension_setting_service.proto";
+import "google/ads/googleads/v8/services/ad_group_feed_service.proto";
+import "google/ads/googleads/v8/services/ad_group_label_service.proto";
+import "google/ads/googleads/v8/services/ad_group_service.proto";
+import "google/ads/googleads/v8/services/ad_parameter_service.proto";
+import "google/ads/googleads/v8/services/ad_service.proto";
+import "google/ads/googleads/v8/services/asset_service.proto";
+import "google/ads/googleads/v8/services/bidding_data_exclusion_service.proto";
+import "google/ads/googleads/v8/services/bidding_seasonality_adjustment_service.proto";
+import "google/ads/googleads/v8/services/bidding_strategy_service.proto";
+import "google/ads/googleads/v8/services/campaign_asset_service.proto";
+import "google/ads/googleads/v8/services/campaign_bid_modifier_service.proto";
+import "google/ads/googleads/v8/services/campaign_budget_service.proto";
+import "google/ads/googleads/v8/services/campaign_criterion_service.proto";
+import "google/ads/googleads/v8/services/campaign_draft_service.proto";
+import "google/ads/googleads/v8/services/campaign_experiment_service.proto";
+import "google/ads/googleads/v8/services/campaign_extension_setting_service.proto";
+import "google/ads/googleads/v8/services/campaign_feed_service.proto";
+import "google/ads/googleads/v8/services/campaign_label_service.proto";
+import "google/ads/googleads/v8/services/campaign_service.proto";
+import "google/ads/googleads/v8/services/campaign_shared_set_service.proto";
+import "google/ads/googleads/v8/services/conversion_action_service.proto";
+import "google/ads/googleads/v8/services/conversion_custom_variable_service.proto";
+import "google/ads/googleads/v8/services/conversion_value_rule_service.proto";
+import "google/ads/googleads/v8/services/conversion_value_rule_set_service.proto";
+import "google/ads/googleads/v8/services/customer_asset_service.proto";
+import "google/ads/googleads/v8/services/customer_extension_setting_service.proto";
+import "google/ads/googleads/v8/services/customer_feed_service.proto";
+import "google/ads/googleads/v8/services/customer_label_service.proto";
+import "google/ads/googleads/v8/services/customer_negative_criterion_service.proto";
+import "google/ads/googleads/v8/services/customer_service.proto";
+import "google/ads/googleads/v8/services/extension_feed_item_service.proto";
+import "google/ads/googleads/v8/services/feed_item_service.proto";
+import "google/ads/googleads/v8/services/feed_item_set_link_service.proto";
+import "google/ads/googleads/v8/services/feed_item_set_service.proto";
+import "google/ads/googleads/v8/services/feed_item_target_service.proto";
+import "google/ads/googleads/v8/services/feed_mapping_service.proto";
+import "google/ads/googleads/v8/services/feed_service.proto";
+import "google/ads/googleads/v8/services/keyword_plan_ad_group_keyword_service.proto";
+import "google/ads/googleads/v8/services/keyword_plan_ad_group_service.proto";
+import "google/ads/googleads/v8/services/keyword_plan_campaign_keyword_service.proto";
+import "google/ads/googleads/v8/services/keyword_plan_campaign_service.proto";
+import "google/ads/googleads/v8/services/keyword_plan_service.proto";
+import "google/ads/googleads/v8/services/label_service.proto";
+import "google/ads/googleads/v8/services/media_file_service.proto";
+import "google/ads/googleads/v8/services/remarketing_action_service.proto";
+import "google/ads/googleads/v8/services/shared_criterion_service.proto";
+import "google/ads/googleads/v8/services/shared_set_service.proto";
+import "google/ads/googleads/v8/services/smart_campaign_setting_service.proto";
+import "google/ads/googleads/v8/services/user_list_service.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "GoogleAdsServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service GoogleAdsService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc Search(google.ads.googleads.v8.services.SearchGoogleAdsRequest) returns (google.ads.googleads.v8.services.SearchGoogleAdsResponse) {
+		option (google.api.method_signature) = "customer_id,query";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}/googleAds:search"
+			body: "*"
+		};
+
+	}
+	rpc SearchStream(google.ads.googleads.v8.services.SearchGoogleAdsStreamRequest) returns (stream google.ads.googleads.v8.services.SearchGoogleAdsStreamResponse) {
+		option (google.api.method_signature) = "customer_id,query";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}/googleAds:searchStream"
+			body: "*"
+		};
+
+	}
+	rpc Mutate(google.ads.googleads.v8.services.MutateGoogleAdsRequest) returns (google.ads.googleads.v8.services.MutateGoogleAdsResponse) {
+		option (google.api.method_signature) = "customer_id,mutate_operations";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}/googleAds:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message SearchGoogleAdsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string page_token = 3;
+	int32 page_size = 4;
+	bool validate_only = 5;
+	bool return_total_results_count = 7;
+	google.ads.googleads.v8.enums.SummaryRowSettingEnum.SummaryRowSetting summary_row_setting = 8;
+}
+
+message SearchGoogleAdsResponse {
+
+	repeated GoogleAdsRow results = 1;
+	string next_page_token = 2;
+	int64 total_results_count = 3;
+	google.protobuf.FieldMask field_mask = 5;
+	GoogleAdsRow summary_row = 6;
+}
+
+message SearchGoogleAdsStreamRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.ads.googleads.v8.enums.SummaryRowSettingEnum.SummaryRowSetting summary_row_setting = 3;
+}
+
+message SearchGoogleAdsStreamResponse {
+
+	repeated GoogleAdsRow results = 1;
+	google.protobuf.FieldMask field_mask = 2;
+	GoogleAdsRow summary_row = 3;
+	string request_id = 4;
+}
+
+message GoogleAdsRow {
+
+	google.ads.googleads.v8.resources.AccountBudget account_budget = 42;
+	google.ads.googleads.v8.resources.AccountBudgetProposal account_budget_proposal = 43;
+	google.ads.googleads.v8.resources.AccountLink account_link = 143;
+	google.ads.googleads.v8.resources.AdGroup ad_group = 3;
+	google.ads.googleads.v8.resources.AdGroupAd ad_group_ad = 16;
+	google.ads.googleads.v8.resources.AdGroupAdAssetView ad_group_ad_asset_view = 131;
+	google.ads.googleads.v8.resources.AdGroupAdLabel ad_group_ad_label = 120;
+	google.ads.googleads.v8.resources.AdGroupAsset ad_group_asset = 154;
+	google.ads.googleads.v8.resources.AdGroupAudienceView ad_group_audience_view = 57;
+	google.ads.googleads.v8.resources.AdGroupBidModifier ad_group_bid_modifier = 24;
+	google.ads.googleads.v8.resources.AdGroupCriterion ad_group_criterion = 17;
+	google.ads.googleads.v8.resources.AdGroupCriterionLabel ad_group_criterion_label = 121;
+	google.ads.googleads.v8.resources.AdGroupCriterionSimulation ad_group_criterion_simulation = 110;
+	google.ads.googleads.v8.resources.AdGroupExtensionSetting ad_group_extension_setting = 112;
+	google.ads.googleads.v8.resources.AdGroupFeed ad_group_feed = 67;
+	google.ads.googleads.v8.resources.AdGroupLabel ad_group_label = 115;
+	google.ads.googleads.v8.resources.AdGroupSimulation ad_group_simulation = 107;
+	google.ads.googleads.v8.resources.AdParameter ad_parameter = 130;
+	google.ads.googleads.v8.resources.AgeRangeView age_range_view = 48;
+	google.ads.googleads.v8.resources.AdScheduleView ad_schedule_view = 89;
+	google.ads.googleads.v8.resources.DomainCategory domain_category = 91;
+	google.ads.googleads.v8.resources.Asset asset = 105;
+	google.ads.googleads.v8.resources.AssetFieldTypeView asset_field_type_view = 168;
+	google.ads.googleads.v8.resources.BatchJob batch_job = 139;
+	google.ads.googleads.v8.resources.BiddingDataExclusion bidding_data_exclusion = 159;
+	google.ads.googleads.v8.resources.BiddingSeasonalityAdjustment bidding_seasonality_adjustment = 160;
+	google.ads.googleads.v8.resources.BiddingStrategy bidding_strategy = 18;
+	google.ads.googleads.v8.resources.BiddingStrategySimulation bidding_strategy_simulation = 158;
+	google.ads.googleads.v8.resources.BillingSetup billing_setup = 41;
+	google.ads.googleads.v8.resources.CallView call_view = 152;
+	google.ads.googleads.v8.resources.CampaignBudget campaign_budget = 19;
+	google.ads.googleads.v8.resources.Campaign campaign = 2;
+	google.ads.googleads.v8.resources.CampaignAsset campaign_asset = 142;
+	google.ads.googleads.v8.resources.CampaignAudienceView campaign_audience_view = 69;
+	google.ads.googleads.v8.resources.CampaignBidModifier campaign_bid_modifier = 26;
+	google.ads.googleads.v8.resources.CampaignCriterion campaign_criterion = 20;
+	google.ads.googleads.v8.resources.CampaignCriterionSimulation campaign_criterion_simulation = 111;
+	google.ads.googleads.v8.resources.CampaignDraft campaign_draft = 49;
+	google.ads.googleads.v8.resources.CampaignExperiment campaign_experiment = 84;
+	google.ads.googleads.v8.resources.CampaignExtensionSetting campaign_extension_setting = 113;
+	google.ads.googleads.v8.resources.CampaignFeed campaign_feed = 63;
+	google.ads.googleads.v8.resources.CampaignLabel campaign_label = 108;
+	google.ads.googleads.v8.resources.CampaignSharedSet campaign_shared_set = 30;
+	google.ads.googleads.v8.resources.CampaignSimulation campaign_simulation = 157;
+	google.ads.googleads.v8.resources.CarrierConstant carrier_constant = 66;
+	google.ads.googleads.v8.resources.ChangeEvent change_event = 145;
+	google.ads.googleads.v8.resources.ChangeStatus change_status = 37;
+	google.ads.googleads.v8.resources.CombinedAudience combined_audience = 148;
+	google.ads.googleads.v8.resources.ConversionAction conversion_action = 103;
+	google.ads.googleads.v8.resources.ConversionCustomVariable conversion_custom_variable = 153;
+	google.ads.googleads.v8.resources.ConversionValueRule conversion_value_rule = 164;
+	google.ads.googleads.v8.resources.ConversionValueRuleSet conversion_value_rule_set = 165;
+	google.ads.googleads.v8.resources.ClickView click_view = 122;
+	google.ads.googleads.v8.resources.CurrencyConstant currency_constant = 134;
+	google.ads.googleads.v8.resources.CustomAudience custom_audience = 147;
+	google.ads.googleads.v8.resources.CustomInterest custom_interest = 104;
+	google.ads.googleads.v8.resources.Customer customer = 1;
+	google.ads.googleads.v8.resources.CustomerAsset customer_asset = 155;
+	google.ads.googleads.v8.resources.AccessibleBiddingStrategy accessible_bidding_strategy = 169;
+	google.ads.googleads.v8.resources.CustomerManagerLink customer_manager_link = 61;
+	google.ads.googleads.v8.resources.CustomerClientLink customer_client_link = 62;
+	google.ads.googleads.v8.resources.CustomerClient customer_client = 70;
+	google.ads.googleads.v8.resources.CustomerExtensionSetting customer_extension_setting = 114;
+	google.ads.googleads.v8.resources.CustomerFeed customer_feed = 64;
+	google.ads.googleads.v8.resources.CustomerLabel customer_label = 124;
+	google.ads.googleads.v8.resources.CustomerNegativeCriterion customer_negative_criterion = 88;
+	google.ads.googleads.v8.resources.CustomerUserAccess customer_user_access = 146;
+	google.ads.googleads.v8.resources.CustomerUserAccessInvitation customer_user_access_invitation = 150;
+	google.ads.googleads.v8.resources.DetailPlacementView detail_placement_view = 118;
+	google.ads.googleads.v8.resources.DetailedDemographic detailed_demographic = 166;
+	google.ads.googleads.v8.resources.DisplayKeywordView display_keyword_view = 47;
+	google.ads.googleads.v8.resources.DistanceView distance_view = 132;
+	google.ads.googleads.v8.resources.DynamicSearchAdsSearchTermView dynamic_search_ads_search_term_view = 106;
+	google.ads.googleads.v8.resources.ExpandedLandingPageView expanded_landing_page_view = 128;
+	google.ads.googleads.v8.resources.ExtensionFeedItem extension_feed_item = 85;
+	google.ads.googleads.v8.resources.Feed feed = 46;
+	google.ads.googleads.v8.resources.FeedItem feed_item = 50;
+	google.ads.googleads.v8.resources.FeedItemSet feed_item_set = 149;
+	google.ads.googleads.v8.resources.FeedItemSetLink feed_item_set_link = 151;
+	google.ads.googleads.v8.resources.FeedItemTarget feed_item_target = 116;
+	google.ads.googleads.v8.resources.FeedMapping feed_mapping = 58;
+	google.ads.googleads.v8.resources.FeedPlaceholderView feed_placeholder_view = 97;
+	google.ads.googleads.v8.resources.GenderView gender_view = 40;
+	google.ads.googleads.v8.resources.GeoTargetConstant geo_target_constant = 23;
+	google.ads.googleads.v8.resources.GeographicView geographic_view = 125;
+	google.ads.googleads.v8.resources.GroupPlacementView group_placement_view = 119;
+	google.ads.googleads.v8.resources.HotelGroupView hotel_group_view = 51;
+	google.ads.googleads.v8.resources.HotelPerformanceView hotel_performance_view = 71;
+	google.ads.googleads.v8.resources.IncomeRangeView income_range_view = 138;
+	google.ads.googleads.v8.resources.KeywordView keyword_view = 21;
+	google.ads.googleads.v8.resources.KeywordPlan keyword_plan = 32;
+	google.ads.googleads.v8.resources.KeywordPlanCampaign keyword_plan_campaign = 33;
+	google.ads.googleads.v8.resources.KeywordPlanCampaignKeyword keyword_plan_campaign_keyword = 140;
+	google.ads.googleads.v8.resources.KeywordPlanAdGroup keyword_plan_ad_group = 35;
+	google.ads.googleads.v8.resources.KeywordPlanAdGroupKeyword keyword_plan_ad_group_keyword = 141;
+	google.ads.googleads.v8.resources.KeywordThemeConstant keyword_theme_constant = 163;
+	google.ads.googleads.v8.resources.Label label = 52;
+	google.ads.googleads.v8.resources.LandingPageView landing_page_view = 126;
+	google.ads.googleads.v8.resources.LanguageConstant language_constant = 55;
+	google.ads.googleads.v8.resources.LocationView location_view = 123;
+	google.ads.googleads.v8.resources.ManagedPlacementView managed_placement_view = 53;
+	google.ads.googleads.v8.resources.MediaFile media_file = 90;
+	google.ads.googleads.v8.resources.MobileAppCategoryConstant mobile_app_category_constant = 87;
+	google.ads.googleads.v8.resources.MobileDeviceConstant mobile_device_constant = 98;
+	google.ads.googleads.v8.resources.OfflineUserDataJob offline_user_data_job = 137;
+	google.ads.googleads.v8.resources.OperatingSystemVersionConstant operating_system_version_constant = 86;
+	google.ads.googleads.v8.resources.PaidOrganicSearchTermView paid_organic_search_term_view = 129;
+	google.ads.googleads.v8.resources.ParentalStatusView parental_status_view = 45;
+	google.ads.googleads.v8.resources.ProductBiddingCategoryConstant product_bidding_category_constant = 109;
+	google.ads.googleads.v8.resources.ProductGroupView product_group_view = 54;
+	google.ads.googleads.v8.resources.Recommendation recommendation = 22;
+	google.ads.googleads.v8.resources.SearchTermView search_term_view = 68;
+	google.ads.googleads.v8.resources.SharedCriterion shared_criterion = 29;
+	google.ads.googleads.v8.resources.SharedSet shared_set = 27;
+	google.ads.googleads.v8.resources.SmartCampaignSetting smart_campaign_setting = 167;
+	google.ads.googleads.v8.resources.ShoppingPerformanceView shopping_performance_view = 117;
+	google.ads.googleads.v8.resources.SmartCampaignSearchTermView smart_campaign_search_term_view = 170;
+	google.ads.googleads.v8.resources.ThirdPartyAppAnalyticsLink third_party_app_analytics_link = 144;
+	google.ads.googleads.v8.resources.TopicView topic_view = 44;
+	google.ads.googleads.v8.resources.UserInterest user_interest = 59;
+	google.ads.googleads.v8.resources.LifeEvent life_event = 161;
+	google.ads.googleads.v8.resources.UserList user_list = 38;
+	google.ads.googleads.v8.resources.UserLocationView user_location_view = 135;
+	google.ads.googleads.v8.resources.RemarketingAction remarketing_action = 60;
+	google.ads.googleads.v8.resources.TopicConstant topic_constant = 31;
+	google.ads.googleads.v8.resources.Video video = 39;
+	google.ads.googleads.v8.resources.WebpageView webpage_view = 162;
+	google.ads.googleads.v8.common.Metrics metrics = 4;
+	google.ads.googleads.v8.common.Segments segments = 102;
+}
+
+message MutateGoogleAdsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated MutateOperation mutate_operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+	google.ads.googleads.v8.enums.ResponseContentTypeEnum.ResponseContentType response_content_type = 5;
+}
+
+message MutateGoogleAdsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateOperationResponse mutate_operation_responses = 1;
+}
+
+message MutateOperation {
+
+	oneof operation {
+		google.ads.googleads.v8.services.AdGroupAdLabelOperation ad_group_ad_label_operation = 17;
+		google.ads.googleads.v8.services.AdGroupAdOperation ad_group_ad_operation = 1;
+		google.ads.googleads.v8.services.AdGroupAssetOperation ad_group_asset_operation = 56;
+		google.ads.googleads.v8.services.AdGroupBidModifierOperation ad_group_bid_modifier_operation = 2;
+		google.ads.googleads.v8.services.AdGroupCriterionLabelOperation ad_group_criterion_label_operation = 18;
+		google.ads.googleads.v8.services.AdGroupCriterionOperation ad_group_criterion_operation = 3;
+		google.ads.googleads.v8.services.AdGroupExtensionSettingOperation ad_group_extension_setting_operation = 19;
+		google.ads.googleads.v8.services.AdGroupFeedOperation ad_group_feed_operation = 20;
+		google.ads.googleads.v8.services.AdGroupLabelOperation ad_group_label_operation = 21;
+		google.ads.googleads.v8.services.AdGroupOperation ad_group_operation = 5;
+		google.ads.googleads.v8.services.AdOperation ad_operation = 49;
+		google.ads.googleads.v8.services.AdParameterOperation ad_parameter_operation = 22;
+		google.ads.googleads.v8.services.AssetOperation asset_operation = 23;
+		google.ads.googleads.v8.services.BiddingDataExclusionOperation bidding_data_exclusion_operation = 58;
+		google.ads.googleads.v8.services.BiddingSeasonalityAdjustmentOperation bidding_seasonality_adjustment_operation = 59;
+		google.ads.googleads.v8.services.BiddingStrategyOperation bidding_strategy_operation = 6;
+		google.ads.googleads.v8.services.CampaignAssetOperation campaign_asset_operation = 52;
+		google.ads.googleads.v8.services.CampaignBidModifierOperation campaign_bid_modifier_operation = 7;
+		google.ads.googleads.v8.services.CampaignBudgetOperation campaign_budget_operation = 8;
+		google.ads.googleads.v8.services.CampaignCriterionOperation campaign_criterion_operation = 13;
+		google.ads.googleads.v8.services.CampaignDraftOperation campaign_draft_operation = 24;
+		google.ads.googleads.v8.services.CampaignExperimentOperation campaign_experiment_operation = 25;
+		google.ads.googleads.v8.services.CampaignExtensionSettingOperation campaign_extension_setting_operation = 26;
+		google.ads.googleads.v8.services.CampaignFeedOperation campaign_feed_operation = 27;
+		google.ads.googleads.v8.services.CampaignLabelOperation campaign_label_operation = 28;
+		google.ads.googleads.v8.services.CampaignOperation campaign_operation = 10;
+		google.ads.googleads.v8.services.CampaignSharedSetOperation campaign_shared_set_operation = 11;
+		google.ads.googleads.v8.services.ConversionActionOperation conversion_action_operation = 12;
+		google.ads.googleads.v8.services.ConversionCustomVariableOperation conversion_custom_variable_operation = 55;
+		google.ads.googleads.v8.services.ConversionValueRuleOperation conversion_value_rule_operation = 63;
+		google.ads.googleads.v8.services.ConversionValueRuleSetOperation conversion_value_rule_set_operation = 64;
+		google.ads.googleads.v8.services.CustomerAssetOperation customer_asset_operation = 57;
+		google.ads.googleads.v8.services.CustomerExtensionSettingOperation customer_extension_setting_operation = 30;
+		google.ads.googleads.v8.services.CustomerFeedOperation customer_feed_operation = 31;
+		google.ads.googleads.v8.services.CustomerLabelOperation customer_label_operation = 32;
+		google.ads.googleads.v8.services.CustomerNegativeCriterionOperation customer_negative_criterion_operation = 34;
+		google.ads.googleads.v8.services.CustomerOperation customer_operation = 35;
+		google.ads.googleads.v8.services.ExtensionFeedItemOperation extension_feed_item_operation = 36;
+		google.ads.googleads.v8.services.FeedItemOperation feed_item_operation = 37;
+		google.ads.googleads.v8.services.FeedItemSetOperation feed_item_set_operation = 53;
+		google.ads.googleads.v8.services.FeedItemSetLinkOperation feed_item_set_link_operation = 54;
+		google.ads.googleads.v8.services.FeedItemTargetOperation feed_item_target_operation = 38;
+		google.ads.googleads.v8.services.FeedMappingOperation feed_mapping_operation = 39;
+		google.ads.googleads.v8.services.FeedOperation feed_operation = 40;
+		google.ads.googleads.v8.services.KeywordPlanAdGroupOperation keyword_plan_ad_group_operation = 44;
+		google.ads.googleads.v8.services.KeywordPlanAdGroupKeywordOperation keyword_plan_ad_group_keyword_operation = 50;
+		google.ads.googleads.v8.services.KeywordPlanCampaignKeywordOperation keyword_plan_campaign_keyword_operation = 51;
+		google.ads.googleads.v8.services.KeywordPlanCampaignOperation keyword_plan_campaign_operation = 45;
+		google.ads.googleads.v8.services.KeywordPlanOperation keyword_plan_operation = 48;
+		google.ads.googleads.v8.services.LabelOperation label_operation = 41;
+		google.ads.googleads.v8.services.MediaFileOperation media_file_operation = 42;
+		google.ads.googleads.v8.services.RemarketingActionOperation remarketing_action_operation = 43;
+		google.ads.googleads.v8.services.SharedCriterionOperation shared_criterion_operation = 14;
+		google.ads.googleads.v8.services.SharedSetOperation shared_set_operation = 15;
+		google.ads.googleads.v8.services.SmartCampaignSettingOperation smart_campaign_setting_operation = 61;
+		google.ads.googleads.v8.services.UserListOperation user_list_operation = 16;
+	}
+}
+
+message MutateOperationResponse {
+
+	oneof response {
+		google.ads.googleads.v8.services.MutateAdGroupAdLabelResult ad_group_ad_label_result = 17;
+		google.ads.googleads.v8.services.MutateAdGroupAdResult ad_group_ad_result = 1;
+		google.ads.googleads.v8.services.MutateAdGroupAssetResult ad_group_asset_result = 56;
+		google.ads.googleads.v8.services.MutateAdGroupBidModifierResult ad_group_bid_modifier_result = 2;
+		google.ads.googleads.v8.services.MutateAdGroupCriterionLabelResult ad_group_criterion_label_result = 18;
+		google.ads.googleads.v8.services.MutateAdGroupCriterionResult ad_group_criterion_result = 3;
+		google.ads.googleads.v8.services.MutateAdGroupExtensionSettingResult ad_group_extension_setting_result = 19;
+		google.ads.googleads.v8.services.MutateAdGroupFeedResult ad_group_feed_result = 20;
+		google.ads.googleads.v8.services.MutateAdGroupLabelResult ad_group_label_result = 21;
+		google.ads.googleads.v8.services.MutateAdGroupResult ad_group_result = 5;
+		google.ads.googleads.v8.services.MutateAdParameterResult ad_parameter_result = 22;
+		google.ads.googleads.v8.services.MutateAdResult ad_result = 49;
+		google.ads.googleads.v8.services.MutateAssetResult asset_result = 23;
+		google.ads.googleads.v8.services.MutateBiddingDataExclusionsResult bidding_data_exclusion_result = 58;
+		google.ads.googleads.v8.services.MutateBiddingSeasonalityAdjustmentsResult bidding_seasonality_adjustment_result = 59;
+		google.ads.googleads.v8.services.MutateBiddingStrategyResult bidding_strategy_result = 6;
+		google.ads.googleads.v8.services.MutateCampaignAssetResult campaign_asset_result = 52;
+		google.ads.googleads.v8.services.MutateCampaignBidModifierResult campaign_bid_modifier_result = 7;
+		google.ads.googleads.v8.services.MutateCampaignBudgetResult campaign_budget_result = 8;
+		google.ads.googleads.v8.services.MutateCampaignCriterionResult campaign_criterion_result = 13;
+		google.ads.googleads.v8.services.MutateCampaignDraftResult campaign_draft_result = 24;
+		google.ads.googleads.v8.services.MutateCampaignExperimentResult campaign_experiment_result = 25;
+		google.ads.googleads.v8.services.MutateCampaignExtensionSettingResult campaign_extension_setting_result = 26;
+		google.ads.googleads.v8.services.MutateCampaignFeedResult campaign_feed_result = 27;
+		google.ads.googleads.v8.services.MutateCampaignLabelResult campaign_label_result = 28;
+		google.ads.googleads.v8.services.MutateCampaignResult campaign_result = 10;
+		google.ads.googleads.v8.services.MutateCampaignSharedSetResult campaign_shared_set_result = 11;
+		google.ads.googleads.v8.services.MutateConversionActionResult conversion_action_result = 12;
+		google.ads.googleads.v8.services.MutateConversionCustomVariableResult conversion_custom_variable_result = 55;
+		google.ads.googleads.v8.services.MutateConversionValueRuleResult conversion_value_rule_result = 63;
+		google.ads.googleads.v8.services.MutateConversionValueRuleSetResult conversion_value_rule_set_result = 64;
+		google.ads.googleads.v8.services.MutateCustomerAssetResult customer_asset_result = 57;
+		google.ads.googleads.v8.services.MutateCustomerExtensionSettingResult customer_extension_setting_result = 30;
+		google.ads.googleads.v8.services.MutateCustomerFeedResult customer_feed_result = 31;
+		google.ads.googleads.v8.services.MutateCustomerLabelResult customer_label_result = 32;
+		google.ads.googleads.v8.services.MutateCustomerNegativeCriteriaResult customer_negative_criterion_result = 34;
+		google.ads.googleads.v8.services.MutateCustomerResult customer_result = 35;
+		google.ads.googleads.v8.services.MutateExtensionFeedItemResult extension_feed_item_result = 36;
+		google.ads.googleads.v8.services.MutateFeedItemResult feed_item_result = 37;
+		google.ads.googleads.v8.services.MutateFeedItemSetResult feed_item_set_result = 53;
+		google.ads.googleads.v8.services.MutateFeedItemSetLinkResult feed_item_set_link_result = 54;
+		google.ads.googleads.v8.services.MutateFeedItemTargetResult feed_item_target_result = 38;
+		google.ads.googleads.v8.services.MutateFeedMappingResult feed_mapping_result = 39;
+		google.ads.googleads.v8.services.MutateFeedResult feed_result = 40;
+		google.ads.googleads.v8.services.MutateKeywordPlanAdGroupResult keyword_plan_ad_group_result = 44;
+		google.ads.googleads.v8.services.MutateKeywordPlanCampaignResult keyword_plan_campaign_result = 45;
+		google.ads.googleads.v8.services.MutateKeywordPlanAdGroupKeywordResult keyword_plan_ad_group_keyword_result = 50;
+		google.ads.googleads.v8.services.MutateKeywordPlanCampaignKeywordResult keyword_plan_campaign_keyword_result = 51;
+		google.ads.googleads.v8.services.MutateKeywordPlansResult keyword_plan_result = 48;
+		google.ads.googleads.v8.services.MutateLabelResult label_result = 41;
+		google.ads.googleads.v8.services.MutateMediaFileResult media_file_result = 42;
+		google.ads.googleads.v8.services.MutateRemarketingActionResult remarketing_action_result = 43;
+		google.ads.googleads.v8.services.MutateSharedCriterionResult shared_criterion_result = 14;
+		google.ads.googleads.v8.services.MutateSharedSetResult shared_set_result = 15;
+		google.ads.googleads.v8.services.MutateSmartCampaignSettingResult smart_campaign_setting_result = 61;
+		google.ads.googleads.v8.services.MutateUserListResult user_list_result = 16;
+	}
+}

@@ -2,8 +2,9 @@ syntax = "proto3";
 
 package google.cloud.speech.v1p1beta1;
 
-import "google/api/annotations.proto";
 import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.speech.v1p1beta1";
 option java_outer_classname = "SpeechResourceProto";
@@ -49,5 +50,22 @@ message PhraseSet {
 message SpeechAdaptation {
 
 	repeated PhraseSet phrase_sets = 1;
-	repeated CustomClass custom_classes = 2;
+	repeated string phrase_set_references = 2 [
+		(google.api.resource_reference) = {
+			type: "speech.googleapis.com/PhraseSet"
+		}
+	];
+	repeated CustomClass custom_classes = 3;
+}
+
+message TranscriptNormalization {
+
+	message Entry {
+
+		string search = 1;
+		string replace = 2;
+		bool case_sensitive = 3;
+	}
+
+	repeated Entry entries = 1;
 }

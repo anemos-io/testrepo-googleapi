@@ -31,9 +31,6 @@ message TranslateSpeechConfig {
 	string source_language_code = 2 [
 		(google.api.field_behavior) = REQUIRED
 	];
-	repeated string alternative_source_language_codes = 6 [
-		(google.api.field_behavior) = OPTIONAL
-	];
 	string target_language_code = 3 [
 		(google.api.field_behavior) = REQUIRED
 	];
@@ -73,17 +70,11 @@ message StreamingTranslateSpeechResult {
 		bool is_final = 2 [
 			(google.api.field_behavior) = OUTPUT_ONLY
 		];
-		string detected_source_language_code = 3 [
-			(google.api.field_behavior) = OUTPUT_ONLY
-		];
 	}
 
 	oneof result {
 		TextTranslationResult text_translation_result = 1;
 	}
-	string recognition_result = 3 [
-		(google.api.field_behavior) = OUTPUT_ONLY
-	];
 }
 
 message StreamingTranslateSpeechResponse {

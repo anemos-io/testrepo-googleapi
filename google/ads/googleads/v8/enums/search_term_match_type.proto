@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.enums";
+option java_outer_classname = "SearchTermMatchTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V8::Enums";
+
+
+message SearchTermMatchTypeEnum {
+
+	enum SearchTermMatchType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		BROAD = 2;
+		EXACT = 3;
+		PHRASE = 4;
+		NEAR_EXACT = 5;
+		NEAR_PHRASE = 6;
+	}
+
+}

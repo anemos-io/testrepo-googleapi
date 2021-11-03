@@ -13,7 +13,7 @@ option java_outer_classname = "InstanceProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1beta1;notebooks";
 option csharp_namespace = "Google.Cloud.Notebooks.V1Beta1";
-option php_namespace = "Google\\Cloud\\Notebooks\\V1Beta1";
+option php_namespace = "Google\\Cloud\\Notebooks\\V1beta1";
 option ruby_package = "Google::Cloud::Notebooks::V1beta1";
 
 
@@ -53,6 +53,9 @@ message Instance {
 		STOPPING = 4;
 		STOPPED = 5;
 		DELETED = 6;
+		UPGRADING = 7;
+		INITIALIZING = 8;
+		REGISTERING = 9;
 	}
 
 	enum DiskType {
@@ -60,6 +63,7 @@ message Instance {
 		DISK_TYPE_UNSPECIFIED = 0;
 		PD_STANDARD = 1;
 		PD_SSD = 2;
+		PD_BALANCED = 3;
 	}
 
 	enum DiskEncryption {

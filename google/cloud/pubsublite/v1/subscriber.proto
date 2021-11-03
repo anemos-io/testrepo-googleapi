@@ -2,7 +2,9 @@ syntax = "proto3";
 
 package google.cloud.pubsublite.v1;
 
+import "google/api/field_behavior.proto";
 import "google/cloud/pubsublite/v1/common.proto";
+import "google/api/annotations.proto";
 import "google/api/client.proto";
 
 option java_package = "com.google.cloud.pubsublite.proto";
@@ -10,6 +12,9 @@ option java_outer_classname = "SubscriberProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
 option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.PubSubLite.V1";
+option php_namespace = "Google\\Cloud\\PubSubLite\\V1";
+option ruby_package = "Google::Cloud::PubSubLite::V1";
 
 
 service SubscriberService {
@@ -30,6 +35,9 @@ message InitialSubscribeRequest {
 
 	string subscription = 1;
 	int64 partition = 2;
+	SeekRequest initial_location = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message InitialSubscribeResponse {

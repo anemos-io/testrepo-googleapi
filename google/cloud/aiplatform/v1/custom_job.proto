@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/encryption_spec.proto";
+import "google/cloud/aiplatform/v1/env_var.proto";
+import "google/cloud/aiplatform/v1/io.proto";
+import "google/cloud/aiplatform/v1/job_state.proto";
+import "google/cloud/aiplatform/v1/machine_resources.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "CustomJobProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message CustomJob {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/CustomJob"
+		pattern: ["projects/{project}/locations/{location}/customJobs/{custom_job}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CustomJobSpec job_spec = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.aiplatform.v1.JobState state = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status error = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 11;
+	google.cloud.aiplatform.v1.EncryptionSpec encryption_spec = 12;
+	map<string, string> web_access_uris = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CustomJobSpec {
+
+	repeated WorkerPoolSpec worker_pool_specs = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Scheduling scheduling = 3;
+	string service_account = 4;
+	string network = 5 [
+		(google.api.resource_reference) = {
+			type: "compute.googleapis.com/Network"
+		}
+	];
+	google.cloud.aiplatform.v1.GcsDestination base_output_directory = 6;
+	bool enable_web_access = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message WorkerPoolSpec {
+
+	oneof task {
+		ContainerSpec container_spec = 6;
+		PythonPackageSpec python_package_spec = 7;
+	}
+	google.cloud.aiplatform.v1.MachineSpec machine_spec = 1 [
+		(google.api.field_behavior) = OPTIONAL,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	int64 replica_count = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.aiplatform.v1.DiskSpec disk_spec = 5;
+}
+
+message ContainerSpec {
+
+	string image_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string command = 2;
+	repeated string args = 3;
+	repeated google.cloud.aiplatform.v1.EnvVar env = 4;
+}
+
+message PythonPackageSpec {
+
+	string executor_image_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string package_uris = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string python_module = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string args = 4;
+	repeated google.cloud.aiplatform.v1.EnvVar env = 5;
+}
+
+message Scheduling {
+
+	google.protobuf.Duration timeout = 1;
+	bool restart_job_on_worker_restart = 3;
+}

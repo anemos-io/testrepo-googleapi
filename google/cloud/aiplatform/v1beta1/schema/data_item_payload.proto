@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema";
+option java_outer_classname = "DataItemPayloadProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema;schema";
+
+
+message ImageDataItem {
+
+	string gcs_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string mime_type = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message VideoDataItem {
+
+	string gcs_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string mime_type = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message TextDataItem {
+
+	string gcs_uri = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

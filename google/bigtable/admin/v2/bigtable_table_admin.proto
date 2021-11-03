@@ -191,6 +191,10 @@ service BigtableTableAdmin {
 		option (google.api.http) = {
 			post: "/v2/{resource=projects/*/instances/*/tables/*}:getIamPolicy"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{resource=projects/*/instances/*/clusters/*/backups/*}:getIamPolicy"
+				body: "*"
+			}
 		};
 
 	}
@@ -220,6 +224,43 @@ service BigtableTableAdmin {
 	}
 }
 
+message RestoreTableRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtableadmin.googleapis.com/Instance"
+		}
+	];
+	string table_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof source {
+		string backup = 3 [
+			(google.api.resource_reference) = {
+				type: "bigtableadmin.googleapis.com/Backup"
+			}
+		];
+	}
+}
+
+message RestoreTableMetadata {
+
+	string name = 1;
+	google.bigtable.admin.v2.RestoreSourceType source_type = 2;
+	oneof source_info {
+		google.bigtable.admin.v2.BackupInfo backup_info = 3;
+	}
+	string optimize_table_operation_name = 4;
+	google.bigtable.admin.v2.OperationProgress progress = 5;
+}
+
+message OptimizeRestoredTableMetadata {
+
+	string name = 1;
+	google.bigtable.admin.v2.OperationProgress progress = 2;
+}
+
 message CreateTableRequest {
 
 	message Split {
@@ -230,7 +271,7 @@ message CreateTableRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 	string table_id = 2 [
@@ -247,7 +288,7 @@ message CreateTableFromSnapshotRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 	string table_id = 2 [
@@ -256,7 +297,7 @@ message CreateTableFromSnapshotRequest {
 	string source_snapshot = 3 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Snapshot"
+			type: "bigtableadmin.googleapis.com/Snapshot"
 		}
 	];
 }
@@ -266,7 +307,7 @@ message DropRowRangeRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Table"
+			type: "bigtableadmin.googleapis.com/Table"
 		}
 	];
 	oneof target {
@@ -280,7 +321,7 @@ message ListTablesRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Instance"
+			type: "bigtableadmin.googleapis.com/Instance"
 		}
 	];
 	google.bigtable.admin.v2.Table.View view = 2;
@@ -299,7 +340,7 @@ message GetTableRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Table"
+			type: "bigtableadmin.googleapis.com/Table"
 		}
 	];
 	google.bigtable.admin.v2.Table.View view = 2;
@@ -310,7 +351,7 @@ message DeleteTableRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Table"
+			type: "bigtableadmin.googleapis.com/Table"
 		}
 	];
 }
@@ -330,7 +371,7 @@ message ModifyColumnFamiliesRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Table"
+			type: "bigtableadmin.googleapis.com/Table"
 		}
 	];
 	repeated Modification modifications = 2 [
@@ -343,7 +384,7 @@ message GenerateConsistencyTokenRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Table"
+			type: "bigtableadmin.googleapis.com/Table"
 		}
 	];
 }
@@ -358,7 +399,7 @@ message CheckConsistencyRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Table"
+			type: "bigtableadmin.googleapis.com/Table"
 		}
 	];
 	string consistency_token = 2 [
@@ -376,13 +417,13 @@ message SnapshotTableRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Table"
+			type: "bigtableadmin.googleapis.com/Table"
 		}
 	];
 	string cluster = 2 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Cluster"
+			type: "bigtableadmin.googleapis.com/Cluster"
 		}
 	];
 	string snapshot_id = 3 [
@@ -397,7 +438,7 @@ message GetSnapshotRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Snapshot"
+			type: "bigtableadmin.googleapis.com/Snapshot"
 		}
 	];
 }
@@ -407,7 +448,7 @@ message ListSnapshotsRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Cluster"
+			type: "bigtableadmin.googleapis.com/Cluster"
 		}
 	];
 	int32 page_size = 2;
@@ -425,7 +466,7 @@ message DeleteSnapshotRequest {
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Snapshot"
+			type: "bigtableadmin.googleapis.com/Snapshot"
 		}
 	];
 }
@@ -449,7 +490,7 @@ message CreateBackupRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Cluster"
+			type: "bigtableadmin.googleapis.com/Cluster"
 		}
 	];
 	string backup_id = 2 [
@@ -468,16 +509,6 @@ message CreateBackupMetadata {
 	google.protobuf.Timestamp end_time = 4;
 }
 
-message GetBackupRequest {
-
-	string name = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Backup"
-		}
-	];
-}
-
 message UpdateBackupRequest {
 
 	google.bigtable.admin.v2.Backup backup = 1 [
@@ -488,12 +519,22 @@ message UpdateBackupRequest {
 	];
 }
 
+message GetBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtableadmin.googleapis.com/Backup"
+		}
+	];
+}
+
 message DeleteBackupRequest {
 
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Backup"
+			type: "bigtableadmin.googleapis.com/Backup"
 		}
 	];
 }
@@ -503,7 +544,7 @@ message ListBackupsRequest {
 	string parent = 1 [
 		(google.api.field_behavior) = REQUIRED
 		(google.api.resource_reference) = {
-			type: "bigtable.googleapis.com/Cluster"
+			type: "bigtableadmin.googleapis.com/Cluster"
 		}
 	];
 	string filter = 2;
@@ -516,30 +557,4 @@ message ListBackupsResponse {
 
 	repeated google.bigtable.admin.v2.Backup backups = 1;
 	string next_page_token = 2;
-}
-
-message RestoreTableRequest {
-
-	string parent = 1;
-	string table_id = 2;
-	oneof source {
-		string backup = 3;
-	}
-}
-
-message RestoreTableMetadata {
-
-	string name = 1;
-	google.bigtable.admin.v2.RestoreSourceType source_type = 2;
-	oneof source_info {
-		google.bigtable.admin.v2.BackupInfo backup_info = 3;
-	}
-	string optimize_table_operation_name = 4;
-	google.bigtable.admin.v2.OperationProgress progress = 5;
-}
-
-message OptimizeRestoredTableMetadata {
-
-	string name = 1;
-	google.bigtable.admin.v2.OperationProgress progress = 2;
 }

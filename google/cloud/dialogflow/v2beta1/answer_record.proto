@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/v2beta1/participant.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "AnswerRecordsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+
+
+service AnswerRecords {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc GetAnswerRecord(google.cloud.dialogflow.v2beta1.GetAnswerRecordRequest) returns (google.cloud.dialogflow.v2beta1.AnswerRecord) {
+		option deprecated = true;
+		option (google.api.http) = {
+			get: "/v2beta1/{name=projects/*/answerRecords/*}"
+			additional_bindings: {
+				get: "/v2beta1/{name=projects/*/locations/*/answerRecords/*}"
+			}
+		};
+
+	}
+	rpc ListAnswerRecords(google.cloud.dialogflow.v2beta1.ListAnswerRecordsRequest) returns (google.cloud.dialogflow.v2beta1.ListAnswerRecordsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2beta1/{parent=projects/*}/answerRecords"
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*}/answerRecords"
+			}
+		};
+
+	}
+	rpc UpdateAnswerRecord(google.cloud.dialogflow.v2beta1.UpdateAnswerRecordRequest) returns (google.cloud.dialogflow.v2beta1.AnswerRecord) {
+		option (google.api.method_signature) = "answer_record,update_mask";
+		option (google.api.http) = {
+			patch: "/v2beta1/{answer_record.name=projects/*/answerRecords/*}"
+			body: "answer_record"
+			additional_bindings: {
+				patch: "/v2beta1/{answer_record.name=projects/*/locations/*/answerRecords/*}"
+				body: "answer_record"
+			}
+		};
+
+	}
+}
+
+message AnswerRecord {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/AnswerRecord"
+		pattern: ["projects/{project}/answerRecords/{answer_record}","projects/{project}/locations/{location}/answerRecords/{answer_record}"]
+	};
+
+	string name = 1;
+	AnswerFeedback answer_feedback = 3;
+	oneof record {
+		AgentAssistantRecord agent_assistant_record = 4;
+	}
+}
+
+message AgentAssistantRecord {
+
+	oneof answer {
+		google.cloud.dialogflow.v2beta1.ArticleAnswer article_suggestion_answer = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.cloud.dialogflow.v2beta1.FaqAnswer faq_answer = 6 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}
+
+message AnswerFeedback {
+
+	enum CorrectnessLevel {
+
+		CORRECTNESS_LEVEL_UNSPECIFIED = 0;
+		NOT_CORRECT = 1;
+		PARTIALLY_CORRECT = 2;
+		FULLY_CORRECT = 3;
+	}
+
+	CorrectnessLevel correctness_level = 1;
+	oneof detail_feedback {
+		AgentAssistantFeedback agent_assistant_detail_feedback = 2;
+	}
+	bool clicked = 3;
+	google.protobuf.Timestamp click_time = 5;
+	bool displayed = 4;
+	google.protobuf.Timestamp display_time = 6;
+}
+
+message AgentAssistantFeedback {
+
+	message SummarizationFeedback {
+
+		google.protobuf.Timestamp start_timestamp = 1;
+		google.protobuf.Timestamp submit_timestamp = 2;
+		string summary_text = 3;
+	}
+
+	enum AnswerRelevance {
+
+		ANSWER_RELEVANCE_UNSPECIFIED = 0;
+		IRRELEVANT = 1;
+		RELEVANT = 2;
+	}
+
+	enum DocumentCorrectness {
+
+		DOCUMENT_CORRECTNESS_UNSPECIFIED = 0;
+		INCORRECT = 1;
+		CORRECT = 2;
+	}
+
+	enum DocumentEfficiency {
+
+		DOCUMENT_EFFICIENCY_UNSPECIFIED = 0;
+		INEFFICIENT = 1;
+		EFFICIENT = 2;
+	}
+
+	AnswerRelevance answer_relevance = 1;
+	DocumentCorrectness document_correctness = 2;
+	DocumentEfficiency document_efficiency = 3;
+	SummarizationFeedback summarization_feedback = 4;
+}
+
+message GetAnswerRecordRequest {
+
+	string name = 1;
+}
+
+message ListAnswerRecordsRequest {
+
+	string parent = 1 [
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/AnswerRecord"
+		}
+	];
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListAnswerRecordsResponse {
+
+	repeated AnswerRecord answer_records = 1;
+	string next_page_token = 2;
+}
+
+message UpdateAnswerRecordRequest {
+
+	AnswerRecord answer_record = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}

@@ -19,6 +19,7 @@ option go_package = "google.golang.org/genproto/googleapis/api/servicemanagement
 option objc_class_prefix = "GASM";
 option csharp_namespace = "Google.Cloud.ServiceManagement.V1";
 option php_namespace = "Google\\Cloud\\ServiceManagement\\V1";
+option ruby_package = "Google::Cloud::ServiceManagement::V1";
 
 
 service ServiceManager {

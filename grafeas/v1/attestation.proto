@@ -20,8 +20,14 @@ message AttestationNote {
 	Hint hint = 1;
 }
 
+message Jwt {
+
+	string compact_jwt = 1;
+}
+
 message AttestationOccurrence {
 
 	bytes serialized_payload = 1;
 	repeated grafeas.v1.Signature signatures = 2;
+	repeated Jwt jwts = 3;
 }

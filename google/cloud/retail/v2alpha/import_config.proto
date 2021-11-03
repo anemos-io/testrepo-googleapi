@@ -1,0 +1,188 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2alpha;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/retail/v2alpha/product.proto";
+import "google/cloud/retail/v2alpha/user_event.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/type/date.proto";
+
+option java_package = "com.google.cloud.retail.v2alpha";
+option java_outer_classname = "ImportConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2alpha;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2Alpha";
+option php_namespace = "Google\\Cloud\\Retail\\V2alpha";
+option ruby_package = "Google::Cloud::Retail::V2alpha";
+
+
+message GcsSource {
+
+	repeated string input_uris = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string data_schema = 2;
+}
+
+message BigQuerySource {
+
+	oneof partition {
+		google.type.Date partition_date = 6;
+	}
+	string project_id = 5;
+	string dataset_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string table_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string gcs_staging_dir = 3;
+	string data_schema = 4;
+}
+
+message ProductInlineSource {
+
+	repeated google.cloud.retail.v2alpha.Product products = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UserEventInlineSource {
+
+	repeated google.cloud.retail.v2alpha.UserEvent user_events = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ImportErrorsConfig {
+
+	oneof destination {
+		string gcs_prefix = 1;
+	}
+}
+
+message ImportProductsRequest {
+
+	enum ReconciliationMode {
+
+		RECONCILIATION_MODE_UNSPECIFIED = 0;
+		INCREMENTAL = 1;
+		FULL = 2;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Branch"
+		}
+	];
+	string request_id = 6;
+	ProductInputConfig input_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ImportErrorsConfig errors_config = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	ReconciliationMode reconciliation_mode = 5;
+	string notification_pubsub_topic = 7;
+}
+
+message ImportUserEventsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Catalog"
+		}
+	];
+	UserEventInputConfig input_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ImportErrorsConfig errors_config = 3;
+}
+
+message ImportCompletionDataRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Catalog"
+		}
+	];
+	CompletionDataInputConfig input_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string notification_pubsub_topic = 3;
+}
+
+message ProductInputConfig {
+
+	oneof source {
+		ProductInlineSource product_inline_source = 1;
+		GcsSource gcs_source = 2;
+		BigQuerySource big_query_source = 3;
+	}
+}
+
+message UserEventInputConfig {
+
+	oneof source {
+		UserEventInlineSource user_event_inline_source = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		GcsSource gcs_source = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		BigQuerySource big_query_source = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+}
+
+message CompletionDataInputConfig {
+
+	oneof source {
+		BigQuerySource big_query_source = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+}
+
+message ImportMetadata {
+
+	google.protobuf.Timestamp create_time = 1;
+	google.protobuf.Timestamp update_time = 2;
+	int64 success_count = 3;
+	int64 failure_count = 4;
+	string request_id = 5;
+	string notification_pubsub_topic = 6;
+}
+
+message ImportProductsResponse {
+
+	repeated google.rpc.Status error_samples = 1;
+	ImportErrorsConfig errors_config = 2;
+}
+
+message ImportUserEventsResponse {
+
+	repeated google.rpc.Status error_samples = 1;
+	ImportErrorsConfig errors_config = 2;
+	UserEventImportSummary import_summary = 3;
+}
+
+message UserEventImportSummary {
+
+	int64 joined_events_count = 1;
+	int64 unjoined_events_count = 2;
+}
+
+message ImportCompletionDataResponse {
+
+	repeated google.rpc.Status error_samples = 1;
+}

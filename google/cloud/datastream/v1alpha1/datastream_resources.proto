@@ -1,0 +1,460 @@
+syntax = "proto3";
+
+package google.cloud.datastream.v1alpha1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.datastream.v1alpha1";
+option java_outer_classname = "CloudDatastreamResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datastream/v1alpha1;datastream";
+option csharp_namespace = "Google.Cloud.Datastream.V1Alpha1";
+option php_namespace = "Google\\Cloud\\Datastream\\V1alpha1";
+option ruby_package = "Google::Cloud::Datastream::V1alpha1";
+
+
+enum GcsFileFormat {
+	option deprecated = true;
+
+	GCS_FILE_FORMAT_UNSPECIFIED = 0;
+	AVRO = 1;
+}
+
+enum SchemaFileFormat {
+
+	SCHEMA_FILE_FORMAT_UNSPECIFIED = 0;
+	NO_SCHEMA_FILE = 1;
+	AVRO_SCHEMA_FILE = 2;
+}
+
+message OracleProfile {
+
+	string hostname = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 port = 2;
+	string username = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string password = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string database_service = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> connection_attributes = 6;
+}
+
+message MysqlProfile {
+
+	string hostname = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 port = 2;
+	string username = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string password = 4 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	MysqlSslConfig ssl_config = 5;
+}
+
+message GcsProfile {
+
+	string bucket_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string root_path = 2;
+}
+
+message NoConnectivitySettings {
+
+}
+
+message StaticServiceIpConnectivity {
+
+}
+
+message ForwardSshTunnelConnectivity {
+
+	string hostname = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string username = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 port = 3;
+	oneof authentication_method {
+		string password = 100 [
+			(google.api.field_behavior) = INPUT_ONLY
+		];
+		string private_key = 101 [
+			(google.api.field_behavior) = INPUT_ONLY
+		];
+	}
+}
+
+message VpcPeeringConfig {
+
+	string vpc_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string subnet = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PrivateConnection {
+	option (google.api.resource) = {
+		type: "datastream.googleapis.com/PrivateConnection"
+		pattern: ["projects/{project}/locations/{location}/privateConnections/{private_connection}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		CREATED = 2;
+		FAILED = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string display_name = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	State state = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Error error = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	VpcPeeringConfig vpc_peering_config = 100;
+}
+
+message PrivateConnectivity {
+
+	string private_connection_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Route {
+	option (google.api.resource) = {
+		type: "datastream.googleapis.com/Route"
+		pattern: ["projects/{project}/locations/{location}/privateConnections/{private_connection}/routes/{route}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string display_name = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination_address = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 destination_port = 7;
+}
+
+message MysqlSslConfig {
+
+	string client_key = 11 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	bool client_key_set = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string client_certificate = 13 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	bool client_certificate_set = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string ca_certificate = 15 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	bool ca_certificate_set = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ConnectionProfile {
+	option (google.api.resource) = {
+		type: "datastream.googleapis.com/ConnectionProfile"
+		pattern: ["projects/{project}/locations/{location}/connectionProfiles/{connection_profile}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string display_name = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof profile {
+		OracleProfile oracle_profile = 100;
+		GcsProfile gcs_profile = 101;
+		MysqlProfile mysql_profile = 102;
+	}
+	oneof connectivity {
+		NoConnectivitySettings no_connectivity = 200;
+		StaticServiceIpConnectivity static_service_ip_connectivity = 201;
+		ForwardSshTunnelConnectivity forward_ssh_connectivity = 202;
+		PrivateConnectivity private_connectivity = 203;
+	}
+}
+
+message OracleColumn {
+
+	string column_name = 1;
+	string data_type = 2;
+	int32 length = 3;
+	int32 precision = 4;
+	int32 scale = 5;
+	string encoding = 6;
+	bool primary_key = 7;
+	bool nullable = 8;
+	int32 ordinal_position = 9;
+}
+
+message OracleTable {
+
+	string table_name = 1;
+	repeated OracleColumn oracle_columns = 2;
+}
+
+message OracleSchema {
+
+	string schema_name = 1;
+	repeated OracleTable oracle_tables = 2;
+}
+
+message OracleRdbms {
+
+	repeated OracleSchema oracle_schemas = 1;
+}
+
+message OracleSourceConfig {
+
+	OracleRdbms allowlist = 1;
+	OracleRdbms rejectlist = 2;
+}
+
+message MysqlColumn {
+
+	string column_name = 1;
+	string data_type = 2;
+	int32 length = 3;
+	string collation = 4;
+	bool primary_key = 5;
+	bool nullable = 6;
+	int32 ordinal_position = 7;
+}
+
+message MysqlTable {
+
+	string table_name = 1;
+	repeated MysqlColumn mysql_columns = 2;
+}
+
+message MysqlDatabase {
+
+	string database_name = 1;
+	repeated MysqlTable mysql_tables = 2;
+}
+
+message MysqlRdbms {
+
+	repeated MysqlDatabase mysql_databases = 1;
+}
+
+message MysqlSourceConfig {
+
+	MysqlRdbms allowlist = 1;
+	MysqlRdbms rejectlist = 2;
+}
+
+message SourceConfig {
+
+	string source_connection_profile_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof source_stream_config {
+		OracleSourceConfig oracle_source_config = 100;
+		MysqlSourceConfig mysql_source_config = 101;
+	}
+}
+
+message AvroFileFormat {
+
+}
+
+message JsonFileFormat {
+
+	enum JsonCompression {
+
+		JSON_COMPRESSION_UNSPECIFIED = 0;
+		NO_COMPRESSION = 1;
+		GZIP = 2;
+	}
+
+	SchemaFileFormat schema_file_format = 1;
+	JsonCompression compression = 2;
+}
+
+message GcsDestinationConfig {
+
+	string path = 1;
+	GcsFileFormat gcs_file_format = 2 [
+		deprecated = true
+	];
+	int32 file_rotation_mb = 3;
+	google.protobuf.Duration file_rotation_interval = 4;
+	oneof file_format {
+		AvroFileFormat avro_file_format = 100;
+		JsonFileFormat json_file_format = 101;
+	}
+}
+
+message DestinationConfig {
+
+	string destination_connection_profile_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof destination_stream_config {
+		GcsDestinationConfig gcs_destination_config = 100;
+	}
+}
+
+message Stream {
+	option (google.api.resource) = {
+		type: "datastream.googleapis.com/Stream"
+		pattern: ["projects/{project}/locations/{location}/streams/{stream}"]
+	};
+
+	message BackfillAllStrategy {
+
+		oneof excluded_objects {
+			OracleRdbms oracle_excluded_objects = 1;
+			MysqlRdbms mysql_excluded_objects = 2;
+		}
+	}
+
+	message BackfillNoneStrategy {
+
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATED = 1;
+		RUNNING = 2;
+		PAUSED = 3;
+		MAINTENANCE = 4;
+		FAILED = 5;
+		FAILED_PERMANENTLY = 6;
+		STARTING = 7;
+		DRAINING = 8;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string display_name = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	SourceConfig source_config = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	DestinationConfig destination_config = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	State state = 8;
+	oneof backfill_strategy {
+		BackfillAllStrategy backfill_all = 101;
+		BackfillNoneStrategy backfill_none = 102;
+	}
+	repeated Error errors = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Error {
+
+	string reason = 1;
+	string error_uuid = 2;
+	string message = 3;
+	google.protobuf.Timestamp error_time = 4;
+	map<string, string> details = 5;
+}
+
+message ValidationResult {
+
+	repeated Validation validations = 1;
+}
+
+message Validation {
+
+	enum Status {
+
+		STATUS_UNSPECIFIED = 0;
+		NOT_EXECUTED = 1;
+		FAILED = 2;
+		PASSED = 3;
+	}
+
+	string description = 1;
+	Status status = 2;
+	repeated ValidationMessage message = 3;
+	string code = 4;
+}
+
+message ValidationMessage {
+
+	enum Level {
+
+		LEVEL_UNSPECIFIED = 0;
+		WARNING = 1;
+		ERROR = 2;
+	}
+
+	string message = 1;
+	Level level = 2;
+	map<string, string> metadata = 3;
+	string code = 4;
+}

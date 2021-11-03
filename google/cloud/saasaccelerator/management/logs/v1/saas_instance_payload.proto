@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package google.cloud.saasaccelerator.management.logs.v1;
+
+option java_package = "com.google.cloud.saasaccelerator.management.logs.v1";
+option java_outer_classname = "SaasInstancePayloadProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/saasaccelerator/management/logs/v1;logs";
+
+
+message InstanceEvent {
+
+	string verb = 1;
+	string stage = 2;
+	string msg = 3;
+	string trace_id = 4;
+	string node_id = 5;
+}

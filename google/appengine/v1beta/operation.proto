@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package google.appengine.v1beta;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
@@ -9,6 +10,9 @@ option java_package = "com.google.appengine.v1beta";
 option java_outer_classname = "OperationProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+option csharp_namespace = "Google.Cloud.AppEngine.V1Beta";
+option php_namespace = "Google\\Cloud\\AppEngine\\V1beta";
+option ruby_package = "Google::Cloud::AppEngine::V1beta";
 
 
 message OperationMetadataV1Beta {

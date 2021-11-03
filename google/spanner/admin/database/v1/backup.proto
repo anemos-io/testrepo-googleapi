@@ -37,6 +37,7 @@ message Backup {
 			type: "spanner.googleapis.com/Database"
 		}
 	];
+	google.protobuf.Timestamp version_time = 9;
 	google.protobuf.Timestamp expire_time = 3;
 	string name = 1;
 	google.protobuf.Timestamp create_time = 4 [
@@ -49,6 +50,12 @@ message Backup {
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	repeated string referencing_databases = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+	google.spanner.admin.database.v1.EncryptionInfo encryption_info = 8 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 }
@@ -67,12 +74,23 @@ message CreateBackupRequest {
 	Backup backup = 3 [
 		(google.api.field_behavior) = REQUIRED
 	];
+	CreateBackupEncryptionConfig encryption_config = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message CreateBackupMetadata {
 
-	string name = 1;
-	string database = 2;
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Backup"
+		}
+	];
+	string database = 2 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
 	google.spanner.admin.database.v1.OperationProgress progress = 3;
 	google.protobuf.Timestamp cancel_time = 4;
 }
@@ -147,7 +165,37 @@ message ListBackupOperationsResponse {
 
 message BackupInfo {
 
-	string backup = 1;
+	string backup = 1 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Backup"
+		}
+	];
+	google.protobuf.Timestamp version_time = 4;
 	google.protobuf.Timestamp create_time = 2;
-	string source_database = 3;
+	string source_database = 3 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+}
+
+message CreateBackupEncryptionConfig {
+
+	enum EncryptionType {
+
+		ENCRYPTION_TYPE_UNSPECIFIED = 0;
+		USE_DATABASE_ENCRYPTION = 1;
+		GOOGLE_DEFAULT_ENCRYPTION = 2;
+		CUSTOMER_MANAGED_ENCRYPTION = 3;
+	}
+
+	EncryptionType encryption_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string kms_key_name = 2 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
 }

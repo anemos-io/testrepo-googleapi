@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "VersionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message Version {
+	option (google.api.resource) = {
+		type: "actions.googleapis.com/Version"
+		pattern: ["projects/{project}/versions/{version}"]
+	};
+
+	message VersionState {
+
+		enum State {
+
+			STATE_UNSPECIFIED = 0;
+			CREATION_IN_PROGRESS = 1;
+			CREATION_FAILED = 2;
+			CREATED = 3;
+			REVIEW_IN_PROGRESS = 4;
+			APPROVED = 5;
+			CONDITIONALLY_APPROVED = 6;
+			DENIED = 7;
+			UNDER_TAKEDOWN = 8;
+			DELETED = 9;
+		}
+
+		State state = 1;
+		string message = 2;
+	}
+
+	string name = 1;
+	VersionState version_state = 2;
+	string creator = 3;
+	google.protobuf.Timestamp update_time = 4;
+}

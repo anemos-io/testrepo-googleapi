@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_image_prompt.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "StaticMediaPromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message StaticMediaPrompt {
+
+	enum MediaType {
+
+		MEDIA_TYPE_UNSPECIFIED = 0;
+		AUDIO = 1;
+		MEDIA_STATUS_ACK = 2;
+	}
+
+	enum OptionalMediaControls {
+
+		OPTIONAL_MEDIA_CONTROLS_UNSPECIFIED = 0;
+		PAUSED = 1;
+		STOPPED = 2;
+	}
+
+	enum RepeatMode {
+
+		REPEAT_MODE_UNSPECIFIED = 0;
+		OFF = 1;
+		ALL = 2;
+	}
+
+	MediaType media_type = 8;
+	google.protobuf.Duration start_offset = 5;
+	repeated OptionalMediaControls optional_media_controls = 6;
+	repeated MediaObject media_objects = 7;
+	RepeatMode repeat_mode = 9;
+}
+
+message MediaObject {
+
+	string name = 1;
+	string description = 2;
+	string url = 3;
+	MediaImage image = 4;
+}
+
+message MediaImage {
+
+	oneof image {
+		google.actions.sdk.v2.interactionmodel.prompt.StaticImagePrompt large = 1;
+		google.actions.sdk.v2.interactionmodel.prompt.StaticImagePrompt icon = 2;
+	}
+}

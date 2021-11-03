@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package grafeas.v1;
+
+import "grafeas/v1/intoto_provenance.proto";
+import "grafeas/v1/slsa_provenance.proto";
+
+option java_package = "io.grafeas.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/grafeas/v1;grafeas";
+option objc_class_prefix = "GRA";
+
+
+message InTotoStatement {
+
+	string type = 1;
+	repeated Subject subject = 2;
+	string predicate_type = 3;
+	oneof predicate {
+		grafeas.v1.InTotoProvenance provenance = 4;
+		grafeas.v1.SlsaProvenance slsa_provenance = 5;
+	}
+}
+
+message Subject {
+
+	string name = 1;
+	map<string, string> digest = 2;
+}

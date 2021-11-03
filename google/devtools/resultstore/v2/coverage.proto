@@ -3,6 +3,7 @@ syntax = "proto3";
 package google.devtools.resultstore.v2;
 
 option java_package = "com.google.devtools.resultstore.v2";
+option java_outer_classname = "CoverageProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
 

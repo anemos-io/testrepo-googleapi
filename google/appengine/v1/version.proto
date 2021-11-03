@@ -4,6 +4,7 @@ package google.appengine.v1;
 
 import "google/appengine/v1/app_yaml.proto";
 import "google/appengine/v1/deploy.proto";
+import "google/appengine/v1/network_settings.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
@@ -12,6 +13,9 @@ option java_package = "com.google.appengine.v1";
 option java_outer_classname = "VersionProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+option csharp_namespace = "Google.Cloud.AppEngine.V1";
+option php_namespace = "Google\\Cloud\\AppEngine\\V1";
+option ruby_package = "Google::Cloud::AppEngine::V1";
 
 
 enum InboundServiceType {
@@ -60,11 +64,13 @@ message Version {
 	int64 disk_usage_bytes = 18;
 	string runtime_api_version = 21;
 	string runtime_main_executable_path = 22;
+	string service_account = 127;
 	repeated google.appengine.v1.UrlMap handlers = 100;
 	repeated google.appengine.v1.ErrorHandler error_handlers = 101;
 	repeated google.appengine.v1.Library libraries = 102;
 	google.appengine.v1.ApiConfigHandler api_config = 103;
 	map<string, string> env_variables = 104;
+	map<string, string> build_env_variables = 125;
 	google.protobuf.Duration default_expiration = 105;
 	google.appengine.v1.HealthCheck health_check = 106;
 	google.appengine.v1.ReadinessCheck readiness_check = 112;
@@ -178,6 +184,7 @@ message Resources {
 	double disk_gb = 2;
 	double memory_gb = 3;
 	repeated Volume volumes = 4;
+	string kms_key_reference = 5;
 }
 
 message VpcAccessConnector {

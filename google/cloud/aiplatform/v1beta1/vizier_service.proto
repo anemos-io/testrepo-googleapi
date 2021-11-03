@@ -1,0 +1,377 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/operation.proto";
+import "google/cloud/aiplatform/v1beta1/study.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "VizierServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+service VizierService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateStudy(google.cloud.aiplatform.v1beta1.CreateStudyRequest) returns (google.cloud.aiplatform.v1beta1.Study) {
+		option (google.api.method_signature) = "parent,study";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/studies"
+			body: "study"
+		};
+
+	}
+	rpc GetStudy(google.cloud.aiplatform.v1beta1.GetStudyRequest) returns (google.cloud.aiplatform.v1beta1.Study) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/studies/*}"
+		};
+
+	}
+	rpc ListStudies(google.cloud.aiplatform.v1beta1.ListStudiesRequest) returns (google.cloud.aiplatform.v1beta1.ListStudiesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/studies"
+		};
+
+	}
+	rpc DeleteStudy(google.cloud.aiplatform.v1beta1.DeleteStudyRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/studies/*}"
+		};
+
+	}
+	rpc LookupStudy(google.cloud.aiplatform.v1beta1.LookupStudyRequest) returns (google.cloud.aiplatform.v1beta1.Study) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/studies:lookup"
+			body: "*"
+		};
+
+	}
+	rpc SuggestTrials(google.cloud.aiplatform.v1beta1.SuggestTrialsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "SuggestTrialsResponse"
+			metadata_type: "SuggestTrialsMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/studies/*}/trials:suggest"
+			body: "*"
+		};
+
+	}
+	rpc CreateTrial(google.cloud.aiplatform.v1beta1.CreateTrialRequest) returns (google.cloud.aiplatform.v1beta1.Trial) {
+		option (google.api.method_signature) = "parent,trial";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/studies/*}/trials"
+			body: "trial"
+		};
+
+	}
+	rpc GetTrial(google.cloud.aiplatform.v1beta1.GetTrialRequest) returns (google.cloud.aiplatform.v1beta1.Trial) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/studies/*/trials/*}"
+		};
+
+	}
+	rpc ListTrials(google.cloud.aiplatform.v1beta1.ListTrialsRequest) returns (google.cloud.aiplatform.v1beta1.ListTrialsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/studies/*}/trials"
+		};
+
+	}
+	rpc AddTrialMeasurement(google.cloud.aiplatform.v1beta1.AddTrialMeasurementRequest) returns (google.cloud.aiplatform.v1beta1.Trial) {
+		option (google.api.http) = {
+			post: "/v1beta1/{trial_name=projects/*/locations/*/studies/*/trials/*}:addTrialMeasurement"
+			body: "*"
+		};
+
+	}
+	rpc CompleteTrial(google.cloud.aiplatform.v1beta1.CompleteTrialRequest) returns (google.cloud.aiplatform.v1beta1.Trial) {
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/studies/*/trials/*}:complete"
+			body: "*"
+		};
+
+	}
+	rpc DeleteTrial(google.cloud.aiplatform.v1beta1.DeleteTrialRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/studies/*/trials/*}"
+		};
+
+	}
+	rpc CheckTrialEarlyStoppingState(google.cloud.aiplatform.v1beta1.CheckTrialEarlyStoppingStateRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CheckTrialEarlyStoppingStateResponse"
+			metadata_type: "CheckTrialEarlyStoppingStateMetatdata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{trial_name=projects/*/locations/*/studies/*/trials/*}:checkTrialEarlyStoppingState"
+			body: "*"
+		};
+
+	}
+	rpc StopTrial(google.cloud.aiplatform.v1beta1.StopTrialRequest) returns (google.cloud.aiplatform.v1beta1.Trial) {
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/studies/*/trials/*}:stop"
+			body: "*"
+		};
+
+	}
+	rpc ListOptimalTrials(google.cloud.aiplatform.v1beta1.ListOptimalTrialsRequest) returns (google.cloud.aiplatform.v1beta1.ListOptimalTrialsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/studies/*}/trials:listOptimalTrials"
+			body: "*"
+		};
+
+	}
+}
+
+message GetStudyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Study"
+		}
+	];
+}
+
+message CreateStudyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Study study = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListStudiesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListStudiesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Study studies = 1;
+	string next_page_token = 2;
+}
+
+message DeleteStudyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Study"
+		}
+	];
+}
+
+message LookupStudyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SuggestTrialsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Study"
+		}
+	];
+	int32 suggestion_count = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string client_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SuggestTrialsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Trial trials = 1;
+	google.cloud.aiplatform.v1beta1.Study.State study_state = 2;
+	google.protobuf.Timestamp start_time = 3;
+	google.protobuf.Timestamp end_time = 4;
+}
+
+message SuggestTrialsMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+	string client_id = 2;
+}
+
+message CreateTrialRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Study"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Trial trial = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTrialRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Trial"
+		}
+	];
+}
+
+message ListTrialsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Study"
+		}
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListTrialsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Trial trials = 1;
+	string next_page_token = 2;
+}
+
+message AddTrialMeasurementRequest {
+
+	string trial_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Trial"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Measurement measurement = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CompleteTrialRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Trial"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.Measurement final_measurement = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool trial_infeasible = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string infeasible_reason = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteTrialRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Trial"
+		}
+	];
+}
+
+message CheckTrialEarlyStoppingStateRequest {
+
+	string trial_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Trial"
+		}
+	];
+}
+
+message CheckTrialEarlyStoppingStateResponse {
+
+	bool should_stop = 1;
+}
+
+message CheckTrialEarlyStoppingStateMetatdata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+	string study = 2;
+	string trial = 3;
+}
+
+message StopTrialRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Trial"
+		}
+	];
+}
+
+message ListOptimalTrialsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Study"
+		}
+	];
+}
+
+message ListOptimalTrialsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.Trial optimal_trials = 1;
+}

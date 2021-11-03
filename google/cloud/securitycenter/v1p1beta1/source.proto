@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package google.cloud.securitycenter.v1p1beta1;
 
-import "google/api/annotations.proto";
 import "google/api/resource.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.securitycenter.v1p1beta1";
 option java_multiple_files = true;
@@ -16,10 +16,11 @@ option ruby_package = "Google::Cloud::SecurityCenter::V1p1beta1";
 message Source {
 	option (google.api.resource) = {
 		type: "securitycenter.googleapis.com/Source"
-		pattern: ["organizations/{organization}/sources/{source}"]
+		pattern: ["organizations/{organization}/sources/{source}","folders/{folder}/sources/{source}","projects/{project}/sources/{source}"]
 	};
 
 	string name = 1;
 	string display_name = 2;
 	string description = 3;
+	string canonical_name = 14;
 }

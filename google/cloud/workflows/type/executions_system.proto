@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.cloud.workflows.type;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "google.golang.org/genproto/googleapis/cloud/workflows/type";
+
+
+message ExecutionsSystemLog {
+
+	message Start {
+
+		string argument = 2;
+	}
+
+	message Success {
+
+		string result = 2;
+	}
+
+	message Failure {
+
+		string exception = 1;
+		string source = 2;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+		CANCELLED = 4;
+	}
+
+	string message = 1;
+	google.protobuf.Timestamp activity_time = 2;
+	State state = 3;
+	oneof details {
+		Start start = 4;
+		Success success = 5;
+		Failure failure = 6;
+	}
+}

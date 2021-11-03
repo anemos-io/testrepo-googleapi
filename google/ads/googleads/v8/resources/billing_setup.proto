@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/enums/billing_setup_status.proto";
+import "google/ads/googleads/v8/enums/time_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "BillingSetupProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message BillingSetup {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/BillingSetup"
+		pattern: ["customers/{customer_id}/billingSetups/{billing_setup_id}"]
+	};
+
+	message PaymentsAccountInfo {
+
+		oneof _payments_account_id {
+			string payments_account_id = 6 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _payments_account_name {
+			string payments_account_name = 7 [
+				(google.api.field_behavior) = IMMUTABLE
+			];
+		}
+		oneof _payments_profile_id {
+			string payments_profile_id = 8 [
+				(google.api.field_behavior) = IMMUTABLE
+			];
+		}
+		oneof _payments_profile_name {
+			string payments_profile_name = 9 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _secondary_payments_profile_id {
+			string secondary_payments_profile_id = 10 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/BillingSetup"
+		}
+	];
+	oneof _id {
+		int64 id = 15 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v8.enums.BillingSetupStatusEnum.BillingSetupStatus status = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _payments_account {
+		string payments_account = 18 [
+			(google.api.field_behavior) = IMMUTABLE
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/PaymentsAccount"
+			}
+		];
+	}
+	PaymentsAccountInfo payments_account_info = 12 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	oneof start_time {
+		string start_date_time = 16 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v8.enums.TimeTypeEnum.TimeType start_time_type = 10 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	oneof end_time {
+		string end_date_time = 17 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v8.enums.TimeTypeEnum.TimeType end_time_type = 14 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

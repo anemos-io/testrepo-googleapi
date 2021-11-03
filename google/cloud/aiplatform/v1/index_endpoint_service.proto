@@ -1,0 +1,218 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/index_endpoint.proto";
+import "google/cloud/aiplatform/v1/operation.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "IndexEndpointServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+service IndexEndpointService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateIndexEndpoint(google.cloud.aiplatform.v1.CreateIndexEndpointRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "IndexEndpoint"
+			metadata_type: "CreateIndexEndpointOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,index_endpoint";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/indexEndpoints"
+			body: "index_endpoint"
+		};
+
+	}
+	rpc GetIndexEndpoint(google.cloud.aiplatform.v1.GetIndexEndpointRequest) returns (google.cloud.aiplatform.v1.IndexEndpoint) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/indexEndpoints/*}"
+		};
+
+	}
+	rpc ListIndexEndpoints(google.cloud.aiplatform.v1.ListIndexEndpointsRequest) returns (google.cloud.aiplatform.v1.ListIndexEndpointsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/indexEndpoints"
+		};
+
+	}
+	rpc UpdateIndexEndpoint(google.cloud.aiplatform.v1.UpdateIndexEndpointRequest) returns (google.cloud.aiplatform.v1.IndexEndpoint) {
+		option (google.api.method_signature) = "index_endpoint,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{index_endpoint.name=projects/*/locations/*/indexEndpoints/*}"
+			body: "index_endpoint"
+		};
+
+	}
+	rpc DeleteIndexEndpoint(google.cloud.aiplatform.v1.DeleteIndexEndpointRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/indexEndpoints/*}"
+		};
+
+	}
+	rpc DeployIndex(google.cloud.aiplatform.v1.DeployIndexRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "DeployIndexResponse"
+			metadata_type: "DeployIndexOperationMetadata"
+		};
+		option (google.api.method_signature) = "index_endpoint,deployed_index";
+		option (google.api.http) = {
+			post: "/v1/{index_endpoint=projects/*/locations/*/indexEndpoints/*}:deployIndex"
+			body: "*"
+		};
+
+	}
+	rpc UndeployIndex(google.cloud.aiplatform.v1.UndeployIndexRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "UndeployIndexResponse"
+			metadata_type: "UndeployIndexOperationMetadata"
+		};
+		option (google.api.method_signature) = "index_endpoint,deployed_index_id";
+		option (google.api.http) = {
+			post: "/v1/{index_endpoint=projects/*/locations/*/indexEndpoints/*}:undeployIndex"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateIndexEndpointRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1.IndexEndpoint index_endpoint = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateIndexEndpointOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message GetIndexEndpointRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/IndexEndpoint"
+		}
+	];
+}
+
+message ListIndexEndpointsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.FieldMask read_mask = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListIndexEndpointsResponse {
+
+	repeated google.cloud.aiplatform.v1.IndexEndpoint index_endpoints = 1;
+	string next_page_token = 2;
+}
+
+message UpdateIndexEndpointRequest {
+
+	google.cloud.aiplatform.v1.IndexEndpoint index_endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteIndexEndpointRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/IndexEndpoint"
+		}
+	];
+}
+
+message DeployIndexRequest {
+
+	string index_endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/IndexEndpoint"
+		}
+	];
+	google.cloud.aiplatform.v1.DeployedIndex deployed_index = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeployIndexResponse {
+
+	google.cloud.aiplatform.v1.DeployedIndex deployed_index = 1;
+}
+
+message DeployIndexOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+	string deployed_index_id = 2;
+}
+
+message UndeployIndexRequest {
+
+	string index_endpoint = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/IndexEndpoint"
+		}
+	];
+	string deployed_index_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UndeployIndexResponse {
+
+}
+
+message UndeployIndexOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}

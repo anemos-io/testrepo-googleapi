@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.apps.script.type.drive;
+
+import "google/apps/script/type/extension_point.proto";
+
+option java_package = "com.google.apps.script.type.drive";
+option java_outer_classname = "DriveAddOnManifestProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/script/type/drive";
+option csharp_namespace = "Google.Apps.Script.Type.Drive";
+option php_namespace = "Google\\Apps\\Script\\Type\\Drive";
+option ruby_package = "Google::Apps::Script::Type::Drive";
+
+
+message DriveAddOnManifest {
+
+	google.apps.script.type.HomepageExtensionPoint homepage_trigger = 1;
+	DriveExtensionPoint on_items_selected_trigger = 2;
+}
+
+message DriveExtensionPoint {
+
+	string run_function = 1;
+}

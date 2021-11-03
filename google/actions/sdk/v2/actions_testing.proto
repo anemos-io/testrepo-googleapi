@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+import "google/actions/sdk/v2/conversation/intent.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/canvas.proto";
+import "google/actions/sdk/v2/conversation/prompt/prompt.proto";
+import "google/actions/sdk/v2/event_logs.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/empty.proto";
+import "google/type/latlng.proto";
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "ActionsTestingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+service ActionsTesting {
+	option (google.api.default_host) = "actions.googleapis.com";
+
+	rpc SendInteraction(google.actions.sdk.v2.SendInteractionRequest) returns (google.actions.sdk.v2.SendInteractionResponse) {
+		option (google.api.http) = {
+			post: "/v2/{project=projects/*}:sendInteraction"
+			body: "*"
+		};
+
+	}
+	rpc MatchIntents(google.actions.sdk.v2.MatchIntentsRequest) returns (google.actions.sdk.v2.MatchIntentsResponse) {
+		option (google.api.method_signature) = "project,query,locale";
+		option (google.api.http) = {
+			post: "/v2/{project=projects/*}:matchIntents"
+			body: "*"
+		};
+
+	}
+	rpc SetWebAndAppActivityControl(google.actions.sdk.v2.SetWebAndAppActivityControlRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "enabled";
+		option (google.api.http) = {
+			post: "/v2:setWebAndAppActivityControl"
+			body: "*"
+		};
+
+	}
+}
+
+message SendInteractionRequest {
+
+	string project = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	UserInput input = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	DeviceProperties device_properties = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string conversation_token = 4;
+}
+
+message UserInput {
+
+	enum InputType {
+
+		INPUT_TYPE_UNSPECIFIED = 0;
+		TOUCH = 1;
+		VOICE = 2;
+		KEYBOARD = 3;
+		URL = 4;
+	}
+
+	string query = 1;
+	InputType type = 2;
+}
+
+message DeviceProperties {
+
+	enum Surface {
+
+		SURFACE_UNSPECIFIED = 0;
+		SPEAKER = 1;
+		PHONE = 2;
+		ALLO = 3;
+		SMART_DISPLAY = 4;
+		KAI_OS = 5;
+	}
+
+	Surface surface = 1;
+	Location location = 2;
+	string locale = 3;
+	string time_zone = 4;
+}
+
+message Location {
+
+	google.type.LatLng coordinates = 1;
+	string formatted_address = 2;
+	string zip_code = 3;
+	string city = 4;
+}
+
+message SendInteractionResponse {
+
+	Output output = 1;
+	Diagnostics diagnostics = 2;
+	string conversation_token = 3;
+}
+
+message Output {
+
+	string text = 1;
+	repeated string speech = 2;
+	google.actions.sdk.v2.conversation.Canvas canvas = 3;
+	google.actions.sdk.v2.conversation.Prompt actions_builder_prompt = 4;
+}
+
+message Diagnostics {
+
+	repeated google.actions.sdk.v2.ExecutionEvent actions_builder_events = 1;
+}
+
+message MatchIntentsRequest {
+
+	string project = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string locale = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MatchIntentsResponse {
+
+	repeated google.actions.sdk.v2.conversation.Intent matched_intents = 1;
+}
+
+message SetWebAndAppActivityControlRequest {
+
+	bool enabled = 1;
+}

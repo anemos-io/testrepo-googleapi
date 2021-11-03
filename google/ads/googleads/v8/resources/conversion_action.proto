@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/common/tag_snippet.proto";
+import "google/ads/googleads/v8/enums/attribution_model.proto";
+import "google/ads/googleads/v8/enums/conversion_action_category.proto";
+import "google/ads/googleads/v8/enums/conversion_action_counting_type.proto";
+import "google/ads/googleads/v8/enums/conversion_action_status.proto";
+import "google/ads/googleads/v8/enums/conversion_action_type.proto";
+import "google/ads/googleads/v8/enums/data_driven_model_status.proto";
+import "google/ads/googleads/v8/enums/mobile_app_vendor.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "ConversionActionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message ConversionAction {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/ConversionAction"
+		pattern: ["customers/{customer_id}/conversionActions/{conversion_action_id}"]
+	};
+
+	message AttributionModelSettings {
+
+		google.ads.googleads.v8.enums.AttributionModelEnum.AttributionModel attribution_model = 1;
+		google.ads.googleads.v8.enums.DataDrivenModelStatusEnum.DataDrivenModelStatus data_driven_model_status = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message ValueSettings {
+
+		oneof _default_value {
+			double default_value = 4;
+		}
+		oneof _default_currency_code {
+			string default_currency_code = 5;
+		}
+		oneof _always_use_default_value {
+			bool always_use_default_value = 6;
+		}
+	}
+
+	message FirebaseSettings {
+
+		oneof _event_name {
+			string event_name = 3 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _project_id {
+			string project_id = 4 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message ThirdPartyAppAnalyticsSettings {
+
+		oneof _event_name {
+			string event_name = 2 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		string provider_name = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/ConversionAction"
+		}
+	];
+	oneof _id {
+		int64 id = 21 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 22;
+	}
+	google.ads.googleads.v8.enums.ConversionActionStatusEnum.ConversionActionStatus status = 4;
+	google.ads.googleads.v8.enums.ConversionActionTypeEnum.ConversionActionType type = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v8.enums.ConversionActionCategoryEnum.ConversionActionCategory category = 6;
+	oneof _owner_customer {
+		string owner_customer = 23 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Customer"
+			}
+		];
+	}
+	oneof _include_in_conversions_metric {
+		bool include_in_conversions_metric = 24;
+	}
+	oneof _click_through_lookback_window_days {
+		int64 click_through_lookback_window_days = 25;
+	}
+	oneof _view_through_lookback_window_days {
+		int64 view_through_lookback_window_days = 26;
+	}
+	ValueSettings value_settings = 11;
+	google.ads.googleads.v8.enums.ConversionActionCountingTypeEnum.ConversionActionCountingType counting_type = 12;
+	AttributionModelSettings attribution_model_settings = 13;
+	repeated google.ads.googleads.v8.common.TagSnippet tag_snippets = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _phone_call_duration_seconds {
+		int64 phone_call_duration_seconds = 27;
+	}
+	oneof _app_id {
+		string app_id = 28;
+	}
+	google.ads.googleads.v8.enums.MobileAppVendorEnum.MobileAppVendor mobile_app_vendor = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	FirebaseSettings firebase_settings = 18 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ThirdPartyAppAnalyticsSettings third_party_app_analytics_settings = 19 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

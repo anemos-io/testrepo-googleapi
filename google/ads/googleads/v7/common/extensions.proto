@@ -1,0 +1,269 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/ads/googleads/v7/common/custom_parameter.proto";
+import "google/ads/googleads/v7/common/feed_common.proto";
+import "google/ads/googleads/v7/enums/app_store.proto";
+import "google/ads/googleads/v7/enums/call_conversion_reporting_state.proto";
+import "google/ads/googleads/v7/enums/price_extension_price_qualifier.proto";
+import "google/ads/googleads/v7/enums/price_extension_price_unit.proto";
+import "google/ads/googleads/v7/enums/price_extension_type.proto";
+import "google/ads/googleads/v7/enums/promotion_extension_discount_modifier.proto";
+import "google/ads/googleads/v7/enums/promotion_extension_occasion.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "ExtensionsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message AppFeedItem {
+
+	oneof _link_text {
+		string link_text = 9;
+	}
+	oneof _app_id {
+		string app_id = 10;
+	}
+	google.ads.googleads.v7.enums.AppStoreEnum.AppStore app_store = 3;
+	repeated string final_urls = 11;
+	repeated string final_mobile_urls = 12;
+	oneof _tracking_url_template {
+		string tracking_url_template = 13;
+	}
+	repeated google.ads.googleads.v7.common.CustomParameter url_custom_parameters = 7;
+	oneof _final_url_suffix {
+		string final_url_suffix = 14;
+	}
+}
+
+message CallFeedItem {
+
+	oneof _phone_number {
+		string phone_number = 7;
+	}
+	oneof _country_code {
+		string country_code = 8;
+	}
+	oneof _call_tracking_enabled {
+		bool call_tracking_enabled = 9;
+	}
+	oneof _call_conversion_action {
+		string call_conversion_action = 10;
+	}
+	oneof _call_conversion_tracking_disabled {
+		bool call_conversion_tracking_disabled = 11;
+	}
+	google.ads.googleads.v7.enums.CallConversionReportingStateEnum.CallConversionReportingState call_conversion_reporting_state = 6;
+}
+
+message CalloutFeedItem {
+
+	oneof _callout_text {
+		string callout_text = 2;
+	}
+}
+
+message LocationFeedItem {
+
+	oneof _business_name {
+		string business_name = 9;
+	}
+	oneof _address_line_1 {
+		string address_line_1 = 10;
+	}
+	oneof _address_line_2 {
+		string address_line_2 = 11;
+	}
+	oneof _city {
+		string city = 12;
+	}
+	oneof _province {
+		string province = 13;
+	}
+	oneof _postal_code {
+		string postal_code = 14;
+	}
+	oneof _country_code {
+		string country_code = 15;
+	}
+	oneof _phone_number {
+		string phone_number = 16;
+	}
+}
+
+message AffiliateLocationFeedItem {
+
+	oneof _business_name {
+		string business_name = 11;
+	}
+	oneof _address_line_1 {
+		string address_line_1 = 12;
+	}
+	oneof _address_line_2 {
+		string address_line_2 = 13;
+	}
+	oneof _city {
+		string city = 14;
+	}
+	oneof _province {
+		string province = 15;
+	}
+	oneof _postal_code {
+		string postal_code = 16;
+	}
+	oneof _country_code {
+		string country_code = 17;
+	}
+	oneof _phone_number {
+		string phone_number = 18;
+	}
+	oneof _chain_id {
+		int64 chain_id = 19;
+	}
+	oneof _chain_name {
+		string chain_name = 20;
+	}
+}
+
+message TextMessageFeedItem {
+
+	oneof _business_name {
+		string business_name = 6;
+	}
+	oneof _country_code {
+		string country_code = 7;
+	}
+	oneof _phone_number {
+		string phone_number = 8;
+	}
+	oneof _text {
+		string text = 9;
+	}
+	oneof _extension_text {
+		string extension_text = 10;
+	}
+}
+
+message PriceFeedItem {
+
+	google.ads.googleads.v7.enums.PriceExtensionTypeEnum.PriceExtensionType type = 1;
+	google.ads.googleads.v7.enums.PriceExtensionPriceQualifierEnum.PriceExtensionPriceQualifier price_qualifier = 2;
+	oneof _tracking_url_template {
+		string tracking_url_template = 7;
+	}
+	oneof _language_code {
+		string language_code = 8;
+	}
+	repeated PriceOffer price_offerings = 5;
+	oneof _final_url_suffix {
+		string final_url_suffix = 9;
+	}
+}
+
+message PriceOffer {
+
+	oneof _header {
+		string header = 7;
+	}
+	oneof _description {
+		string description = 8;
+	}
+	google.ads.googleads.v7.common.Money price = 3;
+	google.ads.googleads.v7.enums.PriceExtensionPriceUnitEnum.PriceExtensionPriceUnit unit = 4;
+	repeated string final_urls = 9;
+	repeated string final_mobile_urls = 10;
+}
+
+message PromotionFeedItem {
+
+	oneof _promotion_target {
+		string promotion_target = 16;
+	}
+	google.ads.googleads.v7.enums.PromotionExtensionDiscountModifierEnum.PromotionExtensionDiscountModifier discount_modifier = 2;
+	oneof _promotion_start_date {
+		string promotion_start_date = 19;
+	}
+	oneof _promotion_end_date {
+		string promotion_end_date = 20;
+	}
+	google.ads.googleads.v7.enums.PromotionExtensionOccasionEnum.PromotionExtensionOccasion occasion = 9;
+	repeated string final_urls = 21;
+	repeated string final_mobile_urls = 22;
+	oneof _tracking_url_template {
+		string tracking_url_template = 23;
+	}
+	repeated google.ads.googleads.v7.common.CustomParameter url_custom_parameters = 13;
+	oneof _final_url_suffix {
+		string final_url_suffix = 24;
+	}
+	oneof _language_code {
+		string language_code = 25;
+	}
+	oneof discount_type {
+		int64 percent_off = 17;
+		google.ads.googleads.v7.common.Money money_amount_off = 4;
+	}
+	oneof promotion_trigger {
+		string promotion_code = 18;
+		google.ads.googleads.v7.common.Money orders_over_amount = 6;
+	}
+}
+
+message StructuredSnippetFeedItem {
+
+	oneof _header {
+		string header = 3;
+	}
+	repeated string values = 4;
+}
+
+message SitelinkFeedItem {
+
+	oneof _link_text {
+		string link_text = 9;
+	}
+	oneof _line1 {
+		string line1 = 10;
+	}
+	oneof _line2 {
+		string line2 = 11;
+	}
+	repeated string final_urls = 12;
+	repeated string final_mobile_urls = 13;
+	oneof _tracking_url_template {
+		string tracking_url_template = 14;
+	}
+	repeated google.ads.googleads.v7.common.CustomParameter url_custom_parameters = 7;
+	oneof _final_url_suffix {
+		string final_url_suffix = 15;
+	}
+}
+
+message HotelCalloutFeedItem {
+
+	oneof _text {
+		string text = 3;
+	}
+	oneof _language_code {
+		string language_code = 4;
+	}
+}
+
+message ImageFeedItem {
+
+	string image_asset = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Asset"
+		}
+	];
+}

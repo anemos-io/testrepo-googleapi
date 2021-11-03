@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1.schema.predict.prediction;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1.schema.predict.prediction";
+option java_outer_classname = "TextExtractionPredictionResultProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1/schema/predict/prediction;prediction";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1.Schema.Predict.Prediction";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1\\Schema\\Predict\\Prediction";
+option ruby_package = "Google::Cloud::AIPlatform::V1::Schema::Predict::Prediction";
+
+
+message TextExtractionPredictionResult {
+
+	repeated int64 ids = 1;
+	repeated string display_names = 2;
+	repeated int64 text_segment_start_offsets = 3;
+	repeated int64 text_segment_end_offsets = 4;
+	repeated float confidences = 5;
+}

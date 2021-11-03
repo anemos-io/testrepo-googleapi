@@ -13,6 +13,7 @@ import "google/protobuf/struct.proto";
 option java_package = "com.google.home.graph.v1";
 option java_outer_classname = "HomeGraphApiServiceProto";
 option go_package = "google.golang.org/genproto/googleapis/home/graph/v1;graph";
+option php_namespace = "Google\\Home\\Graph\\V1";
 option (google.api.resource_definition) = {
 	type: "homegraph.googleapis.com/AgentUserPath"
 	pattern: ["agentUsers/{agent_user_path=**}"]

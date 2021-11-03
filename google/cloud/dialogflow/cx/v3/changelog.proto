@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3";
+option java_outer_classname = "ChangelogProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3";
+
+
+service Changelogs {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListChangelogs(google.cloud.dialogflow.cx.v3.ListChangelogsRequest) returns (google.cloud.dialogflow.cx.v3.ListChangelogsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3/{parent=projects/*/locations/*/agents/*}/changelogs"
+		};
+
+	}
+	rpc GetChangelog(google.cloud.dialogflow.cx.v3.GetChangelogRequest) returns (google.cloud.dialogflow.cx.v3.Changelog) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*/locations/*/agents/*/changelogs/*}"
+		};
+
+	}
+}
+
+message ListChangelogsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Changelog"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListChangelogsResponse {
+
+	repeated Changelog changelogs = 1;
+	string next_page_token = 2;
+}
+
+message GetChangelogRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Changelog"
+		}
+	];
+}
+
+message Changelog {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Changelog"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/changelogs/{changelog}"]
+	};
+
+	string name = 1;
+	string user_email = 2;
+	string display_name = 7;
+	string action = 11;
+	string type = 8;
+	string resource = 3;
+	google.protobuf.Timestamp create_time = 4;
+}

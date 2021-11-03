@@ -2,12 +2,12 @@ syntax = "proto3";
 
 package google.cloud.securitycenter.v1p1beta1;
 
-import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/cloud/securitycenter/v1p1beta1/security_marks.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.cloud.securitycenter.v1p1beta1";
 option java_multiple_files = true;
@@ -20,7 +20,7 @@ option ruby_package = "Google::Cloud::SecurityCenter::V1p1beta1";
 message Finding {
 	option (google.api.resource) = {
 		type: "securitycenter.googleapis.com/Finding"
-		pattern: ["organizations/{organization}/sources/{source}/findings/{finding}"]
+		pattern: ["organizations/{organization}/sources/{source}/findings/{finding}","folders/{folder}/sources/{source}/findings/{finding}","projects/{project}/sources/{source}/findings/{finding}"]
 	};
 
 	enum State {
@@ -52,4 +52,5 @@ message Finding {
 	google.protobuf.Timestamp event_time = 9;
 	google.protobuf.Timestamp create_time = 10;
 	Severity severity = 13;
+	string canonical_name = 14;
 }

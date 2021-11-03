@@ -24,8 +24,11 @@ message StandardSqlDataType {
 		DATE = 10;
 		TIME = 20;
 		DATETIME = 21;
+		INTERVAL = 26;
 		GEOGRAPHY = 22;
 		NUMERIC = 23;
+		BIGNUMERIC = 24;
+		JSON = 25;
 		ARRAY = 16;
 		STRUCT = 17;
 	}
@@ -52,4 +55,9 @@ message StandardSqlField {
 message StandardSqlStructType {
 
 	repeated StandardSqlField fields = 1;
+}
+
+message StandardSqlTableType {
+
+	repeated StandardSqlField columns = 1;
 }

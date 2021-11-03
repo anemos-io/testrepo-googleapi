@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3beta1/advanced_settings.proto";
 import "google/cloud/dialogflow/cx/v3beta1/fulfillment.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
@@ -18,6 +19,7 @@ option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v
 option cc_enable_arenas = true;
 option objc_class_prefix = "DF";
 option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
 
 
 service Pages {
@@ -111,6 +113,7 @@ message Form {
 			(google.api.field_behavior) = REQUIRED
 		];
 		google.protobuf.Value default_value = 9;
+		bool redact = 11;
 	}
 
 	repeated Parameter parameters = 1;

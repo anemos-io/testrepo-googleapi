@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+import "google/actions/sdk/v2/conversation/prompt/content/image.proto";
+import "google/actions/sdk/v2/conversation/prompt/content/link.proto";
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "CardProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Card {
+
+	string title = 1;
+	string subtitle = 2;
+	string text = 3;
+	google.actions.sdk.v2.conversation.Image image = 4;
+	google.actions.sdk.v2.conversation.Image.ImageFill image_fill = 5;
+	google.actions.sdk.v2.conversation.Link button = 6;
+}

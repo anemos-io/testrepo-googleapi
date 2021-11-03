@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3beta1;
+
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
+option java_outer_classname = "ValidationMessageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3beta1;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3beta1";
+
+
+message ValidationMessage {
+
+	enum ResourceType {
+
+		RESOURCE_TYPE_UNSPECIFIED = 0;
+		AGENT = 1;
+		INTENT = 2;
+		INTENT_TRAINING_PHRASE = 8;
+		INTENT_PARAMETER = 9;
+		INTENTS = 10;
+		INTENT_TRAINING_PHRASES = 11;
+		ENTITY_TYPE = 3;
+		ENTITY_TYPES = 12;
+		WEBHOOK = 4;
+		FLOW = 5;
+		PAGE = 6;
+		PAGES = 13;
+		TRANSITION_ROUTE_GROUP = 7;
+	}
+
+	enum Severity {
+
+		SEVERITY_UNSPECIFIED = 0;
+		INFO = 1;
+		WARNING = 2;
+		ERROR = 3;
+	}
+
+	ResourceType resource_type = 1;
+	repeated string resources = 2 [
+		deprecated = true
+	];
+	repeated ResourceName resource_names = 6;
+	Severity severity = 3;
+	string detail = 4;
+}
+
+message ResourceName {
+
+	string name = 1;
+	string display_name = 2;
+}

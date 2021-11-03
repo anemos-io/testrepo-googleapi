@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/datacatalog/v1/policytagmanager.proto";
+import "google/iam/v1/policy.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1";
+option java_outer_classname = "PolicyTagManagerSerializationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1";
+option ruby_package = "Google::Cloud::DataCatalog::V1";
+
+
+service PolicyTagManagerSerialization {
+	option (google.api.default_host) = "datacatalog.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ReplaceTaxonomy(google.cloud.datacatalog.v1.ReplaceTaxonomyRequest) returns (google.cloud.datacatalog.v1.Taxonomy) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/taxonomies/*}:replace"
+			body: "*"
+		};
+
+	}
+	rpc ImportTaxonomies(google.cloud.datacatalog.v1.ImportTaxonomiesRequest) returns (google.cloud.datacatalog.v1.ImportTaxonomiesResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/taxonomies:import"
+			body: "*"
+		};
+
+	}
+	rpc ExportTaxonomies(google.cloud.datacatalog.v1.ExportTaxonomiesRequest) returns (google.cloud.datacatalog.v1.ExportTaxonomiesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/taxonomies:export"
+		};
+
+	}
+}
+
+message SerializedTaxonomy {
+
+	string display_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2;
+	repeated SerializedPolicyTag policy_tags = 3;
+	repeated google.cloud.datacatalog.v1.Taxonomy.PolicyType activated_policy_types = 4;
+}
+
+message SerializedPolicyTag {
+
+	string policy_tag = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3;
+	repeated SerializedPolicyTag child_policy_tags = 4;
+}
+
+message ReplaceTaxonomyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+	SerializedTaxonomy serialized_taxonomy = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ImportTaxonomiesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+	oneof source {
+		InlineSource inline_source = 2;
+		CrossRegionalSource cross_regional_source = 3;
+	}
+}
+
+message InlineSource {
+
+	repeated SerializedTaxonomy taxonomies = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CrossRegionalSource {
+
+	string taxonomy = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+}
+
+message ImportTaxonomiesResponse {
+
+	repeated google.cloud.datacatalog.v1.Taxonomy taxonomies = 1;
+}
+
+message ExportTaxonomiesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+	repeated string taxonomies = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Taxonomy"
+		}
+	];
+	oneof destination {
+		bool serialized_taxonomies = 3;
+	}
+}
+
+message ExportTaxonomiesResponse {
+
+	repeated SerializedTaxonomy taxonomies = 1;
+}

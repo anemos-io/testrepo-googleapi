@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.services;
+
+import "google/ads/googleads/v8/enums/response_content_type.proto";
+import "google/ads/googleads/v8/resources/smart_campaign_setting.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v8.services";
+option java_outer_classname = "SmartCampaignSettingServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V8::Services";
+
+
+service SmartCampaignSettingService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetSmartCampaignSetting(google.ads.googleads.v8.services.GetSmartCampaignSettingRequest) returns (google.ads.googleads.v8.resources.SmartCampaignSetting) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v8/{resource_name=customers/*/smartCampaignSettings/*}"
+		};
+
+	}
+	rpc MutateSmartCampaignSettings(google.ads.googleads.v8.services.MutateSmartCampaignSettingsRequest) returns (google.ads.googleads.v8.services.MutateSmartCampaignSettingsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v8/customers/{customer_id=*}/smartCampaignSettings:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetSmartCampaignSettingRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/SmartCampaignSetting"
+		}
+	];
+}
+
+message MutateSmartCampaignSettingsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated SmartCampaignSettingOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+	google.ads.googleads.v8.enums.ResponseContentTypeEnum.ResponseContentType response_content_type = 5;
+}
+
+message SmartCampaignSettingOperation {
+
+	google.ads.googleads.v8.resources.SmartCampaignSetting update = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message MutateSmartCampaignSettingsResponse {
+
+	google.rpc.Status partial_failure_error = 1;
+	repeated MutateSmartCampaignSettingResult results = 2;
+}
+
+message MutateSmartCampaignSettingResult {
+
+	string resource_name = 1;
+	google.ads.googleads.v8.resources.SmartCampaignSetting smart_campaign_setting = 2;
+}

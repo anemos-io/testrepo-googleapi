@@ -13,6 +13,9 @@ option java_outer_classname = "CursorProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
 option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.PubSubLite.V1";
+option php_namespace = "Google\\Cloud\\PubSubLite\\V1";
+option ruby_package = "Google::Cloud::PubSubLite::V1";
 
 
 service CursorService {
@@ -20,7 +23,13 @@ service CursorService {
 	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
 
 	rpc StreamingCommitCursor(stream google.cloud.pubsublite.v1.StreamingCommitCursorRequest) returns (stream google.cloud.pubsublite.v1.StreamingCommitCursorResponse) {}
-	rpc CommitCursor(google.cloud.pubsublite.v1.CommitCursorRequest) returns (google.cloud.pubsublite.v1.CommitCursorResponse) {}
+	rpc CommitCursor(google.cloud.pubsublite.v1.CommitCursorRequest) returns (google.cloud.pubsublite.v1.CommitCursorResponse) {
+		option (google.api.http) = {
+			post: "/v1/cursor/{subscription=projects/*/locations/*/subscriptions/*}:commitCursor"
+			body: "*"
+		};
+
+	}
 	rpc ListPartitionCursors(google.cloud.pubsublite.v1.ListPartitionCursorsRequest) returns (google.cloud.pubsublite.v1.ListPartitionCursorsResponse) {
 		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {

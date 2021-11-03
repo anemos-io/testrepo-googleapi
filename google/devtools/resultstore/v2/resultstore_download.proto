@@ -3,6 +3,9 @@ syntax = "proto3";
 package google.devtools.resultstore.v2;
 
 import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
 import "google/devtools/resultstore/v2/action.proto";
 import "google/devtools/resultstore/v2/configuration.proto";
 import "google/devtools/resultstore/v2/configured_target.proto";
@@ -10,9 +13,9 @@ import "google/devtools/resultstore/v2/download_metadata.proto";
 import "google/devtools/resultstore/v2/file_set.proto";
 import "google/devtools/resultstore/v2/invocation.proto";
 import "google/devtools/resultstore/v2/target.proto";
-import "google/api/client.proto";
 
 option java_package = "com.google.devtools.resultstore.v2";
+option java_outer_classname = "ResultStoreDownloadProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
 
@@ -22,6 +25,7 @@ service ResultStoreDownload {
 	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
 
 	rpc GetInvocation(google.devtools.resultstore.v2.GetInvocationRequest) returns (google.devtools.resultstore.v2.Invocation) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v2/{name=invocations/*}"
 		};
@@ -33,67 +37,97 @@ service ResultStoreDownload {
 		};
 
 	}
+	rpc ExportInvocation(google.devtools.resultstore.v2.ExportInvocationRequest) returns (google.devtools.resultstore.v2.ExportInvocationResponse) {
+		option (google.api.http) = {
+			post: "/v2/{name=invocations/*}:export"
+			body: "*"
+		};
+
+	}
 	rpc GetInvocationDownloadMetadata(google.devtools.resultstore.v2.GetInvocationDownloadMetadataRequest) returns (google.devtools.resultstore.v2.DownloadMetadata) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v2/{name=invocations/*/downloadMetadata}"
 		};
 
 	}
 	rpc GetConfiguration(google.devtools.resultstore.v2.GetConfigurationRequest) returns (google.devtools.resultstore.v2.Configuration) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v2/{name=invocations/*/configs/*}"
 		};
 
 	}
 	rpc ListConfigurations(google.devtools.resultstore.v2.ListConfigurationsRequest) returns (google.devtools.resultstore.v2.ListConfigurationsResponse) {
+		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v2/{parent=invocations/*}/configs"
 		};
 
 	}
 	rpc GetTarget(google.devtools.resultstore.v2.GetTargetRequest) returns (google.devtools.resultstore.v2.Target) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v2/{name=invocations/*/targets/*}"
 		};
 
 	}
 	rpc ListTargets(google.devtools.resultstore.v2.ListTargetsRequest) returns (google.devtools.resultstore.v2.ListTargetsResponse) {
+		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v2/{parent=invocations/*}/targets"
 		};
 
 	}
 	rpc GetConfiguredTarget(google.devtools.resultstore.v2.GetConfiguredTargetRequest) returns (google.devtools.resultstore.v2.ConfiguredTarget) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v2/{name=invocations/*/targets/*/configuredTargets/*}"
 		};
 
 	}
 	rpc ListConfiguredTargets(google.devtools.resultstore.v2.ListConfiguredTargetsRequest) returns (google.devtools.resultstore.v2.ListConfiguredTargetsResponse) {
+		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v2/{parent=invocations/*/targets/*}/configuredTargets"
 		};
 
 	}
+	rpc SearchConfiguredTargets(google.devtools.resultstore.v2.SearchConfiguredTargetsRequest) returns (google.devtools.resultstore.v2.SearchConfiguredTargetsResponse) {
+		option (google.api.http) = {
+			get: "/v2/{parent=invocations/*/targets/*}/configuredTargets:search"
+		};
+
+	}
 	rpc GetAction(google.devtools.resultstore.v2.GetActionRequest) returns (google.devtools.resultstore.v2.Action) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v2/{name=invocations/*/targets/*/configuredTargets/*/actions/*}"
 		};
 
 	}
 	rpc ListActions(google.devtools.resultstore.v2.ListActionsRequest) returns (google.devtools.resultstore.v2.ListActionsResponse) {
+		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v2/{parent=invocations/*/targets/*/configuredTargets/*}/actions"
 		};
 
 	}
+	rpc BatchListActions(google.devtools.resultstore.v2.BatchListActionsRequest) returns (google.devtools.resultstore.v2.BatchListActionsResponse) {
+		option (google.api.http) = {
+			get: "/v2/{parent=invocations/*}/actions:batchList"
+		};
+
+	}
 	rpc GetFileSet(google.devtools.resultstore.v2.GetFileSetRequest) returns (google.devtools.resultstore.v2.FileSet) {
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v2/{name=invocations/*/fileSets/*}"
 		};
 
 	}
 	rpc ListFileSets(google.devtools.resultstore.v2.ListFileSetsRequest) returns (google.devtools.resultstore.v2.ListFileSetsResponse) {
+		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v2/{parent=invocations/*}/fileSets"
 		};
@@ -112,7 +146,12 @@ service ResultStoreDownload {
 
 message GetInvocationRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 }
 
 message SearchInvocationsRequest {
@@ -133,19 +172,60 @@ message SearchInvocationsResponse {
 	string next_page_token = 2;
 }
 
+message ExportInvocationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
+	int32 page_size = 2;
+	oneof page_start {
+		string page_token = 3;
+		int64 offset = 4;
+	}
+}
+
+message ExportInvocationResponse {
+
+	google.devtools.resultstore.v2.Invocation invocation = 1;
+	repeated google.devtools.resultstore.v2.Target targets = 2;
+	repeated google.devtools.resultstore.v2.Configuration configurations = 3;
+	repeated google.devtools.resultstore.v2.ConfiguredTarget configured_targets = 4;
+	repeated google.devtools.resultstore.v2.Action actions = 5;
+	repeated google.devtools.resultstore.v2.FileSet file_sets = 6;
+	string next_page_token = 7;
+}
+
 message GetInvocationDownloadMetadataRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/DownloadMetadata"
+		}
+	];
 }
 
 message GetConfigurationRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Configuration"
+		}
+	];
 }
 
 message ListConfigurationsRequest {
 
-	string parent = 1;
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 	int32 page_size = 2;
 	oneof page_start {
 		string page_token = 3;
@@ -162,12 +242,22 @@ message ListConfigurationsResponse {
 
 message GetTargetRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Target"
+		}
+	];
 }
 
 message ListTargetsRequest {
 
-	string parent = 1;
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 	int32 page_size = 2;
 	oneof page_start {
 		string page_token = 3;
@@ -184,12 +274,22 @@ message ListTargetsResponse {
 
 message GetConfiguredTargetRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/ConfiguredTarget"
+		}
+	];
 }
 
 message ListConfiguredTargetsRequest {
 
-	string parent = 1;
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Target"
+		}
+	];
 	int32 page_size = 2;
 	oneof page_start {
 		string page_token = 3;
@@ -204,14 +304,48 @@ message ListConfiguredTargetsResponse {
 	string next_page_token = 2;
 }
 
+message SearchConfiguredTargetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Target"
+		}
+	];
+	int32 page_size = 2;
+	oneof page_start {
+		string page_token = 3;
+		int64 offset = 4;
+	}
+	string query = 5;
+	string project_id = 6;
+	bool exact_match = 7;
+}
+
+message SearchConfiguredTargetsResponse {
+
+	repeated google.devtools.resultstore.v2.ConfiguredTarget configured_targets = 1;
+	string next_page_token = 2;
+}
+
 message GetActionRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Action"
+		}
+	];
 }
 
 message ListActionsRequest {
 
-	string parent = 1;
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/ConfiguredTarget"
+		}
+	];
 	int32 page_size = 2;
 	oneof page_start {
 		string page_token = 3;
@@ -226,14 +360,48 @@ message ListActionsResponse {
 	string next_page_token = 2;
 }
 
+message BatchListActionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
+	repeated string configured_targets = 2;
+	int32 page_size = 3;
+	oneof page_start {
+		string page_token = 4;
+		int64 offset = 5;
+	}
+	string filter = 6;
+}
+
+message BatchListActionsResponse {
+
+	repeated google.devtools.resultstore.v2.Action actions = 1;
+	string next_page_token = 2;
+	repeated string not_found = 3;
+}
+
 message GetFileSetRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/FileSet"
+		}
+	];
 }
 
 message ListFileSetsRequest {
 
-	string parent = 1;
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "resultstore.googleapis.com/Invocation"
+		}
+	];
 	int32 page_size = 2;
 	oneof page_start {
 		string page_token = 3;
@@ -250,7 +418,12 @@ message ListFileSetsResponse {
 
 message TraverseFileSetsRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "*"
+		}
+	];
 	int32 page_size = 2;
 	oneof page_start {
 		string page_token = 3;

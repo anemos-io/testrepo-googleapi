@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package google.identity.accesscontextmanager.v1;
 
+import "google/api/resource.proto";
 import "google/identity/accesscontextmanager/type/device_resources.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/expr.proto";
@@ -18,6 +19,10 @@ option ruby_package = "Google::Identity::AccessContextManager::V1";
 
 
 message AccessLevel {
+	option (google.api.resource) = {
+		type: "accesscontextmanager.googleapis.com/AccessLevel"
+		pattern: ["accessPolicies/{access_policy}/accessLevels/{access_level}"]
+	};
 
 	string name = 1;
 	string title = 2;

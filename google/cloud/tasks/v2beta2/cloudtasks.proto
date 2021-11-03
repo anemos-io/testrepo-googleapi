@@ -193,6 +193,9 @@ message ListQueuesRequest {
 	string filter = 2;
 	int32 page_size = 3;
 	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message ListQueuesResponse {
@@ -208,6 +211,9 @@ message GetQueueRequest {
 		(google.api.resource_reference) = {
 			type: "cloudtasks.googleapis.com/Queue"
 		}
+	];
+	google.protobuf.FieldMask read_mask = 2 [
+		(google.api.field_behavior) = OPTIONAL
 	];
 }
 

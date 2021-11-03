@@ -38,6 +38,15 @@ service Intents {
 		option (google.api.method_signature) = "parent,language_code";
 		option (google.api.http) = {
 			get: "/v2/{parent=projects/*/agent}/intents"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*/agent}/intents"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/agent/environments/*}/intents"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*/agent/environments/*}/intents"
+			}
 		};
 
 	}
@@ -46,6 +55,9 @@ service Intents {
 		option (google.api.method_signature) = "name,language_code";
 		option (google.api.http) = {
 			get: "/v2/{name=projects/*/agent/intents/*}"
+			additional_bindings: {
+				get: "/v2/{name=projects/*/locations/*/agent/intents/*}"
+			}
 		};
 
 	}
@@ -55,6 +67,10 @@ service Intents {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent}/intents"
 			body: "intent"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent}/intents"
+				body: "intent"
+			}
 		};
 
 	}
@@ -64,6 +80,10 @@ service Intents {
 		option (google.api.http) = {
 			patch: "/v2/{intent.name=projects/*/agent/intents/*}"
 			body: "intent"
+			additional_bindings: {
+				patch: "/v2/{intent.name=projects/*/locations/*/agent/intents/*}"
+				body: "intent"
+			}
 		};
 
 	}
@@ -71,6 +91,9 @@ service Intents {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			delete: "/v2/{name=projects/*/agent/intents/*}"
+			additional_bindings: {
+				delete: "/v2/{name=projects/*/locations/*/agent/intents/*}"
+			}
 		};
 
 	}
@@ -84,6 +107,10 @@ service Intents {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent}/intents:batchUpdate"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent}/intents:batchUpdate"
+				body: "*"
+			}
 		};
 
 	}
@@ -96,6 +123,10 @@ service Intents {
 		option (google.api.http) = {
 			post: "/v2/{parent=projects/*/agent}/intents:batchDelete"
 			body: "*"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*/agent}/intents:batchDelete"
+				body: "*"
+			}
 		};
 
 	}
@@ -104,7 +135,7 @@ service Intents {
 message Intent {
 	option (google.api.resource) = {
 		type: "dialogflow.googleapis.com/Intent"
-		pattern: ["projects/{project}/agent/intents/{intent}"]
+		pattern: ["projects/{project}/agent/intents/{intent}","projects/{project}/locations/{location}/agent/intents/{intent}"]
 	};
 
 	message TrainingPhrase {
@@ -550,6 +581,12 @@ message Intent {
 	bool ml_disabled = 19 [
 		(google.api.field_behavior) = OPTIONAL
 	];
+	bool live_agent_handoff = 20 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool end_interaction = 21 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 	repeated string input_context_names = 7 [
 		(google.api.field_behavior) = OPTIONAL
 	];
@@ -577,9 +614,13 @@ message Intent {
 	repeated Platform default_response_platforms = 15 [
 		(google.api.field_behavior) = OPTIONAL
 	];
-	string root_followup_intent_name = 16;
+	string root_followup_intent_name = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 	string parent_followup_intent_name = 17;
-	repeated FollowupIntentInfo followup_intent_info = 18;
+	repeated FollowupIntentInfo followup_intent_info = 18 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message ListIntentsRequest {

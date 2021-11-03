@@ -2,12 +2,19 @@ syntax = "proto3";
 
 package google.devtools.resultstore.v2;
 
+import "google/api/resource.proto";
+
 option java_package = "com.google.devtools.resultstore.v2";
+option java_outer_classname = "UploadMetadataProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
 
 
 message UploadMetadata {
+	option (google.api.resource) = {
+		type: "resultstore.googleapis.com/UploadMetadata"
+		pattern: ["invocations/{invocation}/uploadMetadata"]
+	};
 
 	string name = 1;
 	string resume_token = 2;

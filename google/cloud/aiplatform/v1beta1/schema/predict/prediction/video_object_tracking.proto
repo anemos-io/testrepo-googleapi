@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema.predict.prediction;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema.predict.prediction";
+option java_outer_classname = "VideoObjectTrackingPredictionResultProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema/predict/prediction;prediction";
+
+
+message VideoObjectTrackingPredictionResult {
+
+	message Frame {
+
+		google.protobuf.Duration time_offset = 1;
+		google.protobuf.FloatValue x_min = 2;
+		google.protobuf.FloatValue x_max = 3;
+		google.protobuf.FloatValue y_min = 4;
+		google.protobuf.FloatValue y_max = 5;
+	}
+
+	string id = 1;
+	string display_name = 2;
+	google.protobuf.Duration time_segment_start = 3;
+	google.protobuf.Duration time_segment_end = 4;
+	google.protobuf.FloatValue confidence = 5;
+	repeated Frame frames = 6;
+}

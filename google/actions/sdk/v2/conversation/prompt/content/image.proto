@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "ImageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Image {
+
+	enum ImageFill {
+
+		UNSPECIFIED = 0;
+		GRAY = 1;
+		WHITE = 2;
+		CROPPED = 3;
+	}
+
+	string url = 1;
+	string alt = 2;
+	int32 height = 3;
+	int32 width = 4;
+}

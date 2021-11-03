@@ -1,0 +1,342 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/v2/audio_config.proto";
+import "google/cloud/dialogflow/v2/participant.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2";
+option java_outer_classname = "ConversationProfileProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2";
+option (google.api.resource_definition) = {
+	type: "dialogflow.googleapis.com/CXSecuritySettings"
+	pattern: ["projects/{project}/locations/{location}/securitySettings/{security_settings}"]
+};
+option (google.api.resource_definition) = {
+	type: "dialogflow.googleapis.com/ConversationModel"
+	pattern: ["projects/{project}/locations/{location}/conversationModels/{conversation_model}"]
+};
+
+
+service ConversationProfiles {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListConversationProfiles(google.cloud.dialogflow.v2.ListConversationProfilesRequest) returns (google.cloud.dialogflow.v2.ListConversationProfilesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/conversationProfiles"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*}/conversationProfiles"
+			}
+		};
+
+	}
+	rpc GetConversationProfile(google.cloud.dialogflow.v2.GetConversationProfileRequest) returns (google.cloud.dialogflow.v2.ConversationProfile) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/conversationProfiles/*}"
+			additional_bindings: {
+				get: "/v2/{name=projects/*/locations/*/conversationProfiles/*}"
+			}
+		};
+
+	}
+	rpc CreateConversationProfile(google.cloud.dialogflow.v2.CreateConversationProfileRequest) returns (google.cloud.dialogflow.v2.ConversationProfile) {
+		option (google.api.method_signature) = "parent,conversation_profile";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/conversationProfiles"
+			body: "conversation_profile"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*}/conversationProfiles"
+				body: "conversation_profile"
+			}
+		};
+
+	}
+	rpc UpdateConversationProfile(google.cloud.dialogflow.v2.UpdateConversationProfileRequest) returns (google.cloud.dialogflow.v2.ConversationProfile) {
+		option (google.api.method_signature) = "conversation_profile,update_mask";
+		option (google.api.http) = {
+			patch: "/v2/{conversation_profile.name=projects/*/conversationProfiles/*}"
+			body: "conversation_profile"
+			additional_bindings: {
+				patch: "/v2/{conversation_profile.name=projects/*/locations/*/conversationProfiles/*}"
+				body: "conversation_profile"
+			}
+		};
+
+	}
+	rpc DeleteConversationProfile(google.cloud.dialogflow.v2.DeleteConversationProfileRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/conversationProfiles/*}"
+			additional_bindings: {
+				delete: "/v2/{name=projects/*/locations/*/conversationProfiles/*}"
+			}
+		};
+
+	}
+}
+
+message ConversationProfile {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/ConversationProfile"
+		pattern: ["projects/{project}/conversationProfiles/{conversation_profile}","projects/{project}/locations/{location}/conversationProfiles/{conversation_profile}"]
+	};
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp create_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	AutomatedAgentConfig automated_agent_config = 3;
+	HumanAgentAssistantConfig human_agent_assistant_config = 4;
+	HumanAgentHandoffConfig human_agent_handoff_config = 5;
+	NotificationConfig notification_config = 6;
+	LoggingConfig logging_config = 7;
+	NotificationConfig new_message_event_notification_config = 8;
+	google.cloud.dialogflow.v2.SpeechToTextConfig stt_config = 9;
+	string language_code = 10;
+}
+
+message ListConversationProfilesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/ConversationProfile"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListConversationProfilesResponse {
+
+	repeated ConversationProfile conversation_profiles = 1;
+	string next_page_token = 2;
+}
+
+message GetConversationProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/ConversationProfile"
+		}
+	];
+}
+
+message CreateConversationProfileRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/ConversationProfile"
+		}
+	];
+	ConversationProfile conversation_profile = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateConversationProfileRequest {
+
+	ConversationProfile conversation_profile = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteConversationProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/ConversationProfile"
+		}
+	];
+}
+
+message AutomatedAgentConfig {
+
+	string agent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+}
+
+message HumanAgentAssistantConfig {
+
+	message SuggestionTriggerSettings {
+
+		bool no_smalltalk = 1;
+		bool only_end_user = 2;
+	}
+
+	message SuggestionFeatureConfig {
+
+		SuggestionFeature suggestion_feature = 5;
+		bool enable_event_based_suggestion = 3;
+		SuggestionTriggerSettings suggestion_trigger_settings = 10;
+		SuggestionQueryConfig query_config = 6;
+		ConversationModelConfig conversation_model_config = 7;
+	}
+
+	message SuggestionConfig {
+
+		repeated SuggestionFeatureConfig feature_configs = 2;
+		bool group_suggestion_responses = 3;
+	}
+
+	message SuggestionQueryConfig {
+
+		message KnowledgeBaseQuerySource {
+
+			repeated string knowledge_bases = 1 [
+				(google.api.field_behavior) = REQUIRED
+				(google.api.resource_reference) = {
+					type: "dialogflow.googleapis.com/KnowledgeBase"
+				}
+			];
+		}
+
+		message DocumentQuerySource {
+
+			repeated string documents = 1 [
+				(google.api.field_behavior) = REQUIRED
+				(google.api.resource_reference) = {
+					type: "dialogflow.googleapis.com/Document"
+				}
+			];
+		}
+
+		message DialogflowQuerySource {
+
+			string agent = 1 [
+				(google.api.field_behavior) = REQUIRED
+				(google.api.resource_reference) = {
+					type: "dialogflow.googleapis.com/Agent"
+				}
+			];
+		}
+
+		message ContextFilterSettings {
+
+			bool drop_handoff_messages = 1;
+			bool drop_virtual_agent_messages = 2;
+			bool drop_ivr_messages = 3;
+		}
+
+		oneof query_source {
+			KnowledgeBaseQuerySource knowledge_base_query_source = 1;
+			DocumentQuerySource document_query_source = 2;
+			DialogflowQuerySource dialogflow_query_source = 3;
+		}
+		int32 max_results = 4;
+		float confidence_threshold = 5;
+		ContextFilterSettings context_filter_settings = 7;
+	}
+
+	message ConversationModelConfig {
+
+		string model = 1 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/ConversationModel"
+			}
+		];
+	}
+
+	message MessageAnalysisConfig {
+
+		bool enable_entity_extraction = 2;
+		bool enable_sentiment_analysis = 3;
+	}
+
+	NotificationConfig notification_config = 2;
+	SuggestionConfig human_agent_suggestion_config = 3;
+	SuggestionConfig end_user_suggestion_config = 4;
+	MessageAnalysisConfig message_analysis_config = 5;
+}
+
+message HumanAgentHandoffConfig {
+
+	message LivePersonConfig {
+
+		string account_number = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message SalesforceLiveAgentConfig {
+
+		string organization_id = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string deployment_id = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string button_id = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string endpoint_domain = 4 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	oneof agent_service {
+		LivePersonConfig live_person_config = 1;
+		SalesforceLiveAgentConfig salesforce_live_agent_config = 2;
+	}
+}
+
+message NotificationConfig {
+
+	enum MessageFormat {
+
+		MESSAGE_FORMAT_UNSPECIFIED = 0;
+		PROTO = 1;
+		JSON = 2;
+	}
+
+	string topic = 1;
+	MessageFormat message_format = 2;
+}
+
+message LoggingConfig {
+
+	bool enable_stackdriver_logging = 3;
+}
+
+message SuggestionFeature {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		ARTICLE_SUGGESTION = 1;
+		FAQ = 2;
+	}
+
+	Type type = 1;
+}

@@ -1,0 +1,287 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1alpha;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.osconfig.v1alpha";
+option java_outer_classname = "OSPolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1alpha;osconfig";
+option csharp_namespace = "Google.Cloud.OsConfig.V1Alpha";
+option php_namespace = "Google\\Cloud\\OsConfig\\V1alpha";
+option ruby_package = "Google::Cloud::OsConfig::V1alpha";
+
+
+message OSPolicy {
+
+	message OSFilter {
+
+		string os_short_name = 1;
+		string os_version = 2;
+	}
+
+	message Resource {
+
+		message File {
+
+			message Remote {
+
+				string uri = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string sha256_checksum = 2;
+			}
+
+			message Gcs {
+
+				string bucket = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string object = 2 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				int64 generation = 3;
+			}
+
+			oneof type {
+				Remote remote = 1;
+				Gcs gcs = 2;
+				string local_path = 3;
+			}
+			bool allow_insecure = 4;
+		}
+
+		message PackageResource {
+
+			message Deb {
+
+				File source = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				bool pull_deps = 2;
+			}
+
+			message APT {
+
+				string name = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			message RPM {
+
+				File source = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				bool pull_deps = 2;
+			}
+
+			message YUM {
+
+				string name = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			message Zypper {
+
+				string name = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			message GooGet {
+
+				string name = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			message MSI {
+
+				File source = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				repeated string properties = 2;
+			}
+
+			enum DesiredState {
+
+				DESIRED_STATE_UNSPECIFIED = 0;
+				INSTALLED = 1;
+				REMOVED = 2;
+			}
+
+			DesiredState desired_state = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			oneof system_package {
+				APT apt = 2;
+				Deb deb = 3;
+				YUM yum = 4;
+				Zypper zypper = 5;
+				RPM rpm = 6;
+				GooGet googet = 7;
+				MSI msi = 8;
+			}
+		}
+
+		message RepositoryResource {
+
+			message AptRepository {
+
+				enum ArchiveType {
+
+					ARCHIVE_TYPE_UNSPECIFIED = 0;
+					DEB = 1;
+					DEB_SRC = 2;
+				}
+
+				ArchiveType archive_type = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string uri = 2 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string distribution = 3 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				repeated string components = 4 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string gpg_key = 5;
+			}
+
+			message YumRepository {
+
+				string id = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string display_name = 2;
+				string base_url = 3 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				repeated string gpg_keys = 4;
+			}
+
+			message ZypperRepository {
+
+				string id = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string display_name = 2;
+				string base_url = 3 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				repeated string gpg_keys = 4;
+			}
+
+			message GooRepository {
+
+				string name = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string url = 2 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			oneof repository {
+				AptRepository apt = 1;
+				YumRepository yum = 2;
+				ZypperRepository zypper = 3;
+				GooRepository goo = 4;
+			}
+		}
+
+		message ExecResource {
+
+			message Exec {
+
+				enum Interpreter {
+
+					INTERPRETER_UNSPECIFIED = 0;
+					NONE = 1;
+					SHELL = 2;
+					POWERSHELL = 3;
+				}
+
+				oneof source {
+					File file = 1;
+					string script = 2;
+				}
+				repeated string args = 3;
+				Interpreter interpreter = 4 [
+					(google.api.field_behavior) = REQUIRED
+				];
+				string output_file_path = 5;
+			}
+
+			Exec validate = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			Exec enforce = 2;
+		}
+
+		message FileResource {
+
+			enum DesiredState {
+
+				DESIRED_STATE_UNSPECIFIED = 0;
+				PRESENT = 1;
+				ABSENT = 2;
+				CONTENTS_MATCH = 3;
+			}
+
+			oneof source {
+				File file = 1;
+				string content = 2;
+			}
+			string path = 3 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			DesiredState state = 4 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			string permissions = 5;
+		}
+
+		string id = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		oneof resource_type {
+			PackageResource pkg = 2;
+			RepositoryResource repository = 3;
+			ExecResource exec = 4;
+			FileResource file = 5;
+		}
+	}
+
+	message ResourceGroup {
+
+		OSFilter os_filter = 1;
+		repeated Resource resources = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	enum Mode {
+
+		MODE_UNSPECIFIED = 0;
+		VALIDATION = 1;
+		ENFORCEMENT = 2;
+	}
+
+	string id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2;
+	Mode mode = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ResourceGroup resource_groups = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool allow_no_resource_group_match = 5;
+}

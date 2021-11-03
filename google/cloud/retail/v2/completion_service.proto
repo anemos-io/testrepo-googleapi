@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/retail/v2/common.proto";
+import "google/cloud/retail/v2/import_config.proto";
+import "google/longrunning/operations.proto";
+
+option java_package = "com.google.cloud.retail.v2";
+option java_outer_classname = "CompletionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2";
+option php_namespace = "Google\\Cloud\\Retail\\V2";
+option ruby_package = "Google::Cloud::Retail::V2";
+
+
+service CompletionService {
+	option (google.api.default_host) = "retail.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CompleteQuery(google.cloud.retail.v2.CompleteQueryRequest) returns (google.cloud.retail.v2.CompleteQueryResponse) {
+		option (google.api.http) = {
+			get: "/v2/{catalog=projects/*/locations/*/catalogs/*}:completeQuery"
+		};
+
+	}
+	rpc ImportCompletionData(google.cloud.retail.v2.ImportCompletionDataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.retail.v2.ImportCompletionDataResponse"
+			metadata_type: "google.cloud.retail.v2.ImportMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/locations/*/catalogs/*}/completionData:import"
+			body: "*"
+		};
+
+	}
+}
+
+message CompleteQueryRequest {
+
+	string catalog = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Catalog"
+		}
+	];
+	string query = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string visitor_id = 7;
+	repeated string language_codes = 3;
+	string device_type = 4;
+	string dataset = 6;
+	int32 max_suggestions = 5;
+}
+
+message CompleteQueryResponse {
+
+	message CompletionResult {
+
+		string suggestion = 1;
+		map<string, google.cloud.retail.v2.CustomAttribute> attributes = 2;
+	}
+
+	message RecentSearchResult {
+
+		string recent_search = 1;
+	}
+
+	repeated CompletionResult completion_results = 1;
+	string attribution_token = 2;
+	repeated RecentSearchResult recent_search_results = 3;
+}

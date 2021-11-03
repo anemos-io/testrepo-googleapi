@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "DataItemProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message DataItem {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/DataItem"
+		pattern: ["projects/{project}/locations/{location}/datasets/{dataset}/dataItems/{data_item}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Value payload = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string etag = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

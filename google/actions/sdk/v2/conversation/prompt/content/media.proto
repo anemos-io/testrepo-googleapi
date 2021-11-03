@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.conversation;
+
+import "google/actions/sdk/v2/conversation/prompt/content/image.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.actions.sdk.v2.conversation";
+option java_outer_classname = "MediaProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/conversation;conversation";
+
+
+message Media {
+
+	enum MediaType {
+
+		MEDIA_TYPE_UNSPECIFIED = 0;
+		AUDIO = 1;
+		MEDIA_STATUS_ACK = 2;
+	}
+
+	enum OptionalMediaControls {
+
+		OPTIONAL_MEDIA_CONTROLS_UNSPECIFIED = 0;
+		PAUSED = 1;
+		STOPPED = 2;
+	}
+
+	MediaType media_type = 8;
+	google.protobuf.Duration start_offset = 5;
+	repeated OptionalMediaControls optional_media_controls = 6;
+	repeated MediaObject media_objects = 7;
+}
+
+message MediaObject {
+
+	string name = 1;
+	string description = 2;
+	string url = 3;
+	MediaImage image = 4;
+}
+
+message MediaImage {
+
+	oneof image {
+		google.actions.sdk.v2.conversation.Image large = 1;
+		google.actions.sdk.v2.conversation.Image icon = 2;
+	}
+}

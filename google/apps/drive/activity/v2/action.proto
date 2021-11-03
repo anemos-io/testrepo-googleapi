@@ -1,0 +1,253 @@
+syntax = "proto3";
+
+package google.apps.drive.activity.v2;
+
+import "google/apps/drive/activity/v2/actor.proto";
+import "google/apps/drive/activity/v2/common.proto";
+import "google/apps/drive/activity/v2/target.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.apps.drive.activity.v2";
+option java_outer_classname = "ActionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/drive/activity/v2;activity";
+option objc_class_prefix = "GADA";
+option csharp_namespace = "Google.Apps.Drive.Activity.V2";
+option php_namespace = "Google\\Apps\\Drive\\Activity\\V2";
+
+
+message Action {
+
+	ActionDetail detail = 1;
+	google.apps.drive.activity.v2.Actor actor = 3;
+	google.apps.drive.activity.v2.Target target = 4;
+	oneof time {
+		google.protobuf.Timestamp timestamp = 5;
+		google.apps.drive.activity.v2.TimeRange time_range = 6;
+	}
+}
+
+message ActionDetail {
+
+	oneof action_detail {
+		Create create = 1;
+		Edit edit = 2;
+		Move move = 3;
+		Rename rename = 4;
+		Delete delete = 5;
+		Restore restore = 6;
+		PermissionChange permission_change = 7;
+		Comment comment = 8;
+		DataLeakPreventionChange dlp_change = 9;
+		ApplicationReference reference = 12;
+		SettingsChange settings_change = 13;
+	}
+}
+
+message Create {
+
+	message New {
+
+	}
+
+	message Upload {
+
+	}
+
+	message Copy {
+
+		google.apps.drive.activity.v2.TargetReference original_object = 1;
+	}
+
+	oneof origin {
+		New new = 1;
+		Upload upload = 2;
+		Copy copy = 3;
+	}
+}
+
+message Edit {
+
+}
+
+message Move {
+
+	repeated google.apps.drive.activity.v2.TargetReference added_parents = 1;
+	repeated google.apps.drive.activity.v2.TargetReference removed_parents = 2;
+}
+
+message Rename {
+
+	string old_title = 1;
+	string new_title = 2;
+}
+
+message Delete {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		TRASH = 1;
+		PERMANENT_DELETE = 2;
+	}
+
+	Type type = 1;
+}
+
+message Restore {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		UNTRASH = 1;
+	}
+
+	Type type = 1;
+}
+
+message PermissionChange {
+
+	repeated Permission added_permissions = 1;
+	repeated Permission removed_permissions = 2;
+}
+
+message Permission {
+
+	message Anyone {
+
+	}
+
+	enum Role {
+
+		ROLE_UNSPECIFIED = 0;
+		OWNER = 1;
+		ORGANIZER = 2;
+		FILE_ORGANIZER = 3;
+		EDITOR = 4;
+		COMMENTER = 5;
+		VIEWER = 6;
+		PUBLISHED_VIEWER = 7;
+	}
+
+	Role role = 1;
+	oneof scope {
+		google.apps.drive.activity.v2.User user = 2;
+		google.apps.drive.activity.v2.Group group = 3;
+		google.apps.drive.activity.v2.Domain domain = 4;
+		Anyone anyone = 5;
+	}
+	bool allow_discovery = 6;
+}
+
+message Comment {
+
+	message Post {
+
+		enum Subtype {
+
+			SUBTYPE_UNSPECIFIED = 0;
+			ADDED = 1;
+			DELETED = 2;
+			REPLY_ADDED = 3;
+			REPLY_DELETED = 4;
+			RESOLVED = 5;
+			REOPENED = 6;
+		}
+
+		Subtype subtype = 1;
+	}
+
+	message Assignment {
+
+		enum Subtype {
+
+			SUBTYPE_UNSPECIFIED = 0;
+			ADDED = 1;
+			DELETED = 2;
+			REPLY_ADDED = 3;
+			REPLY_DELETED = 4;
+			RESOLVED = 5;
+			REOPENED = 6;
+			REASSIGNED = 7;
+		}
+
+		Subtype subtype = 1;
+		google.apps.drive.activity.v2.User assigned_user = 7;
+	}
+
+	message Suggestion {
+
+		enum Subtype {
+
+			SUBTYPE_UNSPECIFIED = 0;
+			ADDED = 1;
+			DELETED = 2;
+			REPLY_ADDED = 3;
+			REPLY_DELETED = 4;
+			ACCEPTED = 7;
+			REJECTED = 8;
+			ACCEPT_DELETED = 9;
+			REJECT_DELETED = 10;
+		}
+
+		Subtype subtype = 1;
+	}
+
+	oneof type {
+		Post post = 1;
+		Assignment assignment = 2;
+		Suggestion suggestion = 3;
+	}
+	repeated google.apps.drive.activity.v2.User mentioned_users = 7;
+}
+
+message DataLeakPreventionChange {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		FLAGGED = 1;
+		CLEARED = 2;
+	}
+
+	Type type = 1;
+}
+
+message ApplicationReference {
+
+	enum Type {
+
+		UNSPECIFIED_REFERENCE_TYPE = 0;
+		LINK = 1;
+		DISCUSS = 2;
+	}
+
+	Type type = 1;
+}
+
+message SettingsChange {
+
+	message RestrictionChange {
+
+		enum Feature {
+
+			FEATURE_UNSPECIFIED = 0;
+			SHARING_OUTSIDE_DOMAIN = 1;
+			DIRECT_SHARING = 2;
+			ITEM_DUPLICATION = 3;
+			DRIVE_FILE_STREAM = 4;
+		}
+
+		enum Restriction {
+
+			RESTRICTION_UNSPECIFIED = 0;
+			UNRESTRICTED = 1;
+			FULLY_RESTRICTED = 2;
+		}
+
+		Feature feature = 1;
+		Restriction new_restriction = 2;
+	}
+
+	repeated RestrictionChange restriction_changes = 1;
+}

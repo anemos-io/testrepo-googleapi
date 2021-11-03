@@ -100,6 +100,9 @@ message AutoscalingPolicy {
 	InstanceGroupAutoscalingPolicyConfig secondary_worker_config = 5 [
 		(google.api.field_behavior) = OPTIONAL
 	];
+	map<string, string> labels = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message BasicAutoscalingAlgorithm {

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.cloud.gkebackup.logging.v1;
+
+import "google/cloud/gkebackup/logging/v1/logged_common.proto";
+
+option java_package = "google.cloud.gkebackup.logging.v1";
+option java_outer_classname = "LoggedBackupPlanProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkebackup/logging/v1;logging";
+option csharp_namespace = "Google.Cloud.GkeBackup.Logging.V1";
+option php_namespace = "Google\\Cloud\\GkeBackup\\Logging\\V1";
+option ruby_package = "Google::Cloud::GkeBackup::Logging::V1";
+
+
+message LoggedBackupPlan {
+
+	message RetentionPolicy {
+
+		int32 backup_delete_lock_days = 1;
+		int32 backup_retain_days = 2;
+		bool locked = 3;
+	}
+
+	message Schedule {
+
+		string cron_schedule = 1;
+		bool paused = 2;
+	}
+
+	message BackupConfig {
+
+		oneof backup_scope {
+			bool all_namespaces = 1;
+			google.cloud.gkebackup.logging.v1.Namespaces selected_namespaces = 2;
+			google.cloud.gkebackup.logging.v1.NamespacedNames selected_applications = 3;
+		}
+		bool include_volume_data = 4;
+		bool include_secrets = 5;
+		google.cloud.gkebackup.logging.v1.EncryptionKey encryption_key = 6;
+	}
+
+	string description = 1;
+	string cluster = 2;
+	RetentionPolicy retention_policy = 3;
+	map<string, string> labels = 4;
+	Schedule backup_schedule = 5;
+	bool deactivated = 6;
+	BackupConfig backup_config = 7;
+}

@@ -25,6 +25,7 @@ enum RouteTravelMode {
 	BICYCLE = 2;
 	WALK = 3;
 	TWO_WHEELER = 4;
+	TAXI = 5;
 }
 
 enum RoutingPreference {
@@ -50,6 +51,7 @@ message ComputeRoutesRequest {
 	RouteTravelMode travel_mode = 4;
 	RoutingPreference routing_preference = 5;
 	google.maps.routes.v1.PolylineQuality polyline_quality = 6;
+	google.maps.routes.v1.PolylineEncoding polyline_encoding = 12;
 	google.protobuf.Timestamp departure_time = 7;
 	bool compute_alternative_routes = 8;
 	RouteModifiers route_modifiers = 9;

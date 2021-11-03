@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2";
+option java_outer_classname = "KnowledgeBaseProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2";
+
+
+service KnowledgeBases {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListKnowledgeBases(google.cloud.dialogflow.v2.ListKnowledgeBasesRequest) returns (google.cloud.dialogflow.v2.ListKnowledgeBasesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/knowledgeBases"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*}/knowledgeBases"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/agent}/knowledgeBases"
+			}
+		};
+
+	}
+	rpc GetKnowledgeBase(google.cloud.dialogflow.v2.GetKnowledgeBaseRequest) returns (google.cloud.dialogflow.v2.KnowledgeBase) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/knowledgeBases/*}"
+			additional_bindings: {
+				get: "/v2/{name=projects/*/locations/*/knowledgeBases/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=projects/*/agent/knowledgeBases/*}"
+			}
+		};
+
+	}
+	rpc CreateKnowledgeBase(google.cloud.dialogflow.v2.CreateKnowledgeBaseRequest) returns (google.cloud.dialogflow.v2.KnowledgeBase) {
+		option (google.api.method_signature) = "parent,knowledge_base";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/knowledgeBases"
+			body: "knowledge_base"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/locations/*}/knowledgeBases"
+				body: "knowledge_base"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=projects/*/agent}/knowledgeBases"
+				body: "knowledge_base"
+			}
+		};
+
+	}
+	rpc DeleteKnowledgeBase(google.cloud.dialogflow.v2.DeleteKnowledgeBaseRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/knowledgeBases/*}"
+			additional_bindings: {
+				delete: "/v2/{name=projects/*/locations/*/knowledgeBases/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{name=projects/*/agent/knowledgeBases/*}"
+			}
+		};
+
+	}
+	rpc UpdateKnowledgeBase(google.cloud.dialogflow.v2.UpdateKnowledgeBaseRequest) returns (google.cloud.dialogflow.v2.KnowledgeBase) {
+		option (google.api.method_signature) = "knowledge_base,update_mask";
+		option (google.api.http) = {
+			patch: "/v2/{knowledge_base.name=projects/*/knowledgeBases/*}"
+			body: "knowledge_base"
+			additional_bindings: {
+				patch: "/v2/{knowledge_base.name=projects/*/locations/*/knowledgeBases/*}"
+				body: "knowledge_base"
+			}
+			additional_bindings: {
+				patch: "/v2/{knowledge_base.name=projects/*/agent/knowledgeBases/*}"
+				body: "knowledge_base"
+			}
+		};
+
+	}
+}
+
+message KnowledgeBase {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/KnowledgeBase"
+		pattern: ["projects/{project}/knowledgeBases/{knowledge_base}","projects/{project}/locations/{location}/knowledgeBases/{knowledge_base}"]
+	};
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 4;
+}
+
+message ListKnowledgeBasesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/KnowledgeBase"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListKnowledgeBasesResponse {
+
+	repeated KnowledgeBase knowledge_bases = 1;
+	string next_page_token = 2;
+}
+
+message GetKnowledgeBaseRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/KnowledgeBase"
+		}
+	];
+}
+
+message CreateKnowledgeBaseRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/KnowledgeBase"
+		}
+	];
+	KnowledgeBase knowledge_base = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteKnowledgeBaseRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/KnowledgeBase"
+		}
+	];
+	bool force = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateKnowledgeBaseRequest {
+
+	KnowledgeBase knowledge_base = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

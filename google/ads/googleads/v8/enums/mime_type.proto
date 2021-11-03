@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.enums";
+option java_outer_classname = "MimeTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V8::Enums";
+
+
+message MimeTypeEnum {
+
+	enum MimeType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		IMAGE_JPEG = 2;
+		IMAGE_GIF = 3;
+		IMAGE_PNG = 4;
+		FLASH = 5;
+		TEXT_HTML = 6;
+		PDF = 7;
+		MSWORD = 8;
+		MSEXCEL = 9;
+		RTF = 10;
+		AUDIO_WAV = 11;
+		AUDIO_MP3 = 12;
+		HTML5_AD_ZIP = 13;
+	}
+
+}

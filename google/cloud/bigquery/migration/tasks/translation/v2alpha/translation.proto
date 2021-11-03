@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.migration.tasks.translation.v2alpha;
+
+import "google/cloud/bigquery/migration/tasks/translation/v2alpha/dataset_reference.proto";
+
+option java_package = "com.google.cloud.bigquery.migration.tasks.translation.v2alpha";
+option java_outer_classname = "TranslationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/migration/tasks/translation/v2alpha;translation";
+option csharp_namespace = "Google.Cloud.BigQuery.Migration.Tasks.Translation.V2Alpha";
+option php_namespace = "Google\\Cloud\\BigQuery\\Migration\\Tasks\\Translation\\V2alpha";
+
+
+message TranslationFileMapping {
+
+	string input_path = 1;
+	string output_path = 2;
+}
+
+message TranslationTaskDetails {
+
+	enum FileEncoding {
+
+		FILE_ENCODING_UNSPECIFIED = 0;
+		UTF_8 = 1;
+		ISO_8859_1 = 2;
+		US_ASCII = 3;
+		UTF_16 = 4;
+		UTF_16LE = 5;
+		UTF_16BE = 6;
+	}
+
+	enum TokenType {
+
+		TOKEN_TYPE_UNSPECIFIED = 0;
+		STRING = 1;
+		INT64 = 2;
+		NUMERIC = 3;
+		BOOL = 4;
+		FLOAT64 = 5;
+		DATE = 6;
+		TIMESTAMP = 7;
+	}
+
+	string input_path = 1;
+	string output_path = 2;
+	repeated TranslationFileMapping file_paths = 12;
+	string schema_path = 3;
+	FileEncoding file_encoding = 4;
+	IdentifierSettings identifier_settings = 5;
+	map<string, TokenType> special_token_map = 6;
+	Filter filter = 7;
+	oneof language_options {
+		TeradataOptions teradata_options = 10;
+		BteqOptions bteq_options = 11;
+	}
+	string translation_exception_table = 13;
+}
+
+message Filter {
+
+	repeated string input_file_exclusion_prefixes = 1;
+}
+
+message IdentifierSettings {
+
+	enum IdentifierCase {
+
+		IDENTIFIER_CASE_UNSPECIFIED = 0;
+		ORIGINAL = 1;
+		UPPER = 2;
+		LOWER = 3;
+	}
+
+	enum IdentifierRewriteMode {
+
+		IDENTIFIER_REWRITE_MODE_UNSPECIFIED = 0;
+		NONE = 1;
+		REWRITE_ALL = 2;
+	}
+
+	IdentifierCase output_identifier_case = 1;
+	IdentifierRewriteMode identifier_rewrite_mode = 2;
+}
+
+message TeradataOptions {
+
+}
+
+message BteqOptions {
+
+	google.cloud.bigquery.migration.tasks.translation.v2alpha.DatasetReference project_dataset = 1;
+	string default_path_uri = 2;
+	map<string, string> file_replacement_map = 3;
+}

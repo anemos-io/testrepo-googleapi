@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/feature_monitoring_stats.proto";
+import "google/cloud/aiplatform/v1beta1/featurestore_monitoring.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "FeatureProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message Feature {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Feature"
+		pattern: ["projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}/features/{feature}"]
+	};
+
+	enum ValueType {
+
+		VALUE_TYPE_UNSPECIFIED = 0;
+		BOOL = 1;
+		BOOL_ARRAY = 2;
+		DOUBLE = 3;
+		DOUBLE_ARRAY = 4;
+		INT64 = 9;
+		INT64_ARRAY = 10;
+		STRING = 11;
+		STRING_ARRAY = 12;
+		BYTES = 13;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string description = 2;
+	ValueType value_type = 3 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string etag = 7;
+	google.cloud.aiplatform.v1beta1.FeaturestoreMonitoringConfig monitoring_config = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated google.cloud.aiplatform.v1beta1.FeatureStatsAnomaly monitoring_stats = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

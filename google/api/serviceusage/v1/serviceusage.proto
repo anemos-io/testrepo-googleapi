@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package google.api.serviceusage.v1;
+
+import "google/api/annotations.proto";
+import "google/api/serviceusage/v1/resources.proto";
+import "google/longrunning/operations.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.api.serviceusage.v1";
+option java_outer_classname = "ServiceUsageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/serviceusage/v1;serviceusage";
+option csharp_namespace = "Google.Cloud.ServiceUsage.V1";
+option php_namespace = "Google\\Cloud\\ServiceUsage\\V1";
+option ruby_package = "Google::Cloud::ServiceUsage::V1";
+
+
+service ServiceUsage {
+	option (google.api.default_host) = "serviceusage.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/service.management";
+
+	rpc EnableService(google.api.serviceusage.v1.EnableServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "EnableServiceResponse"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=*/*/services/*}:enable"
+			body: "*"
+		};
+
+	}
+	rpc DisableService(google.api.serviceusage.v1.DisableServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "DisableServiceResponse"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=*/*/services/*}:disable"
+			body: "*"
+		};
+
+	}
+	rpc GetService(google.api.serviceusage.v1.GetServiceRequest) returns (google.api.serviceusage.v1.Service) {
+		option (google.api.http) = {
+			get: "/v1/{name=*/*/services/*}"
+		};
+
+	}
+	rpc ListServices(google.api.serviceusage.v1.ListServicesRequest) returns (google.api.serviceusage.v1.ListServicesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=*/*}/services"
+		};
+
+	}
+	rpc BatchEnableServices(google.api.serviceusage.v1.BatchEnableServicesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "BatchEnableServicesResponse"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=*/*}/services:batchEnable"
+			body: "*"
+		};
+
+	}
+	rpc BatchGetServices(google.api.serviceusage.v1.BatchGetServicesRequest) returns (google.api.serviceusage.v1.BatchGetServicesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=*/*}/services:batchGet"
+		};
+
+	}
+}
+
+message EnableServiceRequest {
+
+	string name = 1;
+}
+
+message EnableServiceResponse {
+
+	google.api.serviceusage.v1.Service service = 1;
+}
+
+message DisableServiceRequest {
+
+	enum CheckIfServiceHasUsage {
+
+		CHECK_IF_SERVICE_HAS_USAGE_UNSPECIFIED = 0;
+		SKIP = 1;
+		CHECK = 2;
+	}
+
+	string name = 1;
+	bool disable_dependent_services = 2;
+	CheckIfServiceHasUsage check_if_service_has_usage = 3;
+}
+
+message DisableServiceResponse {
+
+	google.api.serviceusage.v1.Service service = 1;
+}
+
+message GetServiceRequest {
+
+	string name = 1;
+}
+
+message ListServicesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListServicesResponse {
+
+	repeated google.api.serviceusage.v1.Service services = 1;
+	string next_page_token = 2;
+}
+
+message BatchEnableServicesRequest {
+
+	string parent = 1;
+	repeated string service_ids = 2;
+}
+
+message BatchEnableServicesResponse {
+
+	message EnableFailure {
+
+		string service_id = 1;
+		string error_message = 2;
+	}
+
+	repeated google.api.serviceusage.v1.Service services = 1;
+	repeated EnableFailure failures = 2;
+}
+
+message BatchGetServicesRequest {
+
+	string parent = 1;
+	repeated string names = 2;
+}
+
+message BatchGetServicesResponse {
+
+	repeated google.api.serviceusage.v1.Service services = 1;
+}

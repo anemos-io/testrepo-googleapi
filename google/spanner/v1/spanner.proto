@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package google.spanner.v1;
 
+import "google/spanner/v1/commit_response.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
@@ -182,10 +183,16 @@ message Session {
 		pattern: ["projects/{project}/instances/{instance}/databases/{database}/sessions/{session}"]
 	};
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 	map<string, string> labels = 2;
-	google.protobuf.Timestamp create_time = 3;
-	google.protobuf.Timestamp approximate_last_use_time = 4;
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp approximate_last_use_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message GetSessionRequest {
@@ -227,11 +234,27 @@ message DeleteSessionRequest {
 	];
 }
 
+message RequestOptions {
+
+	enum Priority {
+
+		PRIORITY_UNSPECIFIED = 0;
+		PRIORITY_LOW = 1;
+		PRIORITY_MEDIUM = 2;
+		PRIORITY_HIGH = 3;
+	}
+
+	Priority priority = 1;
+	string request_tag = 2;
+	string transaction_tag = 3;
+}
+
 message ExecuteSqlRequest {
 
 	message QueryOptions {
 
 		string optimizer_version = 1;
+		string optimizer_statistics_package = 2;
 	}
 
 	enum QueryMode {
@@ -258,6 +281,7 @@ message ExecuteSqlRequest {
 	bytes partition_token = 8;
 	int64 seqno = 9;
 	QueryOptions query_options = 10;
+	RequestOptions request_options = 11;
 }
 
 message ExecuteBatchDmlRequest {
@@ -284,6 +308,7 @@ message ExecuteBatchDmlRequest {
 	int64 seqno = 4 [
 		(google.api.field_behavior) = REQUIRED
 	];
+	RequestOptions request_options = 5;
 }
 
 message ExecuteBatchDmlResponse {
@@ -368,6 +393,7 @@ message ReadRequest {
 	int64 limit = 8;
 	bytes resume_token = 9;
 	bytes partition_token = 10;
+	RequestOptions request_options = 11;
 }
 
 message BeginTransactionRequest {
@@ -381,6 +407,7 @@ message BeginTransactionRequest {
 	google.spanner.v1.TransactionOptions options = 2 [
 		(google.api.field_behavior) = REQUIRED
 	];
+	RequestOptions request_options = 3;
 }
 
 message CommitRequest {
@@ -396,11 +423,8 @@ message CommitRequest {
 		google.spanner.v1.TransactionOptions single_use_transaction = 3;
 	}
 	repeated google.spanner.v1.Mutation mutations = 4;
-}
-
-message CommitResponse {
-
-	google.protobuf.Timestamp commit_timestamp = 1;
+	bool return_commit_stats = 5;
+	RequestOptions request_options = 6;
 }
 
 message RollbackRequest {

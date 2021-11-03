@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package google.cloud.binaryauthorization.v1beta1;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.binaryauthorization.v1beta1";
+option java_outer_classname = "ContinuousValidationLoggingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/binaryauthorization/v1beta1;binaryauthorization";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.BinaryAuthorization.V1Beta1";
+option php_namespace = "Google\\Cloud\\BinaryAuthorization\\V1beta1";
+option ruby_package = "Google::Cloud::BinaryAuthorization::V1beta1";
+
+
+message ContinuousValidationEvent {
+
+	message ContinuousValidationPodEvent {
+
+		message ImageDetails {
+
+			enum AuditResult {
+
+				AUDIT_RESULT_UNSPECIFIED = 0;
+				ALLOW = 1;
+				DENY = 2;
+			}
+
+			string image = 1;
+			AuditResult result = 2;
+			string description = 3;
+		}
+
+		enum PolicyConformanceVerdict {
+
+			POLICY_CONFORMANCE_VERDICT_UNSPECIFIED = 0;
+			VIOLATES_POLICY = 1;
+		}
+
+		string pod = 1;
+		google.protobuf.Timestamp deploy_time = 2;
+		google.protobuf.Timestamp end_time = 3;
+		PolicyConformanceVerdict verdict = 4;
+		repeated ImageDetails images = 5;
+	}
+
+	message UnsupportedPolicyEvent {
+
+		string description = 1;
+	}
+
+	oneof event_type {
+		ContinuousValidationPodEvent pod_event = 1;
+		UnsupportedPolicyEvent unsupported_policy_event = 2;
+	}
+}

@@ -1,0 +1,233 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3/advanced_settings.proto";
+import "google/cloud/dialogflow/cx/v3/fulfillment.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3";
+option java_outer_classname = "PageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3";
+option ruby_package = "Google::Cloud::Dialogflow::CX::V3";
+
+
+service Pages {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListPages(google.cloud.dialogflow.cx.v3.ListPagesRequest) returns (google.cloud.dialogflow.cx.v3.ListPagesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3/{parent=projects/*/locations/*/agents/*/flows/*}/pages"
+		};
+
+	}
+	rpc GetPage(google.cloud.dialogflow.cx.v3.GetPageRequest) returns (google.cloud.dialogflow.cx.v3.Page) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*/locations/*/agents/*/flows/*/pages/*}"
+		};
+
+	}
+	rpc CreatePage(google.cloud.dialogflow.cx.v3.CreatePageRequest) returns (google.cloud.dialogflow.cx.v3.Page) {
+		option (google.api.method_signature) = "parent,page";
+		option (google.api.http) = {
+			post: "/v3/{parent=projects/*/locations/*/agents/*/flows/*}/pages"
+			body: "page"
+		};
+
+	}
+	rpc UpdatePage(google.cloud.dialogflow.cx.v3.UpdatePageRequest) returns (google.cloud.dialogflow.cx.v3.Page) {
+		option (google.api.method_signature) = "page,update_mask";
+		option (google.api.http) = {
+			patch: "/v3/{page.name=projects/*/locations/*/agents/*/flows/*/pages/*}"
+			body: "page"
+		};
+
+	}
+	rpc DeletePage(google.cloud.dialogflow.cx.v3.DeletePageRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3/{name=projects/*/locations/*/agents/*/flows/*/pages/*}"
+		};
+
+	}
+}
+
+message Page {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Page"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/flows/{flow}/pages/{page}"]
+	};
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.dialogflow.cx.v3.Fulfillment entry_fulfillment = 7;
+	Form form = 4;
+	repeated string transition_route_groups = 11 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/TransitionRouteGroup"
+		}
+	];
+	repeated TransitionRoute transition_routes = 9;
+	repeated EventHandler event_handlers = 10;
+}
+
+message Form {
+
+	message Parameter {
+
+		message FillBehavior {
+
+			google.cloud.dialogflow.cx.v3.Fulfillment initial_prompt_fulfillment = 3 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			repeated EventHandler reprompt_event_handlers = 5;
+		}
+
+		string display_name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		bool required = 2;
+		string entity_type = 3 [
+			(google.api.field_behavior) = REQUIRED
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/EntityType"
+			}
+		];
+		bool is_list = 4;
+		FillBehavior fill_behavior = 7 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		google.protobuf.Value default_value = 9;
+		bool redact = 11;
+	}
+
+	repeated Parameter parameters = 1;
+}
+
+message EventHandler {
+
+	string name = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string event = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.dialogflow.cx.v3.Fulfillment trigger_fulfillment = 5;
+	oneof target {
+		string target_page = 2 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Page"
+			}
+		];
+		string target_flow = 3 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Flow"
+			}
+		];
+	}
+}
+
+message TransitionRoute {
+
+	string name = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string intent = 1 [
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Intent"
+		}
+	];
+	string condition = 2;
+	google.cloud.dialogflow.cx.v3.Fulfillment trigger_fulfillment = 3;
+	oneof target {
+		string target_page = 4 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Page"
+			}
+		];
+		string target_flow = 5 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Flow"
+			}
+		];
+	}
+}
+
+message ListPagesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Page"
+		}
+	];
+	string language_code = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListPagesResponse {
+
+	repeated Page pages = 1;
+	string next_page_token = 2;
+}
+
+message GetPageRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Page"
+		}
+	];
+	string language_code = 2;
+}
+
+message CreatePageRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Page"
+		}
+	];
+	Page page = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3;
+}
+
+message UpdatePageRequest {
+
+	Page page = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeletePageRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Page"
+		}
+	];
+	bool force = 2;
+}

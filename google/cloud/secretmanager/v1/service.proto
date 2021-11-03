@@ -153,6 +153,9 @@ message ListSecretsRequest {
 	string page_token = 3 [
 		(google.api.field_behavior) = OPTIONAL
 	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message ListSecretsResponse {
@@ -215,6 +218,9 @@ message ListSecretVersionsRequest {
 	string page_token = 3 [
 		(google.api.field_behavior) = OPTIONAL
 	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message ListSecretVersionsResponse {
@@ -272,6 +278,9 @@ message DeleteSecretRequest {
 			type: "secretmanager.googleapis.com/Secret"
 		}
 	];
+	string etag = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message DisableSecretVersionRequest {
@@ -281,6 +290,9 @@ message DisableSecretVersionRequest {
 		(google.api.resource_reference) = {
 			type: "secretmanager.googleapis.com/SecretVersion"
 		}
+	];
+	string etag = 2 [
+		(google.api.field_behavior) = OPTIONAL
 	];
 }
 
@@ -292,6 +304,9 @@ message EnableSecretVersionRequest {
 			type: "secretmanager.googleapis.com/SecretVersion"
 		}
 	];
+	string etag = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message DestroySecretVersionRequest {
@@ -301,5 +316,8 @@ message DestroySecretVersionRequest {
 		(google.api.resource_reference) = {
 			type: "secretmanager.googleapis.com/SecretVersion"
 		}
+	];
+	string etag = 2 [
+		(google.api.field_behavior) = OPTIONAL
 	];
 }

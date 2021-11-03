@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.services;
+
+import "google/ads/googleads/v7/enums/response_content_type.proto";
+import "google/ads/googleads/v7/resources/ad_group_feed.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v7.services";
+option java_outer_classname = "AdGroupFeedServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V7::Services";
+
+
+service AdGroupFeedService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetAdGroupFeed(google.ads.googleads.v7.services.GetAdGroupFeedRequest) returns (google.ads.googleads.v7.resources.AdGroupFeed) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v7/{resource_name=customers/*/adGroupFeeds/*}"
+		};
+
+	}
+	rpc MutateAdGroupFeeds(google.ads.googleads.v7.services.MutateAdGroupFeedsRequest) returns (google.ads.googleads.v7.services.MutateAdGroupFeedsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}/adGroupFeeds:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetAdGroupFeedRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupFeed"
+		}
+	];
+}
+
+message MutateAdGroupFeedsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated AdGroupFeedOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+	google.ads.googleads.v7.enums.ResponseContentTypeEnum.ResponseContentType response_content_type = 5;
+}
+
+message AdGroupFeedOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	oneof operation {
+		google.ads.googleads.v7.resources.AdGroupFeed create = 1;
+		google.ads.googleads.v7.resources.AdGroupFeed update = 2;
+		string remove = 3;
+	}
+}
+
+message MutateAdGroupFeedsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateAdGroupFeedResult results = 2;
+}
+
+message MutateAdGroupFeedResult {
+
+	string resource_name = 1;
+	google.ads.googleads.v7.resources.AdGroupFeed ad_group_feed = 2;
+}

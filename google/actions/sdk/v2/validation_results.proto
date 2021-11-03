@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "ValidationResultsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message ValidationResults {
+
+	repeated ValidationResult results = 1;
+}
+
+message ValidationResult {
+
+	message ValidationContext {
+
+		string language_code = 1;
+	}
+
+	string validation_message = 1;
+	ValidationContext validation_context = 2;
+}

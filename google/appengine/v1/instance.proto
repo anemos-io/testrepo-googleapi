@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package google.appengine.v1;
 
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
@@ -9,9 +11,30 @@ option java_package = "com.google.appengine.v1";
 option java_outer_classname = "InstanceProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+option csharp_namespace = "Google.Cloud.AppEngine.V1";
+option php_namespace = "Google\\Cloud\\AppEngine\\V1";
+option ruby_package = "Google::Cloud::AppEngine::V1";
 
 
 message Instance {
+	option (google.api.resource) = {
+		type: "appengine.googleapis.com/Instance"
+		pattern: ["apps/{app}/services/{service}/versions/{version}/instances/{instance}"]
+	};
+
+	message Liveness {
+
+		enum LivenessState {
+
+			LIVENESS_STATE_UNSPECIFIED = 0;
+			UNKNOWN = 1;
+			HEALTHY = 2;
+			UNHEALTHY = 3;
+			DRAINING = 4;
+			TIMEOUT = 5;
+		}
+
+	}
 
 	enum Availability {
 
@@ -20,20 +43,55 @@ message Instance {
 		DYNAMIC = 2;
 	}
 
-	string name = 1;
-	string id = 2;
-	string app_engine_release = 3;
-	Availability availability = 4;
-	string vm_name = 5;
-	string vm_zone_name = 6;
-	string vm_id = 7;
-	google.protobuf.Timestamp start_time = 8;
-	int32 requests = 9;
-	int32 errors = 10;
-	float qps = 11;
-	int32 average_latency = 12;
-	int64 memory_usage = 13;
-	string vm_status = 14;
-	bool vm_debug_enabled = 15;
-	string vm_ip = 16;
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string app_engine_release = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Availability availability = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string vm_name = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string vm_zone_name = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string vm_id = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 requests = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 errors = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	float qps = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 average_latency = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 memory_usage = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string vm_status = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool vm_debug_enabled = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string vm_ip = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	LivenessState vm_liveness = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }

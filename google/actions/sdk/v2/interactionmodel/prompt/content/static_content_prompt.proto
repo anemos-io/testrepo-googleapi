@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.prompt;
+
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_card_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_collection_browse_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_collection_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_image_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_list_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_media_prompt.proto";
+import "google/actions/sdk/v2/interactionmodel/prompt/content/static_table_prompt.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.prompt";
+option java_outer_classname = "StaticContentPromptProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/prompt;prompt";
+
+
+message StaticContentPrompt {
+
+	oneof content {
+		google.actions.sdk.v2.interactionmodel.prompt.StaticCardPrompt card = 1;
+		google.actions.sdk.v2.interactionmodel.prompt.StaticImagePrompt image = 2;
+		google.actions.sdk.v2.interactionmodel.prompt.StaticTablePrompt table = 3;
+		google.actions.sdk.v2.interactionmodel.prompt.StaticMediaPrompt media = 4;
+		google.actions.sdk.v2.interactionmodel.prompt.StaticListPrompt list = 5;
+		google.actions.sdk.v2.interactionmodel.prompt.StaticCollectionPrompt collection = 6;
+		google.actions.sdk.v2.interactionmodel.prompt.StaticCollectionBrowsePrompt collection_browse = 7;
+	}
+}

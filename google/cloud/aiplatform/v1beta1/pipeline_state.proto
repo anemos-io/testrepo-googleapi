@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "PipelineStateProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+enum PipelineState {
+
+	PIPELINE_STATE_UNSPECIFIED = 0;
+	PIPELINE_STATE_QUEUED = 1;
+	PIPELINE_STATE_PENDING = 2;
+	PIPELINE_STATE_RUNNING = 3;
+	PIPELINE_STATE_SUCCEEDED = 4;
+	PIPELINE_STATE_FAILED = 5;
+	PIPELINE_STATE_CANCELLING = 6;
+	PIPELINE_STATE_CANCELLED = 7;
+	PIPELINE_STATE_PAUSED = 8;
+}

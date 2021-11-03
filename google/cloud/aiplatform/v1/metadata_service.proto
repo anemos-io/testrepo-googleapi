@@ -1,0 +1,789 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1/artifact.proto";
+import "google/cloud/aiplatform/v1/context.proto";
+import "google/cloud/aiplatform/v1/event.proto";
+import "google/cloud/aiplatform/v1/execution.proto";
+import "google/cloud/aiplatform/v1/lineage_subgraph.proto";
+import "google/cloud/aiplatform/v1/metadata_schema.proto";
+import "google/cloud/aiplatform/v1/metadata_store.proto";
+import "google/cloud/aiplatform/v1/operation.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "MetadataServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+service MetadataService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateMetadataStore(google.cloud.aiplatform.v1.CreateMetadataStoreRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MetadataStore"
+			metadata_type: "CreateMetadataStoreOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,metadata_store,metadata_store_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/metadataStores"
+			body: "metadata_store"
+		};
+
+	}
+	rpc GetMetadataStore(google.cloud.aiplatform.v1.GetMetadataStoreRequest) returns (google.cloud.aiplatform.v1.MetadataStore) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/metadataStores/*}"
+		};
+
+	}
+	rpc ListMetadataStores(google.cloud.aiplatform.v1.ListMetadataStoresRequest) returns (google.cloud.aiplatform.v1.ListMetadataStoresResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/metadataStores"
+		};
+
+	}
+	rpc DeleteMetadataStore(google.cloud.aiplatform.v1.DeleteMetadataStoreRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteMetadataStoreOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/metadataStores/*}"
+		};
+
+	}
+	rpc CreateArtifact(google.cloud.aiplatform.v1.CreateArtifactRequest) returns (google.cloud.aiplatform.v1.Artifact) {
+		option (google.api.method_signature) = "parent,artifact,artifact_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/metadataStores/*}/artifacts"
+			body: "artifact"
+		};
+
+	}
+	rpc GetArtifact(google.cloud.aiplatform.v1.GetArtifactRequest) returns (google.cloud.aiplatform.v1.Artifact) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/metadataStores/*/artifacts/*}"
+		};
+
+	}
+	rpc ListArtifacts(google.cloud.aiplatform.v1.ListArtifactsRequest) returns (google.cloud.aiplatform.v1.ListArtifactsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/metadataStores/*}/artifacts"
+		};
+
+	}
+	rpc UpdateArtifact(google.cloud.aiplatform.v1.UpdateArtifactRequest) returns (google.cloud.aiplatform.v1.Artifact) {
+		option (google.api.method_signature) = "artifact,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{artifact.name=projects/*/locations/*/metadataStores/*/artifacts/*}"
+			body: "artifact"
+		};
+
+	}
+	rpc DeleteArtifact(google.cloud.aiplatform.v1.DeleteArtifactRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/metadataStores/*/artifacts/*}"
+		};
+
+	}
+	rpc PurgeArtifacts(google.cloud.aiplatform.v1.PurgeArtifactsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "PurgeArtifactsResponse"
+			metadata_type: "PurgeArtifactsMetadata"
+		};
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/metadataStores/*}/artifacts:purge"
+			body: "*"
+		};
+
+	}
+	rpc CreateContext(google.cloud.aiplatform.v1.CreateContextRequest) returns (google.cloud.aiplatform.v1.Context) {
+		option (google.api.method_signature) = "parent,context,context_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/metadataStores/*}/contexts"
+			body: "context"
+		};
+
+	}
+	rpc GetContext(google.cloud.aiplatform.v1.GetContextRequest) returns (google.cloud.aiplatform.v1.Context) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/metadataStores/*/contexts/*}"
+		};
+
+	}
+	rpc ListContexts(google.cloud.aiplatform.v1.ListContextsRequest) returns (google.cloud.aiplatform.v1.ListContextsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/metadataStores/*}/contexts"
+		};
+
+	}
+	rpc UpdateContext(google.cloud.aiplatform.v1.UpdateContextRequest) returns (google.cloud.aiplatform.v1.Context) {
+		option (google.api.method_signature) = "context,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{context.name=projects/*/locations/*/metadataStores/*/contexts/*}"
+			body: "context"
+		};
+
+	}
+	rpc DeleteContext(google.cloud.aiplatform.v1.DeleteContextRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/metadataStores/*/contexts/*}"
+		};
+
+	}
+	rpc PurgeContexts(google.cloud.aiplatform.v1.PurgeContextsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "PurgeContextsResponse"
+			metadata_type: "PurgeContextsMetadata"
+		};
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/metadataStores/*}/contexts:purge"
+			body: "*"
+		};
+
+	}
+	rpc AddContextArtifactsAndExecutions(google.cloud.aiplatform.v1.AddContextArtifactsAndExecutionsRequest) returns (google.cloud.aiplatform.v1.AddContextArtifactsAndExecutionsResponse) {
+		option (google.api.method_signature) = "context,artifacts,executions";
+		option (google.api.http) = {
+			post: "/v1/{context=projects/*/locations/*/metadataStores/*/contexts/*}:addContextArtifactsAndExecutions"
+			body: "*"
+		};
+
+	}
+	rpc AddContextChildren(google.cloud.aiplatform.v1.AddContextChildrenRequest) returns (google.cloud.aiplatform.v1.AddContextChildrenResponse) {
+		option (google.api.method_signature) = "context,child_contexts";
+		option (google.api.http) = {
+			post: "/v1/{context=projects/*/locations/*/metadataStores/*/contexts/*}:addContextChildren"
+			body: "*"
+		};
+
+	}
+	rpc QueryContextLineageSubgraph(google.cloud.aiplatform.v1.QueryContextLineageSubgraphRequest) returns (google.cloud.aiplatform.v1.LineageSubgraph) {
+		option (google.api.method_signature) = "context";
+		option (google.api.http) = {
+			get: "/v1/{context=projects/*/locations/*/metadataStores/*/contexts/*}:queryContextLineageSubgraph"
+		};
+
+	}
+	rpc CreateExecution(google.cloud.aiplatform.v1.CreateExecutionRequest) returns (google.cloud.aiplatform.v1.Execution) {
+		option (google.api.method_signature) = "parent,execution,execution_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/metadataStores/*}/executions"
+			body: "execution"
+		};
+
+	}
+	rpc GetExecution(google.cloud.aiplatform.v1.GetExecutionRequest) returns (google.cloud.aiplatform.v1.Execution) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/metadataStores/*/executions/*}"
+		};
+
+	}
+	rpc ListExecutions(google.cloud.aiplatform.v1.ListExecutionsRequest) returns (google.cloud.aiplatform.v1.ListExecutionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/metadataStores/*}/executions"
+		};
+
+	}
+	rpc UpdateExecution(google.cloud.aiplatform.v1.UpdateExecutionRequest) returns (google.cloud.aiplatform.v1.Execution) {
+		option (google.api.method_signature) = "execution,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{execution.name=projects/*/locations/*/metadataStores/*/executions/*}"
+			body: "execution"
+		};
+
+	}
+	rpc DeleteExecution(google.cloud.aiplatform.v1.DeleteExecutionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/metadataStores/*/executions/*}"
+		};
+
+	}
+	rpc PurgeExecutions(google.cloud.aiplatform.v1.PurgeExecutionsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "PurgeExecutionsResponse"
+			metadata_type: "PurgeExecutionsMetadata"
+		};
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/metadataStores/*}/executions:purge"
+			body: "*"
+		};
+
+	}
+	rpc AddExecutionEvents(google.cloud.aiplatform.v1.AddExecutionEventsRequest) returns (google.cloud.aiplatform.v1.AddExecutionEventsResponse) {
+		option (google.api.method_signature) = "execution,events";
+		option (google.api.http) = {
+			post: "/v1/{execution=projects/*/locations/*/metadataStores/*/executions/*}:addExecutionEvents"
+			body: "*"
+		};
+
+	}
+	rpc QueryExecutionInputsAndOutputs(google.cloud.aiplatform.v1.QueryExecutionInputsAndOutputsRequest) returns (google.cloud.aiplatform.v1.LineageSubgraph) {
+		option (google.api.method_signature) = "execution";
+		option (google.api.http) = {
+			get: "/v1/{execution=projects/*/locations/*/metadataStores/*/executions/*}:queryExecutionInputsAndOutputs"
+		};
+
+	}
+	rpc CreateMetadataSchema(google.cloud.aiplatform.v1.CreateMetadataSchemaRequest) returns (google.cloud.aiplatform.v1.MetadataSchema) {
+		option (google.api.method_signature) = "parent,metadata_schema,metadata_schema_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/metadataStores/*}/metadataSchemas"
+			body: "metadata_schema"
+		};
+
+	}
+	rpc GetMetadataSchema(google.cloud.aiplatform.v1.GetMetadataSchemaRequest) returns (google.cloud.aiplatform.v1.MetadataSchema) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/metadataStores/*/metadataSchemas/*}"
+		};
+
+	}
+	rpc ListMetadataSchemas(google.cloud.aiplatform.v1.ListMetadataSchemasRequest) returns (google.cloud.aiplatform.v1.ListMetadataSchemasResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/metadataStores/*}/metadataSchemas"
+		};
+
+	}
+	rpc QueryArtifactLineageSubgraph(google.cloud.aiplatform.v1.QueryArtifactLineageSubgraphRequest) returns (google.cloud.aiplatform.v1.LineageSubgraph) {
+		option (google.api.method_signature) = "artifact";
+		option (google.api.http) = {
+			get: "/v1/{artifact=projects/*/locations/*/metadataStores/*/artifacts/*}:queryArtifactLineageSubgraph"
+		};
+
+	}
+}
+
+message CreateMetadataStoreRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1.MetadataStore metadata_store = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string metadata_store_id = 3;
+}
+
+message CreateMetadataStoreOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message GetMetadataStoreRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/MetadataStore"
+		}
+	];
+}
+
+message ListMetadataStoresRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListMetadataStoresResponse {
+
+	repeated google.cloud.aiplatform.v1.MetadataStore metadata_stores = 1;
+	string next_page_token = 2;
+}
+
+message DeleteMetadataStoreRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/MetadataStore"
+		}
+	];
+	bool force = 2 [
+		deprecated = true
+	];
+}
+
+message DeleteMetadataStoreOperationMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message CreateArtifactRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/MetadataStore"
+		}
+	];
+	google.cloud.aiplatform.v1.Artifact artifact = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string artifact_id = 3;
+}
+
+message GetArtifactRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Artifact"
+		}
+	];
+}
+
+message ListArtifactsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Artifact"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListArtifactsResponse {
+
+	repeated google.cloud.aiplatform.v1.Artifact artifacts = 1;
+	string next_page_token = 2;
+}
+
+message UpdateArtifactRequest {
+
+	google.cloud.aiplatform.v1.Artifact artifact = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool allow_missing = 3;
+}
+
+message DeleteArtifactRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Artifact"
+		}
+	];
+	string etag = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PurgeArtifactsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Artifact"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool force = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PurgeArtifactsResponse {
+
+	int64 purge_count = 1;
+	repeated string purge_sample = 2 [
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Artifact"
+		}
+	];
+}
+
+message PurgeArtifactsMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message CreateContextRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/MetadataStore"
+		}
+	];
+	google.cloud.aiplatform.v1.Context context = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string context_id = 3;
+}
+
+message GetContextRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Context"
+		}
+	];
+}
+
+message ListContextsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Context"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListContextsResponse {
+
+	repeated google.cloud.aiplatform.v1.Context contexts = 1;
+	string next_page_token = 2;
+}
+
+message UpdateContextRequest {
+
+	google.cloud.aiplatform.v1.Context context = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool allow_missing = 3;
+}
+
+message DeleteContextRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Context"
+		}
+	];
+	bool force = 2;
+	string etag = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PurgeContextsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Context"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool force = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PurgeContextsResponse {
+
+	int64 purge_count = 1;
+	repeated string purge_sample = 2 [
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Context"
+		}
+	];
+}
+
+message PurgeContextsMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message AddContextArtifactsAndExecutionsRequest {
+
+	string context = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Context"
+		}
+	];
+	repeated string artifacts = 2 [
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Artifact"
+		}
+	];
+	repeated string executions = 3 [
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+}
+
+message AddContextArtifactsAndExecutionsResponse {
+
+}
+
+message AddContextChildrenRequest {
+
+	string context = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Context"
+		}
+	];
+	repeated string child_contexts = 2 [
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Context"
+		}
+	];
+}
+
+message AddContextChildrenResponse {
+
+}
+
+message QueryContextLineageSubgraphRequest {
+
+	string context = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Context"
+		}
+	];
+}
+
+message CreateExecutionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/MetadataStore"
+		}
+	];
+	google.cloud.aiplatform.v1.Execution execution = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string execution_id = 3;
+}
+
+message GetExecutionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+}
+
+message ListExecutionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListExecutionsResponse {
+
+	repeated google.cloud.aiplatform.v1.Execution executions = 1;
+	string next_page_token = 2;
+}
+
+message UpdateExecutionRequest {
+
+	google.cloud.aiplatform.v1.Execution execution = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool allow_missing = 3;
+}
+
+message DeleteExecutionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+	string etag = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PurgeExecutionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool force = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PurgeExecutionsResponse {
+
+	int64 purge_count = 1;
+	repeated string purge_sample = 2 [
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+}
+
+message PurgeExecutionsMetadata {
+
+	google.cloud.aiplatform.v1.GenericOperationMetadata generic_metadata = 1;
+}
+
+message AddExecutionEventsRequest {
+
+	string execution = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+	repeated google.cloud.aiplatform.v1.Event events = 2;
+}
+
+message AddExecutionEventsResponse {
+
+}
+
+message QueryExecutionInputsAndOutputsRequest {
+
+	string execution = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Execution"
+		}
+	];
+}
+
+message CreateMetadataSchemaRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/MetadataStore"
+		}
+	];
+	google.cloud.aiplatform.v1.MetadataSchema metadata_schema = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string metadata_schema_id = 3;
+}
+
+message GetMetadataSchemaRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/MetadataSchema"
+		}
+	];
+}
+
+message ListMetadataSchemasRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "aiplatform.googleapis.com/MetadataSchema"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListMetadataSchemasResponse {
+
+	repeated google.cloud.aiplatform.v1.MetadataSchema metadata_schemas = 1;
+	string next_page_token = 2;
+}
+
+message QueryArtifactLineageSubgraphRequest {
+
+	string artifact = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/Artifact"
+		}
+	];
+	int32 max_hops = 2;
+	string filter = 3;
+}

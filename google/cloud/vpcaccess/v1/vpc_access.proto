@@ -1,0 +1,171 @@
+syntax = "proto3";
+
+package google.cloud.vpcaccess.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.vpcaccess.v1";
+option java_outer_classname = "VpcAccessProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/vpcaccess/v1;vpcaccess";
+option csharp_namespace = "Google.Cloud.VpcAccess.V1";
+option php_namespace = "Google\\Cloud\\VpcAccess\\V1";
+option ruby_package = "Google::Cloud::VpcAccess::V1";
+
+
+service VpcAccessService {
+	option (google.api.default_host) = "vpcaccess.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateConnector(google.cloud.vpcaccess.v1.CreateConnectorRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Connector"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,connector_id,connector";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/connectors"
+			body: "connector"
+		};
+
+	}
+	rpc GetConnector(google.cloud.vpcaccess.v1.GetConnectorRequest) returns (google.cloud.vpcaccess.v1.Connector) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/connectors/*}"
+		};
+
+	}
+	rpc ListConnectors(google.cloud.vpcaccess.v1.ListConnectorsRequest) returns (google.cloud.vpcaccess.v1.ListConnectorsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/connectors"
+		};
+
+	}
+	rpc DeleteConnector(google.cloud.vpcaccess.v1.DeleteConnectorRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/connectors/*}"
+		};
+
+	}
+}
+
+message Connector {
+	option (google.api.resource) = {
+		type: "vpcaccess.googleapis.com/Connector"
+		pattern: ["projects/{project}/locations/{location}/connectors/{connector}"]
+	};
+
+	message Subnet {
+
+		string name = 1;
+		string project_id = 2;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		READY = 1;
+		CREATING = 2;
+		DELETING = 3;
+		ERROR = 4;
+		UPDATING = 5;
+	}
+
+	string name = 1;
+	string network = 2;
+	string ip_cidr_range = 3;
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 min_throughput = 5;
+	int32 max_throughput = 6;
+	repeated string connected_projects = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Subnet subnet = 8;
+}
+
+message CreateConnectorRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string connector_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Connector connector = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetConnectorRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vpcaccess.googleapis.com/Connector"
+		}
+	];
+}
+
+message ListConnectorsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListConnectorsResponse {
+
+	repeated Connector connectors = 1;
+	string next_page_token = 2;
+}
+
+message DeleteConnectorRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vpcaccess.googleapis.com/Connector"
+		}
+	];
+}
+
+message OperationMetadata {
+
+	string method = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "vpcaccess.googleapis.com/Connector"
+		}
+	];
+}

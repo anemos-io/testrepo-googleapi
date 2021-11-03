@@ -1,0 +1,256 @@
+syntax = "proto3";
+
+package google.example.showcase.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.example.showcase.v1beta1";
+option java_outer_classname = "TestingProto";
+option java_multiple_files = true;
+option go_package = "github.com/googleapis/gapic-showcase/server/genproto";
+option ruby_package = "Google::Showcase::V1Beta1";
+
+
+service Testing {
+	option (google.api.default_host) = "showcase.googleapis.com";
+
+	rpc CreateSession(google.example.showcase.v1beta1.CreateSessionRequest) returns (google.example.showcase.v1beta1.Session) {
+		option (google.api.http) = {
+			post: "/v1beta1/sessions"
+			body: "session"
+		};
+
+	}
+	rpc GetSession(google.example.showcase.v1beta1.GetSessionRequest) returns (google.example.showcase.v1beta1.Session) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=sessions/*}"
+		};
+
+	}
+	rpc ListSessions(google.example.showcase.v1beta1.ListSessionsRequest) returns (google.example.showcase.v1beta1.ListSessionsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/sessions"
+		};
+
+	}
+	rpc DeleteSession(google.example.showcase.v1beta1.DeleteSessionRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=sessions/*}"
+		};
+
+	}
+	rpc ReportSession(google.example.showcase.v1beta1.ReportSessionRequest) returns (google.example.showcase.v1beta1.ReportSessionResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{name=sessions/*}:report"
+		};
+
+	}
+	rpc ListTests(google.example.showcase.v1beta1.ListTestsRequest) returns (google.example.showcase.v1beta1.ListTestsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=sessions/*}/tests"
+		};
+
+	}
+	rpc DeleteTest(google.example.showcase.v1beta1.DeleteTestRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=sessions/*/tests/*}"
+		};
+
+	}
+	rpc VerifyTest(google.example.showcase.v1beta1.VerifyTestRequest) returns (google.example.showcase.v1beta1.VerifyTestResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{name=sessions/*/tests/*}:check"
+		};
+
+	}
+}
+
+message Session {
+	option (google.api.resource) = {
+		type: "showcase.googleapis.com/Session"
+		pattern: ["sessions/{session}"]
+	};
+
+	enum Version {
+
+		VERSION_UNSPECIFIED = 0;
+		V1_LATEST = 1;
+		V1_0 = 2;
+	}
+
+	string name = 1;
+	Version version = 2;
+}
+
+message CreateSessionRequest {
+
+	Session session = 1;
+}
+
+message GetSessionRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/Session"
+		}
+	];
+}
+
+message ListSessionsRequest {
+
+	int32 page_size = 1;
+	string page_token = 2;
+}
+
+message ListSessionsResponse {
+
+	repeated Session sessions = 1;
+	string next_page_token = 2;
+}
+
+message DeleteSessionRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/Session"
+		}
+	];
+}
+
+message ReportSessionRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/Session"
+		}
+	];
+}
+
+message ReportSessionResponse {
+
+	enum Result {
+
+		RESULT_UNSPECIFIED = 0;
+		PASSED = 1;
+		FAILED = 2;
+		INCOMPLETE = 3;
+	}
+
+	Result result = 1;
+	repeated TestRun test_runs = 2;
+}
+
+message Test {
+	option (google.api.resource) = {
+		type: "showcase.googleapis.com/Test"
+		pattern: ["sessions/{session}/tests/{test}"]
+	};
+
+	message Blueprint {
+		option (google.api.resource) = {
+			type: "showcase.googleapis.com/Blueprint"
+			pattern: ["sessions/{session}/tests/{test}/blueprints/{blueprint}"]
+		};
+
+		message Invocation {
+
+			string method = 1;
+			bytes serialized_request = 2;
+		}
+
+		string name = 1;
+		string description = 2;
+		Invocation request = 3;
+		repeated Invocation additional_requests = 4;
+	}
+
+	enum ExpectationLevel {
+
+		EXPECTATION_LEVEL_UNSPECIFIED = 0;
+		REQUIRED = 1;
+		RECOMMENDED = 2;
+		OPTIONAL = 3;
+	}
+
+	string name = 1;
+	ExpectationLevel expectation_level = 2;
+	string description = 3;
+	repeated Blueprint blueprints = 4;
+}
+
+message Issue {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		SKIPPED = 1;
+		PENDING = 2;
+		INCORRECT_CONFIRMATION = 3;
+	}
+
+	enum Severity {
+
+		SEVERITY_UNSPECIFIED = 0;
+		ERROR = 1;
+		WARNING = 2;
+	}
+
+	Type type = 1;
+	Severity severity = 2;
+	string description = 3;
+}
+
+message ListTestsRequest {
+
+	string parent = 1 [
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/Session"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTestsResponse {
+
+	repeated Test tests = 1;
+	string next_page_token = 2;
+}
+
+message TestRun {
+
+	string test = 1 [
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/Test"
+		}
+	];
+	Issue issue = 2;
+}
+
+message DeleteTestRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/Test"
+		}
+	];
+}
+
+message VerifyTestRequest {
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "showcase.googleapis.com/Test"
+		}
+	];
+	bytes answer = 2;
+	repeated bytes answers = 3;
+}
+
+message VerifyTestResponse {
+
+	Issue issue = 1;
+}

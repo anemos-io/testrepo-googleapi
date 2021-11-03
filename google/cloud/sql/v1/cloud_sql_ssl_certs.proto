@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package google.cloud.sql.v1;
+
+import "google/api/annotations.proto";
+import "google/cloud/sql/v1/cloud_sql_resources.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.sql.v1";
+option java_outer_classname = "CloudSqlSslCertsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/sql/v1;sql";
+
+
+service SqlSslCertsService {
+	option (google.api.default_host) = "sqladmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.admin";
+
+	rpc Delete(google.cloud.sql.v1.SqlSslCertsDeleteRequest) returns (google.cloud.sql.v1.Operation) {
+		option (google.api.http) = {
+			delete: "/v1/projects/{project}/instances/{instance}/sslCerts/{sha1_fingerprint}"
+		};
+
+	}
+	rpc Get(google.cloud.sql.v1.SqlSslCertsGetRequest) returns (google.cloud.sql.v1.SslCert) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances/{instance}/sslCerts/{sha1_fingerprint}"
+		};
+
+	}
+	rpc Insert(google.cloud.sql.v1.SqlSslCertsInsertRequest) returns (google.cloud.sql.v1.SslCertsInsertResponse) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project}/instances/{instance}/sslCerts"
+			body: "body"
+		};
+
+	}
+	rpc List(google.cloud.sql.v1.SqlSslCertsListRequest) returns (google.cloud.sql.v1.SslCertsListResponse) {
+		option (google.api.http) = {
+			get: "/v1/projects/{project}/instances/{instance}/sslCerts"
+		};
+
+	}
+}
+
+message SqlSslCertsDeleteRequest {
+
+	string instance = 1;
+	string project = 2;
+	string sha1_fingerprint = 3;
+}
+
+message SqlSslCertsGetRequest {
+
+	string instance = 1;
+	string project = 2;
+	string sha1_fingerprint = 3;
+}
+
+message SqlSslCertsInsertRequest {
+
+	string instance = 1;
+	string project = 2;
+	SslCertsInsertRequest body = 100;
+}
+
+message SqlSslCertsListRequest {
+
+	string instance = 1;
+	string project = 2;
+}
+
+message SslCertsInsertRequest {
+
+	string common_name = 1;
+}
+
+message SslCertsInsertResponse {
+
+	string kind = 1;
+	google.cloud.sql.v1.Operation operation = 2;
+	google.cloud.sql.v1.SslCert server_ca_cert = 3;
+	google.cloud.sql.v1.SslCertDetail client_cert = 4;
+}
+
+message SslCertsListResponse {
+
+	string kind = 1;
+	repeated google.cloud.sql.v1.SslCert items = 2;
+}

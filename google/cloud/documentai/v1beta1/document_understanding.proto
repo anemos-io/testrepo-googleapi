@@ -14,7 +14,7 @@ option java_outer_classname = "DocumentAiProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/documentai/v1beta1;documentai";
 option csharp_namespace = "Google.Cloud.DocumentAI.V1Beta1";
-option php_namespace = "Google\\Cloud\\DocumentAi\\V1beta1";
+option php_namespace = "Google\\Cloud\\DocumentAI\\V1beta1";
 option ruby_package = "Google::Cloud::DocumentAI::V1beta1";
 
 

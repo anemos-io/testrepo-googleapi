@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema";
+option java_outer_classname = "DatasetMetadataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema;schema";
+
+
+message ImageDatasetMetadata {
+
+	string data_item_schema_uri = 1;
+	string gcs_bucket = 2;
+}
+
+message TextDatasetMetadata {
+
+	string data_item_schema_uri = 1;
+	string gcs_bucket = 2;
+}
+
+message VideoDatasetMetadata {
+
+	string data_item_schema_uri = 1;
+	string gcs_bucket = 2;
+}
+
+message TablesDatasetMetadata {
+
+	message InputConfig {
+
+		oneof source {
+			GcsSource gcs_source = 1;
+			BigQuerySource bigquery_source = 2;
+		}
+	}
+
+	message GcsSource {
+
+		repeated string uri = 1;
+	}
+
+	message BigQuerySource {
+
+		string uri = 1;
+	}
+
+	InputConfig input_config = 1;
+}
+
+message TimeSeriesDatasetMetadata {
+
+	message InputConfig {
+
+		oneof source {
+			GcsSource gcs_source = 1;
+			BigQuerySource bigquery_source = 2;
+		}
+	}
+
+	message GcsSource {
+
+		repeated string uri = 1;
+	}
+
+	message BigQuerySource {
+
+		string uri = 1;
+	}
+
+	InputConfig input_config = 1;
+	string time_series_identifier_column = 2;
+	string time_column = 3;
+}

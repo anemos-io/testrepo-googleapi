@@ -1,0 +1,433 @@
+syntax = "proto3";
+
+package google.cloud.apigateway.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.apigateway.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/apigateway/v1;apigateway";
+option csharp_namespace = "Google.Cloud.ApiGateway.V1";
+option php_namespace = "Google\\Cloud\\ApiGateway\\V1";
+option ruby_package = "Google::Cloud::ApiGateway::V1";
+option (google.api.resource_definition) = {
+	type: "iam.googleapis.com/ServiceAccount"
+	pattern: ["projects/{project}/serviceAccounts/{service_account}"]
+};
+option (google.api.resource_definition) = {
+	type: "servicemanagement.googleapis.com/ManagedService"
+	pattern: ["services/{service}"]
+};
+option (google.api.resource_definition) = {
+	type: "servicemanagement.googleapis.com/Service"
+	pattern: ["services/{service}/configs/{config}"]
+};
+
+
+message Api {
+	option (google.api.resource) = {
+		type: "apigateway.googleapis.com/Api"
+		pattern: ["projects/{project}/locations/global/apis/{api}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		ACTIVE = 2;
+		FAILED = 3;
+		DELETING = 4;
+		UPDATING = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string display_name = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string managed_service = 7 [
+		(google.api.field_behavior) = IMMUTABLE,
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "servicemanagement.googleapis.com/ManagedService"
+		}
+	];
+	State state = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ApiConfig {
+	option (google.api.resource) = {
+		type: "apigateway.googleapis.com/ApiConfig"
+		pattern: ["projects/{project}/locations/global/apis/{api}/configs/{api_config}"]
+	};
+
+	message File {
+
+		string path = 1;
+		bytes contents = 2;
+	}
+
+	message OpenApiDocument {
+
+		File document = 1;
+	}
+
+	message GrpcServiceDefinition {
+
+		File file_descriptor_set = 1 [
+			(google.api.field_behavior) = INPUT_ONLY
+		];
+		repeated File source = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		ACTIVE = 2;
+		FAILED = 3;
+		DELETING = 4;
+		UPDATING = 5;
+		ACTIVATING = 6;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string display_name = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string gateway_service_account = 14 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/ServiceAccount"
+		}
+	];
+	string service_config_id = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "servicemanagement.googleapis.com/Service"
+		}
+	];
+	State state = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated OpenApiDocument openapi_documents = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated GrpcServiceDefinition grpc_services = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated File managed_service_configs = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message Gateway {
+	option (google.api.resource) = {
+		type: "apigateway.googleapis.com/Gateway"
+		pattern: ["projects/{project}/locations/{location}/gateways/{gateway}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		ACTIVE = 2;
+		FAILED = 3;
+		DELETING = 4;
+		UPDATING = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string display_name = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string api_config = 6 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/ApiConfig"
+		}
+	];
+	State state = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string default_hostname = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListGatewaysRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListGatewaysResponse {
+
+	repeated Gateway gateways = 1;
+	string next_page_token = 2;
+	repeated string unreachable_locations = 3;
+}
+
+message GetGatewayRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/Gateway"
+		}
+	];
+}
+
+message CreateGatewayRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string gateway_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Gateway gateway = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateGatewayRequest {
+
+	google.protobuf.FieldMask update_mask = 1;
+	Gateway gateway = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteGatewayRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/Gateway"
+		}
+	];
+}
+
+message ListApisRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListApisResponse {
+
+	repeated Api apis = 1;
+	string next_page_token = 2;
+	repeated string unreachable_locations = 3;
+}
+
+message GetApiRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/Api"
+		}
+	];
+}
+
+message CreateApiRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string api_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Api api = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateApiRequest {
+
+	google.protobuf.FieldMask update_mask = 1;
+	Api api = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteApiRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/Api"
+		}
+	];
+}
+
+message ListApiConfigsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/Api"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string order_by = 5;
+}
+
+message ListApiConfigsResponse {
+
+	repeated ApiConfig api_configs = 1;
+	string next_page_token = 2;
+	repeated string unreachable_locations = 3;
+}
+
+message GetApiConfigRequest {
+
+	enum ConfigView {
+
+		CONFIG_VIEW_UNSPECIFIED = 0;
+		BASIC = 1;
+		FULL = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/ApiConfig"
+		}
+	];
+	ConfigView view = 3;
+}
+
+message CreateApiConfigRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/Api"
+		}
+	];
+	string api_config_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ApiConfig api_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateApiConfigRequest {
+
+	google.protobuf.FieldMask update_mask = 1;
+	ApiConfig api_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteApiConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "apigateway.googleapis.com/ApiConfig"
+		}
+	];
+}
+
+message OperationMetadata {
+
+	message Diagnostic {
+
+		string location = 1;
+		string message = 2;
+	}
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Diagnostic diagnostics = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.common;
+
+import "google/ads/googleads/v8/enums/customer_match_upload_key_type.proto";
+import "google/ads/googleads/v8/enums/user_list_combined_rule_operator.proto";
+import "google/ads/googleads/v8/enums/user_list_crm_data_source_type.proto";
+import "google/ads/googleads/v8/enums/user_list_date_rule_item_operator.proto";
+import "google/ads/googleads/v8/enums/user_list_logical_rule_operator.proto";
+import "google/ads/googleads/v8/enums/user_list_number_rule_item_operator.proto";
+import "google/ads/googleads/v8/enums/user_list_prepopulation_status.proto";
+import "google/ads/googleads/v8/enums/user_list_rule_type.proto";
+import "google/ads/googleads/v8/enums/user_list_string_rule_item_operator.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.common";
+option java_outer_classname = "UserListsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V8::Common";
+
+
+message SimilarUserListInfo {
+
+	oneof _seed_user_list {
+		string seed_user_list = 2;
+	}
+}
+
+message CrmBasedUserListInfo {
+
+	oneof _app_id {
+		string app_id = 4;
+	}
+	google.ads.googleads.v8.enums.CustomerMatchUploadKeyTypeEnum.CustomerMatchUploadKeyType upload_key_type = 2;
+	google.ads.googleads.v8.enums.UserListCrmDataSourceTypeEnum.UserListCrmDataSourceType data_source_type = 3;
+}
+
+message UserListRuleInfo {
+
+	google.ads.googleads.v8.enums.UserListRuleTypeEnum.UserListRuleType rule_type = 1;
+	repeated UserListRuleItemGroupInfo rule_item_groups = 2;
+}
+
+message UserListRuleItemGroupInfo {
+
+	repeated UserListRuleItemInfo rule_items = 1;
+}
+
+message UserListRuleItemInfo {
+
+	oneof _name {
+		string name = 5;
+	}
+	oneof rule_item {
+		UserListNumberRuleItemInfo number_rule_item = 2;
+		UserListStringRuleItemInfo string_rule_item = 3;
+		UserListDateRuleItemInfo date_rule_item = 4;
+	}
+}
+
+message UserListDateRuleItemInfo {
+
+	google.ads.googleads.v8.enums.UserListDateRuleItemOperatorEnum.UserListDateRuleItemOperator operator = 1;
+	oneof _value {
+		string value = 4;
+	}
+	oneof _offset_in_days {
+		int64 offset_in_days = 5;
+	}
+}
+
+message UserListNumberRuleItemInfo {
+
+	google.ads.googleads.v8.enums.UserListNumberRuleItemOperatorEnum.UserListNumberRuleItemOperator operator = 1;
+	oneof _value {
+		double value = 3;
+	}
+}
+
+message UserListStringRuleItemInfo {
+
+	google.ads.googleads.v8.enums.UserListStringRuleItemOperatorEnum.UserListStringRuleItemOperator operator = 1;
+	oneof _value {
+		string value = 3;
+	}
+}
+
+message CombinedRuleUserListInfo {
+
+	UserListRuleInfo left_operand = 1;
+	UserListRuleInfo right_operand = 2;
+	google.ads.googleads.v8.enums.UserListCombinedRuleOperatorEnum.UserListCombinedRuleOperator rule_operator = 3;
+}
+
+message DateSpecificRuleUserListInfo {
+
+	UserListRuleInfo rule = 1;
+	oneof _start_date {
+		string start_date = 4;
+	}
+	oneof _end_date {
+		string end_date = 5;
+	}
+}
+
+message ExpressionRuleUserListInfo {
+
+	UserListRuleInfo rule = 1;
+}
+
+message RuleBasedUserListInfo {
+
+	google.ads.googleads.v8.enums.UserListPrepopulationStatusEnum.UserListPrepopulationStatus prepopulation_status = 1;
+	oneof rule_based_user_list {
+		CombinedRuleUserListInfo combined_rule_user_list = 2;
+		DateSpecificRuleUserListInfo date_specific_rule_user_list = 3;
+		ExpressionRuleUserListInfo expression_rule_user_list = 4;
+	}
+}
+
+message LogicalUserListInfo {
+
+	repeated UserListLogicalRuleInfo rules = 1;
+}
+
+message UserListLogicalRuleInfo {
+
+	google.ads.googleads.v8.enums.UserListLogicalRuleOperatorEnum.UserListLogicalRuleOperator operator = 1;
+	repeated LogicalUserListOperandInfo rule_operands = 2;
+}
+
+message LogicalUserListOperandInfo {
+
+	oneof _user_list {
+		string user_list = 2;
+	}
+}
+
+message BasicUserListInfo {
+
+	repeated UserListActionInfo actions = 1;
+}
+
+message UserListActionInfo {
+
+	oneof user_list_action {
+		string conversion_action = 3;
+		string remarketing_action = 4;
+	}
+}

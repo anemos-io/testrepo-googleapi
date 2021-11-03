@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.resources;
+
+import "google/ads/googleads/v7/enums/geo_target_constant_status.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.resources";
+option java_outer_classname = "GeoTargetConstantProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V7::Resources";
+
+
+message GeoTargetConstant {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/GeoTargetConstant"
+		pattern: ["geoTargetConstants/{criterion_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/GeoTargetConstant"
+		}
+	];
+	oneof _id {
+		int64 id = 10 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _country_code {
+		string country_code = 12 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _target_type {
+		string target_type = 13 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v7.enums.GeoTargetConstantStatusEnum.GeoTargetConstantStatus status = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _canonical_name {
+		string canonical_name = 14 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _parent_geo_target {
+		string parent_geo_target = 9 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/GeoTargetConstant"
+			}
+		];
+	}
+}

@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package google.dataflow.v1beta3;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.dataflow.v1beta3";
+option java_outer_classname = "MessagesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/dataflow/v1beta3;dataflow";
+option csharp_namespace = "Google.Cloud.Dataflow.V1Beta3";
+option php_namespace = "Google\\Cloud\\Dataflow\\V1beta3";
+option ruby_package = "Google::Cloud::Dataflow::V1beta3";
+
+
+enum JobMessageImportance {
+
+	JOB_MESSAGE_IMPORTANCE_UNKNOWN = 0;
+	JOB_MESSAGE_DEBUG = 1;
+	JOB_MESSAGE_DETAILED = 2;
+	JOB_MESSAGE_BASIC = 5;
+	JOB_MESSAGE_WARNING = 3;
+	JOB_MESSAGE_ERROR = 4;
+}
+
+service MessagesV1Beta3 {
+	option (google.api.default_host) = "dataflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/compute,https://www.googleapis.com/auth/compute.readonly,https://www.googleapis.com/auth/userinfo.email";
+
+	rpc ListJobMessages(google.dataflow.v1beta3.ListJobMessagesRequest) returns (google.dataflow.v1beta3.ListJobMessagesResponse) {}
+}
+
+message JobMessage {
+
+	string id = 1;
+	google.protobuf.Timestamp time = 2;
+	string message_text = 3;
+	JobMessageImportance message_importance = 4;
+}
+
+message StructuredMessage {
+
+	message Parameter {
+
+		string key = 1;
+		google.protobuf.Value value = 2;
+	}
+
+	string message_text = 1;
+	string message_key = 2;
+	repeated Parameter parameters = 3;
+}
+
+message AutoscalingEvent {
+
+	enum AutoscalingEventType {
+
+		TYPE_UNKNOWN = 0;
+		TARGET_NUM_WORKERS_CHANGED = 1;
+		CURRENT_NUM_WORKERS_CHANGED = 2;
+		ACTUATION_FAILURE = 3;
+		NO_CHANGE = 4;
+	}
+
+	int64 current_num_workers = 1;
+	int64 target_num_workers = 2;
+	AutoscalingEventType event_type = 3;
+	StructuredMessage description = 4;
+	google.protobuf.Timestamp time = 5;
+	string worker_pool = 7;
+}
+
+message ListJobMessagesRequest {
+
+	string project_id = 1;
+	string job_id = 2;
+	JobMessageImportance minimum_importance = 3;
+	int32 page_size = 4;
+	string page_token = 5;
+	google.protobuf.Timestamp start_time = 6;
+	google.protobuf.Timestamp end_time = 7;
+	string location = 8;
+}
+
+message ListJobMessagesResponse {
+
+	repeated JobMessage job_messages = 1;
+	string next_page_token = 2;
+	repeated AutoscalingEvent autoscaling_events = 3;
+}

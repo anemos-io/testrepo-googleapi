@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package google.cloud.documentai.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.documentai.v1";
+option java_outer_classname = "DocumentIoProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/documentai/v1;documentai";
+option csharp_namespace = "Google.Cloud.DocumentAI.V1";
+option php_namespace = "Google\\Cloud\\DocumentAI\\V1";
+option ruby_package = "Google::Cloud::DocumentAI::V1";
+
+
+message RawDocument {
+
+	bytes content = 1;
+	string mime_type = 2;
+}
+
+message GcsDocument {
+
+	string gcs_uri = 1;
+	string mime_type = 2;
+}
+
+message GcsDocuments {
+
+	repeated GcsDocument documents = 1;
+}
+
+message GcsPrefix {
+
+	string gcs_uri_prefix = 1;
+}
+
+message BatchDocumentsInputConfig {
+
+	oneof source {
+		GcsPrefix gcs_prefix = 1;
+		GcsDocuments gcs_documents = 2;
+	}
+}
+
+message DocumentOutputConfig {
+
+	message GcsOutputConfig {
+
+		string gcs_uri = 1;
+	}
+
+	oneof destination {
+		GcsOutputConfig gcs_output_config = 1;
+	}
+}

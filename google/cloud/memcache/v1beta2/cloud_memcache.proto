@@ -99,6 +99,18 @@ service CloudMemcache {
 		};
 
 	}
+	rpc ApplySoftwareUpdate(google.cloud.memcache.v1beta2.ApplySoftwareUpdateRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.memcache.v1beta2.Instance"
+			metadata_type: "google.cloud.memcache.v1beta2.OperationMetadata"
+		};
+		option (google.api.method_signature) = "instance,node_ids,apply_all";
+		option (google.api.http) = {
+			post: "/v1beta2/{instance=projects/*/locations/*/instances/*}:applySoftwareUpdate"
+			body: "*"
+		};
+
+	}
 }
 
 message Instance {
@@ -144,6 +156,9 @@ message Instance {
 			(google.api.field_behavior) = OUTPUT_ONLY
 		];
 		MemcacheParameters parameters = 6;
+		bool update_available = 7 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
 	}
 
 	message InstanceMessage {
@@ -199,6 +214,9 @@ message Instance {
 	];
 	repeated InstanceMessage instance_messages = 19;
 	string discovery_endpoint = 20 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool update_available = 21 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 }
@@ -262,7 +280,12 @@ message UpdateInstanceRequest {
 
 message DeleteInstanceRequest {
 
-	string name = 1;
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "memcache.googleapis.com/Instance"
+		}
+	];
 }
 
 message ApplyParametersRequest {
@@ -291,6 +314,18 @@ message UpdateParametersRequest {
 	MemcacheParameters parameters = 3;
 }
 
+message ApplySoftwareUpdateRequest {
+
+	string instance = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "memcache.googleapis.com/Instance"
+		}
+	];
+	repeated string node_ids = 2;
+	bool apply_all = 3;
+}
+
 message MemcacheParameters {
 
 	string id = 1 [
@@ -301,13 +336,27 @@ message MemcacheParameters {
 
 message OperationMetadata {
 
-	google.protobuf.Timestamp create_time = 1;
-	google.protobuf.Timestamp end_time = 2;
-	string target = 3;
-	string verb = 4;
-	string status_detail = 5;
-	bool cancel_requested = 6;
-	string api_version = 7;
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_detail = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool cancel_requested = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message LocationMetadata {

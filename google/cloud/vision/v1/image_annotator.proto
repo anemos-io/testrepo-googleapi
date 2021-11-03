@@ -189,6 +189,8 @@ message FaceAnnotation {
 			CHIN_GNATHION = 32;
 			CHIN_LEFT_GONION = 33;
 			CHIN_RIGHT_GONION = 34;
+			LEFT_CHEEK_CENTER = 35;
+			RIGHT_CHEEK_CENTER = 36;
 		}
 
 		Type type = 3;
@@ -255,12 +257,24 @@ message SafeSearchAnnotation {
 	Likelihood medical = 3;
 	Likelihood violence = 4;
 	Likelihood racy = 9;
-	float adult_confidence = 16;
-	float spoof_confidence = 18;
-	float medical_confidence = 20;
-	float violence_confidence = 22;
-	float racy_confidence = 24;
-	float nsfw_confidence = 26;
+	float adult_confidence = 16 [
+		deprecated = true
+	];
+	float spoof_confidence = 18 [
+		deprecated = true
+	];
+	float medical_confidence = 20 [
+		deprecated = true
+	];
+	float violence_confidence = 22 [
+		deprecated = true
+	];
+	float racy_confidence = 24 [
+		deprecated = true
+	];
+	float nsfw_confidence = 26 [
+		deprecated = true
+	];
 }
 
 message LatLongRect {
@@ -308,6 +322,11 @@ message WebDetectionParams {
 	bool include_geo_results = 2;
 }
 
+message TextDetectionParams {
+
+	bool enable_text_detection_confidence_score = 9;
+}
+
 message ImageContext {
 
 	LatLongRect lat_long_rect = 1;
@@ -315,6 +334,7 @@ message ImageContext {
 	CropHintsParams crop_hints_params = 4;
 	google.cloud.vision.v1.ProductSearchParams product_search_params = 5;
 	WebDetectionParams web_detection_params = 6;
+	TextDetectionParams text_detection_params = 12;
 }
 
 message AnnotateImageRequest {

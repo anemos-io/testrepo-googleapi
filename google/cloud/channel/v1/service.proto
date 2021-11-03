@@ -1,0 +1,969 @@
+syntax = "proto3";
+
+package google.cloud.channel.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/channel/v1/channel_partner_links.proto";
+import "google/cloud/channel/v1/common.proto";
+import "google/cloud/channel/v1/customers.proto";
+import "google/cloud/channel/v1/entitlements.proto";
+import "google/cloud/channel/v1/offers.proto";
+import "google/cloud/channel/v1/products.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.channel.v1";
+option java_outer_classname = "ServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/channel/v1;channel";
+
+
+service CloudChannelService {
+	option (google.api.default_host) = "cloudchannel.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/apps.order";
+
+	rpc ListCustomers(google.cloud.channel.v1.ListCustomersRequest) returns (google.cloud.channel.v1.ListCustomersResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=accounts/*}/customers"
+			additional_bindings: {
+				get: "/v1/{parent=accounts/*/channelPartnerLinks/*}/customers"
+			}
+		};
+
+	}
+	rpc GetCustomer(google.cloud.channel.v1.GetCustomerRequest) returns (google.cloud.channel.v1.Customer) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=accounts/*/customers/*}"
+			additional_bindings: {
+				get: "/v1/{name=accounts/*/channelPartnerLinks/*/customers/*}"
+			}
+		};
+
+	}
+	rpc CheckCloudIdentityAccountsExist(google.cloud.channel.v1.CheckCloudIdentityAccountsExistRequest) returns (google.cloud.channel.v1.CheckCloudIdentityAccountsExistResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*}:checkCloudIdentityAccountsExist"
+			body: "*"
+		};
+
+	}
+	rpc CreateCustomer(google.cloud.channel.v1.CreateCustomerRequest) returns (google.cloud.channel.v1.Customer) {
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*}/customers"
+			body: "customer"
+			additional_bindings: {
+				post: "/v1/{parent=accounts/*/channelPartnerLinks/*}/customers"
+				body: "customer"
+			}
+		};
+
+	}
+	rpc UpdateCustomer(google.cloud.channel.v1.UpdateCustomerRequest) returns (google.cloud.channel.v1.Customer) {
+		option (google.api.http) = {
+			patch: "/v1/{customer.name=accounts/*/customers/*}"
+			body: "customer"
+			additional_bindings: {
+				patch: "/v1/{customer.name=accounts/*/channelPartnerLinks/*/customers/*}"
+				body: "customer"
+			}
+		};
+
+	}
+	rpc DeleteCustomer(google.cloud.channel.v1.DeleteCustomerRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=accounts/*/customers/*}"
+			additional_bindings: {
+				delete: "/v1/{name=accounts/*/channelPartnerLinks/*/customers/*}"
+			}
+		};
+
+	}
+	rpc ImportCustomer(google.cloud.channel.v1.ImportCustomerRequest) returns (google.cloud.channel.v1.Customer) {
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*}/customers:import"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{parent=accounts/*/channelPartnerLinks/*}/customers:import"
+				body: "*"
+			}
+		};
+
+	}
+	rpc ProvisionCloudIdentity(google.cloud.channel.v1.ProvisionCloudIdentityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Customer"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{customer=accounts/*/customers/*}:provisionCloudIdentity"
+			body: "*"
+		};
+
+	}
+	rpc ListEntitlements(google.cloud.channel.v1.ListEntitlementsRequest) returns (google.cloud.channel.v1.ListEntitlementsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=accounts/*/customers/*}/entitlements"
+		};
+
+	}
+	rpc ListTransferableSkus(google.cloud.channel.v1.ListTransferableSkusRequest) returns (google.cloud.channel.v1.ListTransferableSkusResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*}:listTransferableSkus"
+			body: "*"
+		};
+
+	}
+	rpc ListTransferableOffers(google.cloud.channel.v1.ListTransferableOffersRequest) returns (google.cloud.channel.v1.ListTransferableOffersResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*}:listTransferableOffers"
+			body: "*"
+		};
+
+	}
+	rpc GetEntitlement(google.cloud.channel.v1.GetEntitlementRequest) returns (google.cloud.channel.v1.Entitlement) {
+		option (google.api.http) = {
+			get: "/v1/{name=accounts/*/customers/*/entitlements/*}"
+		};
+
+	}
+	rpc CreateEntitlement(google.cloud.channel.v1.CreateEntitlementRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Entitlement"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*/customers/*}/entitlements"
+			body: "*"
+		};
+
+	}
+	rpc ChangeParameters(google.cloud.channel.v1.ChangeParametersRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Entitlement"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=accounts/*/customers/*/entitlements/*}:changeParameters"
+			body: "*"
+		};
+
+	}
+	rpc ChangeRenewalSettings(google.cloud.channel.v1.ChangeRenewalSettingsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Entitlement"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=accounts/*/customers/*/entitlements/*}:changeRenewalSettings"
+			body: "*"
+		};
+
+	}
+	rpc ChangeOffer(google.cloud.channel.v1.ChangeOfferRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Entitlement"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=accounts/*/customers/*/entitlements/*}:changeOffer"
+			body: "*"
+		};
+
+	}
+	rpc StartPaidService(google.cloud.channel.v1.StartPaidServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Entitlement"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=accounts/*/customers/*/entitlements/*}:startPaidService"
+			body: "*"
+		};
+
+	}
+	rpc SuspendEntitlement(google.cloud.channel.v1.SuspendEntitlementRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Entitlement"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=accounts/*/customers/*/entitlements/*}:suspend"
+			body: "*"
+		};
+
+	}
+	rpc CancelEntitlement(google.cloud.channel.v1.CancelEntitlementRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=accounts/*/customers/*/entitlements/*}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc ActivateEntitlement(google.cloud.channel.v1.ActivateEntitlementRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Entitlement"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=accounts/*/customers/*/entitlements/*}:activate"
+			body: "*"
+		};
+
+	}
+	rpc TransferEntitlements(google.cloud.channel.v1.TransferEntitlementsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "TransferEntitlementsResponse"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*/customers/*}:transferEntitlements"
+			body: "*"
+		};
+
+	}
+	rpc TransferEntitlementsToGoogle(google.cloud.channel.v1.TransferEntitlementsToGoogleRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*/customers/*}:transferEntitlementsToGoogle"
+			body: "*"
+		};
+
+	}
+	rpc ListChannelPartnerLinks(google.cloud.channel.v1.ListChannelPartnerLinksRequest) returns (google.cloud.channel.v1.ListChannelPartnerLinksResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=accounts/*}/channelPartnerLinks"
+		};
+
+	}
+	rpc GetChannelPartnerLink(google.cloud.channel.v1.GetChannelPartnerLinkRequest) returns (google.cloud.channel.v1.ChannelPartnerLink) {
+		option (google.api.http) = {
+			get: "/v1/{name=accounts/*/channelPartnerLinks/*}"
+		};
+
+	}
+	rpc CreateChannelPartnerLink(google.cloud.channel.v1.CreateChannelPartnerLinkRequest) returns (google.cloud.channel.v1.ChannelPartnerLink) {
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*}/channelPartnerLinks"
+			body: "channel_partner_link"
+		};
+
+	}
+	rpc UpdateChannelPartnerLink(google.cloud.channel.v1.UpdateChannelPartnerLinkRequest) returns (google.cloud.channel.v1.ChannelPartnerLink) {
+		option (google.api.http) = {
+			patch: "/v1/{name=accounts/*/channelPartnerLinks/*}"
+			body: "*"
+		};
+
+	}
+	rpc LookupOffer(google.cloud.channel.v1.LookupOfferRequest) returns (google.cloud.channel.v1.Offer) {
+		option (google.api.http) = {
+			get: "/v1/{entitlement=accounts/*/customers/*/entitlements/*}:lookupOffer"
+		};
+
+	}
+	rpc ListProducts(google.cloud.channel.v1.ListProductsRequest) returns (google.cloud.channel.v1.ListProductsResponse) {
+		option (google.api.http) = {
+			get: "/v1/products"
+		};
+
+	}
+	rpc ListSkus(google.cloud.channel.v1.ListSkusRequest) returns (google.cloud.channel.v1.ListSkusResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=products/*}/skus"
+		};
+
+	}
+	rpc ListOffers(google.cloud.channel.v1.ListOffersRequest) returns (google.cloud.channel.v1.ListOffersResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=accounts/*}/offers"
+		};
+
+	}
+	rpc ListPurchasableSkus(google.cloud.channel.v1.ListPurchasableSkusRequest) returns (google.cloud.channel.v1.ListPurchasableSkusResponse) {
+		option (google.api.http) = {
+			get: "/v1/{customer=accounts/*/customers/*}:listPurchasableSkus"
+		};
+
+	}
+	rpc ListPurchasableOffers(google.cloud.channel.v1.ListPurchasableOffersRequest) returns (google.cloud.channel.v1.ListPurchasableOffersResponse) {
+		option (google.api.http) = {
+			get: "/v1/{customer=accounts/*/customers/*}:listPurchasableOffers"
+		};
+
+	}
+	rpc RegisterSubscriber(google.cloud.channel.v1.RegisterSubscriberRequest) returns (google.cloud.channel.v1.RegisterSubscriberResponse) {
+		option (google.api.http) = {
+			post: "/v1/{account=accounts/*}:register"
+			body: "*"
+		};
+
+	}
+	rpc UnregisterSubscriber(google.cloud.channel.v1.UnregisterSubscriberRequest) returns (google.cloud.channel.v1.UnregisterSubscriberResponse) {
+		option (google.api.http) = {
+			post: "/v1/{account=accounts/*}:unregister"
+			body: "*"
+		};
+
+	}
+	rpc ListSubscribers(google.cloud.channel.v1.ListSubscribersRequest) returns (google.cloud.channel.v1.ListSubscribersResponse) {
+		option (google.api.http) = {
+			get: "/v1/{account=accounts/*}:listSubscribers"
+		};
+
+	}
+}
+
+message CheckCloudIdentityAccountsExistRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string domain = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CloudIdentityCustomerAccount {
+
+	bool existing = 1;
+	bool owned = 2;
+	string customer_name = 3;
+	string customer_cloud_identity_id = 4;
+}
+
+message CheckCloudIdentityAccountsExistResponse {
+
+	repeated CloudIdentityCustomerAccount cloud_identity_accounts = 1;
+}
+
+message ListCustomersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListCustomersResponse {
+
+	repeated google.cloud.channel.v1.Customer customers = 1;
+	string next_page_token = 2;
+}
+
+message GetCustomerRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Customer"
+		}
+	];
+}
+
+message CreateCustomerRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.channel.v1.Customer customer = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateCustomerRequest {
+
+	google.cloud.channel.v1.Customer customer = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteCustomerRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Customer"
+		}
+	];
+}
+
+message ImportCustomerRequest {
+
+	oneof customer_identity {
+		string domain = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string cloud_identity_id = 3 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string auth_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool overwrite_if_exists = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string channel_partner_id = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string customer = 7 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Customer"
+		}
+	];
+}
+
+message ProvisionCloudIdentityRequest {
+
+	string customer = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Customer"
+		}
+	];
+	google.cloud.channel.v1.CloudIdentityInfo cloud_identity_info = 2;
+	google.cloud.channel.v1.AdminUser user = 3;
+	bool validate_only = 4;
+}
+
+message ListEntitlementsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Customer"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEntitlementsResponse {
+
+	repeated google.cloud.channel.v1.Entitlement entitlements = 1;
+	string next_page_token = 2;
+}
+
+message ListTransferableSkusRequest {
+
+	oneof transferred_customer_identity {
+		string cloud_identity_id = 4;
+		string customer_name = 7;
+	}
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string auth_token = 5;
+	string language_code = 6;
+}
+
+message ListTransferableSkusResponse {
+
+	repeated google.cloud.channel.v1.TransferableSku transferable_skus = 1;
+	string next_page_token = 2;
+}
+
+message ListTransferableOffersRequest {
+
+	oneof transferred_customer_identity {
+		string cloud_identity_id = 4;
+		string customer_name = 5;
+	}
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string sku = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 7;
+}
+
+message ListTransferableOffersResponse {
+
+	repeated TransferableOffer transferable_offers = 1;
+	string next_page_token = 2;
+}
+
+message TransferableOffer {
+
+	google.cloud.channel.v1.Offer offer = 1;
+}
+
+message GetEntitlementRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Entitlement"
+		}
+	];
+}
+
+message ListChannelPartnerLinksRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.channel.v1.ChannelPartnerLinkView view = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListChannelPartnerLinksResponse {
+
+	repeated google.cloud.channel.v1.ChannelPartnerLink channel_partner_links = 1;
+	string next_page_token = 2;
+}
+
+message GetChannelPartnerLinkRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.channel.v1.ChannelPartnerLinkView view = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CreateChannelPartnerLinkRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.channel.v1.ChannelPartnerLink channel_partner_link = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateChannelPartnerLinkRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.channel.v1.ChannelPartnerLink channel_partner_link = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateEntitlementRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Customer"
+		}
+	];
+	google.cloud.channel.v1.Entitlement entitlement = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TransferEntitlementsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.channel.v1.Entitlement entitlements = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string auth_token = 4;
+	string request_id = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TransferEntitlementsResponse {
+
+	repeated google.cloud.channel.v1.Entitlement entitlements = 1;
+}
+
+message TransferEntitlementsToGoogleRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.channel.v1.Entitlement entitlements = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ChangeParametersRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.channel.v1.Parameter parameters = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string purchase_order_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ChangeRenewalSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.channel.v1.RenewalSettings renewal_settings = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ChangeOfferRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string offer = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Offer"
+		}
+	];
+	repeated google.cloud.channel.v1.Parameter parameters = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string purchase_order_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string request_id = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message StartPaidServiceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CancelEntitlementRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SuspendEntitlementRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ActivateEntitlementRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message LookupOfferRequest {
+
+	string entitlement = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Entitlement"
+		}
+	];
+}
+
+message ListProductsRequest {
+
+	string account = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string language_code = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListProductsResponse {
+
+	repeated google.cloud.channel.v1.Product products = 1;
+	string next_page_token = 2;
+}
+
+message ListSkusRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Product"
+		}
+	];
+	string account = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string language_code = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListSkusResponse {
+
+	repeated google.cloud.channel.v1.Sku skus = 1;
+	string next_page_token = 2;
+}
+
+message ListOffersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string language_code = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListOffersResponse {
+
+	repeated google.cloud.channel.v1.Offer offers = 1;
+	string next_page_token = 2;
+}
+
+message ListPurchasableSkusRequest {
+
+	message CreateEntitlementPurchase {
+
+		string product = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message ChangeOfferPurchase {
+
+		enum ChangeType {
+
+			CHANGE_TYPE_UNSPECIFIED = 0;
+			UPGRADE = 1;
+			DOWNGRADE = 2;
+		}
+
+		string entitlement = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		ChangeType change_type = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	oneof purchase_option {
+		CreateEntitlementPurchase create_entitlement_purchase = 2;
+		ChangeOfferPurchase change_offer_purchase = 3;
+	}
+	string customer = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Customer"
+		}
+	];
+	int32 page_size = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string language_code = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListPurchasableSkusResponse {
+
+	repeated PurchasableSku purchasable_skus = 1;
+	string next_page_token = 2;
+}
+
+message PurchasableSku {
+
+	google.cloud.channel.v1.Sku sku = 1;
+}
+
+message ListPurchasableOffersRequest {
+
+	message CreateEntitlementPurchase {
+
+		string sku = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message ChangeOfferPurchase {
+
+		string entitlement = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string new_sku = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	oneof purchase_option {
+		CreateEntitlementPurchase create_entitlement_purchase = 2;
+		ChangeOfferPurchase change_offer_purchase = 3;
+	}
+	string customer = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Customer"
+		}
+	];
+	int32 page_size = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string language_code = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListPurchasableOffersResponse {
+
+	repeated PurchasableOffer purchasable_offers = 1;
+	string next_page_token = 2;
+}
+
+message PurchasableOffer {
+
+	google.cloud.channel.v1.Offer offer = 1;
+}
+
+message RegisterSubscriberRequest {
+
+	string account = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string service_account = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RegisterSubscriberResponse {
+
+	string topic = 1;
+}
+
+message UnregisterSubscriberRequest {
+
+	string account = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string service_account = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UnregisterSubscriberResponse {
+
+	string topic = 1;
+}
+
+message ListSubscribersRequest {
+
+	string account = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListSubscribersResponse {
+
+	string topic = 1;
+	repeated string service_accounts = 2;
+	string next_page_token = 3;
+}

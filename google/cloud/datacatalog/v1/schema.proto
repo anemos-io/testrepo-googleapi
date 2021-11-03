@@ -15,9 +15,7 @@ option ruby_package = "Google::Cloud::DataCatalog::V1";
 
 message Schema {
 
-	repeated ColumnSchema columns = 2 [
-		(google.api.field_behavior) = REQUIRED
-	];
+	repeated ColumnSchema columns = 2;
 }
 
 message ColumnSchema {

@@ -1,0 +1,200 @@
+syntax = "proto3";
+
+package google.devtools.artifactregistry.v1beta2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/devtools/artifactregistry/v1beta2/file.proto";
+import "google/devtools/artifactregistry/v1beta2/package.proto";
+import "google/devtools/artifactregistry/v1beta2/repository.proto";
+import "google/devtools/artifactregistry/v1beta2/tag.proto";
+import "google/devtools/artifactregistry/v1beta2/version.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.devtools.artifactregistry.v1beta2";
+option java_outer_classname = "ServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/artifactregistry/v1beta2;artifactregistry";
+option csharp_namespace = "Google.Cloud.ArtifactRegistry.V1Beta2";
+option php_namespace = "Google\\Cloud\\ArtifactRegistry\\V1beta2";
+option ruby_package = "Google::Cloud::ArtifactRegistry::V1beta2";
+
+
+service ArtifactRegistry {
+	option (google.api.default_host) = "artifactregistry.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListRepositories(google.devtools.artifactregistry.v1beta2.ListRepositoriesRequest) returns (google.devtools.artifactregistry.v1beta2.ListRepositoriesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta2/{parent=projects/*/locations/*}/repositories"
+		};
+
+	}
+	rpc GetRepository(google.devtools.artifactregistry.v1beta2.GetRepositoryRequest) returns (google.devtools.artifactregistry.v1beta2.Repository) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta2/{name=projects/*/locations/*/repositories/*}"
+		};
+
+	}
+	rpc CreateRepository(google.devtools.artifactregistry.v1beta2.CreateRepositoryRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Repository"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,repository,repository_id";
+		option (google.api.http) = {
+			post: "/v1beta2/{parent=projects/*/locations/*}/repositories"
+			body: "repository"
+		};
+
+	}
+	rpc UpdateRepository(google.devtools.artifactregistry.v1beta2.UpdateRepositoryRequest) returns (google.devtools.artifactregistry.v1beta2.Repository) {
+		option (google.api.method_signature) = "repository,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta2/{repository.name=projects/*/locations/*/repositories/*}"
+			body: "repository"
+		};
+
+	}
+	rpc DeleteRepository(google.devtools.artifactregistry.v1beta2.DeleteRepositoryRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta2/{name=projects/*/locations/*/repositories/*}"
+		};
+
+	}
+	rpc ListPackages(google.devtools.artifactregistry.v1beta2.ListPackagesRequest) returns (google.devtools.artifactregistry.v1beta2.ListPackagesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta2/{parent=projects/*/locations/*/repositories/*}/packages"
+		};
+
+	}
+	rpc GetPackage(google.devtools.artifactregistry.v1beta2.GetPackageRequest) returns (google.devtools.artifactregistry.v1beta2.Package) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta2/{name=projects/*/locations/*/repositories/*/packages/*}"
+		};
+
+	}
+	rpc DeletePackage(google.devtools.artifactregistry.v1beta2.DeletePackageRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta2/{name=projects/*/locations/*/repositories/*/packages/*}"
+		};
+
+	}
+	rpc ListVersions(google.devtools.artifactregistry.v1beta2.ListVersionsRequest) returns (google.devtools.artifactregistry.v1beta2.ListVersionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta2/{parent=projects/*/locations/*/repositories/*/packages/*}/versions"
+		};
+
+	}
+	rpc GetVersion(google.devtools.artifactregistry.v1beta2.GetVersionRequest) returns (google.devtools.artifactregistry.v1beta2.Version) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta2/{name=projects/*/locations/*/repositories/*/packages/*/versions/*}"
+		};
+
+	}
+	rpc DeleteVersion(google.devtools.artifactregistry.v1beta2.DeleteVersionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta2/{name=projects/*/locations/*/repositories/*/packages/*/versions/*}"
+		};
+
+	}
+	rpc ListFiles(google.devtools.artifactregistry.v1beta2.ListFilesRequest) returns (google.devtools.artifactregistry.v1beta2.ListFilesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta2/{parent=projects/*/locations/*/repositories/*}/files"
+		};
+
+	}
+	rpc GetFile(google.devtools.artifactregistry.v1beta2.GetFileRequest) returns (google.devtools.artifactregistry.v1beta2.File) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta2/{name=projects/*/locations/*/repositories/*/files/**}"
+		};
+
+	}
+	rpc ListTags(google.devtools.artifactregistry.v1beta2.ListTagsRequest) returns (google.devtools.artifactregistry.v1beta2.ListTagsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta2/{parent=projects/*/locations/*/repositories/*/packages/*}/tags"
+		};
+
+	}
+	rpc GetTag(google.devtools.artifactregistry.v1beta2.GetTagRequest) returns (google.devtools.artifactregistry.v1beta2.Tag) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta2/{name=projects/*/locations/*/repositories/*/packages/*/tags/*}"
+		};
+
+	}
+	rpc CreateTag(google.devtools.artifactregistry.v1beta2.CreateTagRequest) returns (google.devtools.artifactregistry.v1beta2.Tag) {
+		option (google.api.method_signature) = "parent,tag,tag_id";
+		option (google.api.http) = {
+			post: "/v1beta2/{parent=projects/*/locations/*/repositories/*/packages/*}/tags"
+			body: "tag"
+		};
+
+	}
+	rpc UpdateTag(google.devtools.artifactregistry.v1beta2.UpdateTagRequest) returns (google.devtools.artifactregistry.v1beta2.Tag) {
+		option (google.api.method_signature) = "tag,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta2/{tag.name=projects/*/locations/*/repositories/*/packages/*/tags/*}"
+			body: "tag"
+		};
+
+	}
+	rpc DeleteTag(google.devtools.artifactregistry.v1beta2.DeleteTagRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta2/{name=projects/*/locations/*/repositories/*/packages/*/tags/*}"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1beta2/{resource=projects/*/locations/*/repositories/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			get: "/v1beta2/{resource=projects/*/locations/*/repositories/*}:getIamPolicy"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.http) = {
+			post: "/v1beta2/{resource=projects/*/locations/*/repositories/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+}
+
+message OperationMetadata {
+
+}

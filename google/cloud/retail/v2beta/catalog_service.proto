@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2beta;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/retail/v2beta/catalog.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.retail.v2beta";
+option java_outer_classname = "CatalogServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2beta;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2Beta";
+option php_namespace = "Google\\Cloud\\Retail\\V2beta";
+option ruby_package = "Google::Cloud::Retail::V2beta";
+
+
+service CatalogService {
+	option (google.api.default_host) = "retail.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListCatalogs(google.cloud.retail.v2beta.ListCatalogsRequest) returns (google.cloud.retail.v2beta.ListCatalogsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2beta/{parent=projects/*/locations/*}/catalogs"
+		};
+
+	}
+	rpc UpdateCatalog(google.cloud.retail.v2beta.UpdateCatalogRequest) returns (google.cloud.retail.v2beta.Catalog) {
+		option (google.api.method_signature) = "catalog,update_mask";
+		option (google.api.http) = {
+			patch: "/v2beta/{catalog.name=projects/*/locations/*/catalogs/*}"
+			body: "catalog"
+		};
+
+	}
+	rpc SetDefaultBranch(google.cloud.retail.v2beta.SetDefaultBranchRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "catalog";
+		option (google.api.http) = {
+			post: "/v2beta/{catalog=projects/*/locations/*/catalogs/*}:setDefaultBranch"
+			body: "*"
+		};
+
+	}
+	rpc GetDefaultBranch(google.cloud.retail.v2beta.GetDefaultBranchRequest) returns (google.cloud.retail.v2beta.GetDefaultBranchResponse) {
+		option (google.api.method_signature) = "catalog";
+		option (google.api.http) = {
+			get: "/v2beta/{catalog=projects/*/locations/*/catalogs/*}:getDefaultBranch"
+		};
+
+	}
+}
+
+message ListCatalogsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListCatalogsResponse {
+
+	repeated google.cloud.retail.v2beta.Catalog catalogs = 1;
+	string next_page_token = 2;
+}
+
+message UpdateCatalogRequest {
+
+	google.cloud.retail.v2beta.Catalog catalog = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message SetDefaultBranchRequest {
+
+	string catalog = 1 [
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Catalog"
+		}
+	];
+	string branch_id = 2 [
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Branch"
+		}
+	];
+	string note = 3;
+}
+
+message GetDefaultBranchRequest {
+
+	string catalog = 1 [
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Catalog"
+		}
+	];
+}
+
+message GetDefaultBranchResponse {
+
+	string branch = 1 [
+		(google.api.resource_reference) = {
+			type: "retail.googleapis.com/Branch"
+		}
+	];
+	google.protobuf.Timestamp set_time = 2;
+	string note = 3;
+}

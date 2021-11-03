@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.devtools.artifactregistry.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.artifactregistry.v1";
+option java_outer_classname = "ArtifactProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/artifactregistry/v1;artifactregistry";
+option csharp_namespace = "Google.Cloud.ArtifactRegistry.V1";
+option php_namespace = "Google\\Cloud\\ArtifactRegistry\\V1";
+option ruby_package = "Google::Cloud::ArtifactRegistry::V1";
+
+
+message DockerImage {
+	option (google.api.resource) = {
+		type: "artifactregistry.googleapis.com/DockerImage"
+		pattern: ["projects/{project}/locations/{location}/repositories/{repository}/dockerImages/{docker_image}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string uri = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string tags = 3;
+	int64 image_size_bytes = 4;
+	google.protobuf.Timestamp upload_time = 5;
+	string media_type = 6;
+	google.protobuf.Timestamp build_time = 7;
+}
+
+message ListDockerImagesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListDockerImagesResponse {
+
+	repeated DockerImage docker_images = 1;
+	string next_page_token = 2;
+}

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package google.apps.drive.activity.v2;
+
+import "google/apps/drive/activity/v2/action.proto";
+import "google/apps/drive/activity/v2/actor.proto";
+import "google/apps/drive/activity/v2/common.proto";
+import "google/apps/drive/activity/v2/target.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.apps.drive.activity.v2";
+option java_outer_classname = "QueryDriveActivityResponseProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/apps/drive/activity/v2;activity";
+option objc_class_prefix = "GADA";
+option csharp_namespace = "Google.Apps.Drive.Activity.V2";
+option php_namespace = "Google\\Apps\\Drive\\Activity\\V2";
+
+
+message QueryDriveActivityResponse {
+
+	repeated DriveActivity activities = 1;
+	string next_page_token = 2;
+}
+
+message DriveActivity {
+
+	google.apps.drive.activity.v2.ActionDetail primary_action_detail = 2;
+	repeated google.apps.drive.activity.v2.Actor actors = 3;
+	repeated google.apps.drive.activity.v2.Action actions = 4;
+	repeated google.apps.drive.activity.v2.Target targets = 5;
+	oneof time {
+		google.protobuf.Timestamp timestamp = 6;
+		google.apps.drive.activity.v2.TimeRange time_range = 7;
+	}
+}

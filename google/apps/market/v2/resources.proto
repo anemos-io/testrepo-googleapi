@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package ccc.hosted.marketplace.v2;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ccc.hosted.marketplace.v2";
+option java_outer_classname = "ResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ccc/hosted/marketplace/v2;marketplace";
+option php_namespace = "Google\\Apps\\Market\\V2";
+
+
+message CustomerLicense {
+
+	message Editions {
+
+		string edition_id = 405 [
+			deprecated = true
+		];
+		int32 seat_count = 406 [
+			deprecated = true
+		];
+		int32 assigned_seats = 409 [
+			deprecated = true
+		];
+	}
+
+	string kind = 1;
+	string state = 2;
+	string application_id = 3;
+	repeated Editions editions = 4 [
+		deprecated = true
+	];
+	string id = 101;
+	string customer_id = 102;
+}
+
+message LicenseNotification {
+
+	message Deletes {
+
+		string kind = 1;
+		string edition_id = 901 [
+			deprecated = true
+		];
+	}
+
+	message Expiries {
+
+		string kind = 1;
+		string edition_id = 701 [
+			deprecated = true
+		];
+	}
+
+	message Provisions {
+
+		string kind = 1;
+		string edition_id = 601 [
+			deprecated = true
+		];
+		int64 seat_count = 602;
+	}
+
+	message Reassignments {
+
+		string kind = 1;
+		string user_id = 801;
+		string type = 802;
+		string edition_id = 803 [
+			deprecated = true
+		];
+	}
+
+	string id = 1;
+	string application_id = 2;
+	int64 timestamp = 3;
+	string customer_id = 4;
+	string kind = 5;
+	repeated Provisions provisions = 6;
+	repeated Expiries expiries = 7;
+	repeated Reassignments reassignments = 8;
+	repeated Deletes deletes = 9;
+}
+
+message LicenseNotificationList {
+
+	string kind = 1;
+	repeated LicenseNotification notifications = 1007;
+	string next_page_token = 100602;
+}
+
+message UserLicense {
+
+	string kind = 1;
+	bool enabled = 2;
+	string state = 3;
+	string edition_id = 4 [
+		deprecated = true
+	];
+	string customer_id = 5;
+	string application_id = 6;
+	string id = 101;
+	string user_id = 102;
+}

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package google.identity.accesscontextmanager.v1;
 
+import "google/api/resource.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
@@ -16,6 +17,10 @@ option ruby_package = "Google::Identity::AccessContextManager::V1";
 
 
 message ServicePerimeter {
+	option (google.api.resource) = {
+		type: "accesscontextmanager.googleapis.com/ServicePerimeter"
+		pattern: ["accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}"]
+	};
 
 	enum PerimeterType {
 
@@ -42,8 +47,77 @@ message ServicePerimeterConfig {
 		repeated string allowed_services = 2;
 	}
 
+	message MethodSelector {
+
+		oneof kind {
+			string method = 1;
+			string permission = 2;
+		}
+	}
+
+	message ApiOperation {
+
+		string service_name = 1;
+		repeated MethodSelector method_selectors = 2;
+	}
+
+	message IngressSource {
+
+		oneof source {
+			string access_level = 1;
+			string resource = 2;
+		}
+	}
+
+	message EgressTo {
+
+		repeated string resources = 1;
+		repeated ApiOperation operations = 2;
+	}
+
+	message IngressFrom {
+
+		repeated IngressSource sources = 1;
+		repeated string identities = 2;
+		IdentityType identity_type = 3;
+	}
+
+	message IngressTo {
+
+		repeated ApiOperation operations = 1;
+		repeated string resources = 2;
+	}
+
+	message IngressPolicy {
+
+		IngressFrom ingress_from = 1;
+		IngressTo ingress_to = 2;
+	}
+
+	message EgressPolicy {
+
+		EgressFrom egress_from = 1;
+		EgressTo egress_to = 2;
+	}
+
+	message EgressFrom {
+
+		repeated string identities = 1;
+		IdentityType identity_type = 2;
+	}
+
+	enum IdentityType {
+
+		IDENTITY_TYPE_UNSPECIFIED = 0;
+		ANY_IDENTITY = 1;
+		ANY_USER_ACCOUNT = 2;
+		ANY_SERVICE_ACCOUNT = 3;
+	}
+
 	repeated string resources = 1;
 	repeated string access_levels = 2;
 	repeated string restricted_services = 4;
 	VpcAccessibleServices vpc_accessible_services = 10;
+	repeated IngressPolicy ingress_policies = 8;
+	repeated EgressPolicy egress_policies = 9;
 }

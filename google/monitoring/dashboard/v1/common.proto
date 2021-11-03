@@ -9,6 +9,8 @@ option java_package = "com.google.monitoring.dashboard.v1";
 option java_outer_classname = "CommonProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option csharp_namespace = "Google.Cloud.Monitoring.Dashboard.V1";
+option php_namespace = "Google\\Cloud\\Monitoring\\Dashboard\\V1";
 option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
 
 

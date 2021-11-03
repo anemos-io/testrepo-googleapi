@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package google.cloud.orchestration.airflow.service.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.orchestration.airflow.service.v1";
+option java_outer_classname = "OperationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/orchestration/airflow/service/v1;service";
+
+
+message OperationMetadata {
+
+	enum State {
+		option allow_alias = true;
+
+		STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		RUNNING = 2;
+		SUCCEEDED = 3;
+		SUCCESSFUL = 3;
+		FAILED = 4;
+	}
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		CREATE = 1;
+		DELETE = 2;
+		UPDATE = 3;
+		CHECK = 4;
+	}
+
+	State state = 1;
+	Type operation_type = 2;
+	string resource = 3;
+	string resource_uuid = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp end_time = 6;
+}

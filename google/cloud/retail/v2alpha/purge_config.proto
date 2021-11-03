@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2alpha;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.retail.v2alpha";
+option java_outer_classname = "PurgeConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2alpha;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2Alpha";
+option php_namespace = "Google\\Cloud\\Retail\\V2alpha";
+option ruby_package = "Google::Cloud::Retail::V2alpha";
+
+
+message PurgeMetadata {
+
+}
+
+message PurgeUserEventsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool force = 3;
+}
+
+message PurgeUserEventsResponse {
+
+	int64 purged_events_count = 1;
+}

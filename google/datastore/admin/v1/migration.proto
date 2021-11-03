@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package google.datastore.admin.v1;
+
+option java_package = "com.google.datastore.admin.v1";
+option java_outer_classname = "MigrationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/datastore/admin/v1;admin";
+option csharp_namespace = "Google.Cloud.Datastore.Admin.V1";
+option php_namespace = "Google\\Cloud\\Datastore\\Admin\\V1";
+option ruby_package = "Google::Cloud::Datastore::Admin::V1";
+
+
+enum MigrationState {
+
+	MIGRATION_STATE_UNSPECIFIED = 0;
+	RUNNING = 1;
+	PAUSED = 2;
+	COMPLETE = 3;
+}
+
+enum MigrationStep {
+
+	MIGRATION_STEP_UNSPECIFIED = 0;
+	PREPARE = 6;
+	START = 1;
+	APPLY_WRITES_SYNCHRONOUSLY = 7;
+	COPY_AND_VERIFY = 2;
+	REDIRECT_EVENTUALLY_CONSISTENT_READS = 3;
+	REDIRECT_STRONGLY_CONSISTENT_READS = 4;
+	REDIRECT_WRITES = 5;
+}
+
+message MigrationStateEvent {
+
+	MigrationState state = 1;
+}
+
+message MigrationProgressEvent {
+
+	message PrepareStepDetails {
+
+		ConcurrencyMode concurrency_mode = 1;
+	}
+
+	message RedirectWritesStepDetails {
+
+		ConcurrencyMode concurrency_mode = 1;
+	}
+
+	enum ConcurrencyMode {
+
+		CONCURRENCY_MODE_UNSPECIFIED = 0;
+		PESSIMISTIC = 1;
+		OPTIMISTIC = 2;
+	}
+
+	MigrationStep step = 1;
+	oneof step_details {
+		PrepareStepDetails prepare_step_details = 2;
+		RedirectWritesStepDetails redirect_writes_step_details = 3;
+	}
+}

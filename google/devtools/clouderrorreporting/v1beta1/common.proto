@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package google.devtools.clouderrorreporting.v1beta1;
 
-import "google/api/annotations.proto";
 import "google/api/resource.proto";
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 option java_package = "com.google.devtools.clouderrorreporting.v1beta1";
 option java_outer_classname = "CommonProto";
@@ -16,6 +16,15 @@ option php_namespace = "Google\\Cloud\\ErrorReporting\\V1beta1";
 option ruby_package = "Google::Cloud::ErrorReporting::V1beta1";
 
 
+enum ResolutionStatus {
+
+	RESOLUTION_STATUS_UNSPECIFIED = 0;
+	OPEN = 1;
+	ACKNOWLEDGED = 2;
+	RESOLVED = 3;
+	MUTED = 4;
+}
+
 message ErrorGroup {
 	option (google.api.resource) = {
 		type: "clouderrorreporting.googleapis.com/ErrorGroup"
@@ -25,6 +34,7 @@ message ErrorGroup {
 	string name = 1;
 	string group_id = 2;
 	repeated TrackingIssue tracking_issues = 3;
+	ResolutionStatus resolution_status = 5;
 }
 
 message TrackingIssue {

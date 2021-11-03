@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1.schema.predict.prediction;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1.schema.predict.prediction";
+option java_outer_classname = "TextSentimentPredictionResultProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1/schema/predict/prediction;prediction";
+
+
+message TextSentimentPredictionResult {
+
+	int32 sentiment = 1;
+}

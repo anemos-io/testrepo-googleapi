@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/enums/bidding_strategy_type.proto";
+import "google/ads/googleads/v8/enums/target_impression_share_location.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "AccessibleBiddingStrategyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message AccessibleBiddingStrategy {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AccessibleBiddingStrategy"
+		pattern: ["customers/{customer_id}/accessibleBiddingStrategies/{bidding_strategy_id}"]
+	};
+
+	message MaximizeConversionValue {
+
+		double target_roas = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message MaximizeConversions {
+
+		int64 target_cpa = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message TargetSpend {
+
+		oneof _target_spend_micros {
+			int64 target_spend_micros = 1 [
+				deprecated = true,
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _cpc_bid_ceiling_micros {
+			int64 cpc_bid_ceiling_micros = 2 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message TargetCpa {
+
+		oneof _target_cpa_micros {
+			int64 target_cpa_micros = 1 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message TargetImpressionShare {
+
+		google.ads.googleads.v8.enums.TargetImpressionShareLocationEnum.TargetImpressionShareLocation location = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		oneof _location_fraction_micros {
+			int64 location_fraction_micros = 2;
+		}
+		oneof _cpc_bid_ceiling_micros {
+			int64 cpc_bid_ceiling_micros = 3 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	message TargetRoas {
+
+		oneof _target_roas {
+			double target_roas = 1 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AccessibleBiddingStrategy"
+		}
+	];
+	int64 id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string name = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.BiddingStrategyTypeEnum.BiddingStrategyType type = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 owner_customer_id = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string owner_descriptive_name = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof scheme {
+		MaximizeConversionValue maximize_conversion_value = 7 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		MaximizeConversions maximize_conversions = 8 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		TargetCpa target_cpa = 9 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		TargetImpressionShare target_impression_share = 10 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		TargetRoas target_roas = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		TargetSpend target_spend = 12 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

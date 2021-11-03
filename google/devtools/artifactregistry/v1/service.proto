@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.devtools.artifactregistry.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/devtools/artifactregistry/v1/artifact.proto";
+import "google/devtools/artifactregistry/v1/repository.proto";
+import "google/iam/v1/policy.proto";
+
+option java_package = "com.google.devtools.artifactregistry.v1";
+option java_outer_classname = "ServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/artifactregistry/v1;artifactregistry";
+option csharp_namespace = "Google.Cloud.ArtifactRegistry.V1";
+option php_namespace = "Google\\Cloud\\ArtifactRegistry\\V1";
+option ruby_package = "Google::Cloud::ArtifactRegistry::V1";
+
+
+service ArtifactRegistry {
+	option (google.api.default_host) = "artifactregistry.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListDockerImages(google.devtools.artifactregistry.v1.ListDockerImagesRequest) returns (google.devtools.artifactregistry.v1.ListDockerImagesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/repositories/*}/dockerImages"
+		};
+
+	}
+	rpc ListRepositories(google.devtools.artifactregistry.v1.ListRepositoriesRequest) returns (google.devtools.artifactregistry.v1.ListRepositoriesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/repositories"
+		};
+
+	}
+	rpc GetRepository(google.devtools.artifactregistry.v1.GetRepositoryRequest) returns (google.devtools.artifactregistry.v1.Repository) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/repositories/*}"
+		};
+
+	}
+}

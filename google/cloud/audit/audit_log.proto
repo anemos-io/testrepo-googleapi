@@ -29,7 +29,9 @@ message AuditLog {
 	google.protobuf.Struct request = 16;
 	google.protobuf.Struct response = 17;
 	google.protobuf.Struct metadata = 18;
-	google.protobuf.Any service_data = 15;
+	google.protobuf.Any service_data = 15 [
+		deprecated = true
+	];
 }
 
 message AuthenticationInfo {
@@ -78,6 +80,7 @@ message ServiceAccountDelegationInfo {
 		google.protobuf.Struct third_party_claims = 1;
 	}
 
+	string principal_subject = 3;
 	oneof Authority {
 		FirstPartyPrincipal first_party_principal = 1;
 		ThirdPartyPrincipal third_party_principal = 2;

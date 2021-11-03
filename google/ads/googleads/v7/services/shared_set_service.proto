@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.services;
+
+import "google/ads/googleads/v7/enums/response_content_type.proto";
+import "google/ads/googleads/v7/resources/shared_set.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v7.services";
+option java_outer_classname = "SharedSetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V7::Services";
+
+
+service SharedSetService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/adwords";
+
+	rpc GetSharedSet(google.ads.googleads.v7.services.GetSharedSetRequest) returns (google.ads.googleads.v7.resources.SharedSet) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v7/{resource_name=customers/*/sharedSets/*}"
+		};
+
+	}
+	rpc MutateSharedSets(google.ads.googleads.v7.services.MutateSharedSetsRequest) returns (google.ads.googleads.v7.services.MutateSharedSetsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v7/customers/{customer_id=*}/sharedSets:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetSharedSetRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/SharedSet"
+		}
+	];
+}
+
+message MutateSharedSetsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated SharedSetOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+	google.ads.googleads.v7.enums.ResponseContentTypeEnum.ResponseContentType response_content_type = 5;
+}
+
+message SharedSetOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	oneof operation {
+		google.ads.googleads.v7.resources.SharedSet create = 1;
+		google.ads.googleads.v7.resources.SharedSet update = 2;
+		string remove = 3;
+	}
+}
+
+message MutateSharedSetsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateSharedSetResult results = 2;
+}
+
+message MutateSharedSetResult {
+
+	string resource_name = 1;
+	google.ads.googleads.v7.resources.SharedSet shared_set = 2;
+}

@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2";
+option java_outer_classname = "AccountLinkingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2;sdk";
+
+
+message AccountLinking {
+
+	enum LinkingType {
+
+		LINKING_TYPE_UNSPECIFIED = 0;
+		GOOGLE_SIGN_IN = 1;
+		OAUTH_AND_GOOGLE_SIGN_IN = 2;
+		OAUTH = 3;
+	}
+
+	enum AuthGrantType {
+
+		AUTH_GRANT_TYPE_UNSPECIFIED = 0;
+		AUTH_CODE = 1;
+		IMPLICIT = 2;
+	}
+
+	bool enable_account_creation = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	LinkingType linking_type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	AuthGrantType auth_grant_type = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string app_client_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string authorization_url = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string token_url = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string scopes = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string learn_more_url = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool use_basic_auth_header = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

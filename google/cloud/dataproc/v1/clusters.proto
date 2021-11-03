@@ -5,6 +5,7 @@ package google.cloud.dataproc.v1;
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
 import "google/cloud/dataproc/v1/shared.proto";
 import "google/longrunning/operations.proto";
 import "google/protobuf/duration.proto";
@@ -15,6 +16,14 @@ option java_package = "com.google.cloud.dataproc.v1";
 option java_outer_classname = "ClustersProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/dataproc/v1;dataproc";
+option (google.api.resource_definition) = {
+	type: "container.googleapis.com/Cluster"
+	pattern: ["projects/{project}/locations/{location}/clusters/{cluster}"]
+};
+option (google.api.resource_definition) = {
+	type: "metastore.googleapis.com/Service"
+	pattern: ["projects/{project}/locations/{location}/services/{service}"]
+};
 
 
 service ClusterController {
@@ -42,6 +51,28 @@ service ClusterController {
 		option (google.api.http) = {
 			patch: "/v1/projects/{project_id}/regions/{region}/clusters/{cluster_name}"
 			body: "cluster"
+		};
+
+	}
+	rpc StopCluster(google.cloud.dataproc.v1.StopClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Cluster"
+			metadata_type: "google.cloud.dataproc.v1.ClusterOperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/regions/{region}/clusters/{cluster_name}:stop"
+			body: "*"
+		};
+
+	}
+	rpc StartCluster(google.cloud.dataproc.v1.StartClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Cluster"
+			metadata_type: "google.cloud.dataproc.v1.ClusterOperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/regions/{region}/clusters/{cluster_name}:start"
+			body: "*"
 		};
 
 	}
@@ -154,6 +185,32 @@ message ClusterConfig {
 	EndpointConfig endpoint_config = 19 [
 		(google.api.field_behavior) = OPTIONAL
 	];
+	MetastoreConfig metastore_config = 20 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	GkeClusterConfig gke_cluster_config = 21 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GkeClusterConfig {
+
+	message NamespacedGkeDeploymentTarget {
+
+		string target_gke_cluster = 1 [
+			(google.api.field_behavior) = OPTIONAL
+			(google.api.resource_reference) = {
+				type: "container.googleapis.com/Cluster"
+			}
+		];
+		string cluster_namespace = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	NamespacedGkeDeploymentTarget namespaced_gke_deployment_target = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message EndpointConfig {
@@ -182,6 +239,14 @@ message EncryptionConfig {
 
 message GceClusterConfig {
 
+	enum PrivateIpv6GoogleAccess {
+
+		PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED = 0;
+		INHERIT_FROM_SUBNETWORK = 1;
+		OUTBOUND = 2;
+		BIDIRECTIONAL = 3;
+	}
+
 	string zone_uri = 1 [
 		(google.api.field_behavior) = OPTIONAL
 	];
@@ -194,6 +259,9 @@ message GceClusterConfig {
 	bool internal_ip_only = 7 [
 		(google.api.field_behavior) = OPTIONAL
 	];
+	PrivateIpv6GoogleAccess private_ipv6_google_access = 12 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 	string service_account = 8 [
 		(google.api.field_behavior) = OPTIONAL
 	];
@@ -203,6 +271,42 @@ message GceClusterConfig {
 	repeated string tags = 4;
 	map<string, string> metadata = 5;
 	ReservationAffinity reservation_affinity = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	NodeGroupAffinity node_group_affinity = 13 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ShieldedInstanceConfig shielded_instance_config = 14 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ConfidentialInstanceConfig confidential_instance_config = 15 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message NodeGroupAffinity {
+
+	string node_group_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ShieldedInstanceConfig {
+
+	bool enable_secure_boot = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool enable_vtpm = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool enable_integrity_monitoring = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ConfidentialInstanceConfig {
+
+	bool enable_confidential_compute = 1 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -295,8 +399,12 @@ message ClusterStatus {
 		CREATING = 1;
 		RUNNING = 2;
 		ERROR = 3;
+		ERROR_DUE_TO_UPDATE = 9;
 		DELETING = 4;
 		UPDATING = 5;
+		STOPPING = 6;
+		STOPPED = 7;
+		STARTING = 8;
 	}
 
 	enum Substate {
@@ -323,7 +431,12 @@ message ClusterStatus {
 
 message SecurityConfig {
 
-	KerberosConfig kerberos_config = 1;
+	KerberosConfig kerberos_config = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	IdentityConfig identity_config = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
 }
 
 message KerberosConfig {
@@ -332,10 +445,10 @@ message KerberosConfig {
 		(google.api.field_behavior) = OPTIONAL
 	];
 	string root_principal_password_uri = 2 [
-		(google.api.field_behavior) = REQUIRED
+		(google.api.field_behavior) = OPTIONAL
 	];
 	string kms_key_uri = 3 [
-		(google.api.field_behavior) = REQUIRED
+		(google.api.field_behavior) = OPTIONAL
 	];
 	string keystore_uri = 4 [
 		(google.api.field_behavior) = OPTIONAL
@@ -375,6 +488,13 @@ message KerberosConfig {
 	];
 }
 
+message IdentityConfig {
+
+	map<string, string> user_service_account_mapping = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
 message SoftwareConfig {
 
 	string image_version = 1 [
@@ -406,6 +526,16 @@ message LifecycleConfig {
 	];
 }
 
+message MetastoreConfig {
+
+	string dataproc_metastore_service = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+}
+
 message ClusterMetrics {
 
 	map<string, int64> hdfs_metrics = 1;
@@ -424,6 +554,9 @@ message CreateClusterRequest {
 		(google.api.field_behavior) = REQUIRED
 	];
 	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.dataproc.v1.FailureAction action_on_failed_primary_workers = 5 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -449,6 +582,44 @@ message UpdateClusterRequest {
 		(google.api.field_behavior) = REQUIRED
 	];
 	string request_id = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message StopClusterRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_name = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_uuid = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string request_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message StartClusterRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_name = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_uuid = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string request_id = 5 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }

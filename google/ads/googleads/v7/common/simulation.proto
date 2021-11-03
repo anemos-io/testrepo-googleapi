@@ -1,0 +1,250 @@
+syntax = "proto3";
+
+package google.ads.googleads.v7.common;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v7.common";
+option java_outer_classname = "SimulationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v7/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V7.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V7\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V7::Common";
+
+
+message BidModifierSimulationPointList {
+
+	repeated BidModifierSimulationPoint points = 1;
+}
+
+message CpcBidSimulationPointList {
+
+	repeated CpcBidSimulationPoint points = 1;
+}
+
+message CpvBidSimulationPointList {
+
+	repeated CpvBidSimulationPoint points = 1;
+}
+
+message TargetCpaSimulationPointList {
+
+	repeated TargetCpaSimulationPoint points = 1;
+}
+
+message TargetRoasSimulationPointList {
+
+	repeated TargetRoasSimulationPoint points = 1;
+}
+
+message PercentCpcBidSimulationPointList {
+
+	repeated PercentCpcBidSimulationPoint points = 1;
+}
+
+message BudgetSimulationPointList {
+
+	repeated BudgetSimulationPoint points = 1;
+}
+
+message TargetImpressionShareSimulationPointList {
+
+	repeated TargetImpressionShareSimulationPoint points = 1;
+}
+
+message BidModifierSimulationPoint {
+
+	oneof _bid_modifier {
+		double bid_modifier = 15;
+	}
+	oneof _biddable_conversions {
+		double biddable_conversions = 16;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 17;
+	}
+	oneof _clicks {
+		int64 clicks = 18;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 19;
+	}
+	oneof _impressions {
+		int64 impressions = 20;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 21;
+	}
+	oneof _parent_biddable_conversions {
+		double parent_biddable_conversions = 22;
+	}
+	oneof _parent_biddable_conversions_value {
+		double parent_biddable_conversions_value = 23;
+	}
+	oneof _parent_clicks {
+		int64 parent_clicks = 24;
+	}
+	oneof _parent_cost_micros {
+		int64 parent_cost_micros = 25;
+	}
+	oneof _parent_impressions {
+		int64 parent_impressions = 26;
+	}
+	oneof _parent_top_slot_impressions {
+		int64 parent_top_slot_impressions = 27;
+	}
+	oneof _parent_required_budget_micros {
+		int64 parent_required_budget_micros = 28;
+	}
+}
+
+message CpcBidSimulationPoint {
+
+	int64 required_budget_amount_micros = 17;
+	oneof _biddable_conversions {
+		double biddable_conversions = 9;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 10;
+	}
+	oneof _clicks {
+		int64 clicks = 11;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 12;
+	}
+	oneof _impressions {
+		int64 impressions = 13;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 14;
+	}
+	oneof cpc_simulation_key_value {
+		int64 cpc_bid_micros = 15;
+		double cpc_bid_scaling_modifier = 16;
+	}
+}
+
+message CpvBidSimulationPoint {
+
+	oneof _cpv_bid_micros {
+		int64 cpv_bid_micros = 5;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 6;
+	}
+	oneof _impressions {
+		int64 impressions = 7;
+	}
+	oneof _views {
+		int64 views = 8;
+	}
+}
+
+message TargetCpaSimulationPoint {
+
+	int64 required_budget_amount_micros = 19;
+	oneof _biddable_conversions {
+		double biddable_conversions = 9;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 10;
+	}
+	double app_installs = 15;
+	double in_app_actions = 16;
+	oneof _clicks {
+		int64 clicks = 11;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 12;
+	}
+	oneof _impressions {
+		int64 impressions = 13;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 14;
+	}
+	oneof target_cpa_simulation_key_value {
+		int64 target_cpa_micros = 17;
+		double target_cpa_scaling_modifier = 18;
+	}
+}
+
+message TargetRoasSimulationPoint {
+
+	oneof _target_roas {
+		double target_roas = 8;
+	}
+	int64 required_budget_amount_micros = 15;
+	oneof _biddable_conversions {
+		double biddable_conversions = 9;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 10;
+	}
+	oneof _clicks {
+		int64 clicks = 11;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 12;
+	}
+	oneof _impressions {
+		int64 impressions = 13;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 14;
+	}
+}
+
+message PercentCpcBidSimulationPoint {
+
+	oneof _percent_cpc_bid_micros {
+		int64 percent_cpc_bid_micros = 1;
+	}
+	oneof _biddable_conversions {
+		double biddable_conversions = 2;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 3;
+	}
+	oneof _clicks {
+		int64 clicks = 4;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 5;
+	}
+	oneof _impressions {
+		int64 impressions = 6;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 7;
+	}
+}
+
+message BudgetSimulationPoint {
+
+	int64 budget_amount_micros = 1;
+	int64 required_cpc_bid_ceiling_micros = 2;
+	double biddable_conversions = 3;
+	double biddable_conversions_value = 4;
+	int64 clicks = 5;
+	int64 cost_micros = 6;
+	int64 impressions = 7;
+	int64 top_slot_impressions = 8;
+}
+
+message TargetImpressionShareSimulationPoint {
+
+	int64 target_impression_share_micros = 1;
+	int64 required_cpc_bid_ceiling_micros = 2;
+	int64 required_budget_amount_micros = 3;
+	double biddable_conversions = 4;
+	double biddable_conversions_value = 5;
+	int64 clicks = 6;
+	int64 cost_micros = 7;
+	int64 impressions = 8;
+	int64 top_slot_impressions = 9;
+	int64 absolute_top_impressions = 10;
+}

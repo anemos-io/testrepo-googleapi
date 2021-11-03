@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1";
+option java_outer_classname = "BigQueryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1";
+option ruby_package = "Google::Cloud::DataCatalog::V1";
+
+
+message BigQueryConnectionSpec {
+
+	enum ConnectionType {
+
+		CONNECTION_TYPE_UNSPECIFIED = 0;
+		CLOUD_SQL = 1;
+	}
+
+	ConnectionType connection_type = 1;
+	oneof connection_spec {
+		CloudSqlBigQueryConnectionSpec cloud_sql = 2;
+	}
+	bool has_credential = 3;
+}
+
+message CloudSqlBigQueryConnectionSpec {
+
+	enum DatabaseType {
+
+		DATABASE_TYPE_UNSPECIFIED = 0;
+		POSTGRES = 1;
+		MYSQL = 2;
+	}
+
+	string instance_id = 1;
+	string database = 2;
+	DatabaseType type = 3;
+}
+
+message BigQueryRoutineSpec {
+
+	repeated string imported_libraries = 1;
+}

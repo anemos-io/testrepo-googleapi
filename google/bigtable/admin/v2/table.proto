@@ -6,6 +6,7 @@ import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
 
 option java_package = "com.google.bigtable.admin.v2";
 option java_outer_classname = "TableProto";
@@ -14,6 +15,10 @@ option go_package = "google.golang.org/genproto/googleapis/bigtable/admin/v2;adm
 option csharp_namespace = "Google.Cloud.Bigtable.Admin.V2";
 option php_namespace = "Google\\Cloud\\Bigtable\\Admin\\V2";
 option ruby_package = "Google::Cloud::Bigtable::Admin::V2";
+option (google.api.resource_definition) = {
+	type: "cloudkms.googleapis.com/CryptoKeyVersion"
+	pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}"]
+};
 
 
 enum RestoreSourceType {
@@ -32,7 +37,7 @@ message RestoreInfo {
 
 message Table {
 	option (google.api.resource) = {
-		type: "bigtable.googleapis.com/Table"
+		type: "bigtableadmin.googleapis.com/Table"
 		pattern: ["projects/{project}/instances/{instance}/tables/{table}"]
 	};
 
@@ -49,6 +54,9 @@ message Table {
 		}
 
 		ReplicationState replication_state = 1;
+		repeated EncryptionInfo encryption_info = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
 	}
 
 	enum TimestampGranularity {
@@ -63,6 +71,7 @@ message Table {
 		NAME_ONLY = 1;
 		SCHEMA_VIEW = 2;
 		REPLICATION_VIEW = 3;
+		ENCRYPTION_VIEW = 5;
 		FULL = 4;
 	}
 
@@ -98,9 +107,32 @@ message GcRule {
 	}
 }
 
+message EncryptionInfo {
+
+	enum EncryptionType {
+
+		ENCRYPTION_TYPE_UNSPECIFIED = 0;
+		GOOGLE_DEFAULT_ENCRYPTION = 1;
+		CUSTOMER_MANAGED_ENCRYPTION = 2;
+	}
+
+	EncryptionType encryption_type = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status encryption_status = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string kms_key_version = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+}
+
 message Snapshot {
 	option (google.api.resource) = {
-		type: "bigtable.googleapis.com/Snapshot"
+		type: "bigtableadmin.googleapis.com/Snapshot"
 		pattern: ["projects/{project}/instances/{instance}/clusters/{cluster}/snapshots/{snapshot}"]
 	};
 
@@ -122,7 +154,7 @@ message Snapshot {
 
 message Backup {
 	option (google.api.resource) = {
-		type: "bigtable.googleapis.com/Backup"
+		type: "bigtableadmin.googleapis.com/Backup"
 		pattern: ["projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup}"]
 	};
 
@@ -153,6 +185,9 @@ message Backup {
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	State state = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	EncryptionInfo encryption_info = 9 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 }

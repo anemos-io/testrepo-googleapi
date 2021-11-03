@@ -52,6 +52,7 @@ message CryptoKey {
 		ENCRYPT_DECRYPT = 1;
 		ASYMMETRIC_SIGN = 5;
 		ASYMMETRIC_DECRYPT = 6;
+		MAC = 9;
 	}
 
 	string name = 1 [
@@ -72,6 +73,12 @@ message CryptoKey {
 	}
 	CryptoKeyVersionTemplate version_template = 11;
 	map<string, string> labels = 10;
+	bool import_only = 13 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Duration destroy_scheduled_duration = 14 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
 }
 
 message CryptoKeyVersionTemplate {
@@ -117,12 +124,20 @@ message CryptoKeyVersion {
 		RSA_SIGN_PKCS1_3072_SHA256 = 6;
 		RSA_SIGN_PKCS1_4096_SHA256 = 7;
 		RSA_SIGN_PKCS1_4096_SHA512 = 16;
+		RSA_SIGN_RAW_PKCS1_2048 = 28;
+		RSA_SIGN_RAW_PKCS1_3072 = 29;
+		RSA_SIGN_RAW_PKCS1_4096 = 30;
 		RSA_DECRYPT_OAEP_2048_SHA256 = 8;
 		RSA_DECRYPT_OAEP_3072_SHA256 = 9;
 		RSA_DECRYPT_OAEP_4096_SHA256 = 10;
 		RSA_DECRYPT_OAEP_4096_SHA512 = 17;
+		RSA_DECRYPT_OAEP_2048_SHA1 = 37;
+		RSA_DECRYPT_OAEP_3072_SHA1 = 38;
+		RSA_DECRYPT_OAEP_4096_SHA1 = 39;
 		EC_SIGN_P256_SHA256 = 12;
 		EC_SIGN_P384_SHA384 = 13;
+		EC_SIGN_SECP256K1_SHA256 = 31;
+		HMAC_SHA256 = 32;
 		EXTERNAL_SYMMETRIC_ENCRYPTION = 18;
 	}
 
@@ -179,6 +194,9 @@ message CryptoKeyVersion {
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	ExternalProtectionLevelOptions external_protection_level_options = 17;
+	bool reimport_eligible = 18 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message PublicKey {
@@ -191,6 +209,7 @@ message PublicKey {
 	CryptoKeyVersionAlgorithm algorithm = 2;
 	google.protobuf.Int64Value pem_crc32c = 3;
 	string name = 4;
+	ProtectionLevel protection_level = 5;
 }
 
 message ImportJob {

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "MobileAppCategoryConstantProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message MobileAppCategoryConstant {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/MobileAppCategoryConstant"
+		pattern: ["mobileAppCategoryConstants/{mobile_app_category_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/MobileAppCategoryConstant"
+		}
+	];
+	oneof _id {
+		int32 id = 4 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

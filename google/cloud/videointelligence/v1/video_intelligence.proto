@@ -30,6 +30,7 @@ enum Feature {
 	TEXT_DETECTION = 7;
 	OBJECT_TRACKING = 9;
 	LOGO_RECOGNITION = 12;
+	PERSON_DETECTION = 14;
 }
 
 enum LabelDetectionMode {
@@ -93,6 +94,7 @@ message VideoContext {
 	FaceDetectionConfig face_detection_config = 5;
 	SpeechTranscriptionConfig speech_transcription_config = 6;
 	TextDetectionConfig text_detection_config = 8;
+	PersonDetectionConfig person_detection_config = 11;
 	ObjectTrackingConfig object_tracking_config = 13;
 }
 
@@ -119,6 +121,14 @@ message FaceDetectionConfig {
 
 	string model = 1;
 	bool include_bounding_boxes = 2;
+	bool include_attributes = 5;
+}
+
+message PersonDetectionConfig {
+
+	bool include_bounding_boxes = 1;
+	bool include_pose_landmarks = 2;
+	bool include_attributes = 3;
 }
 
 message ExplicitContentDetectionConfig {
@@ -163,6 +173,7 @@ message LabelAnnotation {
 	repeated Entity category_entities = 2;
 	repeated LabelSegment segments = 3;
 	repeated LabelFrame frames = 4;
+	string version = 5;
 }
 
 message ExplicitContentFrame {
@@ -174,6 +185,7 @@ message ExplicitContentFrame {
 message ExplicitContentAnnotation {
 
 	repeated ExplicitContentFrame frames = 1;
+	string version = 2;
 }
 
 message NormalizedBoundingBox {
@@ -184,18 +196,33 @@ message NormalizedBoundingBox {
 	float bottom = 4;
 }
 
+message FaceDetectionAnnotation {
+
+	repeated Track tracks = 3;
+	bytes thumbnail = 4;
+	string version = 5;
+}
+
+message PersonDetectionAnnotation {
+
+	repeated Track tracks = 1;
+	string version = 2;
+}
+
 message FaceSegment {
 
 	VideoSegment segment = 1;
 }
 
 message FaceFrame {
+	option deprecated = true;
 
 	repeated NormalizedBoundingBox normalized_bounding_boxes = 1;
 	google.protobuf.Duration time_offset = 2;
 }
 
 message FaceAnnotation {
+	option deprecated = true;
 
 	bytes thumbnail = 1;
 	repeated FaceSegment segments = 2;
@@ -249,13 +276,17 @@ message VideoAnnotationResults {
 	repeated LabelAnnotation shot_label_annotations = 3;
 	repeated LabelAnnotation shot_presence_label_annotations = 24;
 	repeated LabelAnnotation frame_label_annotations = 4;
-	repeated FaceAnnotation face_annotations = 5;
+	repeated FaceAnnotation face_annotations = 5 [
+		deprecated = true
+	];
+	repeated FaceDetectionAnnotation face_detection_annotations = 13;
 	repeated VideoSegment shot_annotations = 6;
 	ExplicitContentAnnotation explicit_annotation = 7;
 	repeated SpeechTranscription speech_transcriptions = 11;
 	repeated TextAnnotation text_annotations = 12;
 	repeated ObjectTrackingAnnotation object_annotations = 14;
 	repeated LogoRecognitionAnnotation logo_recognition_annotations = 19;
+	repeated PersonDetectionAnnotation person_detection_annotations = 20;
 	google.rpc.Status error = 9;
 }
 
@@ -377,6 +408,7 @@ message TextAnnotation {
 
 	string text = 1;
 	repeated TextSegment segments = 2;
+	string version = 3;
 }
 
 message ObjectTrackingFrame {
@@ -394,6 +426,7 @@ message ObjectTrackingAnnotation {
 	Entity entity = 1;
 	float confidence = 4;
 	repeated ObjectTrackingFrame frames = 2;
+	string version = 6;
 }
 
 message LogoRecognitionAnnotation {

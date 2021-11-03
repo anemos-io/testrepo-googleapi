@@ -1,0 +1,640 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/batch_prediction_job.proto";
+import "google/cloud/aiplatform/v1beta1/custom_job.proto";
+import "google/cloud/aiplatform/v1beta1/data_labeling_job.proto";
+import "google/cloud/aiplatform/v1beta1/hyperparameter_tuning_job.proto";
+import "google/cloud/aiplatform/v1beta1/model_deployment_monitoring_job.proto";
+import "google/cloud/aiplatform/v1beta1/operation.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "JobServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+service JobService {
+	option (google.api.default_host) = "aiplatform.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateCustomJob(google.cloud.aiplatform.v1beta1.CreateCustomJobRequest) returns (google.cloud.aiplatform.v1beta1.CustomJob) {
+		option (google.api.method_signature) = "parent,custom_job";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/customJobs"
+			body: "custom_job"
+		};
+
+	}
+	rpc GetCustomJob(google.cloud.aiplatform.v1beta1.GetCustomJobRequest) returns (google.cloud.aiplatform.v1beta1.CustomJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/customJobs/*}"
+		};
+
+	}
+	rpc ListCustomJobs(google.cloud.aiplatform.v1beta1.ListCustomJobsRequest) returns (google.cloud.aiplatform.v1beta1.ListCustomJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/customJobs"
+		};
+
+	}
+	rpc DeleteCustomJob(google.cloud.aiplatform.v1beta1.DeleteCustomJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/customJobs/*}"
+		};
+
+	}
+	rpc CancelCustomJob(google.cloud.aiplatform.v1beta1.CancelCustomJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/customJobs/*}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc CreateDataLabelingJob(google.cloud.aiplatform.v1beta1.CreateDataLabelingJobRequest) returns (google.cloud.aiplatform.v1beta1.DataLabelingJob) {
+		option (google.api.method_signature) = "parent,data_labeling_job";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/dataLabelingJobs"
+			body: "data_labeling_job"
+		};
+
+	}
+	rpc GetDataLabelingJob(google.cloud.aiplatform.v1beta1.GetDataLabelingJobRequest) returns (google.cloud.aiplatform.v1beta1.DataLabelingJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/dataLabelingJobs/*}"
+		};
+
+	}
+	rpc ListDataLabelingJobs(google.cloud.aiplatform.v1beta1.ListDataLabelingJobsRequest) returns (google.cloud.aiplatform.v1beta1.ListDataLabelingJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/dataLabelingJobs"
+		};
+
+	}
+	rpc DeleteDataLabelingJob(google.cloud.aiplatform.v1beta1.DeleteDataLabelingJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/dataLabelingJobs/*}"
+		};
+
+	}
+	rpc CancelDataLabelingJob(google.cloud.aiplatform.v1beta1.CancelDataLabelingJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/dataLabelingJobs/*}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc CreateHyperparameterTuningJob(google.cloud.aiplatform.v1beta1.CreateHyperparameterTuningJobRequest) returns (google.cloud.aiplatform.v1beta1.HyperparameterTuningJob) {
+		option (google.api.method_signature) = "parent,hyperparameter_tuning_job";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/hyperparameterTuningJobs"
+			body: "hyperparameter_tuning_job"
+		};
+
+	}
+	rpc GetHyperparameterTuningJob(google.cloud.aiplatform.v1beta1.GetHyperparameterTuningJobRequest) returns (google.cloud.aiplatform.v1beta1.HyperparameterTuningJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/hyperparameterTuningJobs/*}"
+		};
+
+	}
+	rpc ListHyperparameterTuningJobs(google.cloud.aiplatform.v1beta1.ListHyperparameterTuningJobsRequest) returns (google.cloud.aiplatform.v1beta1.ListHyperparameterTuningJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/hyperparameterTuningJobs"
+		};
+
+	}
+	rpc DeleteHyperparameterTuningJob(google.cloud.aiplatform.v1beta1.DeleteHyperparameterTuningJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/hyperparameterTuningJobs/*}"
+		};
+
+	}
+	rpc CancelHyperparameterTuningJob(google.cloud.aiplatform.v1beta1.CancelHyperparameterTuningJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/hyperparameterTuningJobs/*}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc CreateBatchPredictionJob(google.cloud.aiplatform.v1beta1.CreateBatchPredictionJobRequest) returns (google.cloud.aiplatform.v1beta1.BatchPredictionJob) {
+		option (google.api.method_signature) = "parent,batch_prediction_job";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/batchPredictionJobs"
+			body: "batch_prediction_job"
+		};
+
+	}
+	rpc GetBatchPredictionJob(google.cloud.aiplatform.v1beta1.GetBatchPredictionJobRequest) returns (google.cloud.aiplatform.v1beta1.BatchPredictionJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/batchPredictionJobs/*}"
+		};
+
+	}
+	rpc ListBatchPredictionJobs(google.cloud.aiplatform.v1beta1.ListBatchPredictionJobsRequest) returns (google.cloud.aiplatform.v1beta1.ListBatchPredictionJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/batchPredictionJobs"
+		};
+
+	}
+	rpc DeleteBatchPredictionJob(google.cloud.aiplatform.v1beta1.DeleteBatchPredictionJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/batchPredictionJobs/*}"
+		};
+
+	}
+	rpc CancelBatchPredictionJob(google.cloud.aiplatform.v1beta1.CancelBatchPredictionJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/batchPredictionJobs/*}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc CreateModelDeploymentMonitoringJob(google.cloud.aiplatform.v1beta1.CreateModelDeploymentMonitoringJobRequest) returns (google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringJob) {
+		option (google.api.method_signature) = "parent,model_deployment_monitoring_job";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/modelDeploymentMonitoringJobs"
+			body: "model_deployment_monitoring_job"
+		};
+
+	}
+	rpc SearchModelDeploymentMonitoringStatsAnomalies(google.cloud.aiplatform.v1beta1.SearchModelDeploymentMonitoringStatsAnomaliesRequest) returns (google.cloud.aiplatform.v1beta1.SearchModelDeploymentMonitoringStatsAnomaliesResponse) {
+		option (google.api.method_signature) = "model_deployment_monitoring_job,deployed_model_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{model_deployment_monitoring_job=projects/*/locations/*/modelDeploymentMonitoringJobs/*}:searchModelDeploymentMonitoringStatsAnomalies"
+			body: "*"
+		};
+
+	}
+	rpc GetModelDeploymentMonitoringJob(google.cloud.aiplatform.v1beta1.GetModelDeploymentMonitoringJobRequest) returns (google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/modelDeploymentMonitoringJobs/*}"
+		};
+
+	}
+	rpc ListModelDeploymentMonitoringJobs(google.cloud.aiplatform.v1beta1.ListModelDeploymentMonitoringJobsRequest) returns (google.cloud.aiplatform.v1beta1.ListModelDeploymentMonitoringJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/modelDeploymentMonitoringJobs"
+		};
+
+	}
+	rpc UpdateModelDeploymentMonitoringJob(google.cloud.aiplatform.v1beta1.UpdateModelDeploymentMonitoringJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ModelDeploymentMonitoringJob"
+			metadata_type: "UpdateModelDeploymentMonitoringJobOperationMetadata"
+		};
+		option (google.api.method_signature) = "model_deployment_monitoring_job,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{model_deployment_monitoring_job.name=projects/*/locations/*/modelDeploymentMonitoringJobs/*}"
+			body: "model_deployment_monitoring_job"
+		};
+
+	}
+	rpc DeleteModelDeploymentMonitoringJob(google.cloud.aiplatform.v1beta1.DeleteModelDeploymentMonitoringJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "DeleteOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/modelDeploymentMonitoringJobs/*}"
+		};
+
+	}
+	rpc PauseModelDeploymentMonitoringJob(google.cloud.aiplatform.v1beta1.PauseModelDeploymentMonitoringJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/modelDeploymentMonitoringJobs/*}:pause"
+			body: "*"
+		};
+
+	}
+	rpc ResumeModelDeploymentMonitoringJob(google.cloud.aiplatform.v1beta1.ResumeModelDeploymentMonitoringJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/modelDeploymentMonitoringJobs/*}:resume"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateCustomJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.CustomJob custom_job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetCustomJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/CustomJob"
+		}
+	];
+}
+
+message ListCustomJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+}
+
+message ListCustomJobsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.CustomJob custom_jobs = 1;
+	string next_page_token = 2;
+}
+
+message DeleteCustomJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/CustomJob"
+		}
+	];
+}
+
+message CancelCustomJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/CustomJob"
+		}
+	];
+}
+
+message CreateDataLabelingJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.DataLabelingJob data_labeling_job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetDataLabelingJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/DataLabelingJob"
+		}
+	];
+}
+
+message ListDataLabelingJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+	string order_by = 6;
+}
+
+message ListDataLabelingJobsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.DataLabelingJob data_labeling_jobs = 1;
+	string next_page_token = 2;
+}
+
+message DeleteDataLabelingJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/DataLabelingJob"
+		}
+	];
+}
+
+message CancelDataLabelingJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/DataLabelingJob"
+		}
+	];
+}
+
+message CreateHyperparameterTuningJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.HyperparameterTuningJob hyperparameter_tuning_job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetHyperparameterTuningJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/HyperparameterTuningJob"
+		}
+	];
+}
+
+message ListHyperparameterTuningJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+}
+
+message ListHyperparameterTuningJobsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.HyperparameterTuningJob hyperparameter_tuning_jobs = 1;
+	string next_page_token = 2;
+}
+
+message DeleteHyperparameterTuningJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/HyperparameterTuningJob"
+		}
+	];
+}
+
+message CancelHyperparameterTuningJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/HyperparameterTuningJob"
+		}
+	];
+}
+
+message CreateBatchPredictionJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.BatchPredictionJob batch_prediction_job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetBatchPredictionJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/BatchPredictionJob"
+		}
+	];
+}
+
+message ListBatchPredictionJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+}
+
+message ListBatchPredictionJobsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.BatchPredictionJob batch_prediction_jobs = 1;
+	string next_page_token = 2;
+}
+
+message DeleteBatchPredictionJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/BatchPredictionJob"
+		}
+	];
+}
+
+message CancelBatchPredictionJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/BatchPredictionJob"
+		}
+	];
+}
+
+message CreateModelDeploymentMonitoringJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringJob model_deployment_monitoring_job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SearchModelDeploymentMonitoringStatsAnomaliesRequest {
+
+	message StatsAnomaliesObjective {
+
+		google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringObjectiveType type = 1;
+		int32 top_feature_count = 4;
+	}
+
+	string model_deployment_monitoring_job = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/ModelDeploymentMonitoringJob"
+		}
+	];
+	string deployed_model_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string feature_display_name = 3;
+	repeated StatsAnomaliesObjective objectives = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 5;
+	string page_token = 6;
+	google.protobuf.Timestamp start_time = 7;
+	google.protobuf.Timestamp end_time = 8;
+}
+
+message SearchModelDeploymentMonitoringStatsAnomaliesResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.ModelMonitoringStatsAnomalies monitoring_stats = 1;
+	string next_page_token = 2;
+}
+
+message GetModelDeploymentMonitoringJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/ModelDeploymentMonitoringJob"
+		}
+	];
+}
+
+message ListModelDeploymentMonitoringJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	google.protobuf.FieldMask read_mask = 5;
+}
+
+message ListModelDeploymentMonitoringJobsResponse {
+
+	repeated google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringJob model_deployment_monitoring_jobs = 1;
+	string next_page_token = 2;
+}
+
+message UpdateModelDeploymentMonitoringJobRequest {
+
+	google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringJob model_deployment_monitoring_job = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteModelDeploymentMonitoringJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/ModelDeploymentMonitoringJob"
+		}
+	];
+}
+
+message PauseModelDeploymentMonitoringJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/ModelDeploymentMonitoringJob"
+		}
+	];
+}
+
+message ResumeModelDeploymentMonitoringJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "aiplatform.googleapis.com/ModelDeploymentMonitoringJob"
+		}
+	];
+}
+
+message UpdateModelDeploymentMonitoringJobOperationMetadata {
+
+	google.cloud.aiplatform.v1beta1.GenericOperationMetadata generic_metadata = 1;
+}

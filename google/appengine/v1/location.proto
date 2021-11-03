@@ -2,16 +2,23 @@ syntax = "proto3";
 
 package google.appengine.v1;
 
+import "google/api/field_behavior.proto";
 import "google/api/annotations.proto";
 
 option java_package = "com.google.appengine.v1";
 option java_outer_classname = "LocationProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+option csharp_namespace = "Google.Cloud.AppEngine.V1";
+option php_namespace = "Google\\Cloud\\AppEngine\\V1";
+option ruby_package = "Google::Cloud::AppEngine::V1";
 
 
 message LocationMetadata {
 
 	bool standard_environment_available = 2;
 	bool flexible_environment_available = 4;
+	bool search_api_available = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }

@@ -1,0 +1,450 @@
+syntax = "proto3";
+
+package google.cloud.filestore.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.cloud.filestore.v1beta1";
+option java_outer_classname = "CloudFilestoreServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/filestore/v1beta1;filestore";
+option csharp_namespace = "Google.Cloud.Filestore.V1Beta1";
+option php_namespace = "Google\\Cloud\\Filestore\\V1beta1";
+option (google.api.resource_definition) = {
+	type: "file.googleapis.com/Snapshot"
+	pattern: ["projects/{project}/locations/{location}/snapshots/{snapshot}"]
+};
+
+
+service CloudFilestoreManager {
+	option (google.api.default_host) = "file.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListInstances(google.cloud.filestore.v1beta1.ListInstancesRequest) returns (google.cloud.filestore.v1beta1.ListInstancesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/instances"
+		};
+
+	}
+	rpc GetInstance(google.cloud.filestore.v1beta1.GetInstanceRequest) returns (google.cloud.filestore.v1beta1.Instance) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/instances/*}"
+		};
+
+	}
+	rpc CreateInstance(google.cloud.filestore.v1beta1.CreateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "google.cloud.common.OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,instance,instance_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/instances"
+			body: "instance"
+		};
+
+	}
+	rpc UpdateInstance(google.cloud.filestore.v1beta1.UpdateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "google.cloud.common.OperationMetadata"
+		};
+		option (google.api.method_signature) = "instance,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{instance.name=projects/*/locations/*/instances/*}"
+			body: "instance"
+		};
+
+	}
+	rpc RestoreInstance(google.cloud.filestore.v1beta1.RestoreInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "google.cloud.common.OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:restore"
+			body: "*"
+		};
+
+	}
+	rpc DeleteInstance(google.cloud.filestore.v1beta1.DeleteInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.cloud.common.OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/instances/*}"
+		};
+
+	}
+	rpc ListBackups(google.cloud.filestore.v1beta1.ListBackupsRequest) returns (google.cloud.filestore.v1beta1.ListBackupsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/backups"
+		};
+
+	}
+	rpc GetBackup(google.cloud.filestore.v1beta1.GetBackupRequest) returns (google.cloud.filestore.v1beta1.Backup) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/backups/*}"
+		};
+
+	}
+	rpc CreateBackup(google.cloud.filestore.v1beta1.CreateBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Backup"
+			metadata_type: "google.cloud.common.OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,backup,backup_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/backups"
+			body: "backup"
+		};
+
+	}
+	rpc DeleteBackup(google.cloud.filestore.v1beta1.DeleteBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.cloud.common.OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/backups/*}"
+		};
+
+	}
+	rpc UpdateBackup(google.cloud.filestore.v1beta1.UpdateBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Backup"
+			metadata_type: "google.cloud.common.OperationMetadata"
+		};
+		option (google.api.method_signature) = "backup,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{backup.name=projects/*/locations/*/backups/*}"
+			body: "backup"
+		};
+
+	}
+}
+
+message NetworkConfig {
+
+	enum AddressMode {
+
+		ADDRESS_MODE_UNSPECIFIED = 0;
+		MODE_IPV4 = 1;
+	}
+
+	string network = 1;
+	repeated AddressMode modes = 3;
+	string reserved_ip_range = 4;
+	repeated string ip_addresses = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message FileShareConfig {
+
+	string name = 1;
+	int64 capacity_gb = 2;
+	oneof source {
+		string source_backup = 9 [
+			(google.api.resource_reference) = {
+				type: "file.googleapis.com/Backup"
+			}
+		];
+	}
+	repeated NfsExportOptions nfs_export_options = 8;
+}
+
+message NfsExportOptions {
+
+	enum AccessMode {
+
+		ACCESS_MODE_UNSPECIFIED = 0;
+		READ_ONLY = 1;
+		READ_WRITE = 2;
+	}
+
+	enum SquashMode {
+
+		SQUASH_MODE_UNSPECIFIED = 0;
+		NO_ROOT_SQUASH = 1;
+		ROOT_SQUASH = 2;
+	}
+
+	repeated string ip_ranges = 1;
+	AccessMode access_mode = 2;
+	SquashMode squash_mode = 3;
+	int64 anon_uid = 4;
+	int64 anon_gid = 5;
+}
+
+message Instance {
+	option (google.api.resource) = {
+		type: "file.googleapis.com/Instance"
+		pattern: ["projects/{project}/locations/{location}/instances/{instance}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		REPAIRING = 3;
+		DELETING = 4;
+		ERROR = 6;
+		RESTORING = 7;
+	}
+
+	enum Tier {
+
+		TIER_UNSPECIFIED = 0;
+		STANDARD = 1;
+		PREMIUM = 2;
+		BASIC_HDD = 3;
+		BASIC_SSD = 4;
+		HIGH_SCALE_SSD = 6;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 2;
+	State state = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Tier tier = 8;
+	map<string, string> labels = 9;
+	repeated FileShareConfig file_shares = 10;
+	repeated NetworkConfig networks = 11;
+	string etag = 12;
+	google.protobuf.BoolValue satisfies_pzs = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CreateInstanceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string instance_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Instance instance = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "file.googleapis.com/Instance"
+		}
+	];
+}
+
+message UpdateInstanceRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Instance instance = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RestoreInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "file.googleapis.com/Instance"
+		}
+	];
+	string file_share = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof source {
+		string source_snapshot = 3 [
+			(google.api.resource_reference) = {
+				type: "file.googleapis.com/Snapshot"
+			}
+		];
+		string source_backup = 4 [
+			(google.api.resource_reference) = {
+				type: "file.googleapis.com/Backup"
+			}
+		];
+	}
+}
+
+message DeleteInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "file.googleapis.com/Instance"
+		}
+	];
+}
+
+message ListInstancesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string order_by = 4;
+	string filter = 5;
+}
+
+message ListInstancesResponse {
+
+	repeated Instance instances = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message Backup {
+	option (google.api.resource) = {
+		type: "file.googleapis.com/Backup"
+		pattern: ["projects/{project}/locations/{location}/backups/{backup}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		FINALIZING = 2;
+		READY = 3;
+		DELETING = 4;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 2;
+	State state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 5;
+	int64 capacity_gb = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 storage_bytes = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string source_instance = 8 [
+		(google.api.resource_reference) = {
+			type: "file.googleapis.com/Instance"
+		}
+	];
+	string source_file_share = 9;
+	Tier source_instance_tier = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 download_bytes = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.BoolValue satisfies_pzs = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CreateBackupRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	Backup backup = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string backup_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "file.googleapis.com/Backup"
+		}
+	];
+}
+
+message UpdateBackupRequest {
+
+	Backup backup = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "file.googleapis.com/Backup"
+		}
+	];
+}
+
+message ListBackupsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string order_by = 4;
+	string filter = 5;
+}
+
+message ListBackupsResponse {
+
+	repeated Backup backups = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}

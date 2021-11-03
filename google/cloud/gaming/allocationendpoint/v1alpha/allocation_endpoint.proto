@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package google.cloud.gaming.allocationendpoint.v1alpha;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.gaming.allocationendpoint.v1alpha";
+option java_outer_classname = "AllocationEndpointProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gaming/allocationendpoint/v1alpha;allocationendpoint";
+
+
+service AllocationEndpointService {
+	option (google.api.default_host) = "example.com";
+
+	rpc Allocate(google.cloud.gaming.allocationendpoint.v1alpha.AllocationRequest) returns (google.cloud.gaming.allocationendpoint.v1alpha.AllocationResponse) {}
+}
+
+message AllocationRequest {
+
+	string realm = 1;
+	string default_game_server_deployment = 2;
+	repeated GameServerSelector game_server_selectors = 3;
+	MetaPatch metadata = 4;
+}
+
+message AllocationResponse {
+
+	message GameServerStatusPort {
+
+		string name = 1;
+		int32 port = 2;
+	}
+
+	string game_server_name = 1;
+	repeated GameServerStatusPort ports = 2;
+	string address = 3;
+	string node_name = 4;
+	string game_server_cluster_name = 5;
+	string deployment_name = 6;
+}
+
+message MetaPatch {
+
+	map<string, string> labels = 1;
+	map<string, string> annotations = 2;
+}
+
+message GameServerSelector {
+
+	map<string, string> match_labels = 1;
+}

@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package google.dataflow.v1beta3;
+
+option java_package = "com.google.dataflow.v1beta3";
+option java_outer_classname = "StreamingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/dataflow/v1beta3;dataflow";
+option csharp_namespace = "Google.Cloud.Dataflow.V1Beta3";
+option php_namespace = "Google\\Cloud\\Dataflow\\V1beta3";
+option ruby_package = "Google::Cloud::Dataflow::V1beta3";
+
+
+message TopologyConfig {
+
+	repeated ComputationTopology computations = 1;
+	repeated DataDiskAssignment data_disk_assignments = 2;
+	map<string, string> user_stage_to_computation_name_map = 3;
+	int32 forwarding_key_bits = 4;
+	int32 persistent_state_version = 5;
+}
+
+message PubsubLocation {
+
+	string topic = 1;
+	string subscription = 2;
+	string timestamp_label = 3;
+	string id_label = 4;
+	bool drop_late_data = 5;
+	string tracking_subscription = 6;
+	bool with_attributes = 7;
+}
+
+message StreamingStageLocation {
+
+	string stream_id = 1;
+}
+
+message StreamingSideInputLocation {
+
+	string tag = 1;
+	string state_family = 2;
+}
+
+message CustomSourceLocation {
+
+	bool stateful = 1;
+}
+
+message StreamLocation {
+
+	oneof location {
+		StreamingStageLocation streaming_stage_location = 1;
+		PubsubLocation pubsub_location = 2;
+		StreamingSideInputLocation side_input_location = 3;
+		CustomSourceLocation custom_source_location = 4;
+	}
+}
+
+message StateFamilyConfig {
+
+	string state_family = 1;
+	bool is_read = 2;
+}
+
+message ComputationTopology {
+
+	string system_stage_name = 1;
+	string computation_id = 5;
+	repeated KeyRangeLocation key_ranges = 2;
+	repeated StreamLocation inputs = 3;
+	repeated StreamLocation outputs = 4;
+	repeated StateFamilyConfig state_families = 7;
+}
+
+message KeyRangeLocation {
+
+	string start = 1;
+	string end = 2;
+	string delivery_endpoint = 3;
+	string data_disk = 5;
+	string deprecated_persistent_directory = 4 [
+		deprecated = true
+	];
+}
+
+message MountedDataDisk {
+
+	string data_disk = 1;
+}
+
+message DataDiskAssignment {
+
+	string vm_instance = 1;
+	repeated string data_disks = 2;
+}
+
+message KeyRangeDataDiskAssignment {
+
+	string start = 1;
+	string end = 2;
+	string data_disk = 3;
+}
+
+message StreamingComputationRanges {
+
+	string computation_id = 1;
+	repeated KeyRangeDataDiskAssignment range_assignments = 2;
+}
+
+message StreamingApplianceSnapshotConfig {
+
+	string snapshot_id = 1;
+	string import_state_endpoint = 2;
+}

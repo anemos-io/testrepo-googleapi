@@ -1,0 +1,223 @@
+syntax = "proto3";
+
+package google.cloud.speech.v1p1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/speech/v1p1beta1/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.speech.v1p1beta1";
+option java_outer_classname = "SpeechAdaptationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/speech/v1p1beta1;speech";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GCS";
+
+
+service Adaptation {
+	option (google.api.default_host) = "speech.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreatePhraseSet(google.cloud.speech.v1p1beta1.CreatePhraseSetRequest) returns (google.cloud.speech.v1p1beta1.PhraseSet) {
+		option (google.api.method_signature) = "parent,phrase_set,phrase_set_id";
+		option (google.api.http) = {
+			post: "/v1p1beta1/{parent=projects/*/locations/*}/phraseSets"
+			body: "*"
+		};
+
+	}
+	rpc GetPhraseSet(google.cloud.speech.v1p1beta1.GetPhraseSetRequest) returns (google.cloud.speech.v1p1beta1.PhraseSet) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1p1beta1/{name=projects/*/locations/*/phraseSets/*}"
+		};
+
+	}
+	rpc ListPhraseSet(google.cloud.speech.v1p1beta1.ListPhraseSetRequest) returns (google.cloud.speech.v1p1beta1.ListPhraseSetResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1p1beta1/{parent=projects/*/locations/*}/phraseSets"
+		};
+
+	}
+	rpc UpdatePhraseSet(google.cloud.speech.v1p1beta1.UpdatePhraseSetRequest) returns (google.cloud.speech.v1p1beta1.PhraseSet) {
+		option (google.api.method_signature) = "phrase_set,update_mask";
+		option (google.api.http) = {
+			patch: "/v1p1beta1/{phrase_set.name=projects/*/locations/*/phraseSets/*}"
+			body: "phrase_set"
+		};
+
+	}
+	rpc DeletePhraseSet(google.cloud.speech.v1p1beta1.DeletePhraseSetRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1p1beta1/{name=projects/*/locations/*/phraseSets/*}"
+		};
+
+	}
+	rpc CreateCustomClass(google.cloud.speech.v1p1beta1.CreateCustomClassRequest) returns (google.cloud.speech.v1p1beta1.CustomClass) {
+		option (google.api.method_signature) = "parent,custom_class,custom_class_id";
+		option (google.api.http) = {
+			post: "/v1p1beta1/{parent=projects/*/locations/*}/customClasses"
+			body: "*"
+		};
+
+	}
+	rpc GetCustomClass(google.cloud.speech.v1p1beta1.GetCustomClassRequest) returns (google.cloud.speech.v1p1beta1.CustomClass) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1p1beta1/{name=projects/*/locations/*/customClasses/*}"
+		};
+
+	}
+	rpc ListCustomClasses(google.cloud.speech.v1p1beta1.ListCustomClassesRequest) returns (google.cloud.speech.v1p1beta1.ListCustomClassesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1p1beta1/{parent=projects/*/locations/*}/customClasses"
+		};
+
+	}
+	rpc UpdateCustomClass(google.cloud.speech.v1p1beta1.UpdateCustomClassRequest) returns (google.cloud.speech.v1p1beta1.CustomClass) {
+		option (google.api.method_signature) = "custom_class,update_mask";
+		option (google.api.http) = {
+			patch: "/v1p1beta1/{custom_class.name=projects/*/locations/*/customClasses/*}"
+			body: "custom_class"
+		};
+
+	}
+	rpc DeleteCustomClass(google.cloud.speech.v1p1beta1.DeleteCustomClassRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1p1beta1/{name=projects/*/locations/*/customClasses/*}"
+		};
+
+	}
+}
+
+message CreatePhraseSetRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "speech.googleapis.com/PhraseSet"
+		}
+	];
+	string phrase_set_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.speech.v1p1beta1.PhraseSet phrase_set = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdatePhraseSetRequest {
+
+	google.cloud.speech.v1p1beta1.PhraseSet phrase_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetPhraseSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "speech.googleapis.com/PhraseSet"
+		}
+	];
+}
+
+message ListPhraseSetRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "speech.googleapis.com/PhraseSet"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListPhraseSetResponse {
+
+	repeated google.cloud.speech.v1p1beta1.PhraseSet phrase_sets = 1;
+	string next_page_token = 2;
+}
+
+message DeletePhraseSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "speech.googleapis.com/PhraseSet"
+		}
+	];
+}
+
+message CreateCustomClassRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "speech.googleapis.com/CustomClass"
+		}
+	];
+	string custom_class_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.speech.v1p1beta1.CustomClass custom_class = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateCustomClassRequest {
+
+	google.cloud.speech.v1p1beta1.CustomClass custom_class = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetCustomClassRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "speech.googleapis.com/CustomClass"
+		}
+	];
+}
+
+message ListCustomClassesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "speech.googleapis.com/CustomClass"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListCustomClassesResponse {
+
+	repeated google.cloud.speech.v1p1beta1.CustomClass custom_classes = 1;
+	string next_page_token = 2;
+}
+
+message DeleteCustomClassRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "speech.googleapis.com/CustomClass"
+		}
+	];
+}

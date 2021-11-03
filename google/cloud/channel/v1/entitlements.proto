@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+package google.cloud.channel.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/channel/v1/common.proto";
+import "google/cloud/channel/v1/offers.proto";
+import "google/cloud/channel/v1/products.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.channel.v1";
+option java_outer_classname = "EntitlementsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/channel/v1;channel";
+
+
+message Entitlement {
+	option (google.api.resource) = {
+		type: "cloudchannel.googleapis.com/Entitlement"
+		pattern: ["accounts/{account}/customers/{customer}/entitlements/{entitlement}"]
+	};
+
+	enum ProvisioningState {
+
+		PROVISIONING_STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		SUSPENDED = 5;
+	}
+
+	enum SuspensionReason {
+
+		SUSPENSION_REASON_UNSPECIFIED = 0;
+		RESELLER_INITIATED = 1;
+		TRIAL_ENDED = 2;
+		RENEWAL_WITH_TYPE_CANCEL = 3;
+		PENDING_TOS_ACCEPTANCE = 4;
+		OTHER = 100;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string offer = 8 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Offer"
+		}
+	];
+	CommitmentSettings commitment_settings = 12;
+	ProvisioningState provisioning_state = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ProvisionedService provisioned_service = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated SuspensionReason suspension_reasons = 18 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string purchase_order_id = 19 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	TrialSettings trial_settings = 21 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	AssociationInfo association_info = 23;
+	repeated Parameter parameters = 26;
+}
+
+message Parameter {
+
+	string name = 1;
+	google.cloud.channel.v1.Value value = 2;
+	bool editable = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message AssociationInfo {
+
+	string base_entitlement = 1 [
+		(google.api.resource_reference) = {
+			type: "cloudchannel.googleapis.com/Entitlement"
+		}
+	];
+}
+
+message ProvisionedService {
+
+	string provisioning_id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string product_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string sku_id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CommitmentSettings {
+
+	google.protobuf.Timestamp start_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	RenewalSettings renewal_settings = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RenewalSettings {
+
+	bool enable_renewal = 1;
+	bool resize_unit_count = 2;
+	google.cloud.channel.v1.PaymentPlan payment_plan = 5;
+	google.cloud.channel.v1.Period payment_cycle = 6;
+}
+
+message TrialSettings {
+
+	bool trial = 1;
+	google.protobuf.Timestamp end_time = 2;
+}
+
+message TransferableSku {
+
+	TransferEligibility transfer_eligibility = 9;
+	google.cloud.channel.v1.Sku sku = 11;
+	google.cloud.channel.v1.Sku legacy_sku = 12 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message TransferEligibility {
+
+	enum Reason {
+
+		REASON_UNSPECIFIED = 0;
+		PENDING_TOS_ACCEPTANCE = 1;
+		SKU_NOT_ELIGIBLE = 2;
+		SKU_SUSPENDED = 3;
+	}
+
+	bool is_eligible = 1;
+	string description = 2;
+	Reason ineligibility_reason = 3;
+}

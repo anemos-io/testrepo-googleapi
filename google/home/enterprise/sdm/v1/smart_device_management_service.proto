@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+package google.home.enterprise.sdm.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/home/enterprise/sdm/v1/device.proto";
+import "google/home/enterprise/sdm/v1/site.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.home.enterprise.sdm.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/home/enterprise/sdm/v1;sdm";
+option objc_class_prefix = "GHENTSDM";
+option csharp_namespace = "Google.Home.Enterprise.Sdm.V1";
+option php_namespace = "Google\\Home\\Enterprise\\Sdm\\V1";
+
+
+service SmartDeviceManagementService {
+	option (google.api.default_host) = "smartdevicemanagement.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/sdm.service";
+
+	rpc GetDevice(google.home.enterprise.sdm.v1.GetDeviceRequest) returns (google.home.enterprise.sdm.v1.Device) {
+		option (google.api.http) = {
+			get: "/v1/{name=enterprises/*/devices/*}"
+		};
+
+	}
+	rpc ListDevices(google.home.enterprise.sdm.v1.ListDevicesRequest) returns (google.home.enterprise.sdm.v1.ListDevicesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=enterprises/*}/devices"
+		};
+
+	}
+	rpc ExecuteDeviceCommand(google.home.enterprise.sdm.v1.ExecuteDeviceCommandRequest) returns (google.home.enterprise.sdm.v1.ExecuteDeviceCommandResponse) {
+		option (google.api.http) = {
+			post: "/v1/{name=enterprises/*/devices/*}:executeCommand"
+			body: "*"
+		};
+
+	}
+	rpc GetStructure(google.home.enterprise.sdm.v1.GetStructureRequest) returns (google.home.enterprise.sdm.v1.Structure) {
+		option (google.api.http) = {
+			get: "/v1/{name=enterprises/*/structures/*}"
+		};
+
+	}
+	rpc ListStructures(google.home.enterprise.sdm.v1.ListStructuresRequest) returns (google.home.enterprise.sdm.v1.ListStructuresResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=enterprises/*}/structures"
+		};
+
+	}
+	rpc GetRoom(google.home.enterprise.sdm.v1.GetRoomRequest) returns (google.home.enterprise.sdm.v1.Room) {
+		option (google.api.http) = {
+			get: "/v1/{name=enterprises/*/structures/*/rooms/*}"
+		};
+
+	}
+	rpc ListRooms(google.home.enterprise.sdm.v1.ListRoomsRequest) returns (google.home.enterprise.sdm.v1.ListRoomsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=enterprises/*/structures/*}/rooms"
+		};
+
+	}
+}
+
+message GetDeviceRequest {
+
+	string name = 1;
+}
+
+message ListDevicesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListDevicesResponse {
+
+	repeated google.home.enterprise.sdm.v1.Device devices = 1;
+	string next_page_token = 2;
+}
+
+message ExecuteDeviceCommandRequest {
+
+	string name = 1;
+	string command = 2;
+	google.protobuf.Struct params = 3;
+}
+
+message ExecuteDeviceCommandResponse {
+
+	google.protobuf.Struct results = 1;
+}
+
+message GetStructureRequest {
+
+	string name = 1;
+}
+
+message ListStructuresRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListStructuresResponse {
+
+	repeated google.home.enterprise.sdm.v1.Structure structures = 1;
+	string next_page_token = 2;
+}
+
+message GetRoomRequest {
+
+	string name = 1;
+}
+
+message ListRoomsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListRoomsResponse {
+
+	repeated google.home.enterprise.sdm.v1.Room rooms = 1;
+	string next_page_token = 2;
+}

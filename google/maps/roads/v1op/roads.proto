@@ -24,8 +24,14 @@ enum TravelMode {
 service RoadsService {
 	option (google.api.default_host) = "roads.googleapis.com";
 
-	rpc SnapToRoads(google.maps.roads.v1op.SnapToRoadsRequest) returns (google.maps.roads.v1op.SnapToRoadsResponse) {}
-	rpc ListNearestRoads(google.maps.roads.v1op.ListNearestRoadsRequest) returns (google.maps.roads.v1op.ListNearestRoadsResponse) {}
+	rpc SnapToRoads(google.maps.roads.v1op.SnapToRoadsRequest) returns (google.maps.roads.v1op.SnapToRoadsResponse) {
+		option (google.api.method_signature) = "path";
+
+	}
+	rpc ListNearestRoads(google.maps.roads.v1op.ListNearestRoadsRequest) returns (google.maps.roads.v1op.ListNearestRoadsResponse) {
+		option (google.api.method_signature) = "points";
+
+	}
 }
 
 message SnapToRoadsRequest {

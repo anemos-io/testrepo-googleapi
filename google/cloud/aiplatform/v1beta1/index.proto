@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/aiplatform/v1beta1/deployed_index_ref.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "IndexProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message Index {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/Index"
+		pattern: ["projects/{project}/locations/{location}/indexes/{index}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3;
+	string metadata_schema_uri = 4 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Value metadata = 6;
+	repeated google.cloud.aiplatform.v1beta1.DeployedIndexRef deployed_indexes = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string etag = 8;
+	map<string, string> labels = 9;
+	google.protobuf.Timestamp create_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

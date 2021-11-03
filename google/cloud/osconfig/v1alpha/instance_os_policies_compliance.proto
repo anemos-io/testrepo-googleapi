@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1alpha;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/osconfig/v1alpha/config_common.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.osconfig.v1alpha";
+option java_outer_classname = "InstanceOSPoliciesComplianceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1alpha;osconfig";
+option csharp_namespace = "Google.Cloud.OsConfig.V1Alpha";
+option php_namespace = "Google\\Cloud\\OsConfig\\V1alpha";
+option ruby_package = "Google::Cloud::OsConfig::V1alpha";
+
+
+message InstanceOSPoliciesCompliance {
+	option (google.api.resource) = {
+		type: "osconfig.googleapis.com/InstanceOSPoliciesCompliance"
+		pattern: ["projects/{project}/locations/{location}/instanceOSPoliciesCompliances/{instance}"]
+	};
+
+	message OSPolicyCompliance {
+
+		string os_policy_id = 1;
+		string os_policy_assignment = 2 [
+			(google.api.resource_reference) = {
+				type: "osconfig.googleapis.com/OSPolicyAssignment"
+			}
+		];
+		google.cloud.osconfig.v1alpha.OSPolicyComplianceState state = 4;
+		repeated google.cloud.osconfig.v1alpha.OSPolicyResourceCompliance os_policy_resource_compliances = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string instance = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.osconfig.v1alpha.OSPolicyComplianceState state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string detailed_state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string detailed_state_reason = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated OSPolicyCompliance os_policy_compliances = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp last_compliance_check_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string last_compliance_run_id = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message GetInstanceOSPoliciesComplianceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "osconfig.googleapis.com/InstanceOSPoliciesCompliance"
+		}
+	];
+}
+
+message ListInstanceOSPoliciesCompliancesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListInstanceOSPoliciesCompliancesResponse {
+
+	repeated InstanceOSPoliciesCompliance instance_os_policies_compliances = 1;
+	string next_page_token = 2;
+}

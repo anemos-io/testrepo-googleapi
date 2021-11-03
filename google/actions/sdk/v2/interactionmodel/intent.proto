@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel;
+
+import "google/actions/sdk/v2/interactionmodel/type/class_reference.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel";
+option java_outer_classname = "IntentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel;interactionmodel";
+
+
+message Intent {
+
+	message IntentParameter {
+
+		message EntitySetReferences {
+
+			message EntitySetReference {
+
+				string entity_set = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			repeated EntitySetReference entity_set_references = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+		}
+
+		string name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		oneof parameter_type {
+			google.actions.sdk.v2.interactionmodel.type.ClassReference type = 2 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			EntitySetReferences entity_set_references = 3 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+		}
+	}
+
+	repeated IntentParameter parameters = 1;
+	repeated string training_phrases = 2;
+}

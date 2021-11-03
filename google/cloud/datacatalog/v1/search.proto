@@ -29,10 +29,12 @@ message SearchCatalogResult {
 	string search_result_subtype = 2;
 	string relative_resource_name = 3;
 	string linked_resource = 4;
+	google.protobuf.Timestamp modify_time = 7;
 	oneof system {
 		google.cloud.datacatalog.v1.IntegratedSystem integrated_system = 8 [
 			(google.api.field_behavior) = OUTPUT_ONLY
 		];
 		string user_specified_system = 9;
 	}
+	string fully_qualified_name = 10;
 }

@@ -3,6 +3,7 @@ syntax = "proto3";
 package google.monitoring.dashboard.v1;
 
 import "google/api/field_behavior.proto";
+import "google/monitoring/dashboard/v1/alertchart.proto";
 import "google/monitoring/dashboard/v1/scorecard.proto";
 import "google/monitoring/dashboard/v1/text.proto";
 import "google/monitoring/dashboard/v1/xychart.proto";
@@ -12,6 +13,8 @@ option java_package = "com.google.monitoring.dashboard.v1";
 option java_outer_classname = "WidgetProto";
 option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option csharp_namespace = "Google.Cloud.Monitoring.Dashboard.V1";
+option php_namespace = "Google\\Cloud\\Monitoring\\Dashboard\\V1";
 option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
 
 
@@ -25,5 +28,6 @@ message Widget {
 		google.monitoring.dashboard.v1.Scorecard scorecard = 3;
 		google.monitoring.dashboard.v1.Text text = 4;
 		google.protobuf.Empty blank = 5;
+		google.monitoring.dashboard.v1.AlertChart alert_chart = 7;
 	}
 }

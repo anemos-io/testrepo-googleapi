@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package google.actions.sdk.v2.interactionmodel.type;
+
+import "google/actions/sdk/v2/interactionmodel/type/entity_display.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.actions.sdk.v2.interactionmodel.type";
+option java_outer_classname = "SynonymTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/actions/sdk/v2/interactionmodel/type";
+
+
+message SynonymType {
+
+	message Entity {
+
+		google.actions.sdk.v2.interactionmodel.type.EntityDisplay display = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		repeated string synonyms = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	enum MatchType {
+
+		UNSPECIFIED = 0;
+		EXACT_MATCH = 1;
+		FUZZY_MATCH = 2;
+	}
+
+	MatchType match_type = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool accept_unknown_values = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, Entity> entities = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

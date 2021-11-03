@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.cloud.iap.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+
+option java_package = "com.google.cloud.iap.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/iap/v1beta1;iap";
+
+
+service IdentityAwareProxyAdminV1Beta1 {
+	option (google.api.default_host) = "iap.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=**}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=**}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=**}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+}

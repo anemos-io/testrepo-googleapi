@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1;
+
+import "google/cloud/aiplatform/v1/artifact.proto";
+import "google/cloud/aiplatform/v1/event.proto";
+import "google/cloud/aiplatform/v1/execution.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1";
+option java_outer_classname = "LineageSubgraphProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1";
+option ruby_package = "Google::Cloud::AIPlatform::V1";
+
+
+message LineageSubgraph {
+
+	repeated google.cloud.aiplatform.v1.Artifact artifacts = 1;
+	repeated google.cloud.aiplatform.v1.Execution executions = 2;
+	repeated google.cloud.aiplatform.v1.Event events = 3;
+}

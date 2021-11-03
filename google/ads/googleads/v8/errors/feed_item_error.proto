@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.errors";
+option java_outer_classname = "FeedItemErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V8::Errors";
+
+
+message FeedItemErrorEnum {
+
+	enum FeedItemError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		CANNOT_CONVERT_ATTRIBUTE_VALUE_FROM_STRING = 2;
+		CANNOT_OPERATE_ON_REMOVED_FEED_ITEM = 3;
+		DATE_TIME_MUST_BE_IN_ACCOUNT_TIME_ZONE = 4;
+		KEY_ATTRIBUTES_NOT_FOUND = 5;
+		INVALID_URL = 6;
+		MISSING_KEY_ATTRIBUTES = 7;
+		KEY_ATTRIBUTES_NOT_UNIQUE = 8;
+		CANNOT_MODIFY_KEY_ATTRIBUTE_VALUE = 9;
+		SIZE_TOO_LARGE_FOR_MULTI_VALUE_ATTRIBUTE = 10;
+	}
+
+}

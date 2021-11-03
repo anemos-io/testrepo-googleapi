@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.cloud.gkebackup.logging.v1;
+
+option java_package = "google.cloud.gkebackup.logging.v1";
+option java_outer_classname = "LoggedBackupProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gkebackup/logging/v1;logging";
+option csharp_namespace = "Google.Cloud.GkeBackup.Logging.V1";
+option php_namespace = "Google\\Cloud\\GkeBackup\\Logging\\V1";
+option ruby_package = "Google::Cloud::GkeBackup::Logging::V1";
+
+
+message LoggedBackup {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		IN_PROGRESS = 2;
+		SUCCEEDED = 3;
+		FAILED = 4;
+		DELETING = 5;
+	}
+
+	map<string, string> labels = 1;
+	int32 delete_lock_days = 2;
+	int32 retain_days = 3;
+	string description = 4;
+	State state = 5;
+	string state_reason = 6;
+}

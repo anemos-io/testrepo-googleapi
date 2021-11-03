@@ -8,6 +8,7 @@ import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/cloud/security/privateca/v1beta1/resources.proto";
 import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -17,6 +18,8 @@ option java_multiple_files = true;
 option go_package = "google.golang.org/genproto/googleapis/cloud/security/privateca/v1beta1;privateca";
 option cc_enable_arenas = true;
 option csharp_namespace = "Google.Cloud.Security.PrivateCA.V1Beta1";
+option php_namespace = "Google\\Cloud\\Security\\PrivateCA\\V1beta1";
+option ruby_package = "Google::Cloud::Security::PrivateCA::V1beta1";
 
 
 service CertificateAuthorityService {
@@ -166,18 +169,6 @@ service CertificateAuthorityService {
 		};
 
 	}
-	rpc CreateCertificateRevocationList(google.cloud.security.privateca.v1beta1.CreateCertificateRevocationListRequest) returns (google.longrunning.Operation) {
-		option (google.longrunning.operation_info) = {
-			response_type: "CertificateRevocationList"
-			metadata_type: "OperationMetadata"
-		};
-		option (google.api.method_signature) = "parent,certificate_revocation_list,certificate_revocation_list_id";
-		option (google.api.http) = {
-			post: "/v1beta1/{parent=projects/*/locations/*/certificateAuthorities/*}/certificateRevocationLists"
-			body: "certificate_revocation_list"
-		};
-
-	}
 	rpc GetCertificateRevocationList(google.cloud.security.privateca.v1beta1.GetCertificateRevocationListRequest) returns (google.cloud.security.privateca.v1beta1.CertificateRevocationList) {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
@@ -204,29 +195,6 @@ service CertificateAuthorityService {
 		};
 
 	}
-	rpc CreateReusableConfig(google.cloud.security.privateca.v1beta1.CreateReusableConfigRequest) returns (google.longrunning.Operation) {
-		option (google.longrunning.operation_info) = {
-			response_type: "ReusableConfig"
-			metadata_type: "OperationMetadata"
-		};
-		option (google.api.method_signature) = "parent,reusable_config,reusable_config_id";
-		option (google.api.http) = {
-			post: "/v1beta1/{parent=projects/*/locations/*}/reusableConfigs"
-			body: "reusable_config"
-		};
-
-	}
-	rpc DeleteReusableConfig(google.cloud.security.privateca.v1beta1.DeleteReusableConfigRequest) returns (google.longrunning.Operation) {
-		option (google.longrunning.operation_info) = {
-			response_type: "google.protobuf.Empty"
-			metadata_type: "google.cloud.security.privateca.v1beta1.OperationMetadata"
-		};
-		option (google.api.method_signature) = "name";
-		option (google.api.http) = {
-			delete: "/v1beta1/{name=projects/*/locations/*/reusableConfigs/*}"
-		};
-
-	}
 	rpc GetReusableConfig(google.cloud.security.privateca.v1beta1.GetReusableConfigRequest) returns (google.cloud.security.privateca.v1beta1.ReusableConfig) {
 		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
@@ -238,18 +206,6 @@ service CertificateAuthorityService {
 		option (google.api.method_signature) = "parent";
 		option (google.api.http) = {
 			get: "/v1beta1/{parent=projects/*/locations/*}/reusableConfigs"
-		};
-
-	}
-	rpc UpdateReusableConfig(google.cloud.security.privateca.v1beta1.UpdateReusableConfigRequest) returns (google.longrunning.Operation) {
-		option (google.longrunning.operation_info) = {
-			response_type: "ReusableConfig"
-			metadata_type: "OperationMetadata"
-		};
-		option (google.api.method_signature) = "reusable_config,update_mask";
-		option (google.api.http) = {
-			patch: "/v1beta1/{reusable_config.name=projects/*/locations/*/reusableConfigs/*}"
-			body: "reusable_config"
 		};
 
 	}
@@ -501,25 +457,6 @@ message UpdateCertificateAuthorityRequest {
 	];
 }
 
-message CreateCertificateRevocationListRequest {
-
-	string parent = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "privateca.googleapis.com/CertificateAuthority"
-		}
-	];
-	string certificate_revocation_list_id = 2 [
-		(google.api.field_behavior) = REQUIRED
-	];
-	google.cloud.security.privateca.v1beta1.CertificateRevocationList certificate_revocation_list = 3 [
-		(google.api.field_behavior) = REQUIRED
-	];
-	string request_id = 4 [
-		(google.api.field_behavior) = OPTIONAL
-	];
-}
-
 message GetCertificateRevocationListRequest {
 
 	string name = 1 [
@@ -572,38 +509,6 @@ message UpdateCertificateRevocationListRequest {
 	];
 }
 
-message CreateReusableConfigRequest {
-
-	string parent = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "locations.googleapis.com/Location"
-		}
-	];
-	string reusable_config_id = 2 [
-		(google.api.field_behavior) = REQUIRED
-	];
-	google.cloud.security.privateca.v1beta1.ReusableConfig reusable_config = 3 [
-		(google.api.field_behavior) = REQUIRED
-	];
-	string request_id = 4 [
-		(google.api.field_behavior) = OPTIONAL
-	];
-}
-
-message DeleteReusableConfigRequest {
-
-	string name = 1 [
-		(google.api.field_behavior) = REQUIRED
-		(google.api.resource_reference) = {
-			type: "privateca.googleapis.com/ReusableConfig"
-		}
-	];
-	string request_id = 2 [
-		(google.api.field_behavior) = OPTIONAL
-	];
-}
-
 message GetReusableConfigRequest {
 
 	string name = 1 [
@@ -641,19 +546,6 @@ message ListReusableConfigsResponse {
 	repeated google.cloud.security.privateca.v1beta1.ReusableConfig reusable_configs = 1;
 	string next_page_token = 2;
 	repeated string unreachable = 3;
-}
-
-message UpdateReusableConfigRequest {
-
-	google.cloud.security.privateca.v1beta1.ReusableConfig reusable_config = 1 [
-		(google.api.field_behavior) = REQUIRED
-	];
-	google.protobuf.FieldMask update_mask = 2 [
-		(google.api.field_behavior) = REQUIRED
-	];
-	string request_id = 3 [
-		(google.api.field_behavior) = OPTIONAL
-	];
 }
 
 message OperationMetadata {

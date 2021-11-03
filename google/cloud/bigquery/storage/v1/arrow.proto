@@ -20,3 +20,15 @@ message ArrowRecordBatch {
 	bytes serialized_record_batch = 1;
 	int64 row_count = 2;
 }
+
+message ArrowSerializationOptions {
+
+	enum CompressionCodec {
+
+		COMPRESSION_UNSPECIFIED = 0;
+		LZ4_FRAME = 1;
+		ZSTD = 2;
+	}
+
+	CompressionCodec buffer_compression = 2;
+}

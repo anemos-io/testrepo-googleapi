@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package google.cloud.networksecurity.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/networksecurity/v1beta1/tls.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.networksecurity.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/networksecurity/v1beta1;networksecurity";
+option csharp_namespace = "Google.Cloud.NetworkSecurity.V1Beta1";
+option php_namespace = "Google\\Cloud\\NetworkSecurity\\V1beta1";
+option ruby_package = "Google::Cloud::NetworkSecurity::V1beta1";
+
+
+message ServerTlsPolicy {
+	option (google.api.resource) = {
+		type: "networksecurity.googleapis.com/ServerTlsPolicy"
+		pattern: ["projects/{project}/locations/{location}/serverTlsPolicies/{server_tls_policy}"]
+	};
+
+	message MTLSPolicy {
+
+		repeated google.cloud.networksecurity.v1beta1.ValidationCA client_validation_ca = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool allow_open = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.networksecurity.v1beta1.CertificateProvider server_certificate = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	MTLSPolicy mtls_policy = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListServerTlsPoliciesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListServerTlsPoliciesResponse {
+
+	repeated ServerTlsPolicy server_tls_policies = 1;
+	string next_page_token = 2;
+}
+
+message GetServerTlsPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/ServerTlsPolicy"
+		}
+	];
+}
+
+message CreateServerTlsPolicyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/ServerTlsPolicy"
+		}
+	];
+	string server_tls_policy_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ServerTlsPolicy server_tls_policy = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateServerTlsPolicyRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ServerTlsPolicy server_tls_policy = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteServerTlsPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "networksecurity.googleapis.com/ServerTlsPolicy"
+		}
+	];
+}

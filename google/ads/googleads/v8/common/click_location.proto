@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.common;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.common";
+option java_outer_classname = "ClickLocationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V8::Common";
+
+
+message ClickLocation {
+
+	oneof _city {
+		string city = 6;
+	}
+	oneof _country {
+		string country = 7;
+	}
+	oneof _metro {
+		string metro = 8;
+	}
+	oneof _most_specific {
+		string most_specific = 9;
+	}
+	oneof _region {
+		string region = 10;
+	}
+}

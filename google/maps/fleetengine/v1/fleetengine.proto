@@ -1,0 +1,195 @@
+syntax = "proto3";
+
+package maps.fleetengine.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/latlng.proto";
+
+option java_package = "google.maps.fleetengine.v1";
+option java_outer_classname = "FleetEngine";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/fleetengine/v1;fleetengine";
+option objc_class_prefix = "CFE";
+
+
+enum TripType {
+
+	UNKNOWN_TRIP_TYPE = 0;
+	SHARED = 1;
+	EXCLUSIVE = 2;
+}
+
+enum WaypointType {
+
+	UNKNOWN_WAYPOINT_TYPE = 0;
+	PICKUP_WAYPOINT_TYPE = 1;
+	DROP_OFF_WAYPOINT_TYPE = 2;
+	INTERMEDIATE_DESTINATION_WAYPOINT_TYPE = 3;
+}
+
+enum PolylineFormatType {
+
+	UNKNOWN_FORMAT_TYPE = 0;
+	LAT_LNG_LIST_TYPE = 1;
+	ENCODED_POLYLINE_TYPE = 2;
+}
+
+enum NavigationStatus {
+
+	UNKNOWN_NAVIGATION_STATUS = 0;
+	NO_GUIDANCE = 1;
+	ENROUTE_TO_DESTINATION = 2;
+	OFF_ROUTE = 3;
+	ARRIVED_AT_DESTINATION = 4;
+}
+
+enum LocationSensor {
+
+	UNKNOWN_SENSOR = 0;
+	GPS = 1;
+	NETWORK = 2;
+	PASSIVE = 3;
+	ROAD_SNAPPED_LOCATION_PROVIDER = 4;
+	FUSED_LOCATION_PROVIDER = 100;
+}
+
+message TerminalPointId {
+
+	oneof Id {
+		string place_id = 2 [
+			deprecated = true
+		];
+		string generated_id = 3 [
+			deprecated = true
+		];
+	}
+	string value = 4;
+}
+
+message TerminalLocation {
+
+	google.type.LatLng point = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	TerminalPointId terminal_point_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string access_point_id = 3 [
+		deprecated = true
+	];
+	string trip_id = 4 [
+		deprecated = true
+	];
+	WaypointType terminal_location_type = 5 [
+		deprecated = true
+	];
+}
+
+message TripWaypoint {
+
+	TerminalLocation location = 1;
+	string trip_id = 2;
+	WaypointType waypoint_type = 3;
+	repeated google.type.LatLng path_to_waypoint = 4;
+	google.protobuf.Int32Value distance_meters = 6;
+	google.protobuf.Timestamp eta = 7;
+	google.protobuf.Duration duration = 8;
+}
+
+message Status {
+
+	enum Code {
+
+		UNSPECIFIED = 0;
+		FAILURE = 1;
+		ROUTE_NOT_POSSIBLE = 2;
+	}
+
+	Code code = 1;
+	string message = 2;
+	repeated google.protobuf.Any details = 3;
+}
+
+message FormattedAddress {
+
+	repeated string lines = 1;
+}
+
+message Address {
+
+	FormattedAddress formatted_address = 1;
+}
+
+message VehicleAttribute {
+
+	string key = 1;
+	string value = 2;
+}
+
+message VehicleLocation {
+
+	google.type.LatLng location = 1;
+	google.protobuf.DoubleValue horizontal_accuracy = 8 [
+		deprecated = true
+	];
+	google.protobuf.DoubleValue latlng_accuracy = 22;
+	google.protobuf.Int32Value heading = 2;
+	google.protobuf.DoubleValue bearing_accuracy = 10 [
+		deprecated = true
+	];
+	google.protobuf.DoubleValue heading_accuracy = 23;
+	google.protobuf.DoubleValue altitude = 5;
+	google.protobuf.DoubleValue vertical_accuracy = 9 [
+		deprecated = true
+	];
+	google.protobuf.DoubleValue altitude_accuracy = 24;
+	google.protobuf.Int32Value speed_kmph = 3 [
+		deprecated = true
+	];
+	google.protobuf.DoubleValue speed = 6;
+	google.protobuf.DoubleValue speed_accuracy = 7;
+	google.protobuf.Timestamp update_time = 4;
+	google.protobuf.Timestamp server_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	LocationSensor location_sensor = 11;
+	google.protobuf.BoolValue is_road_snapped = 27;
+	google.protobuf.BoolValue is_gps_sensor_enabled = 12 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.protobuf.Int32Value time_since_update = 14 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.protobuf.Int32Value num_stale_updates = 15 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.type.LatLng raw_location = 16;
+	google.protobuf.Timestamp raw_location_time = 17 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	LocationSensor raw_location_sensor = 28 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.protobuf.DoubleValue raw_location_accuracy = 25 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.type.LatLng supplemental_location = 18 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.protobuf.Timestamp supplemental_location_time = 19 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	LocationSensor supplemental_location_sensor = 20 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	google.protobuf.DoubleValue supplemental_location_accuracy = 21 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	bool road_snapped = 26 [
+		deprecated = true
+	];
+}

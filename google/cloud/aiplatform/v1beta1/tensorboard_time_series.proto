@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package google.cloud.aiplatform.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.aiplatform.v1beta1";
+option java_outer_classname = "TensorboardTimeSeriesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/aiplatform/v1beta1;aiplatform";
+option csharp_namespace = "Google.Cloud.AIPlatform.V1Beta1";
+option php_namespace = "Google\\Cloud\\AIPlatform\\V1beta1";
+option ruby_package = "Google::Cloud::AIPlatform::V1beta1";
+
+
+message TensorboardTimeSeries {
+	option (google.api.resource) = {
+		type: "aiplatform.googleapis.com/TensorboardTimeSeries"
+		pattern: ["projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}/runs/{run}/timeSeries/{time_series}"]
+	};
+
+	message Metadata {
+
+		int64 max_step = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.protobuf.Timestamp max_wall_time = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		int64 max_blob_sequence_length = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	enum ValueType {
+
+		VALUE_TYPE_UNSPECIFIED = 0;
+		SCALAR = 1;
+		TENSOR = 2;
+		BLOB_SEQUENCE = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3;
+	ValueType value_type = 4 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string etag = 7;
+	string plugin_name = 8 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	bytes plugin_data = 9;
+	Metadata metadata = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

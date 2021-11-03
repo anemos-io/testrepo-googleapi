@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.migration.v2alpha;
+
+import "google/api/distribution.proto";
+import "google/api/field_behavior.proto";
+import "google/api/metric.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.bigquery.migration.v2alpha";
+option java_outer_classname = "MigrationMetricsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/migration/v2alpha;migration";
+option csharp_namespace = "Google.Cloud.BigQuery.Migration.V2Alpha";
+option php_namespace = "Google\\Cloud\\BigQuery\\Migration\\V2alpha";
+
+
+message TimeSeries {
+
+	string metric = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.api.MetricDescriptor.ValueType value_type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.api.MetricDescriptor.MetricKind metric_kind = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated Point points = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Point {
+
+	TimeInterval interval = 1;
+	TypedValue value = 2;
+}
+
+message TimeInterval {
+
+	google.protobuf.Timestamp start_time = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message TypedValue {
+
+	oneof value {
+		bool bool_value = 1;
+		int64 int64_value = 2;
+		double double_value = 3;
+		string string_value = 4;
+		google.api.Distribution distribution_value = 5;
+	}
+}

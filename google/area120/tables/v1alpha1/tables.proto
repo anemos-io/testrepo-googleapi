@@ -24,7 +24,7 @@ enum View {
 
 service TablesService {
 	option (google.api.default_host) = "area120tables.googleapis.com";
-	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.file,https://www.googleapis.com/auth/drive.readonly,https://www.googleapis.com/auth/spreadsheets,https://www.googleapis.com/auth/spreadsheets.readonly";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.file,https://www.googleapis.com/auth/drive.readonly,https://www.googleapis.com/auth/spreadsheets,https://www.googleapis.com/auth/spreadsheets.readonly,https://www.googleapis.com/auth/tables";
 
 	rpc GetTable(google.area120.tables.v1alpha1.GetTableRequest) returns (google.area120.tables.v1alpha1.Table) {
 		option (google.api.method_signature) = "name";
@@ -36,6 +36,19 @@ service TablesService {
 	rpc ListTables(google.area120.tables.v1alpha1.ListTablesRequest) returns (google.area120.tables.v1alpha1.ListTablesResponse) {
 		option (google.api.http) = {
 			get: "/v1alpha1/tables"
+		};
+
+	}
+	rpc GetWorkspace(google.area120.tables.v1alpha1.GetWorkspaceRequest) returns (google.area120.tables.v1alpha1.Workspace) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=workspaces/*}"
+		};
+
+	}
+	rpc ListWorkspaces(google.area120.tables.v1alpha1.ListWorkspacesRequest) returns (google.area120.tables.v1alpha1.ListWorkspacesResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha1/workspaces"
 		};
 
 	}
@@ -90,12 +103,22 @@ service TablesService {
 		};
 
 	}
+	rpc BatchDeleteRows(google.area120.tables.v1alpha1.BatchDeleteRowsRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=tables/*}/rows:batchDelete"
+			body: "*"
+		};
+
+	}
 }
 
 message GetTableRequest {
 
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "area120tables.googleapis.com/Table"
+		}
 	];
 }
 
@@ -111,10 +134,35 @@ message ListTablesResponse {
 	string next_page_token = 2;
 }
 
+message GetWorkspaceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "area120tables.googleapis.com/Workspace"
+		}
+	];
+}
+
+message ListWorkspacesRequest {
+
+	int32 page_size = 1;
+	string page_token = 2;
+}
+
+message ListWorkspacesResponse {
+
+	repeated Workspace workspaces = 1;
+	string next_page_token = 2;
+}
+
 message GetRowRequest {
 
 	string name = 1 [
 		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "area120tables.googleapis.com/Row"
+		}
 	];
 	View view = 2 [
 		(google.api.field_behavior) = OPTIONAL
@@ -129,6 +177,9 @@ message ListRowsRequest {
 	int32 page_size = 2;
 	string page_token = 3;
 	View view = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 5 [
 		(google.api.field_behavior) = OPTIONAL
 	];
 }
@@ -203,6 +254,22 @@ message DeleteRowRequest {
 	];
 }
 
+message BatchDeleteRowsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "area120tables.googleapis.com/Table"
+		}
+	];
+	repeated string names = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "area120tables.googleapis.com/Row"
+		}
+	];
+}
+
 message Table {
 	option (google.api.resource) = {
 		type: "area120tables.googleapis.com/Table"
@@ -219,6 +286,32 @@ message ColumnDescription {
 	string name = 1;
 	string data_type = 2;
 	string id = 3;
+	repeated LabeledItem labels = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	RelationshipDetails relationship_details = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LookupDetails lookup_details = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message LabeledItem {
+
+	string name = 1;
+	string id = 2;
+}
+
+message RelationshipDetails {
+
+	string linked_table = 1;
+}
+
+message LookupDetails {
+
+	string relationship_column = 1;
+	string relationship_column_id = 2;
 }
 
 message Row {
@@ -229,4 +322,15 @@ message Row {
 
 	string name = 1;
 	map<string, google.protobuf.Value> values = 2;
+}
+
+message Workspace {
+	option (google.api.resource) = {
+		type: "area120tables.googleapis.com/Workspace"
+		pattern: ["workspaces/{workspace}"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	repeated Table tables = 3;
 }

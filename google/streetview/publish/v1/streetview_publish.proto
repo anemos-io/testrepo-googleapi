@@ -25,6 +25,7 @@ service StreetViewPublishService {
 
 	}
 	rpc CreatePhoto(google.streetview.publish.v1.CreatePhotoRequest) returns (google.streetview.publish.v1.Photo) {
+		option (google.api.method_signature) = "photo";
 		option (google.api.http) = {
 			post: "/v1/photo"
 			body: "photo"
@@ -32,24 +33,28 @@ service StreetViewPublishService {
 
 	}
 	rpc GetPhoto(google.streetview.publish.v1.GetPhotoRequest) returns (google.streetview.publish.v1.Photo) {
+		option (google.api.method_signature) = "photo_id,view";
 		option (google.api.http) = {
 			get: "/v1/photo/{photo_id}"
 		};
 
 	}
 	rpc BatchGetPhotos(google.streetview.publish.v1.BatchGetPhotosRequest) returns (google.streetview.publish.v1.BatchGetPhotosResponse) {
+		option (google.api.method_signature) = "photo_ids,view";
 		option (google.api.http) = {
 			get: "/v1/photos:batchGet"
 		};
 
 	}
 	rpc ListPhotos(google.streetview.publish.v1.ListPhotosRequest) returns (google.streetview.publish.v1.ListPhotosResponse) {
+		option (google.api.method_signature) = "view,filter";
 		option (google.api.http) = {
 			get: "/v1/photos"
 		};
 
 	}
 	rpc UpdatePhoto(google.streetview.publish.v1.UpdatePhotoRequest) returns (google.streetview.publish.v1.Photo) {
+		option (google.api.method_signature) = "photo,update_mask";
 		option (google.api.http) = {
 			put: "/v1/photo/{photo.photo_id.id}"
 			body: "photo"
@@ -57,6 +62,7 @@ service StreetViewPublishService {
 
 	}
 	rpc BatchUpdatePhotos(google.streetview.publish.v1.BatchUpdatePhotosRequest) returns (google.streetview.publish.v1.BatchUpdatePhotosResponse) {
+		option (google.api.method_signature) = "update_photo_requests";
 		option (google.api.http) = {
 			post: "/v1/photos:batchUpdate"
 			body: "*"
@@ -64,12 +70,14 @@ service StreetViewPublishService {
 
 	}
 	rpc DeletePhoto(google.streetview.publish.v1.DeletePhotoRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "photo_id";
 		option (google.api.http) = {
 			delete: "/v1/photo/{photo_id}"
 		};
 
 	}
 	rpc BatchDeletePhotos(google.streetview.publish.v1.BatchDeletePhotosRequest) returns (google.streetview.publish.v1.BatchDeletePhotosResponse) {
+		option (google.api.method_signature) = "photo_ids";
 		option (google.api.http) = {
 			post: "/v1/photos:batchDelete"
 			body: "*"

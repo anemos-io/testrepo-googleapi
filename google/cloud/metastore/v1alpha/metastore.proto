@@ -9,6 +9,8 @@ import "google/api/resource.proto";
 import "google/longrunning/operations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/dayofweek.proto";
 
 option java_package = "com.google.cloud.metastore.v1alpha";
 option java_outer_classname = "MetastoreProto";
@@ -111,6 +113,66 @@ service DataprocMetastore {
 		};
 
 	}
+	rpc ExportMetadata(google.cloud.metastore.v1alpha.ExportMetadataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "MetadataExport"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1alpha/{service=projects/*/locations/*/services/*}:exportMetadata"
+			body: "*"
+		};
+
+	}
+	rpc RestoreService(google.cloud.metastore.v1alpha.RestoreServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Restore"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "service,backup";
+		option (google.api.http) = {
+			post: "/v1alpha/{service=projects/*/locations/*/services/*}:restore"
+			body: "*"
+		};
+
+	}
+	rpc ListBackups(google.cloud.metastore.v1alpha.ListBackupsRequest) returns (google.cloud.metastore.v1alpha.ListBackupsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/locations/*/services/*}/backups"
+		};
+
+	}
+	rpc GetBackup(google.cloud.metastore.v1alpha.GetBackupRequest) returns (google.cloud.metastore.v1alpha.Backup) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/locations/*/services/*/backups/*}"
+		};
+
+	}
+	rpc CreateBackup(google.cloud.metastore.v1alpha.CreateBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Backup"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,backup,backup_id";
+		option (google.api.http) = {
+			post: "/v1alpha/{parent=projects/*/locations/*/services/*}/backups"
+			body: "backup"
+		};
+
+	}
+	rpc DeleteBackup(google.cloud.metastore.v1alpha.DeleteBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha/{name=projects/*/locations/*/services/*/backups/*}"
+		};
+
+	}
 }
 
 message Service {
@@ -134,9 +196,20 @@ message Service {
 	enum Tier {
 
 		TIER_UNSPECIFIED = 0;
+		DEVELOPER = 1;
 		ENTERPRISE = 3;
 	}
 
+	enum ReleaseChannel {
+
+		RELEASE_CHANNEL_UNSPECIFIED = 0;
+		CANARY = 1;
+		STABLE = 2;
+	}
+
+	oneof metastore_config {
+		HiveMetastoreConfig hive_metastore_config = 5;
+	}
 	string name = 1 [
 		(google.api.field_behavior) = IMMUTABLE
 	];
@@ -147,9 +220,6 @@ message Service {
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	map<string, string> labels = 4;
-	oneof metastore_config {
-		HiveMetastoreConfig hive_metastore_config = 5;
-	}
 	string network = 7 [
 		(google.api.field_behavior) = IMMUTABLE
 		(google.api.resource_reference) = {
@@ -170,6 +240,33 @@ message Service {
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
 	Tier tier = 13;
+	MetadataIntegration metadata_integration = 14;
+	MaintenanceWindow maintenance_window = 15;
+	string uid = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	MetadataManagementActivity metadata_management_activity = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ReleaseChannel release_channel = 19 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}
+
+message MetadataIntegration {
+
+	DataCatalogConfig data_catalog_config = 1;
+}
+
+message DataCatalogConfig {
+
+	bool enabled = 2;
+}
+
+message MaintenanceWindow {
+
+	google.protobuf.Int32Value hour_of_day = 1;
+	google.type.DayOfWeek day_of_week = 2;
 }
 
 message HiveMetastoreConfig {
@@ -195,6 +292,16 @@ message Secret {
 	}
 }
 
+message MetadataManagementActivity {
+
+	repeated MetadataExport metadata_exports = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Restore restores = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
 message MetadataImport {
 	option (google.api.resource) = {
 		type: "metastore.googleapis.com/MetadataImport"
@@ -209,9 +316,16 @@ message MetadataImport {
 			MYSQL = 1;
 		}
 
-		DatabaseType database_type = 1;
+		DatabaseType database_type = 1 [
+			deprecated = true
+		];
 		string gcs_uri = 2;
-		string source_database = 3;
+		string source_database = 3 [
+			deprecated = true
+		];
+		Type type = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
 	}
 
 	enum State {
@@ -223,6 +337,11 @@ message MetadataImport {
 		FAILED = 4;
 	}
 
+	oneof metadata {
+		DatabaseDump database_dump = 6 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
 	string name = 1 [
 		(google.api.field_behavior) = IMMUTABLE
 	];
@@ -236,11 +355,110 @@ message MetadataImport {
 	State state = 5 [
 		(google.api.field_behavior) = OUTPUT_ONLY
 	];
-	oneof metadata {
-		DatabaseDump database_dump = 6 [
-			(google.api.field_behavior) = IMMUTABLE
+}
+
+message MetadataExport {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+		CANCELLED = 4;
+	}
+
+	oneof destination {
+		string destination_gcs_uri = 4 [
+			(google.api.field_behavior) = OUTPUT_ONLY
 		];
 	}
+	google.protobuf.Timestamp start_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Type database_dump_type = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Backup {
+	option (google.api.resource) = {
+		type: "metastore.googleapis.com/Backup"
+		pattern: ["projects/{project}/locations/{location}/services/{service}/backups/{backup}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		DELETING = 2;
+		ACTIVE = 3;
+		FAILED = 4;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Service service_revision = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 6;
+}
+
+message Restore {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		SUCCEEDED = 2;
+		FAILED = 3;
+		CANCELLED = 4;
+	}
+
+	enum RestoreType {
+
+		RESTORE_TYPE_UNSPECIFIED = 0;
+		FULL = 1;
+		METADATA_ONLY = 2;
+	}
+
+	google.protobuf.Timestamp start_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string backup = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Backup"
+		}
+	];
+	RestoreType type = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string details = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 }
 
 message ListServicesRequest {
@@ -398,6 +616,118 @@ message UpdateMetadataImportRequest {
 	];
 }
 
+message ListBackupsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListBackupsResponse {
+
+	repeated Backup backups = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Backup"
+		}
+	];
+}
+
+message CreateBackupRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	string backup_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Backup backup = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Backup"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ExportMetadataRequest {
+
+	oneof destination {
+		string destination_gcs_folder = 2;
+	}
+	string service = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Type database_dump_type = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RestoreServiceRequest {
+
+	string service = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Service"
+		}
+	];
+	string backup = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "metastore.googleapis.com/Backup"
+		}
+	];
+	RestoreType restore_type = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
 message OperationMetadata {
 
 	google.protobuf.Timestamp create_time = 1 [
@@ -432,4 +762,14 @@ message LocationMetadata {
 	}
 
 	repeated HiveMetastoreVersion supported_hive_metastore_versions = 1;
+}
+
+message DatabaseDumpSpec {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		MYSQL = 1;
+	}
+
 }

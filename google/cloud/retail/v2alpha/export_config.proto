@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.cloud.retail.v2alpha;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.retail.v2alpha";
+option java_outer_classname = "ExportConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/retail/v2alpha;retail";
+option objc_class_prefix = "RETAIL";
+option csharp_namespace = "Google.Cloud.Retail.V2Alpha";
+option php_namespace = "Google\\Cloud\\Retail\\V2alpha";
+option ruby_package = "Google::Cloud::Retail::V2alpha";
+
+
+message ExportErrorsConfig {
+
+	oneof destination {
+		string gcs_prefix = 1;
+	}
+}
+
+message ExportMetadata {
+
+	google.protobuf.Timestamp create_time = 1;
+	google.protobuf.Timestamp update_time = 2;
+}
+
+message ExportProductsResponse {
+
+	repeated google.rpc.Status error_samples = 1;
+	ExportErrorsConfig errors_config = 2;
+}
+
+message ExportUserEventsResponse {
+
+	repeated google.rpc.Status error_samples = 1;
+	ExportErrorsConfig errors_config = 2;
+}

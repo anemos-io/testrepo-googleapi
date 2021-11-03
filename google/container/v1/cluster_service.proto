@@ -131,6 +131,7 @@ service ClusterManager {
 
 	}
 	rpc SetLocations(google.container.v1.SetLocationsRequest) returns (google.container.v1.Operation) {
+		option deprecated = true;
 		option (google.api.method_signature) = "project_id,zone,cluster_id,locations";
 		option (google.api.method_signature) = "name,locations";
 		option (google.api.http) = {
@@ -190,6 +191,7 @@ service ClusterManager {
 	}
 	rpc GetOperation(google.container.v1.GetOperationRequest) returns (google.container.v1.Operation) {
 		option (google.api.method_signature) = "project_id,zone,operation_id";
+		option (google.api.method_signature) = "name";
 		option (google.api.http) = {
 			get: "/v1/{name=projects/*/locations/*/operations/*}"
 			additional_bindings: {
@@ -219,6 +221,12 @@ service ClusterManager {
 			additional_bindings: {
 				get: "/v1/projects/{project_id}/zones/{zone}/serverconfig"
 			}
+		};
+
+	}
+	rpc GetJSONWebKeys(google.container.v1.GetJSONWebKeysRequest) returns (google.container.v1.GetJSONWebKeysResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/clusters/*}/jwks"
 		};
 
 	}
@@ -402,14 +410,45 @@ message NodeConfig {
 	repeated AcceleratorConfig accelerators = 11;
 	string disk_type = 12;
 	string min_cpu_platform = 13;
+	WorkloadMetadataConfig workload_metadata_config = 14;
 	repeated NodeTaint taints = 15;
+	SandboxConfig sandbox_config = 17;
+	string node_group = 18;
+	ReservationAffinity reservation_affinity = 19;
 	ShieldedInstanceConfig shielded_instance_config = 20;
+	string boot_disk_kms_key = 23;
 }
 
 message ShieldedInstanceConfig {
 
 	bool enable_secure_boot = 1;
 	bool enable_integrity_monitoring = 2;
+}
+
+message SandboxConfig {
+
+	enum Type {
+
+		UNSPECIFIED = 0;
+		GVISOR = 1;
+	}
+
+	Type type = 2;
+}
+
+message ReservationAffinity {
+
+	enum Type {
+
+		UNSPECIFIED = 0;
+		NO_RESERVATION = 1;
+		ANY_RESERVATION = 2;
+		SPECIFIC_RESERVATION = 3;
+	}
+
+	Type consume_reservation_type = 1;
+	string key = 2;
+	repeated string values = 3;
 }
 
 message NodeTaint {
@@ -429,8 +468,12 @@ message NodeTaint {
 
 message MasterAuth {
 
-	string username = 1;
-	string password = 2;
+	string username = 1 [
+		deprecated = true
+	];
+	string password = 2 [
+		deprecated = true
+	];
 	ClientCertificateConfig client_certificate_config = 3;
 	string cluster_ca_certificate = 100;
 	string client_certificate = 101;
@@ -451,6 +494,8 @@ message AddonsConfig {
 	];
 	NetworkPolicyConfig network_policy_config = 4;
 	CloudRunConfig cloud_run_config = 7;
+	DnsCacheConfig dns_cache_config = 8;
+	ConfigConnectorConfig config_connector_config = 10;
 }
 
 message HttpLoadBalancing {
@@ -473,6 +518,16 @@ message NetworkPolicyConfig {
 	bool disabled = 1;
 }
 
+message DnsCacheConfig {
+
+	bool enabled = 1;
+}
+
+message PrivateClusterMasterGlobalAccessConfig {
+
+	bool enabled = 1;
+}
+
 message PrivateClusterConfig {
 
 	bool enable_private_nodes = 1;
@@ -480,6 +535,8 @@ message PrivateClusterConfig {
 	string master_ipv4_cidr_block = 3;
 	string private_endpoint = 4;
 	string public_endpoint = 5;
+	string peering_name = 7;
+	PrivateClusterMasterGlobalAccessConfig master_global_access_config = 8;
 }
 
 message AuthenticatorGroupsConfig {
@@ -490,7 +547,20 @@ message AuthenticatorGroupsConfig {
 
 message CloudRunConfig {
 
+	enum LoadBalancerType {
+
+		LOAD_BALANCER_TYPE_UNSPECIFIED = 0;
+		LOAD_BALANCER_TYPE_EXTERNAL = 1;
+		LOAD_BALANCER_TYPE_INTERNAL = 2;
+	}
+
 	bool disabled = 1;
+	LoadBalancerType load_balancer_type = 3;
+}
+
+message ConfigConnectorConfig {
+
+	bool enabled = 1;
 }
 
 message MasterAuthorizedNetworksConfig {
@@ -547,6 +617,7 @@ message IPAllocationPolicy {
 	string node_ipv4_cidr_block = 10;
 	string services_ipv4_cidr_block = 11;
 	string tpu_ipv4_cidr_block = 13;
+	bool use_routes = 15;
 }
 
 message Cluster {
@@ -596,6 +667,9 @@ message Cluster {
 	PrivateClusterConfig private_cluster_config = 37;
 	DatabaseEncryption database_encryption = 38;
 	VerticalPodAutoscaling vertical_pod_autoscaling = 39;
+	ShieldedNodes shielded_nodes = 40;
+	ReleaseChannel release_channel = 41;
+	WorkloadIdentityConfig workload_identity_config = 43;
 	string self_link = 100;
 	string zone = 101 [
 		deprecated = true
@@ -608,7 +682,9 @@ message Cluster {
 	];
 	string create_time = 106;
 	Status status = 107;
-	string status_message = 108;
+	string status_message = 108 [
+		deprecated = true
+	];
 	int32 node_ipv4_cidr_size = 109;
 	string services_ipv4_cidr = 110;
 	repeated string instance_group_urls = 111 [
@@ -632,6 +708,8 @@ message ClusterUpdate {
 	string desired_node_pool_id = 7;
 	string desired_image_type = 8;
 	DatabaseEncryption desired_database_encryption = 46;
+	WorkloadIdentityConfig desired_workload_identity_config = 47;
+	ShieldedNodes desired_shielded_nodes = 48;
 	NodePoolAutoscaling desired_node_pool_autoscaling = 9;
 	repeated string desired_locations = 10;
 	MasterAuthorizedNetworksConfig desired_master_authorized_networks_config = 12;
@@ -640,7 +718,11 @@ message ClusterUpdate {
 	string desired_logging_service = 19;
 	ResourceUsageExportConfig desired_resource_usage_export_config = 21;
 	VerticalPodAutoscaling desired_vertical_pod_autoscaling = 22;
+	PrivateClusterConfig desired_private_cluster_config = 25;
 	IntraNodeVisibilityConfig desired_intra_node_visibility_config = 26;
+	DefaultSnatStatus desired_default_snat_status = 28;
+	ReleaseChannel desired_release_channel = 31;
+	AuthenticatorGroupsConfig desired_authenticator_groups_config = 63;
 	string desired_master_version = 100;
 }
 
@@ -683,14 +765,39 @@ message Operation {
 	Type operation_type = 3;
 	Status status = 4;
 	string detail = 8;
-	string status_message = 5;
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 	string self_link = 6;
 	string target_link = 7;
 	string location = 9;
 	string start_time = 10;
 	string end_time = 11;
+	OperationProgress progress = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
 	repeated StatusCondition cluster_conditions = 13;
 	repeated StatusCondition nodepool_conditions = 14;
+}
+
+message OperationProgress {
+
+	message Metric {
+
+		string name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		oneof value {
+			int64 int_value = 2;
+			double double_value = 3;
+			string string_value = 4;
+		}
+	}
+
+	string name = 1;
+	Status status = 2;
+	repeated Metric metrics = 3;
+	repeated OperationProgress stages = 4;
 }
 
 message CreateClusterRequest {
@@ -759,6 +866,9 @@ message UpdateNodePoolRequest {
 		(google.api.field_behavior) = REQUIRED
 	];
 	string name = 8;
+	repeated string locations = 13;
+	WorkloadMetadataConfig workload_metadata_config = 14;
+	UpgradeSettings upgrade_settings = 15;
 }
 
 message SetNodePoolAutoscalingRequest {
@@ -983,11 +1093,19 @@ message GetServerConfigRequest {
 
 message ServerConfig {
 
+	message ReleaseChannelConfig {
+
+		Channel channel = 1;
+		string default_version = 2;
+		repeated string valid_versions = 4;
+	}
+
 	string default_cluster_version = 1;
 	repeated string valid_node_versions = 3;
 	string default_image_type = 4;
 	repeated string valid_image_types = 5;
 	repeated string valid_master_versions = 6;
+	repeated ReleaseChannelConfig channels = 9;
 }
 
 message CreateNodePoolRequest {
@@ -1057,6 +1175,12 @@ message GetNodePoolRequest {
 
 message NodePool {
 
+	message UpgradeSettings {
+
+		int32 max_surge = 1;
+		int32 max_unavailable = 2;
+	}
+
 	enum Status {
 
 		STATUS_UNSPECIFIED = 0;
@@ -1071,16 +1195,20 @@ message NodePool {
 	string name = 1;
 	NodeConfig config = 2;
 	int32 initial_node_count = 3;
+	repeated string locations = 13;
 	string self_link = 100;
 	string version = 101;
 	repeated string instance_group_urls = 102;
 	Status status = 103;
-	string status_message = 104;
+	string status_message = 104 [
+		deprecated = true
+	];
 	NodePoolAutoscaling autoscaling = 4;
 	NodeManagement management = 5;
 	MaxPodsConstraint max_pods_constraint = 6;
 	repeated StatusCondition conditions = 105;
 	int32 pod_ipv4_cidr_size = 7;
+	UpgradeSettings upgrade_settings = 107;
 }
 
 message NodeManagement {
@@ -1203,6 +1331,14 @@ message AutoprovisioningNodePoolDefaults {
 
 	repeated string oauth_scopes = 1;
 	string service_account = 2;
+	UpgradeSettings upgrade_settings = 3;
+	NodeManagement management = 4;
+	string min_cpu_platform = 5;
+	int32 disk_size_gb = 6;
+	string disk_type = 7;
+	ShieldedInstanceConfig shielded_instance_config = 8;
+	string boot_disk_kms_key = 9;
+	string image_type = 10;
 }
 
 message ResourceLimit {
@@ -1292,6 +1428,18 @@ message AcceleratorConfig {
 	string accelerator_type = 2;
 }
 
+message WorkloadMetadataConfig {
+
+	enum Mode {
+
+		MODE_UNSPECIFIED = 0;
+		GCE_METADATA = 1;
+		GKE_METADATA = 2;
+	}
+
+	Mode mode = 2;
+}
+
 message SetNetworkPolicyRequest {
 
 	string project_id = 1 [
@@ -1347,6 +1495,59 @@ message NetworkConfig {
 	string network = 1;
 	string subnetwork = 2;
 	bool enable_intra_node_visibility = 5;
+	DefaultSnatStatus default_snat_status = 7;
+}
+
+message GetOpenIDConfigRequest {
+
+	string parent = 1;
+}
+
+message GetOpenIDConfigResponse {
+
+	string issuer = 1;
+	string jwks_uri = 2;
+	repeated string response_types_supported = 3;
+	repeated string subject_types_supported = 4;
+	repeated string id_token_signing_alg_values_supported = 5;
+	repeated string claims_supported = 6;
+	repeated string grant_types = 7;
+}
+
+message GetJSONWebKeysRequest {
+
+	string parent = 1;
+}
+
+message Jwk {
+
+	string kty = 1;
+	string alg = 2;
+	string use = 3;
+	string kid = 4;
+	string n = 5;
+	string e = 6;
+	string x = 7;
+	string y = 8;
+	string crv = 9;
+}
+
+message GetJSONWebKeysResponse {
+
+	repeated Jwk keys = 1;
+}
+
+message ReleaseChannel {
+
+	enum Channel {
+
+		UNSPECIFIED = 0;
+		RAPID = 1;
+		REGULAR = 2;
+		STABLE = 3;
+	}
+
+	Channel channel = 1;
 }
 
 message IntraNodeVisibilityConfig {
@@ -1357,6 +1558,11 @@ message IntraNodeVisibilityConfig {
 message MaxPodsConstraint {
 
 	int64 max_pods_per_node = 1;
+}
+
+message WorkloadIdentityConfig {
+
+	string workload_pool = 2;
 }
 
 message DatabaseEncryption {
@@ -1429,6 +1635,16 @@ message ResourceUsageExportConfig {
 }
 
 message VerticalPodAutoscaling {
+
+	bool enabled = 1;
+}
+
+message DefaultSnatStatus {
+
+	bool disabled = 1;
+}
+
+message ShieldedNodes {
 
 	bool enabled = 1;
 }

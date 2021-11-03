@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package google.ads.googleads.v8.resources;
+
+import "google/ads/googleads/v8/common/policy.proto";
+import "google/ads/googleads/v8/enums/ad_group_ad_status.proto";
+import "google/ads/googleads/v8/enums/ad_strength.proto";
+import "google/ads/googleads/v8/enums/policy_approval_status.proto";
+import "google/ads/googleads/v8/enums/policy_review_status.proto";
+import "google/ads/googleads/v8/resources/ad.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v8.resources";
+option java_outer_classname = "AdGroupAdProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v8/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V8.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V8\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V8::Resources";
+
+
+message AdGroupAd {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AdGroupAd"
+		pattern: ["customers/{customer_id}/adGroupAds/{ad_group_id}~{ad_id}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupAd"
+		}
+	];
+	google.ads.googleads.v8.enums.AdGroupAdStatusEnum.AdGroupAdStatus status = 3;
+	oneof _ad_group {
+		string ad_group = 9 [
+			(google.api.field_behavior) = IMMUTABLE
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/AdGroup"
+			}
+		];
+	}
+	google.ads.googleads.v8.resources.Ad ad = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	AdGroupAdPolicySummary policy_summary = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.AdStrengthEnum.AdStrength ad_strength = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string action_items = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string labels = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupAdLabel"
+		}
+	];
+}
+
+message AdGroupAdPolicySummary {
+
+	repeated google.ads.googleads.v8.common.PolicyTopicEntry policy_topic_entries = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.PolicyReviewStatusEnum.PolicyReviewStatus review_status = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v8.enums.PolicyApprovalStatusEnum.PolicyApprovalStatus approval_status = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
