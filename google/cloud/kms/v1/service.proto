@@ -1,0 +1,623 @@
+syntax = "proto3";
+
+package google.cloud.kms.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/kms/v1/resources.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.cloud.kms.v1";
+option java_outer_classname = "KmsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/kms/v1;kms";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Kms.V1";
+option php_namespace = "Google\\Cloud\\Kms\\V1";
+
+
+service KeyManagementService {
+	option (google.api.default_host) = "cloudkms.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloudkms";
+
+	rpc ListKeyRings(google.cloud.kms.v1.ListKeyRingsRequest) returns (google.cloud.kms.v1.ListKeyRingsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/keyRings"
+		};
+
+	}
+	rpc ListCryptoKeys(google.cloud.kms.v1.ListCryptoKeysRequest) returns (google.cloud.kms.v1.ListCryptoKeysResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/keyRings/*}/cryptoKeys"
+		};
+
+	}
+	rpc ListCryptoKeyVersions(google.cloud.kms.v1.ListCryptoKeyVersionsRequest) returns (google.cloud.kms.v1.ListCryptoKeyVersionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/keyRings/*/cryptoKeys/*}/cryptoKeyVersions"
+		};
+
+	}
+	rpc ListImportJobs(google.cloud.kms.v1.ListImportJobsRequest) returns (google.cloud.kms.v1.ListImportJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/keyRings/*}/importJobs"
+		};
+
+	}
+	rpc GetKeyRing(google.cloud.kms.v1.GetKeyRingRequest) returns (google.cloud.kms.v1.KeyRing) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/keyRings/*}"
+		};
+
+	}
+	rpc GetCryptoKey(google.cloud.kms.v1.GetCryptoKeyRequest) returns (google.cloud.kms.v1.CryptoKey) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*}"
+		};
+
+	}
+	rpc GetCryptoKeyVersion(google.cloud.kms.v1.GetCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}"
+		};
+
+	}
+	rpc GetPublicKey(google.cloud.kms.v1.GetPublicKeyRequest) returns (google.cloud.kms.v1.PublicKey) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}/publicKey"
+		};
+
+	}
+	rpc GetImportJob(google.cloud.kms.v1.GetImportJobRequest) returns (google.cloud.kms.v1.ImportJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/keyRings/*/importJobs/*}"
+		};
+
+	}
+	rpc CreateKeyRing(google.cloud.kms.v1.CreateKeyRingRequest) returns (google.cloud.kms.v1.KeyRing) {
+		option (google.api.method_signature) = "parent,key_ring_id,key_ring";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/keyRings"
+			body: "key_ring"
+		};
+
+	}
+	rpc CreateCryptoKey(google.cloud.kms.v1.CreateCryptoKeyRequest) returns (google.cloud.kms.v1.CryptoKey) {
+		option (google.api.method_signature) = "parent,crypto_key_id,crypto_key";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/keyRings/*}/cryptoKeys"
+			body: "crypto_key"
+		};
+
+	}
+	rpc CreateCryptoKeyVersion(google.cloud.kms.v1.CreateCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
+		option (google.api.method_signature) = "parent,crypto_key_version";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/keyRings/*/cryptoKeys/*}/cryptoKeyVersions"
+			body: "crypto_key_version"
+		};
+
+	}
+	rpc ImportCryptoKeyVersion(google.cloud.kms.v1.ImportCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/keyRings/*/cryptoKeys/*}/cryptoKeyVersions:import"
+			body: "*"
+		};
+
+	}
+	rpc CreateImportJob(google.cloud.kms.v1.CreateImportJobRequest) returns (google.cloud.kms.v1.ImportJob) {
+		option (google.api.method_signature) = "parent,import_job_id,import_job";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/keyRings/*}/importJobs"
+			body: "import_job"
+		};
+
+	}
+	rpc UpdateCryptoKey(google.cloud.kms.v1.UpdateCryptoKeyRequest) returns (google.cloud.kms.v1.CryptoKey) {
+		option (google.api.method_signature) = "crypto_key,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{crypto_key.name=projects/*/locations/*/keyRings/*/cryptoKeys/*}"
+			body: "crypto_key"
+		};
+
+	}
+	rpc UpdateCryptoKeyVersion(google.cloud.kms.v1.UpdateCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
+		option (google.api.method_signature) = "crypto_key_version,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{crypto_key_version.name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}"
+			body: "crypto_key_version"
+		};
+
+	}
+	rpc Encrypt(google.cloud.kms.v1.EncryptRequest) returns (google.cloud.kms.v1.EncryptResponse) {
+		option (google.api.method_signature) = "name,plaintext";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/**}:encrypt"
+			body: "*"
+		};
+
+	}
+	rpc Decrypt(google.cloud.kms.v1.DecryptRequest) returns (google.cloud.kms.v1.DecryptResponse) {
+		option (google.api.method_signature) = "name,ciphertext";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*}:decrypt"
+			body: "*"
+		};
+
+	}
+	rpc AsymmetricSign(google.cloud.kms.v1.AsymmetricSignRequest) returns (google.cloud.kms.v1.AsymmetricSignResponse) {
+		option (google.api.method_signature) = "name,digest";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:asymmetricSign"
+			body: "*"
+		};
+
+	}
+	rpc AsymmetricDecrypt(google.cloud.kms.v1.AsymmetricDecryptRequest) returns (google.cloud.kms.v1.AsymmetricDecryptResponse) {
+		option (google.api.method_signature) = "name,ciphertext";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:asymmetricDecrypt"
+			body: "*"
+		};
+
+	}
+	rpc UpdateCryptoKeyPrimaryVersion(google.cloud.kms.v1.UpdateCryptoKeyPrimaryVersionRequest) returns (google.cloud.kms.v1.CryptoKey) {
+		option (google.api.method_signature) = "name,crypto_key_version_id";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*}:updatePrimaryVersion"
+			body: "*"
+		};
+
+	}
+	rpc DestroyCryptoKeyVersion(google.cloud.kms.v1.DestroyCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:destroy"
+			body: "*"
+		};
+
+	}
+	rpc RestoreCryptoKeyVersion(google.cloud.kms.v1.RestoreCryptoKeyVersionRequest) returns (google.cloud.kms.v1.CryptoKeyVersion) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*}:restore"
+			body: "*"
+		};
+
+	}
+}
+
+message ListKeyRingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListCryptoKeysRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/KeyRing"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.kms.v1.CryptoKeyVersion.CryptoKeyVersionView version_view = 4;
+	string filter = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListCryptoKeyVersionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.kms.v1.CryptoKeyVersion.CryptoKeyVersionView view = 4;
+	string filter = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListImportJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/KeyRing"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListKeyRingsResponse {
+
+	repeated google.cloud.kms.v1.KeyRing key_rings = 1;
+	string next_page_token = 2;
+	int32 total_size = 3;
+}
+
+message ListCryptoKeysResponse {
+
+	repeated google.cloud.kms.v1.CryptoKey crypto_keys = 1;
+	string next_page_token = 2;
+	int32 total_size = 3;
+}
+
+message ListCryptoKeyVersionsResponse {
+
+	repeated google.cloud.kms.v1.CryptoKeyVersion crypto_key_versions = 1;
+	string next_page_token = 2;
+	int32 total_size = 3;
+}
+
+message ListImportJobsResponse {
+
+	repeated google.cloud.kms.v1.ImportJob import_jobs = 1;
+	string next_page_token = 2;
+	int32 total_size = 3;
+}
+
+message GetKeyRingRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/KeyRing"
+		}
+	];
+}
+
+message GetCryptoKeyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+}
+
+message GetCryptoKeyVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+}
+
+message GetPublicKeyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+}
+
+message GetImportJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/ImportJob"
+		}
+	];
+}
+
+message CreateKeyRingRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string key_ring_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.kms.v1.KeyRing key_ring = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateCryptoKeyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/KeyRing"
+		}
+	];
+	string crypto_key_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.kms.v1.CryptoKey crypto_key = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool skip_initial_version_creation = 5;
+}
+
+message CreateCryptoKeyVersionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+	google.cloud.kms.v1.CryptoKeyVersion crypto_key_version = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ImportCryptoKeyVersionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+	google.cloud.kms.v1.CryptoKeyVersion.CryptoKeyVersionAlgorithm algorithm = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string import_job = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof wrapped_key_material {
+		bytes rsa_aes_wrapped_key = 5;
+	}
+}
+
+message CreateImportJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/KeyRing"
+		}
+	];
+	string import_job_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.kms.v1.ImportJob import_job = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateCryptoKeyRequest {
+
+	google.cloud.kms.v1.CryptoKey crypto_key = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateCryptoKeyVersionRequest {
+
+	google.cloud.kms.v1.CryptoKeyVersion crypto_key_version = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message EncryptRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "*"
+		}
+	];
+	bytes plaintext = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bytes additional_authenticated_data = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Int64Value plaintext_crc32c = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Int64Value additional_authenticated_data_crc32c = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DecryptRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+	bytes ciphertext = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bytes additional_authenticated_data = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Int64Value ciphertext_crc32c = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Int64Value additional_authenticated_data_crc32c = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message AsymmetricSignRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+	Digest digest = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value digest_crc32c = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message AsymmetricDecryptRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+	bytes ciphertext = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value ciphertext_crc32c = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DecryptResponse {
+
+	bytes plaintext = 1;
+	google.protobuf.Int64Value plaintext_crc32c = 2;
+}
+
+message EncryptResponse {
+
+	string name = 1;
+	bytes ciphertext = 2;
+	google.protobuf.Int64Value ciphertext_crc32c = 4;
+	bool verified_plaintext_crc32c = 5;
+	bool verified_additional_authenticated_data_crc32c = 6;
+}
+
+message AsymmetricSignResponse {
+
+	bytes signature = 1;
+	google.protobuf.Int64Value signature_crc32c = 2;
+	bool verified_digest_crc32c = 3;
+	string name = 4;
+}
+
+message AsymmetricDecryptResponse {
+
+	bytes plaintext = 1;
+	google.protobuf.Int64Value plaintext_crc32c = 2;
+	bool verified_ciphertext_crc32c = 3;
+}
+
+message UpdateCryptoKeyPrimaryVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKey"
+		}
+	];
+	string crypto_key_version_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DestroyCryptoKeyVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+}
+
+message RestoreCryptoKeyVersionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		}
+	];
+}
+
+message Digest {
+
+	oneof digest {
+		bytes sha256 = 1;
+		bytes sha384 = 2;
+		bytes sha512 = 3;
+	}
+}
+
+message LocationMetadata {
+
+	bool hsm_available = 1;
+	bool ekm_available = 2;
+}

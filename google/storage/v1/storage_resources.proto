@@ -1,0 +1,333 @@
+syntax = "proto3";
+
+package google.storage.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.storage.v1";
+option java_outer_classname = "CloudStorageResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/storage/v1;storage";
+
+
+message Bucket {
+
+	message Billing {
+
+		bool requester_pays = 1;
+	}
+
+	message Cors {
+
+		repeated string origin = 1;
+		repeated string method = 2;
+		repeated string response_header = 3;
+		int32 max_age_seconds = 4;
+	}
+
+	message Encryption {
+
+		string default_kms_key_name = 1;
+	}
+
+	message IamConfiguration {
+
+		message UniformBucketLevelAccess {
+
+			bool enabled = 1;
+			google.protobuf.Timestamp locked_time = 2;
+		}
+
+		UniformBucketLevelAccess uniform_bucket_level_access = 1;
+	}
+
+	message Lifecycle {
+
+		message Rule {
+
+			message Action {
+
+				string type = 1;
+				string storage_class = 2;
+			}
+
+			message Condition {
+
+				int32 age = 1;
+				google.protobuf.Timestamp created_before = 2;
+				google.protobuf.BoolValue is_live = 3;
+				int32 num_newer_versions = 4;
+				repeated string matches_storage_class = 5;
+				string matches_pattern = 6;
+			}
+
+			Action action = 1;
+			Condition condition = 2;
+		}
+
+		repeated Rule rule = 1;
+	}
+
+	message Logging {
+
+		string log_bucket = 1;
+		string log_object_prefix = 2;
+	}
+
+	message RetentionPolicy {
+
+		google.protobuf.Timestamp effective_time = 1;
+		bool is_locked = 2;
+		int64 retention_period = 3;
+	}
+
+	message Versioning {
+
+		bool enabled = 1;
+	}
+
+	message Website {
+
+		string main_page_suffix = 1;
+		string not_found_page = 2;
+	}
+
+	repeated BucketAccessControl acl = 1;
+	repeated ObjectAccessControl default_object_acl = 2;
+	Lifecycle lifecycle = 3;
+	google.protobuf.Timestamp time_created = 4;
+	string id = 5;
+	string name = 6;
+	int64 project_number = 7;
+	int64 metageneration = 8;
+	repeated Cors cors = 9;
+	string location = 10;
+	string storage_class = 11;
+	string etag = 12;
+	google.protobuf.Timestamp updated = 13;
+	bool default_event_based_hold = 14;
+	map<string, string> labels = 15;
+	Website website = 16;
+	Versioning versioning = 17;
+	Logging logging = 18;
+	Owner owner = 19;
+	Encryption encryption = 20;
+	Billing billing = 21;
+	RetentionPolicy retention_policy = 22;
+	string location_type = 23;
+	IamConfiguration iam_configuration = 24;
+	repeated string zone_affinity = 25;
+}
+
+message BucketAccessControl {
+
+	string role = 1;
+	string etag = 2;
+	string id = 3;
+	string bucket = 4;
+	string entity = 6;
+	string entity_id = 7;
+	string email = 8;
+	string domain = 9;
+	ProjectTeam project_team = 10;
+}
+
+message ListBucketAccessControlsResponse {
+
+	repeated BucketAccessControl items = 1;
+}
+
+message ListBucketsResponse {
+
+	repeated Bucket items = 1;
+	string next_page_token = 2;
+}
+
+message Channel {
+
+	string id = 1;
+	string resource_id = 2;
+	string resource_uri = 3;
+	string token = 4;
+	google.protobuf.Timestamp expiration = 5;
+	string type = 6;
+	string address = 7;
+	map<string, string> params = 8;
+	bool payload = 9;
+}
+
+message ListChannelsResponse {
+
+	message Items {
+
+		string channel_id = 1;
+		string resource_id = 2;
+		string push_url = 3;
+		string subscriber_email = 4;
+		google.protobuf.Timestamp creation_time = 5;
+	}
+
+	repeated Items items = 1;
+}
+
+message ChecksummedData {
+
+	bytes content = 1;
+	google.protobuf.UInt32Value crc32c = 2;
+}
+
+message ObjectChecksums {
+
+	google.protobuf.UInt32Value crc32c = 1;
+	string md5_hash = 2;
+}
+
+message CommonEnums {
+
+	enum Projection {
+
+		PROJECTION_UNSPECIFIED = 0;
+		NO_ACL = 1;
+		FULL = 2;
+	}
+
+	enum PredefinedBucketAcl {
+
+		PREDEFINED_BUCKET_ACL_UNSPECIFIED = 0;
+		BUCKET_ACL_AUTHENTICATED_READ = 1;
+		BUCKET_ACL_PRIVATE = 2;
+		BUCKET_ACL_PROJECT_PRIVATE = 3;
+		BUCKET_ACL_PUBLIC_READ = 4;
+		BUCKET_ACL_PUBLIC_READ_WRITE = 5;
+	}
+
+	enum PredefinedObjectAcl {
+
+		PREDEFINED_OBJECT_ACL_UNSPECIFIED = 0;
+		OBJECT_ACL_AUTHENTICATED_READ = 1;
+		OBJECT_ACL_BUCKET_OWNER_FULL_CONTROL = 2;
+		OBJECT_ACL_BUCKET_OWNER_READ = 3;
+		OBJECT_ACL_PRIVATE = 4;
+		OBJECT_ACL_PROJECT_PRIVATE = 5;
+		OBJECT_ACL_PUBLIC_READ = 6;
+	}
+
+}
+
+message ContentRange {
+
+	int64 start = 1;
+	int64 end = 2;
+	int64 complete_length = 3;
+}
+
+message HmacKeyMetadata {
+
+	string id = 1;
+	string access_id = 2;
+	string project_id = 3;
+	string service_account_email = 4;
+	string state = 5;
+	google.protobuf.Timestamp time_created = 6;
+	google.protobuf.Timestamp updated = 7;
+	string etag = 8;
+}
+
+message Notification {
+
+	string topic = 1;
+	repeated string event_types = 2;
+	map<string, string> custom_attributes = 3;
+	string etag = 4;
+	string object_name_prefix = 5;
+	string payload_format = 6;
+	string id = 7;
+}
+
+message ListNotificationsResponse {
+
+	repeated Notification items = 1;
+}
+
+message Object {
+
+	message CustomerEncryption {
+
+		string encryption_algorithm = 1;
+		string key_sha256 = 2;
+	}
+
+	string content_encoding = 1;
+	string content_disposition = 2;
+	string cache_control = 3;
+	repeated ObjectAccessControl acl = 4;
+	string content_language = 5;
+	int64 metageneration = 6;
+	google.protobuf.Timestamp time_deleted = 7;
+	string content_type = 8;
+	int64 size = 9;
+	google.protobuf.Timestamp time_created = 10;
+	google.protobuf.UInt32Value crc32c = 11;
+	int32 component_count = 12;
+	string md5_hash = 13;
+	string etag = 14;
+	google.protobuf.Timestamp updated = 15;
+	string storage_class = 16;
+	string kms_key_name = 17;
+	google.protobuf.Timestamp time_storage_class_updated = 18;
+	bool temporary_hold = 19;
+	google.protobuf.Timestamp retention_expiration_time = 20;
+	map<string, string> metadata = 21;
+	google.protobuf.BoolValue event_based_hold = 29;
+	string name = 23;
+	string id = 24;
+	string bucket = 25;
+	int64 generation = 26;
+	Owner owner = 27;
+	CustomerEncryption customer_encryption = 28;
+}
+
+message ObjectAccessControl {
+
+	string role = 1;
+	string etag = 2;
+	string id = 3;
+	string bucket = 4;
+	string object = 5;
+	int64 generation = 6;
+	string entity = 7;
+	string entity_id = 8;
+	string email = 9;
+	string domain = 10;
+	ProjectTeam project_team = 11;
+}
+
+message ListObjectAccessControlsResponse {
+
+	repeated ObjectAccessControl items = 1;
+}
+
+message ListObjectsResponse {
+
+	repeated string prefixes = 1;
+	repeated Object items = 2;
+	string next_page_token = 3;
+}
+
+message ProjectTeam {
+
+	string project_number = 1;
+	string team = 2;
+}
+
+message ServiceAccount {
+
+	string email_address = 1;
+}
+
+message Owner {
+
+	string entity = 1;
+	string entity_id = 2;
+}

@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1;
+
+import "google/api/resource.proto";
+import "google/cloud/automl/v1/annotation_spec.proto";
+import "google/cloud/automl/v1/classification.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1";
+option java_outer_classname = "ImageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1;automl";
+option csharp_namespace = "Google.Cloud.AutoML.V1";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1";
+option ruby_package = "Google::Cloud::AutoML::V1";
+
+
+message ImageClassificationDatasetMetadata {
+
+	google.cloud.automl.v1.ClassificationType classification_type = 1;
+}
+
+message ImageObjectDetectionDatasetMetadata {
+
+}
+
+message ImageClassificationModelMetadata {
+
+	string base_model_id = 1;
+	int64 train_budget_milli_node_hours = 16;
+	int64 train_cost_milli_node_hours = 17;
+	string stop_reason = 5;
+	string model_type = 7;
+	double node_qps = 13;
+	int64 node_count = 14;
+}
+
+message ImageObjectDetectionModelMetadata {
+
+	string model_type = 1;
+	int64 node_count = 3;
+	double node_qps = 4;
+	string stop_reason = 5;
+	int64 train_budget_milli_node_hours = 6;
+	int64 train_cost_milli_node_hours = 7;
+}
+
+message ImageClassificationModelDeploymentMetadata {
+
+	int64 node_count = 1;
+}
+
+message ImageObjectDetectionModelDeploymentMetadata {
+
+	int64 node_count = 1;
+}

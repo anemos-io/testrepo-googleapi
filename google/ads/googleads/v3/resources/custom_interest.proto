@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.resources;
+
+import "google/ads/googleads/v3/enums/custom_interest_member_type.proto";
+import "google/ads/googleads/v3/enums/custom_interest_status.proto";
+import "google/ads/googleads/v3/enums/custom_interest_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.resources";
+option java_outer_classname = "CustomInterestProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V3::Resources";
+
+
+message CustomInterest {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/CustomInterest"
+		pattern: ["customers/{customer}/customInterests/{custom_interest}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomInterest"
+		}
+	];
+	google.protobuf.Int64Value id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v3.enums.CustomInterestStatusEnum.CustomInterestStatus status = 3;
+	google.protobuf.StringValue name = 4;
+	google.ads.googleads.v3.enums.CustomInterestTypeEnum.CustomInterestType type = 5;
+	google.protobuf.StringValue description = 6;
+	repeated CustomInterestMember members = 7;
+}
+
+message CustomInterestMember {
+
+	google.ads.googleads.v3.enums.CustomInterestMemberTypeEnum.CustomInterestMemberType member_type = 1;
+	google.protobuf.StringValue parameter = 2;
+}

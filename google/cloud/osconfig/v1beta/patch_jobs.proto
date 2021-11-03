@@ -1,0 +1,285 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1beta;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.osconfig.v1beta";
+option java_outer_classname = "PatchJobs";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1beta;osconfig";
+
+
+message ExecutePatchJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2;
+	PatchInstanceFilter instance_filter = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	PatchConfig patch_config = 4;
+	google.protobuf.Duration duration = 5;
+	bool dry_run = 6;
+	string display_name = 8;
+}
+
+message GetPatchJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListPatchJobInstanceDetailsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListPatchJobInstanceDetailsResponse {
+
+	repeated PatchJobInstanceDetails patch_job_instance_details = 1;
+	string next_page_token = 2;
+}
+
+message PatchJobInstanceDetails {
+
+	string name = 1;
+	string instance_system_id = 2;
+	PatchState state = 3;
+	string failure_reason = 4;
+	int64 attempt_count = 5;
+}
+
+message ListPatchJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListPatchJobsResponse {
+
+	repeated PatchJob patch_jobs = 1;
+	string next_page_token = 2;
+}
+
+message PatchJob {
+
+	message InstanceDetailsSummary {
+
+		int64 pending_instance_count = 1;
+		int64 inactive_instance_count = 2;
+		int64 notified_instance_count = 3;
+		int64 started_instance_count = 4;
+		int64 downloading_patches_instance_count = 5;
+		int64 applying_patches_instance_count = 6;
+		int64 rebooting_instance_count = 7;
+		int64 succeeded_instance_count = 8;
+		int64 succeeded_reboot_required_instance_count = 9;
+		int64 failed_instance_count = 10;
+		int64 acked_instance_count = 11;
+		int64 timed_out_instance_count = 12;
+		int64 pre_patch_step_instance_count = 13;
+		int64 post_patch_step_instance_count = 14;
+		int64 no_agent_detected_instance_count = 15;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		STARTED = 1;
+		INSTANCE_LOOKUP = 2;
+		PATCHING = 3;
+		SUCCEEDED = 4;
+		COMPLETED_WITH_ERRORS = 5;
+		CANCELED = 6;
+		TIMED_OUT = 7;
+	}
+
+	string name = 1;
+	string display_name = 14;
+	string description = 2;
+	google.protobuf.Timestamp create_time = 3;
+	google.protobuf.Timestamp update_time = 4;
+	State state = 5;
+	PatchInstanceFilter instance_filter = 13;
+	PatchConfig patch_config = 7;
+	google.protobuf.Duration duration = 8;
+	InstanceDetailsSummary instance_details_summary = 9;
+	bool dry_run = 10;
+	string error_message = 11;
+	double percent_complete = 12;
+	string patch_deployment = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message PatchConfig {
+
+	enum RebootConfig {
+
+		REBOOT_CONFIG_UNSPECIFIED = 0;
+		DEFAULT = 1;
+		ALWAYS = 2;
+		NEVER = 3;
+	}
+
+	RebootConfig reboot_config = 1;
+	AptSettings apt = 3;
+	YumSettings yum = 4;
+	GooSettings goo = 5;
+	ZypperSettings zypper = 6;
+	WindowsUpdateSettings windows_update = 7;
+	ExecStep pre_step = 8;
+	ExecStep post_step = 9;
+}
+
+message Instance {
+
+	enum PatchState {
+
+		PATCH_STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		INACTIVE = 2;
+		NOTIFIED = 3;
+		STARTED = 4;
+		DOWNLOADING_PATCHES = 5;
+		APPLYING_PATCHES = 6;
+		REBOOTING = 7;
+		SUCCEEDED = 8;
+		SUCCEEDED_REBOOT_REQUIRED = 9;
+		FAILED = 10;
+		ACKED = 11;
+		TIMED_OUT = 12;
+		RUNNING_PRE_PATCH_STEP = 13;
+		RUNNING_POST_PATCH_STEP = 14;
+		NO_AGENT_DETECTED = 15;
+	}
+
+}
+
+message CancelPatchJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message AptSettings {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		DIST = 1;
+		UPGRADE = 2;
+	}
+
+	Type type = 1;
+	repeated string excludes = 2;
+	repeated string exclusive_packages = 3;
+}
+
+message YumSettings {
+
+	bool security = 1;
+	bool minimal = 2;
+	repeated string excludes = 3;
+	repeated string exclusive_packages = 4;
+}
+
+message GooSettings {
+
+}
+
+message ZypperSettings {
+
+	bool with_optional = 1;
+	bool with_update = 2;
+	repeated string categories = 3;
+	repeated string severities = 4;
+	repeated string excludes = 5;
+	repeated string exclusive_patches = 6;
+}
+
+message WindowsUpdateSettings {
+
+	enum Classification {
+
+		CLASSIFICATION_UNSPECIFIED = 0;
+		CRITICAL = 1;
+		SECURITY = 2;
+		DEFINITION = 3;
+		DRIVER = 4;
+		FEATURE_PACK = 5;
+		SERVICE_PACK = 6;
+		TOOL = 7;
+		UPDATE_ROLLUP = 8;
+		UPDATE = 9;
+	}
+
+	repeated Classification classifications = 1;
+	repeated string excludes = 2;
+	repeated string exclusive_patches = 3;
+}
+
+message ExecStep {
+
+	ExecStepConfig linux_exec_step_config = 1;
+	ExecStepConfig windows_exec_step_config = 2;
+}
+
+message ExecStepConfig {
+
+	enum Interpreter {
+
+		INTERPRETER_UNSPECIFIED = 0;
+		SHELL = 1;
+		POWERSHELL = 2;
+	}
+
+	oneof executable {
+		string local_path = 1;
+		GcsObject gcs_object = 2;
+	}
+	repeated int32 allowed_success_codes = 3;
+	Interpreter interpreter = 4;
+}
+
+message GcsObject {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation_number = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PatchInstanceFilter {
+
+	message GroupLabel {
+
+		map<string, string> labels = 1;
+	}
+
+	bool all = 1;
+	repeated GroupLabel group_labels = 2;
+	repeated string zones = 3;
+	repeated string instances = 4;
+	repeated string instance_name_prefixes = 5;
+}

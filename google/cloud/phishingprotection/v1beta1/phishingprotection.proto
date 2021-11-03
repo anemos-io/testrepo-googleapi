@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.phishingprotection.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.phishingprotection.v1beta1";
+option java_outer_classname = "PhishingProtectionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/phishingprotection/v1beta1;phishingprotection";
+option objc_class_prefix = "GCPP";
+option csharp_namespace = "Google.Cloud.PhishingProtection.V1Beta1";
+option php_namespace = "Google\\Cloud\\PhishingProtection\\V1beta1";
+option ruby_package = "Google::Cloud::PhishingProtection::V1beta1";
+
+
+service PhishingProtectionServiceV1Beta1 {
+	option (google.api.default_host) = "phishingprotection.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ReportPhishing(google.cloud.phishingprotection.v1beta1.ReportPhishingRequest) returns (google.cloud.phishingprotection.v1beta1.ReportPhishingResponse) {
+		option (google.api.method_signature) = "parent,uri";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/phishing:report"
+			body: "*"
+		};
+
+	}
+}
+
+message ReportPhishingRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string uri = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReportPhishingResponse {
+
+}

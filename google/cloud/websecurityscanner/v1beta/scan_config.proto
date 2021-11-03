@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1beta;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/websecurityscanner/v1beta/scan_run.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.websecurityscanner.v1beta";
+option java_outer_classname = "ScanConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1beta;websecurityscanner";
+option php_namespace = "Google\\Cloud\\WebSecurityScanner\\V1beta";
+
+
+message ScanConfig {
+	option (google.api.resource) = {
+		type: "websecurityscanner.googleapis.com/ScanConfig"
+		pattern: ["projects/{project}/scanConfigs/{scan_config}"]
+	};
+
+	message Authentication {
+
+		message GoogleAccount {
+
+			string username = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			string password = 2 [
+				(google.api.field_behavior) = REQUIRED,
+				(google.api.field_behavior) = INPUT_ONLY
+			];
+		}
+
+		message CustomAccount {
+
+			string username = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			string password = 2 [
+				(google.api.field_behavior) = REQUIRED,
+				(google.api.field_behavior) = INPUT_ONLY
+			];
+			string login_url = 3 [
+				(google.api.field_behavior) = REQUIRED
+			];
+		}
+
+		oneof authentication {
+			GoogleAccount google_account = 1;
+			CustomAccount custom_account = 2;
+		}
+	}
+
+	message Schedule {
+
+		google.protobuf.Timestamp schedule_time = 1;
+		int32 interval_duration_days = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	enum UserAgent {
+
+		USER_AGENT_UNSPECIFIED = 0;
+		CHROME_LINUX = 1;
+		CHROME_ANDROID = 2;
+		SAFARI_IPHONE = 3;
+	}
+
+	enum TargetPlatform {
+
+		TARGET_PLATFORM_UNSPECIFIED = 0;
+		APP_ENGINE = 1;
+		COMPUTE = 2;
+	}
+
+	enum RiskLevel {
+
+		RISK_LEVEL_UNSPECIFIED = 0;
+		NORMAL = 1;
+		LOW = 2;
+	}
+
+	enum ExportToSecurityCommandCenter {
+
+		EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED = 0;
+		ENABLED = 1;
+		DISABLED = 2;
+	}
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 max_qps = 3;
+	repeated string starting_urls = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Authentication authentication = 5;
+	UserAgent user_agent = 6;
+	repeated string blacklist_patterns = 7;
+	Schedule schedule = 8;
+	repeated TargetPlatform target_platforms = 9;
+	ExportToSecurityCommandCenter export_to_security_command_center = 10;
+	google.cloud.websecurityscanner.v1beta.ScanRun latest_run = 11;
+	RiskLevel risk_level = 12;
+}

@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.common;
+
+import "google/ads/googleads/v5/enums/matching_function_context_type.proto";
+import "google/ads/googleads/v5/enums/matching_function_operator.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.common";
+option java_outer_classname = "MatchingFunctionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V5::Common";
+
+
+message MatchingFunction {
+
+	google.protobuf.StringValue function_string = 1;
+	google.ads.googleads.v5.enums.MatchingFunctionOperatorEnum.MatchingFunctionOperator operator = 4;
+	repeated Operand left_operands = 2;
+	repeated Operand right_operands = 3;
+}
+
+message Operand {
+
+	message ConstantOperand {
+
+		oneof constant_operand_value {
+			google.protobuf.StringValue string_value = 1;
+			google.protobuf.Int64Value long_value = 2;
+			google.protobuf.BoolValue boolean_value = 3;
+			google.protobuf.DoubleValue double_value = 4;
+		}
+	}
+
+	message FeedAttributeOperand {
+
+		google.protobuf.Int64Value feed_id = 1;
+		google.protobuf.Int64Value feed_attribute_id = 2;
+	}
+
+	message FunctionOperand {
+
+		MatchingFunction matching_function = 1;
+	}
+
+	message RequestContextOperand {
+
+		google.ads.googleads.v5.enums.MatchingFunctionContextTypeEnum.MatchingFunctionContextType context_type = 1;
+	}
+
+	oneof function_argument_operand {
+		ConstantOperand constant_operand = 1;
+		FeedAttributeOperand feed_attribute_operand = 2;
+		FunctionOperand function_operand = 3;
+		RequestContextOperand request_context_operand = 4;
+	}
+}

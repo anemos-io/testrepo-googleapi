@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package google.genomics.v1;
+
+import "google/api/annotations.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.genomics.v1";
+option java_outer_classname = "DatasetsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/genomics/v1;genomics";
+option cc_enable_arenas = true;
+
+
+service DatasetServiceV1 {
+
+	rpc ListDatasets(google.genomics.v1.ListDatasetsRequest) returns (google.genomics.v1.ListDatasetsResponse) {
+		option (google.api.http) = {
+			get: "/v1/datasets"
+		};
+
+	}
+	rpc CreateDataset(google.genomics.v1.CreateDatasetRequest) returns (google.genomics.v1.Dataset) {
+		option (google.api.http) = {
+			post: "/v1/datasets"
+			body: "dataset"
+		};
+
+	}
+	rpc GetDataset(google.genomics.v1.GetDatasetRequest) returns (google.genomics.v1.Dataset) {
+		option (google.api.http) = {
+			get: "/v1/datasets/{dataset_id}"
+		};
+
+	}
+	rpc UpdateDataset(google.genomics.v1.UpdateDatasetRequest) returns (google.genomics.v1.Dataset) {
+		option (google.api.http) = {
+			patch: "/v1/datasets/{dataset_id}"
+			body: "dataset"
+		};
+
+	}
+	rpc DeleteDataset(google.genomics.v1.DeleteDatasetRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/datasets/{dataset_id}"
+		};
+
+	}
+	rpc UndeleteDataset(google.genomics.v1.UndeleteDatasetRequest) returns (google.genomics.v1.Dataset) {
+		option (google.api.http) = {
+			post: "/v1/datasets/{dataset_id}:undelete"
+			body: "*"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=datasets/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=datasets/*}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{resource=datasets/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+}
+
+message Dataset {
+
+	string id = 1;
+	string project_id = 2;
+	string name = 3;
+	google.protobuf.Timestamp create_time = 4;
+}
+
+message ListDatasetsRequest {
+
+	string project_id = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListDatasetsResponse {
+
+	repeated Dataset datasets = 1;
+	string next_page_token = 2;
+}
+
+message CreateDatasetRequest {
+
+	Dataset dataset = 1;
+}
+
+message UpdateDatasetRequest {
+
+	string dataset_id = 1;
+	Dataset dataset = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteDatasetRequest {
+
+	string dataset_id = 1;
+}
+
+message UndeleteDatasetRequest {
+
+	string dataset_id = 1;
+}
+
+message GetDatasetRequest {
+
+	string dataset_id = 1;
+}

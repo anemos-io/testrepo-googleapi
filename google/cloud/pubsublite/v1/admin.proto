@@ -1,0 +1,272 @@
+syntax = "proto3";
+
+package google.cloud.pubsublite.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/pubsublite/v1/common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.pubsublite.proto";
+option java_outer_classname = "AdminProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
+
+
+service AdminService {
+	option (google.api.default_host) = "pubsublite.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateTopic(google.cloud.pubsublite.v1.CreateTopicRequest) returns (google.cloud.pubsublite.v1.Topic) {
+		option (google.api.method_signature) = "parent,topic,topic_id";
+		option (google.api.http) = {
+			post: "/v1/admin/{parent=projects/*/locations/*}/topics"
+			body: "topic"
+		};
+
+	}
+	rpc GetTopic(google.cloud.pubsublite.v1.GetTopicRequest) returns (google.cloud.pubsublite.v1.Topic) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/admin/{name=projects/*/locations/*/topics/*}"
+		};
+
+	}
+	rpc GetTopicPartitions(google.cloud.pubsublite.v1.GetTopicPartitionsRequest) returns (google.cloud.pubsublite.v1.TopicPartitions) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/admin/{name=projects/*/locations/*/topics/*}/partitions"
+		};
+
+	}
+	rpc ListTopics(google.cloud.pubsublite.v1.ListTopicsRequest) returns (google.cloud.pubsublite.v1.ListTopicsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/admin/{parent=projects/*/locations/*}/topics"
+		};
+
+	}
+	rpc UpdateTopic(google.cloud.pubsublite.v1.UpdateTopicRequest) returns (google.cloud.pubsublite.v1.Topic) {
+		option (google.api.method_signature) = "topic,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/admin/{topic.name=projects/*/locations/*/topics/*}"
+			body: "topic"
+		};
+
+	}
+	rpc DeleteTopic(google.cloud.pubsublite.v1.DeleteTopicRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/admin/{name=projects/*/locations/*/topics/*}"
+		};
+
+	}
+	rpc ListTopicSubscriptions(google.cloud.pubsublite.v1.ListTopicSubscriptionsRequest) returns (google.cloud.pubsublite.v1.ListTopicSubscriptionsResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/admin/{name=projects/*/locations/*/topics/*}/subscriptions"
+		};
+
+	}
+	rpc CreateSubscription(google.cloud.pubsublite.v1.CreateSubscriptionRequest) returns (google.cloud.pubsublite.v1.Subscription) {
+		option (google.api.method_signature) = "parent,subscription,subscription_id";
+		option (google.api.http) = {
+			post: "/v1/admin/{parent=projects/*/locations/*}/subscriptions"
+			body: "subscription"
+		};
+
+	}
+	rpc GetSubscription(google.cloud.pubsublite.v1.GetSubscriptionRequest) returns (google.cloud.pubsublite.v1.Subscription) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/admin/{name=projects/*/locations/*/subscriptions/*}"
+		};
+
+	}
+	rpc ListSubscriptions(google.cloud.pubsublite.v1.ListSubscriptionsRequest) returns (google.cloud.pubsublite.v1.ListSubscriptionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/admin/{parent=projects/*/locations/*}/subscriptions"
+		};
+
+	}
+	rpc UpdateSubscription(google.cloud.pubsublite.v1.UpdateSubscriptionRequest) returns (google.cloud.pubsublite.v1.Subscription) {
+		option (google.api.method_signature) = "subscription,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/admin/{subscription.name=projects/*/locations/*/subscriptions/*}"
+			body: "subscription"
+		};
+
+	}
+	rpc DeleteSubscription(google.cloud.pubsublite.v1.DeleteSubscriptionRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/admin/{name=projects/*/locations/*/subscriptions/*}"
+		};
+
+	}
+}
+
+message CreateTopicRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.pubsublite.v1.Topic topic = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string topic_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTopicRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Topic"
+		}
+	];
+}
+
+message GetTopicPartitionsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Topic"
+		}
+	];
+}
+
+message TopicPartitions {
+
+	int64 partition_count = 1;
+}
+
+message ListTopicsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTopicsResponse {
+
+	repeated google.cloud.pubsublite.v1.Topic topics = 1;
+	string next_page_token = 2;
+}
+
+message UpdateTopicRequest {
+
+	google.cloud.pubsublite.v1.Topic topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteTopicRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Topic"
+		}
+	];
+}
+
+message ListTopicSubscriptionsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Topic"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTopicSubscriptionsResponse {
+
+	repeated string subscriptions = 1;
+	string next_page_token = 2;
+}
+
+message CreateSubscriptionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.pubsublite.v1.Subscription subscription = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string subscription_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetSubscriptionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Subscription"
+		}
+	];
+}
+
+message ListSubscriptionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListSubscriptionsResponse {
+
+	repeated google.cloud.pubsublite.v1.Subscription subscriptions = 1;
+	string next_page_token = 2;
+}
+
+message UpdateSubscriptionRequest {
+
+	google.cloud.pubsublite.v1.Subscription subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteSubscriptionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Subscription"
+		}
+	];
+}

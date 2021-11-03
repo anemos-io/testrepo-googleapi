@@ -1,0 +1,378 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4beta1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/date.proto";
+import "google/type/latlng.proto";
+import "google/type/money.proto";
+import "google/type/postal_address.proto";
+import "google/type/timeofday.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.talent.v4beta1";
+option java_outer_classname = "CommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4beta1;talent";
+option objc_class_prefix = "CTS";
+
+
+enum CompanySize {
+
+	COMPANY_SIZE_UNSPECIFIED = 0;
+	MINI = 1;
+	SMALL = 2;
+	SMEDIUM = 3;
+	MEDIUM = 4;
+	BIG = 5;
+	BIGGER = 6;
+	GIANT = 7;
+}
+
+enum JobBenefit {
+
+	JOB_BENEFIT_UNSPECIFIED = 0;
+	CHILD_CARE = 1;
+	DENTAL = 2;
+	DOMESTIC_PARTNER = 3;
+	FLEXIBLE_HOURS = 4;
+	MEDICAL = 5;
+	LIFE_INSURANCE = 6;
+	PARENTAL_LEAVE = 7;
+	RETIREMENT_PLAN = 8;
+	SICK_DAYS = 9;
+	VACATION = 10;
+	VISION = 11;
+}
+
+enum DegreeType {
+
+	DEGREE_TYPE_UNSPECIFIED = 0;
+	PRIMARY_EDUCATION = 1;
+	LOWER_SECONDARY_EDUCATION = 2;
+	UPPER_SECONDARY_EDUCATION = 3;
+	ADULT_REMEDIAL_EDUCATION = 4;
+	ASSOCIATES_OR_EQUIVALENT = 5;
+	BACHELORS_OR_EQUIVALENT = 6;
+	MASTERS_OR_EQUIVALENT = 7;
+	DOCTORAL_OR_EQUIVALENT = 8;
+}
+
+enum EmploymentType {
+
+	EMPLOYMENT_TYPE_UNSPECIFIED = 0;
+	FULL_TIME = 1;
+	PART_TIME = 2;
+	CONTRACTOR = 3;
+	CONTRACT_TO_HIRE = 4;
+	TEMPORARY = 5;
+	INTERN = 6;
+	VOLUNTEER = 7;
+	PER_DIEM = 8;
+	FLY_IN_FLY_OUT = 9;
+	OTHER_EMPLOYMENT_TYPE = 10;
+}
+
+enum JobLevel {
+
+	JOB_LEVEL_UNSPECIFIED = 0;
+	ENTRY_LEVEL = 1;
+	EXPERIENCED = 2;
+	MANAGER = 3;
+	DIRECTOR = 4;
+	EXECUTIVE = 5;
+}
+
+enum JobCategory {
+
+	JOB_CATEGORY_UNSPECIFIED = 0;
+	ACCOUNTING_AND_FINANCE = 1;
+	ADMINISTRATIVE_AND_OFFICE = 2;
+	ADVERTISING_AND_MARKETING = 3;
+	ANIMAL_CARE = 4;
+	ART_FASHION_AND_DESIGN = 5;
+	BUSINESS_OPERATIONS = 6;
+	CLEANING_AND_FACILITIES = 7;
+	COMPUTER_AND_IT = 8;
+	CONSTRUCTION = 9;
+	CUSTOMER_SERVICE = 10;
+	EDUCATION = 11;
+	ENTERTAINMENT_AND_TRAVEL = 12;
+	FARMING_AND_OUTDOORS = 13;
+	HEALTHCARE = 14;
+	HUMAN_RESOURCES = 15;
+	INSTALLATION_MAINTENANCE_AND_REPAIR = 16;
+	LEGAL = 17;
+	MANAGEMENT = 18;
+	MANUFACTURING_AND_WAREHOUSE = 19;
+	MEDIA_COMMUNICATIONS_AND_WRITING = 20;
+	OIL_GAS_AND_MINING = 21;
+	PERSONAL_CARE_AND_SERVICES = 22;
+	PROTECTIVE_SERVICES = 23;
+	REAL_ESTATE = 24;
+	RESTAURANT_AND_HOSPITALITY = 25;
+	SALES_AND_RETAIL = 26;
+	SCIENCE_AND_ENGINEERING = 27;
+	SOCIAL_SERVICES_AND_NON_PROFIT = 28;
+	SPORTS_FITNESS_AND_RECREATION = 29;
+	TRANSPORTATION_AND_LOGISTICS = 30;
+}
+
+enum PostingRegion {
+
+	POSTING_REGION_UNSPECIFIED = 0;
+	ADMINISTRATIVE_AREA = 1;
+	NATION = 2;
+	TELECOMMUTE = 3;
+}
+
+enum Visibility {
+	option deprecated = true;
+
+	VISIBILITY_UNSPECIFIED = 0;
+	ACCOUNT_ONLY = 1;
+	SHARED_WITH_GOOGLE = 2;
+	SHARED_WITH_PUBLIC = 3;
+}
+
+enum ContactInfoUsage {
+
+	CONTACT_INFO_USAGE_UNSPECIFIED = 0;
+	PERSONAL = 1;
+	WORK = 2;
+	SCHOOL = 3;
+}
+
+enum HtmlSanitization {
+
+	HTML_SANITIZATION_UNSPECIFIED = 0;
+	HTML_SANITIZATION_DISABLED = 1;
+	SIMPLE_FORMATTING_ONLY = 2;
+}
+
+enum CommuteMethod {
+
+	COMMUTE_METHOD_UNSPECIFIED = 0;
+	DRIVING = 1;
+	TRANSIT = 2;
+	WALKING = 3;
+	CYCLING = 4;
+}
+
+enum SkillProficiencyLevel {
+
+	SKILL_PROFICIENCY_LEVEL_UNSPECIFIED = 0;
+	UNSKILLED = 6;
+	FUNDAMENTAL_AWARENESS = 1;
+	NOVICE = 2;
+	INTERMEDIATE = 3;
+	ADVANCED = 4;
+	EXPERT = 5;
+}
+
+enum Outcome {
+
+	OUTCOME_UNSPECIFIED = 0;
+	POSITIVE = 1;
+	NEUTRAL = 2;
+	NEGATIVE = 3;
+	OUTCOME_NOT_AVAILABLE = 4;
+}
+
+enum AvailabilitySignalType {
+
+	AVAILABILITY_SIGNAL_TYPE_UNSPECIFIED = 0;
+	JOB_APPLICATION = 1;
+	RESUME_UPDATE = 2;
+	CANDIDATE_UPDATE = 3;
+	CLIENT_SUBMISSION = 4;
+}
+
+message TimestampRange {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+}
+
+message Location {
+
+	enum LocationType {
+
+		LOCATION_TYPE_UNSPECIFIED = 0;
+		COUNTRY = 1;
+		ADMINISTRATIVE_AREA = 2;
+		SUB_ADMINISTRATIVE_AREA = 3;
+		LOCALITY = 4;
+		POSTAL_CODE = 5;
+		SUB_LOCALITY = 6;
+		SUB_LOCALITY_1 = 7;
+		SUB_LOCALITY_2 = 8;
+		NEIGHBORHOOD = 9;
+		STREET_ADDRESS = 10;
+	}
+
+	LocationType location_type = 1;
+	google.type.PostalAddress postal_address = 2;
+	google.type.LatLng lat_lng = 3;
+	double radius_miles = 4;
+}
+
+message RequestMetadata {
+
+	string domain = 1;
+	string session_id = 2;
+	string user_id = 3;
+	bool allow_missing_ids = 4;
+	DeviceInfo device_info = 5;
+}
+
+message ResponseMetadata {
+
+	string request_id = 1;
+}
+
+message DeviceInfo {
+
+	enum DeviceType {
+
+		DEVICE_TYPE_UNSPECIFIED = 0;
+		WEB = 1;
+		MOBILE_WEB = 2;
+		ANDROID = 3;
+		IOS = 4;
+		BOT = 5;
+		OTHER = 6;
+	}
+
+	DeviceType device_type = 1;
+	string id = 2;
+}
+
+message CustomAttribute {
+
+	repeated string string_values = 1;
+	repeated int64 long_values = 2;
+	bool filterable = 3;
+}
+
+message SpellingCorrection {
+
+	bool corrected = 1;
+	string corrected_text = 2;
+	string corrected_html = 3;
+}
+
+message CompensationInfo {
+
+	message CompensationEntry {
+
+		CompensationType type = 1;
+		CompensationUnit unit = 2;
+		oneof compensation_amount {
+			google.type.Money amount = 3;
+			CompensationRange range = 4;
+		}
+		string description = 5;
+		google.protobuf.DoubleValue expected_units_per_year = 6;
+	}
+
+	message CompensationRange {
+
+		google.type.Money max_compensation = 2;
+		google.type.Money min_compensation = 1;
+	}
+
+	enum CompensationType {
+
+		COMPENSATION_TYPE_UNSPECIFIED = 0;
+		BASE = 1;
+		BONUS = 2;
+		SIGNING_BONUS = 3;
+		EQUITY = 4;
+		PROFIT_SHARING = 5;
+		COMMISSIONS = 6;
+		TIPS = 7;
+		OTHER_COMPENSATION_TYPE = 8;
+	}
+
+	enum CompensationUnit {
+
+		COMPENSATION_UNIT_UNSPECIFIED = 0;
+		HOURLY = 1;
+		DAILY = 2;
+		WEEKLY = 3;
+		MONTHLY = 4;
+		YEARLY = 5;
+		ONE_TIME = 6;
+		OTHER_COMPENSATION_UNIT = 7;
+	}
+
+	repeated CompensationEntry entries = 1;
+	CompensationRange annualized_base_compensation_range = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CompensationRange annualized_total_compensation_range = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Certification {
+
+	string display_name = 1;
+	google.type.Date acquire_date = 2;
+	google.type.Date expire_date = 3;
+	string authority = 4;
+	string description = 5;
+}
+
+message Skill {
+
+	string display_name = 1;
+	google.type.Date last_used_date = 2;
+	SkillProficiencyLevel level = 3;
+	string context = 4;
+	string skill_name_snippet = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Interview {
+
+	Rating rating = 6;
+	Outcome outcome = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Rating {
+
+	double overall = 1;
+	double min = 2;
+	double max = 3;
+	double interval = 4;
+}
+
+message BatchOperationMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		INITIALIZING = 1;
+		PROCESSING = 2;
+		SUCCEEDED = 3;
+		FAILED = 4;
+		CANCELLING = 5;
+		CANCELLED = 6;
+	}
+
+	State state = 1;
+	string state_description = 2;
+	int32 success_count = 3;
+	int32 failure_count = 4;
+	int32 total_count = 5;
+	google.protobuf.Timestamp create_time = 6;
+	google.protobuf.Timestamp update_time = 7;
+	google.protobuf.Timestamp end_time = 8;
+}

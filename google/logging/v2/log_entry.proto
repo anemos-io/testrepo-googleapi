@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package google.logging.v2;
+
+import "google/api/field_behavior.proto";
+import "google/api/monitored_resource.proto";
+import "google/api/resource.proto";
+import "google/logging/type/http_request.proto";
+import "google/logging/type/log_severity.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.logging.v2";
+option java_outer_classname = "LogEntryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/logging/v2;logging";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Logging.V2";
+option php_namespace = "Google\\Cloud\\Logging\\V2";
+option ruby_package = "Google::Cloud::Logging::V2";
+
+
+message LogEntry {
+	option (google.api.resource) = {
+		type: "logging.googleapis.com/Log"
+		pattern: ["projects/{project}/logs/{log}","organizations/{organization}/logs/{log}","folders/{folder}/logs/{log}","billingAccounts/{billing_account}/logs/{log}"]
+		name_field: "log_name"
+	};
+
+	string log_name = 12 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.api.MonitoredResource resource = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof payload {
+		google.protobuf.Any proto_payload = 2;
+		string text_payload = 3;
+		google.protobuf.Struct json_payload = 6;
+	}
+	google.protobuf.Timestamp timestamp = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp receive_timestamp = 24 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.logging.type.LogSeverity severity = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string insert_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.logging.type.HttpRequest http_request = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LogEntryOperation operation = 15 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string trace = 22 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string span_id = 27 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool trace_sampled = 30 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LogEntrySourceLocation source_location = 23 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message LogEntryOperation {
+
+	string id = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string producer = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool first = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool last = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message LogEntrySourceLocation {
+
+	string file = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int64 line = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string function = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

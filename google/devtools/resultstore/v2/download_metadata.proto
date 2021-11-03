@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/devtools/resultstore/v2/common.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+message DownloadMetadata {
+
+	string name = 1;
+	google.devtools.resultstore.v2.UploadStatus upload_status = 2;
+}

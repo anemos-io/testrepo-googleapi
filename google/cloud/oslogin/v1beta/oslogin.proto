@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+package google.cloud.oslogin.v1beta;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/oslogin/common/common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.oslogin.v1beta";
+option java_outer_classname = "OsLoginProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/oslogin/v1beta;oslogin";
+option csharp_namespace = "Google.Cloud.OsLogin.V1Beta";
+option php_namespace = "Google\\Cloud\\OsLogin\\V1beta";
+option ruby_package = "Google::Cloud::OsLogin::V1beta";
+
+
+service OsLoginService {
+	option (google.api.default_host) = "oslogin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/compute,https://www.googleapis.com/auth/compute.readonly";
+
+	rpc DeletePosixAccount(google.cloud.oslogin.v1beta.DeletePosixAccountRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta/{name=users/*/projects/*}"
+		};
+
+	}
+	rpc DeleteSshPublicKey(google.cloud.oslogin.v1beta.DeleteSshPublicKeyRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta/{name=users/*/sshPublicKeys/*}"
+		};
+
+	}
+	rpc GetLoginProfile(google.cloud.oslogin.v1beta.GetLoginProfileRequest) returns (google.cloud.oslogin.v1beta.LoginProfile) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=users/*}/loginProfile"
+		};
+
+	}
+	rpc GetSshPublicKey(google.cloud.oslogin.v1beta.GetSshPublicKeyRequest) returns (google.cloud.oslogin.common.SshPublicKey) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=users/*/sshPublicKeys/*}"
+		};
+
+	}
+	rpc ImportSshPublicKey(google.cloud.oslogin.v1beta.ImportSshPublicKeyRequest) returns (google.cloud.oslogin.v1beta.ImportSshPublicKeyResponse) {
+		option (google.api.method_signature) = "parent,ssh_public_key";
+		option (google.api.method_signature) = "parent,ssh_public_key,project_id";
+		option (google.api.http) = {
+			post: "/v1beta/{parent=users/*}:importSshPublicKey"
+			body: "ssh_public_key"
+		};
+
+	}
+	rpc UpdateSshPublicKey(google.cloud.oslogin.v1beta.UpdateSshPublicKeyRequest) returns (google.cloud.oslogin.common.SshPublicKey) {
+		option (google.api.method_signature) = "name,ssh_public_key";
+		option (google.api.method_signature) = "name,ssh_public_key,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta/{name=users/*/sshPublicKeys/*}"
+			body: "ssh_public_key"
+		};
+
+	}
+}
+
+message LoginProfile {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.oslogin.common.PosixAccount posix_accounts = 2;
+	map<string, google.cloud.oslogin.common.SshPublicKey> ssh_public_keys = 3;
+}
+
+message DeletePosixAccountRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "oslogin.googleapis.com/PosixAccount"
+		}
+	];
+}
+
+message DeleteSshPublicKeyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "oslogin.googleapis.com/SshPublicKey"
+		}
+	];
+}
+
+message GetLoginProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "oslogin.googleapis.com/User"
+		}
+	];
+	string project_id = 2;
+	string system_id = 3;
+}
+
+message GetSshPublicKeyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "oslogin.googleapis.com/SshPublicKey"
+		}
+	];
+}
+
+message ImportSshPublicKeyRequest {
+
+	string parent = 1 [
+		(google.api.resource_reference) = {
+			child_type: "oslogin.googleapis.com/SshPublicKey"
+		}
+	];
+	google.cloud.oslogin.common.SshPublicKey ssh_public_key = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string project_id = 3;
+}
+
+message ImportSshPublicKeyResponse {
+
+	LoginProfile login_profile = 1;
+}
+
+message UpdateSshPublicKeyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "oslogin.googleapis.com/SshPublicKey"
+		}
+	];
+	google.cloud.oslogin.common.SshPublicKey ssh_public_key = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3;
+}

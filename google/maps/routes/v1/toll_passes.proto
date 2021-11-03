@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package google.maps.routes.v1;
+
+option java_package = "com.google.maps.routes.v1";
+option java_outer_classname = "TollPassesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/routes/v1;routes";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GMRS";
+option csharp_namespace = "Google.Maps.Routes.V1";
+option php_namespace = "Google\\Maps\\Routes\\V1";
+
+
+enum TollPass {
+
+	TOLL_PASS_UNSPECIFIED = 0;
+	US_WA_GOOD_TO_GO = 1;
+	AU_LINKT = 2;
+}

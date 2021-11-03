@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.common;
+
+import "google/ads/googleads/v5/enums/mime_type.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.common";
+option java_outer_classname = "AssetTypesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V5::Common";
+
+
+message YoutubeVideoAsset {
+
+	oneof _youtube_video_id {
+		string youtube_video_id = 2;
+	}
+}
+
+message MediaBundleAsset {
+
+	oneof _data {
+		bytes data = 2;
+	}
+}
+
+message ImageAsset {
+
+	oneof _data {
+		bytes data = 5;
+	}
+	oneof _file_size {
+		int64 file_size = 6;
+	}
+	google.ads.googleads.v5.enums.MimeTypeEnum.MimeType mime_type = 3;
+	ImageDimension full_size = 4;
+}
+
+message ImageDimension {
+
+	oneof _height_pixels {
+		int64 height_pixels = 4;
+	}
+	oneof _width_pixels {
+		int64 width_pixels = 5;
+	}
+	oneof _url {
+		string url = 6;
+	}
+}
+
+message TextAsset {
+
+	oneof _text {
+		string text = 2;
+	}
+}
+
+message BookOnGoogleAsset {
+
+}

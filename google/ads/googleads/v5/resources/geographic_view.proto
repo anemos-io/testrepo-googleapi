@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.resources;
+
+import "google/ads/googleads/v5/enums/geo_targeting_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.resources";
+option java_outer_classname = "GeographicViewProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V5::Resources";
+
+
+message GeographicView {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/GeographicView"
+		pattern: ["customers/{customer}/geographicViews/{geographic_view}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/GeographicView"
+		}
+	];
+	google.ads.googleads.v5.enums.GeoTargetingTypeEnum.GeoTargetingType location_type = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _country_criterion_id {
+		int64 country_criterion_id = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

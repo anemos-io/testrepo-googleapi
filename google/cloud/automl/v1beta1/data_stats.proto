@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message DataStats {
+
+	oneof stats {
+		Float64Stats float64_stats = 3;
+		StringStats string_stats = 4;
+		TimestampStats timestamp_stats = 5;
+		ArrayStats array_stats = 6;
+		StructStats struct_stats = 7;
+		CategoryStats category_stats = 8;
+	}
+	int64 distinct_value_count = 1;
+	int64 null_value_count = 2;
+	int64 valid_value_count = 9;
+}
+
+message Float64Stats {
+
+	message HistogramBucket {
+
+		double min = 1;
+		double max = 2;
+		int64 count = 3;
+	}
+
+	double mean = 1;
+	double standard_deviation = 2;
+	repeated double quantiles = 3;
+	repeated HistogramBucket histogram_buckets = 4;
+}
+
+message StringStats {
+
+	message UnigramStats {
+
+		string value = 1;
+		int64 count = 2;
+	}
+
+	repeated UnigramStats top_unigram_stats = 1;
+}
+
+message TimestampStats {
+
+	message GranularStats {
+
+		map<int32, int64> buckets = 1;
+	}
+
+	map<string, GranularStats> granular_stats = 1;
+}
+
+message ArrayStats {
+
+	DataStats member_stats = 2;
+}
+
+message StructStats {
+
+	map<string, DataStats> field_stats = 1;
+}
+
+message CategoryStats {
+
+	message SingleCategoryStats {
+
+		string value = 1;
+		int64 count = 2;
+	}
+
+	repeated SingleCategoryStats top_category_stats = 1;
+}
+
+message CorrelationStats {
+
+	double cramers_v = 1;
+}

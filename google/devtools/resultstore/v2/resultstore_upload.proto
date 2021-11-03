@@ -1,0 +1,446 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/api/annotations.proto";
+import "google/devtools/resultstore/v2/action.proto";
+import "google/devtools/resultstore/v2/configuration.proto";
+import "google/devtools/resultstore/v2/configured_target.proto";
+import "google/devtools/resultstore/v2/file_set.proto";
+import "google/devtools/resultstore/v2/invocation.proto";
+import "google/devtools/resultstore/v2/target.proto";
+import "google/devtools/resultstore/v2/upload_metadata.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+service ResultStoreUpload {
+	option (google.api.default_host) = "resultstore.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateInvocation(google.devtools.resultstore.v2.CreateInvocationRequest) returns (google.devtools.resultstore.v2.Invocation) {
+		option (google.api.http) = {
+			post: "/v2/invocations"
+			body: "invocation"
+		};
+
+	}
+	rpc UpdateInvocation(google.devtools.resultstore.v2.UpdateInvocationRequest) returns (google.devtools.resultstore.v2.Invocation) {
+		option (google.api.http) = {
+			patch: "/v2/{invocation.name=invocations/*}"
+			body: "invocation"
+		};
+
+	}
+	rpc MergeInvocation(google.devtools.resultstore.v2.MergeInvocationRequest) returns (google.devtools.resultstore.v2.Invocation) {
+		option (google.api.http) = {
+			post: "/v2/{invocation.name=invocations/*}:merge"
+			body: "*"
+		};
+
+	}
+	rpc TouchInvocation(google.devtools.resultstore.v2.TouchInvocationRequest) returns (google.devtools.resultstore.v2.TouchInvocationResponse) {
+		option (google.api.http) = {
+			post: "/v2/{name=invocations/*}:touch"
+			body: "*"
+		};
+
+	}
+	rpc FinalizeInvocation(google.devtools.resultstore.v2.FinalizeInvocationRequest) returns (google.devtools.resultstore.v2.FinalizeInvocationResponse) {
+		option (google.api.http) = {
+			post: "/v2/{name=invocations/*}:finalize"
+			body: "*"
+		};
+
+	}
+	rpc DeleteInvocation(google.devtools.resultstore.v2.DeleteInvocationRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v2/{name=invocations/*}"
+		};
+
+	}
+	rpc CreateTarget(google.devtools.resultstore.v2.CreateTargetRequest) returns (google.devtools.resultstore.v2.Target) {
+		option (google.api.http) = {
+			post: "/v2/{parent=invocations/*}/targets"
+			body: "target"
+		};
+
+	}
+	rpc UpdateTarget(google.devtools.resultstore.v2.UpdateTargetRequest) returns (google.devtools.resultstore.v2.Target) {
+		option (google.api.http) = {
+			patch: "/v2/{target.name=invocations/*/targets/*}"
+			body: "target"
+		};
+
+	}
+	rpc MergeTarget(google.devtools.resultstore.v2.MergeTargetRequest) returns (google.devtools.resultstore.v2.Target) {
+		option (google.api.http) = {
+			post: "/v2/{target.name=invocations/*/targets/*}:merge"
+			body: "*"
+		};
+
+	}
+	rpc FinalizeTarget(google.devtools.resultstore.v2.FinalizeTargetRequest) returns (google.devtools.resultstore.v2.FinalizeTargetResponse) {
+		option (google.api.http) = {
+			post: "/v2/{name=invocations/*/targets/*}:finalize"
+			body: "*"
+		};
+
+	}
+	rpc CreateConfiguredTarget(google.devtools.resultstore.v2.CreateConfiguredTargetRequest) returns (google.devtools.resultstore.v2.ConfiguredTarget) {
+		option (google.api.http) = {
+			post: "/v2/{parent=invocations/*/targets/*}/configuredTargets"
+			body: "configured_target"
+		};
+
+	}
+	rpc UpdateConfiguredTarget(google.devtools.resultstore.v2.UpdateConfiguredTargetRequest) returns (google.devtools.resultstore.v2.ConfiguredTarget) {
+		option (google.api.http) = {
+			patch: "/v2/{configured_target.name=invocations/*/targets/*/configuredTargets/*}"
+			body: "configured_target"
+		};
+
+	}
+	rpc MergeConfiguredTarget(google.devtools.resultstore.v2.MergeConfiguredTargetRequest) returns (google.devtools.resultstore.v2.ConfiguredTarget) {
+		option (google.api.http) = {
+			post: "/v2/{configured_target.name=invocations/*/targets/*/configuredTargets/*}:merge"
+			body: "*"
+		};
+
+	}
+	rpc FinalizeConfiguredTarget(google.devtools.resultstore.v2.FinalizeConfiguredTargetRequest) returns (google.devtools.resultstore.v2.FinalizeConfiguredTargetResponse) {
+		option (google.api.http) = {
+			post: "/v2/{name=invocations/*/targets/*/configuredTargets/*}:finalize"
+			body: "*"
+		};
+
+	}
+	rpc CreateAction(google.devtools.resultstore.v2.CreateActionRequest) returns (google.devtools.resultstore.v2.Action) {
+		option (google.api.http) = {
+			post: "/v2/{parent=invocations/*/targets/*/configuredTargets/*}/actions"
+			body: "action"
+		};
+
+	}
+	rpc UpdateAction(google.devtools.resultstore.v2.UpdateActionRequest) returns (google.devtools.resultstore.v2.Action) {
+		option (google.api.http) = {
+			patch: "/v2/{action.name=invocations/*/targets/*/configuredTargets/*/actions/*}"
+			body: "action"
+		};
+
+	}
+	rpc MergeAction(google.devtools.resultstore.v2.MergeActionRequest) returns (google.devtools.resultstore.v2.Action) {
+		option (google.api.http) = {
+			post: "/v2/{action.name=invocations/*/targets/*/configuredTargets/*/actions/*}:merge"
+			body: "*"
+		};
+
+	}
+	rpc CreateConfiguration(google.devtools.resultstore.v2.CreateConfigurationRequest) returns (google.devtools.resultstore.v2.Configuration) {
+		option (google.api.http) = {
+			post: "/v2/{parent=invocations/*}/configs"
+			body: "configuration"
+		};
+
+	}
+	rpc UpdateConfiguration(google.devtools.resultstore.v2.UpdateConfigurationRequest) returns (google.devtools.resultstore.v2.Configuration) {
+		option (google.api.http) = {
+			patch: "/v2/{configuration.name=invocations/*/configs/*}"
+			body: "configuration"
+		};
+
+	}
+	rpc CreateFileSet(google.devtools.resultstore.v2.CreateFileSetRequest) returns (google.devtools.resultstore.v2.FileSet) {
+		option (google.api.http) = {
+			post: "/v2/{parent=invocations/*}/fileSets"
+			body: "file_set"
+		};
+
+	}
+	rpc UpdateFileSet(google.devtools.resultstore.v2.UpdateFileSetRequest) returns (google.devtools.resultstore.v2.FileSet) {
+		option (google.api.http) = {
+			patch: "/v2/{file_set.name=invocations/*/fileSets/*}"
+			body: "file_set"
+		};
+
+	}
+	rpc MergeFileSet(google.devtools.resultstore.v2.MergeFileSetRequest) returns (google.devtools.resultstore.v2.FileSet) {
+		option (google.api.http) = {
+			post: "/v2/{file_set.name=invocations/*/fileSets/*}:merge"
+			body: "*"
+		};
+
+	}
+	rpc UploadBatch(google.devtools.resultstore.v2.UploadBatchRequest) returns (google.devtools.resultstore.v2.UploadBatchResponse) {
+		option (google.api.http) = {
+			post: "/v2/{parent=invocations/*}/batch:upload"
+			body: "*"
+		};
+
+	}
+	rpc GetInvocationUploadMetadata(google.devtools.resultstore.v2.GetInvocationUploadMetadataRequest) returns (google.devtools.resultstore.v2.UploadMetadata) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*/uploadMetadata}"
+		};
+
+	}
+}
+
+message CreateInvocationRequest {
+
+	string request_id = 1;
+	string invocation_id = 2;
+	google.devtools.resultstore.v2.Invocation invocation = 3;
+	string authorization_token = 4;
+	google.protobuf.Timestamp auto_finalize_time = 6;
+	string initial_resume_token = 7;
+	bytes uploader_state = 8;
+}
+
+message UpdateInvocationRequest {
+
+	google.devtools.resultstore.v2.Invocation invocation = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+}
+
+message MergeInvocationRequest {
+
+	string request_id = 1;
+	google.devtools.resultstore.v2.Invocation invocation = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+}
+
+message TouchInvocationRequest {
+
+	string name = 1;
+	string authorization_token = 2;
+}
+
+message TouchInvocationResponse {
+
+	string name = 1;
+	google.devtools.resultstore.v2.Invocation.Id id = 2;
+}
+
+message DeleteInvocationRequest {
+
+	string name = 1;
+}
+
+message FinalizeInvocationRequest {
+
+	string name = 1;
+	string authorization_token = 3;
+}
+
+message FinalizeInvocationResponse {
+
+	string name = 1;
+	google.devtools.resultstore.v2.Invocation.Id id = 2;
+}
+
+message CreateTargetRequest {
+
+	string request_id = 1;
+	string parent = 2;
+	string target_id = 3;
+	google.devtools.resultstore.v2.Target target = 4;
+	string authorization_token = 5;
+}
+
+message UpdateTargetRequest {
+
+	google.devtools.resultstore.v2.Target target = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+	bool create_if_not_found = 6;
+}
+
+message MergeTargetRequest {
+
+	string request_id = 1;
+	google.devtools.resultstore.v2.Target target = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+	bool create_if_not_found = 6;
+}
+
+message FinalizeTargetRequest {
+
+	string name = 1;
+	string authorization_token = 3;
+}
+
+message FinalizeTargetResponse {
+
+	string name = 1;
+	google.devtools.resultstore.v2.Target.Id id = 2;
+}
+
+message CreateConfiguredTargetRequest {
+
+	string request_id = 1;
+	string parent = 2;
+	string config_id = 3;
+	google.devtools.resultstore.v2.ConfiguredTarget configured_target = 4;
+	string authorization_token = 5;
+}
+
+message UpdateConfiguredTargetRequest {
+
+	google.devtools.resultstore.v2.ConfiguredTarget configured_target = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+	bool create_if_not_found = 6;
+}
+
+message MergeConfiguredTargetRequest {
+
+	string request_id = 1;
+	google.devtools.resultstore.v2.ConfiguredTarget configured_target = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+	bool create_if_not_found = 6;
+}
+
+message FinalizeConfiguredTargetRequest {
+
+	string name = 1;
+	string authorization_token = 3;
+}
+
+message FinalizeConfiguredTargetResponse {
+
+	string name = 1;
+	google.devtools.resultstore.v2.ConfiguredTarget.Id id = 2;
+}
+
+message CreateActionRequest {
+
+	string request_id = 1;
+	string parent = 2;
+	string action_id = 3;
+	google.devtools.resultstore.v2.Action action = 4;
+	string authorization_token = 5;
+}
+
+message UpdateActionRequest {
+
+	google.devtools.resultstore.v2.Action action = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+	bool create_if_not_found = 6;
+}
+
+message MergeActionRequest {
+
+	string request_id = 1;
+	google.devtools.resultstore.v2.Action action = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+	bool create_if_not_found = 6;
+}
+
+message CreateConfigurationRequest {
+
+	string request_id = 1;
+	string parent = 2;
+	string config_id = 3;
+	google.devtools.resultstore.v2.Configuration configuration = 4;
+	string authorization_token = 5;
+}
+
+message UpdateConfigurationRequest {
+
+	google.devtools.resultstore.v2.Configuration configuration = 3;
+	google.protobuf.FieldMask update_mask = 4;
+	string authorization_token = 5;
+	bool create_if_not_found = 6;
+}
+
+message CreateFileSetRequest {
+
+	string request_id = 1;
+	string parent = 2;
+	string file_set_id = 3;
+	google.devtools.resultstore.v2.FileSet file_set = 4;
+	string authorization_token = 5;
+}
+
+message UpdateFileSetRequest {
+
+	google.devtools.resultstore.v2.FileSet file_set = 1;
+	google.protobuf.FieldMask update_mask = 2;
+	string authorization_token = 3;
+	bool create_if_not_found = 4;
+}
+
+message MergeFileSetRequest {
+
+	string request_id = 1;
+	google.devtools.resultstore.v2.FileSet file_set = 2;
+	google.protobuf.FieldMask update_mask = 3;
+	string authorization_token = 4;
+	bool create_if_not_found = 5;
+}
+
+message UploadBatchRequest {
+
+	string parent = 1;
+	string authorization_token = 2;
+	string next_resume_token = 3;
+	string resume_token = 4;
+	bytes uploader_state = 6;
+	repeated UploadRequest upload_requests = 5;
+}
+
+message UploadBatchResponse {
+
+}
+
+message UploadRequest {
+
+	message Id {
+
+		string target_id = 1;
+		string configuration_id = 2;
+		string action_id = 3;
+		string file_set_id = 4;
+	}
+
+	enum UploadOperation {
+
+		UPLOAD_OPERATION_UNSPECIFIED = 0;
+		CREATE = 1;
+		UPDATE = 2;
+		MERGE = 3;
+		FINALIZE = 4;
+	}
+
+	Id id = 1;
+	UploadOperation upload_operation = 2;
+	google.protobuf.FieldMask update_mask = 3;
+	bool create_if_not_found = 10;
+	oneof resource {
+		google.devtools.resultstore.v2.Invocation invocation = 4;
+		google.devtools.resultstore.v2.Target target = 5;
+		google.devtools.resultstore.v2.Configuration configuration = 6;
+		google.devtools.resultstore.v2.ConfiguredTarget configured_target = 7;
+		google.devtools.resultstore.v2.Action action = 8;
+		google.devtools.resultstore.v2.FileSet file_set = 9;
+	}
+}
+
+message GetInvocationUploadMetadataRequest {
+
+	string name = 1;
+	string authorization_token = 2;
+}

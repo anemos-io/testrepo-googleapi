@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.errors";
+option java_outer_classname = "ManagerLinkErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V4::Errors";
+
+
+message ManagerLinkErrorEnum {
+
+	enum ManagerLinkError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		ACCOUNTS_NOT_COMPATIBLE_FOR_LINKING = 2;
+		TOO_MANY_MANAGERS = 3;
+		TOO_MANY_INVITES = 4;
+		ALREADY_INVITED_BY_THIS_MANAGER = 5;
+		ALREADY_MANAGED_BY_THIS_MANAGER = 6;
+		ALREADY_MANAGED_IN_HIERARCHY = 7;
+		DUPLICATE_CHILD_FOUND = 8;
+		CLIENT_HAS_NO_ADMIN_USER = 9;
+		MAX_DEPTH_EXCEEDED = 10;
+		CYCLE_NOT_ALLOWED = 11;
+		TOO_MANY_ACCOUNTS = 12;
+		TOO_MANY_ACCOUNTS_AT_MANAGER = 13;
+		NON_OWNER_USER_CANNOT_MODIFY_LINK = 14;
+		SUSPENDED_ACCOUNT_CANNOT_ADD_CLIENTS = 15;
+		CLIENT_OUTSIDE_TREE = 16;
+		INVALID_STATUS_CHANGE = 17;
+		INVALID_CHANGE = 18;
+	}
+
+}

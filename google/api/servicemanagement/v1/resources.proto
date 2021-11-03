@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package google.api.servicemanagement.v1;
+
+import "google/api/annotations.proto";
+import "google/api/config_change.proto";
+import "google/api/field_behavior.proto";
+import "google/api/metric.proto";
+import "google/api/quota.proto";
+import "google/api/service.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.api.servicemanagement.v1";
+option java_outer_classname = "ResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/servicemanagement/v1;servicemanagement";
+option objc_class_prefix = "GASM";
+option csharp_namespace = "Google.Cloud.ServiceManagement.V1";
+option php_namespace = "Google\\Cloud\\ServiceManagement\\V1";
+
+
+message ManagedService {
+
+	string service_name = 2;
+	string producer_project_id = 3;
+}
+
+message OperationMetadata {
+
+	message Step {
+
+		string description = 2;
+		Status status = 4;
+	}
+
+	enum Status {
+
+		STATUS_UNSPECIFIED = 0;
+		DONE = 1;
+		NOT_STARTED = 2;
+		IN_PROGRESS = 3;
+		FAILED = 4;
+		CANCELLED = 5;
+	}
+
+	repeated string resource_names = 1;
+	repeated Step steps = 2;
+	int32 progress_percentage = 3;
+	google.protobuf.Timestamp start_time = 4;
+}
+
+message Diagnostic {
+
+	enum Kind {
+
+		WARNING = 0;
+		ERROR = 1;
+	}
+
+	string location = 1;
+	Kind kind = 2;
+	string message = 3;
+}
+
+message ConfigSource {
+
+	string id = 5;
+	repeated ConfigFile files = 2;
+}
+
+message ConfigFile {
+
+	enum FileType {
+
+		FILE_TYPE_UNSPECIFIED = 0;
+		SERVICE_CONFIG_YAML = 1;
+		OPEN_API_JSON = 2;
+		OPEN_API_YAML = 3;
+		FILE_DESCRIPTOR_SET_PROTO = 4;
+		PROTO_FILE = 6;
+	}
+
+	string file_path = 1;
+	bytes file_contents = 3;
+	FileType file_type = 4;
+}
+
+message ConfigRef {
+
+	string name = 1;
+}
+
+message ChangeReport {
+
+	repeated google.api.ConfigChange config_changes = 1;
+}
+
+message Rollout {
+
+	message TrafficPercentStrategy {
+
+		map<string, double> percentages = 1;
+	}
+
+	message DeleteServiceStrategy {
+
+	}
+
+	enum RolloutStatus {
+
+		ROLLOUT_STATUS_UNSPECIFIED = 0;
+		IN_PROGRESS = 1;
+		SUCCESS = 2;
+		CANCELLED = 3;
+		FAILED = 4;
+		PENDING = 5;
+		FAILED_ROLLED_BACK = 6;
+	}
+
+	string rollout_id = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp create_time = 2;
+	string created_by = 3;
+	RolloutStatus status = 4;
+	oneof strategy {
+		TrafficPercentStrategy traffic_percent_strategy = 5;
+		DeleteServiceStrategy delete_service_strategy = 200;
+	}
+	string service_name = 8;
+}

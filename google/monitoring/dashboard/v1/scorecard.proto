@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+import "google/api/field_behavior.proto";
+import "google/monitoring/dashboard/v1/metrics.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "ScorecardProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+message Scorecard {
+
+	message GaugeView {
+
+		double lower_bound = 1;
+		double upper_bound = 2;
+	}
+
+	message SparkChartView {
+
+		google.monitoring.dashboard.v1.SparkChartType spark_chart_type = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		google.protobuf.Duration min_alignment_period = 2;
+	}
+
+	google.monitoring.dashboard.v1.TimeSeriesQuery time_series_query = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof data_view {
+		GaugeView gauge_view = 4;
+		SparkChartView spark_chart_view = 5;
+	}
+	repeated google.monitoring.dashboard.v1.Threshold thresholds = 6;
+}

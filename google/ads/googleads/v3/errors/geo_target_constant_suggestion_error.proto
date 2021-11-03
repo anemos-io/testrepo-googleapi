@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.errors";
+option java_outer_classname = "GeoTargetConstantSuggestionErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V3::Errors";
+
+
+message GeoTargetConstantSuggestionErrorEnum {
+
+	enum GeoTargetConstantSuggestionError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		LOCATION_NAME_SIZE_LIMIT = 2;
+		LOCATION_NAME_LIMIT = 3;
+		INVALID_COUNTRY_CODE = 4;
+		REQUEST_PARAMETERS_UNSET = 5;
+	}
+
+}

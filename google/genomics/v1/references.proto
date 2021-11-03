@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package google.genomics.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.genomics.v1";
+option java_outer_classname = "ReferencesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/genomics/v1;genomics";
+option cc_enable_arenas = true;
+
+
+service ReferenceServiceV1 {
+
+	rpc SearchReferenceSets(google.genomics.v1.SearchReferenceSetsRequest) returns (google.genomics.v1.SearchReferenceSetsResponse) {
+		option (google.api.http) = {
+			post: "/v1/referencesets/search"
+			body: "*"
+		};
+
+	}
+	rpc GetReferenceSet(google.genomics.v1.GetReferenceSetRequest) returns (google.genomics.v1.ReferenceSet) {
+		option (google.api.http) = {
+			get: "/v1/referencesets/{reference_set_id}"
+		};
+
+	}
+	rpc SearchReferences(google.genomics.v1.SearchReferencesRequest) returns (google.genomics.v1.SearchReferencesResponse) {
+		option (google.api.http) = {
+			post: "/v1/references/search"
+			body: "*"
+		};
+
+	}
+	rpc GetReference(google.genomics.v1.GetReferenceRequest) returns (google.genomics.v1.Reference) {
+		option (google.api.http) = {
+			get: "/v1/references/{reference_id}"
+		};
+
+	}
+	rpc ListBases(google.genomics.v1.ListBasesRequest) returns (google.genomics.v1.ListBasesResponse) {
+		option (google.api.http) = {
+			get: "/v1/references/{reference_id}/bases"
+		};
+
+	}
+}
+
+message Reference {
+
+	string id = 1;
+	int64 length = 2;
+	string md5checksum = 3;
+	string name = 4;
+	string source_uri = 5;
+	repeated string source_accessions = 6;
+	int32 ncbi_taxon_id = 7;
+}
+
+message ReferenceSet {
+
+	string id = 1;
+	repeated string reference_ids = 2;
+	string md5checksum = 3;
+	int32 ncbi_taxon_id = 4;
+	string description = 5;
+	string assembly_id = 6;
+	string source_uri = 7;
+	repeated string source_accessions = 8;
+}
+
+message SearchReferenceSetsRequest {
+
+	repeated string md5checksums = 1;
+	repeated string accessions = 2;
+	string assembly_id = 3;
+	string page_token = 4;
+	int32 page_size = 5;
+}
+
+message SearchReferenceSetsResponse {
+
+	repeated ReferenceSet reference_sets = 1;
+	string next_page_token = 2;
+}
+
+message GetReferenceSetRequest {
+
+	string reference_set_id = 1;
+}
+
+message SearchReferencesRequest {
+
+	repeated string md5checksums = 1;
+	repeated string accessions = 2;
+	string reference_set_id = 3;
+	string page_token = 4;
+	int32 page_size = 5;
+}
+
+message SearchReferencesResponse {
+
+	repeated Reference references = 1;
+	string next_page_token = 2;
+}
+
+message GetReferenceRequest {
+
+	string reference_id = 1;
+}
+
+message ListBasesRequest {
+
+	string reference_id = 1;
+	int64 start = 2;
+	int64 end = 3;
+	string page_token = 4;
+	int32 page_size = 5;
+}
+
+message ListBasesResponse {
+
+	int64 offset = 1;
+	string sequence = 2;
+	string next_page_token = 3;
+}

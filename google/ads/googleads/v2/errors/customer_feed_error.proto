@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.errors";
+option java_outer_classname = "CustomerFeedErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V2::Errors";
+
+
+message CustomerFeedErrorEnum {
+
+	enum CustomerFeedError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		FEED_ALREADY_EXISTS_FOR_PLACEHOLDER_TYPE = 2;
+		CANNOT_CREATE_FOR_REMOVED_FEED = 3;
+		CANNOT_CREATE_ALREADY_EXISTING_CUSTOMER_FEED = 4;
+		CANNOT_MODIFY_REMOVED_CUSTOMER_FEED = 5;
+		INVALID_PLACEHOLDER_TYPE = 6;
+		MISSING_FEEDMAPPING_FOR_PLACEHOLDER_TYPE = 7;
+		PLACEHOLDER_TYPE_NOT_ALLOWED_ON_CUSTOMER_FEED = 8;
+	}
+
+}

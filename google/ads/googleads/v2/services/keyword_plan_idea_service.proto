@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.services;
+
+import "google/ads/googleads/v2/common/keyword_plan_common.proto";
+import "google/ads/googleads/v2/enums/keyword_plan_network.proto";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.ads.googleads.v2.services";
+option java_outer_classname = "KeywordPlanIdeaServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V2::Services";
+
+
+service KeywordPlanIdeaService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GenerateKeywordIdeas(google.ads.googleads.v2.services.GenerateKeywordIdeasRequest) returns (google.ads.googleads.v2.services.GenerateKeywordIdeaResponse) {
+		option (google.api.http) = {
+			post: "/v2/customers/{customer_id=*}:generateKeywordIdeas"
+			body: "*"
+		};
+
+	}
+}
+
+message GenerateKeywordIdeasRequest {
+
+	string customer_id = 1;
+	google.protobuf.StringValue language = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.protobuf.StringValue geo_target_constants = 8;
+	google.ads.googleads.v2.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork keyword_plan_network = 9;
+	oneof seed {
+		KeywordAndUrlSeed keyword_and_url_seed = 2;
+		KeywordSeed keyword_seed = 3;
+		UrlSeed url_seed = 5;
+	}
+}
+
+message KeywordAndUrlSeed {
+
+	google.protobuf.StringValue url = 1;
+	repeated google.protobuf.StringValue keywords = 2;
+}
+
+message KeywordSeed {
+
+	repeated google.protobuf.StringValue keywords = 1;
+}
+
+message UrlSeed {
+
+	google.protobuf.StringValue url = 1;
+}
+
+message GenerateKeywordIdeaResponse {
+
+	repeated GenerateKeywordIdeaResult results = 1;
+}
+
+message GenerateKeywordIdeaResult {
+
+	google.protobuf.StringValue text = 2;
+	google.ads.googleads.v2.common.KeywordPlanHistoricalMetrics keyword_idea_metrics = 3;
+}

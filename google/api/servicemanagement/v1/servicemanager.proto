@@ -1,0 +1,366 @@
+syntax = "proto3";
+
+package google.api.servicemanagement.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/service.proto";
+import "google/api/servicemanagement/v1/resources.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.api.servicemanagement.v1";
+option java_outer_classname = "ServiceManagerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/servicemanagement/v1;servicemanagement";
+option objc_class_prefix = "GASM";
+option csharp_namespace = "Google.Cloud.ServiceManagement.V1";
+option php_namespace = "Google\\Cloud\\ServiceManagement\\V1";
+
+
+service ServiceManager {
+	option (google.api.default_host) = "servicemanagement.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/service.management,https://www.googleapis.com/auth/service.management.readonly";
+
+	rpc ListServices(google.api.servicemanagement.v1.ListServicesRequest) returns (google.api.servicemanagement.v1.ListServicesResponse) {
+		option (google.api.method_signature) = "producer_project_id,consumer_id";
+		option (google.api.http) = {
+			get: "/v1/services"
+		};
+
+	}
+	rpc GetService(google.api.servicemanagement.v1.GetServiceRequest) returns (google.api.servicemanagement.v1.ManagedService) {
+		option (google.api.method_signature) = "service_name";
+		option (google.api.http) = {
+			get: "/v1/services/{service_name}"
+		};
+
+	}
+	rpc CreateService(google.api.servicemanagement.v1.CreateServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.api.servicemanagement.v1.ManagedService"
+			metadata_type: "google.api.servicemanagement.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "service";
+		option (google.api.http) = {
+			post: "/v1/services"
+			body: "service"
+		};
+
+	}
+	rpc DeleteService(google.api.servicemanagement.v1.DeleteServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.api.servicemanagement.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "service_name";
+		option (google.api.http) = {
+			delete: "/v1/services/{service_name}"
+		};
+
+	}
+	rpc UndeleteService(google.api.servicemanagement.v1.UndeleteServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.api.servicemanagement.v1.UndeleteServiceResponse"
+			metadata_type: "google.api.servicemanagement.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "service_name";
+		option (google.api.http) = {
+			post: "/v1/services/{service_name}:undelete"
+		};
+
+	}
+	rpc ListServiceConfigs(google.api.servicemanagement.v1.ListServiceConfigsRequest) returns (google.api.servicemanagement.v1.ListServiceConfigsResponse) {
+		option (google.api.method_signature) = "service_name";
+		option (google.api.http) = {
+			get: "/v1/services/{service_name}/configs"
+		};
+
+	}
+	rpc GetServiceConfig(google.api.servicemanagement.v1.GetServiceConfigRequest) returns (google.api.Service) {
+		option (google.api.method_signature) = "service_name,config_id,view";
+		option (google.api.http) = {
+			get: "/v1/services/{service_name}/configs/{config_id}"
+			additional_bindings: {
+				get: "/v1/services/{service_name}/config"
+			}
+		};
+
+	}
+	rpc CreateServiceConfig(google.api.servicemanagement.v1.CreateServiceConfigRequest) returns (google.api.Service) {
+		option (google.api.method_signature) = "service_name,service_config";
+		option (google.api.http) = {
+			post: "/v1/services/{service_name}/configs"
+			body: "service_config"
+		};
+
+	}
+	rpc SubmitConfigSource(google.api.servicemanagement.v1.SubmitConfigSourceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.api.servicemanagement.v1.SubmitConfigSourceResponse"
+			metadata_type: "google.api.servicemanagement.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "service_name,config_source,validate_only";
+		option (google.api.http) = {
+			post: "/v1/services/{service_name}/configs:submit"
+			body: "*"
+		};
+
+	}
+	rpc ListServiceRollouts(google.api.servicemanagement.v1.ListServiceRolloutsRequest) returns (google.api.servicemanagement.v1.ListServiceRolloutsResponse) {
+		option (google.api.method_signature) = "service_name,filter";
+		option (google.api.http) = {
+			get: "/v1/services/{service_name}/rollouts"
+		};
+
+	}
+	rpc GetServiceRollout(google.api.servicemanagement.v1.GetServiceRolloutRequest) returns (google.api.servicemanagement.v1.Rollout) {
+		option (google.api.method_signature) = "service_name,rollout_id";
+		option (google.api.http) = {
+			get: "/v1/services/{service_name}/rollouts/{rollout_id}"
+		};
+
+	}
+	rpc CreateServiceRollout(google.api.servicemanagement.v1.CreateServiceRolloutRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.api.servicemanagement.v1.Rollout"
+			metadata_type: "google.api.servicemanagement.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "service_name,rollout";
+		option (google.api.http) = {
+			post: "/v1/services/{service_name}/rollouts"
+			body: "rollout"
+		};
+
+	}
+	rpc GenerateConfigReport(google.api.servicemanagement.v1.GenerateConfigReportRequest) returns (google.api.servicemanagement.v1.GenerateConfigReportResponse) {
+		option (google.api.method_signature) = "new_config,old_config";
+		option (google.api.http) = {
+			post: "/v1/services:generateConfigReport"
+			body: "*"
+		};
+
+	}
+	rpc EnableService(google.api.servicemanagement.v1.EnableServiceRequest) returns (google.longrunning.Operation) {
+		option deprecated = true;
+		option (google.longrunning.operation_info) = {
+			response_type: "google.api.servicemanagement.v1.EnableServiceResponse"
+			metadata_type: "google.api.servicemanagement.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "service_name,consumer_id";
+		option (google.api.http) = {
+			post: "/v1/services/{service_name}:enable"
+			body: "*"
+		};
+
+	}
+	rpc DisableService(google.api.servicemanagement.v1.DisableServiceRequest) returns (google.longrunning.Operation) {
+		option deprecated = true;
+		option (google.longrunning.operation_info) = {
+			response_type: "google.api.servicemanagement.v1.DisableServiceResponse"
+			metadata_type: "google.api.servicemanagement.v1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "service_name,consumer_id";
+		option (google.api.http) = {
+			post: "/v1/services/{service_name}:disable"
+			body: "*"
+		};
+
+	}
+}
+
+message ListServicesRequest {
+
+	string producer_project_id = 1;
+	int32 page_size = 5;
+	string page_token = 6;
+	string consumer_id = 7 [
+		deprecated = true
+	];
+}
+
+message ListServicesResponse {
+
+	repeated google.api.servicemanagement.v1.ManagedService services = 1;
+	string next_page_token = 2;
+}
+
+message GetServiceRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateServiceRequest {
+
+	google.api.servicemanagement.v1.ManagedService service = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteServiceRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UndeleteServiceRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UndeleteServiceResponse {
+
+	google.api.servicemanagement.v1.ManagedService service = 1;
+}
+
+message GetServiceConfigRequest {
+
+	enum ConfigView {
+
+		BASIC = 0;
+		FULL = 1;
+	}
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string config_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ConfigView view = 3;
+}
+
+message ListServiceConfigsRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListServiceConfigsResponse {
+
+	repeated google.api.Service service_configs = 1;
+	string next_page_token = 2;
+}
+
+message CreateServiceConfigRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.api.Service service_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SubmitConfigSourceRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.api.servicemanagement.v1.ConfigSource config_source = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SubmitConfigSourceResponse {
+
+	google.api.Service service_config = 1;
+}
+
+message CreateServiceRolloutRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.api.servicemanagement.v1.Rollout rollout = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListServiceRolloutsRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+	string filter = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListServiceRolloutsResponse {
+
+	repeated google.api.servicemanagement.v1.Rollout rollouts = 1;
+	string next_page_token = 2;
+}
+
+message GetServiceRolloutRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string rollout_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message EnableServiceRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string consumer_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message EnableServiceResponse {
+
+}
+
+message DisableServiceRequest {
+
+	string service_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string consumer_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DisableServiceResponse {
+
+}
+
+message GenerateConfigReportRequest {
+
+	google.protobuf.Any new_config = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Any old_config = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GenerateConfigReportResponse {
+
+	string service_name = 1;
+	string id = 2;
+	repeated google.api.servicemanagement.v1.ChangeReport change_reports = 3;
+	repeated google.api.servicemanagement.v1.Diagnostic diagnostics = 4;
+}

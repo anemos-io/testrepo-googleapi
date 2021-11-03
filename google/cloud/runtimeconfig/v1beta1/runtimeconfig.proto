@@ -1,0 +1,227 @@
+syntax = "proto3";
+
+package google.cloud.runtimeconfig.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/cloud/runtimeconfig/v1beta1/resources.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.runtimeconfig.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/runtimeconfig/v1beta1;runtimeconfig";
+option csharp_namespace = "Google.Cloud.RuntimeConfig.V1Beta1";
+option php_namespace = "Google\\Cloud\\RuntimeConfig\\V1beta1";
+
+
+service RuntimeConfigManager {
+
+	rpc ListConfigs(google.cloud.runtimeconfig.v1beta1.ListConfigsRequest) returns (google.cloud.runtimeconfig.v1beta1.ListConfigsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/configs"
+		};
+
+	}
+	rpc GetConfig(google.cloud.runtimeconfig.v1beta1.GetConfigRequest) returns (google.cloud.runtimeconfig.v1beta1.RuntimeConfig) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/configs/*}"
+		};
+
+	}
+	rpc CreateConfig(google.cloud.runtimeconfig.v1beta1.CreateConfigRequest) returns (google.cloud.runtimeconfig.v1beta1.RuntimeConfig) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/configs"
+			body: "config"
+		};
+
+	}
+	rpc UpdateConfig(google.cloud.runtimeconfig.v1beta1.UpdateConfigRequest) returns (google.cloud.runtimeconfig.v1beta1.RuntimeConfig) {
+		option (google.api.http) = {
+			put: "/v1beta1/{name=projects/*/configs/*}"
+			body: "config"
+		};
+
+	}
+	rpc DeleteConfig(google.cloud.runtimeconfig.v1beta1.DeleteConfigRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/configs/*}"
+		};
+
+	}
+	rpc ListVariables(google.cloud.runtimeconfig.v1beta1.ListVariablesRequest) returns (google.cloud.runtimeconfig.v1beta1.ListVariablesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/configs/*}/variables"
+		};
+
+	}
+	rpc GetVariable(google.cloud.runtimeconfig.v1beta1.GetVariableRequest) returns (google.cloud.runtimeconfig.v1beta1.Variable) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/configs/*/variables/**}"
+		};
+
+	}
+	rpc WatchVariable(google.cloud.runtimeconfig.v1beta1.WatchVariableRequest) returns (google.cloud.runtimeconfig.v1beta1.Variable) {
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/configs/*/variables/**}:watch"
+			body: "*"
+		};
+
+	}
+	rpc CreateVariable(google.cloud.runtimeconfig.v1beta1.CreateVariableRequest) returns (google.cloud.runtimeconfig.v1beta1.Variable) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/configs/*}/variables"
+			body: "variable"
+		};
+
+	}
+	rpc UpdateVariable(google.cloud.runtimeconfig.v1beta1.UpdateVariableRequest) returns (google.cloud.runtimeconfig.v1beta1.Variable) {
+		option (google.api.http) = {
+			put: "/v1beta1/{name=projects/*/configs/*/variables/**}"
+			body: "variable"
+		};
+
+	}
+	rpc DeleteVariable(google.cloud.runtimeconfig.v1beta1.DeleteVariableRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/configs/*/variables/**}"
+		};
+
+	}
+	rpc ListWaiters(google.cloud.runtimeconfig.v1beta1.ListWaitersRequest) returns (google.cloud.runtimeconfig.v1beta1.ListWaitersResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/configs/*}/waiters"
+		};
+
+	}
+	rpc GetWaiter(google.cloud.runtimeconfig.v1beta1.GetWaiterRequest) returns (google.cloud.runtimeconfig.v1beta1.Waiter) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/configs/*/waiters/*}"
+		};
+
+	}
+	rpc CreateWaiter(google.cloud.runtimeconfig.v1beta1.CreateWaiterRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/configs/*}/waiters"
+			body: "waiter"
+		};
+
+	}
+	rpc DeleteWaiter(google.cloud.runtimeconfig.v1beta1.DeleteWaiterRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/configs/*/waiters/*}"
+		};
+
+	}
+}
+
+message ListConfigsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListConfigsResponse {
+
+	repeated google.cloud.runtimeconfig.v1beta1.RuntimeConfig configs = 1;
+	string next_page_token = 2;
+}
+
+message GetConfigRequest {
+
+	string name = 2;
+}
+
+message CreateConfigRequest {
+
+	string parent = 1;
+	google.cloud.runtimeconfig.v1beta1.RuntimeConfig config = 2;
+	string request_id = 3;
+}
+
+message UpdateConfigRequest {
+
+	string name = 1;
+	google.cloud.runtimeconfig.v1beta1.RuntimeConfig config = 2;
+}
+
+message DeleteConfigRequest {
+
+	string name = 1;
+}
+
+message ListVariablesRequest {
+
+	string parent = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+	bool return_values = 5;
+}
+
+message ListVariablesResponse {
+
+	repeated google.cloud.runtimeconfig.v1beta1.Variable variables = 1;
+	string next_page_token = 2;
+}
+
+message WatchVariableRequest {
+
+	string name = 1;
+	google.protobuf.Timestamp newer_than = 4;
+}
+
+message GetVariableRequest {
+
+	string name = 1;
+}
+
+message CreateVariableRequest {
+
+	string parent = 1;
+	google.cloud.runtimeconfig.v1beta1.Variable variable = 2;
+	string request_id = 3;
+}
+
+message UpdateVariableRequest {
+
+	string name = 1;
+	google.cloud.runtimeconfig.v1beta1.Variable variable = 2;
+}
+
+message DeleteVariableRequest {
+
+	string name = 1;
+	bool recursive = 2;
+}
+
+message ListWaitersRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListWaitersResponse {
+
+	repeated google.cloud.runtimeconfig.v1beta1.Waiter waiters = 1;
+	string next_page_token = 2;
+}
+
+message GetWaiterRequest {
+
+	string name = 1;
+}
+
+message CreateWaiterRequest {
+
+	string parent = 1;
+	google.cloud.runtimeconfig.v1beta1.Waiter waiter = 2;
+	string request_id = 3;
+}
+
+message DeleteWaiterRequest {
+
+	string name = 1;
+}

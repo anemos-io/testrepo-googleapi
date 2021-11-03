@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.cloud.recommendationengine.v1beta1;
+
+import "google/api/resource.proto";
+
+option (google.api.resource_definition) = {
+	type: "recommendationengine.googleapis.com/Catalog"
+	pattern: ["projects/{project}/locations/{location}/catalogs/{catalog}"]
+};
+option (google.api.resource_definition) = {
+	type: "recommendationengine.googleapis.com/CatalogItemPath"
+	pattern: ["projects/{project}/locations/{location}/catalogs/{catalog}/catalogItems/{catalog_item_path=**}"]
+};
+option (google.api.resource_definition) = {
+	type: "recommendationengine.googleapis.com/EventStore"
+	pattern: ["projects/{project}/locations/{location}/catalogs/{catalog}/eventStores/{event_store}"]
+};
+option (google.api.resource_definition) = {
+	type: "recommendationengine.googleapis.com/PredictionApiKeyRegistration"
+	pattern: ["projects/{project}/locations/{location}/catalogs/{catalog}/eventStores/{event_store}/predictionApiKeyRegistrations/{prediction_api_key_registration}"]
+};
+option (google.api.resource_definition) = {
+	type: "recommendationengine.googleapis.com/Placement"
+	pattern: ["projects/{project}/locations/{location}/catalogs/{catalog}/eventStores/{event_store}/placements/{placement}"]
+};
+

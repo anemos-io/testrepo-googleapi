@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+import "google/monitoring/dashboard/v1/widget.proto";
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "LayoutsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+message GridLayout {
+
+	int64 columns = 1;
+	repeated google.monitoring.dashboard.v1.Widget widgets = 2;
+}
+
+message RowLayout {
+
+	message Row {
+
+		int64 weight = 1;
+		repeated google.monitoring.dashboard.v1.Widget widgets = 2;
+	}
+
+	repeated Row rows = 1;
+}
+
+message ColumnLayout {
+
+	message Column {
+
+		int64 weight = 1;
+		repeated google.monitoring.dashboard.v1.Widget widgets = 2;
+	}
+
+	repeated Column columns = 1;
+}

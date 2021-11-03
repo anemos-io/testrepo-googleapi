@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.api.expr.v1beta1;
+
+option java_package = "com.google.api.expr.v1beta1";
+option java_outer_classname = "SourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/expr/v1beta1;expr";
+option cc_enable_arenas = true;
+
+
+message SourceInfo {
+
+	string location = 2;
+	repeated int32 line_offsets = 3;
+	map<int32, int32> positions = 4;
+}
+
+message SourcePosition {
+
+	string location = 1;
+	int32 offset = 2;
+	int32 line = 3;
+	int32 column = 4;
+}

@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/v2beta1/audio_config.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "EnvironmentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+
+
+service Environments {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListEnvironments(google.cloud.dialogflow.v2beta1.ListEnvironmentsRequest) returns (google.cloud.dialogflow.v2beta1.ListEnvironmentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2beta1/{parent=projects/*/agent}/environments"
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*/agent}/environments"
+			}
+		};
+
+	}
+}
+
+message Environment {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Environment"
+		pattern: ["projects/{project}/agent/environments/{environment}","projects/{project}/locations/{location}/agent/environments/{environment}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		STOPPED = 1;
+		LOADING = 2;
+		RUNNING = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string agent_version = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListEnvironmentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEnvironmentsResponse {
+
+	repeated Environment environments = 1;
+	string next_page_token = 2;
+}

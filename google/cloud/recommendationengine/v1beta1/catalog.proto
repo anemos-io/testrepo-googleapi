@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package google.cloud.recommendationengine.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/recommendationengine/v1beta1/common.proto";
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.recommendationengine.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommendationengine/v1beta1;recommendationengine";
+option objc_class_prefix = "RECAI";
+option csharp_namespace = "Google.Cloud.RecommendationEngine.V1Beta1";
+option php_namespace = "Google\\Cloud\\RecommendationEngine\\V1beta1";
+option ruby_package = "Google::Cloud::RecommendationEngine::V1beta1";
+
+
+message CatalogItem {
+
+	message CategoryHierarchy {
+
+		repeated string categories = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	string id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CategoryHierarchy category_hierarchies = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string title = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.recommendationengine.v1beta1.FeatureMap item_attributes = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string language_code = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string tags = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string item_group_id = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof recommendation_type {
+		ProductCatalogItem product_metadata = 10 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+}
+
+message ProductCatalogItem {
+
+	message ExactPrice {
+
+		float display_price = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		float original_price = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	message PriceRange {
+
+		float min = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		float max = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	enum StockState {
+		option allow_alias = true;
+
+		STOCK_STATE_UNSPECIFIED = 0;
+		IN_STOCK = 0;
+		OUT_OF_STOCK = 1;
+		PREORDER = 2;
+		BACKORDER = 3;
+	}
+
+	oneof price {
+		ExactPrice exact_price = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		PriceRange price_range = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	map<string, float> costs = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string currency_code = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	StockState stock_state = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int64 available_quantity = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string canonical_product_uri = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated Image images = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message Image {
+
+	string uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 height = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 width = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

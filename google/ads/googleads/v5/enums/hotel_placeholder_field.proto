@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.enums";
+option java_outer_classname = "HotelsPlaceholderFieldProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V5::Enums";
+
+
+message HotelPlaceholderFieldEnum {
+
+	enum HotelPlaceholderField {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		PROPERTY_ID = 2;
+		PROPERTY_NAME = 3;
+		DESTINATION_NAME = 4;
+		DESCRIPTION = 5;
+		ADDRESS = 6;
+		PRICE = 7;
+		FORMATTED_PRICE = 8;
+		SALE_PRICE = 9;
+		FORMATTED_SALE_PRICE = 10;
+		IMAGE_URL = 11;
+		CATEGORY = 12;
+		STAR_RATING = 13;
+		CONTEXTUAL_KEYWORDS = 14;
+		FINAL_URLS = 15;
+		FINAL_MOBILE_URLS = 16;
+		TRACKING_URL = 17;
+		ANDROID_APP_LINK = 18;
+		SIMILAR_PROPERTY_IDS = 19;
+		IOS_APP_LINK = 20;
+		IOS_APP_STORE_ID = 21;
+	}
+
+}

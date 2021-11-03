@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/datacatalog/v1beta1/timestamps.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1beta1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1Beta1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1beta1";
+option ruby_package = "Google::Cloud::DataCatalog::V1beta1";
+
+
+message GcsFilesetSpec {
+
+	repeated string file_patterns = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated GcsFileSpec sample_gcs_file_specs = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message GcsFileSpec {
+
+	string file_path = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.datacatalog.v1beta1.SystemTimestamps gcs_timestamps = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 size_bytes = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

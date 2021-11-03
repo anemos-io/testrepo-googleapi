@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.identity.accesscontextmanager.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.identity.accesscontextmanager.v1";
+option java_outer_classname = "ServicePerimeterProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/identity/accesscontextmanager/v1;accesscontextmanager";
+option objc_class_prefix = "GACM";
+option csharp_namespace = "Google.Identity.AccessContextManager.V1";
+option php_namespace = "Google\\Identity\\AccessContextManager\\V1";
+option ruby_package = "Google::Identity::AccessContextManager::V1";
+
+
+message ServicePerimeter {
+
+	enum PerimeterType {
+
+		PERIMETER_TYPE_REGULAR = 0;
+		PERIMETER_TYPE_BRIDGE = 1;
+	}
+
+	string name = 1;
+	string title = 2;
+	string description = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp update_time = 5;
+	PerimeterType perimeter_type = 6;
+	ServicePerimeterConfig status = 7;
+	ServicePerimeterConfig spec = 8;
+	bool use_explicit_dry_run_spec = 9;
+}
+
+message ServicePerimeterConfig {
+
+	message VpcAccessibleServices {
+
+		bool enable_restriction = 1;
+		repeated string allowed_services = 2;
+	}
+
+	repeated string resources = 1;
+	repeated string access_levels = 2;
+	repeated string restricted_services = 4;
+	VpcAccessibleServices vpc_accessible_services = 10;
+}

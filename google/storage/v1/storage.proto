@@ -1,0 +1,866 @@
+syntax = "proto3";
+
+package google.storage.v1;
+
+import "google/api/field_behavior.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
+import "google/storage/v1/storage_resources.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.storage.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/storage/v1;storage";
+
+
+service Storage {
+	option (google.api.default_host) = "storage.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/devstorage.full_control,https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/devstorage.read_write";
+
+	rpc DeleteBucketAccessControl(google.storage.v1.DeleteBucketAccessControlRequest) returns (google.protobuf.Empty) {}
+	rpc GetBucketAccessControl(google.storage.v1.GetBucketAccessControlRequest) returns (google.storage.v1.BucketAccessControl) {}
+	rpc InsertBucketAccessControl(google.storage.v1.InsertBucketAccessControlRequest) returns (google.storage.v1.BucketAccessControl) {}
+	rpc ListBucketAccessControls(google.storage.v1.ListBucketAccessControlsRequest) returns (google.storage.v1.ListBucketAccessControlsResponse) {}
+	rpc UpdateBucketAccessControl(google.storage.v1.UpdateBucketAccessControlRequest) returns (google.storage.v1.BucketAccessControl) {}
+	rpc PatchBucketAccessControl(google.storage.v1.PatchBucketAccessControlRequest) returns (google.storage.v1.BucketAccessControl) {}
+	rpc DeleteBucket(google.storage.v1.DeleteBucketRequest) returns (google.protobuf.Empty) {}
+	rpc GetBucket(google.storage.v1.GetBucketRequest) returns (google.storage.v1.Bucket) {}
+	rpc InsertBucket(google.storage.v1.InsertBucketRequest) returns (google.storage.v1.Bucket) {}
+	rpc ListChannels(google.storage.v1.ListChannelsRequest) returns (google.storage.v1.ListChannelsResponse) {}
+	rpc ListBuckets(google.storage.v1.ListBucketsRequest) returns (google.storage.v1.ListBucketsResponse) {}
+	rpc LockBucketRetentionPolicy(google.storage.v1.LockRetentionPolicyRequest) returns (google.storage.v1.Bucket) {}
+	rpc GetBucketIamPolicy(google.storage.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {}
+	rpc SetBucketIamPolicy(google.storage.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {}
+	rpc TestBucketIamPermissions(google.storage.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {}
+	rpc PatchBucket(google.storage.v1.PatchBucketRequest) returns (google.storage.v1.Bucket) {}
+	rpc UpdateBucket(google.storage.v1.UpdateBucketRequest) returns (google.storage.v1.Bucket) {}
+	rpc StopChannel(google.storage.v1.StopChannelRequest) returns (google.protobuf.Empty) {}
+	rpc DeleteDefaultObjectAccessControl(google.storage.v1.DeleteDefaultObjectAccessControlRequest) returns (google.protobuf.Empty) {}
+	rpc GetDefaultObjectAccessControl(google.storage.v1.GetDefaultObjectAccessControlRequest) returns (google.storage.v1.ObjectAccessControl) {}
+	rpc InsertDefaultObjectAccessControl(google.storage.v1.InsertDefaultObjectAccessControlRequest) returns (google.storage.v1.ObjectAccessControl) {}
+	rpc ListDefaultObjectAccessControls(google.storage.v1.ListDefaultObjectAccessControlsRequest) returns (google.storage.v1.ListObjectAccessControlsResponse) {}
+	rpc PatchDefaultObjectAccessControl(google.storage.v1.PatchDefaultObjectAccessControlRequest) returns (google.storage.v1.ObjectAccessControl) {}
+	rpc UpdateDefaultObjectAccessControl(google.storage.v1.UpdateDefaultObjectAccessControlRequest) returns (google.storage.v1.ObjectAccessControl) {}
+	rpc DeleteNotification(google.storage.v1.DeleteNotificationRequest) returns (google.protobuf.Empty) {}
+	rpc GetNotification(google.storage.v1.GetNotificationRequest) returns (google.storage.v1.Notification) {}
+	rpc InsertNotification(google.storage.v1.InsertNotificationRequest) returns (google.storage.v1.Notification) {}
+	rpc ListNotifications(google.storage.v1.ListNotificationsRequest) returns (google.storage.v1.ListNotificationsResponse) {}
+	rpc DeleteObjectAccessControl(google.storage.v1.DeleteObjectAccessControlRequest) returns (google.protobuf.Empty) {}
+	rpc GetObjectAccessControl(google.storage.v1.GetObjectAccessControlRequest) returns (google.storage.v1.ObjectAccessControl) {}
+	rpc InsertObjectAccessControl(google.storage.v1.InsertObjectAccessControlRequest) returns (google.storage.v1.ObjectAccessControl) {}
+	rpc ListObjectAccessControls(google.storage.v1.ListObjectAccessControlsRequest) returns (google.storage.v1.ListObjectAccessControlsResponse) {}
+	rpc PatchObjectAccessControl(google.storage.v1.PatchObjectAccessControlRequest) returns (google.storage.v1.ObjectAccessControl) {}
+	rpc UpdateObjectAccessControl(google.storage.v1.UpdateObjectAccessControlRequest) returns (google.storage.v1.ObjectAccessControl) {}
+	rpc ComposeObject(google.storage.v1.ComposeObjectRequest) returns (google.storage.v1.Object) {}
+	rpc CopyObject(google.storage.v1.CopyObjectRequest) returns (google.storage.v1.Object) {}
+	rpc DeleteObject(google.storage.v1.DeleteObjectRequest) returns (google.protobuf.Empty) {}
+	rpc GetObject(google.storage.v1.GetObjectRequest) returns (google.storage.v1.Object) {}
+	rpc GetObjectMedia(google.storage.v1.GetObjectMediaRequest) returns (stream google.storage.v1.GetObjectMediaResponse) {}
+	rpc InsertObject(stream google.storage.v1.InsertObjectRequest) returns (google.storage.v1.Object) {}
+	rpc ListObjects(google.storage.v1.ListObjectsRequest) returns (google.storage.v1.ListObjectsResponse) {}
+	rpc RewriteObject(google.storage.v1.RewriteObjectRequest) returns (google.storage.v1.RewriteResponse) {}
+	rpc StartResumableWrite(google.storage.v1.StartResumableWriteRequest) returns (google.storage.v1.StartResumableWriteResponse) {}
+	rpc QueryWriteStatus(google.storage.v1.QueryWriteStatusRequest) returns (google.storage.v1.QueryWriteStatusResponse) {}
+	rpc PatchObject(google.storage.v1.PatchObjectRequest) returns (google.storage.v1.Object) {}
+	rpc UpdateObject(google.storage.v1.UpdateObjectRequest) returns (google.storage.v1.Object) {}
+	rpc GetObjectIamPolicy(google.storage.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {}
+	rpc SetObjectIamPolicy(google.storage.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {}
+	rpc TestObjectIamPermissions(google.storage.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {}
+	rpc WatchAllObjects(google.storage.v1.WatchAllObjectsRequest) returns (google.storage.v1.Channel) {}
+	rpc GetServiceAccount(google.storage.v1.GetProjectServiceAccountRequest) returns (google.storage.v1.ServiceAccount) {}
+	rpc CreateHmacKey(google.storage.v1.CreateHmacKeyRequest) returns (google.storage.v1.CreateHmacKeyResponse) {}
+	rpc DeleteHmacKey(google.storage.v1.DeleteHmacKeyRequest) returns (google.protobuf.Empty) {}
+	rpc GetHmacKey(google.storage.v1.GetHmacKeyRequest) returns (google.storage.v1.HmacKeyMetadata) {}
+	rpc ListHmacKeys(google.storage.v1.ListHmacKeysRequest) returns (google.storage.v1.ListHmacKeysResponse) {}
+	rpc UpdateHmacKey(google.storage.v1.UpdateHmacKeyRequest) returns (google.storage.v1.HmacKeyMetadata) {}
+}
+
+message DeleteBucketAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 4;
+}
+
+message GetBucketAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 4;
+}
+
+message InsertBucketAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.BucketAccessControl bucket_access_control = 3;
+	CommonRequestParams common_request_params = 4;
+}
+
+message ListBucketAccessControlsRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 3;
+}
+
+message PatchBucketAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.BucketAccessControl bucket_access_control = 4;
+	google.protobuf.FieldMask update_mask = 5;
+	CommonRequestParams common_request_params = 6;
+}
+
+message UpdateBucketAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.BucketAccessControl bucket_access_control = 4;
+	CommonRequestParams common_request_params = 5;
+}
+
+message DeleteBucketRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value if_metageneration_match = 2;
+	google.protobuf.Int64Value if_metageneration_not_match = 3;
+	CommonRequestParams common_request_params = 5;
+}
+
+message GetBucketRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value if_metageneration_match = 2;
+	google.protobuf.Int64Value if_metageneration_not_match = 3;
+	google.storage.v1.CommonEnums.Projection projection = 4;
+	CommonRequestParams common_request_params = 6;
+}
+
+message InsertBucketRequest {
+
+	google.storage.v1.CommonEnums.PredefinedBucketAcl predefined_acl = 1;
+	google.storage.v1.CommonEnums.PredefinedObjectAcl predefined_default_object_acl = 2;
+	string project = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.CommonEnums.Projection projection = 4;
+	google.storage.v1.Bucket bucket = 6;
+	CommonRequestParams common_request_params = 7;
+}
+
+message ListChannelsRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 3;
+}
+
+message ListBucketsRequest {
+
+	int32 max_results = 1;
+	string page_token = 2;
+	string prefix = 3;
+	string project = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.CommonEnums.Projection projection = 5;
+	CommonRequestParams common_request_params = 7;
+}
+
+message LockRetentionPolicyRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 if_metageneration_match = 2;
+	CommonRequestParams common_request_params = 4;
+}
+
+message PatchBucketRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value if_metageneration_match = 2;
+	google.protobuf.Int64Value if_metageneration_not_match = 3;
+	google.storage.v1.CommonEnums.PredefinedBucketAcl predefined_acl = 4;
+	google.storage.v1.CommonEnums.PredefinedObjectAcl predefined_default_object_acl = 5;
+	google.storage.v1.CommonEnums.Projection projection = 6;
+	google.storage.v1.Bucket metadata = 8;
+	google.protobuf.FieldMask update_mask = 9;
+	CommonRequestParams common_request_params = 10;
+}
+
+message UpdateBucketRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value if_metageneration_match = 2;
+	google.protobuf.Int64Value if_metageneration_not_match = 3;
+	google.storage.v1.CommonEnums.PredefinedBucketAcl predefined_acl = 4;
+	google.storage.v1.CommonEnums.PredefinedObjectAcl predefined_default_object_acl = 5;
+	google.storage.v1.CommonEnums.Projection projection = 6;
+	google.storage.v1.Bucket metadata = 8;
+	CommonRequestParams common_request_params = 9;
+}
+
+message StopChannelRequest {
+
+	google.storage.v1.Channel channel = 1;
+	CommonRequestParams common_request_params = 2;
+}
+
+message DeleteDefaultObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 4;
+}
+
+message GetDefaultObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 4;
+}
+
+message InsertDefaultObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.ObjectAccessControl object_access_control = 3;
+	CommonRequestParams common_request_params = 4;
+}
+
+message ListDefaultObjectAccessControlsRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value if_metageneration_match = 2;
+	google.protobuf.Int64Value if_metageneration_not_match = 3;
+	CommonRequestParams common_request_params = 5;
+}
+
+message PatchDefaultObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.ObjectAccessControl object_access_control = 4;
+	google.protobuf.FieldMask update_mask = 5;
+	CommonRequestParams common_request_params = 6;
+}
+
+message UpdateDefaultObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.ObjectAccessControl object_access_control = 4;
+	CommonRequestParams common_request_params = 5;
+}
+
+message DeleteNotificationRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string notification = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 4;
+}
+
+message GetNotificationRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string notification = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 4;
+}
+
+message InsertNotificationRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.Notification notification = 3;
+	CommonRequestParams common_request_params = 4;
+}
+
+message ListNotificationsRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 3;
+}
+
+message DeleteObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 4;
+	CommonRequestParams common_request_params = 6;
+}
+
+message GetObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 4;
+	CommonRequestParams common_request_params = 6;
+}
+
+message InsertObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 3;
+	google.storage.v1.ObjectAccessControl object_access_control = 5;
+	CommonRequestParams common_request_params = 6;
+}
+
+message ListObjectAccessControlsRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 3;
+	CommonRequestParams common_request_params = 5;
+}
+
+message PatchObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 4;
+	google.storage.v1.ObjectAccessControl object_access_control = 5;
+	CommonRequestParams common_request_params = 6;
+	google.protobuf.FieldMask update_mask = 7;
+}
+
+message UpdateObjectAccessControlRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string entity = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 4;
+	google.storage.v1.ObjectAccessControl object_access_control = 6;
+	CommonRequestParams common_request_params = 7;
+	google.protobuf.FieldMask update_mask = 8;
+}
+
+message ComposeObjectRequest {
+
+	message SourceObjects {
+
+		message ObjectPreconditions {
+
+			google.protobuf.Int64Value if_generation_match = 1;
+		}
+
+		string name = 1;
+		int64 generation = 2;
+		ObjectPreconditions object_preconditions = 3;
+	}
+
+	string destination_bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination_object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.CommonEnums.PredefinedObjectAcl destination_predefined_acl = 3;
+	google.storage.v1.Object destination = 11;
+	repeated SourceObjects source_objects = 12;
+	google.protobuf.Int64Value if_generation_match = 4;
+	google.protobuf.Int64Value if_metageneration_match = 5;
+	string kms_key_name = 6;
+	CommonObjectRequestParams common_object_request_params = 9;
+	CommonRequestParams common_request_params = 10;
+}
+
+message CopyObjectRequest {
+
+	string destination_bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination_object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.CommonEnums.PredefinedObjectAcl destination_predefined_acl = 3;
+	google.protobuf.Int64Value if_generation_match = 4;
+	google.protobuf.Int64Value if_generation_not_match = 5;
+	google.protobuf.Int64Value if_metageneration_match = 6;
+	google.protobuf.Int64Value if_metageneration_not_match = 7;
+	google.protobuf.Int64Value if_source_generation_match = 8;
+	google.protobuf.Int64Value if_source_generation_not_match = 9;
+	google.protobuf.Int64Value if_source_metageneration_match = 10;
+	google.protobuf.Int64Value if_source_metageneration_not_match = 11;
+	google.storage.v1.CommonEnums.Projection projection = 12;
+	string source_bucket = 13 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string source_object = 14 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 source_generation = 15;
+	google.storage.v1.Object destination = 17;
+	string destination_kms_key_name = 20;
+	CommonObjectRequestParams common_object_request_params = 18;
+	CommonRequestParams common_request_params = 19;
+}
+
+message DeleteObjectRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string upload_id = 3;
+	int64 generation = 4;
+	google.protobuf.Int64Value if_generation_match = 5;
+	google.protobuf.Int64Value if_generation_not_match = 6;
+	google.protobuf.Int64Value if_metageneration_match = 7;
+	google.protobuf.Int64Value if_metageneration_not_match = 8;
+	CommonObjectRequestParams common_object_request_params = 10;
+	CommonRequestParams common_request_params = 11;
+}
+
+message GetObjectMediaRequest {
+
+	string bucket = 1;
+	string object = 2;
+	int64 generation = 3;
+	int64 read_offset = 4;
+	int64 read_limit = 5;
+	google.protobuf.Int64Value if_generation_match = 6;
+	google.protobuf.Int64Value if_generation_not_match = 7;
+	google.protobuf.Int64Value if_metageneration_match = 8;
+	google.protobuf.Int64Value if_metageneration_not_match = 9;
+	CommonObjectRequestParams common_object_request_params = 11;
+	CommonRequestParams common_request_params = 12;
+}
+
+message GetObjectRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 3;
+	google.protobuf.Int64Value if_generation_match = 4;
+	google.protobuf.Int64Value if_generation_not_match = 5;
+	google.protobuf.Int64Value if_metageneration_match = 6;
+	google.protobuf.Int64Value if_metageneration_not_match = 7;
+	google.storage.v1.CommonEnums.Projection projection = 8;
+	CommonObjectRequestParams common_object_request_params = 10;
+	CommonRequestParams common_request_params = 11;
+}
+
+message GetObjectMediaResponse {
+
+	google.storage.v1.ChecksummedData checksummed_data = 1;
+	google.storage.v1.ObjectChecksums object_checksums = 2;
+	google.storage.v1.ContentRange content_range = 3;
+	google.storage.v1.Object metadata = 4;
+}
+
+message InsertObjectSpec {
+
+	google.storage.v1.Object resource = 1;
+	google.storage.v1.CommonEnums.PredefinedObjectAcl predefined_acl = 2;
+	google.protobuf.Int64Value if_generation_match = 3;
+	google.protobuf.Int64Value if_generation_not_match = 4;
+	google.protobuf.Int64Value if_metageneration_match = 5;
+	google.protobuf.Int64Value if_metageneration_not_match = 6;
+	google.storage.v1.CommonEnums.Projection projection = 7;
+}
+
+message InsertObjectRequest {
+
+	oneof first_message {
+		string upload_id = 1;
+		InsertObjectSpec insert_object_spec = 2;
+	}
+	int64 write_offset = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof data {
+		google.storage.v1.ChecksummedData checksummed_data = 4;
+		GetObjectMediaRequest reference = 5;
+	}
+	google.storage.v1.ObjectChecksums object_checksums = 6;
+	bool finish_write = 7;
+	CommonObjectRequestParams common_object_request_params = 8;
+	CommonRequestParams common_request_params = 9;
+}
+
+message ListObjectsRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string delimiter = 2;
+	bool include_trailing_delimiter = 3;
+	int32 max_results = 4;
+	string page_token = 5;
+	string prefix = 6;
+	google.storage.v1.CommonEnums.Projection projection = 7;
+	bool versions = 9;
+	CommonRequestParams common_request_params = 10;
+}
+
+message QueryWriteStatusRequest {
+
+	string upload_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonObjectRequestParams common_object_request_params = 2;
+	CommonRequestParams common_request_params = 3;
+}
+
+message QueryWriteStatusResponse {
+
+	int64 committed_size = 1;
+	bool complete = 2;
+}
+
+message RewriteObjectRequest {
+
+	string destination_bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination_object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination_kms_key_name = 3;
+	google.storage.v1.CommonEnums.PredefinedObjectAcl destination_predefined_acl = 4;
+	google.protobuf.Int64Value if_generation_match = 5;
+	google.protobuf.Int64Value if_generation_not_match = 6;
+	google.protobuf.Int64Value if_metageneration_match = 7;
+	google.protobuf.Int64Value if_metageneration_not_match = 8;
+	google.protobuf.Int64Value if_source_generation_match = 9;
+	google.protobuf.Int64Value if_source_generation_not_match = 10;
+	google.protobuf.Int64Value if_source_metageneration_match = 11;
+	google.protobuf.Int64Value if_source_metageneration_not_match = 12;
+	int64 max_bytes_rewritten_per_call = 13;
+	google.storage.v1.CommonEnums.Projection projection = 14;
+	string rewrite_token = 15;
+	string source_bucket = 16 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string source_object = 17 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 source_generation = 18;
+	google.storage.v1.Object object = 20;
+	string copy_source_encryption_algorithm = 21;
+	string copy_source_encryption_key = 22;
+	string copy_source_encryption_key_sha256 = 23;
+	CommonObjectRequestParams common_object_request_params = 24;
+	CommonRequestParams common_request_params = 25;
+}
+
+message RewriteResponse {
+
+	int64 total_bytes_rewritten = 1;
+	int64 object_size = 2;
+	bool done = 3;
+	string rewrite_token = 4;
+	google.storage.v1.Object resource = 5;
+}
+
+message StartResumableWriteRequest {
+
+	InsertObjectSpec insert_object_spec = 1;
+	CommonObjectRequestParams common_object_request_params = 3;
+	CommonRequestParams common_request_params = 4;
+}
+
+message StartResumableWriteResponse {
+
+	string upload_id = 1;
+}
+
+message PatchObjectRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 3;
+	google.protobuf.Int64Value if_generation_match = 4;
+	google.protobuf.Int64Value if_generation_not_match = 5;
+	google.protobuf.Int64Value if_metageneration_match = 6;
+	google.protobuf.Int64Value if_metageneration_not_match = 7;
+	google.storage.v1.CommonEnums.PredefinedObjectAcl predefined_acl = 8;
+	google.storage.v1.CommonEnums.Projection projection = 9;
+	google.storage.v1.Object metadata = 11;
+	google.protobuf.FieldMask update_mask = 12;
+	CommonObjectRequestParams common_object_request_params = 13;
+	CommonRequestParams common_request_params = 14;
+}
+
+message UpdateObjectRequest {
+
+	string bucket = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string object = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 generation = 3;
+	google.protobuf.Int64Value if_generation_match = 4;
+	google.protobuf.Int64Value if_generation_not_match = 5;
+	google.protobuf.Int64Value if_metageneration_match = 6;
+	google.protobuf.Int64Value if_metageneration_not_match = 7;
+	google.storage.v1.CommonEnums.PredefinedObjectAcl predefined_acl = 8;
+	google.storage.v1.CommonEnums.Projection projection = 9;
+	google.storage.v1.Object metadata = 11;
+	CommonObjectRequestParams common_object_request_params = 12;
+	CommonRequestParams common_request_params = 13;
+}
+
+message WatchAllObjectsRequest {
+
+	string bucket = 1;
+	bool versions = 2;
+	string delimiter = 3;
+	int32 max_results = 4;
+	string prefix = 5;
+	bool include_trailing_delimiter = 6;
+	string page_token = 7;
+	google.storage.v1.CommonEnums.Projection projection = 8;
+	google.storage.v1.Channel channel = 10;
+	CommonRequestParams common_request_params = 11;
+}
+
+message GetProjectServiceAccountRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 3;
+}
+
+message CreateHmacKeyRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string service_account_email = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 3;
+}
+
+message CreateHmacKeyResponse {
+
+	google.storage.v1.HmacKeyMetadata metadata = 1;
+	string secret = 2;
+}
+
+message DeleteHmacKeyRequest {
+
+	string access_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string project_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 3;
+}
+
+message GetHmacKeyRequest {
+
+	string access_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string project_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 3;
+}
+
+message ListHmacKeysRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string service_account_email = 2;
+	bool show_deleted_keys = 3;
+	int32 max_results = 4;
+	string page_token = 5;
+	CommonRequestParams common_request_params = 6;
+}
+
+message ListHmacKeysResponse {
+
+	string next_page_token = 1;
+	repeated google.storage.v1.HmacKeyMetadata items = 2;
+}
+
+message UpdateHmacKeyRequest {
+
+	string access_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string project_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.storage.v1.HmacKeyMetadata metadata = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CommonRequestParams common_request_params = 5;
+}
+
+message GetIamPolicyRequest {
+
+	google.iam.v1.GetIamPolicyRequest iam_request = 1;
+	CommonRequestParams common_request_params = 2;
+}
+
+message SetIamPolicyRequest {
+
+	google.iam.v1.SetIamPolicyRequest iam_request = 1;
+	CommonRequestParams common_request_params = 2;
+}
+
+message TestIamPermissionsRequest {
+
+	google.iam.v1.TestIamPermissionsRequest iam_request = 1;
+	CommonRequestParams common_request_params = 2;
+}
+
+message CommonObjectRequestParams {
+
+	string encryption_algorithm = 1;
+	string encryption_key = 2;
+	string encryption_key_sha256 = 3;
+}
+
+message CommonRequestParams {
+
+	string user_project = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string quota_user = 2;
+	google.protobuf.FieldMask fields = 4;
+}
+
+message ServiceConstants {
+
+	enum Values {
+		option allow_alias = true;
+
+		VALUES_UNSPECIFIED = 0;
+		MAX_READ_CHUNK_BYTES = 2097152;
+		MAX_WRITE_CHUNK_BYTES = 2097152;
+		MAX_OBJECT_SIZE_MB = 5242880;
+		MAX_CUSTOM_METADATA_FIELD_NAME_BYTES = 1024;
+		MAX_CUSTOM_METADATA_FIELD_VALUE_BYTES = 4096;
+		MAX_CUSTOM_METADATA_TOTAL_SIZE_BYTES = 8192;
+		MAX_BUCKET_METADATA_TOTAL_SIZE_BYTES = 20480;
+		MAX_NOTIFICATION_CONFIGS_PER_BUCKET = 100;
+		MAX_LIFECYCLE_RULES_PER_BUCKET = 100;
+		MAX_NOTIFICATION_CUSTOM_ATTRIBUTES = 5;
+		MAX_NOTIFICATION_CUSTOM_ATTRIBUTE_KEY_LENGTH = 256;
+		MAX_NOTIFICATION_CUSTOM_ATTRIBUTE_VALUE_LENGTH = 1024;
+		MAX_LABELS_ENTRIES_COUNT = 64;
+		MAX_LABELS_KEY_VALUE_LENGTH = 63;
+		MAX_LABELS_KEY_VALUE_BYTES = 128;
+		MAX_OBJECT_IDS_PER_DELETE_OBJECTS_REQUEST = 1000;
+		SPLIT_TOKEN_MAX_VALID_DAYS = 14;
+	}
+
+}

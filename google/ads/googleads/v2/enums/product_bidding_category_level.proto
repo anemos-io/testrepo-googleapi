@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.enums";
+option java_outer_classname = "ProductBiddingCategoryLevelProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V2::Enums";
+
+
+message ProductBiddingCategoryLevelEnum {
+
+	enum ProductBiddingCategoryLevel {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		LEVEL1 = 2;
+		LEVEL2 = 3;
+		LEVEL3 = 4;
+		LEVEL4 = 5;
+		LEVEL5 = 6;
+	}
+
+}

@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package google.monitoring.v3;
+
+import "google/api/distribution.proto";
+import "google/api/label.proto";
+import "google/api/metric.proto";
+import "google/api/monitored_resource.proto";
+import "google/monitoring/v3/common.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.monitoring.v3";
+option java_outer_classname = "MetricProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/v3;monitoring";
+option csharp_namespace = "Google.Cloud.Monitoring.V3";
+option php_namespace = "Google\\Cloud\\Monitoring\\V3";
+option ruby_package = "Google::Cloud::Monitoring::V3";
+
+
+message Point {
+
+	google.monitoring.v3.TimeInterval interval = 1;
+	google.monitoring.v3.TypedValue value = 2;
+}
+
+message TimeSeries {
+
+	google.api.Metric metric = 1;
+	google.api.MonitoredResource resource = 2;
+	google.api.MonitoredResourceMetadata metadata = 7;
+	google.api.MetricDescriptor.MetricKind metric_kind = 3;
+	google.api.MetricDescriptor.ValueType value_type = 4;
+	repeated Point points = 5;
+}
+
+message TimeSeriesDescriptor {
+
+	message ValueDescriptor {
+
+		string key = 1;
+		google.api.MetricDescriptor.ValueType value_type = 2;
+		google.api.MetricDescriptor.MetricKind metric_kind = 3;
+	}
+
+	repeated google.api.LabelDescriptor label_descriptors = 1;
+	repeated ValueDescriptor point_descriptors = 5;
+}
+
+message TimeSeriesData {
+
+	message PointData {
+
+		repeated google.monitoring.v3.TypedValue values = 1;
+		google.monitoring.v3.TimeInterval time_interval = 2;
+	}
+
+	repeated LabelValue label_values = 1;
+	repeated PointData point_data = 2;
+}
+
+message LabelValue {
+
+	oneof value {
+		bool bool_value = 1;
+		int64 int64_value = 2;
+		string string_value = 3;
+	}
+}
+
+message QueryError {
+
+	TextLocator locator = 1;
+	string message = 2;
+}
+
+message TextLocator {
+
+	message Position {
+
+		int32 line = 1;
+		int32 column = 2;
+	}
+
+	string source = 1;
+	Position start_position = 2;
+	Position end_position = 3;
+	TextLocator nested_locator = 4;
+	string nesting_reason = 5;
+}

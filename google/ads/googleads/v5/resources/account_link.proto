@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.resources;
+
+import "google/ads/googleads/v5/enums/account_link_status.proto";
+import "google/ads/googleads/v5/enums/linked_account_type.proto";
+import "google/ads/googleads/v5/enums/mobile_app_vendor.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.resources";
+option java_outer_classname = "AccountLinkProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V5::Resources";
+
+
+message AccountLink {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AccountLink"
+		pattern: ["customers/{customer}/accountLinks/{account_link}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AccountLink"
+		}
+	];
+	google.protobuf.Int64Value account_link_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v5.enums.AccountLinkStatusEnum.AccountLinkStatus status = 3;
+	google.ads.googleads.v5.enums.LinkedAccountTypeEnum.LinkedAccountType type = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof linked_account {
+		ThirdPartyAppAnalyticsLinkIdentifier third_party_app_analytics = 5 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		DataPartnerLinkIdentifier data_partner = 6 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		GoogleAdsLinkIdentifier google_ads = 7 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}
+
+message ThirdPartyAppAnalyticsLinkIdentifier {
+
+	google.protobuf.Int64Value app_analytics_provider_id = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.StringValue app_id = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v5.enums.MobileAppVendorEnum.MobileAppVendor app_vendor = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}
+
+message DataPartnerLinkIdentifier {
+
+	oneof _data_partner_id {
+		int64 data_partner_id = 1 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+}
+
+message GoogleAdsLinkIdentifier {
+
+	oneof _customer {
+		string customer = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Customer"
+			}
+		];
+	}
+}

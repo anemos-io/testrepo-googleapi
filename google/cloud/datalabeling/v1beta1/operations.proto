@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+package google.cloud.datalabeling.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/cloud/datalabeling/v1beta1/dataset.proto";
+import "google/cloud/datalabeling/v1beta1/human_annotation_config.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.datalabeling.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datalabeling/v1beta1;datalabeling";
+
+
+message ImportDataOperationResponse {
+
+	string dataset = 1;
+	int32 total_count = 2;
+	int32 import_count = 3;
+}
+
+message ExportDataOperationResponse {
+
+	string dataset = 1;
+	int32 total_count = 2;
+	int32 export_count = 3;
+	google.cloud.datalabeling.v1beta1.LabelStats label_stats = 4;
+	google.cloud.datalabeling.v1beta1.OutputConfig output_config = 5;
+}
+
+message ImportDataOperationMetadata {
+
+	string dataset = 1;
+	repeated google.rpc.Status partial_failures = 2;
+	google.protobuf.Timestamp create_time = 3;
+}
+
+message ExportDataOperationMetadata {
+
+	string dataset = 1;
+	repeated google.rpc.Status partial_failures = 2;
+	google.protobuf.Timestamp create_time = 3;
+}
+
+message LabelOperationMetadata {
+
+	oneof details {
+		LabelImageClassificationOperationMetadata image_classification_details = 3;
+		LabelImageBoundingBoxOperationMetadata image_bounding_box_details = 4;
+		LabelImageBoundingPolyOperationMetadata image_bounding_poly_details = 11;
+		LabelImageOrientedBoundingBoxOperationMetadata image_oriented_bounding_box_details = 14;
+		LabelImagePolylineOperationMetadata image_polyline_details = 12;
+		LabelImageSegmentationOperationMetadata image_segmentation_details = 15;
+		LabelVideoClassificationOperationMetadata video_classification_details = 5;
+		LabelVideoObjectDetectionOperationMetadata video_object_detection_details = 6;
+		LabelVideoObjectTrackingOperationMetadata video_object_tracking_details = 7;
+		LabelVideoEventOperationMetadata video_event_details = 8;
+		LabelTextClassificationOperationMetadata text_classification_details = 9;
+		LabelTextEntityExtractionOperationMetadata text_entity_extraction_details = 13;
+	}
+	int32 progress_percent = 1;
+	repeated google.rpc.Status partial_failures = 2;
+	google.protobuf.Timestamp create_time = 16;
+}
+
+message LabelImageClassificationOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelImageBoundingBoxOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelImageOrientedBoundingBoxOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelImageBoundingPolyOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelImagePolylineOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelImageSegmentationOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelVideoClassificationOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelVideoObjectDetectionOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelVideoObjectTrackingOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelVideoEventOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelTextClassificationOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message LabelTextEntityExtractionOperationMetadata {
+
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 1;
+}
+
+message CreateInstructionMetadata {
+
+	string instruction = 1;
+	repeated google.rpc.Status partial_failures = 2;
+	google.protobuf.Timestamp create_time = 3;
+}

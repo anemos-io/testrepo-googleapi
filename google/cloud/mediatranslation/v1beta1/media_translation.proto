@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package google.cloud.mediatranslation.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/rpc/status.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.mediatranslation.v1beta1";
+option java_outer_classname = "MediaTranslationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/mediatranslation/v1beta1;mediatranslation";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.MediaTranslation.V1Beta1";
+option php_namespace = "Google\\Cloud\\MediaTranslation\\V1beta1";
+option ruby_package = "Google::Cloud::MediaTranslation::V1beta1";
+
+
+service SpeechTranslationService {
+	option (google.api.default_host) = "mediatranslation.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc StreamingTranslateSpeech(stream google.cloud.mediatranslation.v1beta1.StreamingTranslateSpeechRequest) returns (stream google.cloud.mediatranslation.v1beta1.StreamingTranslateSpeechResponse) {}
+}
+
+message TranslateSpeechConfig {
+
+	string audio_encoding = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string source_language_code = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string alternative_source_language_codes = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string target_language_code = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 sample_rate_hertz = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string model = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message StreamingTranslateSpeechConfig {
+
+	TranslateSpeechConfig audio_config = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool single_utterance = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message StreamingTranslateSpeechRequest {
+
+	oneof streaming_request {
+		StreamingTranslateSpeechConfig streaming_config = 1;
+		bytes audio_content = 2;
+	}
+}
+
+message StreamingTranslateSpeechResult {
+
+	message TextTranslationResult {
+
+		string translation = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		bool is_final = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		string detected_source_language_code = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	oneof result {
+		TextTranslationResult text_translation_result = 1;
+	}
+	string recognition_result = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message StreamingTranslateSpeechResponse {
+
+	enum SpeechEventType {
+
+		SPEECH_EVENT_TYPE_UNSPECIFIED = 0;
+		END_OF_SINGLE_UTTERANCE = 1;
+	}
+
+	google.rpc.Status error = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	StreamingTranslateSpeechResult result = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	SpeechEventType speech_event_type = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

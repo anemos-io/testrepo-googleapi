@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.monitoring.v3;
+
+import "google/api/resource.proto";
+
+option java_package = "com.google.monitoring.v3";
+option java_outer_classname = "GroupProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/v3;monitoring";
+option csharp_namespace = "Google.Cloud.Monitoring.V3";
+option php_namespace = "Google\\Cloud\\Monitoring\\V3";
+option ruby_package = "Google::Cloud::Monitoring::V3";
+
+
+message Group {
+	option (google.api.resource) = {
+		type: "monitoring.googleapis.com/Group"
+		pattern: ["projects/{project}/groups/{group}","organizations/{organization}/groups/{group}","folders/{folder}/groups/{group}","*"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	string parent_name = 3;
+	string filter = 5;
+	bool is_cluster = 6;
+}

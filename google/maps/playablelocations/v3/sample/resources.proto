@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package google.maps.playablelocations.v3.sample;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+import "google/type/latlng.proto";
+
+option java_package = "com.google.maps.playablelocations.v3.sample";
+option java_outer_classname = "ResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/playablelocations/v3/sample;sample";
+option objc_class_prefix = "GMPL";
+option csharp_namespace = "Google.Maps.PlayableLocations.V3.Sample";
+
+
+message PlayableLocation {
+
+	string name = 1;
+	oneof location_id {
+		string place_id = 2;
+		string plus_code = 3;
+	}
+	repeated string types = 4;
+	google.type.LatLng center_point = 5;
+	google.type.LatLng snapped_point = 6;
+}
+
+message SpacingOptions {
+
+	enum PointType {
+
+		POINT_TYPE_UNSPECIFIED = 0;
+		CENTER_POINT = 1;
+		SNAPPED_POINT = 2;
+	}
+
+	double min_spacing_meters = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	PointType point_type = 2;
+}
+
+message Filter {
+
+	int32 max_location_count = 1;
+	SpacingOptions spacing = 2;
+	repeated string included_types = 3;
+}
+
+message Criterion {
+
+	int32 game_object_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Filter filter = 2;
+	google.protobuf.FieldMask fields_to_return = 3;
+}
+
+message AreaFilter {
+
+	fixed64 s2_cell_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PlayableLocationList {
+
+	repeated PlayableLocation locations = 1;
+}

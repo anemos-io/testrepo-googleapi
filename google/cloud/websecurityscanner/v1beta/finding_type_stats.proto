@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1beta;
+
+option java_package = "com.google.cloud.websecurityscanner.v1beta";
+option java_outer_classname = "FindingTypeStatsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1beta;websecurityscanner";
+option php_namespace = "Google\\Cloud\\WebSecurityScanner\\V1beta";
+
+
+message FindingTypeStats {
+
+	string finding_type = 1;
+	int32 finding_count = 2;
+}

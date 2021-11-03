@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package google.iam.admin.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.iam.admin.v1";
+option java_outer_classname = "AuditDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/iam/admin/v1;admin";
+
+
+message AuditData {
+
+	message PermissionDelta {
+
+		repeated string added_permissions = 1;
+		repeated string removed_permissions = 2;
+	}
+
+	PermissionDelta permission_delta = 1;
+}

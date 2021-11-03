@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.common;
+
+import "google/ads/googleads/v4/common/criteria.proto";
+import "google/ads/googleads/v4/enums/ad_network_type.proto";
+import "google/ads/googleads/v4/enums/click_type.proto";
+import "google/ads/googleads/v4/enums/conversion_action_category.proto";
+import "google/ads/googleads/v4/enums/conversion_attribution_event_type.proto";
+import "google/ads/googleads/v4/enums/conversion_lag_bucket.proto";
+import "google/ads/googleads/v4/enums/conversion_or_adjustment_lag_bucket.proto";
+import "google/ads/googleads/v4/enums/day_of_week.proto";
+import "google/ads/googleads/v4/enums/device.proto";
+import "google/ads/googleads/v4/enums/external_conversion_source.proto";
+import "google/ads/googleads/v4/enums/hotel_date_selection_type.proto";
+import "google/ads/googleads/v4/enums/hotel_price_bucket.proto";
+import "google/ads/googleads/v4/enums/hotel_rate_type.proto";
+import "google/ads/googleads/v4/enums/month_of_year.proto";
+import "google/ads/googleads/v4/enums/placeholder_type.proto";
+import "google/ads/googleads/v4/enums/product_channel.proto";
+import "google/ads/googleads/v4/enums/product_channel_exclusivity.proto";
+import "google/ads/googleads/v4/enums/product_condition.proto";
+import "google/ads/googleads/v4/enums/search_engine_results_page_type.proto";
+import "google/ads/googleads/v4/enums/search_term_match_type.proto";
+import "google/ads/googleads/v4/enums/slot.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.common";
+option java_outer_classname = "SegmentsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V4::Common";
+
+
+message Segments {
+
+	google.ads.googleads.v4.enums.AdNetworkTypeEnum.AdNetworkType ad_network_type = 3;
+	google.ads.googleads.v4.enums.ClickTypeEnum.ClickType click_type = 26;
+	google.protobuf.StringValue conversion_action = 52;
+	google.ads.googleads.v4.enums.ConversionActionCategoryEnum.ConversionActionCategory conversion_action_category = 53;
+	google.protobuf.StringValue conversion_action_name = 54;
+	google.protobuf.BoolValue conversion_adjustment = 27;
+	google.ads.googleads.v4.enums.ConversionAttributionEventTypeEnum.ConversionAttributionEventType conversion_attribution_event_type = 2;
+	google.ads.googleads.v4.enums.ConversionLagBucketEnum.ConversionLagBucket conversion_lag_bucket = 50;
+	google.ads.googleads.v4.enums.ConversionOrAdjustmentLagBucketEnum.ConversionOrAdjustmentLagBucket conversion_or_adjustment_lag_bucket = 51;
+	google.protobuf.StringValue date = 4;
+	google.ads.googleads.v4.enums.DayOfWeekEnum.DayOfWeek day_of_week = 5;
+	google.ads.googleads.v4.enums.DeviceEnum.Device device = 1;
+	google.ads.googleads.v4.enums.ExternalConversionSourceEnum.ExternalConversionSource external_conversion_source = 55;
+	google.protobuf.StringValue geo_target_airport = 65;
+	google.protobuf.StringValue geo_target_canton = 76;
+	google.protobuf.StringValue geo_target_city = 62;
+	google.protobuf.StringValue geo_target_country = 77;
+	google.protobuf.StringValue geo_target_county = 68;
+	google.protobuf.StringValue geo_target_district = 69;
+	google.protobuf.StringValue geo_target_metro = 63;
+	google.protobuf.StringValue geo_target_most_specific_location = 72;
+	google.protobuf.StringValue geo_target_postal_code = 71;
+	google.protobuf.StringValue geo_target_province = 75;
+	google.protobuf.StringValue geo_target_region = 64;
+	google.protobuf.StringValue geo_target_state = 67;
+	google.protobuf.Int64Value hotel_booking_window_days = 6;
+	google.protobuf.Int64Value hotel_center_id = 7;
+	google.protobuf.StringValue hotel_check_in_date = 8;
+	google.ads.googleads.v4.enums.DayOfWeekEnum.DayOfWeek hotel_check_in_day_of_week = 9;
+	google.protobuf.StringValue hotel_city = 10;
+	google.protobuf.Int32Value hotel_class = 11;
+	google.protobuf.StringValue hotel_country = 12;
+	google.ads.googleads.v4.enums.HotelDateSelectionTypeEnum.HotelDateSelectionType hotel_date_selection_type = 13;
+	google.protobuf.Int32Value hotel_length_of_stay = 14;
+	google.protobuf.StringValue hotel_rate_rule_id = 73;
+	google.ads.googleads.v4.enums.HotelRateTypeEnum.HotelRateType hotel_rate_type = 74;
+	google.ads.googleads.v4.enums.HotelPriceBucketEnum.HotelPriceBucket hotel_price_bucket = 78;
+	google.protobuf.StringValue hotel_state = 15;
+	google.protobuf.Int32Value hour = 16;
+	google.protobuf.BoolValue interaction_on_this_extension = 49;
+	Keyword keyword = 61;
+	google.protobuf.StringValue month = 17;
+	google.ads.googleads.v4.enums.MonthOfYearEnum.MonthOfYear month_of_year = 18;
+	google.protobuf.StringValue partner_hotel_id = 19;
+	google.ads.googleads.v4.enums.PlaceholderTypeEnum.PlaceholderType placeholder_type = 20;
+	google.protobuf.UInt64Value product_aggregator_id = 28;
+	google.protobuf.StringValue product_bidding_category_level1 = 56;
+	google.protobuf.StringValue product_bidding_category_level2 = 57;
+	google.protobuf.StringValue product_bidding_category_level3 = 58;
+	google.protobuf.StringValue product_bidding_category_level4 = 59;
+	google.protobuf.StringValue product_bidding_category_level5 = 60;
+	google.protobuf.StringValue product_brand = 29;
+	google.ads.googleads.v4.enums.ProductChannelEnum.ProductChannel product_channel = 30;
+	google.ads.googleads.v4.enums.ProductChannelExclusivityEnum.ProductChannelExclusivity product_channel_exclusivity = 31;
+	google.ads.googleads.v4.enums.ProductConditionEnum.ProductCondition product_condition = 32;
+	google.protobuf.StringValue product_country = 33;
+	google.protobuf.StringValue product_custom_attribute0 = 34;
+	google.protobuf.StringValue product_custom_attribute1 = 35;
+	google.protobuf.StringValue product_custom_attribute2 = 36;
+	google.protobuf.StringValue product_custom_attribute3 = 37;
+	google.protobuf.StringValue product_custom_attribute4 = 38;
+	google.protobuf.StringValue product_item_id = 39;
+	google.protobuf.StringValue product_language = 40;
+	google.protobuf.UInt64Value product_merchant_id = 41;
+	google.protobuf.StringValue product_store_id = 42;
+	google.protobuf.StringValue product_title = 43;
+	google.protobuf.StringValue product_type_l1 = 44;
+	google.protobuf.StringValue product_type_l2 = 45;
+	google.protobuf.StringValue product_type_l3 = 46;
+	google.protobuf.StringValue product_type_l4 = 47;
+	google.protobuf.StringValue product_type_l5 = 48;
+	google.protobuf.StringValue quarter = 21;
+	google.ads.googleads.v4.enums.SearchEngineResultsPageTypeEnum.SearchEngineResultsPageType search_engine_results_page_type = 70;
+	google.ads.googleads.v4.enums.SearchTermMatchTypeEnum.SearchTermMatchType search_term_match_type = 22;
+	google.ads.googleads.v4.enums.SlotEnum.Slot slot = 23;
+	google.protobuf.StringValue webpage = 66;
+	google.protobuf.StringValue week = 24;
+	google.protobuf.Int32Value year = 25;
+}
+
+message Keyword {
+
+	google.protobuf.StringValue ad_group_criterion = 1;
+	google.ads.googleads.v4.common.KeywordInfo info = 2;
+}

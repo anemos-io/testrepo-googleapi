@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+enum TypeCode {
+
+	TYPE_CODE_UNSPECIFIED = 0;
+	FLOAT64 = 3;
+	TIMESTAMP = 4;
+	STRING = 6;
+	ARRAY = 8;
+	STRUCT = 9;
+	CATEGORY = 10;
+}
+
+message DataType {
+
+	oneof details {
+		DataType list_element_type = 2;
+		StructType struct_type = 3;
+		string time_format = 5;
+	}
+	TypeCode type_code = 1;
+	bool nullable = 4;
+}
+
+message StructType {
+
+	map<string, DataType> fields = 1;
+}

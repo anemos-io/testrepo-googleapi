@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package google.streetview.publish.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/streetview/publish/v1/resources.proto";
+import "google/streetview/publish/v1/rpcmessages.proto";
+
+option java_package = "com.google.geo.ugc.streetview.publish.v1";
+option java_outer_classname = "StreetViewPublish";
+option go_package = "google.golang.org/genproto/googleapis/streetview/publish/v1;publish";
+
+
+service StreetViewPublishService {
+	option (google.api.default_host) = "streetviewpublish.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/streetviewpublish";
+
+	rpc StartUpload(google.protobuf.Empty) returns (google.streetview.publish.v1.UploadRef) {
+		option (google.api.http) = {
+			post: "/v1/photo:startUpload"
+			body: "*"
+		};
+
+	}
+	rpc CreatePhoto(google.streetview.publish.v1.CreatePhotoRequest) returns (google.streetview.publish.v1.Photo) {
+		option (google.api.http) = {
+			post: "/v1/photo"
+			body: "photo"
+		};
+
+	}
+	rpc GetPhoto(google.streetview.publish.v1.GetPhotoRequest) returns (google.streetview.publish.v1.Photo) {
+		option (google.api.http) = {
+			get: "/v1/photo/{photo_id}"
+		};
+
+	}
+	rpc BatchGetPhotos(google.streetview.publish.v1.BatchGetPhotosRequest) returns (google.streetview.publish.v1.BatchGetPhotosResponse) {
+		option (google.api.http) = {
+			get: "/v1/photos:batchGet"
+		};
+
+	}
+	rpc ListPhotos(google.streetview.publish.v1.ListPhotosRequest) returns (google.streetview.publish.v1.ListPhotosResponse) {
+		option (google.api.http) = {
+			get: "/v1/photos"
+		};
+
+	}
+	rpc UpdatePhoto(google.streetview.publish.v1.UpdatePhotoRequest) returns (google.streetview.publish.v1.Photo) {
+		option (google.api.http) = {
+			put: "/v1/photo/{photo.photo_id.id}"
+			body: "photo"
+		};
+
+	}
+	rpc BatchUpdatePhotos(google.streetview.publish.v1.BatchUpdatePhotosRequest) returns (google.streetview.publish.v1.BatchUpdatePhotosResponse) {
+		option (google.api.http) = {
+			post: "/v1/photos:batchUpdate"
+			body: "*"
+		};
+
+	}
+	rpc DeletePhoto(google.streetview.publish.v1.DeletePhotoRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/photo/{photo_id}"
+		};
+
+	}
+	rpc BatchDeletePhotos(google.streetview.publish.v1.BatchDeletePhotosRequest) returns (google.streetview.publish.v1.BatchDeletePhotosResponse) {
+		option (google.api.http) = {
+			post: "/v1/photos:batchDelete"
+			body: "*"
+		};
+
+	}
+}

@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package google.cloud.datalabeling.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/cloud/datalabeling/v1beta1/dataset.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.datalabeling.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datalabeling/v1beta1;datalabeling";
+
+
+message Instruction {
+	option (google.api.resource) = {
+		type: "datalabeling.googleapis.com/Instruction"
+		pattern: ["projects/{project}/instructions/{instruction}"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	string description = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp update_time = 5;
+	google.cloud.datalabeling.v1beta1.DataType data_type = 6;
+	CsvInstruction csv_instruction = 7 [
+		deprecated = true
+	];
+	PdfInstruction pdf_instruction = 9;
+	repeated string blocking_resources = 10;
+}
+
+message CsvInstruction {
+
+	string gcs_file_uri = 1;
+}
+
+message PdfInstruction {
+
+	string gcs_file_uri = 1;
+}

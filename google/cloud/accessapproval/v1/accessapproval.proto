@@ -1,0 +1,240 @@
+syntax = "proto3";
+
+package google.cloud.accessapproval.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.accessapproval.v1";
+option java_outer_classname = "AccessApprovalProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/accessapproval/v1;accessapproval";
+option ruby_package = "Google::Cloud::AccessApproval::V1";
+
+
+enum EnrollmentLevel {
+
+	ENROLLMENT_LEVEL_UNSPECIFIED = 0;
+	BLOCK_ALL = 1;
+}
+
+service AccessApproval {
+	option (google.api.default_host) = "accessapproval.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListApprovalRequests(google.cloud.accessapproval.v1.ListApprovalRequestsMessage) returns (google.cloud.accessapproval.v1.ListApprovalRequestsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/approvalRequests"
+			additional_bindings: {
+				get: "/v1/{parent=folders/*}/approvalRequests"
+			}
+			additional_bindings: {
+				get: "/v1/{parent=organizations/*}/approvalRequests"
+			}
+		};
+
+	}
+	rpc GetApprovalRequest(google.cloud.accessapproval.v1.GetApprovalRequestMessage) returns (google.cloud.accessapproval.v1.ApprovalRequest) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/approvalRequests/*}"
+			additional_bindings: {
+				get: "/v1/{name=folders/*/approvalRequests/*}"
+			}
+			additional_bindings: {
+				get: "/v1/{name=organizations/*/approvalRequests/*}"
+			}
+		};
+
+	}
+	rpc ApproveApprovalRequest(google.cloud.accessapproval.v1.ApproveApprovalRequestMessage) returns (google.cloud.accessapproval.v1.ApprovalRequest) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/approvalRequests/*}:approve"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{name=folders/*/approvalRequests/*}:approve"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1/{name=organizations/*/approvalRequests/*}:approve"
+				body: "*"
+			}
+		};
+
+	}
+	rpc DismissApprovalRequest(google.cloud.accessapproval.v1.DismissApprovalRequestMessage) returns (google.cloud.accessapproval.v1.ApprovalRequest) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/approvalRequests/*}:dismiss"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{name=folders/*/approvalRequests/*}:dismiss"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1/{name=organizations/*/approvalRequests/*}:dismiss"
+				body: "*"
+			}
+		};
+
+	}
+	rpc GetAccessApprovalSettings(google.cloud.accessapproval.v1.GetAccessApprovalSettingsMessage) returns (google.cloud.accessapproval.v1.AccessApprovalSettings) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/accessApprovalSettings}"
+			additional_bindings: {
+				get: "/v1/{name=folders/*/accessApprovalSettings}"
+			}
+			additional_bindings: {
+				get: "/v1/{name=organizations/*/accessApprovalSettings}"
+			}
+		};
+
+	}
+	rpc UpdateAccessApprovalSettings(google.cloud.accessapproval.v1.UpdateAccessApprovalSettingsMessage) returns (google.cloud.accessapproval.v1.AccessApprovalSettings) {
+		option (google.api.method_signature) = "settings,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{settings.name=projects/*/accessApprovalSettings}"
+			body: "settings"
+			additional_bindings: {
+				patch: "/v1/{settings.name=folders/*/accessApprovalSettings}"
+				body: "settings"
+			}
+			additional_bindings: {
+				patch: "/v1/{settings.name=organizations/*/accessApprovalSettings}"
+				body: "settings"
+			}
+		};
+
+	}
+	rpc DeleteAccessApprovalSettings(google.cloud.accessapproval.v1.DeleteAccessApprovalSettingsMessage) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/accessApprovalSettings}"
+			additional_bindings: {
+				delete: "/v1/{name=folders/*/accessApprovalSettings}"
+			}
+			additional_bindings: {
+				delete: "/v1/{name=organizations/*/accessApprovalSettings}"
+			}
+		};
+
+	}
+}
+
+message AccessLocations {
+
+	string principal_office_country = 1;
+	string principal_physical_location_country = 2;
+}
+
+message AccessReason {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		CUSTOMER_INITIATED_SUPPORT = 1;
+		GOOGLE_INITIATED_SERVICE = 2;
+		GOOGLE_INITIATED_REVIEW = 3;
+	}
+
+	Type type = 1;
+	string detail = 2;
+}
+
+message ApproveDecision {
+
+	google.protobuf.Timestamp approve_time = 1;
+	google.protobuf.Timestamp expire_time = 2;
+}
+
+message DismissDecision {
+
+	google.protobuf.Timestamp dismiss_time = 1;
+}
+
+message ResourceProperties {
+
+	bool excludes_descendants = 1;
+}
+
+message ApprovalRequest {
+
+	string name = 1;
+	string requested_resource_name = 2;
+	ResourceProperties requested_resource_properties = 9;
+	AccessReason requested_reason = 3;
+	AccessLocations requested_locations = 4;
+	google.protobuf.Timestamp request_time = 5;
+	google.protobuf.Timestamp requested_expiration = 6;
+	oneof decision {
+		ApproveDecision approve = 7;
+		DismissDecision dismiss = 8;
+	}
+}
+
+message EnrolledService {
+
+	string cloud_product = 1;
+	EnrollmentLevel enrollment_level = 2;
+}
+
+message AccessApprovalSettings {
+
+	string name = 1;
+	repeated string notification_emails = 2;
+	repeated EnrolledService enrolled_services = 3;
+	bool enrolled_ancestor = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListApprovalRequestsMessage {
+
+	string parent = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListApprovalRequestsResponse {
+
+	repeated ApprovalRequest approval_requests = 1;
+	string next_page_token = 2;
+}
+
+message GetApprovalRequestMessage {
+
+	string name = 1;
+}
+
+message ApproveApprovalRequestMessage {
+
+	string name = 1;
+	google.protobuf.Timestamp expire_time = 2;
+}
+
+message DismissApprovalRequestMessage {
+
+	string name = 1;
+}
+
+message GetAccessApprovalSettingsMessage {
+
+	string name = 1;
+}
+
+message UpdateAccessApprovalSettingsMessage {
+
+	AccessApprovalSettings settings = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteAccessApprovalSettingsMessage {
+
+	string name = 1;
+}

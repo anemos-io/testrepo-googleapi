@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/cloud/dialogflow/v2beta1/context.proto";
+import "google/cloud/dialogflow/v2beta1/intent.proto";
+import "google/cloud/dialogflow/v2beta1/session.proto";
+import "google/cloud/dialogflow/v2beta1/session_entity_type.proto";
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "WebhookProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+
+
+message WebhookRequest {
+
+	string session = 4;
+	string response_id = 1;
+	google.cloud.dialogflow.v2beta1.QueryResult query_result = 2;
+	repeated google.cloud.dialogflow.v2beta1.QueryResult alternative_query_results = 5;
+	OriginalDetectIntentRequest original_detect_intent_request = 3;
+}
+
+message WebhookResponse {
+
+	string fulfillment_text = 1;
+	repeated google.cloud.dialogflow.v2beta1.Intent.Message fulfillment_messages = 2;
+	string source = 3;
+	google.protobuf.Struct payload = 4;
+	repeated google.cloud.dialogflow.v2beta1.Context output_contexts = 5;
+	google.cloud.dialogflow.v2beta1.EventInput followup_event_input = 6;
+	bool end_interaction = 8;
+	repeated google.cloud.dialogflow.v2beta1.SessionEntityType session_entity_types = 10;
+}
+
+message OriginalDetectIntentRequest {
+
+	string source = 1;
+	string version = 2;
+	google.protobuf.Struct payload = 3;
+}

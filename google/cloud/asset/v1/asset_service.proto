@@ -1,0 +1,515 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/asset/v1/assets.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/expr.proto";
+
+option java_package = "com.google.cloud.asset.v1";
+option java_outer_classname = "AssetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1;asset";
+option csharp_namespace = "Google.Cloud.Asset.V1";
+option php_namespace = "Google\\Cloud\\Asset\\V1";
+
+
+enum ContentType {
+
+	CONTENT_TYPE_UNSPECIFIED = 0;
+	RESOURCE = 1;
+	IAM_POLICY = 2;
+	ORG_POLICY = 4;
+	ACCESS_POLICY = 5;
+}
+
+service AssetService {
+	option (google.api.default_host) = "cloudasset.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ExportAssets(google.cloud.asset.v1.ExportAssetsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.asset.v1.ExportAssetsResponse"
+			metadata_type: "google.cloud.asset.v1.ExportAssetsRequest"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=*/*}:exportAssets"
+			body: "*"
+		};
+
+	}
+	rpc BatchGetAssetsHistory(google.cloud.asset.v1.BatchGetAssetsHistoryRequest) returns (google.cloud.asset.v1.BatchGetAssetsHistoryResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=*/*}:batchGetAssetsHistory"
+		};
+
+	}
+	rpc CreateFeed(google.cloud.asset.v1.CreateFeedRequest) returns (google.cloud.asset.v1.Feed) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1/{parent=*/*}/feeds"
+			body: "*"
+		};
+
+	}
+	rpc GetFeed(google.cloud.asset.v1.GetFeedRequest) returns (google.cloud.asset.v1.Feed) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=*/*/feeds/*}"
+		};
+
+	}
+	rpc ListFeeds(google.cloud.asset.v1.ListFeedsRequest) returns (google.cloud.asset.v1.ListFeedsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=*/*}/feeds"
+		};
+
+	}
+	rpc UpdateFeed(google.cloud.asset.v1.UpdateFeedRequest) returns (google.cloud.asset.v1.Feed) {
+		option (google.api.method_signature) = "feed";
+		option (google.api.http) = {
+			patch: "/v1/{feed.name=*/*/feeds/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteFeed(google.cloud.asset.v1.DeleteFeedRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=*/*/feeds/*}"
+		};
+
+	}
+	rpc SearchAllResources(google.cloud.asset.v1.SearchAllResourcesRequest) returns (google.cloud.asset.v1.SearchAllResourcesResponse) {
+		option (google.api.method_signature) = "scope,query,asset_types";
+		option (google.api.http) = {
+			get: "/v1/{scope=*/*}:searchAllResources"
+		};
+
+	}
+	rpc SearchAllIamPolicies(google.cloud.asset.v1.SearchAllIamPoliciesRequest) returns (google.cloud.asset.v1.SearchAllIamPoliciesResponse) {
+		option (google.api.method_signature) = "scope,query";
+		option (google.api.http) = {
+			get: "/v1/{scope=*/*}:searchAllIamPolicies"
+		};
+
+	}
+	rpc AnalyzeIamPolicy(google.cloud.asset.v1.AnalyzeIamPolicyRequest) returns (google.cloud.asset.v1.AnalyzeIamPolicyResponse) {
+		option (google.api.http) = {
+			get: "/v1/{analysis_query.scope=*/*}:analyzeIamPolicy"
+		};
+
+	}
+	rpc ExportIamPolicyAnalysis(google.cloud.asset.v1.ExportIamPolicyAnalysisRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.asset.v1.ExportIamPolicyAnalysisResponse"
+			metadata_type: "google.cloud.asset.v1.ExportIamPolicyAnalysisRequest"
+		};
+		option (google.api.http) = {
+			post: "/v1/{analysis_query.scope=*/*}:exportIamPolicyAnalysis"
+			body: "*"
+		};
+
+	}
+}
+
+message ExportAssetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudasset.googleapis.com/Asset"
+		}
+	];
+	google.protobuf.Timestamp read_time = 2;
+	repeated string asset_types = 3;
+	ContentType content_type = 4;
+	OutputConfig output_config = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportAssetsResponse {
+
+	google.protobuf.Timestamp read_time = 1;
+	OutputConfig output_config = 2;
+	OutputResult output_result = 3;
+}
+
+message BatchGetAssetsHistoryRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudasset.googleapis.com/Asset"
+		}
+	];
+	repeated string asset_names = 2;
+	ContentType content_type = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.asset.v1.TimeWindow read_time_window = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message BatchGetAssetsHistoryResponse {
+
+	repeated google.cloud.asset.v1.TemporalAsset assets = 1;
+}
+
+message CreateFeedRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string feed_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Feed feed = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetFeedRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudasset.googleapis.com/Feed"
+		}
+	];
+}
+
+message ListFeedsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListFeedsResponse {
+
+	repeated Feed feeds = 1;
+}
+
+message UpdateFeedRequest {
+
+	Feed feed = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteFeedRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudasset.googleapis.com/Feed"
+		}
+	];
+}
+
+message OutputConfig {
+
+	oneof destination {
+		GcsDestination gcs_destination = 1;
+		BigQueryDestination bigquery_destination = 2;
+	}
+}
+
+message OutputResult {
+
+	oneof result {
+		GcsOutputResult gcs_result = 1;
+	}
+}
+
+message GcsOutputResult {
+
+	repeated string uris = 1;
+}
+
+message GcsDestination {
+
+	oneof object_uri {
+		string uri = 1;
+		string uri_prefix = 2;
+	}
+}
+
+message BigQueryDestination {
+
+	string dataset = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string table = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool force = 3;
+}
+
+message PubsubDestination {
+
+	string topic = 1;
+}
+
+message FeedOutputConfig {
+
+	oneof destination {
+		PubsubDestination pubsub_destination = 1;
+	}
+}
+
+message Feed {
+	option (google.api.resource) = {
+		type: "cloudasset.googleapis.com/Feed"
+		pattern: ["projects/{project}/feeds/{feed}","folders/{folder}/feeds/{feed}","organizations/{organization}/feeds/{feed}"]
+		history: ORIGINALLY_SINGLE_PATTERN
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string asset_names = 2;
+	repeated string asset_types = 3;
+	ContentType content_type = 4;
+	FeedOutputConfig feed_output_config = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.type.Expr condition = 6;
+}
+
+message SearchAllResourcesRequest {
+
+	string scope = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string asset_types = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SearchAllResourcesResponse {
+
+	repeated google.cloud.asset.v1.ResourceSearchResult results = 1;
+	string next_page_token = 2;
+}
+
+message SearchAllIamPoliciesRequest {
+
+	string scope = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SearchAllIamPoliciesResponse {
+
+	repeated google.cloud.asset.v1.IamPolicySearchResult results = 1;
+	string next_page_token = 2;
+}
+
+message IamPolicyAnalysisQuery {
+
+	message ResourceSelector {
+
+		string full_resource_name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message IdentitySelector {
+
+		string identity = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message AccessSelector {
+
+		repeated string roles = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		repeated string permissions = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	message Options {
+
+		bool expand_groups = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool expand_roles = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool expand_resources = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool output_resource_edges = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool output_group_edges = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool analyze_service_account_impersonation = 6 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		int32 max_fanouts_per_group = 7 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		int32 max_fanouts_per_resource = 8 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	string scope = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ResourceSelector resource_selector = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	IdentitySelector identity_selector = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	AccessSelector access_selector = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Options options = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message AnalyzeIamPolicyRequest {
+
+	IamPolicyAnalysisQuery analysis_query = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration execution_timeout = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message AnalyzeIamPolicyResponse {
+
+	message IamPolicyAnalysis {
+
+		message Stats {
+
+			enum NodeType {
+
+				NODE_TYPE_UNSPECIFIED = 0;
+				BINDING = 1;
+				IDENTITY = 2;
+				RESOURCE = 3;
+				ACCESS = 4;
+			}
+
+			NodeType node_type = 1;
+			string node_subtype = 2;
+			int32 discovered_node_count = 3;
+			int32 matched_node_count = 4;
+			int32 explored_node_count = 5;
+			int32 capped_node_count = 6;
+			int32 permision_denied_node_count = 7;
+			int32 execution_timeout_node_count = 8;
+		}
+
+		IamPolicyAnalysisQuery analysis_query = 1;
+		repeated google.cloud.asset.v1.IamPolicyAnalysisResult analysis_results = 2;
+		bool fully_explored = 3;
+		repeated Stats stats = 4;
+		repeated google.cloud.asset.v1.IamPolicyAnalysisState non_critical_errors = 5;
+	}
+
+	IamPolicyAnalysis main_analysis = 1;
+	repeated IamPolicyAnalysis service_account_impersonation_analysis = 2;
+	bool fully_explored = 3;
+}
+
+message IamPolicyAnalysisOutputConfig {
+
+	message GcsDestination {
+
+		string uri = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message BigQueryDestination {
+
+		enum PartitionKey {
+
+			PARTITION_KEY_UNSPECIFIED = 0;
+			REQUEST_TIME = 1;
+		}
+
+		enum WriteMode {
+
+			WRITE_MODE_UNSPECIFIED = 0;
+			ABORT = 1;
+			OVERWRITE = 2;
+		}
+
+		string dataset = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		string table_prefix = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		PartitionKey partition_key = 3;
+		WriteMode write_mode = 4;
+	}
+
+	oneof destination {
+		GcsDestination gcs_destination = 1;
+		BigQueryDestination bigquery_destination = 2;
+	}
+}
+
+message ExportIamPolicyAnalysisRequest {
+
+	IamPolicyAnalysisQuery analysis_query = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	IamPolicyAnalysisOutputConfig output_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportIamPolicyAnalysisResponse {
+
+}

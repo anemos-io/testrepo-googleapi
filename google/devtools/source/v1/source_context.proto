@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package google.devtools.source.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.source.v1";
+option java_outer_classname = "SourceContextProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/source/v1;source";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DevTools.Source.V1";
+option php_namespace = "Google\\Cloud\\DevTools\\Source\\V1";
+
+
+message SourceContext {
+
+	oneof context {
+		CloudRepoSourceContext cloud_repo = 1;
+		CloudWorkspaceSourceContext cloud_workspace = 2;
+		GerritSourceContext gerrit = 3;
+		GitSourceContext git = 6;
+	}
+}
+
+message ExtendedSourceContext {
+
+	SourceContext context = 1;
+	map<string, string> labels = 2;
+}
+
+message AliasContext {
+
+	enum Kind {
+
+		ANY = 0;
+		FIXED = 1;
+		MOVABLE = 2;
+		OTHER = 4;
+	}
+
+	Kind kind = 1;
+	string name = 2;
+}
+
+message CloudRepoSourceContext {
+
+	RepoId repo_id = 1;
+	oneof revision {
+		string revision_id = 2;
+		string alias_name = 3 [
+			deprecated = true
+		];
+		AliasContext alias_context = 4;
+	}
+}
+
+message CloudWorkspaceSourceContext {
+
+	CloudWorkspaceId workspace_id = 1;
+	string snapshot_id = 2;
+}
+
+message GerritSourceContext {
+
+	string host_uri = 1;
+	string gerrit_project = 2;
+	oneof revision {
+		string revision_id = 3;
+		string alias_name = 4 [
+			deprecated = true
+		];
+		AliasContext alias_context = 5;
+	}
+}
+
+message GitSourceContext {
+
+	string url = 1;
+	string revision_id = 2;
+}
+
+message RepoId {
+
+	oneof id {
+		ProjectRepoId project_repo_id = 1;
+		string uid = 2;
+	}
+}
+
+message ProjectRepoId {
+
+	string project_id = 1;
+	string repo_name = 2;
+}
+
+message CloudWorkspaceId {
+
+	RepoId repo_id = 1;
+	string name = 2;
+}

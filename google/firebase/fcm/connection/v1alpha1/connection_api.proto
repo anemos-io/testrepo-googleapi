@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package google.firebase.fcm.connection.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.firebase.fcm.connection.v1alpha1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firebase/fcm/connection/v1alpha1;connection";
+
+
+service ConnectionApi {
+
+	rpc Connect(stream google.firebase.fcm.connection.v1alpha1.UpstreamRequest) returns (stream google.firebase.fcm.connection.v1alpha1.DownstreamResponse) {}
+}
+
+message UpstreamRequest {
+
+	oneof request_type {
+		Ack ack = 1;
+	}
+}
+
+message DownstreamResponse {
+
+	oneof response_type {
+		Message message = 1;
+	}
+}
+
+message Ack {
+
+	string message_id = 1;
+}
+
+message Message {
+
+	string message_id = 1;
+	google.protobuf.Timestamp create_time = 2;
+	google.protobuf.Timestamp expire_time = 3;
+	map<string, string> data = 4;
+}

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package google.cloud.speech.v1p1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.cloud.speech.v1p1beta1";
+option java_outer_classname = "SpeechResourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/speech/v1p1beta1;speech";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GCS";
+
+
+message CustomClass {
+	option (google.api.resource) = {
+		type: "speech.googleapis.com/CustomClass"
+		pattern: ["projects/{project}/locations/{location}/customClasses/{custom_class}"]
+	};
+
+	message ClassItem {
+
+		string value = 1;
+	}
+
+	string name = 1;
+	string custom_class_id = 2;
+	repeated ClassItem items = 3;
+}
+
+message PhraseSet {
+	option (google.api.resource) = {
+		type: "speech.googleapis.com/PhraseSet"
+		pattern: ["projects/{project}/locations/{location}/phraseSets/{phrase_set}"]
+	};
+
+	message Phrase {
+
+		string value = 1;
+		float boost = 2;
+	}
+
+	string name = 1;
+	repeated Phrase phrases = 2;
+	float boost = 4;
+}
+
+message SpeechAdaptation {
+
+	repeated PhraseSet phrase_sets = 1;
+	repeated CustomClass custom_classes = 2;
+}

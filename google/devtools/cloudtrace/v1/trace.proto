@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package google.devtools.cloudtrace.v1;
+
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.cloudtrace.v1";
+option java_outer_classname = "TraceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/cloudtrace/v1;cloudtrace";
+option csharp_namespace = "Google.Cloud.Trace.V1";
+option php_namespace = "Google\\Cloud\\Trace\\V1";
+option ruby_package = "Google::Cloud::Trace::V1";
+
+
+service TraceService {
+	option (google.api.default_host) = "cloudtrace.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/trace.append,https://www.googleapis.com/auth/trace.readonly";
+
+	rpc ListTraces(google.devtools.cloudtrace.v1.ListTracesRequest) returns (google.devtools.cloudtrace.v1.ListTracesResponse) {
+		option (google.api.method_signature) = "project_id";
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/traces"
+		};
+
+	}
+	rpc GetTrace(google.devtools.cloudtrace.v1.GetTraceRequest) returns (google.devtools.cloudtrace.v1.Trace) {
+		option (google.api.method_signature) = "project_id,trace_id";
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/traces/{trace_id}"
+		};
+
+	}
+	rpc PatchTraces(google.devtools.cloudtrace.v1.PatchTracesRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "project_id,traces";
+		option (google.api.http) = {
+			patch: "/v1/projects/{project_id}/traces"
+			body: "traces"
+		};
+
+	}
+}
+
+message Trace {
+
+	string project_id = 1;
+	string trace_id = 2;
+	repeated TraceSpan spans = 3;
+}
+
+message Traces {
+
+	repeated Trace traces = 1;
+}
+
+message TraceSpan {
+
+	enum SpanKind {
+
+		SPAN_KIND_UNSPECIFIED = 0;
+		RPC_SERVER = 1;
+		RPC_CLIENT = 2;
+	}
+
+	fixed64 span_id = 1;
+	SpanKind kind = 2;
+	string name = 3;
+	google.protobuf.Timestamp start_time = 4;
+	google.protobuf.Timestamp end_time = 5;
+	fixed64 parent_span_id = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 7;
+}
+
+message ListTracesRequest {
+
+	enum ViewType {
+
+		VIEW_TYPE_UNSPECIFIED = 0;
+		MINIMAL = 1;
+		ROOTSPAN = 2;
+		COMPLETE = 3;
+	}
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ViewType view = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4;
+	google.protobuf.Timestamp start_time = 5;
+	google.protobuf.Timestamp end_time = 6;
+	string filter = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListTracesResponse {
+
+	repeated Trace traces = 1;
+	string next_page_token = 2;
+}
+
+message GetTraceRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string trace_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PatchTracesRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Traces traces = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

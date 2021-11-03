@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.agentendpoint.v1beta;
+
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/osconfig/agentendpoint/v1beta/guest_policies.proto";
+import "google/cloud/osconfig/agentendpoint/v1beta/tasks.proto";
+
+option java_package = "com.google.cloud.osconfig.agentendpoint.v1beta";
+option java_outer_classname = "AgentEndpointProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1beta;agentendpoint";
+
+
+service AgentEndpointService {
+	option (google.api.default_host) = "osconfig.googleapis.com";
+
+	rpc ReceiveTaskNotification(google.cloud.osconfig.agentendpoint.v1beta.ReceiveTaskNotificationRequest) returns (stream google.cloud.osconfig.agentendpoint.v1beta.ReceiveTaskNotificationResponse) {
+		option (google.api.method_signature) = "instance_id_token,agent_version";
+
+	}
+	rpc StartNextTask(google.cloud.osconfig.agentendpoint.v1beta.StartNextTaskRequest) returns (google.cloud.osconfig.agentendpoint.v1beta.StartNextTaskResponse) {
+		option (google.api.method_signature) = "instance_id_token";
+
+	}
+	rpc ReportTaskProgress(google.cloud.osconfig.agentendpoint.v1beta.ReportTaskProgressRequest) returns (google.cloud.osconfig.agentendpoint.v1beta.ReportTaskProgressResponse) {
+		option (google.api.method_signature) = "instance_id_token,task_id,task_type";
+
+	}
+	rpc ReportTaskComplete(google.cloud.osconfig.agentendpoint.v1beta.ReportTaskCompleteRequest) returns (google.cloud.osconfig.agentendpoint.v1beta.ReportTaskCompleteResponse) {
+		option (google.api.method_signature) = "instance_id_token,task_id,task_type,error_message";
+
+	}
+	rpc LookupEffectiveGuestPolicy(google.cloud.osconfig.agentendpoint.v1beta.LookupEffectiveGuestPolicyRequest) returns (google.cloud.osconfig.agentendpoint.v1beta.EffectiveGuestPolicy) {
+		option (google.api.method_signature) = "instance_id_token,os_short_name,os_version,os_architecture";
+
+	}
+	rpc RegisterAgent(google.cloud.osconfig.agentendpoint.v1beta.RegisterAgentRequest) returns (google.cloud.osconfig.agentendpoint.v1beta.RegisterAgentResponse) {
+		option (google.api.method_signature) = "instance_id_token,agent_version,supported_capabilities";
+
+	}
+}
+
+message ReceiveTaskNotificationRequest {
+
+	string instance_id_token = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string agent_version = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReceiveTaskNotificationResponse {
+
+}
+
+message StartNextTaskRequest {
+
+	string instance_id_token = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message StartNextTaskResponse {
+
+	google.cloud.osconfig.agentendpoint.v1beta.Task task = 1;
+}
+
+message ReportTaskProgressRequest {
+
+	string instance_id_token = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string task_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.osconfig.agentendpoint.v1beta.TaskType task_type = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof progress {
+		google.cloud.osconfig.agentendpoint.v1beta.ApplyPatchesTaskProgress apply_patches_task_progress = 4;
+		google.cloud.osconfig.agentendpoint.v1beta.ExecStepTaskProgress exec_step_task_progress = 5;
+	}
+}
+
+message ReportTaskProgressResponse {
+
+	google.cloud.osconfig.agentendpoint.v1beta.TaskDirective task_directive = 1;
+}
+
+message ReportTaskCompleteRequest {
+
+	string instance_id_token = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string task_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.osconfig.agentendpoint.v1beta.TaskType task_type = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string error_message = 4;
+	oneof output {
+		google.cloud.osconfig.agentendpoint.v1beta.ApplyPatchesTaskOutput apply_patches_task_output = 5;
+		google.cloud.osconfig.agentendpoint.v1beta.ExecStepTaskOutput exec_step_task_output = 6;
+	}
+}
+
+message ReportTaskCompleteResponse {
+
+}
+
+message RegisterAgentRequest {
+
+	string instance_id_token = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string agent_version = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string supported_capabilities = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RegisterAgentResponse {
+
+}

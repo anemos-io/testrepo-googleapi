@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.agentendpoint.v1beta;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/osconfig/agentendpoint/v1beta/patch_jobs.proto";
+
+option java_package = "com.google.cloud.osconfig.agentendpoint.v1beta";
+option java_outer_classname = "Tasks";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1beta;agentendpoint";
+
+
+enum TaskDirective {
+
+	TASK_DIRECTIVE_UNSPECIFIED = 0;
+	CONTINUE = 1;
+	STOP = 2;
+}
+
+enum TaskType {
+
+	TASK_TYPE_UNSPECIFIED = 0;
+	APPLY_PATCHES = 1;
+	EXEC_STEP_TASK = 2;
+}
+
+message Task {
+
+	string task_id = 1;
+	TaskType task_type = 2;
+	TaskDirective task_directive = 3;
+	oneof task_details {
+		ApplyPatchesTask apply_patches_task = 4;
+		ExecStepTask exec_step_task = 5;
+	}
+	map<string, string> service_labels = 6;
+}
+
+message ApplyPatchesTask {
+
+	google.cloud.osconfig.agentendpoint.v1beta.PatchConfig patch_config = 1;
+	bool dry_run = 3;
+}
+
+message ApplyPatchesTaskProgress {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		STARTED = 4;
+		DOWNLOADING_PATCHES = 1;
+		APPLYING_PATCHES = 2;
+		REBOOTING = 3;
+	}
+
+	State state = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ApplyPatchesTaskOutput {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		SUCCEEDED = 1;
+		SUCCEEDED_REBOOT_REQUIRED = 2;
+		FAILED = 3;
+	}
+
+	State state = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExecStepTask {
+
+	google.cloud.osconfig.agentendpoint.v1beta.ExecStep exec_step = 1;
+}
+
+message ExecStepTaskProgress {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		STARTED = 1;
+	}
+
+	State state = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExecStepTaskOutput {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		COMPLETED = 1;
+		TIMED_OUT = 2;
+		CANCELLED = 3;
+	}
+
+	State state = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 exit_code = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

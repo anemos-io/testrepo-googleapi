@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.services;
+
+import "google/ads/googleads/v3/resources/mutate_job.proto";
+import "google/ads/googleads/v3/services/google_ads_service.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v3.services";
+option java_outer_classname = "MutateJobServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V3::Services";
+
+
+service MutateJobService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc CreateMutateJob(google.ads.googleads.v3.services.CreateMutateJobRequest) returns (google.ads.googleads.v3.services.CreateMutateJobResponse) {
+		option (google.api.method_signature) = "customer_id";
+		option (google.api.http) = {
+			post: "/v3/customers/{customer_id=*}/mutateJobs:create"
+			body: "*"
+		};
+
+	}
+	rpc GetMutateJob(google.ads.googleads.v3.services.GetMutateJobRequest) returns (google.ads.googleads.v3.resources.MutateJob) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v3/{resource_name=customers/*/mutateJobs/*}"
+		};
+
+	}
+	rpc ListMutateJobResults(google.ads.googleads.v3.services.ListMutateJobResultsRequest) returns (google.ads.googleads.v3.services.ListMutateJobResultsResponse) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v3/{resource_name=customers/*/mutateJobs/*}:listResults"
+		};
+
+	}
+	rpc RunMutateJob(google.ads.googleads.v3.services.RunMutateJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.ads.googleads.v3.resources.MutateJob.MutateJobMetadata"
+		};
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			post: "/v3/{resource_name=customers/*/mutateJobs/*}:run"
+			body: "*"
+		};
+
+	}
+	rpc AddMutateJobOperations(google.ads.googleads.v3.services.AddMutateJobOperationsRequest) returns (google.ads.googleads.v3.services.AddMutateJobOperationsResponse) {
+		option (google.api.method_signature) = "resource_name,sequence_token,mutate_operations";
+		option (google.api.method_signature) = "resource_name,mutate_operations";
+		option (google.api.http) = {
+			post: "/v3/{resource_name=customers/*/mutateJobs/*}:addOperations"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateMutateJobRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateMutateJobResponse {
+
+	string resource_name = 1;
+}
+
+message GetMutateJobRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/MutateJob"
+		}
+	];
+}
+
+message RunMutateJobRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/MutateJob"
+		}
+	];
+}
+
+message AddMutateJobOperationsRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/MutateJob"
+		}
+	];
+	string sequence_token = 2;
+	repeated google.ads.googleads.v3.services.MutateOperation mutate_operations = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message AddMutateJobOperationsResponse {
+
+	int64 total_operations = 1;
+	string next_sequence_token = 2;
+}
+
+message ListMutateJobResultsRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/MutateJob"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListMutateJobResultsResponse {
+
+	repeated MutateJobResult results = 1;
+	string next_page_token = 2;
+}
+
+message MutateJobResult {
+
+	int64 operation_index = 1;
+	google.ads.googleads.v3.services.MutateOperationResponse mutate_operation_response = 2;
+	google.rpc.Status status = 3;
+}

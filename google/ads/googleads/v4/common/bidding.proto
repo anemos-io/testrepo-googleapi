@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.common;
+
+import "google/ads/googleads/v4/enums/target_impression_share_location.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.common";
+option java_outer_classname = "BiddingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V4::Common";
+
+
+message Commission {
+
+	google.protobuf.Int64Value commission_rate_micros = 1;
+}
+
+message EnhancedCpc {
+
+}
+
+message ManualCpc {
+
+	google.protobuf.BoolValue enhanced_cpc_enabled = 1;
+}
+
+message ManualCpm {
+
+}
+
+message ManualCpv {
+
+}
+
+message MaximizeConversions {
+
+}
+
+message MaximizeConversionValue {
+
+	google.protobuf.DoubleValue target_roas = 1;
+}
+
+message TargetCpa {
+
+	google.protobuf.Int64Value target_cpa_micros = 1;
+	google.protobuf.Int64Value cpc_bid_ceiling_micros = 2;
+	google.protobuf.Int64Value cpc_bid_floor_micros = 3;
+}
+
+message TargetCpm {
+
+}
+
+message TargetImpressionShare {
+
+	google.ads.googleads.v4.enums.TargetImpressionShareLocationEnum.TargetImpressionShareLocation location = 1;
+	google.protobuf.Int64Value location_fraction_micros = 2;
+	google.protobuf.Int64Value cpc_bid_ceiling_micros = 3;
+}
+
+message TargetRoas {
+
+	google.protobuf.DoubleValue target_roas = 1;
+	google.protobuf.Int64Value cpc_bid_ceiling_micros = 2;
+	google.protobuf.Int64Value cpc_bid_floor_micros = 3;
+}
+
+message TargetSpend {
+
+	google.protobuf.Int64Value target_spend_micros = 1;
+	google.protobuf.Int64Value cpc_bid_ceiling_micros = 2;
+}
+
+message PercentCpc {
+
+	google.protobuf.Int64Value cpc_bid_ceiling_micros = 1;
+	google.protobuf.BoolValue enhanced_cpc_enabled = 2;
+}

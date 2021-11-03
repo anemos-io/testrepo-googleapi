@@ -1,0 +1,682 @@
+syntax = "proto3";
+
+package google.cloud.security.privateca.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/security/privateca/v1beta1/resources.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.security.privateca.v1beta1";
+option java_outer_classname = "PrivateCaProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/security/privateca/v1beta1;privateca";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Security.PrivateCA.V1Beta1";
+
+
+service CertificateAuthorityService {
+	option (google.api.default_host) = "privateca.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateCertificate(google.cloud.security.privateca.v1beta1.CreateCertificateRequest) returns (google.cloud.security.privateca.v1beta1.Certificate) {
+		option (google.api.method_signature) = "parent,certificate,certificate_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/certificateAuthorities/*}/certificates"
+			body: "certificate"
+		};
+
+	}
+	rpc GetCertificate(google.cloud.security.privateca.v1beta1.GetCertificateRequest) returns (google.cloud.security.privateca.v1beta1.Certificate) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*/certificates/*}"
+		};
+
+	}
+	rpc ListCertificates(google.cloud.security.privateca.v1beta1.ListCertificatesRequest) returns (google.cloud.security.privateca.v1beta1.ListCertificatesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/certificateAuthorities/*}/certificates"
+		};
+
+	}
+	rpc RevokeCertificate(google.cloud.security.privateca.v1beta1.RevokeCertificateRequest) returns (google.cloud.security.privateca.v1beta1.Certificate) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*/certificates/*}:revoke"
+			body: "*"
+		};
+
+	}
+	rpc UpdateCertificate(google.cloud.security.privateca.v1beta1.UpdateCertificateRequest) returns (google.cloud.security.privateca.v1beta1.Certificate) {
+		option (google.api.method_signature) = "certificate,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{certificate.name=projects/*/locations/*/certificateAuthorities/*/certificates/*}"
+			body: "certificate"
+		};
+
+	}
+	rpc ActivateCertificateAuthority(google.cloud.security.privateca.v1beta1.ActivateCertificateAuthorityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateAuthority"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*}:activate"
+			body: "*"
+		};
+
+	}
+	rpc CreateCertificateAuthority(google.cloud.security.privateca.v1beta1.CreateCertificateAuthorityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateAuthority"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,certificate_authority,certificate_authority_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/certificateAuthorities"
+			body: "certificate_authority"
+		};
+
+	}
+	rpc DisableCertificateAuthority(google.cloud.security.privateca.v1beta1.DisableCertificateAuthorityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateAuthority"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*}:disable"
+			body: "*"
+		};
+
+	}
+	rpc EnableCertificateAuthority(google.cloud.security.privateca.v1beta1.EnableCertificateAuthorityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateAuthority"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*}:enable"
+			body: "*"
+		};
+
+	}
+	rpc FetchCertificateAuthorityCsr(google.cloud.security.privateca.v1beta1.FetchCertificateAuthorityCsrRequest) returns (google.cloud.security.privateca.v1beta1.FetchCertificateAuthorityCsrResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*}:fetch"
+		};
+
+	}
+	rpc GetCertificateAuthority(google.cloud.security.privateca.v1beta1.GetCertificateAuthorityRequest) returns (google.cloud.security.privateca.v1beta1.CertificateAuthority) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*}"
+		};
+
+	}
+	rpc ListCertificateAuthorities(google.cloud.security.privateca.v1beta1.ListCertificateAuthoritiesRequest) returns (google.cloud.security.privateca.v1beta1.ListCertificateAuthoritiesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/certificateAuthorities"
+		};
+
+	}
+	rpc RestoreCertificateAuthority(google.cloud.security.privateca.v1beta1.RestoreCertificateAuthorityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateAuthority"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*}:restore"
+			body: "*"
+		};
+
+	}
+	rpc ScheduleDeleteCertificateAuthority(google.cloud.security.privateca.v1beta1.ScheduleDeleteCertificateAuthorityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateAuthority"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*}:scheduleDelete"
+			body: "*"
+		};
+
+	}
+	rpc UpdateCertificateAuthority(google.cloud.security.privateca.v1beta1.UpdateCertificateAuthorityRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateAuthority"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "certificate_authority,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{certificate_authority.name=projects/*/locations/*/certificateAuthorities/*}"
+			body: "certificate_authority"
+		};
+
+	}
+	rpc CreateCertificateRevocationList(google.cloud.security.privateca.v1beta1.CreateCertificateRevocationListRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateRevocationList"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,certificate_revocation_list,certificate_revocation_list_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/certificateAuthorities/*}/certificateRevocationLists"
+			body: "certificate_revocation_list"
+		};
+
+	}
+	rpc GetCertificateRevocationList(google.cloud.security.privateca.v1beta1.GetCertificateRevocationListRequest) returns (google.cloud.security.privateca.v1beta1.CertificateRevocationList) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/certificateAuthorities/*/certificateRevocationLists/*}"
+		};
+
+	}
+	rpc ListCertificateRevocationLists(google.cloud.security.privateca.v1beta1.ListCertificateRevocationListsRequest) returns (google.cloud.security.privateca.v1beta1.ListCertificateRevocationListsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/certificateAuthorities/*}/certificateRevocationLists"
+		};
+
+	}
+	rpc UpdateCertificateRevocationList(google.cloud.security.privateca.v1beta1.UpdateCertificateRevocationListRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CertificateRevocationList"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "certificate_revocation_list,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{certificate_revocation_list.name=projects/*/locations/*/certificateAuthorities/*/certificateRevocationLists/*}"
+			body: "certificate_revocation_list"
+		};
+
+	}
+	rpc CreateReusableConfig(google.cloud.security.privateca.v1beta1.CreateReusableConfigRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ReusableConfig"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,reusable_config,reusable_config_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/reusableConfigs"
+			body: "reusable_config"
+		};
+
+	}
+	rpc DeleteReusableConfig(google.cloud.security.privateca.v1beta1.DeleteReusableConfigRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.cloud.security.privateca.v1beta1.OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/reusableConfigs/*}"
+		};
+
+	}
+	rpc GetReusableConfig(google.cloud.security.privateca.v1beta1.GetReusableConfigRequest) returns (google.cloud.security.privateca.v1beta1.ReusableConfig) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/reusableConfigs/*}"
+		};
+
+	}
+	rpc ListReusableConfigs(google.cloud.security.privateca.v1beta1.ListReusableConfigsRequest) returns (google.cloud.security.privateca.v1beta1.ListReusableConfigsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/reusableConfigs"
+		};
+
+	}
+	rpc UpdateReusableConfig(google.cloud.security.privateca.v1beta1.UpdateReusableConfigRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ReusableConfig"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "reusable_config,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{reusable_config.name=projects/*/locations/*/reusableConfigs/*}"
+			body: "reusable_config"
+		};
+
+	}
+}
+
+message CreateCertificateRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	string certificate_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.security.privateca.v1beta1.Certificate certificate = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetCertificateRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/Certificate"
+		}
+	];
+}
+
+message ListCertificatesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListCertificatesResponse {
+
+	repeated google.cloud.security.privateca.v1beta1.Certificate certificates = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message RevokeCertificateRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/Certificate"
+		}
+	];
+	google.cloud.security.privateca.v1beta1.RevocationReason reason = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateCertificateRequest {
+
+	google.cloud.security.privateca.v1beta1.Certificate certificate = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ActivateCertificateAuthorityRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	string pem_ca_certificate = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.security.privateca.v1beta1.SubordinateConfig subordinate_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CreateCertificateAuthorityRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string certificate_authority_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.security.privateca.v1beta1.CertificateAuthority certificate_authority = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DisableCertificateAuthorityRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message EnableCertificateAuthorityRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message FetchCertificateAuthorityCsrRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+}
+
+message FetchCertificateAuthorityCsrResponse {
+
+	string pem_csr = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message GetCertificateAuthorityRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+}
+
+message ListCertificateAuthoritiesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListCertificateAuthoritiesResponse {
+
+	repeated google.cloud.security.privateca.v1beta1.CertificateAuthority certificate_authorities = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message RestoreCertificateAuthorityRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ScheduleDeleteCertificateAuthorityRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateCertificateAuthorityRequest {
+
+	google.cloud.security.privateca.v1beta1.CertificateAuthority certificate_authority = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CreateCertificateRevocationListRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	string certificate_revocation_list_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.security.privateca.v1beta1.CertificateRevocationList certificate_revocation_list = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetCertificateRevocationListRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateRevocationList"
+		}
+	];
+}
+
+message ListCertificateRevocationListsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/CertificateAuthority"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListCertificateRevocationListsResponse {
+
+	repeated google.cloud.security.privateca.v1beta1.CertificateRevocationList certificate_revocation_lists = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message UpdateCertificateRevocationListRequest {
+
+	google.cloud.security.privateca.v1beta1.CertificateRevocationList certificate_revocation_list = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CreateReusableConfigRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string reusable_config_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.security.privateca.v1beta1.ReusableConfig reusable_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteReusableConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/ReusableConfig"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetReusableConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "privateca.googleapis.com/ReusableConfig"
+		}
+	];
+}
+
+message ListReusableConfigsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListReusableConfigsResponse {
+
+	repeated google.cloud.security.privateca.v1beta1.ReusableConfig reusable_configs = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message UpdateReusableConfigRequest {
+
+	google.cloud.security.privateca.v1beta1.ReusableConfig reusable_config = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

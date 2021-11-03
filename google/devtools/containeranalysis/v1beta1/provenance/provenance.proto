@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package grafeas.v1beta1.provenance;
+
+import "google/devtools/containeranalysis/v1beta1/source/source.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.grafeas.v1beta1.provenance";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/provenance;provenance";
+option objc_class_prefix = "GRA";
+
+
+message BuildProvenance {
+
+	string id = 1;
+	string project_id = 2;
+	repeated Command commands = 3;
+	repeated Artifact built_artifacts = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp start_time = 6;
+	google.protobuf.Timestamp end_time = 7;
+	string creator = 8;
+	string logs_uri = 9;
+	Source source_provenance = 10;
+	string trigger_id = 11;
+	map<string, string> build_options = 12;
+	string builder_version = 13;
+}
+
+message Source {
+
+	string artifact_storage_source_uri = 1;
+	map<string, FileHashes> file_hashes = 2;
+	grafeas.v1beta1.source.SourceContext context = 3;
+	repeated grafeas.v1beta1.source.SourceContext additional_contexts = 4;
+}
+
+message FileHashes {
+
+	repeated Hash file_hash = 1;
+}
+
+message Hash {
+
+	enum HashType {
+
+		HASH_TYPE_UNSPECIFIED = 0;
+		SHA256 = 1;
+	}
+
+	HashType type = 1;
+	bytes value = 2;
+}
+
+message Command {
+
+	string name = 1;
+	repeated string env = 2;
+	repeated string args = 3;
+	string dir = 4;
+	string id = 5;
+	repeated string wait_for = 6;
+}
+
+message Artifact {
+
+	string checksum = 1;
+	string id = 2;
+	repeated string names = 3;
+}

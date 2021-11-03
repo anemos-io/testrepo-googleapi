@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.resources;
+
+import "google/ads/googleads/v4/common/criteria.proto";
+import "google/ads/googleads/v4/enums/campaign_criterion_status.proto";
+import "google/ads/googleads/v4/enums/criterion_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.resources";
+option java_outer_classname = "CampaignCriterionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V4::Resources";
+
+
+message CampaignCriterion {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/CampaignCriterion"
+		pattern: ["customers/{customer}/campaignCriteria/{campaign_criterion}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignCriterion"
+		}
+	];
+	google.protobuf.StringValue campaign = 4 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	google.protobuf.Int64Value criterion_id = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.FloatValue bid_modifier = 14;
+	google.protobuf.BoolValue negative = 7 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v4.enums.CriterionTypeEnum.CriterionType type = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v4.enums.CampaignCriterionStatusEnum.CampaignCriterionStatus status = 35;
+	oneof criterion {
+		google.ads.googleads.v4.common.KeywordInfo keyword = 8 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.PlacementInfo placement = 9 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.MobileAppCategoryInfo mobile_app_category = 10 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.MobileApplicationInfo mobile_application = 11 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.LocationInfo location = 12 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.DeviceInfo device = 13 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.AdScheduleInfo ad_schedule = 15 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.AgeRangeInfo age_range = 16 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.GenderInfo gender = 17 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.IncomeRangeInfo income_range = 18 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.ParentalStatusInfo parental_status = 19 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.UserListInfo user_list = 22 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.YouTubeVideoInfo youtube_video = 20 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.YouTubeChannelInfo youtube_channel = 21 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.ProximityInfo proximity = 23 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.TopicInfo topic = 24 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.ListingScopeInfo listing_scope = 25 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.LanguageInfo language = 26 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.IpBlockInfo ip_block = 27 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.ContentLabelInfo content_label = 28 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.CarrierInfo carrier = 29 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.UserInterestInfo user_interest = 30 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.WebpageInfo webpage = 31 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.OperatingSystemVersionInfo operating_system_version = 32 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.MobileDeviceInfo mobile_device = 33 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.LocationGroupInfo location_group = 34 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.CustomAffinityInfo custom_affinity = 36 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+}

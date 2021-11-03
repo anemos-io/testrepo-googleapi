@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.logging.type;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.logging.type";
+option java_outer_classname = "LogSeverityProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/logging/type;ltype";
+option csharp_namespace = "Google.Cloud.Logging.Type";
+option php_namespace = "Google\\Cloud\\Logging\\Type";
+option ruby_package = "Google::Cloud::Logging::Type";
+
+
+enum LogSeverity {
+
+	DEFAULT = 0;
+	DEBUG = 100;
+	INFO = 200;
+	NOTICE = 300;
+	WARNING = 400;
+	ERROR = 500;
+	CRITICAL = 600;
+	ALERT = 700;
+	EMERGENCY = 800;
+}

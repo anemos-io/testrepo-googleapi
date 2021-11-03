@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.enums";
+option java_outer_classname = "BatchJobStatusProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V5::Enums";
+
+
+message BatchJobStatusEnum {
+
+	enum BatchJobStatus {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		PENDING = 2;
+		RUNNING = 3;
+		DONE = 4;
+	}
+
+}

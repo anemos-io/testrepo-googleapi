@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.services;
+
+import "google/ads/googleads/v3/common/policy.proto";
+import "google/ads/googleads/v3/resources/ad_group_ad.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v3.services";
+option java_outer_classname = "AdGroupAdServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V3::Services";
+
+
+service AdGroupAdService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetAdGroupAd(google.ads.googleads.v3.services.GetAdGroupAdRequest) returns (google.ads.googleads.v3.resources.AdGroupAd) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v3/{resource_name=customers/*/adGroupAds/*}"
+		};
+
+	}
+	rpc MutateAdGroupAds(google.ads.googleads.v3.services.MutateAdGroupAdsRequest) returns (google.ads.googleads.v3.services.MutateAdGroupAdsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v3/customers/{customer_id=*}/adGroupAds:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetAdGroupAdRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupAd"
+		}
+	];
+}
+
+message MutateAdGroupAdsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated AdGroupAdOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+}
+
+message AdGroupAdOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	google.ads.googleads.v3.common.PolicyValidationParameter policy_validation_parameter = 5;
+	oneof operation {
+		google.ads.googleads.v3.resources.AdGroupAd create = 1;
+		google.ads.googleads.v3.resources.AdGroupAd update = 2;
+		string remove = 3;
+	}
+}
+
+message MutateAdGroupAdsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateAdGroupAdResult results = 2;
+}
+
+message MutateAdGroupAdResult {
+
+	string resource_name = 1;
+}

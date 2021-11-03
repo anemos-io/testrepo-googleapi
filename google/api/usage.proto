@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package google.api;
+
+option java_package = "com.google.api";
+option java_outer_classname = "UsageProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/serviceconfig;serviceconfig";
+option objc_class_prefix = "GAPI";
+
+
+message Usage {
+
+	repeated string requirements = 1;
+	repeated UsageRule rules = 6;
+	string producer_notification_channel = 7;
+}
+
+message UsageRule {
+
+	string selector = 1;
+	bool allow_unregistered_calls = 2;
+	bool skip_service_control = 3;
+}

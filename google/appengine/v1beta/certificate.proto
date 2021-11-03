@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package google.appengine.v1beta;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1beta";
+option java_outer_classname = "CertificateProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+
+
+enum ManagementStatus {
+
+	MANAGEMENT_STATUS_UNSPECIFIED = 0;
+	OK = 1;
+	PENDING = 2;
+	FAILED_RETRYING_NOT_VISIBLE = 4;
+	FAILED_PERMANENT = 6;
+	FAILED_RETRYING_CAA_FORBIDDEN = 7;
+	FAILED_RETRYING_CAA_CHECKING = 8;
+}
+
+message AuthorizedCertificate {
+
+	string name = 1;
+	string id = 2;
+	string display_name = 3;
+	repeated string domain_names = 4;
+	google.protobuf.Timestamp expire_time = 5;
+	CertificateRawData certificate_raw_data = 6;
+	ManagedCertificate managed_certificate = 7;
+	repeated string visible_domain_mappings = 8;
+	int32 domain_mappings_count = 9;
+}
+
+message CertificateRawData {
+
+	string public_certificate = 1;
+	string private_key = 2;
+}
+
+message ManagedCertificate {
+
+	google.protobuf.Timestamp last_renewal_time = 1;
+	ManagementStatus status = 2;
+}

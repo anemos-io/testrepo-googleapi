@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+import "google/api/distribution.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "CommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+message Aggregation {
+
+	enum Aligner {
+
+		ALIGN_NONE = 0;
+		ALIGN_DELTA = 1;
+		ALIGN_RATE = 2;
+		ALIGN_INTERPOLATE = 3;
+		ALIGN_NEXT_OLDER = 4;
+		ALIGN_MIN = 10;
+		ALIGN_MAX = 11;
+		ALIGN_MEAN = 12;
+		ALIGN_COUNT = 13;
+		ALIGN_SUM = 14;
+		ALIGN_STDDEV = 15;
+		ALIGN_COUNT_TRUE = 16;
+		ALIGN_COUNT_FALSE = 24;
+		ALIGN_FRACTION_TRUE = 17;
+		ALIGN_PERCENTILE_99 = 18;
+		ALIGN_PERCENTILE_95 = 19;
+		ALIGN_PERCENTILE_50 = 20;
+		ALIGN_PERCENTILE_05 = 21;
+		ALIGN_PERCENT_CHANGE = 23;
+	}
+
+	enum Reducer {
+
+		REDUCE_NONE = 0;
+		REDUCE_MEAN = 1;
+		REDUCE_MIN = 2;
+		REDUCE_MAX = 3;
+		REDUCE_SUM = 4;
+		REDUCE_STDDEV = 5;
+		REDUCE_COUNT = 6;
+		REDUCE_COUNT_TRUE = 7;
+		REDUCE_COUNT_FALSE = 15;
+		REDUCE_FRACTION_TRUE = 8;
+		REDUCE_PERCENTILE_99 = 9;
+		REDUCE_PERCENTILE_95 = 10;
+		REDUCE_PERCENTILE_50 = 11;
+		REDUCE_PERCENTILE_05 = 12;
+	}
+
+	google.protobuf.Duration alignment_period = 1;
+	Aligner per_series_aligner = 2;
+	Reducer cross_series_reducer = 4;
+	repeated string group_by_fields = 5;
+}
+
+message PickTimeSeriesFilter {
+
+	enum Method {
+
+		METHOD_UNSPECIFIED = 0;
+		METHOD_MEAN = 1;
+		METHOD_MAX = 2;
+		METHOD_MIN = 3;
+		METHOD_SUM = 4;
+		METHOD_LATEST = 5;
+	}
+
+	enum Direction {
+
+		DIRECTION_UNSPECIFIED = 0;
+		TOP = 1;
+		BOTTOM = 2;
+	}
+
+	Method ranking_method = 1;
+	int32 num_time_series = 2;
+	Direction direction = 3;
+}
+
+message StatisticalTimeSeriesFilter {
+
+	enum Method {
+
+		METHOD_UNSPECIFIED = 0;
+		METHOD_CLUSTER_OUTLIER = 1;
+	}
+
+	Method ranking_method = 1;
+	int32 num_time_series = 2;
+}

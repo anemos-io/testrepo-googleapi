@@ -1,0 +1,285 @@
+syntax = "proto3";
+
+package google.privacy.dlp.v2;
+
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.privacy.dlp.v2";
+option java_outer_classname = "DlpStorage";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/privacy/dlp/v2;dlp";
+option csharp_namespace = "Google.Cloud.Dlp.V2";
+option php_namespace = "Google\\Cloud\\Dlp\\V2";
+option ruby_package = "Google::Cloud::Dlp::V2";
+
+
+enum Likelihood {
+
+	LIKELIHOOD_UNSPECIFIED = 0;
+	VERY_UNLIKELY = 1;
+	UNLIKELY = 2;
+	POSSIBLE = 3;
+	LIKELY = 4;
+	VERY_LIKELY = 5;
+}
+
+enum FileType {
+
+	FILE_TYPE_UNSPECIFIED = 0;
+	BINARY_FILE = 1;
+	TEXT_FILE = 2;
+	IMAGE = 3;
+	WORD = 5;
+	PDF = 6;
+	AVRO = 7;
+	CSV = 8;
+	TSV = 9;
+}
+
+message InfoType {
+
+	string name = 1;
+}
+
+message StoredType {
+
+	string name = 1;
+	google.protobuf.Timestamp create_time = 2;
+}
+
+message CustomInfoType {
+
+	message Dictionary {
+
+		message WordList {
+
+			repeated string words = 1;
+		}
+
+		oneof source {
+			WordList word_list = 1;
+			CloudStoragePath cloud_storage_path = 3;
+		}
+	}
+
+	message Regex {
+
+		string pattern = 1;
+		repeated int32 group_indexes = 2;
+	}
+
+	message SurrogateType {
+
+	}
+
+	message DetectionRule {
+
+		message Proximity {
+
+			int32 window_before = 1;
+			int32 window_after = 2;
+		}
+
+		message LikelihoodAdjustment {
+
+			oneof adjustment {
+				Likelihood fixed_likelihood = 1;
+				int32 relative_likelihood = 2;
+			}
+		}
+
+		message HotwordRule {
+
+			Regex hotword_regex = 1;
+			Proximity proximity = 2;
+			LikelihoodAdjustment likelihood_adjustment = 3;
+		}
+
+		oneof type {
+			HotwordRule hotword_rule = 1;
+		}
+	}
+
+	enum ExclusionType {
+
+		EXCLUSION_TYPE_UNSPECIFIED = 0;
+		EXCLUSION_TYPE_EXCLUDE = 1;
+	}
+
+	InfoType info_type = 1;
+	Likelihood likelihood = 6;
+	oneof type {
+		Dictionary dictionary = 2;
+		Regex regex = 3;
+		SurrogateType surrogate_type = 4;
+		StoredType stored_type = 5;
+	}
+	repeated DetectionRule detection_rules = 7;
+	ExclusionType exclusion_type = 8;
+}
+
+message FieldId {
+
+	string name = 1;
+}
+
+message PartitionId {
+
+	string project_id = 2;
+	string namespace_id = 4;
+}
+
+message KindExpression {
+
+	string name = 1;
+}
+
+message DatastoreOptions {
+
+	PartitionId partition_id = 1;
+	KindExpression kind = 2;
+}
+
+message CloudStorageRegexFileSet {
+
+	string bucket_name = 1;
+	repeated string include_regex = 2;
+	repeated string exclude_regex = 3;
+}
+
+message CloudStorageOptions {
+
+	message FileSet {
+
+		string url = 1;
+		CloudStorageRegexFileSet regex_file_set = 2;
+	}
+
+	enum SampleMethod {
+
+		SAMPLE_METHOD_UNSPECIFIED = 0;
+		TOP = 1;
+		RANDOM_START = 2;
+	}
+
+	FileSet file_set = 1;
+	int64 bytes_limit_per_file = 4;
+	int32 bytes_limit_per_file_percent = 8;
+	repeated FileType file_types = 5;
+	SampleMethod sample_method = 6;
+	int32 files_limit_percent = 7;
+}
+
+message CloudStorageFileSet {
+
+	string url = 1;
+}
+
+message CloudStoragePath {
+
+	string path = 1;
+}
+
+message BigQueryOptions {
+
+	enum SampleMethod {
+
+		SAMPLE_METHOD_UNSPECIFIED = 0;
+		TOP = 1;
+		RANDOM_START = 2;
+	}
+
+	BigQueryTable table_reference = 1;
+	repeated FieldId identifying_fields = 2;
+	int64 rows_limit = 3;
+	int32 rows_limit_percent = 6;
+	SampleMethod sample_method = 4;
+	repeated FieldId excluded_fields = 5;
+}
+
+message StorageConfig {
+
+	message TimespanConfig {
+
+		google.protobuf.Timestamp start_time = 1;
+		google.protobuf.Timestamp end_time = 2;
+		FieldId timestamp_field = 3;
+		bool enable_auto_population_of_timespan_config = 4;
+	}
+
+	oneof type {
+		DatastoreOptions datastore_options = 2;
+		CloudStorageOptions cloud_storage_options = 3;
+		BigQueryOptions big_query_options = 4;
+		HybridOptions hybrid_options = 9;
+	}
+	TimespanConfig timespan_config = 6;
+}
+
+message HybridOptions {
+
+	string description = 1;
+	repeated string required_finding_label_keys = 2;
+	map<string, string> labels = 3;
+	TableOptions table_options = 4;
+}
+
+message BigQueryKey {
+
+	BigQueryTable table_reference = 1;
+	int64 row_number = 2;
+}
+
+message DatastoreKey {
+
+	Key entity_key = 1;
+}
+
+message Key {
+
+	message PathElement {
+
+		string kind = 1;
+		oneof id_type {
+			int64 id = 2;
+			string name = 3;
+		}
+	}
+
+	PartitionId partition_id = 1;
+	repeated PathElement path = 2;
+}
+
+message RecordKey {
+
+	oneof type {
+		DatastoreKey datastore_key = 2;
+		BigQueryKey big_query_key = 3;
+	}
+	repeated string id_values = 5;
+}
+
+message BigQueryTable {
+
+	string project_id = 1;
+	string dataset_id = 2;
+	string table_id = 3;
+}
+
+message BigQueryField {
+
+	BigQueryTable table = 1;
+	FieldId field = 2;
+}
+
+message EntityId {
+
+	FieldId field = 1;
+}
+
+message TableOptions {
+
+	repeated FieldId identifying_fields = 1;
+}

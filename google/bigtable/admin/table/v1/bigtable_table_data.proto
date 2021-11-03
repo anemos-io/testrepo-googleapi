@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package google.bigtable.admin.table.v1;
+
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.bigtable.admin.table.v1";
+option java_outer_classname = "BigtableTableDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/admin/table/v1;table";
+
+
+message Table {
+
+	enum TimestampGranularity {
+
+		MILLIS = 0;
+	}
+
+	string name = 1;
+	google.longrunning.Operation current_operation = 2;
+	map<string, ColumnFamily> column_families = 3;
+	TimestampGranularity granularity = 4;
+}
+
+message ColumnFamily {
+
+	string name = 1;
+	string gc_expression = 2;
+	GcRule gc_rule = 3;
+}
+
+message GcRule {
+
+	message Intersection {
+
+		repeated GcRule rules = 1;
+	}
+
+	message Union {
+
+		repeated GcRule rules = 1;
+	}
+
+	oneof rule {
+		int32 max_num_versions = 1;
+		google.protobuf.Duration max_age = 2;
+		Intersection intersection = 3;
+		Union union = 4;
+	}
+}

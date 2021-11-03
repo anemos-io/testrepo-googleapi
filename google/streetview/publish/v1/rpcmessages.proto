@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package google.streetview.publish.v1;
+
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+import "google/streetview/publish/v1/resources.proto";
+
+option java_package = "com.google.geo.ugc.streetview.publish.v1";
+option java_outer_classname = "StreetViewPublishRpcMessages";
+option go_package = "google.golang.org/genproto/googleapis/streetview/publish/v1;publish";
+
+
+enum PhotoView {
+
+	BASIC = 0;
+	INCLUDE_DOWNLOAD_URL = 1;
+}
+
+message CreatePhotoRequest {
+
+	google.streetview.publish.v1.Photo photo = 1;
+}
+
+message GetPhotoRequest {
+
+	string photo_id = 1;
+	PhotoView view = 2;
+	string language_code = 3;
+}
+
+message BatchGetPhotosRequest {
+
+	repeated string photo_ids = 1;
+	PhotoView view = 2;
+	string language_code = 3;
+}
+
+message BatchGetPhotosResponse {
+
+	repeated PhotoResponse results = 1;
+}
+
+message PhotoResponse {
+
+	google.rpc.Status status = 1;
+	google.streetview.publish.v1.Photo photo = 2;
+}
+
+message ListPhotosRequest {
+
+	PhotoView view = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+	string language_code = 5;
+}
+
+message ListPhotosResponse {
+
+	repeated google.streetview.publish.v1.Photo photos = 1;
+	string next_page_token = 2;
+}
+
+message UpdatePhotoRequest {
+
+	google.streetview.publish.v1.Photo photo = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message BatchUpdatePhotosRequest {
+
+	repeated UpdatePhotoRequest update_photo_requests = 1;
+}
+
+message BatchUpdatePhotosResponse {
+
+	repeated PhotoResponse results = 1;
+}
+
+message DeletePhotoRequest {
+
+	string photo_id = 1;
+}
+
+message BatchDeletePhotosRequest {
+
+	repeated string photo_ids = 1;
+}
+
+message BatchDeletePhotosResponse {
+
+	repeated google.rpc.Status status = 1;
+}

@@ -1,0 +1,231 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.agentendpoint.v1beta;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.osconfig.agentendpoint.v1beta";
+option java_outer_classname = "GuestPolicies";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1beta;agentendpoint";
+
+
+enum DesiredState {
+
+	DESIRED_STATE_UNSPECIFIED = 0;
+	INSTALLED = 1;
+	UPDATED = 2;
+	REMOVED = 3;
+}
+
+message Package {
+
+	enum Manager {
+
+		MANAGER_UNSPECIFIED = 0;
+		ANY = 1;
+		APT = 2;
+		YUM = 3;
+		ZYPPER = 4;
+		GOO = 5;
+	}
+
+	string name = 1;
+	DesiredState desired_state = 2;
+	Manager manager = 3;
+}
+
+message AptRepository {
+
+	enum ArchiveType {
+
+		ARCHIVE_TYPE_UNSPECIFIED = 0;
+		DEB = 1;
+		DEB_SRC = 2;
+	}
+
+	ArchiveType archive_type = 1;
+	string uri = 2;
+	string distribution = 3;
+	repeated string components = 4;
+	string gpg_key = 5;
+}
+
+message YumRepository {
+
+	string id = 1;
+	string display_name = 2;
+	string base_url = 3;
+	repeated string gpg_keys = 4;
+}
+
+message ZypperRepository {
+
+	string id = 1;
+	string display_name = 2;
+	string base_url = 3;
+	repeated string gpg_keys = 4;
+}
+
+message GooRepository {
+
+	string name = 1;
+	string url = 2;
+}
+
+message PackageRepository {
+
+	oneof repository {
+		AptRepository apt = 1;
+		YumRepository yum = 2;
+		ZypperRepository zypper = 3;
+		GooRepository goo = 4;
+	}
+}
+
+message SoftwareRecipe {
+
+	message Artifact {
+
+		message Remote {
+
+			string uri = 1;
+			string checksum = 2;
+		}
+
+		message Gcs {
+
+			string bucket = 1;
+			string object = 2;
+			int64 generation = 3;
+		}
+
+		string id = 1;
+		oneof artifact {
+			Remote remote = 2;
+			Gcs gcs = 3;
+		}
+		bool allow_insecure = 4;
+	}
+
+	message Step {
+
+		message CopyFile {
+
+			string artifact_id = 1;
+			string destination = 2;
+			bool overwrite = 3;
+			string permissions = 4;
+		}
+
+		message ExtractArchive {
+
+			enum ArchiveType {
+
+				ARCHIVE_TYPE_UNSPECIFIED = 0;
+				TAR = 1;
+				TAR_GZIP = 2;
+				TAR_BZIP = 3;
+				TAR_LZMA = 4;
+				TAR_XZ = 5;
+				ZIP = 11;
+			}
+
+			string artifact_id = 1;
+			string destination = 2;
+			ArchiveType type = 3;
+		}
+
+		message InstallMsi {
+
+			string artifact_id = 1;
+			repeated string flags = 2;
+			repeated int32 allowed_exit_codes = 3;
+		}
+
+		message InstallDpkg {
+
+			string artifact_id = 1;
+		}
+
+		message InstallRpm {
+
+			string artifact_id = 1;
+		}
+
+		message ExecFile {
+
+			oneof location_type {
+				string artifact_id = 1;
+				string local_path = 2;
+			}
+			repeated string args = 3;
+			repeated int32 allowed_exit_codes = 4;
+		}
+
+		message RunScript {
+
+			enum Interpreter {
+
+				INTERPRETER_UNSPECIFIED = 0;
+				SHELL = 1;
+				POWERSHELL = 3;
+			}
+
+			string script = 1;
+			repeated int32 allowed_exit_codes = 2;
+			Interpreter interpreter = 3;
+		}
+
+		oneof step {
+			CopyFile file_copy = 1;
+			ExtractArchive archive_extraction = 2;
+			InstallMsi msi_installation = 3;
+			InstallDpkg dpkg_installation = 4;
+			InstallRpm rpm_installation = 5;
+			ExecFile file_exec = 6;
+			RunScript script_run = 7;
+		}
+	}
+
+	string name = 1;
+	string version = 2;
+	repeated Artifact artifacts = 3;
+	repeated Step install_steps = 4;
+	repeated Step update_steps = 5;
+	DesiredState desired_state = 6;
+}
+
+message LookupEffectiveGuestPolicyRequest {
+
+	string instance_id_token = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string os_short_name = 2;
+	string os_version = 3;
+	string os_architecture = 4;
+}
+
+message EffectiveGuestPolicy {
+
+	message SourcedPackage {
+
+		string source = 1;
+		Package package = 2;
+	}
+
+	message SourcedPackageRepository {
+
+		string source = 1;
+		PackageRepository package_repository = 2;
+	}
+
+	message SourcedSoftwareRecipe {
+
+		string source = 1;
+		SoftwareRecipe software_recipe = 2;
+	}
+
+	repeated SourcedPackage packages = 1;
+	repeated SourcedPackageRepository package_repositories = 2;
+	repeated SourcedSoftwareRecipe software_recipes = 3;
+}

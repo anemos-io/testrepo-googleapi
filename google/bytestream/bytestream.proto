@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package google.bytestream;
+
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.bytestream";
+option java_outer_classname = "ByteStreamProto";
+option go_package = "google.golang.org/genproto/googleapis/bytestream;bytestream";
+
+
+service ByteStream {
+
+	rpc Read(google.bytestream.ReadRequest) returns (stream google.bytestream.ReadResponse) {}
+	rpc Write(stream google.bytestream.WriteRequest) returns (google.bytestream.WriteResponse) {}
+	rpc QueryWriteStatus(google.bytestream.QueryWriteStatusRequest) returns (google.bytestream.QueryWriteStatusResponse) {}
+}
+
+message ReadRequest {
+
+	string resource_name = 1;
+	int64 read_offset = 2;
+	int64 read_limit = 3;
+}
+
+message ReadResponse {
+
+	bytes data = 10;
+}
+
+message WriteRequest {
+
+	string resource_name = 1;
+	int64 write_offset = 2;
+	bool finish_write = 3;
+	bytes data = 10;
+}
+
+message WriteResponse {
+
+	int64 committed_size = 1;
+}
+
+message QueryWriteStatusRequest {
+
+	string resource_name = 1;
+}
+
+message QueryWriteStatusResponse {
+
+	int64 committed_size = 1;
+	bool complete = 2;
+}

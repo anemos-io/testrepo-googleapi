@@ -1,0 +1,227 @@
+syntax = "proto3";
+
+package google.cloud.ml.v1;
+
+import "google/api/annotations.proto";
+import "google/api/auth.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.ml.api.v1";
+option java_outer_classname = "JobServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/ml/v1;ml";
+
+
+service JobService {
+
+	rpc CreateJob(google.cloud.ml.v1.CreateJobRequest) returns (google.cloud.ml.v1.Job) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/jobs"
+			body: "job"
+		};
+
+	}
+	rpc ListJobs(google.cloud.ml.v1.ListJobsRequest) returns (google.cloud.ml.v1.ListJobsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/jobs"
+		};
+
+	}
+	rpc GetJob(google.cloud.ml.v1.GetJobRequest) returns (google.cloud.ml.v1.Job) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/jobs/*}"
+		};
+
+	}
+	rpc CancelJob(google.cloud.ml.v1.CancelJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/jobs/*}:cancel"
+			body: "*"
+		};
+
+	}
+}
+
+message TrainingInput {
+
+	enum ScaleTier {
+
+		BASIC = 0;
+		STANDARD_1 = 1;
+		PREMIUM_1 = 3;
+		BASIC_GPU = 6;
+		CUSTOM = 5;
+	}
+
+	ScaleTier scale_tier = 1;
+	string master_type = 2;
+	string worker_type = 3;
+	string parameter_server_type = 4;
+	int64 worker_count = 5;
+	int64 parameter_server_count = 6;
+	repeated string package_uris = 7;
+	string python_module = 8;
+	repeated string args = 10;
+	HyperparameterSpec hyperparameters = 12;
+	string region = 14;
+	string job_dir = 16;
+	string runtime_version = 15;
+}
+
+message HyperparameterSpec {
+
+	enum GoalType {
+
+		GOAL_TYPE_UNSPECIFIED = 0;
+		MAXIMIZE = 1;
+		MINIMIZE = 2;
+	}
+
+	GoalType goal = 1;
+	repeated ParameterSpec params = 2;
+	int32 max_trials = 3;
+	int32 max_parallel_trials = 4;
+	string hyperparameter_metric_tag = 5;
+}
+
+message ParameterSpec {
+
+	enum ParameterType {
+
+		PARAMETER_TYPE_UNSPECIFIED = 0;
+		DOUBLE = 1;
+		INTEGER = 2;
+		CATEGORICAL = 3;
+		DISCRETE = 4;
+	}
+
+	enum ScaleType {
+
+		NONE = 0;
+		UNIT_LINEAR_SCALE = 1;
+		UNIT_LOG_SCALE = 2;
+		UNIT_REVERSE_LOG_SCALE = 3;
+	}
+
+	string parameter_name = 1;
+	ParameterType type = 4;
+	double min_value = 2;
+	double max_value = 3;
+	repeated string categorical_values = 5;
+	repeated double discrete_values = 6;
+	ScaleType scale_type = 7;
+}
+
+message HyperparameterOutput {
+
+	message HyperparameterMetric {
+
+		int64 training_step = 1;
+		double objective_value = 2;
+	}
+
+	string trial_id = 1;
+	map<string, string> hyperparameters = 2;
+	HyperparameterMetric final_metric = 3;
+	repeated HyperparameterMetric all_metrics = 4;
+}
+
+message TrainingOutput {
+
+	int64 completed_trial_count = 1;
+	repeated HyperparameterOutput trials = 2;
+	double consumed_ml_units = 3;
+	bool is_hyperparameter_tuning_job = 4;
+}
+
+message PredictionInput {
+
+	enum DataFormat {
+
+		DATA_FORMAT_UNSPECIFIED = 0;
+		TEXT = 1;
+		TF_RECORD = 2;
+		TF_RECORD_GZIP = 3;
+	}
+
+	oneof model_version {
+		string model_name = 1;
+		string version_name = 2;
+		string uri = 9;
+	}
+	DataFormat data_format = 3;
+	repeated string input_paths = 4;
+	string output_path = 5;
+	int64 max_worker_count = 6;
+	string region = 7;
+	string runtime_version = 8;
+}
+
+message PredictionOutput {
+
+	string output_path = 1;
+	int64 prediction_count = 2;
+	int64 error_count = 3;
+	double node_hours = 4;
+}
+
+message Job {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		QUEUED = 1;
+		PREPARING = 2;
+		RUNNING = 3;
+		SUCCEEDED = 4;
+		FAILED = 5;
+		CANCELLING = 6;
+		CANCELLED = 7;
+	}
+
+	string job_id = 1;
+	oneof input {
+		TrainingInput training_input = 2;
+		PredictionInput prediction_input = 3;
+	}
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp start_time = 5;
+	google.protobuf.Timestamp end_time = 6;
+	State state = 7;
+	string error_message = 8;
+	oneof output {
+		TrainingOutput training_output = 9;
+		PredictionOutput prediction_output = 10;
+	}
+}
+
+message CreateJobRequest {
+
+	string parent = 1;
+	Job job = 2;
+}
+
+message ListJobsRequest {
+
+	string parent = 1;
+	string filter = 2;
+	string page_token = 4;
+	int32 page_size = 5;
+}
+
+message ListJobsResponse {
+
+	repeated Job jobs = 1;
+	string next_page_token = 2;
+}
+
+message GetJobRequest {
+
+	string name = 1;
+}
+
+message CancelJobRequest {
+
+	string name = 1;
+}

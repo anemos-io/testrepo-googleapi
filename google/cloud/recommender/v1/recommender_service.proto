@@ -1,0 +1,211 @@
+syntax = "proto3";
+
+package google.cloud.recommender.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/recommender/v1/insight.proto";
+import "google/cloud/recommender/v1/recommendation.proto";
+
+option java_package = "com.google.cloud.recommender.v1";
+option java_outer_classname = "RecommenderProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommender/v1;recommender";
+option objc_class_prefix = "CREC";
+option csharp_namespace = "Google.Cloud.Recommender.V1";
+
+
+service Recommender {
+	option (google.api.default_host) = "recommender.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListInsights(google.cloud.recommender.v1.ListInsightsRequest) returns (google.cloud.recommender.v1.ListInsightsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/insightTypes/*}/insights"
+		};
+
+	}
+	rpc GetInsight(google.cloud.recommender.v1.GetInsightRequest) returns (google.cloud.recommender.v1.Insight) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/insightTypes/*/insights/*}"
+		};
+
+	}
+	rpc MarkInsightAccepted(google.cloud.recommender.v1.MarkInsightAcceptedRequest) returns (google.cloud.recommender.v1.Insight) {
+		option (google.api.method_signature) = "name,state_metadata,etag";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/insightTypes/*/insights/*}:markAccepted"
+			body: "*"
+		};
+
+	}
+	rpc ListRecommendations(google.cloud.recommender.v1.ListRecommendationsRequest) returns (google.cloud.recommender.v1.ListRecommendationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/recommenders/*}/recommendations"
+		};
+
+	}
+	rpc GetRecommendation(google.cloud.recommender.v1.GetRecommendationRequest) returns (google.cloud.recommender.v1.Recommendation) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/recommenders/*/recommendations/*}"
+		};
+
+	}
+	rpc MarkRecommendationClaimed(google.cloud.recommender.v1.MarkRecommendationClaimedRequest) returns (google.cloud.recommender.v1.Recommendation) {
+		option (google.api.method_signature) = "name,state_metadata,etag";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/recommenders/*/recommendations/*}:markClaimed"
+			body: "*"
+		};
+
+	}
+	rpc MarkRecommendationSucceeded(google.cloud.recommender.v1.MarkRecommendationSucceededRequest) returns (google.cloud.recommender.v1.Recommendation) {
+		option (google.api.method_signature) = "name,state_metadata,etag";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/recommenders/*/recommendations/*}:markSucceeded"
+			body: "*"
+		};
+
+	}
+	rpc MarkRecommendationFailed(google.cloud.recommender.v1.MarkRecommendationFailedRequest) returns (google.cloud.recommender.v1.Recommendation) {
+		option (google.api.method_signature) = "name,state_metadata,etag";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/recommenders/*/recommendations/*}:markFailed"
+			body: "*"
+		};
+
+	}
+}
+
+message ListInsightsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommender.googleapis.com/InsightType"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListInsightsResponse {
+
+	repeated google.cloud.recommender.v1.Insight insights = 1;
+	string next_page_token = 2;
+}
+
+message GetInsightRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommender.googleapis.com/Insight"
+		}
+	];
+}
+
+message MarkInsightAcceptedRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommender.googleapis.com/Insight"
+		}
+	];
+	map<string, string> state_metadata = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string etag = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListRecommendationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommender.googleapis.com/Recommender"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 5;
+}
+
+message ListRecommendationsResponse {
+
+	repeated google.cloud.recommender.v1.Recommendation recommendations = 1;
+	string next_page_token = 2;
+}
+
+message GetRecommendationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommender.googleapis.com/Recommendation"
+		}
+	];
+}
+
+message MarkRecommendationClaimedRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommender.googleapis.com/Recommendation"
+		}
+	];
+	map<string, string> state_metadata = 2;
+	string etag = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MarkRecommendationSucceededRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommender.googleapis.com/Recommendation"
+		}
+	];
+	map<string, string> state_metadata = 2;
+	string etag = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MarkRecommendationFailedRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommender.googleapis.com/Recommendation"
+		}
+	];
+	map<string, string> state_metadata = 2;
+	string etag = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

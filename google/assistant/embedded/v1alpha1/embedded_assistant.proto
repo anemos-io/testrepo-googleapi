@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package google.assistant.embedded.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.assistant.embedded.v1alpha1";
+option java_outer_classname = "AssistantProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/assistant/embedded/v1alpha1;embedded";
+
+
+service EmbeddedAssistant {
+
+	rpc Converse(stream google.assistant.embedded.v1alpha1.ConverseRequest) returns (stream google.assistant.embedded.v1alpha1.ConverseResponse) {}
+}
+
+message ConverseConfig {
+
+	AudioInConfig audio_in_config = 1;
+	AudioOutConfig audio_out_config = 2;
+	ConverseState converse_state = 3;
+}
+
+message AudioInConfig {
+
+	enum Encoding {
+
+		ENCODING_UNSPECIFIED = 0;
+		LINEAR16 = 1;
+		FLAC = 2;
+	}
+
+	Encoding encoding = 1;
+	int32 sample_rate_hertz = 2;
+}
+
+message AudioOutConfig {
+
+	enum Encoding {
+
+		ENCODING_UNSPECIFIED = 0;
+		LINEAR16 = 1;
+		MP3 = 2;
+		OPUS_IN_OGG = 3;
+	}
+
+	Encoding encoding = 1;
+	int32 sample_rate_hertz = 2;
+	int32 volume_percentage = 3;
+}
+
+message ConverseState {
+
+	bytes conversation_state = 1;
+}
+
+message AudioOut {
+
+	bytes audio_data = 1;
+}
+
+message ConverseResult {
+
+	enum MicrophoneMode {
+
+		MICROPHONE_MODE_UNSPECIFIED = 0;
+		CLOSE_MICROPHONE = 1;
+		DIALOG_FOLLOW_ON = 2;
+	}
+
+	string spoken_request_text = 1;
+	string spoken_response_text = 2;
+	bytes conversation_state = 3;
+	MicrophoneMode microphone_mode = 4;
+	int32 volume_percentage = 5;
+}
+
+message ConverseRequest {
+
+	oneof converse_request {
+		ConverseConfig config = 1;
+		bytes audio_in = 2;
+	}
+}
+
+message ConverseResponse {
+
+	enum EventType {
+
+		EVENT_TYPE_UNSPECIFIED = 0;
+		END_OF_UTTERANCE = 1;
+	}
+
+	oneof converse_response {
+		google.rpc.Status error = 1;
+		EventType event_type = 2;
+		AudioOut audio_out = 3;
+		ConverseResult result = 5;
+	}
+}

@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.resources;
+
+import "google/ads/googleads/v2/enums/budget_delivery_method.proto";
+import "google/ads/googleads/v2/enums/budget_period.proto";
+import "google/ads/googleads/v2/enums/budget_status.proto";
+import "google/ads/googleads/v2/enums/budget_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.resources";
+option java_outer_classname = "CampaignBudgetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V2::Resources";
+
+
+message CampaignBudget {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/CampaignBudget"
+		pattern: ["customers/{customer}/campaignBudgets/{campaign_budget}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignBudget"
+		}
+	];
+	google.protobuf.Int64Value id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue name = 4;
+	google.protobuf.Int64Value amount_micros = 5;
+	google.protobuf.Int64Value total_amount_micros = 10;
+	google.ads.googleads.v2.enums.BudgetStatusEnum.BudgetStatus status = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.BudgetDeliveryMethodEnum.BudgetDeliveryMethod delivery_method = 7;
+	google.protobuf.BoolValue explicitly_shared = 8;
+	google.protobuf.Int64Value reference_count = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.BoolValue has_recommended_budget = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value recommended_budget_amount_micros = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.BudgetPeriodEnum.BudgetPeriod period = 13 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Int64Value recommended_budget_estimated_change_weekly_clicks = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value recommended_budget_estimated_change_weekly_cost_micros = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value recommended_budget_estimated_change_weekly_interactions = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value recommended_budget_estimated_change_weekly_views = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.BudgetTypeEnum.BudgetType type = 18 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}

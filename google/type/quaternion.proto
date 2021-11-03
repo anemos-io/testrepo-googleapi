@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.type;
+
+option java_package = "com.google.type";
+option java_outer_classname = "QuaternionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/type/quaternion;quaternion";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GTP";
+
+
+message Quaternion {
+
+	double x = 1;
+	double y = 2;
+	double z = 3;
+	double w = 4;
+}

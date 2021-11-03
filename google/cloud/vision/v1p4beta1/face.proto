@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.cloud.vision.v1p4beta1;
+
+import "google/api/annotations.proto";
+import "google/cloud/vision/v1p4beta1/geometry.proto";
+
+option java_package = "com.google.cloud.vision.v1p4beta1";
+option java_outer_classname = "CelebrityProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/vision/v1p4beta1;vision";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GCVN";
+
+
+message FaceRecognitionParams {
+
+	repeated string celebrity_set = 1;
+}
+
+message Celebrity {
+
+	string name = 1;
+	string display_name = 2;
+	string description = 3;
+}
+
+message FaceRecognitionResult {
+
+	Celebrity celebrity = 1;
+	float confidence = 2;
+}

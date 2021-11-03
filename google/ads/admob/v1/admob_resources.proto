@@ -1,0 +1,206 @@
+syntax = "proto3";
+
+package google.ads.admob.v1;
+
+import "google/type/date.proto";
+
+option java_package = "com.google.ads.admob.v1";
+option java_outer_classname = "AdMobResourceProto";
+option go_package = "google.golang.org/genproto/googleapis/ads/admob/v1;admob";
+
+
+enum SortOrder {
+
+	SORT_ORDER_UNSPECIFIED = 0;
+	ASCENDING = 1;
+	DESCENDING = 2;
+}
+
+message PublisherAccount {
+
+	string name = 1;
+	string publisher_id = 2;
+	string reporting_time_zone = 3;
+	string currency_code = 4;
+}
+
+message NetworkReportSpec {
+
+	message DimensionFilter {
+
+		Dimension dimension = 1;
+		oneof operator {
+			StringList matches_any = 2;
+		}
+	}
+
+	message SortCondition {
+
+		oneof sort_on {
+			Dimension dimension = 1;
+			Metric metric = 2;
+		}
+		SortOrder order = 3;
+	}
+
+	enum Dimension {
+
+		DIMENSION_UNSPECIFIED = 0;
+		DATE = 1;
+		MONTH = 2;
+		WEEK = 3;
+		AD_UNIT = 4;
+		APP = 5;
+		AD_TYPE = 6;
+		COUNTRY = 7;
+		FORMAT = 8;
+		PLATFORM = 9;
+	}
+
+	enum Metric {
+
+		METRIC_UNSPECIFIED = 0;
+		AD_REQUESTS = 1;
+		CLICKS = 2;
+		ESTIMATED_EARNINGS = 3;
+		IMPRESSIONS = 4;
+		IMPRESSION_CTR = 5;
+		IMPRESSION_RPM = 6;
+		MATCHED_REQUESTS = 7;
+		MATCH_RATE = 8;
+		SHOW_RATE = 9;
+	}
+
+	DateRange date_range = 1;
+	repeated Dimension dimensions = 2;
+	repeated Metric metrics = 3;
+	repeated DimensionFilter dimension_filters = 4;
+	repeated SortCondition sort_conditions = 5;
+	LocalizationSettings localization_settings = 6;
+	int32 max_report_rows = 7;
+	string time_zone = 8;
+}
+
+message MediationReportSpec {
+
+	message DimensionFilter {
+
+		Dimension dimension = 1;
+		oneof operator {
+			StringList matches_any = 2;
+		}
+	}
+
+	message SortCondition {
+
+		oneof sort_on {
+			Dimension dimension = 1;
+			Metric metric = 2;
+		}
+		SortOrder order = 3;
+	}
+
+	enum Dimension {
+
+		DIMENSION_UNSPECIFIED = 0;
+		DATE = 1;
+		MONTH = 2;
+		WEEK = 3;
+		AD_SOURCE = 4;
+		AD_SOURCE_INSTANCE = 5;
+		AD_UNIT = 6;
+		APP = 7;
+		MEDIATION_GROUP = 11;
+		COUNTRY = 8;
+		FORMAT = 9;
+		PLATFORM = 10;
+	}
+
+	enum Metric {
+
+		METRIC_UNSPECIFIED = 0;
+		AD_REQUESTS = 1;
+		CLICKS = 2;
+		ESTIMATED_EARNINGS = 3;
+		IMPRESSIONS = 4;
+		IMPRESSION_CTR = 5;
+		MATCHED_REQUESTS = 6;
+		MATCH_RATE = 7;
+		OBSERVED_ECPM = 8;
+	}
+
+	DateRange date_range = 1;
+	repeated Dimension dimensions = 2;
+	repeated Metric metrics = 3;
+	repeated DimensionFilter dimension_filters = 4;
+	repeated SortCondition sort_conditions = 5;
+	LocalizationSettings localization_settings = 6;
+	int32 max_report_rows = 7;
+	string time_zone = 8;
+}
+
+message ReportRow {
+
+	message DimensionValue {
+
+		string value = 1;
+		string display_label = 2;
+	}
+
+	message MetricValue {
+
+		oneof value {
+			int64 integer_value = 1;
+			double double_value = 2;
+			int64 micros_value = 3;
+		}
+	}
+
+	map<string, DimensionValue> dimension_values = 1;
+	map<string, MetricValue> metric_values = 2;
+}
+
+message ReportWarning {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		DATA_BEFORE_ACCOUNT_TIMEZONE_CHANGE = 1;
+		DATA_DELAYED = 2;
+		OTHER = 3;
+		REPORT_CURRENCY_NOT_ACCOUNT_CURRENCY = 4;
+	}
+
+	Type type = 1;
+	string description = 2;
+}
+
+message ReportHeader {
+
+	DateRange date_range = 1;
+	LocalizationSettings localization_settings = 2;
+	string reporting_time_zone = 3;
+}
+
+message ReportFooter {
+
+	repeated ReportWarning warnings = 1;
+	int64 matching_row_count = 2;
+}
+
+message DateRange {
+
+	google.type.Date start_date = 1;
+	google.type.Date end_date = 2;
+}
+
+message LocalizationSettings {
+
+	string currency_code = 1;
+	string language_code = 2;
+}
+
+message StringList {
+
+	repeated string values = 1;
+}

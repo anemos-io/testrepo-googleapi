@@ -1,0 +1,492 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.datatransfer.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/bigquery/datatransfer/v1/transfer.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.cloud.bigquery.datatransfer.v1";
+option java_outer_classname = "DataTransferProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/datatransfer/v1;datatransfer";
+option csharp_namespace = "Google.Cloud.BigQuery.DataTransfer.V1";
+option php_namespace = "Google\\Cloud\\BigQuery\\DataTransfer\\V1";
+option ruby_package = "Google::Cloud::Bigquery::DataTransfer::V1";
+
+
+service DataTransferService {
+	option (google.api.default_host) = "bigquerydatatransfer.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetDataSource(google.cloud.bigquery.datatransfer.v1.GetDataSourceRequest) returns (google.cloud.bigquery.datatransfer.v1.DataSource) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/dataSources/*}"
+			additional_bindings: {
+				get: "/v1/{name=projects/*/dataSources/*}"
+			}
+		};
+
+	}
+	rpc ListDataSources(google.cloud.bigquery.datatransfer.v1.ListDataSourcesRequest) returns (google.cloud.bigquery.datatransfer.v1.ListDataSourcesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/dataSources"
+			additional_bindings: {
+				get: "/v1/{parent=projects/*}/dataSources"
+			}
+		};
+
+	}
+	rpc CreateTransferConfig(google.cloud.bigquery.datatransfer.v1.CreateTransferConfigRequest) returns (google.cloud.bigquery.datatransfer.v1.TransferConfig) {
+		option (google.api.method_signature) = "parent,transfer_config";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/transferConfigs"
+			body: "transfer_config"
+			additional_bindings: {
+				post: "/v1/{parent=projects/*}/transferConfigs"
+				body: "transfer_config"
+			}
+		};
+
+	}
+	rpc UpdateTransferConfig(google.cloud.bigquery.datatransfer.v1.UpdateTransferConfigRequest) returns (google.cloud.bigquery.datatransfer.v1.TransferConfig) {
+		option (google.api.method_signature) = "transfer_config,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{transfer_config.name=projects/*/locations/*/transferConfigs/*}"
+			body: "transfer_config"
+			additional_bindings: {
+				patch: "/v1/{transfer_config.name=projects/*/transferConfigs/*}"
+				body: "transfer_config"
+			}
+		};
+
+	}
+	rpc DeleteTransferConfig(google.cloud.bigquery.datatransfer.v1.DeleteTransferConfigRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/transferConfigs/*}"
+			additional_bindings: {
+				delete: "/v1/{name=projects/*/transferConfigs/*}"
+			}
+		};
+
+	}
+	rpc GetTransferConfig(google.cloud.bigquery.datatransfer.v1.GetTransferConfigRequest) returns (google.cloud.bigquery.datatransfer.v1.TransferConfig) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/transferConfigs/*}"
+			additional_bindings: {
+				get: "/v1/{name=projects/*/transferConfigs/*}"
+			}
+		};
+
+	}
+	rpc ListTransferConfigs(google.cloud.bigquery.datatransfer.v1.ListTransferConfigsRequest) returns (google.cloud.bigquery.datatransfer.v1.ListTransferConfigsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/transferConfigs"
+			additional_bindings: {
+				get: "/v1/{parent=projects/*}/transferConfigs"
+			}
+		};
+
+	}
+	rpc ScheduleTransferRuns(google.cloud.bigquery.datatransfer.v1.ScheduleTransferRunsRequest) returns (google.cloud.bigquery.datatransfer.v1.ScheduleTransferRunsResponse) {
+		option deprecated = true;
+		option (google.api.method_signature) = "parent,start_time,end_time";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/transferConfigs/*}:scheduleRuns"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{parent=projects/*/transferConfigs/*}:scheduleRuns"
+				body: "*"
+			}
+		};
+
+	}
+	rpc StartManualTransferRuns(google.cloud.bigquery.datatransfer.v1.StartManualTransferRunsRequest) returns (google.cloud.bigquery.datatransfer.v1.StartManualTransferRunsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/transferConfigs/*}:startManualRuns"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{parent=projects/*/transferConfigs/*}:startManualRuns"
+				body: "*"
+			}
+		};
+
+	}
+	rpc GetTransferRun(google.cloud.bigquery.datatransfer.v1.GetTransferRunRequest) returns (google.cloud.bigquery.datatransfer.v1.TransferRun) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/transferConfigs/*/runs/*}"
+			additional_bindings: {
+				get: "/v1/{name=projects/*/transferConfigs/*/runs/*}"
+			}
+		};
+
+	}
+	rpc DeleteTransferRun(google.cloud.bigquery.datatransfer.v1.DeleteTransferRunRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/transferConfigs/*/runs/*}"
+			additional_bindings: {
+				delete: "/v1/{name=projects/*/transferConfigs/*/runs/*}"
+			}
+		};
+
+	}
+	rpc ListTransferRuns(google.cloud.bigquery.datatransfer.v1.ListTransferRunsRequest) returns (google.cloud.bigquery.datatransfer.v1.ListTransferRunsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/transferConfigs/*}/runs"
+			additional_bindings: {
+				get: "/v1/{parent=projects/*/transferConfigs/*}/runs"
+			}
+		};
+
+	}
+	rpc ListTransferLogs(google.cloud.bigquery.datatransfer.v1.ListTransferLogsRequest) returns (google.cloud.bigquery.datatransfer.v1.ListTransferLogsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/transferConfigs/*/runs/*}/transferLogs"
+			additional_bindings: {
+				get: "/v1/{parent=projects/*/transferConfigs/*/runs/*}/transferLogs"
+			}
+		};
+
+	}
+	rpc CheckValidCreds(google.cloud.bigquery.datatransfer.v1.CheckValidCredsRequest) returns (google.cloud.bigquery.datatransfer.v1.CheckValidCredsResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/dataSources/*}:checkValidCreds"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{name=projects/*/dataSources/*}:checkValidCreds"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message DataSourceParameter {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		STRING = 1;
+		INTEGER = 2;
+		DOUBLE = 3;
+		BOOLEAN = 4;
+		RECORD = 5;
+		PLUS_PAGE = 6;
+	}
+
+	string param_id = 1;
+	string display_name = 2;
+	string description = 3;
+	Type type = 4;
+	bool required = 5;
+	bool repeated = 6;
+	string validation_regex = 7;
+	repeated string allowed_values = 8;
+	google.protobuf.DoubleValue min_value = 9;
+	google.protobuf.DoubleValue max_value = 10;
+	repeated DataSourceParameter fields = 11;
+	string validation_description = 12;
+	string validation_help_url = 13;
+	bool immutable = 14;
+	bool recurse = 15;
+	bool deprecated = 20;
+}
+
+message DataSource {
+	option (google.api.resource) = {
+		type: "bigquerydatatransfer.googleapis.com/DataSource"
+		pattern: ["projects/{project}/dataSources/{data_source}","projects/{project}/locations/{location}/dataSources/{data_source}"]
+	};
+
+	enum AuthorizationType {
+
+		AUTHORIZATION_TYPE_UNSPECIFIED = 0;
+		AUTHORIZATION_CODE = 1;
+		GOOGLE_PLUS_AUTHORIZATION_CODE = 2;
+		FIRST_PARTY_OAUTH = 3;
+	}
+
+	enum DataRefreshType {
+
+		DATA_REFRESH_TYPE_UNSPECIFIED = 0;
+		SLIDING_WINDOW = 1;
+		CUSTOM_SLIDING_WINDOW = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string data_source_id = 2;
+	string display_name = 3;
+	string description = 4;
+	string client_id = 5;
+	repeated string scopes = 6;
+	google.cloud.bigquery.datatransfer.v1.TransferType transfer_type = 7 [
+		deprecated = true
+	];
+	bool supports_multiple_transfers = 8 [
+		deprecated = true
+	];
+	int32 update_deadline_seconds = 9;
+	string default_schedule = 10;
+	bool supports_custom_schedule = 11;
+	repeated DataSourceParameter parameters = 12;
+	string help_url = 13;
+	AuthorizationType authorization_type = 14;
+	DataRefreshType data_refresh_type = 15;
+	int32 default_data_refresh_window_days = 16;
+	bool manual_runs_disabled = 17;
+	google.protobuf.Duration minimum_schedule_interval = 18;
+}
+
+message GetDataSourceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/DataSource"
+		}
+	];
+}
+
+message ListDataSourcesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "bigquerydatatransfer.googleapis.com/DataSource"
+		}
+	];
+	string page_token = 3;
+	int32 page_size = 4;
+}
+
+message ListDataSourcesResponse {
+
+	repeated DataSource data_sources = 1;
+	string next_page_token = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CreateTransferConfigRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "bigquerydatatransfer.googleapis.com/TransferConfig"
+		}
+	];
+	google.cloud.bigquery.datatransfer.v1.TransferConfig transfer_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string authorization_code = 3;
+	string version_info = 5;
+	string service_account_name = 6;
+}
+
+message UpdateTransferConfigRequest {
+
+	google.cloud.bigquery.datatransfer.v1.TransferConfig transfer_config = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string authorization_code = 3;
+	google.protobuf.FieldMask update_mask = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string version_info = 5;
+	string service_account_name = 6;
+}
+
+message GetTransferConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/TransferConfig"
+		}
+	];
+}
+
+message DeleteTransferConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/TransferConfig"
+		}
+	];
+}
+
+message GetTransferRunRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/Run"
+		}
+	];
+}
+
+message DeleteTransferRunRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/Run"
+		}
+	];
+}
+
+message ListTransferConfigsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "bigquerydatatransfer.googleapis.com/TransferConfig"
+		}
+	];
+	repeated string data_source_ids = 2;
+	string page_token = 3;
+	int32 page_size = 4;
+}
+
+message ListTransferConfigsResponse {
+
+	repeated google.cloud.bigquery.datatransfer.v1.TransferConfig transfer_configs = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string next_page_token = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListTransferRunsRequest {
+
+	enum RunAttempt {
+
+		RUN_ATTEMPT_UNSPECIFIED = 0;
+		LATEST = 1;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "bigquerydatatransfer.googleapis.com/Run"
+		}
+	];
+	repeated google.cloud.bigquery.datatransfer.v1.TransferState states = 2;
+	string page_token = 3;
+	int32 page_size = 4;
+	RunAttempt run_attempt = 5;
+}
+
+message ListTransferRunsResponse {
+
+	repeated google.cloud.bigquery.datatransfer.v1.TransferRun transfer_runs = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string next_page_token = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListTransferLogsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/Run"
+		}
+	];
+	string page_token = 4;
+	int32 page_size = 5;
+	repeated google.cloud.bigquery.datatransfer.v1.TransferMessage.MessageSeverity message_types = 6;
+}
+
+message ListTransferLogsResponse {
+
+	repeated google.cloud.bigquery.datatransfer.v1.TransferMessage transfer_messages = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string next_page_token = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CheckValidCredsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/DataSource"
+		}
+	];
+}
+
+message CheckValidCredsResponse {
+
+	bool has_valid_creds = 1;
+}
+
+message ScheduleTransferRunsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/TransferConfig"
+		}
+	];
+	google.protobuf.Timestamp start_time = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp end_time = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ScheduleTransferRunsResponse {
+
+	repeated google.cloud.bigquery.datatransfer.v1.TransferRun runs = 1;
+}
+
+message StartManualTransferRunsRequest {
+
+	message TimeRange {
+
+		google.protobuf.Timestamp start_time = 1;
+		google.protobuf.Timestamp end_time = 2;
+	}
+
+	string parent = 1 [
+		(google.api.resource_reference) = {
+			type: "bigquerydatatransfer.googleapis.com/TransferConfig"
+		}
+	];
+	oneof time {
+		TimeRange requested_time_range = 3;
+		google.protobuf.Timestamp requested_run_time = 4;
+	}
+}
+
+message StartManualTransferRunsResponse {
+
+	repeated google.cloud.bigquery.datatransfer.v1.TransferRun runs = 1;
+}

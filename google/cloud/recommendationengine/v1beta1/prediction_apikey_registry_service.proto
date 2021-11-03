@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package google.cloud.recommendationengine.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/api/client.proto";
+import "google/cloud/recommendationengine/v1beta1/recommendationengine_resources.proto";
+
+option java_package = "com.google.cloud.recommendationengine.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommendationengine/v1beta1;recommendationengine";
+option objc_class_prefix = "RECAI";
+option csharp_namespace = "Google.Cloud.RecommendationEngine.V1Beta1";
+option php_namespace = "Google\\Cloud\\RecommendationEngine\\V1beta1";
+option ruby_package = "Google::Cloud::RecommendationEngine::V1beta1";
+
+
+service PredictionApiKeyRegistry {
+	option (google.api.default_host) = "recommendationengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreatePredictionApiKeyRegistration(google.cloud.recommendationengine.v1beta1.CreatePredictionApiKeyRegistrationRequest) returns (google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistration) {
+		option (google.api.method_signature) = "parent,prediction_api_key_registration";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/catalogs/*/eventStores/*}/predictionApiKeyRegistrations"
+			body: "*"
+		};
+
+	}
+	rpc ListPredictionApiKeyRegistrations(google.cloud.recommendationengine.v1beta1.ListPredictionApiKeyRegistrationsRequest) returns (google.cloud.recommendationengine.v1beta1.ListPredictionApiKeyRegistrationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/catalogs/*/eventStores/*}/predictionApiKeyRegistrations"
+		};
+
+	}
+	rpc DeletePredictionApiKeyRegistration(google.cloud.recommendationengine.v1beta1.DeletePredictionApiKeyRegistrationRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/catalogs/*/eventStores/*/predictionApiKeyRegistrations/*}"
+		};
+
+	}
+}
+
+message PredictionApiKeyRegistration {
+
+	string api_key = 1;
+}
+
+message CreatePredictionApiKeyRegistrationRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/EventStore"
+		}
+	];
+	PredictionApiKeyRegistration prediction_api_key_registration = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListPredictionApiKeyRegistrationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/EventStore"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListPredictionApiKeyRegistrationsResponse {
+
+	repeated PredictionApiKeyRegistration prediction_api_key_registrations = 1;
+	string next_page_token = 2;
+}
+
+message DeletePredictionApiKeyRegistrationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/PredictionApiKeyRegistration"
+		}
+	];
+}

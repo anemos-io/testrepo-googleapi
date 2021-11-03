@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package google.appengine.v1beta;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1beta";
+option java_outer_classname = "LocationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+

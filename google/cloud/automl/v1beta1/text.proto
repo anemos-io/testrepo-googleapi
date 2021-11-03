@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/cloud/automl/v1beta1/classification.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_outer_classname = "TextProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message TextClassificationDatasetMetadata {
+
+	google.cloud.automl.v1beta1.ClassificationType classification_type = 1;
+}
+
+message TextClassificationModelMetadata {
+
+	google.cloud.automl.v1beta1.ClassificationType classification_type = 3;
+}
+
+message TextExtractionDatasetMetadata {
+
+}
+
+message TextExtractionModelMetadata {
+
+}
+
+message TextSentimentDatasetMetadata {
+
+	int32 sentiment_max = 1;
+}
+
+message TextSentimentModelMetadata {
+
+}

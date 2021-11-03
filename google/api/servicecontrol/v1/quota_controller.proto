@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package google.api.servicecontrol.v1;
+
+import "google/api/annotations.proto";
+import "google/api/servicecontrol/v1/metric_value.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.api.servicecontrol.v1";
+option java_outer_classname = "QuotaControllerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/servicecontrol/v1;servicecontrol";
+option cc_enable_arenas = true;
+
+
+service QuotaController {
+	option (google.api.default_host) = "servicecontrol.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/servicecontrol";
+
+	rpc AllocateQuota(google.api.servicecontrol.v1.AllocateQuotaRequest) returns (google.api.servicecontrol.v1.AllocateQuotaResponse) {
+		option (google.api.http) = {
+			post: "/v1/services/{service_name}:allocateQuota"
+			body: "*"
+		};
+
+	}
+}
+
+message AllocateQuotaRequest {
+
+	string service_name = 1;
+	QuotaOperation allocate_operation = 2;
+	string service_config_id = 4;
+}
+
+message QuotaOperation {
+
+	enum QuotaMode {
+
+		UNSPECIFIED = 0;
+		NORMAL = 1;
+		BEST_EFFORT = 2;
+		CHECK_ONLY = 3;
+		QUERY_ONLY = 4;
+		ADJUST_ONLY = 5;
+	}
+
+	string operation_id = 1;
+	string method_name = 2;
+	string consumer_id = 3;
+	map<string, string> labels = 4;
+	repeated google.api.servicecontrol.v1.MetricValueSet quota_metrics = 5;
+	QuotaMode quota_mode = 6;
+}
+
+message AllocateQuotaResponse {
+
+	string operation_id = 1;
+	repeated QuotaError allocate_errors = 2;
+	repeated google.api.servicecontrol.v1.MetricValueSet quota_metrics = 3;
+	string service_config_id = 4;
+}
+
+message QuotaError {
+
+	enum Code {
+
+		UNSPECIFIED = 0;
+		RESOURCE_EXHAUSTED = 8;
+		BILLING_NOT_ACTIVE = 107;
+		PROJECT_DELETED = 108;
+		API_KEY_INVALID = 105;
+		API_KEY_EXPIRED = 112;
+	}
+
+	Code code = 1;
+	string subject = 2;
+	string description = 3;
+}

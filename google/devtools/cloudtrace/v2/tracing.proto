@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package google.devtools.cloudtrace.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/devtools/cloudtrace/v2/trace.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.devtools.cloudtrace.v2";
+option java_outer_classname = "TracingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/cloudtrace/v2;cloudtrace";
+option csharp_namespace = "Google.Cloud.Trace.V2";
+option php_namespace = "Google\\Cloud\\Trace\\V2";
+option ruby_package = "Google::Cloud::Trace::V2";
+
+
+service TraceService {
+	option (google.api.default_host) = "cloudtrace.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/trace.append";
+
+	rpc BatchWriteSpans(google.devtools.cloudtrace.v2.BatchWriteSpansRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name,spans";
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*}/traces:batchWrite"
+			body: "*"
+		};
+
+	}
+	rpc CreateSpan(google.devtools.cloudtrace.v2.Span) returns (google.devtools.cloudtrace.v2.Span) {
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*/traces/*/spans/*}"
+			body: "*"
+		};
+
+	}
+}
+
+message BatchWriteSpansRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	repeated google.devtools.cloudtrace.v2.Span spans = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

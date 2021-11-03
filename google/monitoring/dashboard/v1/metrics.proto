@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+import "google/api/field_behavior.proto";
+import "google/monitoring/dashboard/v1/common.proto";
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "MetricsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+enum SparkChartType {
+
+	SPARK_CHART_TYPE_UNSPECIFIED = 0;
+	SPARK_LINE = 1;
+	SPARK_BAR = 2;
+}
+
+message TimeSeriesQuery {
+
+	oneof source {
+		TimeSeriesFilter time_series_filter = 1;
+		TimeSeriesFilterRatio time_series_filter_ratio = 2;
+		string time_series_query_language = 3;
+	}
+	string unit_override = 5;
+}
+
+message TimeSeriesFilter {
+
+	string filter = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.monitoring.dashboard.v1.Aggregation aggregation = 2;
+	google.monitoring.dashboard.v1.Aggregation secondary_aggregation = 3;
+	oneof output_filter {
+		google.monitoring.dashboard.v1.PickTimeSeriesFilter pick_time_series_filter = 4;
+		google.monitoring.dashboard.v1.StatisticalTimeSeriesFilter statistical_time_series_filter = 5 [
+			deprecated = true
+		];
+	}
+}
+
+message TimeSeriesFilterRatio {
+
+	message RatioPart {
+
+		string filter = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		google.monitoring.dashboard.v1.Aggregation aggregation = 2;
+	}
+
+	RatioPart numerator = 1;
+	RatioPart denominator = 2;
+	google.monitoring.dashboard.v1.Aggregation secondary_aggregation = 3;
+	oneof output_filter {
+		google.monitoring.dashboard.v1.PickTimeSeriesFilter pick_time_series_filter = 4;
+		google.monitoring.dashboard.v1.StatisticalTimeSeriesFilter statistical_time_series_filter = 5 [
+			deprecated = true
+		];
+	}
+}
+
+message Threshold {
+
+	enum Color {
+
+		COLOR_UNSPECIFIED = 0;
+		YELLOW = 4;
+		RED = 6;
+	}
+
+	enum Direction {
+
+		DIRECTION_UNSPECIFIED = 0;
+		ABOVE = 1;
+		BELOW = 2;
+	}
+
+	string label = 1;
+	double value = 2;
+	Color color = 3;
+	Direction direction = 4;
+}

@@ -1,0 +1,251 @@
+syntax = "proto3";
+
+package google.datastore.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/datastore/v1/entity.proto";
+import "google/datastore/v1/query.proto";
+
+option java_package = "com.google.datastore.v1";
+option java_outer_classname = "DatastoreProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/datastore/v1;datastore";
+option csharp_namespace = "Google.Cloud.Datastore.V1";
+option php_namespace = "Google\\Cloud\\Datastore\\V1";
+option ruby_package = "Google::Cloud::Datastore::V1";
+
+
+service Datastore {
+	option (google.api.default_host) = "datastore.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/datastore";
+
+	rpc Lookup(google.datastore.v1.LookupRequest) returns (google.datastore.v1.LookupResponse) {
+		option (google.api.method_signature) = "project_id,read_options,keys";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}:lookup"
+			body: "*"
+		};
+
+	}
+	rpc RunQuery(google.datastore.v1.RunQueryRequest) returns (google.datastore.v1.RunQueryResponse) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}:runQuery"
+			body: "*"
+		};
+
+	}
+	rpc BeginTransaction(google.datastore.v1.BeginTransactionRequest) returns (google.datastore.v1.BeginTransactionResponse) {
+		option (google.api.method_signature) = "project_id";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}:beginTransaction"
+			body: "*"
+		};
+
+	}
+	rpc Commit(google.datastore.v1.CommitRequest) returns (google.datastore.v1.CommitResponse) {
+		option (google.api.method_signature) = "project_id,mode,transaction,mutations";
+		option (google.api.method_signature) = "project_id,mode,mutations";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}:commit"
+			body: "*"
+		};
+
+	}
+	rpc Rollback(google.datastore.v1.RollbackRequest) returns (google.datastore.v1.RollbackResponse) {
+		option (google.api.method_signature) = "project_id,transaction";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}:rollback"
+			body: "*"
+		};
+
+	}
+	rpc AllocateIds(google.datastore.v1.AllocateIdsRequest) returns (google.datastore.v1.AllocateIdsResponse) {
+		option (google.api.method_signature) = "project_id,keys";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}:allocateIds"
+			body: "*"
+		};
+
+	}
+	rpc ReserveIds(google.datastore.v1.ReserveIdsRequest) returns (google.datastore.v1.ReserveIdsResponse) {
+		option (google.api.method_signature) = "project_id,keys";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}:reserveIds"
+			body: "*"
+		};
+
+	}
+}
+
+message LookupRequest {
+
+	string project_id = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ReadOptions read_options = 1;
+	repeated google.datastore.v1.Key keys = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message LookupResponse {
+
+	repeated google.datastore.v1.EntityResult found = 1;
+	repeated google.datastore.v1.EntityResult missing = 2;
+	repeated google.datastore.v1.Key deferred = 3;
+}
+
+message RunQueryRequest {
+
+	string project_id = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.datastore.v1.PartitionId partition_id = 2;
+	ReadOptions read_options = 1;
+	oneof query_type {
+		google.datastore.v1.Query query = 3;
+		google.datastore.v1.GqlQuery gql_query = 7;
+	}
+}
+
+message RunQueryResponse {
+
+	google.datastore.v1.QueryResultBatch batch = 1;
+	google.datastore.v1.Query query = 2;
+}
+
+message BeginTransactionRequest {
+
+	string project_id = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	TransactionOptions transaction_options = 10;
+}
+
+message BeginTransactionResponse {
+
+	bytes transaction = 1;
+}
+
+message RollbackRequest {
+
+	string project_id = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bytes transaction = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RollbackResponse {
+
+}
+
+message CommitRequest {
+
+	enum Mode {
+
+		MODE_UNSPECIFIED = 0;
+		TRANSACTIONAL = 1;
+		NON_TRANSACTIONAL = 2;
+	}
+
+	string project_id = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Mode mode = 5;
+	oneof transaction_selector {
+		bytes transaction = 1;
+	}
+	repeated Mutation mutations = 6;
+}
+
+message CommitResponse {
+
+	repeated MutationResult mutation_results = 3;
+	int32 index_updates = 4;
+}
+
+message AllocateIdsRequest {
+
+	string project_id = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.datastore.v1.Key keys = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message AllocateIdsResponse {
+
+	repeated google.datastore.v1.Key keys = 1;
+}
+
+message ReserveIdsRequest {
+
+	string project_id = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string database_id = 9;
+	repeated google.datastore.v1.Key keys = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReserveIdsResponse {
+
+}
+
+message Mutation {
+
+	oneof operation {
+		google.datastore.v1.Entity insert = 4;
+		google.datastore.v1.Entity update = 5;
+		google.datastore.v1.Entity upsert = 6;
+		google.datastore.v1.Key delete = 7;
+	}
+	oneof conflict_detection_strategy {
+		int64 base_version = 8;
+	}
+}
+
+message MutationResult {
+
+	google.datastore.v1.Key key = 3;
+	int64 version = 4;
+	bool conflict_detected = 5;
+}
+
+message ReadOptions {
+
+	enum ReadConsistency {
+
+		READ_CONSISTENCY_UNSPECIFIED = 0;
+		STRONG = 1;
+		EVENTUAL = 2;
+	}
+
+	oneof consistency_type {
+		ReadConsistency read_consistency = 1;
+		bytes transaction = 2;
+	}
+}
+
+message TransactionOptions {
+
+	message ReadWrite {
+
+		bytes previous_transaction = 1;
+	}
+
+	message ReadOnly {
+
+	}
+
+	oneof mode {
+		ReadWrite read_write = 1;
+		ReadOnly read_only = 2;
+	}
+}

@@ -1,0 +1,179 @@
+syntax = "proto3";
+
+package google.monitoring.v3;
+
+import "google/api/monitored_resource.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/calendar_period.proto";
+
+option java_package = "com.google.monitoring.v3";
+option java_outer_classname = "ServiceMonitoringProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/v3;monitoring";
+option csharp_namespace = "Google.Cloud.Monitoring.V3";
+option php_namespace = "Google\\Cloud\\Monitoring\\V3";
+option ruby_package = "Google::Cloud::Monitoring::V3";
+
+
+message Service {
+	option (google.api.resource) = {
+		type: "monitoring.googleapis.com/Service"
+		pattern: ["projects/{project}/services/{service}","organizations/{organization}/services/{service}","folders/{folder}/services/{service}","*"]
+	};
+
+	message Custom {
+
+	}
+
+	message AppEngine {
+
+		string module_id = 1;
+	}
+
+	message CloudEndpoints {
+
+		string service = 1;
+	}
+
+	message ClusterIstio {
+		option deprecated = true;
+
+		string location = 1;
+		string cluster_name = 2;
+		string service_namespace = 3;
+		string service_name = 4;
+	}
+
+	message MeshIstio {
+
+		string mesh_uid = 1;
+		string service_namespace = 3;
+		string service_name = 4;
+	}
+
+	message Telemetry {
+
+		string resource_name = 1;
+	}
+
+	string name = 1;
+	string display_name = 2;
+	oneof identifier {
+		Custom custom = 6;
+		AppEngine app_engine = 7;
+		CloudEndpoints cloud_endpoints = 8;
+		ClusterIstio cluster_istio = 9 [
+			deprecated = true
+		];
+		MeshIstio mesh_istio = 10;
+	}
+	Telemetry telemetry = 13;
+}
+
+message ServiceLevelObjective {
+	option (google.api.resource) = {
+		type: "monitoring.googleapis.com/ServiceLevelObjective"
+		pattern: ["projects/{project}/services/{service}/serviceLevelObjectives/{service_level_objective}","organizations/{organization}/services/{service}/serviceLevelObjectives/{service_level_objective}","folders/{folder}/services/{service}/serviceLevelObjectives/{service_level_objective}","*"]
+		history: ORIGINALLY_SINGLE_PATTERN
+	};
+
+	enum View {
+
+		VIEW_UNSPECIFIED = 0;
+		FULL = 2;
+		EXPLICIT = 1;
+	}
+
+	string name = 1;
+	string display_name = 11;
+	ServiceLevelIndicator service_level_indicator = 3;
+	double goal = 4;
+	oneof period {
+		google.protobuf.Duration rolling_period = 5;
+		google.type.CalendarPeriod calendar_period = 6;
+	}
+}
+
+message ServiceLevelIndicator {
+
+	oneof type {
+		BasicSli basic_sli = 4;
+		RequestBasedSli request_based = 1;
+		WindowsBasedSli windows_based = 2;
+	}
+}
+
+message BasicSli {
+
+	message AvailabilityCriteria {
+
+	}
+
+	message LatencyCriteria {
+
+		google.protobuf.Duration threshold = 3;
+	}
+
+	repeated string method = 7;
+	repeated string location = 8;
+	repeated string version = 9;
+	oneof sli_criteria {
+		AvailabilityCriteria availability = 2;
+		LatencyCriteria latency = 3;
+	}
+}
+
+message Range {
+
+	double min = 1;
+	double max = 2;
+}
+
+message RequestBasedSli {
+
+	oneof method {
+		TimeSeriesRatio good_total_ratio = 1;
+		DistributionCut distribution_cut = 3;
+	}
+}
+
+message TimeSeriesRatio {
+
+	string good_service_filter = 4;
+	string bad_service_filter = 5;
+	string total_service_filter = 6;
+}
+
+message DistributionCut {
+
+	string distribution_filter = 4;
+	Range range = 5;
+}
+
+message WindowsBasedSli {
+
+	message PerformanceThreshold {
+
+		oneof type {
+			RequestBasedSli performance = 1;
+			BasicSli basic_sli_performance = 3;
+		}
+		double threshold = 2;
+	}
+
+	message MetricRange {
+
+		string time_series = 1;
+		Range range = 4;
+	}
+
+	oneof window_criterion {
+		string good_bad_metric_filter = 5;
+		PerformanceThreshold good_total_ratio_threshold = 2;
+		MetricRange metric_mean_in_range = 6;
+		MetricRange metric_sum_in_range = 7;
+	}
+	google.protobuf.Duration window_period = 4;
+}

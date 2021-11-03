@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/securitycenter/v1beta1/security_marks.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1beta1;securitycenter";
+
+
+message Asset {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/Asset"
+		pattern: ["organizations/{organization}/assets/{asset}"]
+	};
+
+	message SecurityCenterProperties {
+
+		string resource_name = 1 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		string resource_type = 2;
+		string resource_parent = 3;
+		string resource_project = 4;
+		repeated string resource_owners = 5;
+	}
+
+	string name = 1;
+	SecurityCenterProperties security_center_properties = 2;
+	map<string, google.protobuf.Value> resource_properties = 7;
+	google.cloud.securitycenter.v1beta1.SecurityMarks security_marks = 8;
+	google.protobuf.Timestamp create_time = 9;
+	google.protobuf.Timestamp update_time = 10;
+}

@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1";
+option java_outer_classname = "NotificationConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1;securitycenter";
+option csharp_namespace = "Google.Cloud.SecurityCenter.V1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\V1";
+option ruby_package = "Google::Cloud::SecurityCenter::V1";
+option (google.api.resource_definition) = {
+	type: "pubsub.googleapis.com/Topic"
+	pattern: ["projects/{project}/topics/{topic}"]
+};
+
+
+message NotificationConfig {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/NotificationConfig"
+		pattern: ["organizations/{organization}/notificationConfigs/{notification_config}"]
+	};
+
+	message StreamingConfig {
+
+		string filter = 1;
+	}
+
+	string name = 1;
+	string description = 2;
+	string pubsub_topic = 3 [
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Topic"
+		}
+	];
+	string service_account = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof notify_config {
+		StreamingConfig streaming_config = 5;
+	}
+}

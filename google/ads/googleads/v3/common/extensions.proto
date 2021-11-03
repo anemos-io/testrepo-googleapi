@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.common;
+
+import "google/ads/googleads/v3/common/custom_parameter.proto";
+import "google/ads/googleads/v3/common/feed_common.proto";
+import "google/ads/googleads/v3/enums/app_store.proto";
+import "google/ads/googleads/v3/enums/call_conversion_reporting_state.proto";
+import "google/ads/googleads/v3/enums/price_extension_price_qualifier.proto";
+import "google/ads/googleads/v3/enums/price_extension_price_unit.proto";
+import "google/ads/googleads/v3/enums/price_extension_type.proto";
+import "google/ads/googleads/v3/enums/promotion_extension_discount_modifier.proto";
+import "google/ads/googleads/v3/enums/promotion_extension_occasion.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.common";
+option java_outer_classname = "ExtensionsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V3::Common";
+
+
+message AppFeedItem {
+
+	google.protobuf.StringValue link_text = 1;
+	google.protobuf.StringValue app_id = 2;
+	google.ads.googleads.v3.enums.AppStoreEnum.AppStore app_store = 3;
+	repeated google.protobuf.StringValue final_urls = 4;
+	repeated google.protobuf.StringValue final_mobile_urls = 5;
+	google.protobuf.StringValue tracking_url_template = 6;
+	repeated google.ads.googleads.v3.common.CustomParameter url_custom_parameters = 7;
+	google.protobuf.StringValue final_url_suffix = 8;
+}
+
+message CallFeedItem {
+
+	google.protobuf.StringValue phone_number = 1;
+	google.protobuf.StringValue country_code = 2;
+	google.protobuf.BoolValue call_tracking_enabled = 3;
+	google.protobuf.StringValue call_conversion_action = 4;
+	google.protobuf.BoolValue call_conversion_tracking_disabled = 5;
+	google.ads.googleads.v3.enums.CallConversionReportingStateEnum.CallConversionReportingState call_conversion_reporting_state = 6;
+}
+
+message CalloutFeedItem {
+
+	google.protobuf.StringValue callout_text = 1;
+}
+
+message LocationFeedItem {
+
+	google.protobuf.StringValue business_name = 1;
+	google.protobuf.StringValue address_line_1 = 2;
+	google.protobuf.StringValue address_line_2 = 3;
+	google.protobuf.StringValue city = 4;
+	google.protobuf.StringValue province = 5;
+	google.protobuf.StringValue postal_code = 6;
+	google.protobuf.StringValue country_code = 7;
+	google.protobuf.StringValue phone_number = 8;
+}
+
+message AffiliateLocationFeedItem {
+
+	google.protobuf.StringValue business_name = 1;
+	google.protobuf.StringValue address_line_1 = 2;
+	google.protobuf.StringValue address_line_2 = 3;
+	google.protobuf.StringValue city = 4;
+	google.protobuf.StringValue province = 5;
+	google.protobuf.StringValue postal_code = 6;
+	google.protobuf.StringValue country_code = 7;
+	google.protobuf.StringValue phone_number = 8;
+	google.protobuf.Int64Value chain_id = 9;
+	google.protobuf.StringValue chain_name = 10;
+}
+
+message TextMessageFeedItem {
+
+	google.protobuf.StringValue business_name = 1;
+	google.protobuf.StringValue country_code = 2;
+	google.protobuf.StringValue phone_number = 3;
+	google.protobuf.StringValue text = 4;
+	google.protobuf.StringValue extension_text = 5;
+}
+
+message PriceFeedItem {
+
+	google.ads.googleads.v3.enums.PriceExtensionTypeEnum.PriceExtensionType type = 1;
+	google.ads.googleads.v3.enums.PriceExtensionPriceQualifierEnum.PriceExtensionPriceQualifier price_qualifier = 2;
+	google.protobuf.StringValue tracking_url_template = 3;
+	google.protobuf.StringValue language_code = 4;
+	repeated PriceOffer price_offerings = 5;
+	google.protobuf.StringValue final_url_suffix = 6;
+}
+
+message PriceOffer {
+
+	google.protobuf.StringValue header = 1;
+	google.protobuf.StringValue description = 2;
+	google.ads.googleads.v3.common.Money price = 3;
+	google.ads.googleads.v3.enums.PriceExtensionPriceUnitEnum.PriceExtensionPriceUnit unit = 4;
+	repeated google.protobuf.StringValue final_urls = 5;
+	repeated google.protobuf.StringValue final_mobile_urls = 6;
+}
+
+message PromotionFeedItem {
+
+	google.protobuf.StringValue promotion_target = 1;
+	google.ads.googleads.v3.enums.PromotionExtensionDiscountModifierEnum.PromotionExtensionDiscountModifier discount_modifier = 2;
+	google.protobuf.StringValue promotion_start_date = 7;
+	google.protobuf.StringValue promotion_end_date = 8;
+	google.ads.googleads.v3.enums.PromotionExtensionOccasionEnum.PromotionExtensionOccasion occasion = 9;
+	repeated google.protobuf.StringValue final_urls = 10;
+	repeated google.protobuf.StringValue final_mobile_urls = 11;
+	google.protobuf.StringValue tracking_url_template = 12;
+	repeated google.ads.googleads.v3.common.CustomParameter url_custom_parameters = 13;
+	google.protobuf.StringValue final_url_suffix = 14;
+	google.protobuf.StringValue language_code = 15;
+	oneof discount_type {
+		google.protobuf.Int64Value percent_off = 3;
+		google.ads.googleads.v3.common.Money money_amount_off = 4;
+	}
+	oneof promotion_trigger {
+		google.protobuf.StringValue promotion_code = 5;
+		google.ads.googleads.v3.common.Money orders_over_amount = 6;
+	}
+}
+
+message StructuredSnippetFeedItem {
+
+	google.protobuf.StringValue header = 1;
+	repeated google.protobuf.StringValue values = 2;
+}
+
+message SitelinkFeedItem {
+
+	google.protobuf.StringValue link_text = 1;
+	google.protobuf.StringValue line1 = 2;
+	google.protobuf.StringValue line2 = 3;
+	repeated google.protobuf.StringValue final_urls = 4;
+	repeated google.protobuf.StringValue final_mobile_urls = 5;
+	google.protobuf.StringValue tracking_url_template = 6;
+	repeated google.ads.googleads.v3.common.CustomParameter url_custom_parameters = 7;
+	google.protobuf.StringValue final_url_suffix = 8;
+}
+
+message HotelCalloutFeedItem {
+
+	google.protobuf.StringValue text = 1;
+	google.protobuf.StringValue language_code = 2;
+}

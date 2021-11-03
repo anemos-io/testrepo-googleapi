@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package google.spanner.v1;
+
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.spanner.v1";
+option java_outer_classname = "KeysProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/v1;spanner";
+option csharp_namespace = "Google.Cloud.Spanner.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\V1";
+option ruby_package = "Google::Cloud::Spanner::V1";
+
+
+message KeyRange {
+
+	oneof start_key_type {
+		google.protobuf.ListValue start_closed = 1;
+		google.protobuf.ListValue start_open = 2;
+	}
+	oneof end_key_type {
+		google.protobuf.ListValue end_closed = 3;
+		google.protobuf.ListValue end_open = 4;
+	}
+}
+
+message KeySet {
+
+	repeated google.protobuf.ListValue keys = 1;
+	repeated KeyRange ranges = 2;
+	bool all = 3;
+}

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1beta;
+
+import "google/api/resource.proto";
+import "google/cloud/websecurityscanner/v1beta/scan_run_error_trace.proto";
+import "google/cloud/websecurityscanner/v1beta/scan_run_warning_trace.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.websecurityscanner.v1beta";
+option java_outer_classname = "ScanRunProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1beta;websecurityscanner";
+option php_namespace = "Google\\Cloud\\WebSecurityScanner\\V1beta";
+
+
+message ScanRun {
+	option (google.api.resource) = {
+		type: "websecurityscanner.googleapis.com/ScanRun"
+		pattern: ["projects/{project}/scanConfigs/{scan_config}/scanRuns/{scan_run}"]
+	};
+
+	enum ExecutionState {
+
+		EXECUTION_STATE_UNSPECIFIED = 0;
+		QUEUED = 1;
+		SCANNING = 2;
+		FINISHED = 3;
+	}
+
+	enum ResultState {
+
+		RESULT_STATE_UNSPECIFIED = 0;
+		SUCCESS = 1;
+		ERROR = 2;
+		KILLED = 3;
+	}
+
+	string name = 1;
+	ExecutionState execution_state = 2;
+	ResultState result_state = 3;
+	google.protobuf.Timestamp start_time = 4;
+	google.protobuf.Timestamp end_time = 5;
+	int64 urls_crawled_count = 6;
+	int64 urls_tested_count = 7;
+	bool has_vulnerabilities = 8;
+	int32 progress_percent = 9;
+	google.cloud.websecurityscanner.v1beta.ScanRunErrorTrace error_trace = 10;
+	repeated google.cloud.websecurityscanner.v1beta.ScanRunWarningTrace warning_traces = 11;
+}

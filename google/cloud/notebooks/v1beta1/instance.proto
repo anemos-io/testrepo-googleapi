@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package google.cloud.notebooks.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/notebooks/v1beta1/environment.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.notebooks.v1beta1";
+option java_outer_classname = "InstanceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1beta1;notebooks";
+option csharp_namespace = "Google.Cloud.Notebooks.V1Beta1";
+option php_namespace = "Google\\Cloud\\Notebooks\\V1Beta1";
+option ruby_package = "Google::Cloud::Notebooks::V1beta1";
+
+
+message Instance {
+	option (google.api.resource) = {
+		type: "notebooks.googleapis.com/Instance"
+		pattern: ["projects/{project}/instances/{instance}"]
+	};
+
+	message AcceleratorConfig {
+
+		AcceleratorType type = 1;
+		int64 core_count = 2;
+	}
+
+	enum AcceleratorType {
+
+		ACCELERATOR_TYPE_UNSPECIFIED = 0;
+		NVIDIA_TESLA_K80 = 1;
+		NVIDIA_TESLA_P100 = 2;
+		NVIDIA_TESLA_V100 = 3;
+		NVIDIA_TESLA_P4 = 4;
+		NVIDIA_TESLA_T4 = 5;
+		NVIDIA_TESLA_T4_VWS = 8;
+		NVIDIA_TESLA_P100_VWS = 9;
+		NVIDIA_TESLA_P4_VWS = 10;
+		TPU_V2 = 6;
+		TPU_V3 = 7;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		STARTING = 1;
+		PROVISIONING = 2;
+		ACTIVE = 3;
+		STOPPING = 4;
+		STOPPED = 5;
+		DELETED = 6;
+	}
+
+	enum DiskType {
+
+		DISK_TYPE_UNSPECIFIED = 0;
+		PD_STANDARD = 1;
+		PD_SSD = 2;
+	}
+
+	enum DiskEncryption {
+
+		DISK_ENCRYPTION_UNSPECIFIED = 0;
+		GMEK = 1;
+		CMEK = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof environment {
+		google.cloud.notebooks.v1beta1.VmImage vm_image = 2;
+		google.cloud.notebooks.v1beta1.ContainerImage container_image = 3;
+	}
+	string post_startup_script = 4;
+	string proxy_uri = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string instance_owners = 6 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string service_account = 7;
+	string machine_type = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	AcceleratorConfig accelerator_config = 9;
+	State state = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool install_gpu_driver = 11;
+	string custom_gpu_driver_path = 12;
+	DiskType boot_disk_type = 13 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	int64 boot_disk_size_gb = 14 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	DiskType data_disk_type = 25 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	int64 data_disk_size_gb = 26 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	bool no_remove_data_disk = 27 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	DiskEncryption disk_encryption = 15 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	string kms_key = 16 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+	bool no_public_ip = 17;
+	bool no_proxy_access = 18;
+	string network = 19;
+	string subnet = 20;
+	map<string, string> labels = 21;
+	map<string, string> metadata = 22;
+	google.protobuf.Timestamp create_time = 23 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 24 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

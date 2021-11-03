@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1";
+option ruby_package = "Google::Cloud::DataCatalog::V1";
+
+
+enum TableSourceType {
+
+	TABLE_SOURCE_TYPE_UNSPECIFIED = 0;
+	BIGQUERY_VIEW = 2;
+	BIGQUERY_TABLE = 5;
+}
+
+message BigQueryTableSpec {
+
+	TableSourceType table_source_type = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof type_spec {
+		ViewSpec view_spec = 2;
+		TableSpec table_spec = 3;
+	}
+}
+
+message ViewSpec {
+
+	string view_query = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message TableSpec {
+
+	string grouped_entry = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Entry"
+		}
+	];
+}
+
+message BigQueryDateShardedSpec {
+
+	string dataset = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Entry"
+		}
+	];
+	string table_prefix = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 shard_count = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

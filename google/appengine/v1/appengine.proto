@@ -1,0 +1,616 @@
+syntax = "proto3";
+
+package google.appengine.v1;
+
+import "google/appengine/v1/application.proto";
+import "google/appengine/v1/certificate.proto";
+import "google/appengine/v1/domain.proto";
+import "google/appengine/v1/domain_mapping.proto";
+import "google/appengine/v1/firewall.proto";
+import "google/appengine/v1/instance.proto";
+import "google/appengine/v1/version.proto";
+import "google/appengine/v1/service.proto";
+import "google/api/annotations.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.appengine.v1";
+option java_outer_classname = "AppengineProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+
+
+enum VersionView {
+
+	BASIC = 0;
+	FULL = 1;
+}
+
+enum AuthorizedCertificateView {
+
+	BASIC_CERTIFICATE = 0;
+	FULL_CERTIFICATE = 1;
+}
+
+enum DomainOverrideStrategy {
+
+	UNSPECIFIED_DOMAIN_OVERRIDE_STRATEGY = 0;
+	STRICT = 1;
+	OVERRIDE = 2;
+}
+
+service Applications {
+	option (google.api.default_host) = "appengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appengine.admin,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc GetApplication(google.appengine.v1.GetApplicationRequest) returns (google.appengine.v1.Application) {
+		option (google.api.http) = {
+			get: "/v1/{name=apps/*}"
+		};
+
+	}
+	rpc CreateApplication(google.appengine.v1.CreateApplicationRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Application"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			post: "/v1/apps"
+			body: "application"
+		};
+
+	}
+	rpc UpdateApplication(google.appengine.v1.UpdateApplicationRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Application"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			patch: "/v1/{name=apps/*}"
+			body: "application"
+		};
+
+	}
+	rpc RepairApplication(google.appengine.v1.RepairApplicationRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Application"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=apps/*}:repair"
+			body: "*"
+		};
+
+	}
+}
+
+service Services {
+	option (google.api.default_host) = "appengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appengine.admin,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListServices(google.appengine.v1.ListServicesRequest) returns (google.appengine.v1.ListServicesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=apps/*}/services"
+		};
+
+	}
+	rpc GetService(google.appengine.v1.GetServiceRequest) returns (google.appengine.v1.Service) {
+		option (google.api.http) = {
+			get: "/v1/{name=apps/*/services/*}"
+		};
+
+	}
+	rpc UpdateService(google.appengine.v1.UpdateServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Service"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			patch: "/v1/{name=apps/*/services/*}"
+			body: "service"
+		};
+
+	}
+	rpc DeleteService(google.appengine.v1.DeleteServiceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			delete: "/v1/{name=apps/*/services/*}"
+		};
+
+	}
+}
+
+service Versions {
+	option (google.api.default_host) = "appengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appengine.admin,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListVersions(google.appengine.v1.ListVersionsRequest) returns (google.appengine.v1.ListVersionsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=apps/*/services/*}/versions"
+		};
+
+	}
+	rpc GetVersion(google.appengine.v1.GetVersionRequest) returns (google.appengine.v1.Version) {
+		option (google.api.http) = {
+			get: "/v1/{name=apps/*/services/*/versions/*}"
+		};
+
+	}
+	rpc CreateVersion(google.appengine.v1.CreateVersionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Version"
+			metadata_type: "CreateVersionMetadataV1"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=apps/*/services/*}/versions"
+			body: "version"
+		};
+
+	}
+	rpc UpdateVersion(google.appengine.v1.UpdateVersionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Version"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			patch: "/v1/{name=apps/*/services/*/versions/*}"
+			body: "version"
+		};
+
+	}
+	rpc DeleteVersion(google.appengine.v1.DeleteVersionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			delete: "/v1/{name=apps/*/services/*/versions/*}"
+		};
+
+	}
+}
+
+service Instances {
+	option (google.api.default_host) = "appengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appengine.admin,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListInstances(google.appengine.v1.ListInstancesRequest) returns (google.appengine.v1.ListInstancesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=apps/*/services/*/versions/*}/instances"
+		};
+
+	}
+	rpc GetInstance(google.appengine.v1.GetInstanceRequest) returns (google.appengine.v1.Instance) {
+		option (google.api.http) = {
+			get: "/v1/{name=apps/*/services/*/versions/*/instances/*}"
+		};
+
+	}
+	rpc DeleteInstance(google.appengine.v1.DeleteInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			delete: "/v1/{name=apps/*/services/*/versions/*/instances/*}"
+		};
+
+	}
+	rpc DebugInstance(google.appengine.v1.DebugInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			post: "/v1/{name=apps/*/services/*/versions/*/instances/*}:debug"
+			body: "*"
+		};
+
+	}
+}
+
+service Firewall {
+	option (google.api.default_host) = "appengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appengine.admin,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListIngressRules(google.appengine.v1.ListIngressRulesRequest) returns (google.appengine.v1.ListIngressRulesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=apps/*}/firewall/ingressRules"
+		};
+
+	}
+	rpc BatchUpdateIngressRules(google.appengine.v1.BatchUpdateIngressRulesRequest) returns (google.appengine.v1.BatchUpdateIngressRulesResponse) {
+		option (google.api.http) = {
+			post: "/v1/{name=apps/*/firewall/ingressRules}:batchUpdate"
+			body: "*"
+		};
+
+	}
+	rpc CreateIngressRule(google.appengine.v1.CreateIngressRuleRequest) returns (google.appengine.v1.FirewallRule) {
+		option (google.api.http) = {
+			post: "/v1/{parent=apps/*}/firewall/ingressRules"
+			body: "rule"
+		};
+
+	}
+	rpc GetIngressRule(google.appengine.v1.GetIngressRuleRequest) returns (google.appengine.v1.FirewallRule) {
+		option (google.api.http) = {
+			get: "/v1/{name=apps/*/firewall/ingressRules/*}"
+		};
+
+	}
+	rpc UpdateIngressRule(google.appengine.v1.UpdateIngressRuleRequest) returns (google.appengine.v1.FirewallRule) {
+		option (google.api.http) = {
+			patch: "/v1/{name=apps/*/firewall/ingressRules/*}"
+			body: "rule"
+		};
+
+	}
+	rpc DeleteIngressRule(google.appengine.v1.DeleteIngressRuleRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=apps/*/firewall/ingressRules/*}"
+		};
+
+	}
+}
+
+service AuthorizedDomains {
+	option (google.api.default_host) = "appengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appengine.admin,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListAuthorizedDomains(google.appengine.v1.ListAuthorizedDomainsRequest) returns (google.appengine.v1.ListAuthorizedDomainsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=apps/*}/authorizedDomains"
+		};
+
+	}
+}
+
+service AuthorizedCertificates {
+	option (google.api.default_host) = "appengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appengine.admin,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListAuthorizedCertificates(google.appengine.v1.ListAuthorizedCertificatesRequest) returns (google.appengine.v1.ListAuthorizedCertificatesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=apps/*}/authorizedCertificates"
+		};
+
+	}
+	rpc GetAuthorizedCertificate(google.appengine.v1.GetAuthorizedCertificateRequest) returns (google.appengine.v1.AuthorizedCertificate) {
+		option (google.api.http) = {
+			get: "/v1/{name=apps/*/authorizedCertificates/*}"
+		};
+
+	}
+	rpc CreateAuthorizedCertificate(google.appengine.v1.CreateAuthorizedCertificateRequest) returns (google.appengine.v1.AuthorizedCertificate) {
+		option (google.api.http) = {
+			post: "/v1/{parent=apps/*}/authorizedCertificates"
+			body: "certificate"
+		};
+
+	}
+	rpc UpdateAuthorizedCertificate(google.appengine.v1.UpdateAuthorizedCertificateRequest) returns (google.appengine.v1.AuthorizedCertificate) {
+		option (google.api.http) = {
+			patch: "/v1/{name=apps/*/authorizedCertificates/*}"
+			body: "certificate"
+		};
+
+	}
+	rpc DeleteAuthorizedCertificate(google.appengine.v1.DeleteAuthorizedCertificateRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=apps/*/authorizedCertificates/*}"
+		};
+
+	}
+}
+
+service DomainMappings {
+	option (google.api.default_host) = "appengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/appengine.admin,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListDomainMappings(google.appengine.v1.ListDomainMappingsRequest) returns (google.appengine.v1.ListDomainMappingsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=apps/*}/domainMappings"
+		};
+
+	}
+	rpc GetDomainMapping(google.appengine.v1.GetDomainMappingRequest) returns (google.appengine.v1.DomainMapping) {
+		option (google.api.http) = {
+			get: "/v1/{name=apps/*/domainMappings/*}"
+		};
+
+	}
+	rpc CreateDomainMapping(google.appengine.v1.CreateDomainMappingRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "DomainMapping"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			post: "/v1/{parent=apps/*}/domainMappings"
+			body: "domain_mapping"
+		};
+
+	}
+	rpc UpdateDomainMapping(google.appengine.v1.UpdateDomainMappingRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "DomainMapping"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			patch: "/v1/{name=apps/*/domainMappings/*}"
+			body: "domain_mapping"
+		};
+
+	}
+	rpc DeleteDomainMapping(google.appengine.v1.DeleteDomainMappingRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.http) = {
+			delete: "/v1/{name=apps/*/domainMappings/*}"
+		};
+
+	}
+}
+
+message GetApplicationRequest {
+
+	string name = 1;
+}
+
+message CreateApplicationRequest {
+
+	google.appengine.v1.Application application = 2;
+}
+
+message UpdateApplicationRequest {
+
+	string name = 1;
+	google.appengine.v1.Application application = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message RepairApplicationRequest {
+
+	string name = 1;
+}
+
+message ListServicesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListServicesResponse {
+
+	repeated google.appengine.v1.Service services = 1;
+	string next_page_token = 2;
+}
+
+message GetServiceRequest {
+
+	string name = 1;
+}
+
+message UpdateServiceRequest {
+
+	string name = 1;
+	google.appengine.v1.Service service = 2;
+	google.protobuf.FieldMask update_mask = 3;
+	bool migrate_traffic = 4;
+}
+
+message DeleteServiceRequest {
+
+	string name = 1;
+}
+
+message ListVersionsRequest {
+
+	string parent = 1;
+	VersionView view = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListVersionsResponse {
+
+	repeated google.appengine.v1.Version versions = 1;
+	string next_page_token = 2;
+}
+
+message GetVersionRequest {
+
+	string name = 1;
+	VersionView view = 2;
+}
+
+message CreateVersionRequest {
+
+	string parent = 1;
+	google.appengine.v1.Version version = 2;
+}
+
+message UpdateVersionRequest {
+
+	string name = 1;
+	google.appengine.v1.Version version = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteVersionRequest {
+
+	string name = 1;
+}
+
+message ListInstancesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListInstancesResponse {
+
+	repeated google.appengine.v1.Instance instances = 1;
+	string next_page_token = 2;
+}
+
+message GetInstanceRequest {
+
+	string name = 1;
+}
+
+message DeleteInstanceRequest {
+
+	string name = 1;
+}
+
+message DebugInstanceRequest {
+
+	string name = 1;
+	string ssh_key = 2;
+}
+
+message ListIngressRulesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+	string matching_address = 4;
+}
+
+message ListIngressRulesResponse {
+
+	repeated google.appengine.v1.FirewallRule ingress_rules = 1;
+	string next_page_token = 2;
+}
+
+message BatchUpdateIngressRulesRequest {
+
+	string name = 1;
+	repeated google.appengine.v1.FirewallRule ingress_rules = 2;
+}
+
+message BatchUpdateIngressRulesResponse {
+
+	repeated google.appengine.v1.FirewallRule ingress_rules = 1;
+}
+
+message CreateIngressRuleRequest {
+
+	string parent = 1;
+	google.appengine.v1.FirewallRule rule = 2;
+}
+
+message GetIngressRuleRequest {
+
+	string name = 1;
+}
+
+message UpdateIngressRuleRequest {
+
+	string name = 1;
+	google.appengine.v1.FirewallRule rule = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteIngressRuleRequest {
+
+	string name = 1;
+}
+
+message ListAuthorizedDomainsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListAuthorizedDomainsResponse {
+
+	repeated google.appengine.v1.AuthorizedDomain domains = 1;
+	string next_page_token = 2;
+}
+
+message ListAuthorizedCertificatesRequest {
+
+	string parent = 1;
+	AuthorizedCertificateView view = 4;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListAuthorizedCertificatesResponse {
+
+	repeated google.appengine.v1.AuthorizedCertificate certificates = 1;
+	string next_page_token = 2;
+}
+
+message GetAuthorizedCertificateRequest {
+
+	string name = 1;
+	AuthorizedCertificateView view = 2;
+}
+
+message CreateAuthorizedCertificateRequest {
+
+	string parent = 1;
+	google.appengine.v1.AuthorizedCertificate certificate = 2;
+}
+
+message UpdateAuthorizedCertificateRequest {
+
+	string name = 1;
+	google.appengine.v1.AuthorizedCertificate certificate = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteAuthorizedCertificateRequest {
+
+	string name = 1;
+}
+
+message ListDomainMappingsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListDomainMappingsResponse {
+
+	repeated google.appengine.v1.DomainMapping domain_mappings = 1;
+	string next_page_token = 2;
+}
+
+message GetDomainMappingRequest {
+
+	string name = 1;
+}
+
+message CreateDomainMappingRequest {
+
+	string parent = 1;
+	google.appengine.v1.DomainMapping domain_mapping = 2;
+	DomainOverrideStrategy override_strategy = 4;
+}
+
+message UpdateDomainMappingRequest {
+
+	string name = 1;
+	google.appengine.v1.DomainMapping domain_mapping = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteDomainMappingRequest {
+
+	string name = 1;
+}

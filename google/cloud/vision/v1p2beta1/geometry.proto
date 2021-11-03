@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.cloud.vision.v1p2beta1;
+
+option java_package = "com.google.cloud.vision.v1p2beta1";
+option java_outer_classname = "GeometryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/vision/v1p2beta1;vision";
+option cc_enable_arenas = true;
+
+
+message Vertex {
+
+	int32 x = 1;
+	int32 y = 2;
+}
+
+message NormalizedVertex {
+
+	float x = 1;
+	float y = 2;
+}
+
+message BoundingPoly {
+
+	repeated Vertex vertices = 1;
+	repeated NormalizedVertex normalized_vertices = 2;
+}
+
+message Position {
+
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.enums";
+option java_outer_classname = "CustomerPayPerConversionEligibilityFailureReasonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V3::Enums";
+
+
+message CustomerPayPerConversionEligibilityFailureReasonEnum {
+
+	enum CustomerPayPerConversionEligibilityFailureReason {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		NOT_ENOUGH_CONVERSIONS = 2;
+		CONVERSION_LAG_TOO_HIGH = 3;
+		HAS_CAMPAIGN_WITH_SHARED_BUDGET = 4;
+		HAS_UPLOAD_CLICKS_CONVERSION = 5;
+		AVERAGE_DAILY_SPEND_TOO_HIGH = 6;
+		ANALYSIS_NOT_COMPLETE = 7;
+		OTHER = 8;
+	}
+
+}

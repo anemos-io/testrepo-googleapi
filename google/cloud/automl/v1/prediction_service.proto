@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/automl/v1/annotation_payload.proto";
+import "google/cloud/automl/v1/data_items.proto";
+import "google/cloud/automl/v1/io.proto";
+import "google/cloud/automl/v1/operations.proto";
+import "google/longrunning/operations.proto";
+
+option java_package = "com.google.cloud.automl.v1";
+option java_outer_classname = "PredictionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1;automl";
+option csharp_namespace = "Google.Cloud.AutoML.V1";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1";
+option ruby_package = "Google::Cloud::AutoML::V1";
+
+
+service PredictionService {
+	option (google.api.default_host) = "automl.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc Predict(google.cloud.automl.v1.PredictRequest) returns (google.cloud.automl.v1.PredictResponse) {
+		option (google.api.method_signature) = "name,payload,params";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/models/*}:predict"
+			body: "*"
+		};
+
+	}
+	rpc BatchPredict(google.cloud.automl.v1.BatchPredictRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "BatchPredictResult"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,input_config,output_config,params";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/models/*}:batchPredict"
+			body: "*"
+		};
+
+	}
+}
+
+message PredictRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+	google.cloud.automl.v1.ExamplePayload payload = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> params = 3;
+}
+
+message PredictResponse {
+
+	repeated google.cloud.automl.v1.AnnotationPayload payload = 1;
+	google.cloud.automl.v1.ExamplePayload preprocessed_input = 3;
+	map<string, string> metadata = 2;
+}
+
+message BatchPredictRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+	google.cloud.automl.v1.BatchPredictInputConfig input_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.automl.v1.BatchPredictOutputConfig output_config = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> params = 5;
+}
+
+message BatchPredictResult {
+
+	map<string, string> metadata = 1;
+}

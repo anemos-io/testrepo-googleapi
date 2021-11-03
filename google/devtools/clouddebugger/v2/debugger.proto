@@ -1,0 +1,153 @@
+syntax = "proto3";
+
+package google.devtools.clouddebugger.v2;
+
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/devtools/clouddebugger/v2/data.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.clouddebugger.v2";
+option java_outer_classname = "DebuggerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/clouddebugger/v2;clouddebugger";
+option csharp_namespace = "Google.Cloud.Debugger.V2";
+option php_namespace = "Google\\Cloud\\Debugger\\V2";
+option ruby_package = "Google::Cloud::Debugger::V2";
+
+
+service Debugger2 {
+	option (google.api.default_host) = "clouddebugger.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud_debugger";
+
+	rpc SetBreakpoint(google.devtools.clouddebugger.v2.SetBreakpointRequest) returns (google.devtools.clouddebugger.v2.SetBreakpointResponse) {
+		option (google.api.method_signature) = "debuggee_id,breakpoint,client_version";
+		option (google.api.http) = {
+			post: "/v2/debugger/debuggees/{debuggee_id}/breakpoints/set"
+			body: "breakpoint"
+		};
+
+	}
+	rpc GetBreakpoint(google.devtools.clouddebugger.v2.GetBreakpointRequest) returns (google.devtools.clouddebugger.v2.GetBreakpointResponse) {
+		option (google.api.method_signature) = "debuggee_id,breakpoint_id,client_version";
+		option (google.api.http) = {
+			get: "/v2/debugger/debuggees/{debuggee_id}/breakpoints/{breakpoint_id}"
+		};
+
+	}
+	rpc DeleteBreakpoint(google.devtools.clouddebugger.v2.DeleteBreakpointRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "debuggee_id,breakpoint_id,client_version";
+		option (google.api.http) = {
+			delete: "/v2/debugger/debuggees/{debuggee_id}/breakpoints/{breakpoint_id}"
+		};
+
+	}
+	rpc ListBreakpoints(google.devtools.clouddebugger.v2.ListBreakpointsRequest) returns (google.devtools.clouddebugger.v2.ListBreakpointsResponse) {
+		option (google.api.method_signature) = "debuggee_id,client_version";
+		option (google.api.http) = {
+			get: "/v2/debugger/debuggees/{debuggee_id}/breakpoints"
+		};
+
+	}
+	rpc ListDebuggees(google.devtools.clouddebugger.v2.ListDebuggeesRequest) returns (google.devtools.clouddebugger.v2.ListDebuggeesResponse) {
+		option (google.api.method_signature) = "project,client_version";
+		option (google.api.http) = {
+			get: "/v2/debugger/debuggees"
+		};
+
+	}
+}
+
+message SetBreakpointRequest {
+
+	string debuggee_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.devtools.clouddebugger.v2.Breakpoint breakpoint = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string client_version = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SetBreakpointResponse {
+
+	google.devtools.clouddebugger.v2.Breakpoint breakpoint = 1;
+}
+
+message GetBreakpointRequest {
+
+	string debuggee_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string breakpoint_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string client_version = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetBreakpointResponse {
+
+	google.devtools.clouddebugger.v2.Breakpoint breakpoint = 1;
+}
+
+message DeleteBreakpointRequest {
+
+	string debuggee_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string breakpoint_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string client_version = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListBreakpointsRequest {
+
+	message BreakpointActionValue {
+
+		google.devtools.clouddebugger.v2.Breakpoint.Action value = 1;
+	}
+
+	string debuggee_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool include_all_users = 2;
+	bool include_inactive = 3;
+	BreakpointActionValue action = 4;
+	bool strip_results = 5 [
+		deprecated = true
+	];
+	string wait_token = 6;
+	string client_version = 8 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListBreakpointsResponse {
+
+	repeated google.devtools.clouddebugger.v2.Breakpoint breakpoints = 1;
+	string next_wait_token = 2;
+}
+
+message ListDebuggeesRequest {
+
+	string project = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool include_inactive = 3;
+	string client_version = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListDebuggeesResponse {
+
+	repeated google.devtools.clouddebugger.v2.Debuggee debuggees = 1;
+}

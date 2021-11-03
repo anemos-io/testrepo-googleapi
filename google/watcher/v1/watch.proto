@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.watcher.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.watcher.v1";
+option java_outer_classname = "WatchProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/watcher/v1;watcher";
+
+
+service Watcher {
+
+	rpc Watch(google.watcher.v1.Request) returns (stream google.watcher.v1.ChangeBatch) {
+		option (google.api.http) = {
+			get: "/v1/watch"
+		};
+
+	}
+}
+
+message Request {
+
+	string target = 1;
+	bytes resume_marker = 2;
+}
+
+message ChangeBatch {
+
+	repeated Change changes = 1;
+}
+
+message Change {
+
+	enum State {
+
+		EXISTS = 0;
+		DOES_NOT_EXIST = 1;
+		INITIAL_STATE_SKIPPED = 2;
+		ERROR = 3;
+	}
+
+	string element = 1;
+	State state = 2;
+	google.protobuf.Any data = 6;
+	bytes resume_marker = 4;
+	bool continued = 5;
+}

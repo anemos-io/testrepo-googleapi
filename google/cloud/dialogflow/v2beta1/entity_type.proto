@@ -1,0 +1,380 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "EntityTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+
+
+service EntityTypes {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListEntityTypes(google.cloud.dialogflow.v2beta1.ListEntityTypesRequest) returns (google.cloud.dialogflow.v2beta1.ListEntityTypesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.method_signature) = "parent,language_code";
+		option (google.api.http) = {
+			get: "/v2beta1/{parent=projects/*/agent}/entityTypes"
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/locations/*/agent}/entityTypes"
+			}
+		};
+
+	}
+	rpc GetEntityType(google.cloud.dialogflow.v2beta1.GetEntityTypeRequest) returns (google.cloud.dialogflow.v2beta1.EntityType) {
+		option (google.api.method_signature) = "name";
+		option (google.api.method_signature) = "name,language_code";
+		option (google.api.http) = {
+			get: "/v2beta1/{name=projects/*/agent/entityTypes/*}"
+			additional_bindings: {
+				get: "/v2beta1/{name=projects/*/locations/*/agent/entityTypes/*}"
+			}
+		};
+
+	}
+	rpc CreateEntityType(google.cloud.dialogflow.v2beta1.CreateEntityTypeRequest) returns (google.cloud.dialogflow.v2beta1.EntityType) {
+		option (google.api.method_signature) = "parent,entity_type";
+		option (google.api.method_signature) = "parent,entity_type,language_code";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/agent}/entityTypes"
+			body: "entity_type"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/agent}/entityTypes"
+				body: "entity_type"
+			}
+		};
+
+	}
+	rpc UpdateEntityType(google.cloud.dialogflow.v2beta1.UpdateEntityTypeRequest) returns (google.cloud.dialogflow.v2beta1.EntityType) {
+		option (google.api.method_signature) = "entity_type";
+		option (google.api.method_signature) = "entity_type,language_code";
+		option (google.api.method_signature) = "entity_type,language_code,update_mask";
+		option (google.api.http) = {
+			patch: "/v2beta1/{entity_type.name=projects/*/agent/entityTypes/*}"
+			body: "entity_type"
+			additional_bindings: {
+				patch: "/v2beta1/{entity_type.name=projects/*/locations/*/agent/entityTypes/*}"
+				body: "entity_type"
+			}
+		};
+
+	}
+	rpc DeleteEntityType(google.cloud.dialogflow.v2beta1.DeleteEntityTypeRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2beta1/{name=projects/*/agent/entityTypes/*}"
+			additional_bindings: {
+				delete: "/v2beta1/{name=projects/*/locations/*/agent/entityTypes/*}"
+			}
+		};
+
+	}
+	rpc BatchUpdateEntityTypes(google.cloud.dialogflow.v2beta1.BatchUpdateEntityTypesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.dialogflow.v2beta1.BatchUpdateEntityTypesResponse"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/agent}/entityTypes:batchUpdate"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/agent}/entityTypes:batchUpdate"
+				body: "*"
+			}
+		};
+
+	}
+	rpc BatchDeleteEntityTypes(google.cloud.dialogflow.v2beta1.BatchDeleteEntityTypesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "parent,entity_type_names";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/agent}/entityTypes:batchDelete"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/agent}/entityTypes:batchDelete"
+				body: "*"
+			}
+		};
+
+	}
+	rpc BatchCreateEntities(google.cloud.dialogflow.v2beta1.BatchCreateEntitiesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "parent,entities";
+		option (google.api.method_signature) = "parent,entities,language_code";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/agent/entityTypes/*}/entities:batchCreate"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/agent/entityTypes/*}/entities:batchCreate"
+				body: "*"
+			}
+		};
+
+	}
+	rpc BatchUpdateEntities(google.cloud.dialogflow.v2beta1.BatchUpdateEntitiesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "parent,entities";
+		option (google.api.method_signature) = "parent,entities,language_code";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/agent/entityTypes/*}/entities:batchUpdate"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/agent/entityTypes/*}/entities:batchUpdate"
+				body: "*"
+			}
+		};
+
+	}
+	rpc BatchDeleteEntities(google.cloud.dialogflow.v2beta1.BatchDeleteEntitiesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "parent,entity_values";
+		option (google.api.method_signature) = "parent,entity_values,language_code";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/agent/entityTypes/*}/entities:batchDelete"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/locations/*/agent/entityTypes/*}/entities:batchDelete"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message EntityType {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/EntityType"
+		pattern: ["projects/{project}/agent/entityTypes/{entity_type}","projects/{project}/locations/{location}/agent/entityTypes/{entity_type}"]
+	};
+
+	message Entity {
+
+		string value = 1;
+		repeated string synonyms = 2;
+	}
+
+	enum Kind {
+
+		KIND_UNSPECIFIED = 0;
+		KIND_MAP = 1;
+		KIND_LIST = 2;
+		KIND_REGEXP = 3;
+	}
+
+	enum AutoExpansionMode {
+
+		AUTO_EXPANSION_MODE_UNSPECIFIED = 0;
+		AUTO_EXPANSION_MODE_DEFAULT = 1;
+	}
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Kind kind = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	AutoExpansionMode auto_expansion_mode = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated Entity entities = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool enable_fuzzy_extraction = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEntityTypesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+	string language_code = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEntityTypesResponse {
+
+	repeated EntityType entity_types = 1;
+	string next_page_token = 2;
+}
+
+message GetEntityTypeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+	string language_code = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CreateEntityTypeRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+	EntityType entity_type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateEntityTypeRequest {
+
+	EntityType entity_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteEntityTypeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+}
+
+message BatchUpdateEntityTypesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+	oneof entity_type_batch {
+		string entity_type_batch_uri = 2;
+		EntityTypeBatch entity_type_batch_inline = 3;
+	}
+	string language_code = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.FieldMask update_mask = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message BatchUpdateEntityTypesResponse {
+
+	repeated EntityType entity_types = 1;
+}
+
+message BatchDeleteEntityTypesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+	repeated string entity_type_names = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateEntitiesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+	repeated Entity entities = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message BatchUpdateEntitiesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+	repeated Entity entities = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.FieldMask update_mask = 4;
+}
+
+message BatchDeleteEntitiesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/EntityType"
+		}
+	];
+	repeated string entity_values = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message EntityTypeBatch {
+
+	repeated EntityType entity_types = 1;
+}

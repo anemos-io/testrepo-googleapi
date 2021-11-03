@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.agentendpoint.v1beta;
+
+option java_package = "com.google.cloud.osconfig.agentendpoint.v1beta";
+option java_outer_classname = "PatchJobs";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1beta;agentendpoint";
+
+
+message PatchConfig {
+
+	enum RebootConfig {
+
+		REBOOT_CONFIG_UNSPECIFIED = 0;
+		DEFAULT = 1;
+		ALWAYS = 2;
+		NEVER = 3;
+	}
+
+	RebootConfig reboot_config = 1;
+	RetryStrategy retry_strategy = 2;
+	AptSettings apt = 3;
+	YumSettings yum = 4;
+	GooSettings goo = 5;
+	ZypperSettings zypper = 6;
+	WindowsUpdateSettings windows_update = 7;
+	ExecStep pre_step = 8;
+	ExecStep post_step = 9;
+}
+
+message AptSettings {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		DIST = 1;
+		UPGRADE = 2;
+	}
+
+	Type type = 1;
+	repeated string excludes = 2;
+	repeated string exclusive_packages = 3;
+}
+
+message YumSettings {
+
+	bool security = 1;
+	bool minimal = 2;
+	repeated string excludes = 3;
+	repeated string exclusive_packages = 4;
+}
+
+message GooSettings {
+
+}
+
+message ZypperSettings {
+
+	bool with_optional = 1;
+	bool with_update = 2;
+	repeated string categories = 3;
+	repeated string severities = 4;
+	repeated string excludes = 5;
+	repeated string exclusive_patches = 6;
+}
+
+message WindowsUpdateSettings {
+
+	enum Classification {
+
+		CLASSIFICATION_UNSPECIFIED = 0;
+		CRITICAL = 1;
+		SECURITY = 2;
+		DEFINITION = 3;
+		DRIVER = 4;
+		FEATURE_PACK = 5;
+		SERVICE_PACK = 6;
+		TOOL = 7;
+		UPDATE_ROLLUP = 8;
+		UPDATE = 9;
+	}
+
+	repeated Classification classifications = 1;
+	repeated string excludes = 2;
+	repeated string exclusive_patches = 3;
+}
+
+message RetryStrategy {
+
+	bool enabled = 1;
+}
+
+message ExecStep {
+
+	ExecStepConfig linux_exec_step_config = 1;
+	ExecStepConfig windows_exec_step_config = 2;
+}
+
+message ExecStepConfig {
+
+	enum Interpreter {
+
+		INTERPRETER_UNSPECIFIED = 0;
+		SHELL = 1;
+		POWERSHELL = 2;
+	}
+
+	oneof executable {
+		string local_path = 1;
+		GcsObject gcs_object = 2;
+	}
+	repeated int32 allowed_success_codes = 3;
+	Interpreter interpreter = 4;
+}
+
+message GcsObject {
+
+	string bucket = 1;
+	string object = 2;
+	int64 generation_number = 3;
+}

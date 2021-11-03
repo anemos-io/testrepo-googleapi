@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/asset/v1beta1/assets.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.asset.v1beta1";
+option java_outer_classname = "AssetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1beta1;asset";
+option csharp_namespace = "Google.Cloud.Asset.V1Beta1";
+option php_namespace = "Google\\Cloud\\Asset\\V1beta1";
+
+
+enum ContentType {
+
+	CONTENT_TYPE_UNSPECIFIED = 0;
+	RESOURCE = 1;
+	IAM_POLICY = 2;
+}
+
+service AssetService {
+	option (google.api.default_host) = "cloudasset.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ExportAssets(google.cloud.asset.v1beta1.ExportAssetsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.asset.v1beta1.ExportAssetsResponse"
+			metadata_type: "google.cloud.asset.v1beta1.ExportAssetsRequest"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}:exportAssets"
+			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{parent=folders/*}:exportAssets"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{parent=organizations/*}:exportAssets"
+				body: "*"
+			}
+		};
+
+	}
+	rpc BatchGetAssetsHistory(google.cloud.asset.v1beta1.BatchGetAssetsHistoryRequest) returns (google.cloud.asset.v1beta1.BatchGetAssetsHistoryResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}:batchGetAssetsHistory"
+			additional_bindings: {
+				get: "/v1beta1/{parent=organizations/*}:batchGetAssetsHistory"
+			}
+		};
+
+	}
+}
+
+message ExportAssetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudasset.googleapis.com/Asset"
+		}
+	];
+	google.protobuf.Timestamp read_time = 2;
+	repeated string asset_types = 3;
+	ContentType content_type = 4;
+	OutputConfig output_config = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportAssetsResponse {
+
+	google.protobuf.Timestamp read_time = 1;
+	OutputConfig output_config = 2;
+}
+
+message BatchGetAssetsHistoryRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudasset.googleapis.com/Asset"
+		}
+	];
+	repeated string asset_names = 2;
+	ContentType content_type = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.asset.v1beta1.TimeWindow read_time_window = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message BatchGetAssetsHistoryResponse {
+
+	repeated google.cloud.asset.v1beta1.TemporalAsset assets = 1;
+}
+
+message OutputConfig {
+
+	oneof destination {
+		GcsDestination gcs_destination = 1;
+	}
+}
+
+message GcsDestination {
+
+	oneof object_uri {
+		string uri = 1;
+		string uri_prefix = 2;
+	}
+}

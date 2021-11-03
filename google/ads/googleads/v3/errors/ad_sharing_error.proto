@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.errors";
+option java_outer_classname = "AdSharingErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V3::Errors";
+
+
+message AdSharingErrorEnum {
+
+	enum AdSharingError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		AD_GROUP_ALREADY_CONTAINS_AD = 2;
+		INCOMPATIBLE_AD_UNDER_AD_GROUP = 3;
+		CANNOT_SHARE_INACTIVE_AD = 4;
+	}
+
+}

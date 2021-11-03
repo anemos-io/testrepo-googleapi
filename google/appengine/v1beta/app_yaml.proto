@@ -1,0 +1,146 @@
+syntax = "proto3";
+
+package google.appengine.v1beta;
+
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1beta";
+option java_outer_classname = "AppYamlProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+
+
+enum AuthFailAction {
+
+	AUTH_FAIL_ACTION_UNSPECIFIED = 0;
+	AUTH_FAIL_ACTION_REDIRECT = 1;
+	AUTH_FAIL_ACTION_UNAUTHORIZED = 2;
+}
+
+enum LoginRequirement {
+
+	LOGIN_UNSPECIFIED = 0;
+	LOGIN_OPTIONAL = 1;
+	LOGIN_ADMIN = 2;
+	LOGIN_REQUIRED = 3;
+}
+
+enum SecurityLevel {
+	option allow_alias = true;
+
+	SECURE_UNSPECIFIED = 0;
+	SECURE_DEFAULT = 0;
+	SECURE_NEVER = 1;
+	SECURE_OPTIONAL = 2;
+	SECURE_ALWAYS = 3;
+}
+
+message ApiConfigHandler {
+
+	AuthFailAction auth_fail_action = 1;
+	LoginRequirement login = 2;
+	string script = 3;
+	SecurityLevel security_level = 4;
+	string url = 5;
+}
+
+message ErrorHandler {
+
+	enum ErrorCode {
+		option allow_alias = true;
+
+		ERROR_CODE_UNSPECIFIED = 0;
+		ERROR_CODE_DEFAULT = 0;
+		ERROR_CODE_OVER_QUOTA = 1;
+		ERROR_CODE_DOS_API_DENIAL = 2;
+		ERROR_CODE_TIMEOUT = 3;
+	}
+
+	ErrorCode error_code = 1;
+	string static_file = 2;
+	string mime_type = 3;
+}
+
+message UrlMap {
+
+	enum RedirectHttpResponseCode {
+
+		REDIRECT_HTTP_RESPONSE_CODE_UNSPECIFIED = 0;
+		REDIRECT_HTTP_RESPONSE_CODE_301 = 1;
+		REDIRECT_HTTP_RESPONSE_CODE_302 = 2;
+		REDIRECT_HTTP_RESPONSE_CODE_303 = 3;
+		REDIRECT_HTTP_RESPONSE_CODE_307 = 4;
+	}
+
+	string url_regex = 1;
+	oneof handler_type {
+		StaticFilesHandler static_files = 2;
+		ScriptHandler script = 3;
+		ApiEndpointHandler api_endpoint = 4;
+	}
+	SecurityLevel security_level = 5;
+	LoginRequirement login = 6;
+	AuthFailAction auth_fail_action = 7;
+	RedirectHttpResponseCode redirect_http_response_code = 8;
+}
+
+message StaticFilesHandler {
+
+	string path = 1;
+	string upload_path_regex = 2;
+	map<string, string> http_headers = 3;
+	string mime_type = 4;
+	google.protobuf.Duration expiration = 5;
+	bool require_matching_file = 6;
+	bool application_readable = 7;
+}
+
+message ScriptHandler {
+
+	string script_path = 1;
+}
+
+message ApiEndpointHandler {
+
+	string script_path = 1;
+}
+
+message HealthCheck {
+
+	bool disable_health_check = 1;
+	string host = 2;
+	uint32 healthy_threshold = 3;
+	uint32 unhealthy_threshold = 4;
+	uint32 restart_threshold = 5;
+	google.protobuf.Duration check_interval = 6;
+	google.protobuf.Duration timeout = 7;
+}
+
+message ReadinessCheck {
+
+	string path = 1;
+	string host = 2;
+	uint32 failure_threshold = 3;
+	uint32 success_threshold = 4;
+	google.protobuf.Duration check_interval = 5;
+	google.protobuf.Duration timeout = 6;
+	google.protobuf.Duration app_start_timeout = 7;
+}
+
+message LivenessCheck {
+
+	string path = 1;
+	string host = 2;
+	uint32 failure_threshold = 3;
+	uint32 success_threshold = 4;
+	google.protobuf.Duration check_interval = 5;
+	google.protobuf.Duration timeout = 6;
+	google.protobuf.Duration initial_delay = 7;
+}
+
+message Library {
+
+	string name = 1;
+	string version = 2;
+}

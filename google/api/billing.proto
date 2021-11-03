@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.api;
+
+import "google/api/metric.proto";
+
+option java_package = "com.google.api";
+option java_outer_classname = "BillingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/serviceconfig;serviceconfig";
+option objc_class_prefix = "GAPI";
+
+
+message Billing {
+
+	message BillingDestination {
+
+		string monitored_resource = 1;
+		repeated string metrics = 2;
+	}
+
+	repeated BillingDestination consumer_destinations = 8;
+}

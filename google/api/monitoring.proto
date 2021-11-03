@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package google.api;
+
+option java_package = "com.google.api";
+option java_outer_classname = "MonitoringProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/serviceconfig;serviceconfig";
+option objc_class_prefix = "GAPI";
+
+
+message Monitoring {
+
+	message MonitoringDestination {
+
+		string monitored_resource = 1;
+		repeated string metrics = 2;
+	}
+
+	repeated MonitoringDestination producer_destinations = 1;
+	repeated MonitoringDestination consumer_destinations = 2;
+}

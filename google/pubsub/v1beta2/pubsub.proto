@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package google.pubsub.v1beta2;
+
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.pubsub.v1beta2";
+option java_outer_classname = "PubsubProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/pubsub/v1beta2;pubsub";
+
+
+service Subscriber {
+
+	rpc CreateSubscription(google.pubsub.v1beta2.Subscription) returns (google.pubsub.v1beta2.Subscription) {}
+	rpc GetSubscription(google.pubsub.v1beta2.GetSubscriptionRequest) returns (google.pubsub.v1beta2.Subscription) {}
+	rpc ListSubscriptions(google.pubsub.v1beta2.ListSubscriptionsRequest) returns (google.pubsub.v1beta2.ListSubscriptionsResponse) {}
+	rpc DeleteSubscription(google.pubsub.v1beta2.DeleteSubscriptionRequest) returns (google.protobuf.Empty) {}
+	rpc ModifyAckDeadline(google.pubsub.v1beta2.ModifyAckDeadlineRequest) returns (google.protobuf.Empty) {}
+	rpc Acknowledge(google.pubsub.v1beta2.AcknowledgeRequest) returns (google.protobuf.Empty) {}
+	rpc Pull(google.pubsub.v1beta2.PullRequest) returns (google.pubsub.v1beta2.PullResponse) {}
+	rpc ModifyPushConfig(google.pubsub.v1beta2.ModifyPushConfigRequest) returns (google.protobuf.Empty) {}
+}
+
+service Publisher {
+
+	rpc CreateTopic(google.pubsub.v1beta2.Topic) returns (google.pubsub.v1beta2.Topic) {}
+	rpc Publish(google.pubsub.v1beta2.PublishRequest) returns (google.pubsub.v1beta2.PublishResponse) {}
+	rpc GetTopic(google.pubsub.v1beta2.GetTopicRequest) returns (google.pubsub.v1beta2.Topic) {}
+	rpc ListTopics(google.pubsub.v1beta2.ListTopicsRequest) returns (google.pubsub.v1beta2.ListTopicsResponse) {}
+	rpc ListTopicSubscriptions(google.pubsub.v1beta2.ListTopicSubscriptionsRequest) returns (google.pubsub.v1beta2.ListTopicSubscriptionsResponse) {}
+	rpc DeleteTopic(google.pubsub.v1beta2.DeleteTopicRequest) returns (google.protobuf.Empty) {}
+}
+
+message Topic {
+
+	string name = 1;
+}
+
+message PubsubMessage {
+
+	bytes data = 1;
+	map<string, string> attributes = 2;
+	string message_id = 3;
+}
+
+message GetTopicRequest {
+
+	string topic = 1;
+}
+
+message PublishRequest {
+
+	string topic = 1;
+	repeated PubsubMessage messages = 2;
+}
+
+message PublishResponse {
+
+	repeated string message_ids = 1;
+}
+
+message ListTopicsRequest {
+
+	string project = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTopicsResponse {
+
+	repeated Topic topics = 1;
+	string next_page_token = 2;
+}
+
+message ListTopicSubscriptionsRequest {
+
+	string topic = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTopicSubscriptionsResponse {
+
+	repeated string subscriptions = 1;
+	string next_page_token = 2;
+}
+
+message DeleteTopicRequest {
+
+	string topic = 1;
+}
+
+message Subscription {
+
+	string name = 1;
+	string topic = 2;
+	PushConfig push_config = 4;
+	int32 ack_deadline_seconds = 5;
+}
+
+message PushConfig {
+
+	string push_endpoint = 1;
+	map<string, string> attributes = 2;
+}
+
+message ReceivedMessage {
+
+	string ack_id = 1;
+	PubsubMessage message = 2;
+}
+
+message GetSubscriptionRequest {
+
+	string subscription = 1;
+}
+
+message ListSubscriptionsRequest {
+
+	string project = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListSubscriptionsResponse {
+
+	repeated Subscription subscriptions = 1;
+	string next_page_token = 2;
+}
+
+message DeleteSubscriptionRequest {
+
+	string subscription = 1;
+}
+
+message ModifyPushConfigRequest {
+
+	string subscription = 1;
+	PushConfig push_config = 2;
+}
+
+message PullRequest {
+
+	string subscription = 1;
+	bool return_immediately = 2;
+	int32 max_messages = 3;
+}
+
+message PullResponse {
+
+	repeated ReceivedMessage received_messages = 1;
+}
+
+message ModifyAckDeadlineRequest {
+
+	string subscription = 1;
+	string ack_id = 2;
+	int32 ack_deadline_seconds = 3;
+}
+
+message AcknowledgeRequest {
+
+	string subscription = 1;
+	repeated string ack_ids = 2;
+}

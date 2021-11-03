@@ -1,0 +1,232 @@
+syntax = "proto3";
+
+package google.area120.tables.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.area120.tables.v1alpha1";
+option java_outer_classname = "TablesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/area120/tables/v1alpha1;tables";
+
+
+enum View {
+
+	VIEW_UNSPECIFIED = 0;
+	COLUMN_ID_VIEW = 1;
+}
+
+service TablesService {
+	option (google.api.default_host) = "area120tables.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.file,https://www.googleapis.com/auth/drive.readonly,https://www.googleapis.com/auth/spreadsheets,https://www.googleapis.com/auth/spreadsheets.readonly";
+
+	rpc GetTable(google.area120.tables.v1alpha1.GetTableRequest) returns (google.area120.tables.v1alpha1.Table) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=tables/*}"
+		};
+
+	}
+	rpc ListTables(google.area120.tables.v1alpha1.ListTablesRequest) returns (google.area120.tables.v1alpha1.ListTablesResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha1/tables"
+		};
+
+	}
+	rpc GetRow(google.area120.tables.v1alpha1.GetRowRequest) returns (google.area120.tables.v1alpha1.Row) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=tables/*/rows/*}"
+		};
+
+	}
+	rpc ListRows(google.area120.tables.v1alpha1.ListRowsRequest) returns (google.area120.tables.v1alpha1.ListRowsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=tables/*}/rows"
+		};
+
+	}
+	rpc CreateRow(google.area120.tables.v1alpha1.CreateRowRequest) returns (google.area120.tables.v1alpha1.Row) {
+		option (google.api.method_signature) = "parent,row";
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=tables/*}/rows"
+			body: "row"
+		};
+
+	}
+	rpc BatchCreateRows(google.area120.tables.v1alpha1.BatchCreateRowsRequest) returns (google.area120.tables.v1alpha1.BatchCreateRowsResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=tables/*}/rows:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc UpdateRow(google.area120.tables.v1alpha1.UpdateRowRequest) returns (google.area120.tables.v1alpha1.Row) {
+		option (google.api.method_signature) = "row,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha1/{row.name=tables/*/rows/*}"
+			body: "row"
+		};
+
+	}
+	rpc BatchUpdateRows(google.area120.tables.v1alpha1.BatchUpdateRowsRequest) returns (google.area120.tables.v1alpha1.BatchUpdateRowsResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=tables/*}/rows:batchUpdate"
+			body: "*"
+		};
+
+	}
+	rpc DeleteRow(google.area120.tables.v1alpha1.DeleteRowRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=tables/*/rows/*}"
+		};
+
+	}
+}
+
+message GetTableRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListTablesRequest {
+
+	int32 page_size = 1;
+	string page_token = 2;
+}
+
+message ListTablesResponse {
+
+	repeated Table tables = 1;
+	string next_page_token = 2;
+}
+
+message GetRowRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	View view = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListRowsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	View view = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListRowsResponse {
+
+	repeated Row rows = 1;
+	string next_page_token = 2;
+}
+
+message CreateRowRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Row row = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	View view = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message BatchCreateRowsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CreateRowRequest requests = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateRowsResponse {
+
+	repeated Row rows = 1;
+}
+
+message UpdateRowRequest {
+
+	Row row = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+	View view = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message BatchUpdateRowsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated UpdateRowRequest requests = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchUpdateRowsResponse {
+
+	repeated Row rows = 1;
+}
+
+message DeleteRowRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "area120tables.googleapis.com/Row"
+		}
+	];
+}
+
+message Table {
+	option (google.api.resource) = {
+		type: "area120tables.googleapis.com/Table"
+		pattern: ["tables/{table}"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	repeated ColumnDescription columns = 3;
+}
+
+message ColumnDescription {
+
+	string name = 1;
+	string data_type = 2;
+	string id = 3;
+}
+
+message Row {
+	option (google.api.resource) = {
+		type: "area120tables.googleapis.com/Row"
+		pattern: ["tables/{table}/rows/{row}"]
+	};
+
+	string name = 1;
+	map<string, google.protobuf.Value> values = 2;
+}

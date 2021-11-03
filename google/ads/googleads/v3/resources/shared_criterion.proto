@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.resources;
+
+import "google/ads/googleads/v3/common/criteria.proto";
+import "google/ads/googleads/v3/enums/criterion_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.resources";
+option java_outer_classname = "SharedCriterionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V3::Resources";
+
+
+message SharedCriterion {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/SharedCriterion"
+		pattern: ["customers/{customer}/sharedCriteria/{shared_criterion}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/SharedCriterion"
+		}
+	];
+	google.protobuf.StringValue shared_set = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/SharedSet"
+		}
+	];
+	google.protobuf.Int64Value criterion_id = 26 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v3.enums.CriterionTypeEnum.CriterionType type = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof criterion {
+		google.ads.googleads.v3.common.KeywordInfo keyword = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v3.common.YouTubeVideoInfo youtube_video = 5 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v3.common.YouTubeChannelInfo youtube_channel = 6 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v3.common.PlacementInfo placement = 7 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v3.common.MobileAppCategoryInfo mobile_app_category = 8 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v3.common.MobileApplicationInfo mobile_application = 9 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+}

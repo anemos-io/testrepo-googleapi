@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package google.cloud.pubsublite.v1;
+
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.pubsublite.proto";
+option java_outer_classname = "CommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
+option cc_enable_arenas = true;
+
+
+message AttributeValues {
+
+	repeated bytes values = 1;
+}
+
+message PubSubMessage {
+
+	bytes key = 1;
+	bytes data = 2;
+	map<string, AttributeValues> attributes = 3;
+	google.protobuf.Timestamp event_time = 4;
+}
+
+message Cursor {
+
+	int64 offset = 1;
+}
+
+message SequencedMessage {
+
+	Cursor cursor = 1;
+	google.protobuf.Timestamp publish_time = 2;
+	PubSubMessage message = 3;
+	int64 size_bytes = 4;
+}
+
+message Topic {
+	option (google.api.resource) = {
+		type: "pubsublite.googleapis.com/Topic"
+		pattern: ["projects/{project}/locations/{location}/topics/{topic}"]
+	};
+
+	message PartitionConfig {
+
+		message Capacity {
+
+			int32 publish_mib_per_sec = 1;
+			int32 subscribe_mib_per_sec = 2;
+		}
+
+		int64 count = 1;
+		oneof dimension {
+			int32 scale = 2;
+			Capacity capacity = 3;
+		}
+	}
+
+	message RetentionConfig {
+
+		int64 per_partition_bytes = 1;
+		google.protobuf.Duration period = 2;
+	}
+
+	string name = 1;
+	PartitionConfig partition_config = 2;
+	RetentionConfig retention_config = 3;
+}
+
+message Subscription {
+	option (google.api.resource) = {
+		type: "pubsublite.googleapis.com/Subscription"
+		pattern: ["projects/{project}/locations/{location}/subscriptions/{subscription}"]
+	};
+
+	message DeliveryConfig {
+
+		enum DeliveryRequirement {
+
+			DELIVERY_REQUIREMENT_UNSPECIFIED = 0;
+			DELIVER_IMMEDIATELY = 1;
+			DELIVER_AFTER_STORED = 2;
+		}
+
+		DeliveryRequirement delivery_requirement = 3;
+	}
+
+	string name = 1;
+	string topic = 2 [
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Topic"
+		}
+	];
+	DeliveryConfig delivery_config = 3;
+}

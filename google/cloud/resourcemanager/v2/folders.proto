@@ -1,0 +1,279 @@
+syntax = "proto3";
+
+package google.cloud.resourcemanager.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.resourcemanager.v2";
+option java_outer_classname = "FoldersProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/resourcemanager/v2;resourcemanager";
+option csharp_namespace = "Google.Cloud.ResourceManager.V2";
+option php_namespace = "Google\\Cloud\\ResourceManager\\V2";
+
+
+service Folders {
+	option (google.api.default_host) = "cloudresourcemanager.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc ListFolders(google.cloud.resourcemanager.v2.ListFoldersRequest) returns (google.cloud.resourcemanager.v2.ListFoldersResponse) {
+		option (google.api.method_signature) = "parent,show_deleted";
+		option (google.api.http) = {
+			get: "/v2/folders"
+		};
+
+	}
+	rpc SearchFolders(google.cloud.resourcemanager.v2.SearchFoldersRequest) returns (google.cloud.resourcemanager.v2.SearchFoldersResponse) {
+		option (google.api.method_signature) = "query";
+		option (google.api.http) = {
+			post: "/v2/folders:search"
+			body: "*"
+		};
+
+	}
+	rpc GetFolder(google.cloud.resourcemanager.v2.GetFolderRequest) returns (google.cloud.resourcemanager.v2.Folder) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=folders/*}"
+		};
+
+	}
+	rpc CreateFolder(google.cloud.resourcemanager.v2.CreateFolderRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Folder"
+			metadata_type: "FolderOperation"
+		};
+		option (google.api.method_signature) = "parent,folder";
+		option (google.api.http) = {
+			post: "/v2/folders"
+			body: "folder"
+		};
+
+	}
+	rpc UpdateFolder(google.cloud.resourcemanager.v2.UpdateFolderRequest) returns (google.cloud.resourcemanager.v2.Folder) {
+		option (google.api.method_signature) = "folder,update_mask";
+		option (google.api.http) = {
+			patch: "/v2/{folder.name=folders/*}"
+			body: "folder"
+		};
+
+	}
+	rpc MoveFolder(google.cloud.resourcemanager.v2.MoveFolderRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Folder"
+			metadata_type: "FolderOperation"
+		};
+		option (google.api.method_signature) = "name,destination_parent";
+		option (google.api.http) = {
+			post: "/v2/{name=folders/*}:move"
+			body: "*"
+		};
+
+	}
+	rpc DeleteFolder(google.cloud.resourcemanager.v2.DeleteFolderRequest) returns (google.cloud.resourcemanager.v2.Folder) {
+		option (google.api.method_signature) = "name";
+		option (google.api.method_signature) = "name,recursive_delete";
+		option (google.api.http) = {
+			delete: "/v2/{name=folders/*}"
+		};
+
+	}
+	rpc UndeleteFolder(google.cloud.resourcemanager.v2.UndeleteFolderRequest) returns (google.cloud.resourcemanager.v2.Folder) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v2/{name=folders/*}:undelete"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v2/{resource=folders/*}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v2/{resource=folders/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v2/{resource=folders/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+}
+
+message Folder {
+	option (google.api.resource) = {
+		type: "cloudresourcemanager.googleapis.com/Folder"
+		pattern: ["folders/{folder}"]
+	};
+
+	enum LifecycleState {
+
+		LIFECYCLE_STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		DELETE_REQUESTED = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string parent = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string display_name = 3;
+	LifecycleState lifecycle_state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListFoldersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "*"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool show_deleted = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListFoldersResponse {
+
+	repeated Folder folders = 1;
+	string next_page_token = 2;
+}
+
+message SearchFoldersRequest {
+
+	int32 page_size = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string query = 3;
+}
+
+message SearchFoldersResponse {
+
+	repeated Folder folders = 1;
+	string next_page_token = 2;
+}
+
+message GetFolderRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Folder"
+		}
+	];
+}
+
+message CreateFolderRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "*"
+		}
+	];
+	Folder folder = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MoveFolderRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Folder"
+		}
+	];
+	string destination_parent = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "*"
+		}
+	];
+}
+
+message UpdateFolderRequest {
+
+	Folder folder = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteFolderRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Folder"
+		}
+	];
+	bool recursive_delete = 2;
+}
+
+message UndeleteFolderRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Folder"
+		}
+	];
+}
+
+message FolderOperation {
+
+	enum OperationType {
+
+		OPERATION_TYPE_UNSPECIFIED = 0;
+		CREATE = 1;
+		MOVE = 2;
+	}
+
+	string display_name = 1;
+	OperationType operation_type = 2;
+	string source_parent = 3;
+	string destination_parent = 4;
+}

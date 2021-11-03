@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package google.cloud.runtimeconfig.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.runtimeconfig.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/runtimeconfig/v1beta1;runtimeconfig";
+option csharp_namespace = "Google.Cloud.RuntimeConfig.V1Beta1";
+option php_namespace = "Google\\Cloud\\RuntimeConfig\\V1beta1";
+
+
+enum VariableState {
+
+	VARIABLE_STATE_UNSPECIFIED = 0;
+	UPDATED = 1;
+	DELETED = 2;
+}
+
+message RuntimeConfig {
+
+	string name = 1;
+	string description = 2;
+}
+
+message Variable {
+
+	string name = 1;
+	oneof contents {
+		bytes value = 2;
+		string text = 5;
+	}
+	google.protobuf.Timestamp update_time = 3;
+	VariableState state = 4;
+}
+
+message EndCondition {
+
+	message Cardinality {
+
+		string path = 1;
+		int32 number = 2;
+	}
+
+	oneof condition {
+		Cardinality cardinality = 1;
+	}
+}
+
+message Waiter {
+
+	string name = 1;
+	google.protobuf.Duration timeout = 2;
+	EndCondition failure = 3;
+	EndCondition success = 4;
+	google.protobuf.Timestamp create_time = 5;
+	bool done = 6;
+	google.rpc.Status error = 7;
+}

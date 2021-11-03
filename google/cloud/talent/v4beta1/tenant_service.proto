@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/talent/v4beta1/common.proto";
+import "google/cloud/talent/v4beta1/tenant.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.talent.v4beta1";
+option java_outer_classname = "TenantServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4beta1;talent";
+option objc_class_prefix = "CTS";
+
+
+service TenantService {
+	option (google.api.default_host) = "jobs.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/jobs";
+
+	rpc CreateTenant(google.cloud.talent.v4beta1.CreateTenantRequest) returns (google.cloud.talent.v4beta1.Tenant) {
+		option (google.api.method_signature) = "parent,tenant";
+		option (google.api.http) = {
+			post: "/v4beta1/{parent=projects/*}/tenants"
+			body: "*"
+		};
+
+	}
+	rpc GetTenant(google.cloud.talent.v4beta1.GetTenantRequest) returns (google.cloud.talent.v4beta1.Tenant) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v4beta1/{name=projects/*/tenants/*}"
+		};
+
+	}
+	rpc UpdateTenant(google.cloud.talent.v4beta1.UpdateTenantRequest) returns (google.cloud.talent.v4beta1.Tenant) {
+		option (google.api.method_signature) = "tenant";
+		option (google.api.http) = {
+			patch: "/v4beta1/{tenant.name=projects/*/tenants/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteTenant(google.cloud.talent.v4beta1.DeleteTenantRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v4beta1/{name=projects/*/tenants/*}"
+		};
+
+	}
+	rpc ListTenants(google.cloud.talent.v4beta1.ListTenantsRequest) returns (google.cloud.talent.v4beta1.ListTenantsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v4beta1/{parent=projects/*}/tenants"
+		};
+
+	}
+}
+
+message CreateTenantRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	google.cloud.talent.v4beta1.Tenant tenant = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTenantRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Tenant"
+		}
+	];
+}
+
+message UpdateTenantRequest {
+
+	google.cloud.talent.v4beta1.Tenant tenant = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteTenantRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Tenant"
+		}
+	];
+}
+
+message ListTenantsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListTenantsResponse {
+
+	repeated google.cloud.talent.v4beta1.Tenant tenants = 1;
+	string next_page_token = 2;
+	google.cloud.talent.v4beta1.ResponseMetadata metadata = 3;
+}

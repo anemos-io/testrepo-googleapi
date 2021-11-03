@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.services;
+
+import "google/ads/googleads/v5/resources/campaign_asset.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v5.services";
+option java_outer_classname = "CampaignAssetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V5::Services";
+
+
+service CampaignAssetService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetCampaignAsset(google.ads.googleads.v5.services.GetCampaignAssetRequest) returns (google.ads.googleads.v5.resources.CampaignAsset) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v5/{resource_name=customers/*/campaignAssets/*}"
+		};
+
+	}
+	rpc MutateCampaignAssets(google.ads.googleads.v5.services.MutateCampaignAssetsRequest) returns (google.ads.googleads.v5.services.MutateCampaignAssetsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}/campaignAssets:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCampaignAssetRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignAsset"
+		}
+	];
+}
+
+message MutateCampaignAssetsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CampaignAssetOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+}
+
+message CampaignAssetOperation {
+
+	oneof operation {
+		google.ads.googleads.v5.resources.CampaignAsset create = 1;
+		string remove = 2;
+	}
+}
+
+message MutateCampaignAssetsResponse {
+
+	google.rpc.Status partial_failure_error = 1;
+	repeated MutateCampaignAssetResult results = 2;
+}
+
+message MutateCampaignAssetResult {
+
+	string resource_name = 1;
+}

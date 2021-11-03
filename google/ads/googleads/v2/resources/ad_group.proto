@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.resources;
+
+import "google/ads/googleads/v2/common/custom_parameter.proto";
+import "google/ads/googleads/v2/common/explorer_auto_optimizer_setting.proto";
+import "google/ads/googleads/v2/common/targeting_setting.proto";
+import "google/ads/googleads/v2/enums/ad_group_ad_rotation_mode.proto";
+import "google/ads/googleads/v2/enums/ad_group_status.proto";
+import "google/ads/googleads/v2/enums/ad_group_type.proto";
+import "google/ads/googleads/v2/enums/bidding_source.proto";
+import "google/ads/googleads/v2/enums/targeting_dimension.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.resources";
+option java_outer_classname = "AdGroupProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V2::Resources";
+
+
+message AdGroup {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AdGroup"
+		pattern: ["customers/{customer}/adGroups/{ad_group}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroup"
+		}
+	];
+	google.protobuf.Int64Value id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue name = 4;
+	google.ads.googleads.v2.enums.AdGroupStatusEnum.AdGroupStatus status = 5;
+	google.ads.googleads.v2.enums.AdGroupTypeEnum.AdGroupType type = 12 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v2.enums.AdGroupAdRotationModeEnum.AdGroupAdRotationMode ad_rotation_mode = 22;
+	google.protobuf.StringValue base_ad_group = 18 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroup"
+		}
+	];
+	google.protobuf.StringValue tracking_url_template = 13;
+	repeated google.ads.googleads.v2.common.CustomParameter url_custom_parameters = 6;
+	google.protobuf.StringValue campaign = 10 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	google.protobuf.Int64Value cpc_bid_micros = 14;
+	google.protobuf.Int64Value cpm_bid_micros = 15;
+	google.protobuf.Int64Value target_cpa_micros = 27;
+	google.protobuf.Int64Value cpv_bid_micros = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value target_cpm_micros = 26;
+	google.protobuf.DoubleValue target_roas = 30;
+	google.protobuf.Int64Value percent_cpc_bid_micros = 20;
+	google.ads.googleads.v2.common.ExplorerAutoOptimizerSetting explorer_auto_optimizer_setting = 21;
+	google.ads.googleads.v2.enums.TargetingDimensionEnum.TargetingDimension display_custom_bid_dimension = 23;
+	google.protobuf.StringValue final_url_suffix = 24;
+	google.ads.googleads.v2.common.TargetingSetting targeting_setting = 25;
+	google.protobuf.Int64Value effective_target_cpa_micros = 28 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.BiddingSourceEnum.BiddingSource effective_target_cpa_source = 29 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.DoubleValue effective_target_roas = 31 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.BiddingSourceEnum.BiddingSource effective_target_roas_source = 32 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.protobuf.StringValue labels = 33 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupLabel"
+		}
+	];
+}

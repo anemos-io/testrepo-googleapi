@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.resources;
+
+import "google/ads/googleads/v5/common/asset_types.proto";
+import "google/ads/googleads/v5/enums/asset_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.resources";
+option java_outer_classname = "AssetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V5::Resources";
+
+
+message Asset {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/Asset"
+		pattern: ["customers/{customer}/assets/{asset}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Asset"
+		}
+	];
+	oneof _id {
+		int64 id = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 12;
+	}
+	google.ads.googleads.v5.enums.AssetTypeEnum.AssetType type = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof asset_data {
+		google.ads.googleads.v5.common.YoutubeVideoAsset youtube_video_asset = 5 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.common.MediaBundleAsset media_bundle_asset = 6 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.common.ImageAsset image_asset = 7 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.common.TextAsset text_asset = 8 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.common.BookOnGoogleAsset book_on_google_asset = 10;
+	}
+}

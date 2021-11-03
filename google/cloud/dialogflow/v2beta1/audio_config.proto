@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "AudioConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+
+
+enum AudioEncoding {
+
+	AUDIO_ENCODING_UNSPECIFIED = 0;
+	AUDIO_ENCODING_LINEAR_16 = 1;
+	AUDIO_ENCODING_FLAC = 2;
+	AUDIO_ENCODING_MULAW = 3;
+	AUDIO_ENCODING_AMR = 4;
+	AUDIO_ENCODING_AMR_WB = 5;
+	AUDIO_ENCODING_OGG_OPUS = 6;
+	AUDIO_ENCODING_SPEEX_WITH_HEADER_BYTE = 7;
+}
+
+enum SpeechModelVariant {
+
+	SPEECH_MODEL_VARIANT_UNSPECIFIED = 0;
+	USE_BEST_AVAILABLE = 1;
+	USE_STANDARD = 2;
+	USE_ENHANCED = 3;
+}
+
+enum SsmlVoiceGender {
+
+	SSML_VOICE_GENDER_UNSPECIFIED = 0;
+	SSML_VOICE_GENDER_MALE = 1;
+	SSML_VOICE_GENDER_FEMALE = 2;
+	SSML_VOICE_GENDER_NEUTRAL = 3;
+}
+
+enum OutputAudioEncoding {
+
+	OUTPUT_AUDIO_ENCODING_UNSPECIFIED = 0;
+	OUTPUT_AUDIO_ENCODING_LINEAR_16 = 1;
+	OUTPUT_AUDIO_ENCODING_MP3 = 2;
+	OUTPUT_AUDIO_ENCODING_OGG_OPUS = 3;
+}
+
+message SpeechContext {
+
+	repeated string phrases = 1;
+	float boost = 2;
+}
+
+message SpeechWordInfo {
+
+	string word = 3;
+	google.protobuf.Duration start_offset = 1;
+	google.protobuf.Duration end_offset = 2;
+	float confidence = 4;
+}
+
+message InputAudioConfig {
+
+	AudioEncoding audio_encoding = 1;
+	int32 sample_rate_hertz = 2;
+	string language_code = 3;
+	bool enable_word_info = 13;
+	repeated string phrase_hints = 4 [
+		deprecated = true
+	];
+	repeated SpeechContext speech_contexts = 11;
+	string model = 7;
+	SpeechModelVariant model_variant = 10;
+	bool single_utterance = 8;
+}
+
+message VoiceSelectionParams {
+
+	string name = 1;
+	SsmlVoiceGender ssml_gender = 2;
+}
+
+message SynthesizeSpeechConfig {
+
+	double speaking_rate = 1;
+	double pitch = 2;
+	double volume_gain_db = 3;
+	repeated string effects_profile_id = 5;
+	VoiceSelectionParams voice = 4;
+}
+
+message OutputAudioConfig {
+
+	OutputAudioEncoding audio_encoding = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 sample_rate_hertz = 2;
+	SynthesizeSpeechConfig synthesize_speech_config = 3;
+}

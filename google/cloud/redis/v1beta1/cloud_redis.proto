@@ -1,0 +1,365 @@
+syntax = "proto3";
+
+package google.cloud.redis.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.redis.v1beta1";
+option java_outer_classname = "CloudRedisServiceBetaProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/redis/v1beta1;redis";
+
+
+service CloudRedis {
+	option (google.api.default_host) = "redis.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListInstances(google.cloud.redis.v1beta1.ListInstancesRequest) returns (google.cloud.redis.v1beta1.ListInstancesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/instances"
+		};
+
+	}
+	rpc GetInstance(google.cloud.redis.v1beta1.GetInstanceRequest) returns (google.cloud.redis.v1beta1.Instance) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/instances/*}"
+		};
+
+	}
+	rpc CreateInstance(google.cloud.redis.v1beta1.CreateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.redis.v1beta1.Instance"
+			metadata_type: "google.protobuf.Any"
+		};
+		option (google.api.method_signature) = "parent,instance_id,instance";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/instances"
+			body: "instance"
+		};
+
+	}
+	rpc UpdateInstance(google.cloud.redis.v1beta1.UpdateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.redis.v1beta1.Instance"
+			metadata_type: "google.protobuf.Any"
+		};
+		option (google.api.method_signature) = "update_mask,instance";
+		option (google.api.http) = {
+			patch: "/v1beta1/{instance.name=projects/*/locations/*/instances/*}"
+			body: "instance"
+		};
+
+	}
+	rpc UpgradeInstance(google.cloud.redis.v1beta1.UpgradeInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.redis.v1beta1.Instance"
+			metadata_type: "google.protobuf.Any"
+		};
+		option (google.api.method_signature) = "name,redis_version";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:upgrade"
+			body: "*"
+		};
+
+	}
+	rpc ImportInstance(google.cloud.redis.v1beta1.ImportInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.redis.v1beta1.Instance"
+			metadata_type: "google.protobuf.Any"
+		};
+		option (google.api.method_signature) = "name,input_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:import"
+			body: "*"
+		};
+
+	}
+	rpc ExportInstance(google.cloud.redis.v1beta1.ExportInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.redis.v1beta1.Instance"
+			metadata_type: "google.protobuf.Any"
+		};
+		option (google.api.method_signature) = "name,output_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:export"
+			body: "*"
+		};
+
+	}
+	rpc FailoverInstance(google.cloud.redis.v1beta1.FailoverInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.redis.v1beta1.Instance"
+			metadata_type: "google.protobuf.Any"
+		};
+		option (google.api.method_signature) = "name,data_protection_mode";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:failover"
+			body: "*"
+		};
+
+	}
+	rpc DeleteInstance(google.cloud.redis.v1beta1.DeleteInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Any"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/instances/*}"
+		};
+
+	}
+}
+
+message Instance {
+	option (google.api.resource) = {
+		type: "redis.googleapis.com/Instance"
+		pattern: ["projects/{project}/locations/{location}/instances/{instance}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		UPDATING = 3;
+		DELETING = 4;
+		REPAIRING = 5;
+		MAINTENANCE = 6;
+		IMPORTING = 8;
+		FAILING_OVER = 10;
+	}
+
+	enum Tier {
+
+		TIER_UNSPECIFIED = 0;
+		BASIC = 1;
+		STANDARD_HA = 3;
+	}
+
+	enum ConnectMode {
+
+		CONNECT_MODE_UNSPECIFIED = 0;
+		DIRECT_PEERING = 1;
+		PRIVATE_SERVICE_ACCESS = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string display_name = 2;
+	map<string, string> labels = 3;
+	string location_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string alternative_location_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string redis_version = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string reserved_ip_range = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string host = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 port = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string current_location_id = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> redis_configs = 16 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Tier tier = 17 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 memory_size_gb = 18 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string authorized_network = 20 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string persistence_iam_identity = 21 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ConnectMode connect_mode = 22 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListInstancesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListInstancesResponse {
+
+	repeated Instance instances = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "redis.googleapis.com/Instance"
+		}
+	];
+}
+
+message CreateInstanceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string instance_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Instance instance = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateInstanceRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Instance instance = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpgradeInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "redis.googleapis.com/Instance"
+		}
+	];
+	string redis_version = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "redis.googleapis.com/Instance"
+		}
+	];
+}
+
+message GcsSource {
+
+	string uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message InputConfig {
+
+	oneof source {
+		GcsSource gcs_source = 1;
+	}
+}
+
+message ImportInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	InputConfig input_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GcsDestination {
+
+	string uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message OutputConfig {
+
+	oneof destination {
+		GcsDestination gcs_destination = 1;
+	}
+}
+
+message ExportInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	OutputConfig output_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message FailoverInstanceRequest {
+
+	enum DataProtectionMode {
+
+		DATA_PROTECTION_MODE_UNSPECIFIED = 0;
+		LIMITED_DATA_LOSS = 1;
+		FORCE_DATA_LOSS = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "redis.googleapis.com/Instance"
+		}
+	];
+	DataProtectionMode data_protection_mode = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message LocationMetadata {
+
+	map<string, ZoneMetadata> available_zones = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ZoneMetadata {
+
+}

@@ -1,0 +1,194 @@
+syntax = "proto3";
+
+package google.cloud.datalabeling.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/cloud/datalabeling/v1beta1/annotation_spec_set.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.cloud.datalabeling.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datalabeling/v1beta1;datalabeling";
+
+
+enum AnnotationSource {
+
+	ANNOTATION_SOURCE_UNSPECIFIED = 0;
+	OPERATOR = 3;
+}
+
+enum AnnotationSentiment {
+
+	ANNOTATION_SENTIMENT_UNSPECIFIED = 0;
+	NEGATIVE = 1;
+	POSITIVE = 2;
+}
+
+enum AnnotationType {
+
+	ANNOTATION_TYPE_UNSPECIFIED = 0;
+	IMAGE_CLASSIFICATION_ANNOTATION = 1;
+	IMAGE_BOUNDING_BOX_ANNOTATION = 2;
+	IMAGE_ORIENTED_BOUNDING_BOX_ANNOTATION = 13;
+	IMAGE_BOUNDING_POLY_ANNOTATION = 10;
+	IMAGE_POLYLINE_ANNOTATION = 11;
+	IMAGE_SEGMENTATION_ANNOTATION = 12;
+	VIDEO_SHOTS_CLASSIFICATION_ANNOTATION = 3;
+	VIDEO_OBJECT_TRACKING_ANNOTATION = 4;
+	VIDEO_OBJECT_DETECTION_ANNOTATION = 5;
+	VIDEO_EVENT_ANNOTATION = 6;
+	TEXT_CLASSIFICATION_ANNOTATION = 8;
+	TEXT_ENTITY_EXTRACTION_ANNOTATION = 9;
+	GENERAL_CLASSIFICATION_ANNOTATION = 14;
+}
+
+message Annotation {
+
+	string name = 1;
+	AnnotationSource annotation_source = 2;
+	AnnotationValue annotation_value = 3;
+	AnnotationMetadata annotation_metadata = 4;
+	AnnotationSentiment annotation_sentiment = 6;
+}
+
+message AnnotationValue {
+
+	oneof value_type {
+		ImageClassificationAnnotation image_classification_annotation = 1;
+		ImageBoundingPolyAnnotation image_bounding_poly_annotation = 2;
+		ImagePolylineAnnotation image_polyline_annotation = 8;
+		ImageSegmentationAnnotation image_segmentation_annotation = 9;
+		TextClassificationAnnotation text_classification_annotation = 3;
+		TextEntityExtractionAnnotation text_entity_extraction_annotation = 10;
+		VideoClassificationAnnotation video_classification_annotation = 4;
+		VideoObjectTrackingAnnotation video_object_tracking_annotation = 5;
+		VideoEventAnnotation video_event_annotation = 6;
+	}
+}
+
+message ImageClassificationAnnotation {
+
+	google.cloud.datalabeling.v1beta1.AnnotationSpec annotation_spec = 1;
+}
+
+message Vertex {
+
+	int32 x = 1;
+	int32 y = 2;
+}
+
+message NormalizedVertex {
+
+	float x = 1;
+	float y = 2;
+}
+
+message BoundingPoly {
+
+	repeated Vertex vertices = 1;
+}
+
+message NormalizedBoundingPoly {
+
+	repeated NormalizedVertex normalized_vertices = 1;
+}
+
+message ImageBoundingPolyAnnotation {
+
+	oneof bounded_area {
+		BoundingPoly bounding_poly = 2;
+		NormalizedBoundingPoly normalized_bounding_poly = 3;
+	}
+	google.cloud.datalabeling.v1beta1.AnnotationSpec annotation_spec = 1;
+}
+
+message Polyline {
+
+	repeated Vertex vertices = 1;
+}
+
+message NormalizedPolyline {
+
+	repeated NormalizedVertex normalized_vertices = 1;
+}
+
+message ImagePolylineAnnotation {
+
+	oneof poly {
+		Polyline polyline = 2;
+		NormalizedPolyline normalized_polyline = 3;
+	}
+	google.cloud.datalabeling.v1beta1.AnnotationSpec annotation_spec = 1;
+}
+
+message ImageSegmentationAnnotation {
+
+	map<string, google.cloud.datalabeling.v1beta1.AnnotationSpec> annotation_colors = 1;
+	string mime_type = 2;
+	bytes image_bytes = 3;
+}
+
+message TextClassificationAnnotation {
+
+	google.cloud.datalabeling.v1beta1.AnnotationSpec annotation_spec = 1;
+}
+
+message TextEntityExtractionAnnotation {
+
+	google.cloud.datalabeling.v1beta1.AnnotationSpec annotation_spec = 1;
+	SequentialSegment sequential_segment = 2;
+}
+
+message SequentialSegment {
+
+	int32 start = 1;
+	int32 end = 2;
+}
+
+message TimeSegment {
+
+	google.protobuf.Duration start_time_offset = 1;
+	google.protobuf.Duration end_time_offset = 2;
+}
+
+message VideoClassificationAnnotation {
+
+	TimeSegment time_segment = 1;
+	google.cloud.datalabeling.v1beta1.AnnotationSpec annotation_spec = 2;
+}
+
+message ObjectTrackingFrame {
+
+	oneof bounded_area {
+		BoundingPoly bounding_poly = 1;
+		NormalizedBoundingPoly normalized_bounding_poly = 2;
+	}
+	google.protobuf.Duration time_offset = 3;
+}
+
+message VideoObjectTrackingAnnotation {
+
+	google.cloud.datalabeling.v1beta1.AnnotationSpec annotation_spec = 1;
+	TimeSegment time_segment = 2;
+	repeated ObjectTrackingFrame object_tracking_frames = 3;
+}
+
+message VideoEventAnnotation {
+
+	google.cloud.datalabeling.v1beta1.AnnotationSpec annotation_spec = 1;
+	TimeSegment time_segment = 2;
+}
+
+message AnnotationMetadata {
+
+	OperatorMetadata operator_metadata = 2;
+}
+
+message OperatorMetadata {
+
+	float score = 1;
+	int32 total_votes = 2;
+	int32 label_votes = 3;
+	repeated string comments = 4;
+}

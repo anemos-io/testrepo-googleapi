@@ -1,0 +1,382 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1beta;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.osconfig.v1beta";
+option java_outer_classname = "GuestPolicies";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1beta;osconfig";
+
+
+enum DesiredState {
+
+	DESIRED_STATE_UNSPECIFIED = 0;
+	INSTALLED = 1;
+	UPDATED = 2;
+	REMOVED = 3;
+}
+
+message GuestPolicy {
+	option (google.api.resource) = {
+		type: "osconfig.googleapis.com/GuestPolicy"
+		pattern: ["projects/{project}/guestPolicies/{guest_policy}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2;
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Assignment assignment = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated Package packages = 7;
+	repeated PackageRepository package_repositories = 8;
+	repeated SoftwareRecipe recipes = 9;
+	string etag = 10;
+}
+
+message Assignment {
+
+	message GroupLabel {
+
+		map<string, string> labels = 1;
+	}
+
+	message OsType {
+
+		string os_short_name = 1;
+		string os_version = 2;
+		string os_architecture = 3;
+	}
+
+	repeated GroupLabel group_labels = 1;
+	repeated string zones = 2;
+	repeated string instances = 3;
+	repeated string instance_name_prefixes = 4;
+	repeated OsType os_types = 5;
+}
+
+message Package {
+
+	enum Manager {
+
+		MANAGER_UNSPECIFIED = 0;
+		ANY = 1;
+		APT = 2;
+		YUM = 3;
+		ZYPPER = 4;
+		GOO = 5;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	DesiredState desired_state = 2;
+	Manager manager = 3;
+}
+
+message AptRepository {
+
+	enum ArchiveType {
+
+		ARCHIVE_TYPE_UNSPECIFIED = 0;
+		DEB = 1;
+		DEB_SRC = 2;
+	}
+
+	ArchiveType archive_type = 1;
+	string uri = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string distribution = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string components = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string gpg_key = 5;
+}
+
+message YumRepository {
+
+	string id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string display_name = 2;
+	string base_url = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string gpg_keys = 4;
+}
+
+message ZypperRepository {
+
+	string id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string display_name = 2;
+	string base_url = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string gpg_keys = 4;
+}
+
+message GooRepository {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string url = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PackageRepository {
+
+	oneof repository {
+		AptRepository apt = 1;
+		YumRepository yum = 2;
+		ZypperRepository zypper = 3;
+		GooRepository goo = 4;
+	}
+}
+
+message SoftwareRecipe {
+
+	message Artifact {
+
+		message Remote {
+
+			string uri = 1;
+			string checksum = 2;
+		}
+
+		message Gcs {
+
+			string bucket = 1;
+			string object = 2;
+			int64 generation = 3;
+		}
+
+		string id = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		oneof artifact {
+			Remote remote = 2;
+			Gcs gcs = 3;
+		}
+		bool allow_insecure = 4;
+	}
+
+	message Step {
+
+		message CopyFile {
+
+			string artifact_id = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			string destination = 2 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			bool overwrite = 3;
+			string permissions = 4;
+		}
+
+		message ExtractArchive {
+
+			enum ArchiveType {
+
+				ARCHIVE_TYPE_UNSPECIFIED = 0;
+				TAR = 1;
+				TAR_GZIP = 2;
+				TAR_BZIP = 3;
+				TAR_LZMA = 4;
+				TAR_XZ = 5;
+				ZIP = 11;
+			}
+
+			string artifact_id = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			string destination = 2;
+			ArchiveType type = 3 [
+				(google.api.field_behavior) = REQUIRED
+			];
+		}
+
+		message InstallMsi {
+
+			string artifact_id = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			repeated string flags = 2;
+			repeated int32 allowed_exit_codes = 3;
+		}
+
+		message InstallDpkg {
+
+			string artifact_id = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+		}
+
+		message InstallRpm {
+
+			string artifact_id = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+		}
+
+		message ExecFile {
+
+			oneof location_type {
+				string artifact_id = 1;
+				string local_path = 2;
+			}
+			repeated string args = 3;
+			repeated int32 allowed_exit_codes = 4;
+		}
+
+		message RunScript {
+
+			enum Interpreter {
+
+				INTERPRETER_UNSPECIFIED = 0;
+				SHELL = 1;
+				POWERSHELL = 3;
+			}
+
+			string script = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			repeated int32 allowed_exit_codes = 2;
+			Interpreter interpreter = 3;
+		}
+
+		oneof step {
+			CopyFile file_copy = 1;
+			ExtractArchive archive_extraction = 2;
+			InstallMsi msi_installation = 3;
+			InstallDpkg dpkg_installation = 4;
+			InstallRpm rpm_installation = 5;
+			ExecFile file_exec = 6;
+			RunScript script_run = 7;
+		}
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string version = 2;
+	repeated Artifact artifacts = 3;
+	repeated Step install_steps = 4;
+	repeated Step update_steps = 5;
+	DesiredState desired_state = 6;
+}
+
+message CreateGuestPolicyRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "osconfig.googleapis.com/GuestPolicy"
+		}
+	];
+	string guest_policy_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	GuestPolicy guest_policy = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetGuestPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "osconfig.googleapis.com/GuestPolicy"
+		}
+	];
+}
+
+message ListGuestPoliciesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "osconfig.googleapis.com/GuestPolicy"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListGuestPoliciesResponse {
+
+	repeated GuestPolicy guest_policies = 1;
+	string next_page_token = 2;
+}
+
+message UpdateGuestPolicyRequest {
+
+	GuestPolicy guest_policy = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteGuestPolicyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "osconfig.googleapis.com/GuestPolicy"
+		}
+	];
+}
+
+message LookupEffectiveGuestPolicyRequest {
+
+	string instance = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string os_short_name = 2;
+	string os_version = 3;
+	string os_architecture = 4;
+}
+
+message EffectiveGuestPolicy {
+
+	message SourcedPackage {
+
+		string source = 1;
+		Package package = 2;
+	}
+
+	message SourcedPackageRepository {
+
+		string source = 1;
+		PackageRepository package_repository = 2;
+	}
+
+	message SourcedSoftwareRecipe {
+
+		string source = 1;
+		SoftwareRecipe software_recipe = 2;
+	}
+
+	repeated SourcedPackage packages = 1;
+	repeated SourcedPackageRepository package_repositories = 2;
+	repeated SourcedSoftwareRecipe software_recipes = 3;
+}

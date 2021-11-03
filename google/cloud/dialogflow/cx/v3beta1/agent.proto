@@ -1,0 +1,214 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3beta1/flow.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
+option java_outer_classname = "AgentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3beta1;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+
+
+service Agents {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListAgents(google.cloud.dialogflow.cx.v3beta1.ListAgentsRequest) returns (google.cloud.dialogflow.cx.v3beta1.ListAgentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3beta1/{parent=projects/*/locations/*}/agents"
+		};
+
+	}
+	rpc GetAgent(google.cloud.dialogflow.cx.v3beta1.GetAgentRequest) returns (google.cloud.dialogflow.cx.v3beta1.Agent) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3beta1/{name=projects/*/locations/*/agents/*}"
+		};
+
+	}
+	rpc CreateAgent(google.cloud.dialogflow.cx.v3beta1.CreateAgentRequest) returns (google.cloud.dialogflow.cx.v3beta1.Agent) {
+		option (google.api.method_signature) = "parent,agent";
+		option (google.api.http) = {
+			post: "/v3beta1/{parent=projects/*/locations/*}/agents"
+			body: "agent"
+		};
+
+	}
+	rpc UpdateAgent(google.cloud.dialogflow.cx.v3beta1.UpdateAgentRequest) returns (google.cloud.dialogflow.cx.v3beta1.Agent) {
+		option (google.api.method_signature) = "agent,update_mask";
+		option (google.api.http) = {
+			patch: "/v3beta1/{agent.name=projects/*/locations/*/agents/*}"
+			body: "agent"
+		};
+
+	}
+	rpc DeleteAgent(google.cloud.dialogflow.cx.v3beta1.DeleteAgentRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3beta1/{name=projects/*/locations/*/agents/*}"
+		};
+
+	}
+	rpc ExportAgent(google.cloud.dialogflow.cx.v3beta1.ExportAgentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ExportAgentResponse"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.http) = {
+			post: "/v3beta1/{name=projects/*/locations/*/agents/*}:export"
+			body: "*"
+		};
+
+	}
+	rpc RestoreAgent(google.cloud.dialogflow.cx.v3beta1.RestoreAgentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.http) = {
+			post: "/v3beta1/{name=projects/*/locations/*/agents/*}:restore"
+			body: "*"
+		};
+
+	}
+}
+
+message SpeechToTextSettings {
+
+	bool enable_speech_adaptation = 1;
+}
+
+message Agent {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Agent"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}"]
+	};
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string default_language_code = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string time_zone = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 6;
+	string avatar_uri = 7;
+	SpeechToTextSettings speech_to_text_settings = 13;
+	string start_flow = 16 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Flow"
+		}
+	];
+	bool enable_stackdriver_logging = 18;
+	bool enable_spell_correction = 20;
+}
+
+message ListAgentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListAgentsResponse {
+
+	repeated Agent agents = 1;
+	string next_page_token = 2;
+}
+
+message GetAgentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+}
+
+message CreateAgentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	Agent agent = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateAgentRequest {
+
+	Agent agent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteAgentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+}
+
+message ExportAgentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	string agent_uri = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ExportAgentResponse {
+
+	oneof agent {
+		string agent_uri = 1;
+		bytes agent_content = 2;
+	}
+}
+
+message RestoreAgentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	oneof agent {
+		string agent_uri = 2;
+		bytes agent_content = 3;
+	}
+}

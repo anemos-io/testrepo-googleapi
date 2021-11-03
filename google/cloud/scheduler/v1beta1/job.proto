@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package google.cloud.scheduler.v1beta1;
+
+import "google/api/resource.proto";
+import "google/cloud/scheduler/v1beta1/target.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.scheduler.v1beta1";
+option java_outer_classname = "JobProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/scheduler/v1beta1;scheduler";
+
+
+message Job {
+	option (google.api.resource) = {
+		type: "cloudscheduler.googleapis.com/Job"
+		pattern: ["projects/{project}/locations/{location}/jobs/{job}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ENABLED = 1;
+		PAUSED = 2;
+		DISABLED = 3;
+		UPDATE_FAILED = 4;
+	}
+
+	string name = 1;
+	string description = 2;
+	oneof target {
+		google.cloud.scheduler.v1beta1.PubsubTarget pubsub_target = 4;
+		google.cloud.scheduler.v1beta1.AppEngineHttpTarget app_engine_http_target = 5;
+		google.cloud.scheduler.v1beta1.HttpTarget http_target = 6;
+	}
+	string schedule = 20;
+	string time_zone = 21;
+	google.protobuf.Timestamp user_update_time = 9;
+	State state = 10;
+	google.rpc.Status status = 11;
+	google.protobuf.Timestamp schedule_time = 17;
+	google.protobuf.Timestamp last_attempt_time = 18;
+	RetryConfig retry_config = 19;
+	google.protobuf.Duration attempt_deadline = 22;
+}
+
+message RetryConfig {
+
+	int32 retry_count = 1;
+	google.protobuf.Duration max_retry_duration = 2;
+	google.protobuf.Duration min_backoff_duration = 3;
+	google.protobuf.Duration max_backoff_duration = 4;
+	int32 max_doublings = 5;
+}

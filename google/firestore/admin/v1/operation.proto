@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package google.firestore.admin.v1;
+
+import "google/firestore/admin/v1/index.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.firestore.admin.v1";
+option java_outer_classname = "OperationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firestore/admin/v1;admin";
+option objc_class_prefix = "GCFS";
+option csharp_namespace = "Google.Cloud.Firestore.Admin.V1";
+option php_namespace = "Google\\Cloud\\Firestore\\Admin\\V1";
+option ruby_package = "Google::Cloud::Firestore::Admin::V1";
+
+
+enum OperationState {
+
+	OPERATION_STATE_UNSPECIFIED = 0;
+	INITIALIZING = 1;
+	PROCESSING = 2;
+	CANCELLING = 3;
+	FINALIZING = 4;
+	SUCCESSFUL = 5;
+	FAILED = 6;
+	CANCELLED = 7;
+}
+
+message IndexOperationMetadata {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	string index = 3;
+	OperationState state = 4;
+	Progress progress_documents = 5;
+	Progress progress_bytes = 6;
+}
+
+message FieldOperationMetadata {
+
+	message IndexConfigDelta {
+
+		enum ChangeType {
+
+			CHANGE_TYPE_UNSPECIFIED = 0;
+			ADD = 1;
+			REMOVE = 2;
+		}
+
+		ChangeType change_type = 1;
+		google.firestore.admin.v1.Index index = 2;
+	}
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	string field = 3;
+	repeated IndexConfigDelta index_config_deltas = 4;
+	OperationState state = 5;
+	Progress progress_documents = 6;
+	Progress progress_bytes = 7;
+}
+
+message ExportDocumentsMetadata {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	OperationState operation_state = 3;
+	Progress progress_documents = 4;
+	Progress progress_bytes = 5;
+	repeated string collection_ids = 6;
+	string output_uri_prefix = 7;
+}
+
+message ImportDocumentsMetadata {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	OperationState operation_state = 3;
+	Progress progress_documents = 4;
+	Progress progress_bytes = 5;
+	repeated string collection_ids = 6;
+	string input_uri_prefix = 7;
+}
+
+message ExportDocumentsResponse {
+
+	string output_uri_prefix = 1;
+}
+
+message Progress {
+
+	int64 estimated_work = 1;
+	int64 completed_work = 2;
+}

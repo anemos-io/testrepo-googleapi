@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+import "google/api/field_behavior.proto";
+import "google/monitoring/dashboard/v1/metrics.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "XyChartProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+message XyChart {
+
+	message DataSet {
+
+		enum PlotType {
+
+			PLOT_TYPE_UNSPECIFIED = 0;
+			LINE = 1;
+			STACKED_AREA = 2;
+			STACKED_BAR = 3;
+			HEATMAP = 4;
+		}
+
+		google.monitoring.dashboard.v1.TimeSeriesQuery time_series_query = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		PlotType plot_type = 2;
+		string legend_template = 3;
+		google.protobuf.Duration min_alignment_period = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	message Axis {
+
+		enum Scale {
+
+			SCALE_UNSPECIFIED = 0;
+			LINEAR = 1;
+			LOG10 = 2;
+		}
+
+		string label = 1;
+		Scale scale = 2;
+	}
+
+	repeated DataSet data_sets = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration timeshift_duration = 4;
+	repeated google.monitoring.dashboard.v1.Threshold thresholds = 5;
+	Axis x_axis = 6;
+	Axis y_axis = 7;
+	ChartOptions chart_options = 8;
+}
+
+message ChartOptions {
+
+	enum Mode {
+
+		MODE_UNSPECIFIED = 0;
+		COLOR = 1;
+		X_RAY = 2;
+		STATS = 3;
+	}
+
+	Mode mode = 1;
+}

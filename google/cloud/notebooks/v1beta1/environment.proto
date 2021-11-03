@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package google.cloud.notebooks.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.notebooks.v1beta1";
+option java_outer_classname = "EnvironmentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1beta1;notebooks";
+option csharp_namespace = "Google.Cloud.Notebooks.V1Beta1";
+option php_namespace = "Google\\Cloud\\Notebooks\\V1Beta1";
+option ruby_package = "Google::Cloud::Notebooks::V1beta1";
+
+
+message Environment {
+	option (google.api.resource) = {
+		type: "notebooks.googleapis.com/Environment"
+		pattern: ["projects/{project}/environments/{environment}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2;
+	string description = 3;
+	oneof image_type {
+		VmImage vm_image = 6;
+		ContainerImage container_image = 7;
+	}
+	string post_startup_script = 8;
+	google.protobuf.Timestamp create_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message VmImage {
+
+	string project = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof image {
+		string image_name = 2;
+		string image_family = 3;
+	}
+}
+
+message ContainerImage {
+
+	string repository = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string tag = 2;
+}

@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.services;
+
+import "google/ads/googleads/v5/resources/customer_manager_link.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.ads.googleads.v5.services";
+option java_outer_classname = "CustomerManagerLinkServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V5::Services";
+
+
+service CustomerManagerLinkService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetCustomerManagerLink(google.ads.googleads.v5.services.GetCustomerManagerLinkRequest) returns (google.ads.googleads.v5.resources.CustomerManagerLink) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v5/{resource_name=customers/*/customerManagerLinks/*}"
+		};
+
+	}
+	rpc MutateCustomerManagerLink(google.ads.googleads.v5.services.MutateCustomerManagerLinkRequest) returns (google.ads.googleads.v5.services.MutateCustomerManagerLinkResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}/customerManagerLinks:mutate"
+			body: "*"
+		};
+
+	}
+	rpc MoveManagerLink(google.ads.googleads.v5.services.MoveManagerLinkRequest) returns (google.ads.googleads.v5.services.MoveManagerLinkResponse) {
+		option (google.api.method_signature) = "customer_id,previous_customer_manager_link,new_manager";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}/customerManagerLinks:moveManagerLink"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCustomerManagerLinkRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomerManagerLink"
+		}
+	];
+}
+
+message MutateCustomerManagerLinkRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CustomerManagerLinkOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MoveManagerLinkRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string previous_customer_manager_link = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string new_manager = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CustomerManagerLinkOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	oneof operation {
+		google.ads.googleads.v5.resources.CustomerManagerLink update = 2;
+	}
+}
+
+message MutateCustomerManagerLinkResponse {
+
+	repeated MutateCustomerManagerLinkResult results = 1;
+}
+
+message MoveManagerLinkResponse {
+
+	string resource_name = 1;
+}
+
+message MutateCustomerManagerLinkResult {
+
+	string resource_name = 1;
+}

@@ -1,0 +1,257 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/talent/v4beta1/common.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/date.proto";
+import "google/type/postal_address.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.talent.v4beta1";
+option java_outer_classname = "ProfileResourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4beta1;talent";
+option objc_class_prefix = "CTS";
+
+
+message Profile {
+	option (google.api.resource) = {
+		type: "jobs.googleapis.com/Profile"
+		pattern: ["projects/{project}/tenants/{tenant}/profiles/{profile}"]
+	};
+
+	string name = 1;
+	string external_id = 2;
+	string source = 3;
+	string uri = 4;
+	string group_id = 5;
+	google.protobuf.BoolValue is_hirable = 6;
+	google.protobuf.Timestamp create_time = 7;
+	google.protobuf.Timestamp update_time = 8;
+	google.protobuf.Timestamp candidate_update_time = 67;
+	google.protobuf.Timestamp resume_update_time = 68;
+	Resume resume = 53;
+	repeated PersonName person_names = 11;
+	repeated Address addresses = 12;
+	repeated Email email_addresses = 13;
+	repeated Phone phone_numbers = 14;
+	repeated PersonalUri personal_uris = 15;
+	repeated AdditionalContactInfo additional_contact_info = 16;
+	repeated EmploymentRecord employment_records = 17;
+	repeated EducationRecord education_records = 18;
+	repeated google.cloud.talent.v4beta1.Skill skills = 19;
+	repeated Activity activities = 20;
+	repeated Publication publications = 21;
+	repeated Patent patents = 22;
+	repeated google.cloud.talent.v4beta1.Certification certifications = 23;
+	repeated string applications = 47 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string assignments = 48 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, google.cloud.talent.v4beta1.CustomAttribute> custom_attributes = 26;
+	bool processed = 27 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string keyword_snippet = 28 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated AvailabilitySignal availability_signals = 70 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.cloud.talent.v4beta1.Location derived_addresses = 64 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message AvailabilitySignal {
+
+	google.cloud.talent.v4beta1.AvailabilitySignalType type = 1;
+	google.protobuf.Timestamp last_update_time = 2;
+	google.protobuf.BoolValue filter_satisfied = 3;
+}
+
+message Resume {
+
+	enum ResumeType {
+
+		RESUME_TYPE_UNSPECIFIED = 0;
+		HRXML = 1;
+		OTHER_RESUME_TYPE = 2;
+	}
+
+	string structured_resume = 1;
+	ResumeType resume_type = 2;
+}
+
+message PersonName {
+
+	message PersonStructuredName {
+
+		string given_name = 1;
+		string preferred_name = 6;
+		string middle_initial = 2;
+		string family_name = 3;
+		repeated string suffixes = 4;
+		repeated string prefixes = 5;
+	}
+
+	oneof person_name {
+		string formatted_name = 1;
+		PersonStructuredName structured_name = 2;
+	}
+	string preferred_name = 3;
+}
+
+message Address {
+
+	google.cloud.talent.v4beta1.ContactInfoUsage usage = 1;
+	oneof address {
+		string unstructured_address = 2;
+		google.type.PostalAddress structured_address = 3;
+	}
+	google.protobuf.BoolValue current = 4;
+}
+
+message Email {
+
+	google.cloud.talent.v4beta1.ContactInfoUsage usage = 1;
+	string email_address = 2;
+}
+
+message Phone {
+
+	enum PhoneType {
+
+		PHONE_TYPE_UNSPECIFIED = 0;
+		LANDLINE = 1;
+		MOBILE = 2;
+		FAX = 3;
+		PAGER = 4;
+		TTY_OR_TDD = 5;
+		VOICEMAIL = 6;
+		VIRTUAL = 7;
+		VOIP = 8;
+		MOBILE_OR_LANDLINE = 9;
+	}
+
+	google.cloud.talent.v4beta1.ContactInfoUsage usage = 1;
+	PhoneType type = 2;
+	string number = 3;
+	string when_available = 4;
+}
+
+message PersonalUri {
+
+	string uri = 1;
+}
+
+message AdditionalContactInfo {
+
+	google.cloud.talent.v4beta1.ContactInfoUsage usage = 1;
+	string name = 2;
+	string contact_id = 3;
+}
+
+message EmploymentRecord {
+
+	google.type.Date start_date = 1;
+	google.type.Date end_date = 2;
+	string employer_name = 3;
+	string division_name = 4;
+	Address address = 5;
+	string job_title = 6;
+	string job_description = 7;
+	google.protobuf.BoolValue is_supervisor = 8;
+	google.protobuf.BoolValue is_self_employed = 9;
+	google.protobuf.BoolValue is_current = 10;
+	string job_title_snippet = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string job_description_snippet = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string employer_name_snippet = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message EducationRecord {
+
+	google.type.Date start_date = 1;
+	google.type.Date end_date = 2;
+	google.type.Date expected_graduation_date = 3;
+	string school_name = 4;
+	Address address = 5;
+	oneof degree {
+		string degree_description = 6;
+		Degree structured_degree = 7;
+	}
+	string description = 8;
+	google.protobuf.BoolValue is_current = 9;
+	string school_name_snippet = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string degree_snippet = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Degree {
+
+	google.cloud.talent.v4beta1.DegreeType degree_type = 1;
+	string degree_name = 2;
+	repeated string fields_of_study = 3;
+}
+
+message Activity {
+
+	string display_name = 1;
+	string description = 2;
+	string uri = 3;
+	google.type.Date create_date = 4;
+	google.type.Date update_date = 5;
+	repeated string team_members = 6;
+	repeated google.cloud.talent.v4beta1.Skill skills_used = 7;
+	string activity_name_snippet = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string activity_description_snippet = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string skills_used_snippet = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Publication {
+
+	repeated string authors = 1;
+	string title = 2;
+	string description = 3;
+	string journal = 4;
+	string volume = 5;
+	string publisher = 6;
+	google.type.Date publication_date = 7;
+	string publication_type = 8;
+	string isbn = 9;
+}
+
+message Patent {
+
+	string display_name = 1;
+	repeated string inventors = 2;
+	string patent_status = 3;
+	google.type.Date patent_status_date = 4;
+	google.type.Date patent_filing_date = 5;
+	string patent_office = 6;
+	string patent_number = 7;
+	string patent_description = 8;
+	repeated google.cloud.talent.v4beta1.Skill skills_used = 9;
+}

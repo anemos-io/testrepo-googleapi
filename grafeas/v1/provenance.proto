@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package grafeas.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.grafeas.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/grafeas/v1;grafeas";
+option objc_class_prefix = "GRA";
+
+
+message BuildProvenance {
+
+	string id = 1;
+	string project_id = 2;
+	repeated Command commands = 3;
+	repeated Artifact built_artifacts = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp start_time = 6;
+	google.protobuf.Timestamp end_time = 7;
+	string creator = 8;
+	string logs_uri = 9;
+	Source source_provenance = 10;
+	string trigger_id = 11;
+	map<string, string> build_options = 12;
+	string builder_version = 13;
+}
+
+message Source {
+
+	string artifact_storage_source_uri = 1;
+	map<string, FileHashes> file_hashes = 2;
+	SourceContext context = 3;
+	repeated SourceContext additional_contexts = 4;
+}
+
+message FileHashes {
+
+	repeated Hash file_hash = 1;
+}
+
+message Hash {
+
+	string type = 1;
+	bytes value = 2;
+}
+
+message Command {
+
+	string name = 1;
+	repeated string env = 2;
+	repeated string args = 3;
+	string dir = 4;
+	string id = 5;
+	repeated string wait_for = 6;
+}
+
+message Artifact {
+
+	string checksum = 1;
+	string id = 2;
+	repeated string names = 3;
+}
+
+message SourceContext {
+
+	oneof context {
+		CloudRepoSourceContext cloud_repo = 1;
+		GerritSourceContext gerrit = 2;
+		GitSourceContext git = 3;
+	}
+	map<string, string> labels = 4;
+}
+
+message AliasContext {
+
+	enum Kind {
+
+		KIND_UNSPECIFIED = 0;
+		FIXED = 1;
+		MOVABLE = 2;
+		OTHER = 4;
+	}
+
+	Kind kind = 1;
+	string name = 2;
+}
+
+message CloudRepoSourceContext {
+
+	RepoId repo_id = 1;
+	oneof revision {
+		string revision_id = 2;
+		AliasContext alias_context = 3;
+	}
+}
+
+message GerritSourceContext {
+
+	string host_uri = 1;
+	string gerrit_project = 2;
+	oneof revision {
+		string revision_id = 3;
+		AliasContext alias_context = 4;
+	}
+}
+
+message GitSourceContext {
+
+	string url = 1;
+	string revision_id = 2;
+}
+
+message RepoId {
+
+	oneof id {
+		ProjectRepoId project_repo_id = 1;
+		string uid = 2;
+	}
+}
+
+message ProjectRepoId {
+
+	string project_id = 1;
+	string repo_name = 2;
+}

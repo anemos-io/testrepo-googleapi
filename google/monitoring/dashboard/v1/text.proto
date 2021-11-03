@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "TextProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+message Text {
+
+	enum Format {
+
+		FORMAT_UNSPECIFIED = 0;
+		MARKDOWN = 1;
+		RAW = 2;
+	}
+
+	string content = 1;
+	Format format = 2;
+}

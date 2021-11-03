@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package google.api.expr.v1beta1;
+
+import "google/api/expr/v1beta1/expr.proto";
+
+option java_package = "com.google.api.expr.v1beta1";
+option java_outer_classname = "DeclProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/expr/v1beta1;expr";
+option cc_enable_arenas = true;
+
+
+message Decl {
+
+	int32 id = 1;
+	string name = 2;
+	string doc = 3;
+	oneof kind {
+		IdentDecl ident = 4;
+		FunctionDecl function = 5;
+	}
+}
+
+message DeclType {
+
+	int32 id = 1;
+	string type = 2;
+	repeated DeclType type_params = 4;
+}
+
+message IdentDecl {
+
+	DeclType type = 3;
+	google.api.expr.v1beta1.Expr value = 4;
+}
+
+message FunctionDecl {
+
+	repeated IdentDecl args = 1;
+	DeclType return_type = 2;
+	bool receiver_function = 3;
+}

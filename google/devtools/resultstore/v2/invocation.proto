@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/devtools/resultstore/v2/common.proto";
+import "google/devtools/resultstore/v2/coverage.proto";
+import "google/devtools/resultstore/v2/coverage_summary.proto";
+import "google/devtools/resultstore/v2/file.proto";
+import "google/devtools/resultstore/v2/file_processing_error.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+message Invocation {
+
+	message Id {
+
+		string invocation_id = 1;
+	}
+
+	string name = 1;
+	Id id = 2;
+	google.devtools.resultstore.v2.StatusAttributes status_attributes = 3;
+	google.devtools.resultstore.v2.Timing timing = 4;
+	InvocationAttributes invocation_attributes = 5;
+	WorkspaceInfo workspace_info = 6;
+	repeated google.devtools.resultstore.v2.Property properties = 7;
+	repeated google.devtools.resultstore.v2.File files = 8;
+	repeated google.devtools.resultstore.v2.LanguageCoverageSummary coverage_summaries = 9;
+	google.devtools.resultstore.v2.AggregateCoverage aggregate_coverage = 10;
+	repeated google.devtools.resultstore.v2.FileProcessingErrors file_processing_errors = 11;
+}
+
+message WorkspaceContext {
+
+}
+
+message WorkspaceInfo {
+
+	WorkspaceContext workspace_context = 1;
+	string hostname = 3;
+	string working_directory = 4;
+	string tool_tag = 5;
+	repeated CommandLine command_lines = 7;
+}
+
+message CommandLine {
+
+	string label = 1;
+	string tool = 2;
+	repeated string args = 3;
+	string command = 4;
+}
+
+message InvocationAttributes {
+
+	string project_id = 1;
+	repeated string users = 2;
+	repeated string labels = 3;
+	string description = 4;
+	repeated InvocationContext invocation_contexts = 6;
+}
+
+message InvocationContext {
+
+	string display_name = 1;
+	string url = 2;
+}

@@ -1,0 +1,138 @@
+syntax = "proto3";
+
+package google.devtools.containeranalysis.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.containeranalysis.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1;containeranalysis";
+option objc_class_prefix = "GCA";
+
+
+service ContainerAnalysisV1Beta1 {
+	option (google.api.default_host) = "containeranalysis.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=projects/*/notes/*}:setIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{resource=projects/*/occurrences/*}:setIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=projects/*/notes/*}:getIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{resource=projects/*/occurrences/*}:getIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=projects/*/notes/*}:testIamPermissions"
+			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{resource=projects/*/occurrences/*}:testIamPermissions"
+				body: "*"
+			}
+		};
+
+	}
+	rpc GetScanConfig(google.devtools.containeranalysis.v1beta1.GetScanConfigRequest) returns (google.devtools.containeranalysis.v1beta1.ScanConfig) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/scanConfigs/*}"
+		};
+
+	}
+	rpc ListScanConfigs(google.devtools.containeranalysis.v1beta1.ListScanConfigsRequest) returns (google.devtools.containeranalysis.v1beta1.ListScanConfigsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/scanConfigs"
+		};
+
+	}
+	rpc UpdateScanConfig(google.devtools.containeranalysis.v1beta1.UpdateScanConfigRequest) returns (google.devtools.containeranalysis.v1beta1.ScanConfig) {
+		option (google.api.method_signature) = "name,scan_config";
+		option (google.api.http) = {
+			put: "/v1beta1/{name=projects/*/scanConfigs/*}"
+			body: "scan_config"
+		};
+
+	}
+}
+
+message ScanConfig {
+	option (google.api.resource) = {
+		type: "containeranalysis.googleapis.com/ScanConfig"
+		pattern: ["projects/{project}/scanConfigs/{scan_config}"]
+	};
+
+	string name = 1;
+	string description = 2;
+	bool enabled = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp update_time = 5;
+}
+
+message GetScanConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "containeranalysis.googleapis.com/ScanConfig"
+		}
+	];
+}
+
+message ListScanConfigsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListScanConfigsResponse {
+
+	repeated ScanConfig scan_configs = 1;
+	string next_page_token = 2;
+}
+
+message UpdateScanConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "containeranalysis.googleapis.com/ScanConfig"
+		}
+	];
+	ScanConfig scan_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

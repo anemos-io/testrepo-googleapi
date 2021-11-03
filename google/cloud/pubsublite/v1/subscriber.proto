@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package google.cloud.pubsublite.v1;
+
+import "google/cloud/pubsublite/v1/common.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.pubsublite.proto";
+option java_outer_classname = "SubscriberProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
+option cc_enable_arenas = true;
+
+
+service SubscriberService {
+	option (google.api.default_host) = "pubsublite.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc Subscribe(stream google.cloud.pubsublite.v1.SubscribeRequest) returns (stream google.cloud.pubsublite.v1.SubscribeResponse) {}
+}
+
+service PartitionAssignmentService {
+	option (google.api.default_host) = "pubsublite.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc AssignPartitions(stream google.cloud.pubsublite.v1.PartitionAssignmentRequest) returns (stream google.cloud.pubsublite.v1.PartitionAssignment) {}
+}
+
+message InitialSubscribeRequest {
+
+	string subscription = 1;
+	int64 partition = 2;
+}
+
+message InitialSubscribeResponse {
+
+	google.cloud.pubsublite.v1.Cursor cursor = 1;
+}
+
+message SeekRequest {
+
+	enum NamedTarget {
+
+		NAMED_TARGET_UNSPECIFIED = 0;
+		HEAD = 1;
+		COMMITTED_CURSOR = 2;
+	}
+
+	oneof target {
+		NamedTarget named_target = 1;
+		google.cloud.pubsublite.v1.Cursor cursor = 2;
+	}
+}
+
+message SeekResponse {
+
+	google.cloud.pubsublite.v1.Cursor cursor = 1;
+}
+
+message FlowControlRequest {
+
+	int64 allowed_messages = 1;
+	int64 allowed_bytes = 2;
+}
+
+message SubscribeRequest {
+
+	oneof request {
+		InitialSubscribeRequest initial = 1;
+		SeekRequest seek = 2;
+		FlowControlRequest flow_control = 3;
+	}
+}
+
+message MessageResponse {
+
+	repeated google.cloud.pubsublite.v1.SequencedMessage messages = 1;
+}
+
+message SubscribeResponse {
+
+	oneof response {
+		InitialSubscribeResponse initial = 1;
+		SeekResponse seek = 2;
+		MessageResponse messages = 3;
+	}
+}
+
+message InitialPartitionAssignmentRequest {
+
+	string subscription = 1;
+	bytes client_id = 2;
+}
+
+message PartitionAssignment {
+
+	repeated int64 partitions = 1;
+}
+
+message PartitionAssignmentAck {
+
+}
+
+message PartitionAssignmentRequest {
+
+	oneof request {
+		InitialPartitionAssignmentRequest initial = 1;
+		PartitionAssignmentAck ack = 2;
+	}
+}

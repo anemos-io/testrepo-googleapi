@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/talent/v4beta1/common.proto";
+import "google/cloud/talent/v4beta1/filters.proto";
+import "google/cloud/talent/v4beta1/histogram.proto";
+import "google/cloud/talent/v4beta1/profile.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.talent.v4beta1";
+option java_outer_classname = "ProfileServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4beta1;talent";
+option objc_class_prefix = "CTS";
+
+
+service ProfileService {
+	option (google.api.default_host) = "jobs.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/jobs";
+
+	rpc ListProfiles(google.cloud.talent.v4beta1.ListProfilesRequest) returns (google.cloud.talent.v4beta1.ListProfilesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v4beta1/{parent=projects/*/tenants/*}/profiles"
+		};
+
+	}
+	rpc CreateProfile(google.cloud.talent.v4beta1.CreateProfileRequest) returns (google.cloud.talent.v4beta1.Profile) {
+		option (google.api.method_signature) = "parent,profile";
+		option (google.api.http) = {
+			post: "/v4beta1/{parent=projects/*/tenants/*}/profiles"
+			body: "*"
+		};
+
+	}
+	rpc GetProfile(google.cloud.talent.v4beta1.GetProfileRequest) returns (google.cloud.talent.v4beta1.Profile) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v4beta1/{name=projects/*/tenants/*/profiles/*}"
+		};
+
+	}
+	rpc UpdateProfile(google.cloud.talent.v4beta1.UpdateProfileRequest) returns (google.cloud.talent.v4beta1.Profile) {
+		option (google.api.method_signature) = "profile";
+		option (google.api.http) = {
+			patch: "/v4beta1/{profile.name=projects/*/tenants/*/profiles/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteProfile(google.cloud.talent.v4beta1.DeleteProfileRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v4beta1/{name=projects/*/tenants/*/profiles/*}"
+		};
+
+	}
+	rpc SearchProfiles(google.cloud.talent.v4beta1.SearchProfilesRequest) returns (google.cloud.talent.v4beta1.SearchProfilesResponse) {
+		option (google.api.http) = {
+			post: "/v4beta1/{parent=projects/*/tenants/*}:search"
+			body: "*"
+		};
+
+	}
+}
+
+message ListProfilesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "jobs.googleapis.com/Profile"
+		}
+	];
+	string filter = 5;
+	string page_token = 2;
+	int32 page_size = 3;
+	google.protobuf.FieldMask read_mask = 4;
+}
+
+message ListProfilesResponse {
+
+	repeated google.cloud.talent.v4beta1.Profile profiles = 1;
+	string next_page_token = 2;
+}
+
+message CreateProfileRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Tenant"
+		}
+	];
+	google.cloud.talent.v4beta1.Profile profile = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Profile"
+		}
+	];
+}
+
+message UpdateProfileRequest {
+
+	google.cloud.talent.v4beta1.Profile profile = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Profile"
+		}
+	];
+}
+
+message SearchProfilesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Tenant"
+		}
+	];
+	google.cloud.talent.v4beta1.RequestMetadata request_metadata = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.talent.v4beta1.ProfileQuery profile_query = 3;
+	int32 page_size = 4;
+	string page_token = 5;
+	int32 offset = 6;
+	bool disable_spell_check = 7;
+	string order_by = 8;
+	bool case_sensitive_sort = 9;
+	repeated google.cloud.talent.v4beta1.HistogramQuery histogram_queries = 10;
+	string result_set_id = 12;
+	bool strict_keywords_search = 13;
+}
+
+message SearchProfilesResponse {
+
+	int64 estimated_total_size = 1;
+	google.cloud.talent.v4beta1.SpellingCorrection spell_correction = 2;
+	google.cloud.talent.v4beta1.ResponseMetadata metadata = 3;
+	string next_page_token = 4;
+	repeated google.cloud.talent.v4beta1.HistogramQueryResult histogram_query_results = 5;
+	repeated SummarizedProfile summarized_profiles = 6;
+	string result_set_id = 7;
+}
+
+message SummarizedProfile {
+
+	repeated google.cloud.talent.v4beta1.Profile profiles = 1;
+	google.cloud.talent.v4beta1.Profile summary = 2;
+}

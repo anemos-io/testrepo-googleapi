@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1p1beta1;
+
+import "google/iam/v1/policy.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.asset.v1p1beta1";
+option java_outer_classname = "AssetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1p1beta1;asset";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Asset.V1P1Beta1";
+option php_namespace = "Google\\Cloud\\Asset\\V1p1beta1";
+
+
+message StandardResourceMetadata {
+
+	string name = 1;
+	string asset_type = 2;
+	string project = 3;
+	string display_name = 4;
+	string description = 5;
+	repeated string additional_attributes = 10;
+	string location = 11;
+	map<string, string> labels = 12;
+	repeated string network_tags = 13;
+}
+
+message IamPolicySearchResult {
+
+	message Explanation {
+
+		map<string, Permissions> matched_permissions = 1;
+	}
+
+	string resource = 1;
+	string project = 3;
+	google.iam.v1.Policy policy = 4;
+	Explanation explanation = 5;
+}
+
+message Permissions {
+
+	repeated string permissions = 1;
+}

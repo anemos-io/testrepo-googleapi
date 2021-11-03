@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1p2beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/asset/v1p2beta1/assets.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.asset.v1p2beta1";
+option java_outer_classname = "AssetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1p2beta1;asset";
+option csharp_namespace = "Google.Cloud.Asset.V1p2Beta1";
+option php_namespace = "Google\\Cloud\\Asset\\V1p2Beta1";
+
+
+enum ContentType {
+
+	CONTENT_TYPE_UNSPECIFIED = 0;
+	RESOURCE = 1;
+	IAM_POLICY = 2;
+}
+
+service AssetService {
+	option (google.api.default_host) = "cloudasset.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateFeed(google.cloud.asset.v1p2beta1.CreateFeedRequest) returns (google.cloud.asset.v1p2beta1.Feed) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1p2beta1/{parent=*/*}/feeds"
+			body: "*"
+		};
+
+	}
+	rpc GetFeed(google.cloud.asset.v1p2beta1.GetFeedRequest) returns (google.cloud.asset.v1p2beta1.Feed) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1p2beta1/{name=*/*/feeds/*}"
+		};
+
+	}
+	rpc ListFeeds(google.cloud.asset.v1p2beta1.ListFeedsRequest) returns (google.cloud.asset.v1p2beta1.ListFeedsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1p2beta1/{parent=*/*}/feeds"
+		};
+
+	}
+	rpc UpdateFeed(google.cloud.asset.v1p2beta1.UpdateFeedRequest) returns (google.cloud.asset.v1p2beta1.Feed) {
+		option (google.api.method_signature) = "feed";
+		option (google.api.http) = {
+			patch: "/v1p2beta1/{feed.name=*/*/feeds/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteFeed(google.cloud.asset.v1p2beta1.DeleteFeedRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1p2beta1/{name=*/*/feeds/*}"
+		};
+
+	}
+}
+
+message CreateFeedRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string feed_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Feed feed = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetFeedRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudasset.googleapis.com/Feed"
+		}
+	];
+}
+
+message ListFeedsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListFeedsResponse {
+
+	repeated Feed feeds = 1;
+}
+
+message UpdateFeedRequest {
+
+	Feed feed = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteFeedRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudasset.googleapis.com/Feed"
+		}
+	];
+}
+
+message OutputConfig {
+
+	oneof destination {
+		GcsDestination gcs_destination = 1;
+	}
+}
+
+message GcsDestination {
+
+	oneof object_uri {
+		string uri = 1;
+	}
+}
+
+message PubsubDestination {
+
+	string topic = 1;
+}
+
+message FeedOutputConfig {
+
+	oneof destination {
+		PubsubDestination pubsub_destination = 1;
+	}
+}
+
+message Feed {
+	option (google.api.resource) = {
+		type: "cloudasset.googleapis.com/Feed"
+		pattern: ["projects/{project}/feeds/{feed}","folders/{folder}/feeds/{feed}","organizations/{organization}/feeds/{feed}"]
+		history: ORIGINALLY_SINGLE_PATTERN
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string asset_names = 2;
+	repeated string asset_types = 3;
+	ContentType content_type = 4;
+	FeedOutputConfig feed_output_config = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

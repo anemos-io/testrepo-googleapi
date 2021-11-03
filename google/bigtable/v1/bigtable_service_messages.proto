@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package google.bigtable.v1;
+
+import "google/bigtable/v1/bigtable_data.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.bigtable.v1";
+option java_outer_classname = "BigtableServiceMessagesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/v1;bigtable";
+
+
+message ReadRowsRequest {
+
+	string table_name = 1;
+	oneof target {
+		bytes row_key = 2;
+		google.bigtable.v1.RowRange row_range = 3;
+		google.bigtable.v1.RowSet row_set = 8;
+	}
+	google.bigtable.v1.RowFilter filter = 5;
+	bool allow_row_interleaving = 6;
+	int64 num_rows_limit = 7;
+}
+
+message ReadRowsResponse {
+
+	message Chunk {
+
+		oneof chunk {
+			google.bigtable.v1.Family row_contents = 1;
+			bool reset_row = 2;
+			bool commit_row = 3;
+		}
+	}
+
+	bytes row_key = 1;
+	repeated Chunk chunks = 2;
+}
+
+message SampleRowKeysRequest {
+
+	string table_name = 1;
+}
+
+message SampleRowKeysResponse {
+
+	bytes row_key = 1;
+	int64 offset_bytes = 2;
+}
+
+message MutateRowRequest {
+
+	string table_name = 1;
+	bytes row_key = 2;
+	repeated google.bigtable.v1.Mutation mutations = 3;
+}
+
+message MutateRowsRequest {
+
+	message Entry {
+
+		bytes row_key = 1;
+		repeated google.bigtable.v1.Mutation mutations = 2;
+	}
+
+	string table_name = 1;
+	repeated Entry entries = 2;
+}
+
+message MutateRowsResponse {
+
+	repeated google.rpc.Status statuses = 1;
+}
+
+message CheckAndMutateRowRequest {
+
+	string table_name = 1;
+	bytes row_key = 2;
+	google.bigtable.v1.RowFilter predicate_filter = 6;
+	repeated google.bigtable.v1.Mutation true_mutations = 4;
+	repeated google.bigtable.v1.Mutation false_mutations = 5;
+}
+
+message CheckAndMutateRowResponse {
+
+	bool predicate_matched = 1;
+}
+
+message ReadModifyWriteRowRequest {
+
+	string table_name = 1;
+	bytes row_key = 2;
+	repeated google.bigtable.v1.ReadModifyWriteRule rules = 3;
+}

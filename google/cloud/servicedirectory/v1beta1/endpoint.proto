@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package google.cloud.servicedirectory.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.servicedirectory.v1beta1";
+option java_outer_classname = "EndpointProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/servicedirectory/v1beta1;servicedirectory";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.ServiceDirectory.V1Beta1";
+option php_namespace = "Google\\Cloud\\ServiceDirectory\\V1beta1";
+option ruby_package = "Google::Cloud::ServiceDirectory::V1beta1";
+
+
+message Endpoint {
+	option (google.api.resource) = {
+		type: "servicedirectory.googleapis.com/Endpoint"
+		pattern: ["projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}/endpoints/{endpoint}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string address = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 port = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> metadata = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

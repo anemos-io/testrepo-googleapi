@@ -1,0 +1,408 @@
+syntax = "proto3";
+
+package google.cloud.notebooks.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/notebooks/v1beta1/environment.proto";
+import "google/cloud/notebooks/v1beta1/instance.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.notebooks.v1beta1";
+option java_outer_classname = "NotebooksProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/notebooks/v1beta1;notebooks";
+option csharp_namespace = "Google.Cloud.Notebooks.V1Beta1";
+option php_namespace = "Google\\Cloud\\Notebooks\\V1Beta1";
+option ruby_package = "Google::Cloud::Notebooks::V1beta1";
+
+
+service NotebookService {
+	option (google.api.default_host) = "notebooks.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListInstances(google.cloud.notebooks.v1beta1.ListInstancesRequest) returns (google.cloud.notebooks.v1beta1.ListInstancesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/instances"
+		};
+
+	}
+	rpc GetInstance(google.cloud.notebooks.v1beta1.GetInstanceRequest) returns (google.cloud.notebooks.v1beta1.Instance) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/instances/*}"
+		};
+
+	}
+	rpc CreateInstance(google.cloud.notebooks.v1beta1.CreateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/instances"
+			body: "instance"
+		};
+
+	}
+	rpc RegisterInstance(google.cloud.notebooks.v1beta1.RegisterInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/instances:register"
+			body: "*"
+		};
+
+	}
+	rpc SetInstanceAccelerator(google.cloud.notebooks.v1beta1.SetInstanceAcceleratorRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=projects/*/locations/*/instances/*}:setAccelerator"
+			body: "*"
+		};
+
+	}
+	rpc SetInstanceMachineType(google.cloud.notebooks.v1beta1.SetInstanceMachineTypeRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=projects/*/locations/*/instances/*}:setMachineType"
+			body: "*"
+		};
+
+	}
+	rpc SetInstanceLabels(google.cloud.notebooks.v1beta1.SetInstanceLabelsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=projects/*/locations/*/instances/*}:setLabels"
+			body: "*"
+		};
+
+	}
+	rpc DeleteInstance(google.cloud.notebooks.v1beta1.DeleteInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/instances/*}"
+		};
+
+	}
+	rpc StartInstance(google.cloud.notebooks.v1beta1.StartInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:start"
+			body: "*"
+		};
+
+	}
+	rpc StopInstance(google.cloud.notebooks.v1beta1.StopInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:stop"
+			body: "*"
+		};
+
+	}
+	rpc ResetInstance(google.cloud.notebooks.v1beta1.ResetInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:reset"
+			body: "*"
+		};
+
+	}
+	rpc ReportInstanceInfo(google.cloud.notebooks.v1beta1.ReportInstanceInfoRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:report"
+			body: "*"
+		};
+
+	}
+	rpc IsInstanceUpgradeable(google.cloud.notebooks.v1beta1.IsInstanceUpgradeableRequest) returns (google.cloud.notebooks.v1beta1.IsInstanceUpgradeableResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{notebook_instance=projects/*/locations/*/instances/*}:isUpgradeable"
+		};
+
+	}
+	rpc UpgradeInstance(google.cloud.notebooks.v1beta1.UpgradeInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:upgrade"
+			body: "*"
+		};
+
+	}
+	rpc UpgradeInstanceInternal(google.cloud.notebooks.v1beta1.UpgradeInstanceInternalRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/instances/*}:upgradeInternal"
+			body: "*"
+		};
+
+	}
+	rpc ListEnvironments(google.cloud.notebooks.v1beta1.ListEnvironmentsRequest) returns (google.cloud.notebooks.v1beta1.ListEnvironmentsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/environments"
+		};
+
+	}
+	rpc GetEnvironment(google.cloud.notebooks.v1beta1.GetEnvironmentRequest) returns (google.cloud.notebooks.v1beta1.Environment) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/environments/*}"
+		};
+
+	}
+	rpc CreateEnvironment(google.cloud.notebooks.v1beta1.CreateEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Environment"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/environments"
+			body: "environment"
+		};
+
+	}
+	rpc DeleteEnvironment(google.cloud.notebooks.v1beta1.DeleteEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/environments/*}"
+		};
+
+	}
+}
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	string target = 3;
+	string verb = 4;
+	string status_message = 5;
+	bool requested_cancellation = 6;
+	string api_version = 7;
+}
+
+message ListInstancesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListInstancesResponse {
+
+	repeated google.cloud.notebooks.v1beta1.Instance instances = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateInstanceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string instance_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.notebooks.v1beta1.Instance instance = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RegisterInstanceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string instance_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SetInstanceAcceleratorRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.notebooks.v1beta1.Instance.AcceleratorType type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 core_count = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SetInstanceMachineTypeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string machine_type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SetInstanceLabelsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> labels = 2;
+}
+
+message DeleteInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message StartInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message StopInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ResetInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReportInstanceInfoRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string vm_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> metadata = 3;
+}
+
+message IsInstanceUpgradeableRequest {
+
+	string notebook_instance = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message IsInstanceUpgradeableResponse {
+
+	bool upgradeable = 1;
+	string upgrade_version = 2;
+}
+
+message UpgradeInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpgradeInstanceInternalRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string vm_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListEnvironmentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListEnvironmentsResponse {
+
+	repeated google.cloud.notebooks.v1beta1.Environment environments = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetEnvironmentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateEnvironmentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string environment_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.notebooks.v1beta1.Environment environment = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteEnvironmentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

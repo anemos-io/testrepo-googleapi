@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package grafeas.v1beta1.deployment;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.grafeas.v1beta1.deployment";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/deployment;deployment";
+option objc_class_prefix = "GRA";
+
+
+message Deployable {
+
+	repeated string resource_uri = 1;
+}
+
+message Details {
+
+	Deployment deployment = 1;
+}
+
+message Deployment {
+
+	enum Platform {
+
+		PLATFORM_UNSPECIFIED = 0;
+		GKE = 1;
+		FLEX = 2;
+		CUSTOM = 3;
+	}
+
+	string user_email = 1;
+	google.protobuf.Timestamp deploy_time = 2;
+	google.protobuf.Timestamp undeploy_time = 3;
+	string config = 4;
+	string address = 5;
+	repeated string resource_uri = 6;
+	Platform platform = 7;
+}

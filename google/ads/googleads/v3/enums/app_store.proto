@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.enums";
+option java_outer_classname = "AppStoreProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V3::Enums";
+
+
+message AppStoreEnum {
+
+	enum AppStore {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		APPLE_ITUNES = 2;
+		GOOGLE_PLAY = 3;
+	}
+
+}

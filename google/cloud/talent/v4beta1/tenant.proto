@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.talent.v4beta1";
+option java_outer_classname = "TenantResourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4beta1;talent";
+option objc_class_prefix = "CTS";
+
+
+message Tenant {
+	option (google.api.resource) = {
+		type: "jobs.googleapis.com/Tenant"
+		pattern: ["projects/{project}/tenants/{tenant}"]
+	};
+
+	enum DataUsageType {
+
+		DATA_USAGE_TYPE_UNSPECIFIED = 0;
+		AGGREGATED = 1;
+		ISOLATED = 2;
+	}
+
+	string name = 1;
+	string external_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	DataUsageType usage_type = 3;
+	repeated string keyword_searchable_profile_custom_attributes = 4;
+}

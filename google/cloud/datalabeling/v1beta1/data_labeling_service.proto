@@ -1,0 +1,873 @@
+syntax = "proto3";
+
+package google.cloud.datalabeling.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/datalabeling/v1beta1/annotation_spec_set.proto";
+import "google/cloud/datalabeling/v1beta1/dataset.proto";
+import "google/cloud/datalabeling/v1beta1/evaluation.proto";
+import "google/cloud/datalabeling/v1beta1/evaluation_job.proto";
+import "google/cloud/datalabeling/v1beta1/human_annotation_config.proto";
+import "google/cloud/datalabeling/v1beta1/instruction.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.datalabeling.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datalabeling/v1beta1;datalabeling";
+
+
+service DataLabelingService {
+	option (google.api.default_host) = "datalabeling.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateDataset(google.cloud.datalabeling.v1beta1.CreateDatasetRequest) returns (google.cloud.datalabeling.v1beta1.Dataset) {
+		option (google.api.method_signature) = "parent,dataset";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/datasets"
+			body: "*"
+		};
+
+	}
+	rpc GetDataset(google.cloud.datalabeling.v1beta1.GetDatasetRequest) returns (google.cloud.datalabeling.v1beta1.Dataset) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/datasets/*}"
+		};
+
+	}
+	rpc ListDatasets(google.cloud.datalabeling.v1beta1.ListDatasetsRequest) returns (google.cloud.datalabeling.v1beta1.ListDatasetsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/datasets"
+		};
+
+	}
+	rpc DeleteDataset(google.cloud.datalabeling.v1beta1.DeleteDatasetRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/datasets/*}"
+		};
+
+	}
+	rpc ImportData(google.cloud.datalabeling.v1beta1.ImportDataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ImportDataOperationResponse"
+			metadata_type: "ImportDataOperationMetadata"
+		};
+		option (google.api.method_signature) = "name,input_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/datasets/*}:importData"
+			body: "*"
+		};
+
+	}
+	rpc ExportData(google.cloud.datalabeling.v1beta1.ExportDataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ExportDataOperationResponse"
+			metadata_type: "ExportDataOperationMetadata"
+		};
+		option (google.api.method_signature) = "name,annotated_dataset,filter,output_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/datasets/*}:exportData"
+			body: "*"
+		};
+
+	}
+	rpc GetDataItem(google.cloud.datalabeling.v1beta1.GetDataItemRequest) returns (google.cloud.datalabeling.v1beta1.DataItem) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/datasets/*/dataItems/*}"
+		};
+
+	}
+	rpc ListDataItems(google.cloud.datalabeling.v1beta1.ListDataItemsRequest) returns (google.cloud.datalabeling.v1beta1.ListDataItemsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/datasets/*}/dataItems"
+		};
+
+	}
+	rpc GetAnnotatedDataset(google.cloud.datalabeling.v1beta1.GetAnnotatedDatasetRequest) returns (google.cloud.datalabeling.v1beta1.AnnotatedDataset) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/datasets/*/annotatedDatasets/*}"
+		};
+
+	}
+	rpc ListAnnotatedDatasets(google.cloud.datalabeling.v1beta1.ListAnnotatedDatasetsRequest) returns (google.cloud.datalabeling.v1beta1.ListAnnotatedDatasetsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/datasets/*}/annotatedDatasets"
+		};
+
+	}
+	rpc DeleteAnnotatedDataset(google.cloud.datalabeling.v1beta1.DeleteAnnotatedDatasetRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/datasets/*/annotatedDatasets/*}"
+		};
+
+	}
+	rpc LabelImage(google.cloud.datalabeling.v1beta1.LabelImageRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AnnotatedDataset"
+			metadata_type: "LabelOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,basic_config,feature";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/datasets/*}/image:label"
+			body: "*"
+		};
+
+	}
+	rpc LabelVideo(google.cloud.datalabeling.v1beta1.LabelVideoRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AnnotatedDataset"
+			metadata_type: "LabelOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,basic_config,feature";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/datasets/*}/video:label"
+			body: "*"
+		};
+
+	}
+	rpc LabelText(google.cloud.datalabeling.v1beta1.LabelTextRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AnnotatedDataset"
+			metadata_type: "LabelOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,basic_config,feature";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/datasets/*}/text:label"
+			body: "*"
+		};
+
+	}
+	rpc GetExample(google.cloud.datalabeling.v1beta1.GetExampleRequest) returns (google.cloud.datalabeling.v1beta1.Example) {
+		option (google.api.method_signature) = "name,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/datasets/*/annotatedDatasets/*/examples/*}"
+		};
+
+	}
+	rpc ListExamples(google.cloud.datalabeling.v1beta1.ListExamplesRequest) returns (google.cloud.datalabeling.v1beta1.ListExamplesResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/datasets/*/annotatedDatasets/*}/examples"
+		};
+
+	}
+	rpc CreateAnnotationSpecSet(google.cloud.datalabeling.v1beta1.CreateAnnotationSpecSetRequest) returns (google.cloud.datalabeling.v1beta1.AnnotationSpecSet) {
+		option (google.api.method_signature) = "parent,annotation_spec_set";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/annotationSpecSets"
+			body: "*"
+		};
+
+	}
+	rpc GetAnnotationSpecSet(google.cloud.datalabeling.v1beta1.GetAnnotationSpecSetRequest) returns (google.cloud.datalabeling.v1beta1.AnnotationSpecSet) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/annotationSpecSets/*}"
+		};
+
+	}
+	rpc ListAnnotationSpecSets(google.cloud.datalabeling.v1beta1.ListAnnotationSpecSetsRequest) returns (google.cloud.datalabeling.v1beta1.ListAnnotationSpecSetsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/annotationSpecSets"
+		};
+
+	}
+	rpc DeleteAnnotationSpecSet(google.cloud.datalabeling.v1beta1.DeleteAnnotationSpecSetRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/annotationSpecSets/*}"
+		};
+
+	}
+	rpc CreateInstruction(google.cloud.datalabeling.v1beta1.CreateInstructionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instruction"
+			metadata_type: "CreateInstructionMetadata"
+		};
+		option (google.api.method_signature) = "parent,instruction";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/instructions"
+			body: "*"
+		};
+
+	}
+	rpc GetInstruction(google.cloud.datalabeling.v1beta1.GetInstructionRequest) returns (google.cloud.datalabeling.v1beta1.Instruction) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/instructions/*}"
+		};
+
+	}
+	rpc ListInstructions(google.cloud.datalabeling.v1beta1.ListInstructionsRequest) returns (google.cloud.datalabeling.v1beta1.ListInstructionsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/instructions"
+		};
+
+	}
+	rpc DeleteInstruction(google.cloud.datalabeling.v1beta1.DeleteInstructionRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/instructions/*}"
+		};
+
+	}
+	rpc GetEvaluation(google.cloud.datalabeling.v1beta1.GetEvaluationRequest) returns (google.cloud.datalabeling.v1beta1.Evaluation) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/datasets/*/evaluations/*}"
+		};
+
+	}
+	rpc SearchEvaluations(google.cloud.datalabeling.v1beta1.SearchEvaluationsRequest) returns (google.cloud.datalabeling.v1beta1.SearchEvaluationsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/evaluations:search"
+		};
+
+	}
+	rpc SearchExampleComparisons(google.cloud.datalabeling.v1beta1.SearchExampleComparisonsRequest) returns (google.cloud.datalabeling.v1beta1.SearchExampleComparisonsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/datasets/*/evaluations/*}/exampleComparisons:search"
+			body: "*"
+		};
+
+	}
+	rpc CreateEvaluationJob(google.cloud.datalabeling.v1beta1.CreateEvaluationJobRequest) returns (google.cloud.datalabeling.v1beta1.EvaluationJob) {
+		option (google.api.method_signature) = "parent,job";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/evaluationJobs"
+			body: "*"
+		};
+
+	}
+	rpc UpdateEvaluationJob(google.cloud.datalabeling.v1beta1.UpdateEvaluationJobRequest) returns (google.cloud.datalabeling.v1beta1.EvaluationJob) {
+		option (google.api.method_signature) = "evaluation_job,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{evaluation_job.name=projects/*/evaluationJobs/*}"
+			body: "evaluation_job"
+		};
+
+	}
+	rpc GetEvaluationJob(google.cloud.datalabeling.v1beta1.GetEvaluationJobRequest) returns (google.cloud.datalabeling.v1beta1.EvaluationJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/evaluationJobs/*}"
+		};
+
+	}
+	rpc PauseEvaluationJob(google.cloud.datalabeling.v1beta1.PauseEvaluationJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/evaluationJobs/*}:pause"
+			body: "*"
+		};
+
+	}
+	rpc ResumeEvaluationJob(google.cloud.datalabeling.v1beta1.ResumeEvaluationJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/evaluationJobs/*}:resume"
+			body: "*"
+		};
+
+	}
+	rpc DeleteEvaluationJob(google.cloud.datalabeling.v1beta1.DeleteEvaluationJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/evaluationJobs/*}"
+		};
+
+	}
+	rpc ListEvaluationJobs(google.cloud.datalabeling.v1beta1.ListEvaluationJobsRequest) returns (google.cloud.datalabeling.v1beta1.ListEvaluationJobsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/evaluationJobs"
+		};
+
+	}
+}
+
+message CreateDatasetRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	google.cloud.datalabeling.v1beta1.Dataset dataset = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetDatasetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+}
+
+message ListDatasetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListDatasetsResponse {
+
+	repeated google.cloud.datalabeling.v1beta1.Dataset datasets = 1;
+	string next_page_token = 2;
+}
+
+message DeleteDatasetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+}
+
+message ImportDataRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+	google.cloud.datalabeling.v1beta1.InputConfig input_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string user_email_address = 3;
+}
+
+message ExportDataRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+	string annotated_dataset = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/AnnotatedDataset"
+		}
+	];
+	string filter = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.datalabeling.v1beta1.OutputConfig output_config = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string user_email_address = 5;
+}
+
+message GetDataItemRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/DataItem"
+		}
+	];
+}
+
+message ListDataItemsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListDataItemsResponse {
+
+	repeated google.cloud.datalabeling.v1beta1.DataItem data_items = 1;
+	string next_page_token = 2;
+}
+
+message GetAnnotatedDatasetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/AnnotatedDataset"
+		}
+	];
+}
+
+message ListAnnotatedDatasetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListAnnotatedDatasetsResponse {
+
+	repeated google.cloud.datalabeling.v1beta1.AnnotatedDataset annotated_datasets = 1;
+	string next_page_token = 2;
+}
+
+message DeleteAnnotatedDatasetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/AnnotatedDataset"
+		}
+	];
+}
+
+message LabelImageRequest {
+
+	enum Feature {
+
+		FEATURE_UNSPECIFIED = 0;
+		CLASSIFICATION = 1;
+		BOUNDING_BOX = 2;
+		ORIENTED_BOUNDING_BOX = 6;
+		BOUNDING_POLY = 3;
+		POLYLINE = 4;
+		SEGMENTATION = 5;
+	}
+
+	oneof request_config {
+		google.cloud.datalabeling.v1beta1.ImageClassificationConfig image_classification_config = 4;
+		google.cloud.datalabeling.v1beta1.BoundingPolyConfig bounding_poly_config = 5;
+		google.cloud.datalabeling.v1beta1.PolylineConfig polyline_config = 6;
+		google.cloud.datalabeling.v1beta1.SegmentationConfig segmentation_config = 7;
+	}
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Feature feature = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message LabelVideoRequest {
+
+	enum Feature {
+
+		FEATURE_UNSPECIFIED = 0;
+		CLASSIFICATION = 1;
+		OBJECT_DETECTION = 2;
+		OBJECT_TRACKING = 3;
+		EVENT = 4;
+	}
+
+	oneof request_config {
+		google.cloud.datalabeling.v1beta1.VideoClassificationConfig video_classification_config = 4;
+		google.cloud.datalabeling.v1beta1.ObjectDetectionConfig object_detection_config = 5;
+		google.cloud.datalabeling.v1beta1.ObjectTrackingConfig object_tracking_config = 6;
+		google.cloud.datalabeling.v1beta1.EventConfig event_config = 7;
+	}
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Feature feature = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message LabelTextRequest {
+
+	enum Feature {
+
+		FEATURE_UNSPECIFIED = 0;
+		TEXT_CLASSIFICATION = 1;
+		TEXT_ENTITY_EXTRACTION = 2;
+	}
+
+	oneof request_config {
+		google.cloud.datalabeling.v1beta1.TextClassificationConfig text_classification_config = 4;
+		google.cloud.datalabeling.v1beta1.TextEntityExtractionConfig text_entity_extraction_config = 5;
+	}
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Dataset"
+		}
+	];
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig basic_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Feature feature = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetExampleRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Example"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListExamplesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/AnnotatedDataset"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListExamplesResponse {
+
+	repeated google.cloud.datalabeling.v1beta1.Example examples = 1;
+	string next_page_token = 2;
+}
+
+message CreateAnnotationSpecSetRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	google.cloud.datalabeling.v1beta1.AnnotationSpecSet annotation_spec_set = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetAnnotationSpecSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/AnnotationSpecSet"
+		}
+	];
+}
+
+message ListAnnotationSpecSetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListAnnotationSpecSetsResponse {
+
+	repeated google.cloud.datalabeling.v1beta1.AnnotationSpecSet annotation_spec_sets = 1;
+	string next_page_token = 2;
+}
+
+message DeleteAnnotationSpecSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/AnnotationSpecSet"
+		}
+	];
+}
+
+message CreateInstructionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	google.cloud.datalabeling.v1beta1.Instruction instruction = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetInstructionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Instruction"
+		}
+	];
+}
+
+message DeleteInstructionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Instruction"
+		}
+	];
+}
+
+message ListInstructionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListInstructionsResponse {
+
+	repeated google.cloud.datalabeling.v1beta1.Instruction instructions = 1;
+	string next_page_token = 2;
+}
+
+message GetEvaluationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Evaluation"
+		}
+	];
+}
+
+message SearchEvaluationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Evaluation"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SearchEvaluationsResponse {
+
+	repeated google.cloud.datalabeling.v1beta1.Evaluation evaluations = 1;
+	string next_page_token = 2;
+}
+
+message SearchExampleComparisonsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/Evaluation"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SearchExampleComparisonsResponse {
+
+	message ExampleComparison {
+
+		google.cloud.datalabeling.v1beta1.Example ground_truth_example = 1;
+		repeated google.cloud.datalabeling.v1beta1.Example model_created_examples = 2;
+	}
+
+	repeated ExampleComparison example_comparisons = 1;
+	string next_page_token = 2;
+}
+
+message CreateEvaluationJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	google.cloud.datalabeling.v1beta1.EvaluationJob job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateEvaluationJobRequest {
+
+	google.cloud.datalabeling.v1beta1.EvaluationJob evaluation_job = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetEvaluationJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/EvaluationJob"
+		}
+	];
+}
+
+message PauseEvaluationJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/EvaluationJob"
+		}
+	];
+}
+
+message ResumeEvaluationJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/EvaluationJob"
+		}
+	];
+}
+
+message DeleteEvaluationJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datalabeling.googleapis.com/EvaluationJob"
+		}
+	];
+}
+
+message ListEvaluationJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEvaluationJobsResponse {
+
+	repeated google.cloud.datalabeling.v1beta1.EvaluationJob evaluation_jobs = 1;
+	string next_page_token = 2;
+}

@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.common;
+
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.common";
+option java_outer_classname = "OfflineUserDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V5::Common";
+
+
+message OfflineUserAddressInfo {
+
+	google.protobuf.StringValue hashed_first_name = 1;
+	google.protobuf.StringValue hashed_last_name = 2;
+	google.protobuf.StringValue city = 3;
+	google.protobuf.StringValue state = 4;
+	google.protobuf.StringValue country_code = 5;
+	google.protobuf.StringValue postal_code = 6;
+}
+
+message UserIdentifier {
+
+	oneof identifier {
+		google.protobuf.StringValue hashed_email = 1;
+		google.protobuf.StringValue hashed_phone_number = 2;
+		google.protobuf.StringValue mobile_id = 3;
+		google.protobuf.StringValue third_party_user_id = 4;
+		OfflineUserAddressInfo address_info = 5;
+	}
+}
+
+message TransactionAttribute {
+
+	google.protobuf.StringValue transaction_date_time = 1;
+	google.protobuf.DoubleValue transaction_amount_micros = 2;
+	google.protobuf.StringValue currency_code = 3;
+	google.protobuf.StringValue conversion_action = 4;
+	google.protobuf.StringValue order_id = 5;
+	StoreAttribute store_attribute = 6;
+	google.protobuf.StringValue custom_value = 7;
+}
+
+message StoreAttribute {
+
+	google.protobuf.StringValue store_code = 1;
+}
+
+message UserData {
+
+	repeated UserIdentifier user_identifiers = 1;
+	TransactionAttribute transaction_attribute = 2;
+}
+
+message CustomerMatchUserListMetadata {
+
+	google.protobuf.StringValue user_list = 1;
+}
+
+message StoreSalesMetadata {
+
+	google.protobuf.DoubleValue loyalty_fraction = 1;
+	google.protobuf.DoubleValue transaction_upload_fraction = 2;
+	google.protobuf.StringValue custom_key = 4;
+	StoreSalesThirdPartyMetadata third_party_metadata = 3;
+}
+
+message StoreSalesThirdPartyMetadata {
+
+	google.protobuf.StringValue advertiser_upload_date_time = 1;
+	google.protobuf.DoubleValue valid_transaction_fraction = 2;
+	google.protobuf.DoubleValue partner_match_fraction = 3;
+	google.protobuf.DoubleValue partner_upload_fraction = 4;
+	google.protobuf.StringValue bridge_map_version_id = 5;
+	google.protobuf.Int64Value partner_id = 6;
+}

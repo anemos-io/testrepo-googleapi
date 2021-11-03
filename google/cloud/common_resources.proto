@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.cloud;
+
+import "google/api/resource.proto";
+
+option (google.api.resource_definition) = {
+	type: "cloudresourcemanager.googleapis.com/Project"
+	pattern: ["projects/{project}"]
+};
+option (google.api.resource_definition) = {
+	type: "cloudresourcemanager.googleapis.com/Organization"
+	pattern: ["organizations/{organization}"]
+};
+option (google.api.resource_definition) = {
+	type: "cloudresourcemanager.googleapis.com/Folder"
+	pattern: ["folders/{folder}"]
+};
+option (google.api.resource_definition) = {
+	type: "cloudbilling.googleapis.com/BillingAccount"
+	pattern: ["billingAccounts/{billing_account}"]
+};
+option (google.api.resource_definition) = {
+	type: "locations.googleapis.com/Location"
+	pattern: ["projects/{project}/locations/{location}"]
+};
+

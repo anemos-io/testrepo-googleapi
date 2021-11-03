@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package google.appengine.legacy;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.legacy";
+option java_outer_classname = "AuditDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/legacy;legacy";
+
+
+message AuditData {
+
+	string event_message = 1;
+	map<string, string> event_data = 2;
+}

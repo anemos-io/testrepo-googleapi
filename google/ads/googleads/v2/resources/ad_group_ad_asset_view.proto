@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.resources;
+
+import "google/ads/googleads/v2/common/policy.proto";
+import "google/ads/googleads/v2/enums/asset_field_type.proto";
+import "google/ads/googleads/v2/enums/asset_performance_label.proto";
+import "google/ads/googleads/v2/enums/policy_approval_status.proto";
+import "google/ads/googleads/v2/enums/policy_review_status.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.resources";
+option java_outer_classname = "AdGroupAdAssetViewProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V2::Resources";
+
+
+message AdGroupAdAssetView {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AdGroupAdAssetView"
+		pattern: ["customers/{customer}/adGroupAdAssets/{ad_group_ad_asset_view}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupAdAssetView"
+		}
+	];
+	google.protobuf.StringValue ad_group_ad = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupAd"
+		}
+	];
+	google.protobuf.StringValue asset = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Asset"
+		}
+	];
+	google.ads.googleads.v2.enums.AssetFieldTypeEnum.AssetFieldType field_type = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	AdGroupAdAssetPolicySummary policy_summary = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.AssetPerformanceLabelEnum.AssetPerformanceLabel performance_label = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message AdGroupAdAssetPolicySummary {
+
+	repeated google.ads.googleads.v2.common.PolicyTopicEntry policy_topic_entries = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.PolicyReviewStatusEnum.PolicyReviewStatus review_status = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.PolicyApprovalStatusEnum.PolicyApprovalStatus approval_status = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

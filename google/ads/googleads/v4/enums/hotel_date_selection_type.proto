@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.enums";
+option java_outer_classname = "HotelDateSelectionTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V4::Enums";
+
+
+message HotelDateSelectionTypeEnum {
+
+	enum HotelDateSelectionType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		DEFAULT_SELECTION = 50;
+		USER_SELECTED = 51;
+	}
+
+}

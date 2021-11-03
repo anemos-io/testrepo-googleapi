@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.settings.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/securitycenter/settings/v1beta1/billing_settings.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.securitycenter.settings.v1beta1";
+option java_outer_classname = "DetectorsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/settings/v1beta1;settings";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.SecurityCenter.Settings.V1Beta1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\Settings\\V1beta1";
+option ruby_package = "Google::Cloud::SecurityCenter::Settings::V1beta1";
+
+
+message Detector {
+
+	string detector = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string component = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.securitycenter.settings.v1beta1.BillingTier billing_tier = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string detector_labels = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

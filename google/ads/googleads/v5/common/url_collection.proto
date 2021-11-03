@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.common;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.common";
+option java_outer_classname = "UrlCollectionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V5::Common";
+
+
+message UrlCollection {
+
+	oneof _url_collection_id {
+		string url_collection_id = 5;
+	}
+	repeated string final_urls = 6;
+	repeated string final_mobile_urls = 7;
+	oneof _tracking_url_template {
+		string tracking_url_template = 8;
+	}
+}

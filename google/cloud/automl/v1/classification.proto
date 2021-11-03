@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1";
+option java_outer_classname = "ClassificationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1;automl";
+option csharp_namespace = "Google.Cloud.AutoML.V1";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1";
+option ruby_package = "Google::Cloud::AutoML::V1";
+
+
+enum ClassificationType {
+
+	CLASSIFICATION_TYPE_UNSPECIFIED = 0;
+	MULTICLASS = 1;
+	MULTILABEL = 2;
+}
+
+message ClassificationAnnotation {
+
+	float score = 1;
+}
+
+message ClassificationEvaluationMetrics {
+
+	message ConfidenceMetricsEntry {
+
+		float confidence_threshold = 1;
+		int32 position_threshold = 14;
+		float recall = 2;
+		float precision = 3;
+		float false_positive_rate = 8;
+		float f1_score = 4;
+		float recall_at1 = 5;
+		float precision_at1 = 6;
+		float false_positive_rate_at1 = 9;
+		float f1_score_at1 = 7;
+		int64 true_positive_count = 10;
+		int64 false_positive_count = 11;
+		int64 false_negative_count = 12;
+		int64 true_negative_count = 13;
+	}
+
+	message ConfusionMatrix {
+
+		message Row {
+
+			repeated int32 example_count = 1;
+		}
+
+		repeated string annotation_spec_id = 1;
+		repeated string display_name = 3;
+		repeated Row row = 2;
+	}
+
+	float au_prc = 1;
+	float au_roc = 6;
+	float log_loss = 7;
+	repeated ConfidenceMetricsEntry confidence_metrics_entry = 3;
+	ConfusionMatrix confusion_matrix = 4;
+	repeated string annotation_spec_id = 5;
+}

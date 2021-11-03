@@ -1,0 +1,428 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.settings.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/securitycenter/settings/v1beta1/component_settings.proto";
+import "google/cloud/securitycenter/settings/v1beta1/detector.proto";
+import "google/cloud/securitycenter/settings/v1beta1/settings.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.securitycenter.settings.v1beta1";
+option java_outer_classname = "SettingsServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/settings/v1beta1;settings";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.SecurityCenter.Settings.V1Beta1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\Settings\\V1beta1";
+option ruby_package = "Google::Cloud::SecurityCenter::Settings::V1beta1";
+
+
+service SecurityCenterSettingsService {
+	option (google.api.default_host) = "securitycenter.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetServiceAccount(google.cloud.securitycenter.settings.v1beta1.GetServiceAccountRequest) returns (google.cloud.securitycenter.settings.v1beta1.ServiceAccount) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/settings/v1beta1/{name=organizations/*/serviceAccount}"
+		};
+
+	}
+	rpc GetSettings(google.cloud.securitycenter.settings.v1beta1.GetSettingsRequest) returns (google.cloud.securitycenter.settings.v1beta1.Settings) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/settings/v1beta1/{name=organizations/*/settings}"
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=folders/*/settings}"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/settings}"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/locations/*/clusters/*/settings}"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/regions/*/clusters/*/settings}"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/zones/*/clusters/*/settings}"
+			}
+		};
+
+	}
+	rpc UpdateSettings(google.cloud.securitycenter.settings.v1beta1.UpdateSettingsRequest) returns (google.cloud.securitycenter.settings.v1beta1.Settings) {
+		option (google.api.method_signature) = "settings,update_mask";
+		option (google.api.http) = {
+			patch: "/settings/v1beta1/{settings.name=organizations/*/settings}"
+			body: "settings"
+			additional_bindings: {
+				patch: "/settings/v1beta1/{settings.name=folders/*/settings}"
+				body: "settings"
+			}
+			additional_bindings: {
+				patch: "/settings/v1beta1/{settings.name=projects/*/settings}"
+				body: "settings"
+			}
+			additional_bindings: {
+				patch: "/settings/v1beta1/{settings.name=projects/*/locations/*/clusters/*/settings}"
+				body: "settings"
+			}
+			additional_bindings: {
+				patch: "/settings/v1beta1/{settings.name=projects/*/regions/*/clusters/*/settings}"
+				body: "settings"
+			}
+			additional_bindings: {
+				patch: "/settings/v1beta1/{settings.name=projects/*/zones/*/clusters/*/settings}"
+				body: "settings"
+			}
+		};
+
+	}
+	rpc ResetSettings(google.cloud.securitycenter.settings.v1beta1.ResetSettingsRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/settings/v1beta1/{name=organizations/*/settings}:reset"
+			body: "*"
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=folders/*/settings}:reset"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=projects/*/settings}:reset"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=projects/*/locations/*/clusters/*/settings}:reset"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=projects/*/regions/*/clusters/*/settings}:reset"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=projects/*/zones/*/clusters/*/settings}:reset"
+				body: "*"
+			}
+		};
+
+	}
+	rpc BatchGetSettings(google.cloud.securitycenter.settings.v1beta1.BatchGetSettingsRequest) returns (google.cloud.securitycenter.settings.v1beta1.BatchGetSettingsResponse) {
+		option (google.api.http) = {
+			get: "/settings/v1beta1/{parent=organizations/*}/settings:batchGet"
+		};
+
+	}
+	rpc CalculateEffectiveSettings(google.cloud.securitycenter.settings.v1beta1.CalculateEffectiveSettingsRequest) returns (google.cloud.securitycenter.settings.v1beta1.Settings) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/settings/v1beta1/{name=organizations/*/effectiveSettings}:calculate"
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=folders/*/effectiveSettings}:calculate"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/effectiveSettings}:calculate"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/locations/*/clusters/*/effectiveSettings}:calculate"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/regions/*/clusters/*/effectiveSettings}:calculate"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/zones/*/clusters/*/effectiveSettings}:calculate"
+			}
+		};
+
+	}
+	rpc BatchCalculateEffectiveSettings(google.cloud.securitycenter.settings.v1beta1.BatchCalculateEffectiveSettingsRequest) returns (google.cloud.securitycenter.settings.v1beta1.BatchCalculateEffectiveSettingsResponse) {
+		option (google.api.http) = {
+			post: "/settings/v1beta1/{parent=organizations/*}/effectiveSettings:batchCalculate"
+			body: "*"
+		};
+
+	}
+	rpc GetComponentSettings(google.cloud.securitycenter.settings.v1beta1.GetComponentSettingsRequest) returns (google.cloud.securitycenter.settings.v1beta1.ComponentSettings) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/settings/v1beta1/{name=organizations/*/components/*/settings}"
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=folders/*/components/*/settings}"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/components/*/settings}"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/locations/*/clusters/*/components/*/settings}"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/regions/*/clusters/*/components/*/settings}"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/zones/*/clusters/*/components/*/settings}"
+			}
+		};
+
+	}
+	rpc UpdateComponentSettings(google.cloud.securitycenter.settings.v1beta1.UpdateComponentSettingsRequest) returns (google.cloud.securitycenter.settings.v1beta1.ComponentSettings) {
+		option (google.api.method_signature) = "component_settings,update_mask";
+		option (google.api.http) = {
+			patch: "/settings/v1beta1/{component_settings.name=organizations/*/components/*/settings}"
+			body: "component_settings"
+			additional_bindings: {
+				patch: "/settings/v1beta1/{component_settings.name=folders/*/components/*/settings}"
+				body: "component_settings"
+			}
+			additional_bindings: {
+				patch: "/settings/v1beta1/{component_settings.name=projects/*/components/*/settings}"
+				body: "component_settings"
+			}
+			additional_bindings: {
+				patch: "/settings/v1beta1/{component_settings.name=projects/*/locations/*/clusters/*/components/*/settings}"
+				body: "component_settings"
+			}
+			additional_bindings: {
+				patch: "/settings/v1beta1/{component_settings.name=projects/*/regions/*/clusters/*/components/*/settings}"
+				body: "component_settings"
+			}
+			additional_bindings: {
+				patch: "/settings/v1beta1/{component_settings.name=projects/*/zones/*/clusters/*/components/*/settings}"
+				body: "component_settings"
+			}
+		};
+
+	}
+	rpc ResetComponentSettings(google.cloud.securitycenter.settings.v1beta1.ResetComponentSettingsRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/settings/v1beta1/{name=organizations/*/components/*/settings}:reset"
+			body: "*"
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=folders/*/components/*/settings}:reset"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=projects/*/components/*/settings}:reset"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=projects/*/locations/*/clusters/*/components/*/settings}:reset"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=projects/*/regions/*/clusters/*/components/*/settings}:reset"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/settings/v1beta1/{name=projects/*/zones/*/clusters/*/components/*/settings}:reset"
+				body: "*"
+			}
+		};
+
+	}
+	rpc CalculateEffectiveComponentSettings(google.cloud.securitycenter.settings.v1beta1.CalculateEffectiveComponentSettingsRequest) returns (google.cloud.securitycenter.settings.v1beta1.ComponentSettings) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/settings/v1beta1/{name=organizations/*/components/*/effectiveSettings}:calculate"
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=folders/*/components/*/effectiveSettings}:calculate"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/components/*/effectiveSettings}:calculate"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/locations/*/clusters/*/components/*/effectiveSettings}:calculate"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/regions/*/clusters/*/components/*/effectiveSettings}:calculate"
+			}
+			additional_bindings: {
+				get: "/settings/v1beta1/{name=projects/*/zones/*/clusters/*/components/*/effectiveSettings}:calculate"
+			}
+		};
+
+	}
+	rpc ListDetectors(google.cloud.securitycenter.settings.v1beta1.ListDetectorsRequest) returns (google.cloud.securitycenter.settings.v1beta1.ListDetectorsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/settings/v1beta1/{parent=organizations/*}/detectors"
+		};
+
+	}
+	rpc ListComponents(google.cloud.securitycenter.settings.v1beta1.ListComponentsRequest) returns (google.cloud.securitycenter.settings.v1beta1.ListComponentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/settings/v1beta1/{parent=organizations/*}/components"
+		};
+
+	}
+}
+
+message GetServiceAccountRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/ServiceAccount"
+		}
+	];
+}
+
+message ServiceAccount {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/ServiceAccount"
+		pattern: ["organizations/{organization}/serviceAccount"]
+	};
+
+	string name = 1;
+	string service_account = 2;
+}
+
+message GetSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/Settings"
+		}
+	];
+}
+
+message UpdateSettingsRequest {
+
+	google.cloud.securitycenter.settings.v1beta1.Settings settings = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message ResetSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/Settings"
+		}
+	];
+	string etag = 2;
+}
+
+message BatchGetSettingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	repeated string names = 2;
+}
+
+message BatchGetSettingsResponse {
+
+	repeated google.cloud.securitycenter.settings.v1beta1.Settings settings = 1;
+}
+
+message CalculateEffectiveSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/Settings"
+		}
+	];
+}
+
+message BatchCalculateEffectiveSettingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	repeated CalculateEffectiveSettingsRequest requests = 2;
+}
+
+message BatchCalculateEffectiveSettingsResponse {
+
+	repeated google.cloud.securitycenter.settings.v1beta1.Settings settings = 1;
+}
+
+message GetComponentSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/ComponentSettings"
+		}
+	];
+}
+
+message UpdateComponentSettingsRequest {
+
+	google.cloud.securitycenter.settings.v1beta1.ComponentSettings component_settings = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message ResetComponentSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/ComponentSettings"
+		}
+	];
+	string etag = 2;
+}
+
+message CalculateEffectiveComponentSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/ComponentSettings"
+		}
+	];
+}
+
+message ListDetectorsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListDetectorsResponse {
+
+	repeated google.cloud.securitycenter.settings.v1beta1.Detector detectors = 1;
+	string next_page_token = 2;
+}
+
+message ListComponentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListComponentsResponse {
+
+	repeated string components = 1;
+	string next_page_token = 2;
+}

@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package google.devtools.cloudprofiler.v2;
+
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "google.golang.org/genproto/googleapis/devtools/cloudprofiler/v2;cloudprofiler";
+
+
+enum ProfileType {
+
+	PROFILE_TYPE_UNSPECIFIED = 0;
+	CPU = 1;
+	WALL = 2;
+	HEAP = 3;
+	THREADS = 4;
+	CONTENTION = 5;
+	PEAK_HEAP = 6;
+	HEAP_ALLOC = 7;
+}
+
+service ProfilerService {
+
+	rpc CreateProfile(google.devtools.cloudprofiler.v2.CreateProfileRequest) returns (google.devtools.cloudprofiler.v2.Profile) {
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/profiles"
+			body: "*"
+		};
+
+	}
+	rpc CreateOfflineProfile(google.devtools.cloudprofiler.v2.CreateOfflineProfileRequest) returns (google.devtools.cloudprofiler.v2.Profile) {
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/profiles:createOffline"
+			body: "profile"
+		};
+
+	}
+	rpc UpdateProfile(google.devtools.cloudprofiler.v2.UpdateProfileRequest) returns (google.devtools.cloudprofiler.v2.Profile) {
+		option (google.api.http) = {
+			patch: "/v2/{profile.name=projects/*/profiles/*}"
+			body: "profile"
+		};
+
+	}
+}
+
+message CreateProfileRequest {
+
+	string parent = 4;
+	Deployment deployment = 1;
+	repeated ProfileType profile_type = 2;
+}
+
+message CreateOfflineProfileRequest {
+
+	string parent = 1;
+	Profile profile = 2;
+}
+
+message UpdateProfileRequest {
+
+	Profile profile = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message Profile {
+
+	string name = 1;
+	ProfileType profile_type = 2;
+	Deployment deployment = 3;
+	google.protobuf.Duration duration = 4;
+	bytes profile_bytes = 5;
+	map<string, string> labels = 6;
+}
+
+message Deployment {
+
+	string project_id = 1;
+	string target = 2;
+	map<string, string> labels = 3;
+}

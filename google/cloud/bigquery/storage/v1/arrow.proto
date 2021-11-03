@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.storage.v1;
+
+option java_package = "com.google.cloud.bigquery.storage.v1";
+option java_outer_classname = "ArrowProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1;storage";
+option csharp_namespace = "Google.Cloud.BigQuery.Storage.V1";
+option php_namespace = "Google\\Cloud\\BigQuery\\Storage\\V1";
+
+
+message ArrowSchema {
+
+	bytes serialized_schema = 1;
+}
+
+message ArrowRecordBatch {
+
+	bytes serialized_record_batch = 1;
+	int64 row_count = 2;
+}

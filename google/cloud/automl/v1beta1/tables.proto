@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/cloud/automl/v1beta1/classification.proto";
+import "google/cloud/automl/v1beta1/column_spec.proto";
+import "google/cloud/automl/v1beta1/data_items.proto";
+import "google/cloud/automl/v1beta1/data_stats.proto";
+import "google/cloud/automl/v1beta1/ranges.proto";
+import "google/cloud/automl/v1beta1/regression.proto";
+import "google/cloud/automl/v1beta1/temporal.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message TablesDatasetMetadata {
+
+	string primary_table_spec_id = 1;
+	string target_column_spec_id = 2;
+	string weight_column_spec_id = 3;
+	string ml_use_column_spec_id = 4;
+	map<string, google.cloud.automl.v1beta1.CorrelationStats> target_column_correlations = 6;
+	google.protobuf.Timestamp stats_update_time = 7;
+}
+
+message TablesModelMetadata {
+
+	oneof additional_optimization_objective_config {
+		float optimization_objective_recall_value = 17;
+		float optimization_objective_precision_value = 18;
+	}
+	google.cloud.automl.v1beta1.ColumnSpec target_column_spec = 2;
+	repeated google.cloud.automl.v1beta1.ColumnSpec input_feature_column_specs = 3;
+	string optimization_objective = 4;
+	repeated TablesModelColumnInfo tables_model_column_info = 5;
+	int64 train_budget_milli_node_hours = 6;
+	int64 train_cost_milli_node_hours = 7;
+	bool disable_early_stopping = 12;
+}
+
+message TablesAnnotation {
+
+	float score = 1;
+	google.cloud.automl.v1beta1.DoubleRange prediction_interval = 4;
+	google.protobuf.Value value = 2;
+	repeated TablesModelColumnInfo tables_model_column_info = 3;
+	float baseline_score = 5;
+}
+
+message TablesModelColumnInfo {
+
+	string column_spec_name = 1;
+	string column_display_name = 2;
+	float feature_importance = 3;
+}

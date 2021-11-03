@@ -1,0 +1,554 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/automl/v1beta1/annotation_payload.proto";
+import "google/cloud/automl/v1beta1/annotation_spec.proto";
+import "google/cloud/automl/v1beta1/column_spec.proto";
+import "google/cloud/automl/v1beta1/dataset.proto";
+import "google/cloud/automl/v1beta1/image.proto";
+import "google/cloud/automl/v1beta1/io.proto";
+import "google/cloud/automl/v1beta1/model.proto";
+import "google/cloud/automl/v1beta1/model_evaluation.proto";
+import "google/cloud/automl/v1beta1/operations.proto";
+import "google/cloud/automl/v1beta1/table_spec.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_outer_classname = "AutoMlProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+service AutoMl {
+	option (google.api.default_host) = "automl.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateDataset(google.cloud.automl.v1beta1.CreateDatasetRequest) returns (google.cloud.automl.v1beta1.Dataset) {
+		option (google.api.method_signature) = "parent,dataset";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/datasets"
+			body: "dataset"
+		};
+
+	}
+	rpc GetDataset(google.cloud.automl.v1beta1.GetDatasetRequest) returns (google.cloud.automl.v1beta1.Dataset) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/datasets/*}"
+		};
+
+	}
+	rpc ListDatasets(google.cloud.automl.v1beta1.ListDatasetsRequest) returns (google.cloud.automl.v1beta1.ListDatasetsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/datasets"
+		};
+
+	}
+	rpc UpdateDataset(google.cloud.automl.v1beta1.UpdateDatasetRequest) returns (google.cloud.automl.v1beta1.Dataset) {
+		option (google.api.method_signature) = "dataset";
+		option (google.api.http) = {
+			patch: "/v1beta1/{dataset.name=projects/*/locations/*/datasets/*}"
+			body: "dataset"
+		};
+
+	}
+	rpc DeleteDataset(google.cloud.automl.v1beta1.DeleteDatasetRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/datasets/*}"
+		};
+
+	}
+	rpc ImportData(google.cloud.automl.v1beta1.ImportDataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,input_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/datasets/*}:importData"
+			body: "*"
+		};
+
+	}
+	rpc ExportData(google.cloud.automl.v1beta1.ExportDataRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,output_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/datasets/*}:exportData"
+			body: "*"
+		};
+
+	}
+	rpc GetAnnotationSpec(google.cloud.automl.v1beta1.GetAnnotationSpecRequest) returns (google.cloud.automl.v1beta1.AnnotationSpec) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/datasets/*/annotationSpecs/*}"
+		};
+
+	}
+	rpc GetTableSpec(google.cloud.automl.v1beta1.GetTableSpecRequest) returns (google.cloud.automl.v1beta1.TableSpec) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/datasets/*/tableSpecs/*}"
+		};
+
+	}
+	rpc ListTableSpecs(google.cloud.automl.v1beta1.ListTableSpecsRequest) returns (google.cloud.automl.v1beta1.ListTableSpecsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/datasets/*}/tableSpecs"
+		};
+
+	}
+	rpc UpdateTableSpec(google.cloud.automl.v1beta1.UpdateTableSpecRequest) returns (google.cloud.automl.v1beta1.TableSpec) {
+		option (google.api.method_signature) = "table_spec";
+		option (google.api.http) = {
+			patch: "/v1beta1/{table_spec.name=projects/*/locations/*/datasets/*/tableSpecs/*}"
+			body: "table_spec"
+		};
+
+	}
+	rpc GetColumnSpec(google.cloud.automl.v1beta1.GetColumnSpecRequest) returns (google.cloud.automl.v1beta1.ColumnSpec) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/datasets/*/tableSpecs/*/columnSpecs/*}"
+		};
+
+	}
+	rpc ListColumnSpecs(google.cloud.automl.v1beta1.ListColumnSpecsRequest) returns (google.cloud.automl.v1beta1.ListColumnSpecsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/datasets/*/tableSpecs/*}/columnSpecs"
+		};
+
+	}
+	rpc UpdateColumnSpec(google.cloud.automl.v1beta1.UpdateColumnSpecRequest) returns (google.cloud.automl.v1beta1.ColumnSpec) {
+		option (google.api.method_signature) = "column_spec";
+		option (google.api.http) = {
+			patch: "/v1beta1/{column_spec.name=projects/*/locations/*/datasets/*/tableSpecs/*/columnSpecs/*}"
+			body: "column_spec"
+		};
+
+	}
+	rpc CreateModel(google.cloud.automl.v1beta1.CreateModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Model"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,model";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/models"
+			body: "model"
+		};
+
+	}
+	rpc GetModel(google.cloud.automl.v1beta1.GetModelRequest) returns (google.cloud.automl.v1beta1.Model) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/models/*}"
+		};
+
+	}
+	rpc ListModels(google.cloud.automl.v1beta1.ListModelsRequest) returns (google.cloud.automl.v1beta1.ListModelsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/models"
+		};
+
+	}
+	rpc DeleteModel(google.cloud.automl.v1beta1.DeleteModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/models/*}"
+		};
+
+	}
+	rpc DeployModel(google.cloud.automl.v1beta1.DeployModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/models/*}:deploy"
+			body: "*"
+		};
+
+	}
+	rpc UndeployModel(google.cloud.automl.v1beta1.UndeployModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/models/*}:undeploy"
+			body: "*"
+		};
+
+	}
+	rpc ExportModel(google.cloud.automl.v1beta1.ExportModelRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,output_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/models/*}:export"
+			body: "*"
+		};
+
+	}
+	rpc ExportEvaluatedExamples(google.cloud.automl.v1beta1.ExportEvaluatedExamplesRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name,output_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/models/*}:exportEvaluatedExamples"
+			body: "*"
+		};
+
+	}
+	rpc GetModelEvaluation(google.cloud.automl.v1beta1.GetModelEvaluationRequest) returns (google.cloud.automl.v1beta1.ModelEvaluation) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/models/*/modelEvaluations/*}"
+		};
+
+	}
+	rpc ListModelEvaluations(google.cloud.automl.v1beta1.ListModelEvaluationsRequest) returns (google.cloud.automl.v1beta1.ListModelEvaluationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/models/*}/modelEvaluations"
+		};
+
+	}
+}
+
+message CreateDatasetRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.automl.v1beta1.Dataset dataset = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetDatasetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Dataset"
+		}
+	];
+}
+
+message ListDatasetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 3;
+	int32 page_size = 4;
+	string page_token = 6;
+}
+
+message ListDatasetsResponse {
+
+	repeated google.cloud.automl.v1beta1.Dataset datasets = 1;
+	string next_page_token = 2;
+}
+
+message UpdateDatasetRequest {
+
+	google.cloud.automl.v1beta1.Dataset dataset = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteDatasetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Dataset"
+		}
+	];
+}
+
+message ImportDataRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Dataset"
+		}
+	];
+	google.cloud.automl.v1beta1.InputConfig input_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportDataRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Dataset"
+		}
+	];
+	google.cloud.automl.v1beta1.OutputConfig output_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetAnnotationSpecRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/AnnotationSpec"
+		}
+	];
+}
+
+message GetTableSpecRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/TableSpec"
+		}
+	];
+	google.protobuf.FieldMask field_mask = 2;
+}
+
+message ListTableSpecsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Dataset"
+		}
+	];
+	google.protobuf.FieldMask field_mask = 2;
+	string filter = 3;
+	int32 page_size = 4;
+	string page_token = 6;
+}
+
+message ListTableSpecsResponse {
+
+	repeated google.cloud.automl.v1beta1.TableSpec table_specs = 1;
+	string next_page_token = 2;
+}
+
+message UpdateTableSpecRequest {
+
+	google.cloud.automl.v1beta1.TableSpec table_spec = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetColumnSpecRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/ColumnSpec"
+		}
+	];
+	google.protobuf.FieldMask field_mask = 2;
+}
+
+message ListColumnSpecsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/TableSpec"
+		}
+	];
+	google.protobuf.FieldMask field_mask = 2;
+	string filter = 3;
+	int32 page_size = 4;
+	string page_token = 6;
+}
+
+message ListColumnSpecsResponse {
+
+	repeated google.cloud.automl.v1beta1.ColumnSpec column_specs = 1;
+	string next_page_token = 2;
+}
+
+message UpdateColumnSpecRequest {
+
+	google.cloud.automl.v1beta1.ColumnSpec column_spec = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message CreateModelRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.automl.v1beta1.Model model = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetModelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+}
+
+message ListModelsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string filter = 3;
+	int32 page_size = 4;
+	string page_token = 6;
+}
+
+message ListModelsResponse {
+
+	repeated google.cloud.automl.v1beta1.Model model = 1;
+	string next_page_token = 2;
+}
+
+message DeleteModelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+}
+
+message DeployModelRequest {
+
+	oneof model_deployment_metadata {
+		google.cloud.automl.v1beta1.ImageObjectDetectionModelDeploymentMetadata image_object_detection_model_deployment_metadata = 2;
+		google.cloud.automl.v1beta1.ImageClassificationModelDeploymentMetadata image_classification_model_deployment_metadata = 4;
+	}
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+}
+
+message UndeployModelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+}
+
+message ExportModelRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+	google.cloud.automl.v1beta1.ModelExportOutputConfig output_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportEvaluatedExamplesRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+	google.cloud.automl.v1beta1.ExportEvaluatedExamplesOutputConfig output_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetModelEvaluationRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/ModelEvaluation"
+		}
+	];
+}
+
+message ListModelEvaluationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "automl.googleapis.com/Model"
+		}
+	];
+	string filter = 3;
+	int32 page_size = 4;
+	string page_token = 6;
+}
+
+message ListModelEvaluationsResponse {
+
+	repeated google.cloud.automl.v1beta1.ModelEvaluation model_evaluation = 1;
+	string next_page_token = 2;
+}

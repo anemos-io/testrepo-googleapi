@@ -1,0 +1,265 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/api/annotations.proto";
+import "google/devtools/resultstore/v2/action.proto";
+import "google/devtools/resultstore/v2/configuration.proto";
+import "google/devtools/resultstore/v2/configured_target.proto";
+import "google/devtools/resultstore/v2/download_metadata.proto";
+import "google/devtools/resultstore/v2/file_set.proto";
+import "google/devtools/resultstore/v2/invocation.proto";
+import "google/devtools/resultstore/v2/target.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+service ResultStoreDownload {
+	option (google.api.default_host) = "resultstore.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetInvocation(google.devtools.resultstore.v2.GetInvocationRequest) returns (google.devtools.resultstore.v2.Invocation) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*}"
+		};
+
+	}
+	rpc SearchInvocations(google.devtools.resultstore.v2.SearchInvocationsRequest) returns (google.devtools.resultstore.v2.SearchInvocationsResponse) {
+		option (google.api.http) = {
+			get: "/v2/invocations:search"
+		};
+
+	}
+	rpc GetInvocationDownloadMetadata(google.devtools.resultstore.v2.GetInvocationDownloadMetadataRequest) returns (google.devtools.resultstore.v2.DownloadMetadata) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*/downloadMetadata}"
+		};
+
+	}
+	rpc GetConfiguration(google.devtools.resultstore.v2.GetConfigurationRequest) returns (google.devtools.resultstore.v2.Configuration) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*/configs/*}"
+		};
+
+	}
+	rpc ListConfigurations(google.devtools.resultstore.v2.ListConfigurationsRequest) returns (google.devtools.resultstore.v2.ListConfigurationsResponse) {
+		option (google.api.http) = {
+			get: "/v2/{parent=invocations/*}/configs"
+		};
+
+	}
+	rpc GetTarget(google.devtools.resultstore.v2.GetTargetRequest) returns (google.devtools.resultstore.v2.Target) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*/targets/*}"
+		};
+
+	}
+	rpc ListTargets(google.devtools.resultstore.v2.ListTargetsRequest) returns (google.devtools.resultstore.v2.ListTargetsResponse) {
+		option (google.api.http) = {
+			get: "/v2/{parent=invocations/*}/targets"
+		};
+
+	}
+	rpc GetConfiguredTarget(google.devtools.resultstore.v2.GetConfiguredTargetRequest) returns (google.devtools.resultstore.v2.ConfiguredTarget) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*/targets/*/configuredTargets/*}"
+		};
+
+	}
+	rpc ListConfiguredTargets(google.devtools.resultstore.v2.ListConfiguredTargetsRequest) returns (google.devtools.resultstore.v2.ListConfiguredTargetsResponse) {
+		option (google.api.http) = {
+			get: "/v2/{parent=invocations/*/targets/*}/configuredTargets"
+		};
+
+	}
+	rpc GetAction(google.devtools.resultstore.v2.GetActionRequest) returns (google.devtools.resultstore.v2.Action) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*/targets/*/configuredTargets/*/actions/*}"
+		};
+
+	}
+	rpc ListActions(google.devtools.resultstore.v2.ListActionsRequest) returns (google.devtools.resultstore.v2.ListActionsResponse) {
+		option (google.api.http) = {
+			get: "/v2/{parent=invocations/*/targets/*/configuredTargets/*}/actions"
+		};
+
+	}
+	rpc GetFileSet(google.devtools.resultstore.v2.GetFileSetRequest) returns (google.devtools.resultstore.v2.FileSet) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*/fileSets/*}"
+		};
+
+	}
+	rpc ListFileSets(google.devtools.resultstore.v2.ListFileSetsRequest) returns (google.devtools.resultstore.v2.ListFileSetsResponse) {
+		option (google.api.http) = {
+			get: "/v2/{parent=invocations/*}/fileSets"
+		};
+
+	}
+	rpc TraverseFileSets(google.devtools.resultstore.v2.TraverseFileSetsRequest) returns (google.devtools.resultstore.v2.TraverseFileSetsResponse) {
+		option (google.api.http) = {
+			get: "/v2/{name=invocations/*/fileSets/*}:traverseFileSets"
+			additional_bindings: {
+				get: "/v2/{name=invocations/*/targets/*/configuredTargets/*/actions/*}:traverseFileSets"
+			}
+		};
+
+	}
+}
+
+message GetInvocationRequest {
+
+	string name = 1;
+}
+
+message SearchInvocationsRequest {
+
+	int32 page_size = 1;
+	oneof page_start {
+		string page_token = 2;
+		int64 offset = 3;
+	}
+	string query = 4;
+	string project_id = 5;
+	bool exact_match = 7;
+}
+
+message SearchInvocationsResponse {
+
+	repeated google.devtools.resultstore.v2.Invocation invocations = 1;
+	string next_page_token = 2;
+}
+
+message GetInvocationDownloadMetadataRequest {
+
+	string name = 1;
+}
+
+message GetConfigurationRequest {
+
+	string name = 1;
+}
+
+message ListConfigurationsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	oneof page_start {
+		string page_token = 3;
+		int64 offset = 4;
+	}
+	string filter = 5;
+}
+
+message ListConfigurationsResponse {
+
+	repeated google.devtools.resultstore.v2.Configuration configurations = 1;
+	string next_page_token = 2;
+}
+
+message GetTargetRequest {
+
+	string name = 1;
+}
+
+message ListTargetsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	oneof page_start {
+		string page_token = 3;
+		int64 offset = 4;
+	}
+	string filter = 5;
+}
+
+message ListTargetsResponse {
+
+	repeated google.devtools.resultstore.v2.Target targets = 1;
+	string next_page_token = 2;
+}
+
+message GetConfiguredTargetRequest {
+
+	string name = 1;
+}
+
+message ListConfiguredTargetsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	oneof page_start {
+		string page_token = 3;
+		int64 offset = 4;
+	}
+	string filter = 5;
+}
+
+message ListConfiguredTargetsResponse {
+
+	repeated google.devtools.resultstore.v2.ConfiguredTarget configured_targets = 1;
+	string next_page_token = 2;
+}
+
+message GetActionRequest {
+
+	string name = 1;
+}
+
+message ListActionsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	oneof page_start {
+		string page_token = 3;
+		int64 offset = 4;
+	}
+	string filter = 5;
+}
+
+message ListActionsResponse {
+
+	repeated google.devtools.resultstore.v2.Action actions = 1;
+	string next_page_token = 2;
+}
+
+message GetFileSetRequest {
+
+	string name = 1;
+}
+
+message ListFileSetsRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	oneof page_start {
+		string page_token = 3;
+		int64 offset = 4;
+	}
+	string filter = 5;
+}
+
+message ListFileSetsResponse {
+
+	repeated google.devtools.resultstore.v2.FileSet file_sets = 1;
+	string next_page_token = 2;
+}
+
+message TraverseFileSetsRequest {
+
+	string name = 1;
+	int32 page_size = 2;
+	oneof page_start {
+		string page_token = 3;
+		int64 offset = 4;
+	}
+}
+
+message TraverseFileSetsResponse {
+
+	repeated google.devtools.resultstore.v2.FileSet file_sets = 1;
+	string next_page_token = 2;
+}

@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package google.identity.accesscontextmanager.v1;
+
+import "google/identity/accesscontextmanager/type/device_resources.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/expr.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.identity.accesscontextmanager.v1";
+option java_outer_classname = "AccessLevelProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/identity/accesscontextmanager/v1;accesscontextmanager";
+option objc_class_prefix = "GACM";
+option csharp_namespace = "Google.Identity.AccessContextManager.V1";
+option php_namespace = "Google\\Identity\\AccessContextManager\\V1";
+option ruby_package = "Google::Identity::AccessContextManager::V1";
+
+
+message AccessLevel {
+
+	string name = 1;
+	string title = 2;
+	string description = 3;
+	oneof level {
+		BasicLevel basic = 4;
+		CustomLevel custom = 5;
+	}
+	google.protobuf.Timestamp create_time = 6;
+	google.protobuf.Timestamp update_time = 7;
+}
+
+message BasicLevel {
+
+	enum ConditionCombiningFunction {
+
+		AND = 0;
+		OR = 1;
+	}
+
+	repeated Condition conditions = 1;
+	ConditionCombiningFunction combining_function = 2;
+}
+
+message Condition {
+
+	repeated string ip_subnetworks = 1;
+	DevicePolicy device_policy = 2;
+	repeated string required_access_levels = 3;
+	bool negate = 5;
+	repeated string members = 6;
+	repeated string regions = 7;
+}
+
+message CustomLevel {
+
+	google.type.Expr expr = 1;
+}
+
+message DevicePolicy {
+
+	bool require_screenlock = 1;
+	repeated google.identity.accesscontextmanager.type.DeviceEncryptionStatus allowed_encryption_statuses = 2;
+	repeated OsConstraint os_constraints = 3;
+	repeated google.identity.accesscontextmanager.type.DeviceManagementLevel allowed_device_management_levels = 6;
+	bool require_admin_approval = 7;
+	bool require_corp_owned = 8;
+}
+
+message OsConstraint {
+
+	google.identity.accesscontextmanager.type.OsType os_type = 1;
+	string minimum_version = 2;
+	bool require_verified_chrome_os = 3;
+}

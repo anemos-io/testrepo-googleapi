@@ -1,0 +1,811 @@
+syntax = "proto3";
+
+package google.container.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.container.v1alpha1";
+option java_outer_classname = "ClusterServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/container/v1alpha1;container";
+option csharp_namespace = "Google.Cloud.Container.V1Alpha1";
+option php_namespace = "Google\\Cloud\\Container\\V1alpha1";
+
+
+service ClusterManager {
+
+	rpc ListClusters(google.container.v1alpha1.ListClustersRequest) returns (google.container.v1alpha1.ListClustersResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*}/clusters"
+		};
+
+	}
+	rpc GetCluster(google.container.v1alpha1.GetClusterRequest) returns (google.container.v1alpha1.Cluster) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/clusters/*}"
+		};
+
+	}
+	rpc CreateCluster(google.container.v1alpha1.CreateClusterRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*}/clusters"
+			body: "*"
+		};
+
+	}
+	rpc UpdateCluster(google.container.v1alpha1.UpdateClusterRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			put: "/v1alpha1/{name=projects/*/locations/*/clusters/*}"
+			body: "*"
+		};
+
+	}
+	rpc UpdateNodePool(google.container.v1alpha1.UpdateNodePoolRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			put: "/v1alpha1/{name=projects/*/locations/*/clusters/*/nodePools/*}"
+			body: "*"
+		};
+
+	}
+	rpc SetNodePoolAutoscaling(google.container.v1alpha1.SetNodePoolAutoscalingRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*/nodePools/*}:setAutoscaling"
+			body: "*"
+		};
+
+	}
+	rpc SetLoggingService(google.container.v1alpha1.SetLoggingServiceRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setLogging"
+			body: "*"
+		};
+
+	}
+	rpc SetMonitoringService(google.container.v1alpha1.SetMonitoringServiceRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setMonitoring"
+			body: "*"
+		};
+
+	}
+	rpc SetAddonsConfig(google.container.v1alpha1.SetAddonsConfigRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setAddons"
+			body: "*"
+		};
+
+	}
+	rpc SetLocations(google.container.v1alpha1.SetLocationsRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setLocations"
+			body: "*"
+		};
+
+	}
+	rpc UpdateMaster(google.container.v1alpha1.UpdateMasterRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:updateMaster"
+			body: "*"
+		};
+
+	}
+	rpc SetMasterAuth(google.container.v1alpha1.SetMasterAuthRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setMasterAuth"
+			body: "*"
+		};
+
+	}
+	rpc DeleteCluster(google.container.v1alpha1.DeleteClusterRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/clusters/*}"
+		};
+
+	}
+	rpc ListOperations(google.container.v1alpha1.ListOperationsRequest) returns (google.container.v1alpha1.ListOperationsResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*}/operations"
+		};
+
+	}
+	rpc GetOperation(google.container.v1alpha1.GetOperationRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/operations/*}"
+		};
+
+	}
+	rpc CancelOperation(google.container.v1alpha1.CancelOperationRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/operations/*}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc GetServerConfig(google.container.v1alpha1.GetServerConfigRequest) returns (google.container.v1alpha1.ServerConfig) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*}/serverConfig"
+		};
+
+	}
+	rpc ListNodePools(google.container.v1alpha1.ListNodePoolsRequest) returns (google.container.v1alpha1.ListNodePoolsResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{parent=projects/*/locations/*/clusters/*}/nodePools"
+		};
+
+	}
+	rpc GetNodePool(google.container.v1alpha1.GetNodePoolRequest) returns (google.container.v1alpha1.NodePool) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=projects/*/locations/*/clusters/*/nodePools/*}"
+		};
+
+	}
+	rpc CreateNodePool(google.container.v1alpha1.CreateNodePoolRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=projects/*/locations/*/clusters/*}/nodePools"
+			body: "*"
+		};
+
+	}
+	rpc DeleteNodePool(google.container.v1alpha1.DeleteNodePoolRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			delete: "/v1alpha1/{name=projects/*/locations/*/clusters/*/nodePools/*}"
+		};
+
+	}
+	rpc RollbackNodePoolUpgrade(google.container.v1alpha1.RollbackNodePoolUpgradeRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*/nodePools/*}:rollback"
+			body: "*"
+		};
+
+	}
+	rpc SetNodePoolManagement(google.container.v1alpha1.SetNodePoolManagementRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*/nodePools/*}:setManagement"
+			body: "*"
+		};
+
+	}
+	rpc SetLabels(google.container.v1alpha1.SetLabelsRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setResourceLabels"
+			body: "*"
+		};
+
+	}
+	rpc SetLegacyAbac(google.container.v1alpha1.SetLegacyAbacRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setLegacyAbac"
+			body: "*"
+		};
+
+	}
+	rpc StartIPRotation(google.container.v1alpha1.StartIPRotationRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:startIpRotation"
+			body: "*"
+		};
+
+	}
+	rpc CompleteIPRotation(google.container.v1alpha1.CompleteIPRotationRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:completeIpRotation"
+			body: "*"
+		};
+
+	}
+	rpc SetNodePoolSize(google.container.v1alpha1.SetNodePoolSizeRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*/nodePools/*}:setSize"
+			body: "*"
+		};
+
+	}
+	rpc SetNetworkPolicy(google.container.v1alpha1.SetNetworkPolicyRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setNetworkPolicy"
+			body: "*"
+		};
+
+	}
+	rpc SetMaintenancePolicy(google.container.v1alpha1.SetMaintenancePolicyRequest) returns (google.container.v1alpha1.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=projects/*/locations/*/clusters/*}:setMaintenancePolicy"
+			body: "*"
+		};
+
+	}
+}
+
+message NodeConfig {
+
+	string machine_type = 1;
+	int32 disk_size_gb = 2;
+	repeated string oauth_scopes = 3;
+	string service_account = 9;
+	map<string, string> metadata = 4;
+	string image_type = 5;
+	map<string, string> labels = 6;
+	int32 local_ssd_count = 7;
+	repeated string tags = 8;
+	bool preemptible = 10;
+	repeated AcceleratorConfig accelerators = 11;
+	string min_cpu_platform = 13;
+	repeated NodeTaint taints = 15;
+}
+
+message NodeTaint {
+
+	enum Effect {
+
+		EFFECT_UNSPECIFIED = 0;
+		NO_SCHEDULE = 1;
+		PREFER_NO_SCHEDULE = 2;
+		NO_EXECUTE = 3;
+	}
+
+	string key = 1;
+	string value = 2;
+	Effect effect = 3;
+}
+
+message MasterAuth {
+
+	string username = 1;
+	string password = 2;
+	ClientCertificateConfig client_certificate_config = 3;
+	string cluster_ca_certificate = 100;
+	string client_certificate = 101;
+	string client_key = 102;
+}
+
+message ClientCertificateConfig {
+
+	bool issue_client_certificate = 1;
+}
+
+message AddonsConfig {
+
+	HttpLoadBalancing http_load_balancing = 1;
+	HorizontalPodAutoscaling horizontal_pod_autoscaling = 2;
+	KubernetesDashboard kubernetes_dashboard = 3;
+	NetworkPolicyConfig network_policy_config = 4;
+}
+
+message HttpLoadBalancing {
+
+	bool disabled = 1;
+}
+
+message HorizontalPodAutoscaling {
+
+	bool disabled = 1;
+}
+
+message KubernetesDashboard {
+
+	bool disabled = 1;
+}
+
+message NetworkPolicyConfig {
+
+	bool disabled = 1;
+}
+
+message MasterAuthorizedNetworksConfig {
+
+	message CidrBlock {
+
+		string display_name = 1;
+		string cidr_block = 2;
+	}
+
+	bool enabled = 1;
+	repeated CidrBlock cidr_blocks = 2;
+}
+
+message NetworkPolicy {
+
+	enum Provider {
+
+		PROVIDER_UNSPECIFIED = 0;
+		CALICO = 1;
+	}
+
+	Provider provider = 1;
+	bool enabled = 2;
+}
+
+message IPAllocationPolicy {
+
+	bool use_ip_aliases = 1;
+	bool create_subnetwork = 2;
+	string subnetwork_name = 3;
+	string cluster_ipv4_cidr = 4;
+	string node_ipv4_cidr = 5;
+	string services_ipv4_cidr = 6;
+	string cluster_secondary_range_name = 7;
+	string services_secondary_range_name = 8;
+	string cluster_ipv4_cidr_block = 9;
+	string node_ipv4_cidr_block = 10;
+	string services_ipv4_cidr_block = 11;
+}
+
+message PodSecurityPolicyConfig {
+
+	bool enabled = 1;
+}
+
+message Cluster {
+
+	enum Status {
+
+		STATUS_UNSPECIFIED = 0;
+		PROVISIONING = 1;
+		RUNNING = 2;
+		RECONCILING = 3;
+		STOPPING = 4;
+		ERROR = 5;
+	}
+
+	string name = 1;
+	string description = 2;
+	int32 initial_node_count = 3;
+	NodeConfig node_config = 4;
+	MasterAuth master_auth = 5;
+	string logging_service = 6;
+	string monitoring_service = 7;
+	string network = 8;
+	string cluster_ipv4_cidr = 9;
+	AddonsConfig addons_config = 10;
+	string subnetwork = 11;
+	repeated NodePool node_pools = 12;
+	repeated string locations = 13;
+	bool enable_kubernetes_alpha = 14;
+	NetworkPolicy network_policy = 19;
+	IPAllocationPolicy ip_allocation_policy = 20;
+	MasterAuthorizedNetworksConfig master_authorized_networks_config = 22;
+	MaintenancePolicy maintenance_policy = 23;
+	PodSecurityPolicyConfig pod_security_policy_config = 25;
+	string self_link = 100;
+	string zone = 101;
+	string endpoint = 102;
+	string initial_cluster_version = 103;
+	string current_master_version = 104;
+	string current_node_version = 105;
+	string create_time = 106;
+	Status status = 107;
+	string status_message = 108;
+	int32 node_ipv4_cidr_size = 109;
+	string services_ipv4_cidr = 110;
+	repeated string instance_group_urls = 111;
+	int32 current_node_count = 112;
+	string expire_time = 113;
+	string location = 114;
+}
+
+message ClusterUpdate {
+
+	string desired_node_version = 4;
+	string desired_monitoring_service = 5;
+	AddonsConfig desired_addons_config = 6;
+	string desired_node_pool_id = 7;
+	string desired_image_type = 8;
+	NodePoolAutoscaling desired_node_pool_autoscaling = 9;
+	repeated string desired_locations = 10;
+	MasterAuthorizedNetworksConfig desired_master_authorized_networks_config = 12;
+	PodSecurityPolicyConfig desired_pod_security_policy_config = 14;
+	string desired_master_version = 100;
+}
+
+message Operation {
+
+	enum Status {
+
+		STATUS_UNSPECIFIED = 0;
+		PENDING = 1;
+		RUNNING = 2;
+		DONE = 3;
+		ABORTING = 4;
+	}
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		CREATE_CLUSTER = 1;
+		DELETE_CLUSTER = 2;
+		UPGRADE_MASTER = 3;
+		UPGRADE_NODES = 4;
+		REPAIR_CLUSTER = 5;
+		UPDATE_CLUSTER = 6;
+		CREATE_NODE_POOL = 7;
+		DELETE_NODE_POOL = 8;
+		SET_NODE_POOL_MANAGEMENT = 9;
+		AUTO_REPAIR_NODES = 10;
+		AUTO_UPGRADE_NODES = 11;
+		SET_LABELS = 12;
+		SET_MASTER_AUTH = 13;
+		SET_NODE_POOL_SIZE = 14;
+		SET_NETWORK_POLICY = 15;
+		SET_MAINTENANCE_POLICY = 16;
+	}
+
+	string name = 1;
+	string zone = 2;
+	Type operation_type = 3;
+	Status status = 4;
+	string detail = 8;
+	string status_message = 5;
+	string self_link = 6;
+	string target_link = 7;
+	string location = 9;
+	string start_time = 10;
+	string end_time = 11;
+}
+
+message CreateClusterRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	Cluster cluster = 3;
+	string parent = 5;
+}
+
+message GetClusterRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string name = 5;
+}
+
+message UpdateClusterRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	ClusterUpdate update = 4;
+	string name = 5;
+}
+
+message UpdateNodePoolRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string node_pool_id = 4;
+	string node_version = 5;
+	string image_type = 6;
+	string name = 8;
+}
+
+message SetNodePoolAutoscalingRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string node_pool_id = 4;
+	NodePoolAutoscaling autoscaling = 5;
+	string name = 6;
+}
+
+message SetLoggingServiceRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string logging_service = 4;
+	string name = 5;
+}
+
+message SetMonitoringServiceRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string monitoring_service = 4;
+	string name = 6;
+}
+
+message SetAddonsConfigRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	AddonsConfig addons_config = 4;
+	string name = 6;
+}
+
+message SetLocationsRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	repeated string locations = 4;
+	string name = 6;
+}
+
+message UpdateMasterRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string master_version = 4;
+	string name = 7;
+}
+
+message SetMasterAuthRequest {
+
+	enum Action {
+
+		UNKNOWN = 0;
+		SET_PASSWORD = 1;
+		GENERATE_PASSWORD = 2;
+		SET_USERNAME = 3;
+	}
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	Action action = 4;
+	MasterAuth update = 5;
+	string name = 7;
+}
+
+message DeleteClusterRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string name = 4;
+}
+
+message ListClustersRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string parent = 4;
+}
+
+message ListClustersResponse {
+
+	repeated Cluster clusters = 1;
+	repeated string missing_zones = 2;
+}
+
+message GetOperationRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string operation_id = 3;
+	string name = 5;
+}
+
+message ListOperationsRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string parent = 4;
+}
+
+message CancelOperationRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string operation_id = 3;
+	string name = 4;
+}
+
+message ListOperationsResponse {
+
+	repeated Operation operations = 1;
+	repeated string missing_zones = 2;
+}
+
+message GetServerConfigRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string name = 4;
+}
+
+message ServerConfig {
+
+	string default_cluster_version = 1;
+	repeated string valid_node_versions = 3;
+	string default_image_type = 4;
+	repeated string valid_image_types = 5;
+	repeated string valid_master_versions = 6;
+}
+
+message CreateNodePoolRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	NodePool node_pool = 4;
+	string parent = 6;
+}
+
+message DeleteNodePoolRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string node_pool_id = 4;
+	string name = 6;
+}
+
+message ListNodePoolsRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string parent = 5;
+}
+
+message GetNodePoolRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string node_pool_id = 4;
+	string name = 6;
+}
+
+message NodePool {
+
+	enum Status {
+
+		STATUS_UNSPECIFIED = 0;
+		PROVISIONING = 1;
+		RUNNING = 2;
+		RUNNING_WITH_ERROR = 3;
+		RECONCILING = 4;
+		STOPPING = 5;
+		ERROR = 6;
+	}
+
+	string name = 1;
+	NodeConfig config = 2;
+	int32 initial_node_count = 3;
+	NodePoolAutoscaling autoscaling = 4;
+	NodeManagement management = 5;
+	string self_link = 100;
+	string version = 101;
+	repeated string instance_group_urls = 102;
+	Status status = 103;
+	string status_message = 104;
+}
+
+message NodeManagement {
+
+	bool auto_upgrade = 1;
+	bool auto_repair = 2;
+	AutoUpgradeOptions upgrade_options = 10;
+}
+
+message AutoUpgradeOptions {
+
+	string auto_upgrade_start_time = 1;
+	string description = 2;
+}
+
+message MaintenancePolicy {
+
+	MaintenanceWindow window = 1;
+}
+
+message MaintenanceWindow {
+
+	oneof policy {
+		DailyMaintenanceWindow daily_maintenance_window = 2;
+	}
+}
+
+message DailyMaintenanceWindow {
+
+	string start_time = 2;
+	string duration = 3;
+}
+
+message SetNodePoolManagementRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string node_pool_id = 4;
+	NodeManagement management = 5;
+	string name = 7;
+}
+
+message SetNodePoolSizeRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string node_pool_id = 4;
+	int32 node_count = 5;
+	string name = 7;
+}
+
+message RollbackNodePoolUpgradeRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string node_pool_id = 4;
+	string name = 6;
+}
+
+message ListNodePoolsResponse {
+
+	repeated NodePool node_pools = 1;
+}
+
+message NodePoolAutoscaling {
+
+	bool enabled = 1;
+	int32 min_node_count = 2;
+	int32 max_node_count = 3;
+}
+
+message SetLabelsRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	map<string, string> resource_labels = 4;
+	string label_fingerprint = 5;
+	string name = 7;
+}
+
+message SetLegacyAbacRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	bool enabled = 4;
+	string name = 6;
+}
+
+message StartIPRotationRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string name = 6;
+}
+
+message CompleteIPRotationRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	string name = 7;
+}
+
+message AcceleratorConfig {
+
+	int64 accelerator_count = 1;
+	string accelerator_type = 2;
+}
+
+message SetNetworkPolicyRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	NetworkPolicy network_policy = 4;
+	string name = 6;
+}
+
+message SetMaintenancePolicyRequest {
+
+	string project_id = 1;
+	string zone = 2;
+	string cluster_id = 3;
+	MaintenancePolicy maintenance_policy = 4;
+	string name = 5;
+}

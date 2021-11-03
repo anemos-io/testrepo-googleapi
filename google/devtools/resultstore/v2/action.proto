@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/devtools/resultstore/v2/common.proto";
+import "google/devtools/resultstore/v2/coverage.proto";
+import "google/devtools/resultstore/v2/file.proto";
+import "google/devtools/resultstore/v2/file_processing_error.proto";
+import "google/devtools/resultstore/v2/test_suite.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+enum ExecutionStrategy {
+
+	EXECUTION_STRATEGY_UNSPECIFIED = 0;
+	OTHER_ENVIRONMENT = 1;
+	REMOTE_SERVICE = 2;
+	LOCAL_PARALLEL = 3;
+	LOCAL_SEQUENTIAL = 4;
+}
+
+enum TestCaching {
+
+	TEST_CACHING_UNSPECIFIED = 0;
+	LOCAL_CACHE_HIT = 1;
+	REMOTE_CACHE_HIT = 2;
+	CACHE_MISS = 3;
+}
+
+message Action {
+
+	message Id {
+
+		string invocation_id = 1;
+		string target_id = 2;
+		string configuration_id = 3;
+		string action_id = 4;
+	}
+
+	string name = 1;
+	Id id = 2;
+	google.devtools.resultstore.v2.StatusAttributes status_attributes = 3;
+	google.devtools.resultstore.v2.Timing timing = 4;
+	oneof action_type {
+		BuildAction build_action = 9;
+		TestAction test_action = 10;
+	}
+	ActionAttributes action_attributes = 5;
+	repeated google.devtools.resultstore.v2.Dependency action_dependencies = 14;
+	repeated google.devtools.resultstore.v2.Property properties = 7;
+	repeated google.devtools.resultstore.v2.File files = 8;
+	repeated string file_sets = 15;
+	google.devtools.resultstore.v2.ActionCoverage coverage = 11;
+	repeated google.devtools.resultstore.v2.FileProcessingErrors file_processing_errors = 13;
+}
+
+message BuildAction {
+
+	string type = 1;
+	string primary_input_path = 2;
+	string primary_output_path = 3;
+}
+
+message TestAction {
+
+	TestTiming test_timing = 1;
+	int32 shard_number = 2;
+	int32 run_number = 3;
+	int32 attempt_number = 4;
+	google.devtools.resultstore.v2.TestSuite test_suite = 5;
+	repeated TestWarning warnings = 8;
+	int64 estimated_memory_bytes = 10;
+}
+
+message ActionAttributes {
+
+	ExecutionStrategy execution_strategy = 1;
+	int32 exit_code = 2;
+	string hostname = 3;
+	InputFileInfo input_file_info = 4;
+}
+
+message InputFileInfo {
+
+	int64 count = 1;
+	int64 distinct_count = 2;
+	int64 count_limit = 3;
+	int64 distinct_bytes = 4;
+	int64 distinct_byte_limit = 5;
+}
+
+message LocalTestTiming {
+
+	google.protobuf.Duration test_process_duration = 1;
+}
+
+message RemoteTestAttemptTiming {
+
+	google.protobuf.Duration queue_duration = 1;
+	google.protobuf.Duration upload_duration = 2;
+	google.protobuf.Duration machine_setup_duration = 3;
+	google.protobuf.Duration test_process_duration = 4;
+	google.protobuf.Duration download_duration = 5;
+}
+
+message RemoteTestTiming {
+
+	google.protobuf.Duration local_analysis_duration = 1;
+	repeated RemoteTestAttemptTiming attempts = 2;
+}
+
+message TestTiming {
+
+	oneof location {
+		LocalTestTiming local = 1;
+		RemoteTestTiming remote = 2;
+	}
+	google.protobuf.Duration system_time_duration = 3;
+	google.protobuf.Duration user_time_duration = 4;
+	TestCaching test_caching = 5;
+}
+
+message TestWarning {
+
+	string warning_message = 1;
+}

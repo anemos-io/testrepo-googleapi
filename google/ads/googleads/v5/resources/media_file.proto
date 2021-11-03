@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.resources;
+
+import "google/ads/googleads/v5/enums/media_type.proto";
+import "google/ads/googleads/v5/enums/mime_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.resources";
+option java_outer_classname = "MediaFileProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V5::Resources";
+
+
+message MediaFile {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/MediaFile"
+		pattern: ["customers/{customer}/mediaFiles/{media_file}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/MediaFile"
+		}
+	];
+	oneof _id {
+		int64 id = 12 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	google.ads.googleads.v5.enums.MediaTypeEnum.MediaType type = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v5.enums.MimeTypeEnum.MimeType mime_type = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _source_url {
+		string source_url = 13 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	oneof _name {
+		string name = 14 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	oneof _file_size {
+		int64 file_size = 15 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof mediatype {
+		MediaImage image = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		MediaBundle media_bundle = 4 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		MediaAudio audio = 10 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		MediaVideo video = 11 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+}
+
+message MediaImage {
+
+	oneof _data {
+		bytes data = 4 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	oneof _full_size_image_url {
+		string full_size_image_url = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _preview_size_image_url {
+		string preview_size_image_url = 3 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}
+
+message MediaBundle {
+
+	oneof _data {
+		bytes data = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	oneof _url {
+		string url = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}
+
+message MediaAudio {
+
+	oneof _ad_duration_millis {
+		int64 ad_duration_millis = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}
+
+message MediaVideo {
+
+	oneof _ad_duration_millis {
+		int64 ad_duration_millis = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _youtube_video_id {
+		string youtube_video_id = 6 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+	oneof _advertising_id_code {
+		string advertising_id_code = 7 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _isci_code {
+		string isci_code = 8 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

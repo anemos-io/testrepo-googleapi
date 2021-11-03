@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package google.identity.accesscontextmanager.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.identity.accesscontextmanager.v1";
+option java_outer_classname = "PolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/identity/accesscontextmanager/v1;accesscontextmanager";
+option objc_class_prefix = "GACM";
+option csharp_namespace = "Google.Identity.AccessContextManager.V1";
+option php_namespace = "Google\\Identity\\AccessContextManager\\V1";
+option ruby_package = "Google::Identity::AccessContextManager::V1";
+
+
+message AccessPolicy {
+
+	string name = 1;
+	string parent = 2;
+	string title = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp update_time = 5;
+	string etag = 6;
+}

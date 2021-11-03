@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package google.monitoring.v3;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.monitoring.v3";
+option java_outer_classname = "MutationRecordProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/v3;monitoring";
+option csharp_namespace = "Google.Cloud.Monitoring.V3";
+option php_namespace = "Google\\Cloud\\Monitoring\\V3";
+option ruby_package = "Google::Cloud::Monitoring::V3";
+
+
+message MutationRecord {
+
+	google.protobuf.Timestamp mutate_time = 1;
+	string mutated_by = 2;
+}

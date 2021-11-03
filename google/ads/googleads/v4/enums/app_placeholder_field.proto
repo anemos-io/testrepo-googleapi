@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.enums";
+option java_outer_classname = "AppPlaceholderFieldProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V4::Enums";
+
+
+message AppPlaceholderFieldEnum {
+
+	enum AppPlaceholderField {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		STORE = 2;
+		ID = 3;
+		LINK_TEXT = 4;
+		URL = 5;
+		FINAL_URLS = 6;
+		FINAL_MOBILE_URLS = 7;
+		TRACKING_URL = 8;
+		FINAL_URL_SUFFIX = 9;
+	}
+
+}

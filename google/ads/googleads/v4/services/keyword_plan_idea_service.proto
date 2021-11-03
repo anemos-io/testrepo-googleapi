@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.services;
+
+import "google/ads/googleads/v4/common/keyword_plan_common.proto";
+import "google/ads/googleads/v4/enums/keyword_plan_network.proto";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.ads.googleads.v4.services";
+option java_outer_classname = "KeywordPlanIdeaServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V4::Services";
+
+
+service KeywordPlanIdeaService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GenerateKeywordIdeas(google.ads.googleads.v4.services.GenerateKeywordIdeasRequest) returns (google.ads.googleads.v4.services.GenerateKeywordIdeaResponse) {
+		option (google.api.http) = {
+			post: "/v4/customers/{customer_id=*}:generateKeywordIdeas"
+			body: "*"
+		};
+
+	}
+}
+
+message GenerateKeywordIdeasRequest {
+
+	string customer_id = 1;
+	google.protobuf.StringValue language = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.protobuf.StringValue geo_target_constants = 8;
+	bool include_adult_keywords = 10;
+	string page_token = 12;
+	int32 page_size = 13;
+	google.ads.googleads.v4.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork keyword_plan_network = 9;
+	oneof seed {
+		KeywordAndUrlSeed keyword_and_url_seed = 2;
+		KeywordSeed keyword_seed = 3;
+		UrlSeed url_seed = 5;
+		SiteSeed site_seed = 11;
+	}
+}
+
+message KeywordAndUrlSeed {
+
+	google.protobuf.StringValue url = 1;
+	repeated google.protobuf.StringValue keywords = 2;
+}
+
+message KeywordSeed {
+
+	repeated google.protobuf.StringValue keywords = 1;
+}
+
+message SiteSeed {
+
+	google.protobuf.StringValue site = 1;
+}
+
+message UrlSeed {
+
+	google.protobuf.StringValue url = 1;
+}
+
+message GenerateKeywordIdeaResponse {
+
+	repeated GenerateKeywordIdeaResult results = 1;
+	string next_page_token = 2;
+	int64 total_size = 3;
+}
+
+message GenerateKeywordIdeaResult {
+
+	google.protobuf.StringValue text = 2;
+	google.ads.googleads.v4.common.KeywordPlanHistoricalMetrics keyword_idea_metrics = 3;
+}

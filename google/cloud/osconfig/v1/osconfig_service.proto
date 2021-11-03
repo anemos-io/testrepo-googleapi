@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/resource.proto";
+import "google/cloud/osconfig/v1/patch_deployments.proto";
+import "google/cloud/osconfig/v1/patch_jobs.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.cloud.osconfig.v1";
+option java_outer_classname = "OsConfigProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1;osconfig";
+option csharp_namespace = "Google.Cloud.OsConfig.V1";
+option php_namespace = "Google\\Cloud\\OsConfig\\V1";
+option ruby_package = "Google::Cloud::OsConfig::V1";
+option (google.api.resource_definition) = {
+	type: "compute.googleapis.com/Instance"
+	pattern: ["projects/{project}/zones/{zone}/instances/{instance}"]
+};
+
+
+service OsConfigService {
+	option (google.api.default_host) = "osconfig.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ExecutePatchJob(google.cloud.osconfig.v1.ExecutePatchJobRequest) returns (google.cloud.osconfig.v1.PatchJob) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/patchJobs:execute"
+			body: "*"
+		};
+
+	}
+	rpc GetPatchJob(google.cloud.osconfig.v1.GetPatchJobRequest) returns (google.cloud.osconfig.v1.PatchJob) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/patchJobs/*}"
+		};
+
+	}
+	rpc CancelPatchJob(google.cloud.osconfig.v1.CancelPatchJobRequest) returns (google.cloud.osconfig.v1.PatchJob) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/patchJobs/*}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc ListPatchJobs(google.cloud.osconfig.v1.ListPatchJobsRequest) returns (google.cloud.osconfig.v1.ListPatchJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/patchJobs"
+		};
+
+	}
+	rpc ListPatchJobInstanceDetails(google.cloud.osconfig.v1.ListPatchJobInstanceDetailsRequest) returns (google.cloud.osconfig.v1.ListPatchJobInstanceDetailsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/patchJobs/*}/instanceDetails"
+		};
+
+	}
+	rpc CreatePatchDeployment(google.cloud.osconfig.v1.CreatePatchDeploymentRequest) returns (google.cloud.osconfig.v1.PatchDeployment) {
+		option (google.api.method_signature) = "parent,patch_deployment,patch_deployment_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/patchDeployments"
+			body: "patch_deployment"
+		};
+
+	}
+	rpc GetPatchDeployment(google.cloud.osconfig.v1.GetPatchDeploymentRequest) returns (google.cloud.osconfig.v1.PatchDeployment) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/patchDeployments/*}"
+		};
+
+	}
+	rpc ListPatchDeployments(google.cloud.osconfig.v1.ListPatchDeploymentsRequest) returns (google.cloud.osconfig.v1.ListPatchDeploymentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/patchDeployments"
+		};
+
+	}
+	rpc DeletePatchDeployment(google.cloud.osconfig.v1.DeletePatchDeploymentRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/patchDeployments/*}"
+		};
+
+	}
+}

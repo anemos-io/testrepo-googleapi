@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package google.example.endpointsapis.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.example.endpointsapis.v1";
+option java_outer_classname = "WorkspaceProto";
+option java_multiple_files = true;
+
+
+service Workspaces {
+
+	rpc ListWorkspaces(google.example.endpointsapis.v1.ListWorkspacesRequest) returns (google.example.endpointsapis.v1.ListWorkspacesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/workspaces"
+		};
+
+	}
+	rpc GetWorkspace(google.example.endpointsapis.v1.GetWorkspaceRequest) returns (google.example.endpointsapis.v1.Workspace) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/workspaces/*}"
+		};
+
+	}
+	rpc CreateWorkspace(google.example.endpointsapis.v1.CreateWorkspaceRequest) returns (google.example.endpointsapis.v1.Workspace) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/workspaces"
+			body: "workspace"
+		};
+
+	}
+	rpc UpdateWorkspace(google.example.endpointsapis.v1.UpdateWorkspaceRequest) returns (google.example.endpointsapis.v1.Workspace) {
+		option (google.api.http) = {
+			patch: "/v1/{name=projects/*/locations/*/Workspaces/*}"
+			body: "workspace"
+		};
+
+	}
+	rpc DeleteWorkspace(google.example.endpointsapis.v1.DeleteWorkspaceRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/workspaces/*}"
+		};
+
+	}
+}
+
+message Workspace {
+
+	string name = 1;
+}
+
+message ListWorkspacesRequest {
+
+	string parent = 1;
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListWorkspacesResponse {
+
+	repeated Workspace items = 1;
+	string next_page_token = 2;
+}
+
+message GetWorkspaceRequest {
+
+	string name = 1;
+}
+
+message CreateWorkspaceRequest {
+
+	string parent = 1;
+	Workspace workspace = 2;
+}
+
+message UpdateWorkspaceRequest {
+
+	string name = 1;
+	Workspace workspace = 2;
+}
+
+message DeleteWorkspaceRequest {
+
+	string name = 1;
+}

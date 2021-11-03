@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package google.maps.routes.v1;
+
+import "google/geo/type/viewport.proto";
+import "google/maps/routes/v1/polyline.proto";
+import "google/maps/routes/v1/waypoint.proto";
+import "google/protobuf/duration.proto";
+import "google/type/money.proto";
+
+option java_package = "com.google.maps.routes.v1";
+option java_outer_classname = "RouteProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/routes/v1;routes";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GMRS";
+option csharp_namespace = "Google.Maps.Routes.V1";
+option php_namespace = "Google\\Maps\\Routes\\V1";
+
+
+enum Maneuver {
+
+	MANEUVER_UNSPECIFIED = 0;
+	TURN_SLIGHT_LEFT = 1;
+	TURN_SHARP_LEFT = 2;
+	UTURN_LEFT = 3;
+	TURN_LEFT = 4;
+	TURN_SLIGHT_RIGHT = 5;
+	TURN_SHARP_RIGHT = 6;
+	UTURN_RIGHT = 7;
+	TURN_RIGHT = 8;
+	STRAIGHT = 9;
+	RAMP_LEFT = 10;
+	RAMP_RIGHT = 11;
+	MERGE = 12;
+	FORK_LEFT = 13;
+	FORK_RIGHT = 14;
+	FERRY = 15;
+	FERRY_TRAIN = 16;
+	ROUNDABOUT_LEFT = 17;
+	ROUNDABOUT_RIGHT = 18;
+}
+
+message Route {
+
+	repeated RouteLeg legs = 1;
+	int32 distance_meters = 2;
+	google.protobuf.Duration duration = 3;
+	google.protobuf.Duration static_duration = 4;
+	google.maps.routes.v1.Polyline polyline = 5;
+	string description = 6;
+	repeated string warnings = 7;
+	google.geo.type.Viewport viewport = 8;
+	RouteTravelAdvisory travel_advisory = 9;
+}
+
+message RouteTravelAdvisory {
+
+	TrafficRestriction traffic_restriction = 1;
+	TollInfo toll_info = 2;
+	repeated SpeedReadingInterval speed_reading_intervals = 3;
+}
+
+message RouteLegTravelAdvisory {
+
+	TollInfo toll_info = 1;
+}
+
+message TrafficRestriction {
+
+	LicensePlateLastCharacterRestriction license_plate_last_character_restriction = 1;
+}
+
+message LicensePlateLastCharacterRestriction {
+
+	repeated string allowed_last_characters = 1;
+}
+
+message RouteLeg {
+
+	int32 distance_meters = 1;
+	google.protobuf.Duration duration = 2;
+	google.protobuf.Duration static_duration = 3;
+	google.maps.routes.v1.Polyline polyline = 4;
+	google.maps.routes.v1.Location start_location = 5;
+	google.maps.routes.v1.Location end_location = 6;
+	repeated RouteLegStep steps = 7;
+	RouteLegTravelAdvisory travel_advisory = 8;
+}
+
+message TollInfo {
+
+	repeated google.type.Money estimated_price = 1;
+}
+
+message RouteLegStep {
+
+	int32 distance_meters = 1;
+	google.protobuf.Duration static_duration = 2;
+	google.maps.routes.v1.Polyline polyline = 3;
+	google.maps.routes.v1.Location start_location = 4;
+	google.maps.routes.v1.Location end_location = 5;
+	NavigationInstruction navigation_instruction = 6;
+}
+
+message NavigationInstruction {
+
+	Maneuver maneuver = 1;
+	string instructions = 2;
+}
+
+message SpeedReadingInterval {
+
+	enum Speed {
+
+		SPEED_UNSPECIFIED = 0;
+		NORMAL = 1;
+		SLOW = 2;
+		TRAFFIC_JAM = 3;
+	}
+
+	int32 start_polyline_point_index = 1;
+	int32 end_polyline_point_index = 2;
+	Speed speed = 3;
+}

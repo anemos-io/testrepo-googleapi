@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.cloud.vision.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.vision.v1";
+option java_outer_classname = "WebDetectionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/vision/v1;vision";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GCVN";
+
+
+message WebDetection {
+
+	message WebEntity {
+
+		string entity_id = 1;
+		float score = 2;
+		string description = 3;
+	}
+
+	message WebImage {
+
+		string url = 1;
+		float score = 2;
+	}
+
+	message WebPage {
+
+		string url = 1;
+		float score = 2;
+		string page_title = 3;
+		repeated WebImage full_matching_images = 4;
+		repeated WebImage partial_matching_images = 5;
+	}
+
+	message WebLabel {
+
+		string label = 1;
+		string language_code = 2;
+	}
+
+	repeated WebEntity web_entities = 1;
+	repeated WebImage full_matching_images = 2;
+	repeated WebImage partial_matching_images = 3;
+	repeated WebPage pages_with_matching_images = 4;
+	repeated WebImage visually_similar_images = 6;
+	repeated WebLabel best_guess_labels = 8;
+}

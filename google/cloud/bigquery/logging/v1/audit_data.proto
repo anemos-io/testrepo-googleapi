@@ -1,0 +1,326 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.logging.v1;
+
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.bigquery.logging.v1";
+option java_outer_classname = "AuditDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/logging/v1;logging";
+
+
+message AuditData {
+
+	oneof request {
+		TableInsertRequest table_insert_request = 1;
+		TableUpdateRequest table_update_request = 16;
+		DatasetListRequest dataset_list_request = 2;
+		DatasetInsertRequest dataset_insert_request = 3;
+		DatasetUpdateRequest dataset_update_request = 4;
+		JobInsertRequest job_insert_request = 5;
+		JobQueryRequest job_query_request = 6;
+		JobGetQueryResultsRequest job_get_query_results_request = 7;
+		TableDataListRequest table_data_list_request = 8;
+		google.iam.v1.SetIamPolicyRequest set_iam_policy_request = 20;
+	}
+	oneof response {
+		TableInsertResponse table_insert_response = 9;
+		TableUpdateResponse table_update_response = 10;
+		DatasetInsertResponse dataset_insert_response = 11;
+		DatasetUpdateResponse dataset_update_response = 12;
+		JobInsertResponse job_insert_response = 18;
+		JobQueryResponse job_query_response = 13;
+		JobGetQueryResultsResponse job_get_query_results_response = 14;
+		JobQueryDoneResponse job_query_done_response = 15;
+		google.iam.v1.Policy policy_response = 21;
+	}
+	JobCompletedEvent job_completed_event = 17;
+	repeated TableDataReadEvent table_data_read_events = 19;
+}
+
+message TableInsertRequest {
+
+	Table resource = 1;
+}
+
+message TableUpdateRequest {
+
+	Table resource = 1;
+}
+
+message TableInsertResponse {
+
+	Table resource = 1;
+}
+
+message TableUpdateResponse {
+
+	Table resource = 1;
+}
+
+message DatasetListRequest {
+
+	bool list_all = 1;
+}
+
+message DatasetInsertRequest {
+
+	Dataset resource = 1;
+}
+
+message DatasetInsertResponse {
+
+	Dataset resource = 1;
+}
+
+message DatasetUpdateRequest {
+
+	Dataset resource = 1;
+}
+
+message DatasetUpdateResponse {
+
+	Dataset resource = 1;
+}
+
+message JobInsertRequest {
+
+	Job resource = 1;
+}
+
+message JobInsertResponse {
+
+	Job resource = 1;
+}
+
+message JobQueryRequest {
+
+	string query = 1;
+	uint32 max_results = 2;
+	DatasetName default_dataset = 3;
+	string project_id = 4;
+	bool dry_run = 5;
+}
+
+message JobQueryResponse {
+
+	uint64 total_results = 1;
+	Job job = 2;
+}
+
+message JobGetQueryResultsRequest {
+
+	uint32 max_results = 1;
+	uint64 start_row = 2;
+}
+
+message JobGetQueryResultsResponse {
+
+	uint64 total_results = 1;
+	Job job = 2;
+}
+
+message JobQueryDoneResponse {
+
+	Job job = 1;
+}
+
+message JobCompletedEvent {
+
+	string event_name = 1;
+	Job job = 2;
+}
+
+message TableDataReadEvent {
+
+	TableName table_name = 1;
+	repeated string referenced_fields = 2;
+}
+
+message TableDataListRequest {
+
+	uint64 start_row = 1;
+	uint32 max_results = 2;
+}
+
+message Table {
+
+	TableName table_name = 1;
+	TableInfo info = 2;
+	string schema_json = 8;
+	TableViewDefinition view = 4;
+	google.protobuf.Timestamp expire_time = 5;
+	google.protobuf.Timestamp create_time = 6;
+	google.protobuf.Timestamp truncate_time = 7;
+	google.protobuf.Timestamp update_time = 9;
+	EncryptionInfo encryption = 10;
+}
+
+message TableInfo {
+
+	string friendly_name = 1;
+	string description = 2;
+	map<string, string> labels = 3;
+}
+
+message TableViewDefinition {
+
+	string query = 1;
+}
+
+message Dataset {
+
+	DatasetName dataset_name = 1;
+	DatasetInfo info = 2;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp update_time = 5;
+	BigQueryAcl acl = 6;
+	google.protobuf.Duration default_table_expire_duration = 8;
+}
+
+message DatasetInfo {
+
+	string friendly_name = 1;
+	string description = 2;
+	map<string, string> labels = 3;
+}
+
+message BigQueryAcl {
+
+	message Entry {
+
+		string role = 1;
+		string group_email = 2;
+		string user_email = 3;
+		string domain = 4;
+		string special_group = 5;
+		TableName view_name = 6;
+	}
+
+	repeated Entry entries = 1;
+}
+
+message Job {
+
+	JobName job_name = 1;
+	JobConfiguration job_configuration = 2;
+	JobStatus job_status = 3;
+	JobStatistics job_statistics = 4;
+}
+
+message JobConfiguration {
+
+	message Query {
+
+		string query = 1;
+		TableName destination_table = 2;
+		string create_disposition = 3;
+		string write_disposition = 4;
+		DatasetName default_dataset = 5;
+		repeated TableDefinition table_definitions = 6;
+		string query_priority = 7;
+		EncryptionInfo destination_table_encryption = 8;
+		string statement_type = 9;
+	}
+
+	message Load {
+
+		repeated string source_uris = 1;
+		string schema_json = 6;
+		TableName destination_table = 3;
+		string create_disposition = 4;
+		string write_disposition = 5;
+		EncryptionInfo destination_table_encryption = 7;
+	}
+
+	message Extract {
+
+		repeated string destination_uris = 1;
+		TableName source_table = 2;
+	}
+
+	message TableCopy {
+
+		repeated TableName source_tables = 1;
+		TableName destination_table = 2;
+		string create_disposition = 3;
+		string write_disposition = 4;
+		EncryptionInfo destination_table_encryption = 5;
+	}
+
+	oneof configuration {
+		Query query = 5;
+		Load load = 6;
+		Extract extract = 7;
+		TableCopy table_copy = 8;
+	}
+	bool dry_run = 9;
+	map<string, string> labels = 3;
+}
+
+message TableDefinition {
+
+	string name = 1;
+	repeated string source_uris = 2;
+}
+
+message JobStatus {
+
+	string state = 1;
+	google.rpc.Status error = 2;
+	repeated google.rpc.Status additional_errors = 3;
+}
+
+message JobStatistics {
+
+	message ReservationResourceUsage {
+
+		string name = 1;
+		int64 slot_ms = 2;
+	}
+
+	google.protobuf.Timestamp create_time = 1;
+	google.protobuf.Timestamp start_time = 2;
+	google.protobuf.Timestamp end_time = 3;
+	int64 total_processed_bytes = 4;
+	int64 total_billed_bytes = 5;
+	int32 billing_tier = 7;
+	int64 total_slot_ms = 8;
+	repeated ReservationResourceUsage reservation_usage = 14;
+	repeated TableName referenced_tables = 9;
+	int32 total_tables_processed = 10;
+	repeated TableName referenced_views = 11;
+	int32 total_views_processed = 12;
+	int64 query_output_row_count = 15;
+	int64 total_load_output_bytes = 13;
+}
+
+message DatasetName {
+
+	string project_id = 1;
+	string dataset_id = 2;
+}
+
+message TableName {
+
+	string project_id = 1;
+	string dataset_id = 2;
+	string table_id = 3;
+}
+
+message JobName {
+
+	string project_id = 1;
+	string job_id = 2;
+	string location = 3;
+}
+
+message EncryptionInfo {
+
+	string kms_key_name = 1;
+}

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package google.api.expr.v1beta1;
+
+import "google/api/expr/v1beta1/source.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.api.expr.v1beta1";
+option java_outer_classname = "ExprProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/expr/v1beta1;expr";
+option cc_enable_arenas = true;
+
+
+message ParsedExpr {
+
+	Expr expr = 2;
+	google.api.expr.v1beta1.SourceInfo source_info = 3;
+	string syntax_version = 4;
+}
+
+message Expr {
+
+	message Ident {
+
+		string name = 1;
+	}
+
+	message Select {
+
+		Expr operand = 1;
+		string field = 2;
+		bool test_only = 3;
+	}
+
+	message Call {
+
+		Expr target = 1;
+		string function = 2;
+		repeated Expr args = 3;
+	}
+
+	message CreateList {
+
+		repeated Expr elements = 1;
+	}
+
+	message CreateStruct {
+
+		message Entry {
+
+			int32 id = 1;
+			oneof key_kind {
+				string field_key = 2;
+				Expr map_key = 3;
+			}
+			Expr value = 4;
+		}
+
+		string type = 1;
+		repeated Entry entries = 2;
+	}
+
+	message Comprehension {
+
+		string iter_var = 1;
+		Expr iter_range = 2;
+		string accu_var = 3;
+		Expr accu_init = 4;
+		Expr loop_condition = 5;
+		Expr loop_step = 6;
+		Expr result = 7;
+	}
+
+	int32 id = 2;
+	oneof expr_kind {
+		Literal literal_expr = 3;
+		Ident ident_expr = 4;
+		Select select_expr = 5;
+		Call call_expr = 6;
+		CreateList list_expr = 7;
+		CreateStruct struct_expr = 8;
+		Comprehension comprehension_expr = 9;
+	}
+}
+
+message Literal {
+
+	oneof constant_kind {
+		google.protobuf.NullValue null_value = 1;
+		bool bool_value = 2;
+		int64 int64_value = 3;
+		uint64 uint64_value = 4;
+		double double_value = 5;
+		string string_value = 6;
+		bytes bytes_value = 7;
+	}
+}

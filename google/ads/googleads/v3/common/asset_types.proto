@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.common;
+
+import "google/ads/googleads/v3/enums/mime_type.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.common";
+option java_outer_classname = "AssetTypesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V3::Common";
+
+
+message YoutubeVideoAsset {
+
+	google.protobuf.StringValue youtube_video_id = 1;
+}
+
+message MediaBundleAsset {
+
+	google.protobuf.BytesValue data = 1;
+}
+
+message ImageAsset {
+
+	google.protobuf.BytesValue data = 1;
+	google.protobuf.Int64Value file_size = 2;
+	google.ads.googleads.v3.enums.MimeTypeEnum.MimeType mime_type = 3;
+	ImageDimension full_size = 4;
+}
+
+message ImageDimension {
+
+	google.protobuf.Int64Value height_pixels = 1;
+	google.protobuf.Int64Value width_pixels = 2;
+	google.protobuf.StringValue url = 3;
+}
+
+message TextAsset {
+
+	google.protobuf.StringValue text = 1;
+}

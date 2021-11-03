@@ -1,0 +1,169 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.services;
+
+import "google/ads/googleads/v2/common/extensions.proto";
+import "google/ads/googleads/v2/enums/keyword_match_type.proto";
+import "google/ads/googleads/v2/resources/ad.proto";
+import "google/ads/googleads/v2/resources/recommendation.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v2.services";
+option java_outer_classname = "RecommendationServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V2::Services";
+
+
+service RecommendationService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetRecommendation(google.ads.googleads.v2.services.GetRecommendationRequest) returns (google.ads.googleads.v2.resources.Recommendation) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v2/{resource_name=customers/*/recommendations/*}"
+		};
+
+	}
+	rpc ApplyRecommendation(google.ads.googleads.v2.services.ApplyRecommendationRequest) returns (google.ads.googleads.v2.services.ApplyRecommendationResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v2/customers/{customer_id=*}/recommendations:apply"
+			body: "*"
+		};
+
+	}
+	rpc DismissRecommendation(google.ads.googleads.v2.services.DismissRecommendationRequest) returns (google.ads.googleads.v2.services.DismissRecommendationResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v2/customers/{customer_id=*}/recommendations:dismiss"
+			body: "*"
+		};
+
+	}
+}
+
+message GetRecommendationRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Recommendation"
+		}
+	];
+}
+
+message ApplyRecommendationRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ApplyRecommendationOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+}
+
+message ApplyRecommendationOperation {
+
+	message CampaignBudgetParameters {
+
+		google.protobuf.Int64Value new_budget_amount_micros = 1;
+	}
+
+	message TextAdParameters {
+
+		google.ads.googleads.v2.resources.Ad ad = 1;
+	}
+
+	message KeywordParameters {
+
+		google.protobuf.StringValue ad_group = 1;
+		google.ads.googleads.v2.enums.KeywordMatchTypeEnum.KeywordMatchType match_type = 2;
+		google.protobuf.Int64Value cpc_bid_micros = 3;
+	}
+
+	message TargetCpaOptInParameters {
+
+		google.protobuf.Int64Value target_cpa_micros = 1;
+		google.protobuf.Int64Value new_campaign_budget_amount_micros = 2;
+	}
+
+	message CalloutExtensionParameters {
+
+		repeated google.ads.googleads.v2.common.CalloutFeedItem callout_extensions = 1;
+	}
+
+	message CallExtensionParameters {
+
+		repeated google.ads.googleads.v2.common.CallFeedItem call_extensions = 1;
+	}
+
+	message SitelinkExtensionParameters {
+
+		repeated google.ads.googleads.v2.common.SitelinkFeedItem sitelink_extensions = 1;
+	}
+
+	message MoveUnusedBudgetParameters {
+
+		google.protobuf.Int64Value budget_micros_to_move = 1;
+	}
+
+	string resource_name = 1;
+	oneof apply_parameters {
+		CampaignBudgetParameters campaign_budget = 2;
+		TextAdParameters text_ad = 3;
+		KeywordParameters keyword = 4;
+		TargetCpaOptInParameters target_cpa_opt_in = 5;
+		CalloutExtensionParameters callout_extension = 6;
+		CallExtensionParameters call_extension = 7;
+		SitelinkExtensionParameters sitelink_extension = 8;
+		MoveUnusedBudgetParameters move_unused_budget = 9;
+	}
+}
+
+message ApplyRecommendationResponse {
+
+	repeated ApplyRecommendationResult results = 1;
+	google.rpc.Status partial_failure_error = 2;
+}
+
+message ApplyRecommendationResult {
+
+	string resource_name = 1;
+}
+
+message DismissRecommendationRequest {
+
+	message DismissRecommendationOperation {
+
+		string resource_name = 1;
+	}
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated DismissRecommendationOperation operations = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 2;
+}
+
+message DismissRecommendationResponse {
+
+	message DismissRecommendationResult {
+
+		string resource_name = 1;
+	}
+
+	repeated DismissRecommendationResult results = 1;
+	google.rpc.Status partial_failure_error = 2;
+}

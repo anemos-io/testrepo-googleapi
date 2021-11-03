@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.resources;
+
+import "google/ads/googleads/v4/common/user_lists.proto";
+import "google/ads/googleads/v4/enums/access_reason.proto";
+import "google/ads/googleads/v4/enums/user_list_access_status.proto";
+import "google/ads/googleads/v4/enums/user_list_closing_reason.proto";
+import "google/ads/googleads/v4/enums/user_list_membership_status.proto";
+import "google/ads/googleads/v4/enums/user_list_size_range.proto";
+import "google/ads/googleads/v4/enums/user_list_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.resources";
+option java_outer_classname = "UserListProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V4::Resources";
+
+
+message UserList {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/UserList"
+		pattern: ["customers/{customer}/userLists/{user_list}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/UserList"
+		}
+	];
+	google.protobuf.Int64Value id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.BoolValue read_only = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue name = 4;
+	google.protobuf.StringValue description = 5;
+	google.ads.googleads.v4.enums.UserListMembershipStatusEnum.UserListMembershipStatus membership_status = 6;
+	google.protobuf.StringValue integration_code = 7;
+	google.protobuf.Int64Value membership_life_span = 8;
+	google.protobuf.Int64Value size_for_display = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v4.enums.UserListSizeRangeEnum.UserListSizeRange size_range_for_display = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value size_for_search = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v4.enums.UserListSizeRangeEnum.UserListSizeRange size_range_for_search = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v4.enums.UserListTypeEnum.UserListType type = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v4.enums.UserListClosingReasonEnum.UserListClosingReason closing_reason = 14;
+	google.ads.googleads.v4.enums.AccessReasonEnum.AccessReason access_reason = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v4.enums.UserListAccessStatusEnum.UserListAccessStatus account_user_list_status = 16;
+	google.protobuf.BoolValue eligible_for_search = 17;
+	google.protobuf.BoolValue eligible_for_display = 18 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof user_list {
+		google.ads.googleads.v4.common.CrmBasedUserListInfo crm_based_user_list = 19;
+		google.ads.googleads.v4.common.SimilarUserListInfo similar_user_list = 20 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v4.common.RuleBasedUserListInfo rule_based_user_list = 21;
+		google.ads.googleads.v4.common.LogicalUserListInfo logical_user_list = 22;
+		google.ads.googleads.v4.common.BasicUserListInfo basic_user_list = 23;
+	}
+}

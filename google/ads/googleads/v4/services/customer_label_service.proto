@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.services;
+
+import "google/ads/googleads/v4/resources/customer_label.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v4.services";
+option java_outer_classname = "CustomerLabelServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V4::Services";
+
+
+service CustomerLabelService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetCustomerLabel(google.ads.googleads.v4.services.GetCustomerLabelRequest) returns (google.ads.googleads.v4.resources.CustomerLabel) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v4/{resource_name=customers/*/customerLabels/*}"
+		};
+
+	}
+	rpc MutateCustomerLabels(google.ads.googleads.v4.services.MutateCustomerLabelsRequest) returns (google.ads.googleads.v4.services.MutateCustomerLabelsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v4/customers/{customer_id=*}/customerLabels:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCustomerLabelRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomerLabel"
+		}
+	];
+}
+
+message MutateCustomerLabelsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CustomerLabelOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+}
+
+message CustomerLabelOperation {
+
+	oneof operation {
+		google.ads.googleads.v4.resources.CustomerLabel create = 1;
+		string remove = 2;
+	}
+}
+
+message MutateCustomerLabelsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateCustomerLabelResult results = 2;
+}
+
+message MutateCustomerLabelResult {
+
+	string resource_name = 1;
+}

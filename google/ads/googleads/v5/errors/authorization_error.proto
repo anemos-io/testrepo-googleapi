@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.errors";
+option java_outer_classname = "AuthorizationErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V5::Errors";
+
+
+message AuthorizationErrorEnum {
+
+	enum AuthorizationError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		USER_PERMISSION_DENIED = 2;
+		DEVELOPER_TOKEN_NOT_ON_ALLOWLIST = 13;
+		DEVELOPER_TOKEN_PROHIBITED = 4;
+		PROJECT_DISABLED = 5;
+		AUTHORIZATION_ERROR = 6;
+		ACTION_NOT_PERMITTED = 7;
+		INCOMPLETE_SIGNUP = 8;
+		CUSTOMER_NOT_ENABLED = 24;
+		MISSING_TOS = 9;
+		DEVELOPER_TOKEN_NOT_APPROVED = 10;
+		INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION = 11;
+		SERVICE_ACCESS_DENIED = 12;
+	}
+
+}

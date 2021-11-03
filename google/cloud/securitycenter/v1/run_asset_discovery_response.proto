@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1;securitycenter";
+option csharp_namespace = "Google.Cloud.SecurityCenter.V1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\V1";
+option ruby_package = "Google::Cloud::SecurityCenter::V1";
+
+
+message RunAssetDiscoveryResponse {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		COMPLETED = 1;
+		SUPERSEDED = 2;
+		TERMINATED = 3;
+	}
+
+	State state = 1;
+	google.protobuf.Duration duration = 2;
+}

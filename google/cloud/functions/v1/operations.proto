@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package google.cloud.functions.v1;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.functions.v1";
+option java_outer_classname = "FunctionsOperationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/functions/v1;functions";
+
+
+enum OperationType {
+
+	OPERATION_UNSPECIFIED = 0;
+	CREATE_FUNCTION = 1;
+	UPDATE_FUNCTION = 2;
+	DELETE_FUNCTION = 3;
+}
+
+message OperationMetadataV1 {
+
+	string target = 1;
+	OperationType type = 2;
+	google.protobuf.Any request = 3;
+	int64 version_id = 4;
+	google.protobuf.Timestamp update_time = 5;
+	string build_id = 6;
+}

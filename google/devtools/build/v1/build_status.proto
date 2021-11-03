@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package google.devtools.build.v1;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/any.proto";
+
+option java_package = "com.google.devtools.build.v1";
+option java_outer_classname = "BuildStatusProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/build/v1;build";
+option cc_enable_arenas = true;
+
+
+message BuildStatus {
+
+	enum Result {
+
+		UNKNOWN_STATUS = 0;
+		COMMAND_SUCCEEDED = 1;
+		COMMAND_FAILED = 2;
+		USER_ERROR = 3;
+		SYSTEM_ERROR = 4;
+		RESOURCE_EXHAUSTED = 5;
+		INVOCATION_DEADLINE_EXCEEDED = 6;
+		REQUEST_DEADLINE_EXCEEDED = 8;
+		CANCELLED = 7;
+	}
+
+	Result result = 1;
+	string final_invocation_id = 3;
+	google.protobuf.Int32Value build_tool_exit_code = 4;
+	google.protobuf.Any details = 2;
+}

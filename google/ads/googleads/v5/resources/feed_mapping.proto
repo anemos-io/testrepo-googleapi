@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.resources;
+
+import "google/ads/googleads/v5/enums/ad_customizer_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/affiliate_location_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/app_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/call_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/callout_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/custom_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/dsa_page_feed_criterion_field.proto";
+import "google/ads/googleads/v5/enums/education_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/feed_mapping_criterion_type.proto";
+import "google/ads/googleads/v5/enums/feed_mapping_status.proto";
+import "google/ads/googleads/v5/enums/flight_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/hotel_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/job_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/local_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/location_extension_targeting_criterion_field.proto";
+import "google/ads/googleads/v5/enums/location_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/message_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/placeholder_type.proto";
+import "google/ads/googleads/v5/enums/price_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/promotion_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/real_estate_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/sitelink_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/structured_snippet_placeholder_field.proto";
+import "google/ads/googleads/v5/enums/travel_placeholder_field.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.resources";
+option java_outer_classname = "FeedMappingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V5::Resources";
+
+
+message FeedMapping {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/FeedMapping"
+		pattern: ["customers/{customer}/feedMappings/{feed_mapping}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/FeedMapping"
+		}
+	];
+	google.protobuf.StringValue feed = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Feed"
+		}
+	];
+	repeated AttributeFieldMapping attribute_field_mappings = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v5.enums.FeedMappingStatusEnum.FeedMappingStatus status = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof target {
+		google.ads.googleads.v5.enums.PlaceholderTypeEnum.PlaceholderType placeholder_type = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.FeedMappingCriterionTypeEnum.FeedMappingCriterionType criterion_type = 4 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+}
+
+message AttributeFieldMapping {
+
+	google.protobuf.Int64Value feed_attribute_id = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Int64Value field_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof field {
+		google.ads.googleads.v5.enums.SitelinkPlaceholderFieldEnum.SitelinkPlaceholderField sitelink_field = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.CallPlaceholderFieldEnum.CallPlaceholderField call_field = 4 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.AppPlaceholderFieldEnum.AppPlaceholderField app_field = 5 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.LocationPlaceholderFieldEnum.LocationPlaceholderField location_field = 6 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.enums.AffiliateLocationPlaceholderFieldEnum.AffiliateLocationPlaceholderField affiliate_location_field = 7 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.enums.CalloutPlaceholderFieldEnum.CalloutPlaceholderField callout_field = 8 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.StructuredSnippetPlaceholderFieldEnum.StructuredSnippetPlaceholderField structured_snippet_field = 9 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.MessagePlaceholderFieldEnum.MessagePlaceholderField message_field = 10 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.PricePlaceholderFieldEnum.PricePlaceholderField price_field = 11 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.PromotionPlaceholderFieldEnum.PromotionPlaceholderField promotion_field = 12 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.AdCustomizerPlaceholderFieldEnum.AdCustomizerPlaceholderField ad_customizer_field = 13 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.DsaPageFeedCriterionFieldEnum.DsaPageFeedCriterionField dsa_page_feed_field = 14 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.LocationExtensionTargetingCriterionFieldEnum.LocationExtensionTargetingCriterionField location_extension_targeting_field = 15 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.EducationPlaceholderFieldEnum.EducationPlaceholderField education_field = 16 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.FlightPlaceholderFieldEnum.FlightPlaceholderField flight_field = 17 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.CustomPlaceholderFieldEnum.CustomPlaceholderField custom_field = 18 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.HotelPlaceholderFieldEnum.HotelPlaceholderField hotel_field = 19 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.RealEstatePlaceholderFieldEnum.RealEstatePlaceholderField real_estate_field = 20 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.TravelPlaceholderFieldEnum.TravelPlaceholderField travel_field = 21 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.LocalPlaceholderFieldEnum.LocalPlaceholderField local_field = 22 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v5.enums.JobPlaceholderFieldEnum.JobPlaceholderField job_field = 23 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+}

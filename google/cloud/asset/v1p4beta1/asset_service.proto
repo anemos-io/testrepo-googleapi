@@ -1,0 +1,186 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1p4beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/asset/v1p4beta1/assets.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.asset.v1p4beta1";
+option java_outer_classname = "AssetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1p4beta1;asset";
+option csharp_namespace = "Google.Cloud.Asset.V1P4Beta1";
+option php_namespace = "Google\\Cloud\\Asset\\V1p4beta1";
+
+
+service AssetService {
+	option (google.api.default_host) = "cloudasset.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc AnalyzeIamPolicy(google.cloud.asset.v1p4beta1.AnalyzeIamPolicyRequest) returns (google.cloud.asset.v1p4beta1.AnalyzeIamPolicyResponse) {
+		option (google.api.http) = {
+			get: "/v1p4beta1/{analysis_query.parent=*/*}:analyzeIamPolicy"
+		};
+
+	}
+	rpc ExportIamPolicyAnalysis(google.cloud.asset.v1p4beta1.ExportIamPolicyAnalysisRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.asset.v1p4beta1.ExportIamPolicyAnalysisResponse"
+			metadata_type: "google.cloud.asset.v1p4beta1.ExportIamPolicyAnalysisRequest"
+		};
+		option (google.api.http) = {
+			post: "/v1p4beta1/{analysis_query.parent=*/*}:exportIamPolicyAnalysis"
+			body: "*"
+		};
+
+	}
+}
+
+message IamPolicyAnalysisQuery {
+
+	message ResourceSelector {
+
+		string full_resource_name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message IdentitySelector {
+
+		string identity = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message AccessSelector {
+
+		repeated string roles = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		repeated string permissions = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ResourceSelector resource_selector = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	IdentitySelector identity_selector = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	AccessSelector access_selector = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message AnalyzeIamPolicyRequest {
+
+	message Options {
+
+		bool expand_groups = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool expand_roles = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool expand_resources = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool output_resource_edges = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool output_group_edges = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool analyze_service_account_impersonation = 6 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		google.protobuf.Duration execution_timeout = 7 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	IamPolicyAnalysisQuery analysis_query = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Options options = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message AnalyzeIamPolicyResponse {
+
+	message IamPolicyAnalysis {
+
+		IamPolicyAnalysisQuery analysis_query = 1;
+		repeated google.cloud.asset.v1p4beta1.IamPolicyAnalysisResult analysis_results = 2;
+		bool fully_explored = 3;
+	}
+
+	IamPolicyAnalysis main_analysis = 1;
+	repeated IamPolicyAnalysis service_account_impersonation_analysis = 2;
+	bool fully_explored = 3;
+	repeated google.cloud.asset.v1p4beta1.IamPolicyAnalysisResult.AnalysisState non_critical_errors = 4;
+}
+
+message IamPolicyAnalysisOutputConfig {
+
+	message GcsDestination {
+
+		string uri = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	oneof destination {
+		GcsDestination gcs_destination = 1;
+	}
+}
+
+message ExportIamPolicyAnalysisRequest {
+
+	message Options {
+
+		bool expand_groups = 1 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool expand_roles = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool expand_resources = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool output_resource_edges = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool output_group_edges = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		bool analyze_service_account_impersonation = 6 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	IamPolicyAnalysisQuery analysis_query = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Options options = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	IamPolicyAnalysisOutputConfig output_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportIamPolicyAnalysisResponse {
+
+	IamPolicyAnalysisOutputConfig output_config = 1;
+}

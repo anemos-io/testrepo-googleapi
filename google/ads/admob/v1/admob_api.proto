@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package google.ads.admob.v1;
+
+import "google/ads/admob/v1/admob_resources.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.ads.admob.v1";
+option java_outer_classname = "AdMobApiProto";
+option go_package = "google.golang.org/genproto/googleapis/ads/admob/v1;admob";
+
+
+service AdMobApi {
+	option (google.api.default_host) = "admob.googleapis.com";
+
+	rpc GetPublisherAccount(google.ads.admob.v1.GetPublisherAccountRequest) returns (google.ads.admob.v1.PublisherAccount) {
+		option (google.api.http) = {
+			get: "/v1/{name=accounts/*}"
+		};
+
+	}
+	rpc ListPublisherAccounts(google.ads.admob.v1.ListPublisherAccountsRequest) returns (google.ads.admob.v1.ListPublisherAccountsResponse) {
+		option (google.api.http) = {
+			get: "/v1/accounts"
+		};
+
+	}
+	rpc GenerateNetworkReport(google.ads.admob.v1.GenerateNetworkReportRequest) returns (stream google.ads.admob.v1.GenerateNetworkReportResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*}/networkReport:generate"
+			body: "*"
+		};
+
+	}
+	rpc GenerateMediationReport(google.ads.admob.v1.GenerateMediationReportRequest) returns (stream google.ads.admob.v1.GenerateMediationReportResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=accounts/*}/mediationReport:generate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetPublisherAccountRequest {
+
+	string name = 1;
+}
+
+message ListPublisherAccountsRequest {
+
+	int32 page_size = 1;
+	string page_token = 2;
+}
+
+message ListPublisherAccountsResponse {
+
+	repeated google.ads.admob.v1.PublisherAccount account = 1;
+	string next_page_token = 2;
+}
+
+message GenerateMediationReportRequest {
+
+	string parent = 1;
+	google.ads.admob.v1.MediationReportSpec report_spec = 2;
+}
+
+message GenerateMediationReportResponse {
+
+	oneof payload {
+		google.ads.admob.v1.ReportHeader header = 1;
+		google.ads.admob.v1.ReportRow row = 2;
+		google.ads.admob.v1.ReportFooter footer = 3;
+	}
+}
+
+message GenerateNetworkReportRequest {
+
+	string parent = 1;
+	google.ads.admob.v1.NetworkReportSpec report_spec = 2;
+}
+
+message GenerateNetworkReportResponse {
+
+	oneof payload {
+		google.ads.admob.v1.ReportHeader header = 1;
+		google.ads.admob.v1.ReportRow row = 2;
+		google.ads.admob.v1.ReportFooter footer = 3;
+	}
+}

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package google.cloud.servicedirectory.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/servicedirectory/v1beta1/service.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.servicedirectory.v1beta1";
+option java_outer_classname = "LookupServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/servicedirectory/v1beta1;servicedirectory";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.ServiceDirectory.V1Beta1";
+option php_namespace = "Google\\Cloud\\ServiceDirectory\\V1beta1";
+option ruby_package = "Google::Cloud::ServiceDirectory::V1beta1";
+
+
+service LookupService {
+	option (google.api.default_host) = "servicedirectory.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ResolveService(google.cloud.servicedirectory.v1beta1.ResolveServiceRequest) returns (google.cloud.servicedirectory.v1beta1.ResolveServiceResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/namespaces/*/services/*}:resolve"
+			body: "*"
+		};
+
+	}
+}
+
+message ResolveServiceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "servicedirectory.googleapis.com/Service"
+		}
+	];
+	int32 max_endpoints = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string endpoint_filter = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ResolveServiceResponse {
+
+	google.cloud.servicedirectory.v1beta1.Service service = 1;
+}

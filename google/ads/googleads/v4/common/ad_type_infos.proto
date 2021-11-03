@@ -1,0 +1,271 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.common;
+
+import "google/ads/googleads/v4/common/ad_asset.proto";
+import "google/ads/googleads/v4/enums/call_conversion_reporting_state.proto";
+import "google/ads/googleads/v4/enums/display_ad_format_setting.proto";
+import "google/ads/googleads/v4/enums/display_upload_product_type.proto";
+import "google/ads/googleads/v4/enums/legacy_app_install_ad_app_store.proto";
+import "google/ads/googleads/v4/enums/mime_type.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.common";
+option java_outer_classname = "AdTypeInfosProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V4::Common";
+
+
+message TextAdInfo {
+
+	google.protobuf.StringValue headline = 1;
+	google.protobuf.StringValue description1 = 2;
+	google.protobuf.StringValue description2 = 3;
+}
+
+message ExpandedTextAdInfo {
+
+	google.protobuf.StringValue headline_part1 = 1;
+	google.protobuf.StringValue headline_part2 = 2;
+	google.protobuf.StringValue headline_part3 = 6;
+	google.protobuf.StringValue description = 3;
+	google.protobuf.StringValue description2 = 7;
+	google.protobuf.StringValue path1 = 4;
+	google.protobuf.StringValue path2 = 5;
+}
+
+message CallOnlyAdInfo {
+
+	google.protobuf.StringValue country_code = 1;
+	google.protobuf.StringValue phone_number = 2;
+	google.protobuf.StringValue business_name = 3;
+	google.protobuf.StringValue headline1 = 11;
+	google.protobuf.StringValue headline2 = 12;
+	google.protobuf.StringValue description1 = 4;
+	google.protobuf.StringValue description2 = 5;
+	google.protobuf.BoolValue call_tracked = 6;
+	google.protobuf.BoolValue disable_call_conversion = 7;
+	google.protobuf.StringValue phone_number_verification_url = 8;
+	google.protobuf.StringValue conversion_action = 9;
+	google.ads.googleads.v4.enums.CallConversionReportingStateEnum.CallConversionReportingState conversion_reporting_state = 10;
+}
+
+message ExpandedDynamicSearchAdInfo {
+
+	google.protobuf.StringValue description = 1;
+	google.protobuf.StringValue description2 = 2;
+}
+
+message HotelAdInfo {
+
+}
+
+message ShoppingSmartAdInfo {
+
+}
+
+message ShoppingProductAdInfo {
+
+}
+
+message ShoppingComparisonListingAdInfo {
+
+	google.protobuf.StringValue headline = 1;
+}
+
+message GmailAdInfo {
+
+	GmailTeaser teaser = 1;
+	google.protobuf.StringValue header_image = 2;
+	google.protobuf.StringValue marketing_image = 3;
+	google.protobuf.StringValue marketing_image_headline = 4;
+	google.protobuf.StringValue marketing_image_description = 5;
+	DisplayCallToAction marketing_image_display_call_to_action = 6;
+	repeated ProductImage product_images = 7;
+	repeated ProductVideo product_videos = 8;
+}
+
+message GmailTeaser {
+
+	google.protobuf.StringValue headline = 1;
+	google.protobuf.StringValue description = 2;
+	google.protobuf.StringValue business_name = 3;
+	google.protobuf.StringValue logo_image = 4;
+}
+
+message DisplayCallToAction {
+
+	google.protobuf.StringValue text = 1;
+	google.protobuf.StringValue text_color = 2;
+	google.protobuf.StringValue url_collection_id = 3;
+}
+
+message ProductImage {
+
+	google.protobuf.StringValue product_image = 1;
+	google.protobuf.StringValue description = 2;
+	DisplayCallToAction display_call_to_action = 3;
+}
+
+message ProductVideo {
+
+	google.protobuf.StringValue product_video = 1;
+}
+
+message ImageAdInfo {
+
+	google.protobuf.Int64Value pixel_width = 4;
+	google.protobuf.Int64Value pixel_height = 5;
+	google.protobuf.StringValue image_url = 6;
+	google.protobuf.Int64Value preview_pixel_width = 7;
+	google.protobuf.Int64Value preview_pixel_height = 8;
+	google.protobuf.StringValue preview_image_url = 9;
+	google.ads.googleads.v4.enums.MimeTypeEnum.MimeType mime_type = 10;
+	google.protobuf.StringValue name = 11;
+	oneof image {
+		google.protobuf.StringValue media_file = 1;
+		google.protobuf.BytesValue data = 2;
+		google.protobuf.Int64Value ad_id_to_copy_image_from = 3;
+	}
+}
+
+message VideoBumperInStreamAdInfo {
+
+	google.protobuf.StringValue companion_banner = 1;
+}
+
+message VideoNonSkippableInStreamAdInfo {
+
+	google.protobuf.StringValue companion_banner = 1;
+}
+
+message VideoTrueViewInStreamAdInfo {
+
+	google.protobuf.StringValue action_button_label = 1;
+	google.protobuf.StringValue action_headline = 2;
+	google.protobuf.StringValue companion_banner = 3;
+}
+
+message VideoOutstreamAdInfo {
+
+	google.protobuf.StringValue headline = 1;
+	google.protobuf.StringValue description = 2;
+}
+
+message VideoTrueViewDiscoveryAdInfo {
+
+	google.protobuf.StringValue headline = 1;
+	google.protobuf.StringValue description1 = 2;
+	google.protobuf.StringValue description2 = 3;
+}
+
+message VideoAdInfo {
+
+	google.protobuf.StringValue media_file = 1;
+	oneof format {
+		VideoTrueViewInStreamAdInfo in_stream = 2;
+		VideoBumperInStreamAdInfo bumper = 3;
+		VideoOutstreamAdInfo out_stream = 4;
+		VideoNonSkippableInStreamAdInfo non_skippable = 5;
+		VideoTrueViewDiscoveryAdInfo discovery = 6;
+	}
+}
+
+message ResponsiveSearchAdInfo {
+
+	repeated google.ads.googleads.v4.common.AdTextAsset headlines = 1;
+	repeated google.ads.googleads.v4.common.AdTextAsset descriptions = 2;
+	google.protobuf.StringValue path1 = 3;
+	google.protobuf.StringValue path2 = 4;
+}
+
+message LegacyResponsiveDisplayAdInfo {
+
+	google.protobuf.StringValue short_headline = 1;
+	google.protobuf.StringValue long_headline = 2;
+	google.protobuf.StringValue description = 3;
+	google.protobuf.StringValue business_name = 4;
+	google.protobuf.BoolValue allow_flexible_color = 5;
+	google.protobuf.StringValue accent_color = 6;
+	google.protobuf.StringValue main_color = 7;
+	google.protobuf.StringValue call_to_action_text = 8;
+	google.protobuf.StringValue logo_image = 9;
+	google.protobuf.StringValue square_logo_image = 10;
+	google.protobuf.StringValue marketing_image = 11;
+	google.protobuf.StringValue square_marketing_image = 12;
+	google.ads.googleads.v4.enums.DisplayAdFormatSettingEnum.DisplayAdFormatSetting format_setting = 13;
+	google.protobuf.StringValue price_prefix = 14;
+	google.protobuf.StringValue promo_text = 15;
+}
+
+message AppAdInfo {
+
+	google.ads.googleads.v4.common.AdTextAsset mandatory_ad_text = 1;
+	repeated google.ads.googleads.v4.common.AdTextAsset headlines = 2;
+	repeated google.ads.googleads.v4.common.AdTextAsset descriptions = 3;
+	repeated google.ads.googleads.v4.common.AdImageAsset images = 4;
+	repeated google.ads.googleads.v4.common.AdVideoAsset youtube_videos = 5;
+	repeated google.ads.googleads.v4.common.AdMediaBundleAsset html5_media_bundles = 6;
+}
+
+message AppEngagementAdInfo {
+
+	repeated google.ads.googleads.v4.common.AdTextAsset headlines = 1;
+	repeated google.ads.googleads.v4.common.AdTextAsset descriptions = 2;
+	repeated google.ads.googleads.v4.common.AdImageAsset images = 3;
+	repeated google.ads.googleads.v4.common.AdVideoAsset videos = 4;
+}
+
+message LegacyAppInstallAdInfo {
+
+	google.protobuf.StringValue app_id = 1;
+	google.ads.googleads.v4.enums.LegacyAppInstallAdAppStoreEnum.LegacyAppInstallAdAppStore app_store = 2;
+	google.protobuf.StringValue headline = 3;
+	google.protobuf.StringValue description1 = 4;
+	google.protobuf.StringValue description2 = 5;
+}
+
+message ResponsiveDisplayAdInfo {
+
+	repeated google.ads.googleads.v4.common.AdImageAsset marketing_images = 1;
+	repeated google.ads.googleads.v4.common.AdImageAsset square_marketing_images = 2;
+	repeated google.ads.googleads.v4.common.AdImageAsset logo_images = 3;
+	repeated google.ads.googleads.v4.common.AdImageAsset square_logo_images = 4;
+	repeated google.ads.googleads.v4.common.AdTextAsset headlines = 5;
+	google.ads.googleads.v4.common.AdTextAsset long_headline = 6;
+	repeated google.ads.googleads.v4.common.AdTextAsset descriptions = 7;
+	repeated google.ads.googleads.v4.common.AdVideoAsset youtube_videos = 8;
+	google.protobuf.StringValue business_name = 9;
+	google.protobuf.StringValue main_color = 10;
+	google.protobuf.StringValue accent_color = 11;
+	google.protobuf.BoolValue allow_flexible_color = 12;
+	google.protobuf.StringValue call_to_action_text = 13;
+	google.protobuf.StringValue price_prefix = 14;
+	google.protobuf.StringValue promo_text = 15;
+	google.ads.googleads.v4.enums.DisplayAdFormatSettingEnum.DisplayAdFormatSetting format_setting = 16;
+}
+
+message LocalAdInfo {
+
+	repeated google.ads.googleads.v4.common.AdTextAsset headlines = 1;
+	repeated google.ads.googleads.v4.common.AdTextAsset descriptions = 2;
+	repeated google.ads.googleads.v4.common.AdTextAsset call_to_actions = 3;
+	repeated google.ads.googleads.v4.common.AdImageAsset marketing_images = 4;
+	repeated google.ads.googleads.v4.common.AdImageAsset logo_images = 5;
+	repeated google.ads.googleads.v4.common.AdVideoAsset videos = 6;
+	google.protobuf.StringValue path1 = 7;
+	google.protobuf.StringValue path2 = 8;
+}
+
+message DisplayUploadAdInfo {
+
+	google.ads.googleads.v4.enums.DisplayUploadProductTypeEnum.DisplayUploadProductType display_upload_product_type = 1;
+	oneof media_asset {
+		google.ads.googleads.v4.common.AdMediaBundleAsset media_bundle = 2;
+	}
+}

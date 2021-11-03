@@ -1,0 +1,215 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.resources;
+
+import "google/ads/googleads/v2/common/bidding.proto";
+import "google/ads/googleads/v2/common/custom_parameter.proto";
+import "google/ads/googleads/v2/common/frequency_cap.proto";
+import "google/ads/googleads/v2/common/real_time_bidding_setting.proto";
+import "google/ads/googleads/v2/common/targeting_setting.proto";
+import "google/ads/googleads/v2/enums/ad_serving_optimization_status.proto";
+import "google/ads/googleads/v2/enums/advertising_channel_sub_type.proto";
+import "google/ads/googleads/v2/enums/advertising_channel_type.proto";
+import "google/ads/googleads/v2/enums/app_campaign_app_store.proto";
+import "google/ads/googleads/v2/enums/app_campaign_bidding_strategy_goal_type.proto";
+import "google/ads/googleads/v2/enums/bidding_strategy_type.proto";
+import "google/ads/googleads/v2/enums/brand_safety_suitability.proto";
+import "google/ads/googleads/v2/enums/campaign_experiment_type.proto";
+import "google/ads/googleads/v2/enums/campaign_serving_status.proto";
+import "google/ads/googleads/v2/enums/campaign_status.proto";
+import "google/ads/googleads/v2/enums/negative_geo_target_type.proto";
+import "google/ads/googleads/v2/enums/payment_mode.proto";
+import "google/ads/googleads/v2/enums/positive_geo_target_type.proto";
+import "google/ads/googleads/v2/enums/vanity_pharma_display_url_mode.proto";
+import "google/ads/googleads/v2/enums/vanity_pharma_text.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.resources";
+option java_outer_classname = "CampaignProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V2::Resources";
+
+
+message Campaign {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/Campaign"
+		pattern: ["customers/{customer}/campaigns/{campaign}"]
+	};
+
+	message NetworkSettings {
+
+		google.protobuf.BoolValue target_google_search = 1;
+		google.protobuf.BoolValue target_search_network = 2;
+		google.protobuf.BoolValue target_content_network = 3;
+		google.protobuf.BoolValue target_partner_search_network = 4;
+	}
+
+	message HotelSettingInfo {
+
+		google.protobuf.Int64Value hotel_center_id = 1 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+
+	message VanityPharma {
+
+		google.ads.googleads.v2.enums.VanityPharmaDisplayUrlModeEnum.VanityPharmaDisplayUrlMode vanity_pharma_display_url_mode = 1;
+		google.ads.googleads.v2.enums.VanityPharmaTextEnum.VanityPharmaText vanity_pharma_text = 2;
+	}
+
+	message SelectiveOptimization {
+
+		repeated google.protobuf.StringValue conversion_actions = 1 [
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/ConversionAction"
+			}
+		];
+	}
+
+	message DynamicSearchAdsSetting {
+
+		google.protobuf.StringValue domain_name = 1;
+		google.protobuf.StringValue language_code = 2;
+		google.protobuf.BoolValue use_supplied_urls_only = 3;
+		repeated google.protobuf.StringValue feeds = 5 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Feed"
+			}
+		];
+	}
+
+	message ShoppingSetting {
+
+		google.protobuf.Int64Value merchant_id = 1 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.protobuf.StringValue sales_country = 2 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.protobuf.Int32Value campaign_priority = 3;
+		google.protobuf.BoolValue enable_local = 4;
+	}
+
+	message TrackingSetting {
+
+		google.protobuf.StringValue tracking_url = 1 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+
+	message GeoTargetTypeSetting {
+
+		google.ads.googleads.v2.enums.PositiveGeoTargetTypeEnum.PositiveGeoTargetType positive_geo_target_type = 1;
+		google.ads.googleads.v2.enums.NegativeGeoTargetTypeEnum.NegativeGeoTargetType negative_geo_target_type = 2;
+	}
+
+	message AppCampaignSetting {
+
+		google.ads.googleads.v2.enums.AppCampaignBiddingStrategyGoalTypeEnum.AppCampaignBiddingStrategyGoalType bidding_strategy_goal_type = 1;
+		google.protobuf.StringValue app_id = 2 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v2.enums.AppCampaignAppStoreEnum.AppCampaignAppStore app_store = 3 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	google.protobuf.Int64Value id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue name = 4;
+	google.ads.googleads.v2.enums.CampaignStatusEnum.CampaignStatus status = 5;
+	google.ads.googleads.v2.enums.CampaignServingStatusEnum.CampaignServingStatus serving_status = 21 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.AdServingOptimizationStatusEnum.AdServingOptimizationStatus ad_serving_optimization_status = 8;
+	google.ads.googleads.v2.enums.AdvertisingChannelTypeEnum.AdvertisingChannelType advertising_channel_type = 9 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v2.enums.AdvertisingChannelSubTypeEnum.AdvertisingChannelSubType advertising_channel_sub_type = 10 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.StringValue tracking_url_template = 11;
+	repeated google.ads.googleads.v2.common.CustomParameter url_custom_parameters = 12;
+	google.ads.googleads.v2.common.RealTimeBiddingSetting real_time_bidding_setting = 39;
+	NetworkSettings network_settings = 14;
+	HotelSettingInfo hotel_setting = 32 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	DynamicSearchAdsSetting dynamic_search_ads_setting = 33;
+	ShoppingSetting shopping_setting = 36;
+	google.ads.googleads.v2.common.TargetingSetting targeting_setting = 43;
+	GeoTargetTypeSetting geo_target_type_setting = 47;
+	AppCampaignSetting app_campaign_setting = 51;
+	repeated google.protobuf.StringValue labels = 53 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignLabel"
+		}
+	];
+	google.ads.googleads.v2.enums.CampaignExperimentTypeEnum.CampaignExperimentType experiment_type = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue base_campaign = 28 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	google.protobuf.StringValue campaign_budget = 6 [
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignBudget"
+		}
+	];
+	google.ads.googleads.v2.enums.BiddingStrategyTypeEnum.BiddingStrategyType bidding_strategy_type = 22 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue start_date = 19;
+	google.protobuf.StringValue end_date = 20;
+	google.protobuf.StringValue final_url_suffix = 38;
+	repeated google.ads.googleads.v2.common.FrequencyCapEntry frequency_caps = 40;
+	google.ads.googleads.v2.enums.BrandSafetySuitabilityEnum.BrandSafetySuitability video_brand_safety_suitability = 42 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	VanityPharma vanity_pharma = 44;
+	SelectiveOptimization selective_optimization = 45;
+	TrackingSetting tracking_setting = 46 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.PaymentModeEnum.PaymentMode payment_mode = 52;
+	oneof campaign_bidding_strategy {
+		google.protobuf.StringValue bidding_strategy = 23 [
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/BiddingStrategy"
+			}
+		];
+		google.ads.googleads.v2.common.Commission commission = 49;
+		google.ads.googleads.v2.common.ManualCpc manual_cpc = 24;
+		google.ads.googleads.v2.common.ManualCpm manual_cpm = 25;
+		google.ads.googleads.v2.common.ManualCpv manual_cpv = 37 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v2.common.MaximizeConversions maximize_conversions = 30;
+		google.ads.googleads.v2.common.MaximizeConversionValue maximize_conversion_value = 31;
+		google.ads.googleads.v2.common.TargetCpa target_cpa = 26;
+		google.ads.googleads.v2.common.TargetImpressionShare target_impression_share = 48;
+		google.ads.googleads.v2.common.TargetRoas target_roas = 29;
+		google.ads.googleads.v2.common.TargetSpend target_spend = 27;
+		google.ads.googleads.v2.common.PercentCpc percent_cpc = 34;
+		google.ads.googleads.v2.common.TargetCpm target_cpm = 41;
+	}
+}

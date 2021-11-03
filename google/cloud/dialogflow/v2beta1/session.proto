@@ -1,0 +1,227 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/v2beta1/agent.proto";
+import "google/cloud/dialogflow/v2beta1/audio_config.proto";
+import "google/cloud/dialogflow/v2beta1/context.proto";
+import "google/cloud/dialogflow/v2beta1/intent.proto";
+import "google/cloud/dialogflow/v2beta1/session_entity_type.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/rpc/status.proto";
+import "google/type/latlng.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "SessionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+option (google.api.resource_definition) = {
+	type: "dialogflow.googleapis.com/Session"
+	pattern: ["projects/{project}/agent/sessions/{session}","projects/{project}/agent/environments/{environment}/users/{user}/sessions/{session}","projects/{project}/locations/{location}/agent/sessions/{session}"]
+};
+
+
+service Sessions {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc DetectIntent(google.cloud.dialogflow.v2beta1.DetectIntentRequest) returns (google.cloud.dialogflow.v2beta1.DetectIntentResponse) {
+		option (google.api.method_signature) = "session,query_input";
+		option (google.api.http) = {
+			post: "/v2beta1/{session=projects/*/agent/sessions/*}:detectIntent"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{session=projects/*/agent/environments/*/users/*/sessions/*}:detectIntent"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v2beta1/{session=projects/*/locations/*/agent/sessions/*}:detectIntent"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v2beta1/{session=projects/*/locations/*/agent/environments/*/users/*/sessions/*}:detectIntent"
+				body: "*"
+			}
+		};
+
+	}
+	rpc StreamingDetectIntent(stream google.cloud.dialogflow.v2beta1.StreamingDetectIntentRequest) returns (stream google.cloud.dialogflow.v2beta1.StreamingDetectIntentResponse) {}
+}
+
+message DetectIntentRequest {
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Session"
+		}
+	];
+	QueryParameters query_params = 2;
+	QueryInput query_input = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.dialogflow.v2beta1.OutputAudioConfig output_audio_config = 4;
+	google.protobuf.FieldMask output_audio_config_mask = 7;
+	bytes input_audio = 5;
+}
+
+message DetectIntentResponse {
+
+	string response_id = 1;
+	QueryResult query_result = 2;
+	repeated QueryResult alternative_query_results = 5;
+	google.rpc.Status webhook_status = 3;
+	bytes output_audio = 4;
+	google.cloud.dialogflow.v2beta1.OutputAudioConfig output_audio_config = 6;
+}
+
+message QueryParameters {
+
+	string time_zone = 1;
+	google.type.LatLng geo_location = 2;
+	repeated google.cloud.dialogflow.v2beta1.Context contexts = 3;
+	bool reset_contexts = 4;
+	repeated google.cloud.dialogflow.v2beta1.SessionEntityType session_entity_types = 5;
+	google.protobuf.Struct payload = 6;
+	repeated string knowledge_base_names = 12;
+	SentimentAnalysisRequestConfig sentiment_analysis_request_config = 10;
+	repeated google.cloud.dialogflow.v2beta1.SubAgent sub_agents = 13;
+	map<string, string> webhook_headers = 14;
+}
+
+message QueryInput {
+
+	oneof input {
+		google.cloud.dialogflow.v2beta1.InputAudioConfig audio_config = 1;
+		TextInput text = 2;
+		EventInput event = 3;
+	}
+}
+
+message QueryResult {
+
+	string query_text = 1;
+	string language_code = 15;
+	float speech_recognition_confidence = 2;
+	string action = 3;
+	google.protobuf.Struct parameters = 4;
+	bool all_required_params_present = 5;
+	string fulfillment_text = 6;
+	repeated google.cloud.dialogflow.v2beta1.Intent.Message fulfillment_messages = 7;
+	string webhook_source = 8;
+	google.protobuf.Struct webhook_payload = 9;
+	repeated google.cloud.dialogflow.v2beta1.Context output_contexts = 10;
+	google.cloud.dialogflow.v2beta1.Intent intent = 11;
+	float intent_detection_confidence = 12;
+	google.protobuf.Struct diagnostic_info = 14;
+	SentimentAnalysisResult sentiment_analysis_result = 17;
+	KnowledgeAnswers knowledge_answers = 18;
+}
+
+message KnowledgeAnswers {
+
+	message Answer {
+
+		enum MatchConfidenceLevel {
+
+			MATCH_CONFIDENCE_LEVEL_UNSPECIFIED = 0;
+			LOW = 1;
+			MEDIUM = 2;
+			HIGH = 3;
+		}
+
+		string source = 1 [
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Document"
+			}
+		];
+		string faq_question = 2;
+		string answer = 3;
+		MatchConfidenceLevel match_confidence_level = 4;
+		float match_confidence = 5;
+	}
+
+	repeated Answer answers = 1;
+}
+
+message StreamingDetectIntentRequest {
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	QueryParameters query_params = 2;
+	QueryInput query_input = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool single_utterance = 4;
+	google.cloud.dialogflow.v2beta1.OutputAudioConfig output_audio_config = 5;
+	google.protobuf.FieldMask output_audio_config_mask = 7;
+	bytes input_audio = 6;
+}
+
+message StreamingDetectIntentResponse {
+
+	string response_id = 1;
+	StreamingRecognitionResult recognition_result = 2;
+	QueryResult query_result = 3;
+	repeated QueryResult alternative_query_results = 7;
+	google.rpc.Status webhook_status = 4;
+	bytes output_audio = 5;
+	google.cloud.dialogflow.v2beta1.OutputAudioConfig output_audio_config = 6;
+}
+
+message StreamingRecognitionResult {
+
+	enum MessageType {
+
+		MESSAGE_TYPE_UNSPECIFIED = 0;
+		TRANSCRIPT = 1;
+		END_OF_SINGLE_UTTERANCE = 2;
+	}
+
+	MessageType message_type = 1;
+	string transcript = 2;
+	bool is_final = 3;
+	float confidence = 4;
+	float stability = 6;
+	repeated google.cloud.dialogflow.v2beta1.SpeechWordInfo speech_word_info = 7;
+	google.protobuf.Duration speech_end_offset = 8;
+}
+
+message TextInput {
+
+	string text = 1;
+	string language_code = 2;
+}
+
+message EventInput {
+
+	string name = 1;
+	google.protobuf.Struct parameters = 2;
+	string language_code = 3;
+}
+
+message SentimentAnalysisRequestConfig {
+
+	bool analyze_query_text_sentiment = 1;
+}
+
+message SentimentAnalysisResult {
+
+	Sentiment query_text_sentiment = 1;
+}
+
+message Sentiment {
+
+	float score = 1;
+	float magnitude = 2;
+}

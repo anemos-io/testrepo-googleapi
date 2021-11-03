@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.common;
+
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.common";
+option java_outer_classname = "SimulationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V2::Common";
+
+
+message BidModifierSimulationPointList {
+
+	repeated BidModifierSimulationPoint points = 1;
+}
+
+message CpcBidSimulationPointList {
+
+	repeated CpcBidSimulationPoint points = 1;
+}
+
+message CpvBidSimulationPointList {
+
+	repeated CpvBidSimulationPoint points = 1;
+}
+
+message TargetCpaSimulationPointList {
+
+	repeated TargetCpaSimulationPoint points = 1;
+}
+
+message BidModifierSimulationPoint {
+
+	google.protobuf.DoubleValue bid_modifier = 1;
+	google.protobuf.DoubleValue biddable_conversions = 2;
+	google.protobuf.DoubleValue biddable_conversions_value = 3;
+	google.protobuf.Int64Value clicks = 4;
+	google.protobuf.Int64Value cost_micros = 5;
+	google.protobuf.Int64Value impressions = 6;
+	google.protobuf.Int64Value top_slot_impressions = 7;
+	google.protobuf.DoubleValue parent_biddable_conversions = 8;
+	google.protobuf.DoubleValue parent_biddable_conversions_value = 9;
+	google.protobuf.Int64Value parent_clicks = 10;
+	google.protobuf.Int64Value parent_cost_micros = 11;
+	google.protobuf.Int64Value parent_impressions = 12;
+	google.protobuf.Int64Value parent_top_slot_impressions = 13;
+	google.protobuf.Int64Value parent_required_budget_micros = 14;
+}
+
+message CpcBidSimulationPoint {
+
+	google.protobuf.Int64Value cpc_bid_micros = 1;
+	google.protobuf.DoubleValue biddable_conversions = 2;
+	google.protobuf.DoubleValue biddable_conversions_value = 3;
+	google.protobuf.Int64Value clicks = 4;
+	google.protobuf.Int64Value cost_micros = 5;
+	google.protobuf.Int64Value impressions = 6;
+	google.protobuf.Int64Value top_slot_impressions = 7;
+}
+
+message CpvBidSimulationPoint {
+
+	google.protobuf.Int64Value cpv_bid_micros = 1;
+	google.protobuf.Int64Value cost_micros = 2;
+	google.protobuf.Int64Value impressions = 3;
+	google.protobuf.Int64Value views = 4;
+}
+
+message TargetCpaSimulationPoint {
+
+	google.protobuf.Int64Value target_cpa_micros = 1;
+	google.protobuf.DoubleValue biddable_conversions = 2;
+	google.protobuf.DoubleValue biddable_conversions_value = 3;
+	google.protobuf.Int64Value clicks = 4;
+	google.protobuf.Int64Value cost_micros = 5;
+	google.protobuf.Int64Value impressions = 6;
+	google.protobuf.Int64Value top_slot_impressions = 7;
+}

@@ -1,0 +1,304 @@
+syntax = "proto3";
+
+package google.cloud.tasks.v2beta3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/tasks/v2beta3/queue.proto";
+import "google/cloud/tasks/v2beta3/task.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.tasks.v2beta3";
+option java_outer_classname = "CloudTasksProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/tasks/v2beta3;tasks";
+option objc_class_prefix = "TASKS";
+
+
+service CloudTasks {
+	option (google.api.default_host) = "cloudtasks.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListQueues(google.cloud.tasks.v2beta3.ListQueuesRequest) returns (google.cloud.tasks.v2beta3.ListQueuesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2beta3/{parent=projects/*/locations/*}/queues"
+		};
+
+	}
+	rpc GetQueue(google.cloud.tasks.v2beta3.GetQueueRequest) returns (google.cloud.tasks.v2beta3.Queue) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2beta3/{name=projects/*/locations/*/queues/*}"
+		};
+
+	}
+	rpc CreateQueue(google.cloud.tasks.v2beta3.CreateQueueRequest) returns (google.cloud.tasks.v2beta3.Queue) {
+		option (google.api.method_signature) = "parent,queue";
+		option (google.api.http) = {
+			post: "/v2beta3/{parent=projects/*/locations/*}/queues"
+			body: "queue"
+		};
+
+	}
+	rpc UpdateQueue(google.cloud.tasks.v2beta3.UpdateQueueRequest) returns (google.cloud.tasks.v2beta3.Queue) {
+		option (google.api.method_signature) = "queue,update_mask";
+		option (google.api.http) = {
+			patch: "/v2beta3/{queue.name=projects/*/locations/*/queues/*}"
+			body: "queue"
+		};
+
+	}
+	rpc DeleteQueue(google.cloud.tasks.v2beta3.DeleteQueueRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2beta3/{name=projects/*/locations/*/queues/*}"
+		};
+
+	}
+	rpc PurgeQueue(google.cloud.tasks.v2beta3.PurgeQueueRequest) returns (google.cloud.tasks.v2beta3.Queue) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v2beta3/{name=projects/*/locations/*/queues/*}:purge"
+			body: "*"
+		};
+
+	}
+	rpc PauseQueue(google.cloud.tasks.v2beta3.PauseQueueRequest) returns (google.cloud.tasks.v2beta3.Queue) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v2beta3/{name=projects/*/locations/*/queues/*}:pause"
+			body: "*"
+		};
+
+	}
+	rpc ResumeQueue(google.cloud.tasks.v2beta3.ResumeQueueRequest) returns (google.cloud.tasks.v2beta3.Queue) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v2beta3/{name=projects/*/locations/*/queues/*}:resume"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v2beta3/{resource=projects/*/locations/*/queues/*}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v2beta3/{resource=projects/*/locations/*/queues/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v2beta3/{resource=projects/*/locations/*/queues/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+	rpc ListTasks(google.cloud.tasks.v2beta3.ListTasksRequest) returns (google.cloud.tasks.v2beta3.ListTasksResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2beta3/{parent=projects/*/locations/*/queues/*}/tasks"
+		};
+
+	}
+	rpc GetTask(google.cloud.tasks.v2beta3.GetTaskRequest) returns (google.cloud.tasks.v2beta3.Task) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2beta3/{name=projects/*/locations/*/queues/*/tasks/*}"
+		};
+
+	}
+	rpc CreateTask(google.cloud.tasks.v2beta3.CreateTaskRequest) returns (google.cloud.tasks.v2beta3.Task) {
+		option (google.api.method_signature) = "parent,task";
+		option (google.api.http) = {
+			post: "/v2beta3/{parent=projects/*/locations/*/queues/*}/tasks"
+			body: "*"
+		};
+
+	}
+	rpc DeleteTask(google.cloud.tasks.v2beta3.DeleteTaskRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2beta3/{name=projects/*/locations/*/queues/*/tasks/*}"
+		};
+
+	}
+	rpc RunTask(google.cloud.tasks.v2beta3.RunTaskRequest) returns (google.cloud.tasks.v2beta3.Task) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v2beta3/{name=projects/*/locations/*/queues/*/tasks/*}:run"
+			body: "*"
+		};
+
+	}
+}
+
+message ListQueuesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudtasks.googleapis.com/Queue"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListQueuesResponse {
+
+	repeated google.cloud.tasks.v2beta3.Queue queues = 1;
+	string next_page_token = 2;
+}
+
+message GetQueueRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudtasks.googleapis.com/Queue"
+		}
+	];
+}
+
+message CreateQueueRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudtasks.googleapis.com/Queue"
+		}
+	];
+	google.cloud.tasks.v2beta3.Queue queue = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateQueueRequest {
+
+	google.cloud.tasks.v2beta3.Queue queue = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteQueueRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudtasks.googleapis.com/Queue"
+		}
+	];
+}
+
+message PurgeQueueRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudtasks.googleapis.com/Queue"
+		}
+	];
+}
+
+message PauseQueueRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudtasks.googleapis.com/Queue"
+		}
+	];
+}
+
+message ResumeQueueRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudtasks.googleapis.com/Queue"
+		}
+	];
+}
+
+message ListTasksRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudtasks.googleapis.com/Task"
+		}
+	];
+	google.cloud.tasks.v2beta3.Task.View response_view = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListTasksResponse {
+
+	repeated google.cloud.tasks.v2beta3.Task tasks = 1;
+	string next_page_token = 2;
+}
+
+message GetTaskRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudtasks.googleapis.com/Task"
+		}
+	];
+	google.cloud.tasks.v2beta3.Task.View response_view = 2;
+}
+
+message CreateTaskRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudtasks.googleapis.com/Task"
+		}
+	];
+	google.cloud.tasks.v2beta3.Task task = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.tasks.v2beta3.Task.View response_view = 3;
+}
+
+message DeleteTaskRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudtasks.googleapis.com/Task"
+		}
+	];
+}
+
+message RunTaskRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudtasks.googleapis.com/Task"
+		}
+	];
+	google.cloud.tasks.v2beta3.Task.View response_view = 2;
+}

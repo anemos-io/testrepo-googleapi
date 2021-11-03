@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.enums";
+option java_outer_classname = "AdNetworkTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V5::Enums";
+
+
+message AdNetworkTypeEnum {
+
+	enum AdNetworkType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		SEARCH = 2;
+		SEARCH_PARTNERS = 3;
+		CONTENT = 4;
+		YOUTUBE_SEARCH = 5;
+		YOUTUBE_WATCH = 6;
+		MIXED = 7;
+	}
+
+}

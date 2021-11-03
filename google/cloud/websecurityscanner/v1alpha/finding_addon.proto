@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1alpha;
+
+option java_package = "com.google.cloud.websecurityscanner.v1alpha";
+option java_outer_classname = "FindingAddonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1alpha;websecurityscanner";
+
+
+message OutdatedLibrary {
+
+	string library_name = 1;
+	string version = 2;
+	repeated string learn_more_urls = 3;
+}
+
+message ViolatingResource {
+
+	string content_type = 1;
+	string resource_url = 2;
+}
+
+message VulnerableParameters {
+
+	repeated string parameter_names = 1;
+}
+
+message VulnerableHeaders {
+
+	message Header {
+
+		string name = 1;
+		string value = 2;
+	}
+
+	repeated Header headers = 1;
+	repeated Header missing_headers = 2;
+}
+
+message Xss {
+
+	repeated string stack_traces = 1;
+	string error_message = 2;
+}

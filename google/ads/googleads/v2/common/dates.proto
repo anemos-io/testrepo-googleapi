@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.common;
+
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.common";
+option java_outer_classname = "DatesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V2::Common";
+
+
+message DateRange {
+
+	google.protobuf.StringValue start_date = 1;
+	google.protobuf.StringValue end_date = 2;
+}

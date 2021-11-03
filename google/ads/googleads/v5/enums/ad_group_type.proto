@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.enums";
+option java_outer_classname = "AdGroupTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V5::Enums";
+
+
+message AdGroupTypeEnum {
+
+	enum AdGroupType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		SEARCH_STANDARD = 2;
+		DISPLAY_STANDARD = 3;
+		SHOPPING_PRODUCT_ADS = 4;
+		HOTEL_ADS = 6;
+		SHOPPING_SMART_ADS = 7;
+		VIDEO_BUMPER = 8;
+		VIDEO_TRUE_VIEW_IN_STREAM = 9;
+		VIDEO_TRUE_VIEW_IN_DISPLAY = 10;
+		VIDEO_NON_SKIPPABLE_IN_STREAM = 11;
+		VIDEO_OUTSTREAM = 12;
+		SEARCH_DYNAMIC_ADS = 13;
+		SHOPPING_COMPARISON_LISTING_ADS = 14;
+		PROMOTED_HOTEL_ADS = 15;
+		VIDEO_RESPONSIVE = 16;
+	}
+
+}

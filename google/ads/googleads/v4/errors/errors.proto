@@ -1,0 +1,291 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.errors;
+
+import "google/ads/googleads/v4/common/policy.proto";
+import "google/ads/googleads/v4/common/value.proto";
+import "google/ads/googleads/v4/errors/access_invitation_error.proto";
+import "google/ads/googleads/v4/errors/account_budget_proposal_error.proto";
+import "google/ads/googleads/v4/errors/ad_customizer_error.proto";
+import "google/ads/googleads/v4/errors/ad_error.proto";
+import "google/ads/googleads/v4/errors/ad_group_ad_error.proto";
+import "google/ads/googleads/v4/errors/ad_group_bid_modifier_error.proto";
+import "google/ads/googleads/v4/errors/ad_group_criterion_error.proto";
+import "google/ads/googleads/v4/errors/ad_group_error.proto";
+import "google/ads/googleads/v4/errors/ad_group_feed_error.proto";
+import "google/ads/googleads/v4/errors/ad_parameter_error.proto";
+import "google/ads/googleads/v4/errors/ad_sharing_error.proto";
+import "google/ads/googleads/v4/errors/adx_error.proto";
+import "google/ads/googleads/v4/errors/asset_error.proto";
+import "google/ads/googleads/v4/errors/asset_link_error.proto";
+import "google/ads/googleads/v4/errors/authentication_error.proto";
+import "google/ads/googleads/v4/errors/authorization_error.proto";
+import "google/ads/googleads/v4/errors/batch_job_error.proto";
+import "google/ads/googleads/v4/errors/bidding_error.proto";
+import "google/ads/googleads/v4/errors/bidding_strategy_error.proto";
+import "google/ads/googleads/v4/errors/billing_setup_error.proto";
+import "google/ads/googleads/v4/errors/campaign_budget_error.proto";
+import "google/ads/googleads/v4/errors/campaign_criterion_error.proto";
+import "google/ads/googleads/v4/errors/campaign_draft_error.proto";
+import "google/ads/googleads/v4/errors/campaign_error.proto";
+import "google/ads/googleads/v4/errors/campaign_experiment_error.proto";
+import "google/ads/googleads/v4/errors/campaign_feed_error.proto";
+import "google/ads/googleads/v4/errors/campaign_shared_set_error.proto";
+import "google/ads/googleads/v4/errors/change_status_error.proto";
+import "google/ads/googleads/v4/errors/collection_size_error.proto";
+import "google/ads/googleads/v4/errors/context_error.proto";
+import "google/ads/googleads/v4/errors/conversion_action_error.proto";
+import "google/ads/googleads/v4/errors/conversion_adjustment_upload_error.proto";
+import "google/ads/googleads/v4/errors/conversion_upload_error.proto";
+import "google/ads/googleads/v4/errors/country_code_error.proto";
+import "google/ads/googleads/v4/errors/criterion_error.proto";
+import "google/ads/googleads/v4/errors/currency_code_error.proto";
+import "google/ads/googleads/v4/errors/custom_interest_error.proto";
+import "google/ads/googleads/v4/errors/customer_client_link_error.proto";
+import "google/ads/googleads/v4/errors/customer_error.proto";
+import "google/ads/googleads/v4/errors/customer_feed_error.proto";
+import "google/ads/googleads/v4/errors/customer_manager_link_error.proto";
+import "google/ads/googleads/v4/errors/database_error.proto";
+import "google/ads/googleads/v4/errors/date_error.proto";
+import "google/ads/googleads/v4/errors/date_range_error.proto";
+import "google/ads/googleads/v4/errors/distinct_error.proto";
+import "google/ads/googleads/v4/errors/enum_error.proto";
+import "google/ads/googleads/v4/errors/extension_feed_item_error.proto";
+import "google/ads/googleads/v4/errors/extension_setting_error.proto";
+import "google/ads/googleads/v4/errors/feed_attribute_reference_error.proto";
+import "google/ads/googleads/v4/errors/feed_error.proto";
+import "google/ads/googleads/v4/errors/feed_item_error.proto";
+import "google/ads/googleads/v4/errors/feed_item_target_error.proto";
+import "google/ads/googleads/v4/errors/feed_item_validation_error.proto";
+import "google/ads/googleads/v4/errors/feed_mapping_error.proto";
+import "google/ads/googleads/v4/errors/field_error.proto";
+import "google/ads/googleads/v4/errors/field_mask_error.proto";
+import "google/ads/googleads/v4/errors/function_error.proto";
+import "google/ads/googleads/v4/errors/function_parsing_error.proto";
+import "google/ads/googleads/v4/errors/geo_target_constant_suggestion_error.proto";
+import "google/ads/googleads/v4/errors/header_error.proto";
+import "google/ads/googleads/v4/errors/id_error.proto";
+import "google/ads/googleads/v4/errors/image_error.proto";
+import "google/ads/googleads/v4/errors/internal_error.proto";
+import "google/ads/googleads/v4/errors/invoice_error.proto";
+import "google/ads/googleads/v4/errors/keyword_plan_ad_group_error.proto";
+import "google/ads/googleads/v4/errors/keyword_plan_ad_group_keyword_error.proto";
+import "google/ads/googleads/v4/errors/keyword_plan_campaign_error.proto";
+import "google/ads/googleads/v4/errors/keyword_plan_campaign_keyword_error.proto";
+import "google/ads/googleads/v4/errors/keyword_plan_error.proto";
+import "google/ads/googleads/v4/errors/keyword_plan_idea_error.proto";
+import "google/ads/googleads/v4/errors/label_error.proto";
+import "google/ads/googleads/v4/errors/language_code_error.proto";
+import "google/ads/googleads/v4/errors/list_operation_error.proto";
+import "google/ads/googleads/v4/errors/manager_link_error.proto";
+import "google/ads/googleads/v4/errors/media_bundle_error.proto";
+import "google/ads/googleads/v4/errors/media_file_error.proto";
+import "google/ads/googleads/v4/errors/media_upload_error.proto";
+import "google/ads/googleads/v4/errors/multiplier_error.proto";
+import "google/ads/googleads/v4/errors/mutate_error.proto";
+import "google/ads/googleads/v4/errors/new_resource_creation_error.proto";
+import "google/ads/googleads/v4/errors/not_empty_error.proto";
+import "google/ads/googleads/v4/errors/not_whitelisted_error.proto";
+import "google/ads/googleads/v4/errors/null_error.proto";
+import "google/ads/googleads/v4/errors/offline_user_data_job_error.proto";
+import "google/ads/googleads/v4/errors/operation_access_denied_error.proto";
+import "google/ads/googleads/v4/errors/operator_error.proto";
+import "google/ads/googleads/v4/errors/partial_failure_error.proto";
+import "google/ads/googleads/v4/errors/payments_account_error.proto";
+import "google/ads/googleads/v4/errors/policy_finding_error.proto";
+import "google/ads/googleads/v4/errors/policy_validation_parameter_error.proto";
+import "google/ads/googleads/v4/errors/policy_violation_error.proto";
+import "google/ads/googleads/v4/errors/query_error.proto";
+import "google/ads/googleads/v4/errors/quota_error.proto";
+import "google/ads/googleads/v4/errors/range_error.proto";
+import "google/ads/googleads/v4/errors/reach_plan_error.proto";
+import "google/ads/googleads/v4/errors/recommendation_error.proto";
+import "google/ads/googleads/v4/errors/region_code_error.proto";
+import "google/ads/googleads/v4/errors/request_error.proto";
+import "google/ads/googleads/v4/errors/resource_access_denied_error.proto";
+import "google/ads/googleads/v4/errors/resource_count_limit_exceeded_error.proto";
+import "google/ads/googleads/v4/errors/setting_error.proto";
+import "google/ads/googleads/v4/errors/shared_criterion_error.proto";
+import "google/ads/googleads/v4/errors/shared_set_error.proto";
+import "google/ads/googleads/v4/errors/size_limit_error.proto";
+import "google/ads/googleads/v4/errors/string_format_error.proto";
+import "google/ads/googleads/v4/errors/string_length_error.proto";
+import "google/ads/googleads/v4/errors/time_zone_error.proto";
+import "google/ads/googleads/v4/errors/url_field_error.proto";
+import "google/ads/googleads/v4/errors/user_data_error.proto";
+import "google/ads/googleads/v4/errors/user_list_error.proto";
+import "google/ads/googleads/v4/errors/youtube_video_registration_error.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.errors";
+option java_outer_classname = "ErrorsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V4::Errors";
+
+
+message GoogleAdsFailure {
+
+	repeated GoogleAdsError errors = 1;
+}
+
+message GoogleAdsError {
+
+	ErrorCode error_code = 1;
+	string message = 2;
+	google.ads.googleads.v4.common.Value trigger = 3;
+	ErrorLocation location = 4;
+	ErrorDetails details = 5;
+}
+
+message ErrorCode {
+
+	oneof error_code {
+		google.ads.googleads.v4.errors.RequestErrorEnum.RequestError request_error = 1;
+		google.ads.googleads.v4.errors.BiddingStrategyErrorEnum.BiddingStrategyError bidding_strategy_error = 2;
+		google.ads.googleads.v4.errors.UrlFieldErrorEnum.UrlFieldError url_field_error = 3;
+		google.ads.googleads.v4.errors.ListOperationErrorEnum.ListOperationError list_operation_error = 4;
+		google.ads.googleads.v4.errors.QueryErrorEnum.QueryError query_error = 5;
+		google.ads.googleads.v4.errors.MutateErrorEnum.MutateError mutate_error = 7;
+		google.ads.googleads.v4.errors.FieldMaskErrorEnum.FieldMaskError field_mask_error = 8;
+		google.ads.googleads.v4.errors.AuthorizationErrorEnum.AuthorizationError authorization_error = 9;
+		google.ads.googleads.v4.errors.InternalErrorEnum.InternalError internal_error = 10;
+		google.ads.googleads.v4.errors.QuotaErrorEnum.QuotaError quota_error = 11;
+		google.ads.googleads.v4.errors.AdErrorEnum.AdError ad_error = 12;
+		google.ads.googleads.v4.errors.AdGroupErrorEnum.AdGroupError ad_group_error = 13;
+		google.ads.googleads.v4.errors.CampaignBudgetErrorEnum.CampaignBudgetError campaign_budget_error = 14;
+		google.ads.googleads.v4.errors.CampaignErrorEnum.CampaignError campaign_error = 15;
+		google.ads.googleads.v4.errors.AuthenticationErrorEnum.AuthenticationError authentication_error = 17;
+		google.ads.googleads.v4.errors.AdGroupCriterionErrorEnum.AdGroupCriterionError ad_group_criterion_error = 18;
+		google.ads.googleads.v4.errors.AdCustomizerErrorEnum.AdCustomizerError ad_customizer_error = 19;
+		google.ads.googleads.v4.errors.AdGroupAdErrorEnum.AdGroupAdError ad_group_ad_error = 21;
+		google.ads.googleads.v4.errors.AdSharingErrorEnum.AdSharingError ad_sharing_error = 24;
+		google.ads.googleads.v4.errors.AdxErrorEnum.AdxError adx_error = 25;
+		google.ads.googleads.v4.errors.AssetErrorEnum.AssetError asset_error = 107;
+		google.ads.googleads.v4.errors.BiddingErrorEnum.BiddingError bidding_error = 26;
+		google.ads.googleads.v4.errors.CampaignCriterionErrorEnum.CampaignCriterionError campaign_criterion_error = 29;
+		google.ads.googleads.v4.errors.CollectionSizeErrorEnum.CollectionSizeError collection_size_error = 31;
+		google.ads.googleads.v4.errors.CountryCodeErrorEnum.CountryCodeError country_code_error = 109;
+		google.ads.googleads.v4.errors.CriterionErrorEnum.CriterionError criterion_error = 32;
+		google.ads.googleads.v4.errors.CustomerErrorEnum.CustomerError customer_error = 90;
+		google.ads.googleads.v4.errors.DateErrorEnum.DateError date_error = 33;
+		google.ads.googleads.v4.errors.DateRangeErrorEnum.DateRangeError date_range_error = 34;
+		google.ads.googleads.v4.errors.DistinctErrorEnum.DistinctError distinct_error = 35;
+		google.ads.googleads.v4.errors.FeedAttributeReferenceErrorEnum.FeedAttributeReferenceError feed_attribute_reference_error = 36;
+		google.ads.googleads.v4.errors.FunctionErrorEnum.FunctionError function_error = 37;
+		google.ads.googleads.v4.errors.FunctionParsingErrorEnum.FunctionParsingError function_parsing_error = 38;
+		google.ads.googleads.v4.errors.IdErrorEnum.IdError id_error = 39;
+		google.ads.googleads.v4.errors.ImageErrorEnum.ImageError image_error = 40;
+		google.ads.googleads.v4.errors.LanguageCodeErrorEnum.LanguageCodeError language_code_error = 110;
+		google.ads.googleads.v4.errors.MediaBundleErrorEnum.MediaBundleError media_bundle_error = 42;
+		google.ads.googleads.v4.errors.MediaUploadErrorEnum.MediaUploadError media_upload_error = 116;
+		google.ads.googleads.v4.errors.MediaFileErrorEnum.MediaFileError media_file_error = 86;
+		google.ads.googleads.v4.errors.MultiplierErrorEnum.MultiplierError multiplier_error = 44;
+		google.ads.googleads.v4.errors.NewResourceCreationErrorEnum.NewResourceCreationError new_resource_creation_error = 45;
+		google.ads.googleads.v4.errors.NotEmptyErrorEnum.NotEmptyError not_empty_error = 46;
+		google.ads.googleads.v4.errors.NullErrorEnum.NullError null_error = 47;
+		google.ads.googleads.v4.errors.OperatorErrorEnum.OperatorError operator_error = 48;
+		google.ads.googleads.v4.errors.RangeErrorEnum.RangeError range_error = 49;
+		google.ads.googleads.v4.errors.RecommendationErrorEnum.RecommendationError recommendation_error = 58;
+		google.ads.googleads.v4.errors.RegionCodeErrorEnum.RegionCodeError region_code_error = 51;
+		google.ads.googleads.v4.errors.SettingErrorEnum.SettingError setting_error = 52;
+		google.ads.googleads.v4.errors.StringFormatErrorEnum.StringFormatError string_format_error = 53;
+		google.ads.googleads.v4.errors.StringLengthErrorEnum.StringLengthError string_length_error = 54;
+		google.ads.googleads.v4.errors.OperationAccessDeniedErrorEnum.OperationAccessDeniedError operation_access_denied_error = 55;
+		google.ads.googleads.v4.errors.ResourceAccessDeniedErrorEnum.ResourceAccessDeniedError resource_access_denied_error = 56;
+		google.ads.googleads.v4.errors.ResourceCountLimitExceededErrorEnum.ResourceCountLimitExceededError resource_count_limit_exceeded_error = 57;
+		google.ads.googleads.v4.errors.YoutubeVideoRegistrationErrorEnum.YoutubeVideoRegistrationError youtube_video_registration_error = 117;
+		google.ads.googleads.v4.errors.AdGroupBidModifierErrorEnum.AdGroupBidModifierError ad_group_bid_modifier_error = 59;
+		google.ads.googleads.v4.errors.ContextErrorEnum.ContextError context_error = 60;
+		google.ads.googleads.v4.errors.FieldErrorEnum.FieldError field_error = 61;
+		google.ads.googleads.v4.errors.SharedSetErrorEnum.SharedSetError shared_set_error = 62;
+		google.ads.googleads.v4.errors.SharedCriterionErrorEnum.SharedCriterionError shared_criterion_error = 63;
+		google.ads.googleads.v4.errors.CampaignSharedSetErrorEnum.CampaignSharedSetError campaign_shared_set_error = 64;
+		google.ads.googleads.v4.errors.ConversionActionErrorEnum.ConversionActionError conversion_action_error = 65;
+		google.ads.googleads.v4.errors.ConversionAdjustmentUploadErrorEnum.ConversionAdjustmentUploadError conversion_adjustment_upload_error = 115;
+		google.ads.googleads.v4.errors.ConversionUploadErrorEnum.ConversionUploadError conversion_upload_error = 111;
+		google.ads.googleads.v4.errors.HeaderErrorEnum.HeaderError header_error = 66;
+		google.ads.googleads.v4.errors.DatabaseErrorEnum.DatabaseError database_error = 67;
+		google.ads.googleads.v4.errors.PolicyFindingErrorEnum.PolicyFindingError policy_finding_error = 68;
+		google.ads.googleads.v4.errors.EnumErrorEnum.EnumError enum_error = 70;
+		google.ads.googleads.v4.errors.KeywordPlanErrorEnum.KeywordPlanError keyword_plan_error = 71;
+		google.ads.googleads.v4.errors.KeywordPlanCampaignErrorEnum.KeywordPlanCampaignError keyword_plan_campaign_error = 72;
+		google.ads.googleads.v4.errors.KeywordPlanCampaignKeywordErrorEnum.KeywordPlanCampaignKeywordError keyword_plan_campaign_keyword_error = 132;
+		google.ads.googleads.v4.errors.KeywordPlanAdGroupErrorEnum.KeywordPlanAdGroupError keyword_plan_ad_group_error = 74;
+		google.ads.googleads.v4.errors.KeywordPlanAdGroupKeywordErrorEnum.KeywordPlanAdGroupKeywordError keyword_plan_ad_group_keyword_error = 133;
+		google.ads.googleads.v4.errors.KeywordPlanIdeaErrorEnum.KeywordPlanIdeaError keyword_plan_idea_error = 76;
+		google.ads.googleads.v4.errors.AccountBudgetProposalErrorEnum.AccountBudgetProposalError account_budget_proposal_error = 77;
+		google.ads.googleads.v4.errors.UserListErrorEnum.UserListError user_list_error = 78;
+		google.ads.googleads.v4.errors.ChangeStatusErrorEnum.ChangeStatusError change_status_error = 79;
+		google.ads.googleads.v4.errors.FeedErrorEnum.FeedError feed_error = 80;
+		google.ads.googleads.v4.errors.GeoTargetConstantSuggestionErrorEnum.GeoTargetConstantSuggestionError geo_target_constant_suggestion_error = 81;
+		google.ads.googleads.v4.errors.CampaignDraftErrorEnum.CampaignDraftError campaign_draft_error = 82;
+		google.ads.googleads.v4.errors.FeedItemErrorEnum.FeedItemError feed_item_error = 83;
+		google.ads.googleads.v4.errors.LabelErrorEnum.LabelError label_error = 84;
+		google.ads.googleads.v4.errors.BillingSetupErrorEnum.BillingSetupError billing_setup_error = 87;
+		google.ads.googleads.v4.errors.CustomerClientLinkErrorEnum.CustomerClientLinkError customer_client_link_error = 88;
+		google.ads.googleads.v4.errors.CustomerManagerLinkErrorEnum.CustomerManagerLinkError customer_manager_link_error = 91;
+		google.ads.googleads.v4.errors.FeedMappingErrorEnum.FeedMappingError feed_mapping_error = 92;
+		google.ads.googleads.v4.errors.CustomerFeedErrorEnum.CustomerFeedError customer_feed_error = 93;
+		google.ads.googleads.v4.errors.AdGroupFeedErrorEnum.AdGroupFeedError ad_group_feed_error = 94;
+		google.ads.googleads.v4.errors.CampaignFeedErrorEnum.CampaignFeedError campaign_feed_error = 96;
+		google.ads.googleads.v4.errors.CustomInterestErrorEnum.CustomInterestError custom_interest_error = 97;
+		google.ads.googleads.v4.errors.CampaignExperimentErrorEnum.CampaignExperimentError campaign_experiment_error = 98;
+		google.ads.googleads.v4.errors.ExtensionFeedItemErrorEnum.ExtensionFeedItemError extension_feed_item_error = 100;
+		google.ads.googleads.v4.errors.AdParameterErrorEnum.AdParameterError ad_parameter_error = 101;
+		google.ads.googleads.v4.errors.FeedItemValidationErrorEnum.FeedItemValidationError feed_item_validation_error = 102;
+		google.ads.googleads.v4.errors.ExtensionSettingErrorEnum.ExtensionSettingError extension_setting_error = 103;
+		google.ads.googleads.v4.errors.FeedItemTargetErrorEnum.FeedItemTargetError feed_item_target_error = 104;
+		google.ads.googleads.v4.errors.PolicyViolationErrorEnum.PolicyViolationError policy_violation_error = 105;
+		google.ads.googleads.v4.errors.PartialFailureErrorEnum.PartialFailureError partial_failure_error = 112;
+		google.ads.googleads.v4.errors.PolicyValidationParameterErrorEnum.PolicyValidationParameterError policy_validation_parameter_error = 114;
+		google.ads.googleads.v4.errors.SizeLimitErrorEnum.SizeLimitError size_limit_error = 118;
+		google.ads.googleads.v4.errors.OfflineUserDataJobErrorEnum.OfflineUserDataJobError offline_user_data_job_error = 119;
+		google.ads.googleads.v4.errors.NotWhitelistedErrorEnum.NotWhitelistedError not_whitelisted_error = 120;
+		google.ads.googleads.v4.errors.ManagerLinkErrorEnum.ManagerLinkError manager_link_error = 121;
+		google.ads.googleads.v4.errors.CurrencyCodeErrorEnum.CurrencyCodeError currency_code_error = 122;
+		google.ads.googleads.v4.errors.AccessInvitationErrorEnum.AccessInvitationError access_invitation_error = 124;
+		google.ads.googleads.v4.errors.ReachPlanErrorEnum.ReachPlanError reach_plan_error = 125;
+		google.ads.googleads.v4.errors.InvoiceErrorEnum.InvoiceError invoice_error = 126;
+		google.ads.googleads.v4.errors.PaymentsAccountErrorEnum.PaymentsAccountError payments_account_error = 127;
+		google.ads.googleads.v4.errors.TimeZoneErrorEnum.TimeZoneError time_zone_error = 128;
+		google.ads.googleads.v4.errors.AssetLinkErrorEnum.AssetLinkError asset_link_error = 129;
+		google.ads.googleads.v4.errors.UserDataErrorEnum.UserDataError user_data_error = 130;
+		google.ads.googleads.v4.errors.BatchJobErrorEnum.BatchJobError batch_job_error = 131;
+	}
+}
+
+message ErrorLocation {
+
+	message FieldPathElement {
+
+		string field_name = 1;
+		google.protobuf.Int64Value index = 2;
+	}
+
+	repeated FieldPathElement field_path_elements = 2;
+}
+
+message ErrorDetails {
+
+	string unpublished_error_code = 1;
+	PolicyViolationDetails policy_violation_details = 2;
+	PolicyFindingDetails policy_finding_details = 3;
+}
+
+message PolicyViolationDetails {
+
+	string external_policy_description = 2;
+	google.ads.googleads.v4.common.PolicyViolationKey key = 4;
+	string external_policy_name = 5;
+	bool is_exemptible = 6;
+}
+
+message PolicyFindingDetails {
+
+	repeated google.ads.googleads.v4.common.PolicyTopicEntry policy_topic_entries = 1;
+}

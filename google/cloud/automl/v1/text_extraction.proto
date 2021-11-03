@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1;
+
+import "google/cloud/automl/v1/text_segment.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1;automl";
+option csharp_namespace = "Google.Cloud.AutoML.V1";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1";
+option ruby_package = "Google::Cloud::AutoML::V1";
+
+
+message TextExtractionAnnotation {
+
+	oneof annotation {
+		google.cloud.automl.v1.TextSegment text_segment = 3;
+	}
+	float score = 1;
+}
+
+message TextExtractionEvaluationMetrics {
+
+	message ConfidenceMetricsEntry {
+
+		float confidence_threshold = 1;
+		float recall = 3;
+		float precision = 4;
+		float f1_score = 5;
+	}
+
+	float au_prc = 1;
+	repeated ConfidenceMetricsEntry confidence_metrics_entries = 2;
+}

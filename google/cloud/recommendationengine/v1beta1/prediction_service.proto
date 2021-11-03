@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package google.cloud.recommendationengine.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/recommendationengine/v1beta1/user_event.proto";
+import "google/protobuf/struct.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.recommendationengine.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommendationengine/v1beta1;recommendationengine";
+option objc_class_prefix = "RECAI";
+option csharp_namespace = "Google.Cloud.RecommendationEngine.V1Beta1";
+option php_namespace = "Google\\Cloud\\RecommendationEngine\\V1beta1";
+option ruby_package = "Google::Cloud::RecommendationEngine::V1beta1";
+
+
+service PredictionService {
+	option (google.api.default_host) = "recommendationengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc Predict(google.cloud.recommendationengine.v1beta1.PredictRequest) returns (google.cloud.recommendationengine.v1beta1.PredictResponse) {
+		option (google.api.method_signature) = "name,user_event";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/catalogs/*/eventStores/*/placements/*}:predict"
+			body: "*"
+		};
+
+	}
+}
+
+message PredictRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/Placement"
+		}
+	];
+	google.cloud.recommendationengine.v1beta1.UserEvent user_event = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool dry_run = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, google.protobuf.Value> params = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PredictResponse {
+
+	message PredictionResult {
+
+		string id = 1;
+		map<string, google.protobuf.Value> item_metadata = 2;
+	}
+
+	repeated PredictionResult results = 1;
+	string recommendation_token = 2;
+	repeated string items_missing_in_catalog = 3;
+	bool dry_run = 4;
+	map<string, google.protobuf.Value> metadata = 5;
+	string next_page_token = 6;
+}

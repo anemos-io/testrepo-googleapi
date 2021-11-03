@@ -1,0 +1,198 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.services;
+
+import "google/ads/googleads/v5/enums/response_content_type.proto";
+import "google/ads/googleads/v5/resources/campaign_experiment.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v5.services";
+option java_outer_classname = "CampaignExperimentServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V5::Services";
+
+
+service CampaignExperimentService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetCampaignExperiment(google.ads.googleads.v5.services.GetCampaignExperimentRequest) returns (google.ads.googleads.v5.resources.CampaignExperiment) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v5/{resource_name=customers/*/campaignExperiments/*}"
+		};
+
+	}
+	rpc CreateCampaignExperiment(google.ads.googleads.v5.services.CreateCampaignExperimentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.ads.googleads.v5.services.CreateCampaignExperimentMetadata"
+		};
+		option (google.api.method_signature) = "customer_id,campaign_experiment";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}/campaignExperiments:create"
+			body: "*"
+		};
+
+	}
+	rpc MutateCampaignExperiments(google.ads.googleads.v5.services.MutateCampaignExperimentsRequest) returns (google.ads.googleads.v5.services.MutateCampaignExperimentsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}/campaignExperiments:mutate"
+			body: "*"
+		};
+
+	}
+	rpc GraduateCampaignExperiment(google.ads.googleads.v5.services.GraduateCampaignExperimentRequest) returns (google.ads.googleads.v5.services.GraduateCampaignExperimentResponse) {
+		option (google.api.method_signature) = "campaign_experiment,campaign_budget";
+		option (google.api.http) = {
+			post: "/v5/{campaign_experiment=customers/*/campaignExperiments/*}:graduate"
+			body: "*"
+		};
+
+	}
+	rpc PromoteCampaignExperiment(google.ads.googleads.v5.services.PromoteCampaignExperimentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Empty"
+		};
+		option (google.api.method_signature) = "campaign_experiment";
+		option (google.api.http) = {
+			post: "/v5/{campaign_experiment=customers/*/campaignExperiments/*}:promote"
+			body: "*"
+		};
+
+	}
+	rpc EndCampaignExperiment(google.ads.googleads.v5.services.EndCampaignExperimentRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "campaign_experiment";
+		option (google.api.http) = {
+			post: "/v5/{campaign_experiment=customers/*/campaignExperiments/*}:end"
+			body: "*"
+		};
+
+	}
+	rpc ListCampaignExperimentAsyncErrors(google.ads.googleads.v5.services.ListCampaignExperimentAsyncErrorsRequest) returns (google.ads.googleads.v5.services.ListCampaignExperimentAsyncErrorsResponse) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v5/{resource_name=customers/*/campaignExperiments/*}:listAsyncErrors"
+		};
+
+	}
+}
+
+message GetCampaignExperimentRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignExperiment"
+		}
+	];
+}
+
+message MutateCampaignExperimentsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CampaignExperimentOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+	google.ads.googleads.v5.enums.ResponseContentTypeEnum.ResponseContentType response_content_type = 5;
+}
+
+message CampaignExperimentOperation {
+
+	google.protobuf.FieldMask update_mask = 3;
+	oneof operation {
+		google.ads.googleads.v5.resources.CampaignExperiment update = 1;
+		string remove = 2;
+	}
+}
+
+message MutateCampaignExperimentsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateCampaignExperimentResult results = 2;
+}
+
+message MutateCampaignExperimentResult {
+
+	string resource_name = 1;
+	google.ads.googleads.v5.resources.CampaignExperiment campaign_experiment = 2;
+}
+
+message CreateCampaignExperimentRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.ads.googleads.v5.resources.CampaignExperiment campaign_experiment = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 3;
+}
+
+message CreateCampaignExperimentMetadata {
+
+	string campaign_experiment = 1;
+}
+
+message GraduateCampaignExperimentRequest {
+
+	string campaign_experiment = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string campaign_budget = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GraduateCampaignExperimentResponse {
+
+	string graduated_campaign = 1;
+}
+
+message PromoteCampaignExperimentRequest {
+
+	string campaign_experiment = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message EndCampaignExperimentRequest {
+
+	string campaign_experiment = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListCampaignExperimentAsyncErrorsRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignExperiment"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListCampaignExperimentAsyncErrorsResponse {
+
+	repeated google.rpc.Status errors = 1;
+	string next_page_token = 2;
+}

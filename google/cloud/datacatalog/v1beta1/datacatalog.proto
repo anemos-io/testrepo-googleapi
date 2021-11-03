@@ -1,0 +1,655 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/datacatalog/v1beta1/common.proto";
+import "google/cloud/datacatalog/v1beta1/gcs_fileset_spec.proto";
+import "google/cloud/datacatalog/v1beta1/schema.proto";
+import "google/cloud/datacatalog/v1beta1/search.proto";
+import "google/cloud/datacatalog/v1beta1/table_spec.proto";
+import "google/cloud/datacatalog/v1beta1/tags.proto";
+import "google/cloud/datacatalog/v1beta1/timestamps.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1beta1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1Beta1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1beta1";
+option ruby_package = "Google::Cloud::DataCatalog::V1beta1";
+
+
+enum EntryType {
+
+	ENTRY_TYPE_UNSPECIFIED = 0;
+	TABLE = 2;
+	MODEL = 5;
+	DATA_STREAM = 3;
+	FILESET = 4;
+}
+
+service DataCatalog {
+	option (google.api.default_host) = "datacatalog.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SearchCatalog(google.cloud.datacatalog.v1beta1.SearchCatalogRequest) returns (google.cloud.datacatalog.v1beta1.SearchCatalogResponse) {
+		option (google.api.method_signature) = "scope,query";
+		option (google.api.http) = {
+			post: "/v1beta1/catalog:search"
+			body: "*"
+		};
+
+	}
+	rpc CreateEntryGroup(google.cloud.datacatalog.v1beta1.CreateEntryGroupRequest) returns (google.cloud.datacatalog.v1beta1.EntryGroup) {
+		option (google.api.method_signature) = "parent,entry_group_id,entry_group";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/entryGroups"
+			body: "entry_group"
+		};
+
+	}
+	rpc UpdateEntryGroup(google.cloud.datacatalog.v1beta1.UpdateEntryGroupRequest) returns (google.cloud.datacatalog.v1beta1.EntryGroup) {
+		option (google.api.method_signature) = "entry_group";
+		option (google.api.method_signature) = "entry_group,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{entry_group.name=projects/*/locations/*/entryGroups/*}"
+			body: "entry_group"
+		};
+
+	}
+	rpc GetEntryGroup(google.cloud.datacatalog.v1beta1.GetEntryGroupRequest) returns (google.cloud.datacatalog.v1beta1.EntryGroup) {
+		option (google.api.method_signature) = "name";
+		option (google.api.method_signature) = "name,read_mask";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/entryGroups/*}"
+		};
+
+	}
+	rpc DeleteEntryGroup(google.cloud.datacatalog.v1beta1.DeleteEntryGroupRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/entryGroups/*}"
+		};
+
+	}
+	rpc ListEntryGroups(google.cloud.datacatalog.v1beta1.ListEntryGroupsRequest) returns (google.cloud.datacatalog.v1beta1.ListEntryGroupsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*}/entryGroups"
+		};
+
+	}
+	rpc CreateEntry(google.cloud.datacatalog.v1beta1.CreateEntryRequest) returns (google.cloud.datacatalog.v1beta1.Entry) {
+		option (google.api.method_signature) = "parent,entry_id,entry";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/entryGroups/*}/entries"
+			body: "entry"
+		};
+
+	}
+	rpc UpdateEntry(google.cloud.datacatalog.v1beta1.UpdateEntryRequest) returns (google.cloud.datacatalog.v1beta1.Entry) {
+		option (google.api.method_signature) = "entry";
+		option (google.api.method_signature) = "entry,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{entry.name=projects/*/locations/*/entryGroups/*/entries/*}"
+			body: "entry"
+		};
+
+	}
+	rpc DeleteEntry(google.cloud.datacatalog.v1beta1.DeleteEntryRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/entryGroups/*/entries/*}"
+		};
+
+	}
+	rpc GetEntry(google.cloud.datacatalog.v1beta1.GetEntryRequest) returns (google.cloud.datacatalog.v1beta1.Entry) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/entryGroups/*/entries/*}"
+		};
+
+	}
+	rpc LookupEntry(google.cloud.datacatalog.v1beta1.LookupEntryRequest) returns (google.cloud.datacatalog.v1beta1.Entry) {
+		option (google.api.http) = {
+			get: "/v1beta1/entries:lookup"
+		};
+
+	}
+	rpc ListEntries(google.cloud.datacatalog.v1beta1.ListEntriesRequest) returns (google.cloud.datacatalog.v1beta1.ListEntriesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/entryGroups/*}/entries"
+		};
+
+	}
+	rpc CreateTagTemplate(google.cloud.datacatalog.v1beta1.CreateTagTemplateRequest) returns (google.cloud.datacatalog.v1beta1.TagTemplate) {
+		option (google.api.method_signature) = "parent,tag_template_id,tag_template";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*}/tagTemplates"
+			body: "tag_template"
+		};
+
+	}
+	rpc GetTagTemplate(google.cloud.datacatalog.v1beta1.GetTagTemplateRequest) returns (google.cloud.datacatalog.v1beta1.TagTemplate) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/tagTemplates/*}"
+		};
+
+	}
+	rpc UpdateTagTemplate(google.cloud.datacatalog.v1beta1.UpdateTagTemplateRequest) returns (google.cloud.datacatalog.v1beta1.TagTemplate) {
+		option (google.api.method_signature) = "tag_template";
+		option (google.api.method_signature) = "tag_template,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{tag_template.name=projects/*/locations/*/tagTemplates/*}"
+			body: "tag_template"
+		};
+
+	}
+	rpc DeleteTagTemplate(google.cloud.datacatalog.v1beta1.DeleteTagTemplateRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name,force";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/tagTemplates/*}"
+		};
+
+	}
+	rpc CreateTagTemplateField(google.cloud.datacatalog.v1beta1.CreateTagTemplateFieldRequest) returns (google.cloud.datacatalog.v1beta1.TagTemplateField) {
+		option (google.api.method_signature) = "parent,tag_template_field_id,tag_template_field";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/tagTemplates/*}/fields"
+			body: "tag_template_field"
+		};
+
+	}
+	rpc UpdateTagTemplateField(google.cloud.datacatalog.v1beta1.UpdateTagTemplateFieldRequest) returns (google.cloud.datacatalog.v1beta1.TagTemplateField) {
+		option (google.api.method_signature) = "name,tag_template_field";
+		option (google.api.method_signature) = "name,tag_template_field,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=projects/*/locations/*/tagTemplates/*/fields/*}"
+			body: "tag_template_field"
+		};
+
+	}
+	rpc RenameTagTemplateField(google.cloud.datacatalog.v1beta1.RenameTagTemplateFieldRequest) returns (google.cloud.datacatalog.v1beta1.TagTemplateField) {
+		option (google.api.method_signature) = "name,new_tag_template_field_id";
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/locations/*/tagTemplates/*/fields/*}:rename"
+			body: "*"
+		};
+
+	}
+	rpc DeleteTagTemplateField(google.cloud.datacatalog.v1beta1.DeleteTagTemplateFieldRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name,force";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/tagTemplates/*/fields/*}"
+		};
+
+	}
+	rpc CreateTag(google.cloud.datacatalog.v1beta1.CreateTagRequest) returns (google.cloud.datacatalog.v1beta1.Tag) {
+		option (google.api.method_signature) = "parent,tag";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/entryGroups/*/entries/*}/tags"
+			body: "tag"
+			additional_bindings: {
+				post: "/v1beta1/{parent=projects/*/locations/*/entryGroups/*}/tags"
+				body: "tag"
+			}
+		};
+
+	}
+	rpc UpdateTag(google.cloud.datacatalog.v1beta1.UpdateTagRequest) returns (google.cloud.datacatalog.v1beta1.Tag) {
+		option (google.api.method_signature) = "tag";
+		option (google.api.method_signature) = "tag,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{tag.name=projects/*/locations/*/entryGroups/*/entries/*/tags/*}"
+			body: "tag"
+			additional_bindings: {
+				patch: "/v1beta1/{tag.name=projects/*/locations/*/entryGroups/*/tags/*}"
+				body: "tag"
+			}
+		};
+
+	}
+	rpc DeleteTag(google.cloud.datacatalog.v1beta1.DeleteTagRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/entryGroups/*/entries/*/tags/*}"
+			additional_bindings: {
+				delete: "/v1beta1/{name=projects/*/locations/*/entryGroups/*/tags/*}"
+			}
+		};
+
+	}
+	rpc ListTags(google.cloud.datacatalog.v1beta1.ListTagsRequest) returns (google.cloud.datacatalog.v1beta1.ListTagsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/entryGroups/*/entries/*}/tags"
+			additional_bindings: {
+				get: "/v1beta1/{parent=projects/*/locations/*/entryGroups/*}/tags"
+			}
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=projects/*/locations/*/tagTemplates/*}:setIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{resource=projects/*/locations/*/entryGroups/*}:setIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=projects/*/locations/*/tagTemplates/*}:getIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{resource=projects/*/locations/*/entryGroups/*}:getIamPolicy"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{resource=projects/*/locations/*/entryGroups/*/entries/*}:getIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{resource=projects/*/locations/*/tagTemplates/*}:testIamPermissions"
+			body: "*"
+			additional_bindings: {
+				post: "/v1beta1/{resource=projects/*/locations/*/entryGroups/*}:testIamPermissions"
+				body: "*"
+			}
+			additional_bindings: {
+				post: "/v1beta1/{resource=projects/*/locations/*/entryGroups/*/entries/*}:testIamPermissions"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message SearchCatalogRequest {
+
+	message Scope {
+
+		repeated string include_org_ids = 2;
+		repeated string include_project_ids = 3;
+		bool include_gcp_public_datasets = 7;
+	}
+
+	Scope scope = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5;
+}
+
+message SearchCatalogResponse {
+
+	repeated google.cloud.datacatalog.v1beta1.SearchCatalogResult results = 1;
+	string next_page_token = 3;
+}
+
+message CreateEntryGroupRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/EntryGroup"
+		}
+	];
+	string entry_group_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	EntryGroup entry_group = 2;
+}
+
+message UpdateEntryGroupRequest {
+
+	EntryGroup entry_group = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetEntryGroupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/EntryGroup"
+		}
+	];
+	google.protobuf.FieldMask read_mask = 2;
+}
+
+message DeleteEntryGroupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/EntryGroup"
+		}
+	];
+	bool force = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEntryGroupsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/EntryGroup"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEntryGroupsResponse {
+
+	repeated EntryGroup entry_groups = 1;
+	string next_page_token = 2;
+}
+
+message CreateEntryRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/EntryGroup"
+		}
+	];
+	string entry_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Entry entry = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateEntryRequest {
+
+	Entry entry = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteEntryRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Entry"
+		}
+	];
+}
+
+message GetEntryRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Entry"
+		}
+	];
+}
+
+message LookupEntryRequest {
+
+	oneof target_name {
+		string linked_resource = 1;
+		string sql_resource = 3;
+	}
+}
+
+message Entry {
+	option (google.api.resource) = {
+		type: "datacatalog.googleapis.com/Entry"
+		pattern: ["projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry}"]
+	};
+
+	string name = 1 [
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/EntryGroup"
+		}
+	];
+	string linked_resource = 9;
+	oneof entry_type {
+		EntryType type = 2;
+		string user_specified_type = 16;
+	}
+	oneof system {
+		google.cloud.datacatalog.v1beta1.IntegratedSystem integrated_system = 17 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		string user_specified_system = 18;
+	}
+	oneof type_spec {
+		google.cloud.datacatalog.v1beta1.GcsFilesetSpec gcs_fileset_spec = 6;
+		google.cloud.datacatalog.v1beta1.BigQueryTableSpec bigquery_table_spec = 12;
+		google.cloud.datacatalog.v1beta1.BigQueryDateShardedSpec bigquery_date_sharded_spec = 15;
+	}
+	string display_name = 3;
+	string description = 4;
+	google.cloud.datacatalog.v1beta1.Schema schema = 5;
+	google.cloud.datacatalog.v1beta1.SystemTimestamps source_system_timestamps = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message EntryGroup {
+	option (google.api.resource) = {
+		type: "datacatalog.googleapis.com/EntryGroup"
+		pattern: ["projects/{project}/locations/{location}/entryGroups/{entry_group}"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	string description = 3;
+	google.cloud.datacatalog.v1beta1.SystemTimestamps data_catalog_timestamps = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CreateTagTemplateRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/TagTemplate"
+		}
+	];
+	string tag_template_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.datacatalog.v1beta1.TagTemplate tag_template = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetTagTemplateRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/TagTemplate"
+		}
+	];
+}
+
+message UpdateTagTemplateRequest {
+
+	google.cloud.datacatalog.v1beta1.TagTemplate tag_template = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteTagTemplateRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/TagTemplate"
+		}
+	];
+	bool force = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateTagRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/Tag"
+		}
+	];
+	google.cloud.datacatalog.v1beta1.Tag tag = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateTagRequest {
+
+	google.cloud.datacatalog.v1beta1.Tag tag = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteTagRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/Tag"
+		}
+	];
+}
+
+message CreateTagTemplateFieldRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/TagTemplate"
+		}
+	];
+	string tag_template_field_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.datacatalog.v1beta1.TagTemplateField tag_template_field = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateTagTemplateFieldRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/TagTemplateField"
+		}
+	];
+	google.cloud.datacatalog.v1beta1.TagTemplateField tag_template_field = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RenameTagTemplateFieldRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/TagTemplateField"
+		}
+	];
+	string new_tag_template_field_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteTagTemplateFieldRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/TagTemplateField"
+		}
+	];
+	bool force = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListTagsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "datacatalog.googleapis.com/Tag"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTagsResponse {
+
+	repeated google.cloud.datacatalog.v1beta1.Tag tags = 1;
+	string next_page_token = 2;
+}
+
+message ListEntriesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "datacatalog.googleapis.com/EntryGroup"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	google.protobuf.FieldMask read_mask = 4;
+}
+
+message ListEntriesResponse {
+
+	repeated Entry entries = 1;
+	string next_page_token = 2;
+}

@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package google.cloud.pubsublite.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/pubsublite/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.pubsublite.proto";
+option java_outer_classname = "TopicStatsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
+
+
+service TopicStatsService {
+	option (google.api.default_host) = "pubsublite.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ComputeMessageStats(google.cloud.pubsublite.v1.ComputeMessageStatsRequest) returns (google.cloud.pubsublite.v1.ComputeMessageStatsResponse) {
+		option (google.api.http) = {
+			post: "/v1/topicStats/{topic=projects/*/locations/*/topics/*}:computeMessageStats"
+			body: "*"
+		};
+
+	}
+}
+
+message ComputeMessageStatsRequest {
+
+	string topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Topic"
+		}
+	];
+	int64 partition = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.pubsublite.v1.Cursor start_cursor = 3;
+	google.cloud.pubsublite.v1.Cursor end_cursor = 4;
+}
+
+message ComputeMessageStatsResponse {
+
+	int64 message_count = 1;
+	int64 message_bytes = 2;
+	google.protobuf.Timestamp minimum_publish_time = 3;
+	google.protobuf.Timestamp minimum_event_time = 4;
+}

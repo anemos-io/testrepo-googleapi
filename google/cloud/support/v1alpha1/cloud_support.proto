@@ -1,0 +1,143 @@
+syntax = "proto3";
+
+package google.cloud.support.v1alpha1;
+
+import "google/api/annotations.proto";
+import "google/cloud/support/common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.support.v1alpha1";
+option java_outer_classname = "CloudSupportProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/support/v1alpha1;support";
+
+
+service CloudSupport {
+
+	rpc GetSupportAccount(google.cloud.support.v1alpha1.GetSupportAccountRequest) returns (google.cloud.support.common.SupportAccount) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=supportAccounts/*}"
+		};
+
+	}
+	rpc ListSupportAccounts(google.cloud.support.v1alpha1.ListSupportAccountsRequest) returns (google.cloud.support.v1alpha1.ListSupportAccountsResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha1/supportAccounts"
+		};
+
+	}
+	rpc GetCase(google.cloud.support.v1alpha1.GetCaseRequest) returns (google.cloud.support.common.Case) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=supportAccounts/*/cases/*}"
+		};
+
+	}
+	rpc ListCases(google.cloud.support.v1alpha1.ListCasesRequest) returns (google.cloud.support.v1alpha1.ListCasesResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=supportAccounts/*}/cases"
+		};
+
+	}
+	rpc ListComments(google.cloud.support.v1alpha1.ListCommentsRequest) returns (google.cloud.support.v1alpha1.ListCommentsResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha1/{name=supportAccounts/*/cases/*}/comments"
+		};
+
+	}
+	rpc CreateCase(google.cloud.support.v1alpha1.CreateCaseRequest) returns (google.cloud.support.common.Case) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{parent=supportAccounts/*}/cases"
+			body: "case"
+		};
+
+	}
+	rpc UpdateCase(google.cloud.support.v1alpha1.UpdateCaseRequest) returns (google.cloud.support.common.Case) {
+		option (google.api.http) = {
+			patch: "/v1alpha1/{case.name=supportAccounts/*/cases/*}"
+			body: "case"
+		};
+
+	}
+	rpc CreateComment(google.cloud.support.v1alpha1.CreateCommentRequest) returns (google.cloud.support.common.Comment) {
+		option (google.api.http) = {
+			post: "/v1alpha1/{name=supportAccounts/*/cases/*}/comments"
+			body: "comment"
+		};
+
+	}
+	rpc GetIssueTaxonomy(google.cloud.support.v1alpha1.GetIssueTaxonomyRequest) returns (google.cloud.support.common.IssueTaxonomy) {
+		option (google.api.http) = {
+			get: "/v1alpha1:getIssueTaxonomy"
+		};
+
+	}
+}
+
+message GetSupportAccountRequest {
+
+	string name = 1;
+}
+
+message ListSupportAccountsRequest {
+
+	string filter = 1;
+	int64 page_size = 2;
+	string page_token = 3;
+}
+
+message ListSupportAccountsResponse {
+
+	repeated google.cloud.support.common.SupportAccount accounts = 1;
+	string next_page_token = 2;
+}
+
+message GetCaseRequest {
+
+	string name = 1;
+}
+
+message ListCasesRequest {
+
+	string name = 1;
+	string filter = 2;
+	int64 page_size = 3;
+	string page_token = 4;
+}
+
+message ListCasesResponse {
+
+	repeated google.cloud.support.common.Case cases = 1;
+	string next_page_token = 2;
+}
+
+message ListCommentsRequest {
+
+	string name = 1;
+}
+
+message ListCommentsResponse {
+
+	repeated google.cloud.support.common.Comment comments = 1;
+}
+
+message CreateCaseRequest {
+
+	string parent = 1;
+	google.cloud.support.common.Case case = 2;
+}
+
+message UpdateCaseRequest {
+
+	google.cloud.support.common.Case case = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message CreateCommentRequest {
+
+	string name = 1;
+	google.cloud.support.common.Comment comment = 2;
+}
+
+message GetIssueTaxonomyRequest {
+
+}

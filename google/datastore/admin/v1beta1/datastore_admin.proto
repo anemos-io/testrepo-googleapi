@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package google.datastore.admin.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.datastore.admin.v1beta1";
+option java_outer_classname = "DatastoreAdminProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/datastore/admin/v1beta1;admin";
+option csharp_namespace = "Google.Cloud.Datastore.Admin.V1Beta1";
+option ruby_package = "Google::Cloud::Datastore::Admin::V1beta1";
+
+
+enum OperationType {
+
+	OPERATION_TYPE_UNSPECIFIED = 0;
+	EXPORT_ENTITIES = 1;
+	IMPORT_ENTITIES = 2;
+}
+
+service DatastoreAdmin {
+
+	rpc ExportEntities(google.datastore.admin.v1beta1.ExportEntitiesRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta1/projects/{project_id}:export"
+			body: "*"
+		};
+
+	}
+	rpc ImportEntities(google.datastore.admin.v1beta1.ImportEntitiesRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta1/projects/{project_id}:import"
+			body: "*"
+		};
+
+	}
+}
+
+message CommonMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		INITIALIZING = 1;
+		PROCESSING = 2;
+		CANCELLING = 3;
+		FINALIZING = 4;
+		SUCCESSFUL = 5;
+		FAILED = 6;
+		CANCELLED = 7;
+	}
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	OperationType operation_type = 3;
+	map<string, string> labels = 4;
+	State state = 5;
+}
+
+message Progress {
+
+	int64 work_completed = 1;
+	int64 work_estimated = 2;
+}
+
+message ExportEntitiesRequest {
+
+	string project_id = 1;
+	map<string, string> labels = 2;
+	EntityFilter entity_filter = 3;
+	string output_url_prefix = 4;
+}
+
+message ImportEntitiesRequest {
+
+	string project_id = 1;
+	map<string, string> labels = 2;
+	string input_url = 3;
+	EntityFilter entity_filter = 4;
+}
+
+message ExportEntitiesResponse {
+
+	string output_url = 1;
+}
+
+message ExportEntitiesMetadata {
+
+	CommonMetadata common = 1;
+	Progress progress_entities = 2;
+	Progress progress_bytes = 3;
+	EntityFilter entity_filter = 4;
+	string output_url_prefix = 5;
+}
+
+message ImportEntitiesMetadata {
+
+	CommonMetadata common = 1;
+	Progress progress_entities = 2;
+	Progress progress_bytes = 3;
+	EntityFilter entity_filter = 4;
+	string input_url = 5;
+}
+
+message EntityFilter {
+
+	repeated string kinds = 1;
+	repeated string namespace_ids = 2;
+}

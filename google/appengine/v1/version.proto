@@ -1,0 +1,193 @@
+syntax = "proto3";
+
+package google.appengine.v1;
+
+import "google/appengine/v1/app_yaml.proto";
+import "google/appengine/v1/deploy.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1";
+option java_outer_classname = "VersionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+
+
+enum InboundServiceType {
+
+	INBOUND_SERVICE_UNSPECIFIED = 0;
+	INBOUND_SERVICE_MAIL = 1;
+	INBOUND_SERVICE_MAIL_BOUNCE = 2;
+	INBOUND_SERVICE_XMPP_ERROR = 3;
+	INBOUND_SERVICE_XMPP_MESSAGE = 4;
+	INBOUND_SERVICE_XMPP_SUBSCRIBE = 5;
+	INBOUND_SERVICE_XMPP_PRESENCE = 6;
+	INBOUND_SERVICE_CHANNEL_PRESENCE = 7;
+	INBOUND_SERVICE_WARMUP = 9;
+}
+
+enum ServingStatus {
+
+	SERVING_STATUS_UNSPECIFIED = 0;
+	SERVING = 1;
+	STOPPED = 2;
+}
+
+message Version {
+
+	string name = 1;
+	string id = 2;
+	oneof scaling {
+		AutomaticScaling automatic_scaling = 3;
+		BasicScaling basic_scaling = 4;
+		ManualScaling manual_scaling = 5;
+	}
+	repeated InboundServiceType inbound_services = 6;
+	string instance_class = 7;
+	Network network = 8;
+	repeated string zones = 118;
+	Resources resources = 9;
+	string runtime = 10;
+	string runtime_channel = 117;
+	bool threadsafe = 11;
+	bool vm = 12;
+	map<string, string> beta_settings = 13;
+	string env = 14;
+	ServingStatus serving_status = 15;
+	string created_by = 16;
+	google.protobuf.Timestamp create_time = 17;
+	int64 disk_usage_bytes = 18;
+	string runtime_api_version = 21;
+	string runtime_main_executable_path = 22;
+	repeated google.appengine.v1.UrlMap handlers = 100;
+	repeated google.appengine.v1.ErrorHandler error_handlers = 101;
+	repeated google.appengine.v1.Library libraries = 102;
+	google.appengine.v1.ApiConfigHandler api_config = 103;
+	map<string, string> env_variables = 104;
+	google.protobuf.Duration default_expiration = 105;
+	google.appengine.v1.HealthCheck health_check = 106;
+	google.appengine.v1.ReadinessCheck readiness_check = 112;
+	google.appengine.v1.LivenessCheck liveness_check = 113;
+	string nobuild_files_regex = 107;
+	google.appengine.v1.Deployment deployment = 108;
+	string version_url = 109;
+	EndpointsApiService endpoints_api_service = 110;
+	Entrypoint entrypoint = 122;
+	VpcAccessConnector vpc_access_connector = 121;
+}
+
+message EndpointsApiService {
+
+	enum RolloutStrategy {
+
+		UNSPECIFIED_ROLLOUT_STRATEGY = 0;
+		FIXED = 1;
+		MANAGED = 2;
+	}
+
+	string name = 1;
+	string config_id = 2;
+	RolloutStrategy rollout_strategy = 3;
+	bool disable_trace_sampling = 4;
+}
+
+message AutomaticScaling {
+
+	google.protobuf.Duration cool_down_period = 1;
+	CpuUtilization cpu_utilization = 2;
+	int32 max_concurrent_requests = 3;
+	int32 max_idle_instances = 4;
+	int32 max_total_instances = 5;
+	google.protobuf.Duration max_pending_latency = 6;
+	int32 min_idle_instances = 7;
+	int32 min_total_instances = 8;
+	google.protobuf.Duration min_pending_latency = 9;
+	RequestUtilization request_utilization = 10;
+	DiskUtilization disk_utilization = 11;
+	NetworkUtilization network_utilization = 12;
+	StandardSchedulerSettings standard_scheduler_settings = 20;
+}
+
+message BasicScaling {
+
+	google.protobuf.Duration idle_timeout = 1;
+	int32 max_instances = 2;
+}
+
+message ManualScaling {
+
+	int32 instances = 1;
+}
+
+message CpuUtilization {
+
+	google.protobuf.Duration aggregation_window_length = 1;
+	double target_utilization = 2;
+}
+
+message RequestUtilization {
+
+	int32 target_request_count_per_second = 1;
+	int32 target_concurrent_requests = 2;
+}
+
+message DiskUtilization {
+
+	int32 target_write_bytes_per_second = 14;
+	int32 target_write_ops_per_second = 15;
+	int32 target_read_bytes_per_second = 16;
+	int32 target_read_ops_per_second = 17;
+}
+
+message NetworkUtilization {
+
+	int32 target_sent_bytes_per_second = 1;
+	int32 target_sent_packets_per_second = 11;
+	int32 target_received_bytes_per_second = 12;
+	int32 target_received_packets_per_second = 13;
+}
+
+message StandardSchedulerSettings {
+
+	double target_cpu_utilization = 1;
+	double target_throughput_utilization = 2;
+	int32 min_instances = 3;
+	int32 max_instances = 4;
+}
+
+message Network {
+
+	repeated string forwarded_ports = 1;
+	string instance_tag = 2;
+	string name = 3;
+	string subnetwork_name = 4;
+	bool session_affinity = 5;
+}
+
+message Volume {
+
+	string name = 1;
+	string volume_type = 2;
+	double size_gb = 3;
+}
+
+message Resources {
+
+	double cpu = 1;
+	double disk_gb = 2;
+	double memory_gb = 3;
+	repeated Volume volumes = 4;
+}
+
+message VpcAccessConnector {
+
+	string name = 1;
+}
+
+message Entrypoint {
+
+	oneof command {
+		string shell = 1;
+	}
+}

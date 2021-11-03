@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package google.cloud.recommendationengine.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/recommendationengine/v1beta1/catalog.proto";
+import "google/cloud/recommendationengine/v1beta1/user_event.proto";
+import "google/cloud/recommendationengine/v1beta1/recommendationengine_resources.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.recommendationengine.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommendationengine/v1beta1;recommendationengine";
+option objc_class_prefix = "RECAI";
+option csharp_namespace = "Google.Cloud.RecommendationEngine.V1Beta1";
+option php_namespace = "Google\\Cloud\\RecommendationEngine\\V1beta1";
+option ruby_package = "Google::Cloud::RecommendationEngine::V1beta1";
+
+
+message GcsSource {
+
+	repeated string input_uris = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CatalogInlineSource {
+
+	repeated google.cloud.recommendationengine.v1beta1.CatalogItem catalog_items = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UserEventInlineSource {
+
+	repeated google.cloud.recommendationengine.v1beta1.UserEvent user_events = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ImportErrorsConfig {
+
+	oneof destination {
+		string gcs_prefix = 1;
+	}
+}
+
+message ImportCatalogItemsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/Catalog"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	InputConfig input_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ImportErrorsConfig errors_config = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ImportUserEventsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/EventStore"
+		}
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	InputConfig input_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ImportErrorsConfig errors_config = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message InputConfig {
+
+	oneof source {
+		CatalogInlineSource catalog_inline_source = 1;
+		GcsSource gcs_source = 2;
+		UserEventInlineSource user_event_inline_source = 3;
+	}
+}
+
+message ImportMetadata {
+
+	string operation_name = 5;
+	string request_id = 3;
+	google.protobuf.Timestamp create_time = 4;
+	int64 success_count = 1;
+	int64 failure_count = 2;
+	google.protobuf.Timestamp update_time = 6;
+}
+
+message ImportCatalogItemsResponse {
+
+	repeated google.rpc.Status error_samples = 1;
+	ImportErrorsConfig errors_config = 2;
+}
+
+message ImportUserEventsResponse {
+
+	repeated google.rpc.Status error_samples = 1;
+	ImportErrorsConfig errors_config = 2;
+	UserEventImportSummary import_summary = 3;
+}
+
+message UserEventImportSummary {
+
+	int64 joined_events_count = 1;
+	int64 unjoined_events_count = 2;
+}

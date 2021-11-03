@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.v2;
+
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.bigquery.v2";
+option java_outer_classname = "StandardSqlProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/v2;bigquery";
+
+
+message StandardSqlDataType {
+
+	enum TypeKind {
+
+		TYPE_KIND_UNSPECIFIED = 0;
+		INT64 = 2;
+		BOOL = 5;
+		FLOAT64 = 7;
+		STRING = 8;
+		BYTES = 9;
+		TIMESTAMP = 19;
+		DATE = 10;
+		TIME = 20;
+		DATETIME = 21;
+		GEOGRAPHY = 22;
+		NUMERIC = 23;
+		ARRAY = 16;
+		STRUCT = 17;
+	}
+
+	TypeKind type_kind = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof sub_type {
+		StandardSqlDataType array_element_type = 2;
+		StandardSqlStructType struct_type = 3;
+	}
+}
+
+message StandardSqlField {
+
+	string name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	StandardSqlDataType type = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message StandardSqlStructType {
+
+	repeated StandardSqlField fields = 1;
+}

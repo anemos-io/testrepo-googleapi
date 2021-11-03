@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.settings.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.securitycenter.settings.v1beta1";
+option java_outer_classname = "BillingSettingsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/settings/v1beta1;settings";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.SecurityCenter.Settings.V1Beta1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\Settings\\V1beta1";
+option ruby_package = "Google::Cloud::SecurityCenter::Settings::V1beta1";
+
+
+enum BillingTier {
+
+	BILLING_TIER_UNSPECIFIED = 0;
+	STANDARD = 1;
+	PREMIUM = 2;
+}
+
+enum BillingType {
+
+	BILLING_TYPE_UNSPECIFIED = 0;
+	SUBSCRIPTION = 1;
+	TRIAL_SUBSCRIPTION = 2;
+	ALPHA = 3;
+}
+
+message BillingSettings {
+
+	BillingTier billing_tier = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	BillingType billing_type = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp expire_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

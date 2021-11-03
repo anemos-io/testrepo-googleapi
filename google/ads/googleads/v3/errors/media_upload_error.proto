@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.errors";
+option java_outer_classname = "MediaUploadErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V3::Errors";
+
+
+message MediaUploadErrorEnum {
+
+	enum MediaUploadError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		FILE_TOO_BIG = 2;
+		UNPARSEABLE_IMAGE = 3;
+		ANIMATED_IMAGE_NOT_ALLOWED = 4;
+		FORMAT_NOT_ALLOWED = 5;
+		EXTERNAL_URL_NOT_ALLOWED = 6;
+		INVALID_URL_REFERENCE = 7;
+		MISSING_PRIMARY_MEDIA_BUNDLE_ENTRY = 8;
+	}
+
+}

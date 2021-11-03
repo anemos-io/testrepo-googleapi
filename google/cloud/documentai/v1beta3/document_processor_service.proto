@@ -1,0 +1,179 @@
+syntax = "proto3";
+
+package google.cloud.documentai.v1beta3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/documentai/v1beta3/document.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.documentai.v1beta3";
+option java_outer_classname = "DocumentAiProcessorService";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/documentai/v1beta3;documentai";
+option csharp_namespace = "Google.Cloud.DocumentAI.v1beta3";
+option php_namespace = "Google\\Cloud\\DocumentAi\\v1beta3";
+option ruby_package = "Google::Cloud::DocumentAI::master";
+option (google.api.resource_definition) = {
+	type: "documentai.googleapis.com/Location"
+	pattern: ["projects/{project}/locations/{location}"]
+};
+option (google.api.resource_definition) = {
+	type: "documentai.googleapis.com/Processor"
+	pattern: ["projects/{project}/locations/{location}/processors/{processor}"]
+};
+option (google.api.resource_definition) = {
+	type: "documentai.googleapis.com/HumanReviewConfig"
+	pattern: ["projects/{project}/locations/{location}/processors/{processor}/humanReviewConfig"]
+};
+
+
+service DocumentProcessorService {
+	option (google.api.default_host) = "us-documentai.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ProcessDocument(google.cloud.documentai.v1beta3.ProcessRequest) returns (google.cloud.documentai.v1beta3.ProcessResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta3/{name=projects/*/locations/*/processors/*}:process"
+			body: "*"
+		};
+
+	}
+	rpc BatchProcessDocuments(google.cloud.documentai.v1beta3.BatchProcessRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "BatchProcessResponse"
+			metadata_type: "BatchProcessMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta3/{name=projects/*/locations/*/processors/*}:batchProcess"
+			body: "*"
+		};
+
+	}
+	rpc ReviewDocument(google.cloud.documentai.v1beta3.ReviewDocumentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ReviewDocumentResponse"
+			metadata_type: "ReviewDocumentOperationMetadata"
+		};
+		option (google.api.method_signature) = "human_review_config";
+		option (google.api.http) = {
+			post: "/v1beta3/{human_review_config=projects/*/locations/*/processors/*/humanReviewConfig}:reviewDocument"
+			body: "*"
+		};
+
+	}
+}
+
+message ProcessRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "documentai.googleapis.com/Processor"
+		}
+	];
+	google.cloud.documentai.v1beta3.Document document = 2;
+	bool skip_human_review = 3;
+}
+
+message ProcessResponse {
+
+	google.cloud.documentai.v1beta3.Document document = 1;
+	string human_review_operation = 2;
+}
+
+message BatchProcessRequest {
+
+	message BatchInputConfig {
+
+		string gcs_source = 1;
+		string mime_type = 2;
+	}
+
+	message BatchOutputConfig {
+
+		string gcs_destination = 1;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "documentai.googleapis.com/Processor"
+		}
+	];
+	repeated BatchInputConfig input_configs = 2;
+	BatchOutputConfig output_config = 3;
+}
+
+message BatchProcessResponse {
+
+}
+
+message BatchProcessMetadata {
+
+	message IndividualProcessStatus {
+
+		string input_gcs_source = 1;
+		google.rpc.Status status = 2;
+		string output_gcs_destination = 3;
+		string human_review_operation = 4;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		WAITING = 1;
+		RUNNING = 2;
+		SUCCEEDED = 3;
+		CANCELLING = 4;
+		CANCELLED = 5;
+		FAILED = 6;
+	}
+
+	State state = 1;
+	string state_message = 2;
+	google.protobuf.Timestamp create_time = 3;
+	google.protobuf.Timestamp update_time = 4;
+	repeated IndividualProcessStatus individual_process_statuses = 5;
+}
+
+message ReviewDocumentRequest {
+
+	string human_review_config = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "documentai.googleapis.com/HumanReviewConfig"
+		}
+	];
+	google.cloud.documentai.v1beta3.Document document = 2;
+}
+
+message ReviewDocumentResponse {
+
+	string gcs_destination = 1;
+}
+
+message ReviewDocumentOperationMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		CANCELLING = 2;
+		SUCCEEDED = 3;
+		FAILED = 4;
+		CANCELLED = 5;
+	}
+
+	State state = 1;
+	string state_message = 2;
+	google.protobuf.Timestamp create_time = 3;
+	google.protobuf.Timestamp update_time = 4;
+}

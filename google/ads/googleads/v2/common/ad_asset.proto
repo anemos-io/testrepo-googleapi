@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.common;
+
+import "google/ads/googleads/v2/enums/served_asset_field_type.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.common";
+option java_outer_classname = "AdAssetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V2::Common";
+
+
+message AdTextAsset {
+
+	google.protobuf.StringValue text = 1;
+	google.ads.googleads.v2.enums.ServedAssetFieldTypeEnum.ServedAssetFieldType pinned_field = 2;
+}
+
+message AdImageAsset {
+
+	google.protobuf.StringValue asset = 1;
+}
+
+message AdVideoAsset {
+
+	google.protobuf.StringValue asset = 1;
+}
+
+message AdMediaBundleAsset {
+
+	google.protobuf.StringValue asset = 1;
+}

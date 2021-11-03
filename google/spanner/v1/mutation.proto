@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.spanner.v1;
+
+import "google/protobuf/struct.proto";
+import "google/spanner/v1/keys.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.spanner.v1";
+option java_outer_classname = "MutationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/v1;spanner";
+option csharp_namespace = "Google.Cloud.Spanner.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\V1";
+option ruby_package = "Google::Cloud::Spanner::V1";
+
+
+message Mutation {
+
+	message Write {
+
+		string table = 1;
+		repeated string columns = 2;
+		repeated google.protobuf.ListValue values = 3;
+	}
+
+	message Delete {
+
+		string table = 1;
+		google.spanner.v1.KeySet key_set = 2;
+	}
+
+	oneof operation {
+		Write insert = 1;
+		Write update = 2;
+		Write insert_or_update = 3;
+		Write replace = 4;
+		Delete delete = 5;
+	}
+}

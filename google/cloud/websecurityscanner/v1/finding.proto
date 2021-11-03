@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/websecurityscanner/v1/finding_addon.proto";
+
+option java_package = "com.google.cloud.websecurityscanner.v1";
+option java_outer_classname = "FindingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1;websecurityscanner";
+
+
+message Finding {
+	option (google.api.resource) = {
+		type: "websecurityscanner.googleapis.com/Finding"
+		pattern: ["projects/{project}/scanConfigs/{scan_config}/scanRuns/{scan_run}/findings/{finding}"]
+	};
+
+	enum Severity {
+
+		SEVERITY_UNSPECIFIED = 0;
+		CRITICAL = 1;
+		HIGH = 2;
+		MEDIUM = 3;
+		LOW = 4;
+	}
+
+	string name = 1;
+	string finding_type = 2;
+	Severity severity = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string http_method = 3;
+	string fuzzed_url = 4;
+	string body = 5;
+	string description = 6;
+	string reproduction_url = 7;
+	string frame_url = 8;
+	string final_url = 9;
+	string tracking_id = 10;
+	google.cloud.websecurityscanner.v1.Form form = 16;
+	google.cloud.websecurityscanner.v1.OutdatedLibrary outdated_library = 11;
+	google.cloud.websecurityscanner.v1.ViolatingResource violating_resource = 12;
+	google.cloud.websecurityscanner.v1.VulnerableHeaders vulnerable_headers = 15;
+	google.cloud.websecurityscanner.v1.VulnerableParameters vulnerable_parameters = 13;
+	google.cloud.websecurityscanner.v1.Xss xss = 14;
+}

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.enums";
+option java_outer_classname = "ConversionActionTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V4::Enums";
+
+
+message ConversionActionTypeEnum {
+
+	enum ConversionActionType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		AD_CALL = 2;
+		CLICK_TO_CALL = 3;
+		GOOGLE_PLAY_DOWNLOAD = 4;
+		GOOGLE_PLAY_IN_APP_PURCHASE = 5;
+		UPLOAD_CALLS = 6;
+		UPLOAD_CLICKS = 7;
+		WEBPAGE = 8;
+		WEBSITE_CALL = 9;
+		STORE_SALES_DIRECT_UPLOAD = 10;
+		STORE_SALES = 11;
+		FIREBASE_ANDROID_FIRST_OPEN = 12;
+		FIREBASE_ANDROID_IN_APP_PURCHASE = 13;
+		FIREBASE_ANDROID_CUSTOM = 14;
+		FIREBASE_IOS_FIRST_OPEN = 15;
+		FIREBASE_IOS_IN_APP_PURCHASE = 16;
+		FIREBASE_IOS_CUSTOM = 17;
+		THIRD_PARTY_APP_ANALYTICS_ANDROID_FIRST_OPEN = 18;
+		THIRD_PARTY_APP_ANALYTICS_ANDROID_IN_APP_PURCHASE = 19;
+		THIRD_PARTY_APP_ANALYTICS_ANDROID_CUSTOM = 20;
+		THIRD_PARTY_APP_ANALYTICS_IOS_FIRST_OPEN = 21;
+		THIRD_PARTY_APP_ANALYTICS_IOS_IN_APP_PURCHASE = 22;
+		THIRD_PARTY_APP_ANALYTICS_IOS_CUSTOM = 23;
+	}
+
+}

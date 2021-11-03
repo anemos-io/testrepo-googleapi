@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.api.servicecontrol.v1;
+
+import "google/api/servicecontrol/v1/log_entry.proto";
+import "google/api/servicecontrol/v1/metric_value.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.api.servicecontrol.v1";
+option java_outer_classname = "OperationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/servicecontrol/v1;servicecontrol";
+option cc_enable_arenas = true;
+
+
+message Operation {
+
+	enum Importance {
+
+		LOW = 0;
+		HIGH = 1;
+	}
+
+	string operation_id = 1;
+	string operation_name = 2;
+	string consumer_id = 3;
+	google.protobuf.Timestamp start_time = 4;
+	google.protobuf.Timestamp end_time = 5;
+	map<string, string> labels = 6;
+	repeated google.api.servicecontrol.v1.MetricValueSet metric_value_sets = 7;
+	repeated google.api.servicecontrol.v1.LogEntry log_entries = 8;
+	Importance importance = 11;
+	repeated google.protobuf.Any extensions = 16;
+}

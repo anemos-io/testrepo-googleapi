@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package google.appengine.v1beta;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1beta";
+option java_outer_classname = "DomainMappingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+
+
+message DomainMapping {
+
+	string name = 1;
+	string id = 2;
+	SslSettings ssl_settings = 3;
+	repeated ResourceRecord resource_records = 4;
+}
+
+message SslSettings {
+
+	enum SslManagementType {
+
+		AUTOMATIC = 0;
+		MANUAL = 1;
+	}
+
+	string certificate_id = 1;
+	SslManagementType ssl_management_type = 3;
+	string pending_managed_certificate_id = 4;
+}
+
+message ResourceRecord {
+
+	enum RecordType {
+
+		A = 0;
+		AAAA = 1;
+		CNAME = 2;
+	}
+
+	string name = 1;
+	string rrdata = 2;
+	RecordType type = 3;
+}

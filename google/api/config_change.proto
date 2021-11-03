@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.api;
+
+option java_package = "com.google.api";
+option java_outer_classname = "ConfigChangeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/configchange;configchange";
+option objc_class_prefix = "GAPI";
+
+
+enum ChangeType {
+
+	CHANGE_TYPE_UNSPECIFIED = 0;
+	ADDED = 1;
+	REMOVED = 2;
+	MODIFIED = 3;
+}
+
+message ConfigChange {
+
+	string element = 1;
+	string old_value = 2;
+	string new_value = 3;
+	ChangeType change_type = 4;
+	repeated Advice advices = 5;
+}
+
+message Advice {
+
+	string description = 2;
+}

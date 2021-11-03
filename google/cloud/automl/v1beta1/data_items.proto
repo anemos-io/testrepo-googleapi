@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/cloud/automl/v1beta1/geometry.proto";
+import "google/cloud/automl/v1beta1/io.proto";
+import "google/cloud/automl/v1beta1/temporal.proto";
+import "google/cloud/automl/v1beta1/text_segment.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message Image {
+
+	oneof data {
+		bytes image_bytes = 1;
+		google.cloud.automl.v1beta1.InputConfig input_config = 6;
+	}
+	string thumbnail_uri = 4;
+}
+
+message TextSnippet {
+
+	string content = 1;
+	string mime_type = 2;
+	string content_uri = 4;
+}
+
+message DocumentDimensions {
+
+	enum DocumentDimensionUnit {
+
+		DOCUMENT_DIMENSION_UNIT_UNSPECIFIED = 0;
+		INCH = 1;
+		CENTIMETER = 2;
+		POINT = 3;
+	}
+
+	DocumentDimensionUnit unit = 1;
+	float width = 2;
+	float height = 3;
+}
+
+message Document {
+
+	message Layout {
+
+		enum TextSegmentType {
+
+			TEXT_SEGMENT_TYPE_UNSPECIFIED = 0;
+			TOKEN = 1;
+			PARAGRAPH = 2;
+			FORM_FIELD = 3;
+			FORM_FIELD_NAME = 4;
+			FORM_FIELD_CONTENTS = 5;
+			TABLE = 6;
+			TABLE_HEADER = 7;
+			TABLE_ROW = 8;
+			TABLE_CELL = 9;
+		}
+
+		google.cloud.automl.v1beta1.TextSegment text_segment = 1;
+		int32 page_number = 2;
+		google.cloud.automl.v1beta1.BoundingPoly bounding_poly = 3;
+		TextSegmentType text_segment_type = 4;
+	}
+
+	google.cloud.automl.v1beta1.DocumentInputConfig input_config = 1;
+	TextSnippet document_text = 2;
+	repeated Layout layout = 3;
+	DocumentDimensions document_dimensions = 4;
+	int32 page_count = 5;
+}
+
+message Row {
+
+	repeated string column_spec_ids = 2;
+	repeated google.protobuf.Value values = 3;
+}
+
+message ExamplePayload {
+
+	oneof payload {
+		Image image = 1;
+		TextSnippet text_snippet = 2;
+		Document document = 4;
+		Row row = 3;
+	}
+}

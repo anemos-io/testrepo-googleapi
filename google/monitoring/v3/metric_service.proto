@@ -1,0 +1,274 @@
+syntax = "proto3";
+
+package google.monitoring.v3;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/metric.proto";
+import "google/api/monitored_resource.proto";
+import "google/api/resource.proto";
+import "google/monitoring/v3/alert.proto";
+import "google/monitoring/v3/common.proto";
+import "google/monitoring/v3/metric.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.monitoring.v3";
+option java_outer_classname = "MetricServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/v3;monitoring";
+option csharp_namespace = "Google.Cloud.Monitoring.V3";
+option php_namespace = "Google\\Cloud\\Monitoring\\V3";
+option ruby_package = "Google::Cloud::Monitoring::V3";
+option (google.api.resource_definition) = {
+	type: "monitoring.googleapis.com/MetricDescriptor"
+	pattern: ["projects/{project}/metricDescriptors/{metric_descriptor=**}","organizations/{organization}/metricDescriptors/{metric_descriptor=**}","folders/{folder}/metricDescriptors/{metric_descriptor=**}","*"]
+	history: ORIGINALLY_SINGLE_PATTERN
+};
+option (google.api.resource_definition) = {
+	type: "monitoring.googleapis.com/MonitoredResourceDescriptor"
+	pattern: ["projects/{project}/monitoredResourceDescriptors/{monitored_resource_descriptor}","organizations/{organization}/monitoredResourceDescriptors/{monitored_resource_descriptor}","folders/{folder}/monitoredResourceDescriptors/{monitored_resource_descriptor}","*"]
+	history: ORIGINALLY_SINGLE_PATTERN
+};
+
+
+service MetricService {
+	option (google.api.default_host) = "monitoring.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/monitoring,https://www.googleapis.com/auth/monitoring.read,https://www.googleapis.com/auth/monitoring.write";
+
+	rpc ListMonitoredResourceDescriptors(google.monitoring.v3.ListMonitoredResourceDescriptorsRequest) returns (google.monitoring.v3.ListMonitoredResourceDescriptorsResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*}/monitoredResourceDescriptors"
+		};
+
+	}
+	rpc GetMonitoredResourceDescriptor(google.monitoring.v3.GetMonitoredResourceDescriptorRequest) returns (google.api.MonitoredResourceDescriptor) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*/monitoredResourceDescriptors/**}"
+		};
+
+	}
+	rpc ListMetricDescriptors(google.monitoring.v3.ListMetricDescriptorsRequest) returns (google.monitoring.v3.ListMetricDescriptorsResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*}/metricDescriptors"
+		};
+
+	}
+	rpc GetMetricDescriptor(google.monitoring.v3.GetMetricDescriptorRequest) returns (google.api.MetricDescriptor) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*/metricDescriptors/**}"
+		};
+
+	}
+	rpc CreateMetricDescriptor(google.monitoring.v3.CreateMetricDescriptorRequest) returns (google.api.MetricDescriptor) {
+		option (google.api.method_signature) = "name,metric_descriptor";
+		option (google.api.http) = {
+			post: "/v3/{name=projects/*}/metricDescriptors"
+			body: "metric_descriptor"
+		};
+
+	}
+	rpc DeleteMetricDescriptor(google.monitoring.v3.DeleteMetricDescriptorRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3/{name=projects/*/metricDescriptors/**}"
+		};
+
+	}
+	rpc ListTimeSeries(google.monitoring.v3.ListTimeSeriesRequest) returns (google.monitoring.v3.ListTimeSeriesResponse) {
+		option (google.api.method_signature) = "name,filter,interval,view";
+		option (google.api.http) = {
+			get: "/v3/{name=projects/*}/timeSeries"
+		};
+
+	}
+	rpc CreateTimeSeries(google.monitoring.v3.CreateTimeSeriesRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name,time_series";
+		option (google.api.http) = {
+			post: "/v3/{name=projects/*}/timeSeries"
+			body: "*"
+		};
+
+	}
+}
+
+message ListMonitoredResourceDescriptorsRequest {
+
+	string name = 5 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "monitoring.googleapis.com/MonitoredResourceDescriptor"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListMonitoredResourceDescriptorsResponse {
+
+	repeated google.api.MonitoredResourceDescriptor resource_descriptors = 1;
+	string next_page_token = 2;
+}
+
+message GetMonitoredResourceDescriptorRequest {
+
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "monitoring.googleapis.com/MonitoredResourceDescriptor"
+		}
+	];
+}
+
+message ListMetricDescriptorsRequest {
+
+	string name = 5 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "monitoring.googleapis.com/MetricDescriptor"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListMetricDescriptorsResponse {
+
+	repeated google.api.MetricDescriptor metric_descriptors = 1;
+	string next_page_token = 2;
+}
+
+message GetMetricDescriptorRequest {
+
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "monitoring.googleapis.com/MetricDescriptor"
+		}
+	];
+}
+
+message CreateMetricDescriptorRequest {
+
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "monitoring.googleapis.com/MetricDescriptor"
+		}
+	];
+	google.api.MetricDescriptor metric_descriptor = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteMetricDescriptorRequest {
+
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "monitoring.googleapis.com/MetricDescriptor"
+		}
+	];
+}
+
+message ListTimeSeriesRequest {
+
+	enum TimeSeriesView {
+
+		FULL = 0;
+		HEADERS = 1;
+	}
+
+	string name = 10 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.monitoring.v3.TimeInterval interval = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.monitoring.v3.Aggregation aggregation = 5;
+	string order_by = 6;
+	TimeSeriesView view = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 8;
+	string page_token = 9;
+}
+
+message ListTimeSeriesResponse {
+
+	repeated google.monitoring.v3.TimeSeries time_series = 1;
+	string next_page_token = 2;
+	repeated google.rpc.Status execution_errors = 3;
+}
+
+message CreateTimeSeriesRequest {
+
+	string name = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	repeated google.monitoring.v3.TimeSeries time_series = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateTimeSeriesError {
+
+	google.monitoring.v3.TimeSeries time_series = 1 [
+		deprecated = true
+	];
+	google.rpc.Status status = 2 [
+		deprecated = true
+	];
+}
+
+message CreateTimeSeriesSummary {
+
+	message Error {
+
+		google.rpc.Status status = 1;
+		int32 point_count = 2;
+	}
+
+	int32 total_point_count = 1;
+	int32 success_point_count = 2;
+	repeated Error errors = 3;
+}
+
+message QueryTimeSeriesRequest {
+
+	string name = 1;
+	string query = 7;
+	int32 page_size = 9;
+	string page_token = 10;
+}
+
+message QueryTimeSeriesResponse {
+
+	google.monitoring.v3.TimeSeriesDescriptor time_series_descriptor = 8;
+	repeated google.monitoring.v3.TimeSeriesData time_series_data = 9;
+	string next_page_token = 10;
+	repeated google.rpc.Status partial_errors = 11;
+}
+
+message QueryErrorList {
+
+	repeated google.monitoring.v3.QueryError errors = 1;
+	string error_summary = 2;
+}

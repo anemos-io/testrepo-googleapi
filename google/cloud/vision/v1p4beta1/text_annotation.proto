@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package google.cloud.vision.v1p4beta1;
+
+import "google/api/annotations.proto";
+import "google/cloud/vision/v1p4beta1/geometry.proto";
+
+option java_package = "com.google.cloud.vision.v1p4beta1";
+option java_outer_classname = "TextAnnotationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/vision/v1p4beta1;vision";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GCVN";
+
+
+message TextAnnotation {
+
+	message DetectedLanguage {
+
+		string language_code = 1;
+		float confidence = 2;
+	}
+
+	message DetectedBreak {
+
+		enum BreakType {
+
+			UNKNOWN = 0;
+			SPACE = 1;
+			SURE_SPACE = 2;
+			EOL_SURE_SPACE = 3;
+			HYPHEN = 4;
+			LINE_BREAK = 5;
+		}
+
+		BreakType type = 1;
+		bool is_prefix = 2;
+	}
+
+	message TextProperty {
+
+		repeated DetectedLanguage detected_languages = 1;
+		DetectedBreak detected_break = 2;
+	}
+
+	repeated Page pages = 1;
+	string text = 2;
+}
+
+message Page {
+
+	TextProperty property = 1;
+	int32 width = 2;
+	int32 height = 3;
+	repeated Block blocks = 4;
+	float confidence = 5;
+}
+
+message Block {
+
+	enum BlockType {
+
+		UNKNOWN = 0;
+		TEXT = 1;
+		TABLE = 2;
+		PICTURE = 3;
+		RULER = 4;
+		BARCODE = 5;
+	}
+
+	TextProperty property = 1;
+	google.cloud.vision.v1p4beta1.BoundingPoly bounding_box = 2;
+	repeated Paragraph paragraphs = 3;
+	BlockType block_type = 4;
+	float confidence = 5;
+}
+
+message Paragraph {
+
+	TextProperty property = 1;
+	google.cloud.vision.v1p4beta1.BoundingPoly bounding_box = 2;
+	repeated Word words = 3;
+	float confidence = 4;
+}
+
+message Word {
+
+	TextProperty property = 1;
+	google.cloud.vision.v1p4beta1.BoundingPoly bounding_box = 2;
+	repeated Symbol symbols = 3;
+	float confidence = 4;
+}
+
+message Symbol {
+
+	TextProperty property = 1;
+	google.cloud.vision.v1p4beta1.BoundingPoly bounding_box = 2;
+	string text = 3;
+	float confidence = 4;
+}

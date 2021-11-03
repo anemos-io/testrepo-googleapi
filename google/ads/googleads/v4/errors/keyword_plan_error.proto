@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.errors";
+option java_outer_classname = "KeywordPlanErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V4::Errors";
+
+
+message KeywordPlanErrorEnum {
+
+	enum KeywordPlanError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		BID_MULTIPLIER_OUT_OF_RANGE = 2;
+		BID_TOO_HIGH = 3;
+		BID_TOO_LOW = 4;
+		BID_TOO_MANY_FRACTIONAL_DIGITS = 5;
+		DAILY_BUDGET_TOO_LOW = 6;
+		DAILY_BUDGET_TOO_MANY_FRACTIONAL_DIGITS = 7;
+		INVALID_VALUE = 8;
+		KEYWORD_PLAN_HAS_NO_KEYWORDS = 9;
+		KEYWORD_PLAN_NOT_ENABLED = 10;
+		KEYWORD_PLAN_NOT_FOUND = 11;
+		MISSING_BID = 13;
+		MISSING_FORECAST_PERIOD = 14;
+		INVALID_FORECAST_DATE_RANGE = 15;
+		INVALID_NAME = 16;
+	}
+
+}

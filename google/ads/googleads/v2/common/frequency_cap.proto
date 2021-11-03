@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.common;
+
+import "google/ads/googleads/v2/enums/frequency_cap_event_type.proto";
+import "google/ads/googleads/v2/enums/frequency_cap_level.proto";
+import "google/ads/googleads/v2/enums/frequency_cap_time_unit.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.common";
+option java_outer_classname = "FrequencyCapProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V2::Common";
+
+
+message FrequencyCapEntry {
+
+	FrequencyCapKey key = 1;
+	google.protobuf.Int32Value cap = 2;
+}
+
+message FrequencyCapKey {
+
+	google.ads.googleads.v2.enums.FrequencyCapLevelEnum.FrequencyCapLevel level = 1;
+	google.ads.googleads.v2.enums.FrequencyCapEventTypeEnum.FrequencyCapEventType event_type = 3;
+	google.ads.googleads.v2.enums.FrequencyCapTimeUnitEnum.FrequencyCapTimeUnit time_unit = 2;
+	google.protobuf.Int32Value time_length = 4;
+}

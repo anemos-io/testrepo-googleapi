@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.resources;
+
+import "google/ads/googleads/v5/enums/account_budget_proposal_type.proto";
+import "google/ads/googleads/v5/enums/account_budget_status.proto";
+import "google/ads/googleads/v5/enums/spending_limit_type.proto";
+import "google/ads/googleads/v5/enums/time_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.resources";
+option java_outer_classname = "AccountBudgetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V5::Resources";
+
+
+message AccountBudget {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AccountBudget"
+		pattern: ["customers/{customer}/accountBudgets/{account_budget}"]
+	};
+
+	message PendingAccountBudgetProposal {
+
+		oneof _account_budget_proposal {
+			string account_budget_proposal = 12 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+				(google.api.resource_reference) = {
+					type: "googleads.googleapis.com/AccountBudgetProposal"
+				}
+			];
+		}
+		google.ads.googleads.v5.enums.AccountBudgetProposalTypeEnum.AccountBudgetProposalType proposal_type = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		oneof _name {
+			string name = 13 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _start_date_time {
+			string start_date_time = 14 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _purchase_order_number {
+			string purchase_order_number = 17 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _notes {
+			string notes = 18 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof _creation_date_time {
+			string creation_date_time = 19 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof end_time {
+			string end_date_time = 15 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+			google.ads.googleads.v5.enums.TimeTypeEnum.TimeType end_time_type = 6 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+		oneof spending_limit {
+			int64 spending_limit_micros = 16 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+			google.ads.googleads.v5.enums.SpendingLimitTypeEnum.SpendingLimitType spending_limit_type = 8 [
+				(google.api.field_behavior) = OUTPUT_ONLY
+			];
+		}
+	}
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AccountBudget"
+		}
+	];
+	oneof _id {
+		int64 id = 23 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _billing_setup {
+		string billing_setup = 24 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/BillingSetup"
+			}
+		];
+	}
+	google.ads.googleads.v5.enums.AccountBudgetStatusEnum.AccountBudgetStatus status = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _name {
+		string name = 25 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _proposed_start_date_time {
+		string proposed_start_date_time = 26 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _approved_start_date_time {
+		string approved_start_date_time = 27 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	int64 total_adjustments_micros = 33 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 amount_served_micros = 34 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _purchase_order_number {
+		string purchase_order_number = 35 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _notes {
+		string notes = 36 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	PendingAccountBudgetProposal pending_proposal = 22 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof proposed_end_time {
+		string proposed_end_date_time = 28 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.enums.TimeTypeEnum.TimeType proposed_end_time_type = 9 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof approved_end_time {
+		string approved_end_date_time = 29 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.enums.TimeTypeEnum.TimeType approved_end_time_type = 11 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof proposed_spending_limit {
+		int64 proposed_spending_limit_micros = 30 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.enums.SpendingLimitTypeEnum.SpendingLimitType proposed_spending_limit_type = 13 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof approved_spending_limit {
+		int64 approved_spending_limit_micros = 31 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.enums.SpendingLimitTypeEnum.SpendingLimitType approved_spending_limit_type = 15 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof adjusted_spending_limit {
+		int64 adjusted_spending_limit_micros = 32 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		google.ads.googleads.v5.enums.SpendingLimitTypeEnum.SpendingLimitType adjusted_spending_limit_type = 17 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+}

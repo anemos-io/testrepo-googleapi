@@ -1,0 +1,391 @@
+syntax = "proto3";
+
+package grafeas.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "grafeas/v1/attestation.proto";
+import "grafeas/v1/build.proto";
+import "grafeas/v1/common.proto";
+import "grafeas/v1/deployment.proto";
+import "grafeas/v1/discovery.proto";
+import "grafeas/v1/image.proto";
+import "grafeas/v1/package.proto";
+import "grafeas/v1/upgrade.proto";
+import "grafeas/v1/vulnerability.proto";
+
+option java_package = "io.grafeas.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/grafeas/v1;grafeas";
+option objc_class_prefix = "GRA";
+option (google.api.resource_definition) = {
+	type: "grafeas.io/Project"
+	pattern: ["projects/{project}"]
+};
+
+
+service Grafeas {
+	option (google.api.default_host) = "containeranalysis.googleapis.com";
+
+	rpc GetOccurrence(grafeas.v1.GetOccurrenceRequest) returns (grafeas.v1.Occurrence) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/occurrences/*}"
+		};
+
+	}
+	rpc ListOccurrences(grafeas.v1.ListOccurrencesRequest) returns (grafeas.v1.ListOccurrencesResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/occurrences"
+		};
+
+	}
+	rpc DeleteOccurrence(grafeas.v1.DeleteOccurrenceRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/occurrences/*}"
+		};
+
+	}
+	rpc CreateOccurrence(grafeas.v1.CreateOccurrenceRequest) returns (grafeas.v1.Occurrence) {
+		option (google.api.method_signature) = "parent,occurrence";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/occurrences"
+			body: "occurrence"
+		};
+
+	}
+	rpc BatchCreateOccurrences(grafeas.v1.BatchCreateOccurrencesRequest) returns (grafeas.v1.BatchCreateOccurrencesResponse) {
+		option (google.api.method_signature) = "parent,occurrences";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/occurrences:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc UpdateOccurrence(grafeas.v1.UpdateOccurrenceRequest) returns (grafeas.v1.Occurrence) {
+		option (google.api.method_signature) = "name,occurrence,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{name=projects/*/occurrences/*}"
+			body: "occurrence"
+		};
+
+	}
+	rpc GetOccurrenceNote(grafeas.v1.GetOccurrenceNoteRequest) returns (grafeas.v1.Note) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/occurrences/*}/notes"
+		};
+
+	}
+	rpc GetNote(grafeas.v1.GetNoteRequest) returns (grafeas.v1.Note) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/notes/*}"
+		};
+
+	}
+	rpc ListNotes(grafeas.v1.ListNotesRequest) returns (grafeas.v1.ListNotesResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/notes"
+		};
+
+	}
+	rpc DeleteNote(grafeas.v1.DeleteNoteRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/notes/*}"
+		};
+
+	}
+	rpc CreateNote(grafeas.v1.CreateNoteRequest) returns (grafeas.v1.Note) {
+		option (google.api.method_signature) = "parent,note_id,note";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/notes"
+			body: "note"
+		};
+
+	}
+	rpc BatchCreateNotes(grafeas.v1.BatchCreateNotesRequest) returns (grafeas.v1.BatchCreateNotesResponse) {
+		option (google.api.method_signature) = "parent,notes";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/notes:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc UpdateNote(grafeas.v1.UpdateNoteRequest) returns (grafeas.v1.Note) {
+		option (google.api.method_signature) = "name,note,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{name=projects/*/notes/*}"
+			body: "note"
+		};
+
+	}
+	rpc ListNoteOccurrences(grafeas.v1.ListNoteOccurrencesRequest) returns (grafeas.v1.ListNoteOccurrencesResponse) {
+		option (google.api.method_signature) = "name,filter";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/notes/*}/occurrences"
+		};
+
+	}
+}
+
+message Occurrence {
+	option (google.api.resource) = {
+		type: "grafeas.io/Occurrence"
+		pattern: ["projects/{project}/occurrences/{occurrence}"]
+	};
+
+	string name = 1;
+	string resource_uri = 2;
+	string note_name = 3;
+	grafeas.v1.NoteKind kind = 4;
+	string remediation = 5;
+	google.protobuf.Timestamp create_time = 6;
+	google.protobuf.Timestamp update_time = 7;
+	oneof details {
+		grafeas.v1.VulnerabilityOccurrence vulnerability = 8;
+		grafeas.v1.BuildOccurrence build = 9;
+		grafeas.v1.ImageOccurrence image = 10;
+		grafeas.v1.PackageOccurrence package = 11;
+		grafeas.v1.DeploymentOccurrence deployment = 12;
+		grafeas.v1.DiscoveryOccurrence discovery = 13;
+		grafeas.v1.AttestationOccurrence attestation = 14;
+		grafeas.v1.UpgradeOccurrence upgrade = 15;
+	}
+}
+
+message Note {
+	option (google.api.resource) = {
+		type: "grafeas.io/Note"
+		pattern: ["projects/{project}/notes/{note}"]
+	};
+
+	string name = 1;
+	string short_description = 2;
+	string long_description = 3;
+	grafeas.v1.NoteKind kind = 4;
+	repeated grafeas.v1.RelatedUrl related_url = 5;
+	google.protobuf.Timestamp expiration_time = 6;
+	google.protobuf.Timestamp create_time = 7;
+	google.protobuf.Timestamp update_time = 8;
+	repeated string related_note_names = 9;
+	oneof type {
+		grafeas.v1.VulnerabilityNote vulnerability = 10;
+		grafeas.v1.BuildNote build = 11;
+		grafeas.v1.ImageNote image = 12;
+		grafeas.v1.PackageNote package = 13;
+		grafeas.v1.DeploymentNote deployment = 14;
+		grafeas.v1.DiscoveryNote discovery = 15;
+		grafeas.v1.AttestationNote attestation = 16;
+		grafeas.v1.UpgradeNote upgrade = 17;
+	}
+}
+
+message GetOccurrenceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Occurrence"
+		}
+	];
+}
+
+message ListOccurrencesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Project"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListOccurrencesResponse {
+
+	repeated Occurrence occurrences = 1;
+	string next_page_token = 2;
+}
+
+message DeleteOccurrenceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Occurrence"
+		}
+	];
+}
+
+message CreateOccurrenceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Project"
+		}
+	];
+	Occurrence occurrence = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateOccurrenceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Occurrence"
+		}
+	];
+	Occurrence occurrence = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message GetNoteRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Note"
+		}
+	];
+}
+
+message GetOccurrenceNoteRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Occurrence"
+		}
+	];
+}
+
+message ListNotesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Project"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListNotesResponse {
+
+	repeated Note notes = 1;
+	string next_page_token = 2;
+}
+
+message DeleteNoteRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Note"
+		}
+	];
+}
+
+message CreateNoteRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Project"
+		}
+	];
+	string note_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Note note = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateNoteRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Note"
+		}
+	];
+	Note note = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message ListNoteOccurrencesRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Note"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListNoteOccurrencesResponse {
+
+	repeated Occurrence occurrences = 1;
+	string next_page_token = 2;
+}
+
+message BatchCreateNotesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Project"
+		}
+	];
+	map<string, Note> notes = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateNotesResponse {
+
+	repeated Note notes = 1;
+}
+
+message BatchCreateOccurrencesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "grafeas.io/Project"
+		}
+	];
+	repeated Occurrence occurrences = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateOccurrencesResponse {
+
+	repeated Occurrence occurrences = 1;
+}

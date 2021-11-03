@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.storage.v1alpha2;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/bigquery/storage/v1alpha2/table.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.bigquery.storage.v1alpha2";
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1alpha2;storage";
+option (google.api.resource_definition) = {
+	type: "bigquerystorage.googleapis.com/Table"
+	pattern: ["projects/{project}/datasets/{dataset}/tables/{table}"]
+};
+
+
+message WriteStream {
+	option (google.api.resource) = {
+		type: "bigquerystorage.googleapis.com/WriteStream"
+		pattern: ["projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}"]
+	};
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		COMMITTED = 1;
+		PENDING = 2;
+		BUFFERED = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Type type = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp commit_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.bigquery.storage.v1alpha2.TableSchema table_schema = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string external_id = 6;
+}

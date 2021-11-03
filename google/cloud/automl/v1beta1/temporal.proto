@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message TimeSegment {
+
+	google.protobuf.Duration start_time_offset = 1;
+	google.protobuf.Duration end_time_offset = 2;
+}

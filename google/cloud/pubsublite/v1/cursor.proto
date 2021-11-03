@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package google.cloud.pubsublite.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/pubsublite/v1/common.proto";
+
+option java_package = "com.google.cloud.pubsublite.proto";
+option java_outer_classname = "CursorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
+option cc_enable_arenas = true;
+
+
+service CursorService {
+	option (google.api.default_host) = "pubsublite.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc StreamingCommitCursor(stream google.cloud.pubsublite.v1.StreamingCommitCursorRequest) returns (stream google.cloud.pubsublite.v1.StreamingCommitCursorResponse) {}
+	rpc CommitCursor(google.cloud.pubsublite.v1.CommitCursorRequest) returns (google.cloud.pubsublite.v1.CommitCursorResponse) {}
+	rpc ListPartitionCursors(google.cloud.pubsublite.v1.ListPartitionCursorsRequest) returns (google.cloud.pubsublite.v1.ListPartitionCursorsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/cursor/{parent=projects/*/locations/*/subscriptions/*}/cursors"
+		};
+
+	}
+}
+
+message InitialCommitCursorRequest {
+
+	string subscription = 1;
+	int64 partition = 2;
+}
+
+message InitialCommitCursorResponse {
+
+}
+
+message SequencedCommitCursorRequest {
+
+	google.cloud.pubsublite.v1.Cursor cursor = 1;
+}
+
+message SequencedCommitCursorResponse {
+
+	int64 acknowledged_commits = 1;
+}
+
+message StreamingCommitCursorRequest {
+
+	oneof request {
+		InitialCommitCursorRequest initial = 1;
+		SequencedCommitCursorRequest commit = 2;
+	}
+}
+
+message StreamingCommitCursorResponse {
+
+	oneof request {
+		InitialCommitCursorResponse initial = 1;
+		SequencedCommitCursorResponse commit = 2;
+	}
+}
+
+message CommitCursorRequest {
+
+	string subscription = 1;
+	int64 partition = 2;
+	google.cloud.pubsublite.v1.Cursor cursor = 3;
+}
+
+message CommitCursorResponse {
+
+}
+
+message ListPartitionCursorsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsublite.googleapis.com/Subscription"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message PartitionCursor {
+
+	int64 partition = 1;
+	google.cloud.pubsublite.v1.Cursor cursor = 2;
+}
+
+message ListPartitionCursorsResponse {
+
+	repeated PartitionCursor partition_cursors = 1;
+	string next_page_token = 2;
+}

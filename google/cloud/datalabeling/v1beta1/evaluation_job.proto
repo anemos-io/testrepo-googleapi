@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package google.cloud.datalabeling.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/cloud/datalabeling/v1beta1/dataset.proto";
+import "google/cloud/datalabeling/v1beta1/evaluation.proto";
+import "google/cloud/datalabeling/v1beta1/human_annotation_config.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.datalabeling.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datalabeling/v1beta1;datalabeling";
+
+
+message EvaluationJob {
+	option (google.api.resource) = {
+		type: "datalabeling.googleapis.com/EvaluationJob"
+		pattern: ["projects/{project}/evaluationJobs/{evaluation_job}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		SCHEDULED = 1;
+		RUNNING = 2;
+		PAUSED = 3;
+		STOPPED = 4;
+	}
+
+	string name = 1;
+	string description = 2;
+	State state = 3;
+	string schedule = 4;
+	string model_version = 5;
+	EvaluationJobConfig evaluation_job_config = 6;
+	string annotation_spec_set = 7;
+	bool label_missing_ground_truth = 8;
+	repeated Attempt attempts = 9;
+	google.protobuf.Timestamp create_time = 10;
+}
+
+message EvaluationJobConfig {
+
+	oneof human_annotation_request_config {
+		google.cloud.datalabeling.v1beta1.ImageClassificationConfig image_classification_config = 4;
+		google.cloud.datalabeling.v1beta1.BoundingPolyConfig bounding_poly_config = 5;
+		google.cloud.datalabeling.v1beta1.TextClassificationConfig text_classification_config = 8;
+	}
+	google.cloud.datalabeling.v1beta1.InputConfig input_config = 1;
+	google.cloud.datalabeling.v1beta1.EvaluationConfig evaluation_config = 2;
+	google.cloud.datalabeling.v1beta1.HumanAnnotationConfig human_annotation_config = 3;
+	map<string, string> bigquery_import_keys = 9;
+	int32 example_count = 10;
+	double example_sample_percentage = 11;
+	EvaluationJobAlertConfig evaluation_job_alert_config = 13;
+}
+
+message EvaluationJobAlertConfig {
+
+	string email = 1;
+	double min_acceptable_mean_average_precision = 2;
+}
+
+message Attempt {
+
+	google.protobuf.Timestamp attempt_time = 1;
+	repeated google.rpc.Status partial_failures = 2;
+}

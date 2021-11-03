@@ -1,0 +1,559 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1;
+
+import "google/cloud/securitycenter/v1/run_asset_discovery_response.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/securitycenter/v1/asset.proto";
+import "google/cloud/securitycenter/v1/finding.proto";
+import "google/cloud/securitycenter/v1/notification_config.proto";
+import "google/cloud/securitycenter/v1/organization_settings.proto";
+import "google/cloud/securitycenter/v1/security_marks.proto";
+import "google/cloud/securitycenter/v1/source.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1;securitycenter";
+option csharp_namespace = "Google.Cloud.SecurityCenter.V1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\V1";
+option ruby_package = "Google::Cloud::SecurityCenter::V1";
+
+
+service SecurityCenter {
+	option (google.api.default_host) = "securitycenter.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateSource(google.cloud.securitycenter.v1.CreateSourceRequest) returns (google.cloud.securitycenter.v1.Source) {
+		option (google.api.method_signature) = "parent,source";
+		option (google.api.http) = {
+			post: "/v1/{parent=organizations/*}/sources"
+			body: "source"
+		};
+
+	}
+	rpc CreateFinding(google.cloud.securitycenter.v1.CreateFindingRequest) returns (google.cloud.securitycenter.v1.Finding) {
+		option (google.api.method_signature) = "parent,finding_id,finding";
+		option (google.api.http) = {
+			post: "/v1/{parent=organizations/*/sources/*}/findings"
+			body: "finding"
+		};
+
+	}
+	rpc CreateNotificationConfig(google.cloud.securitycenter.v1.CreateNotificationConfigRequest) returns (google.cloud.securitycenter.v1.NotificationConfig) {
+		option (google.api.method_signature) = "parent,config_id,notification_config";
+		option (google.api.method_signature) = "parent,notification_config";
+		option (google.api.http) = {
+			post: "/v1/{parent=organizations/*}/notificationConfigs"
+			body: "notification_config"
+		};
+
+	}
+	rpc DeleteNotificationConfig(google.cloud.securitycenter.v1.DeleteNotificationConfigRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=organizations/*/notificationConfigs/*}"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v1/{resource=organizations/*/sources/*}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc GetNotificationConfig(google.cloud.securitycenter.v1.GetNotificationConfigRequest) returns (google.cloud.securitycenter.v1.NotificationConfig) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=organizations/*/notificationConfigs/*}"
+		};
+
+	}
+	rpc GetOrganizationSettings(google.cloud.securitycenter.v1.GetOrganizationSettingsRequest) returns (google.cloud.securitycenter.v1.OrganizationSettings) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=organizations/*/organizationSettings}"
+		};
+
+	}
+	rpc GetSource(google.cloud.securitycenter.v1.GetSourceRequest) returns (google.cloud.securitycenter.v1.Source) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=organizations/*/sources/*}"
+		};
+
+	}
+	rpc GroupAssets(google.cloud.securitycenter.v1.GroupAssetsRequest) returns (google.cloud.securitycenter.v1.GroupAssetsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=organizations/*}/assets:group"
+			body: "*"
+		};
+
+	}
+	rpc GroupFindings(google.cloud.securitycenter.v1.GroupFindingsRequest) returns (google.cloud.securitycenter.v1.GroupFindingsResponse) {
+		option (google.api.method_signature) = "parent,group_by";
+		option (google.api.http) = {
+			post: "/v1/{parent=organizations/*/sources/*}/findings:group"
+			body: "*"
+		};
+
+	}
+	rpc ListAssets(google.cloud.securitycenter.v1.ListAssetsRequest) returns (google.cloud.securitycenter.v1.ListAssetsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=organizations/*}/assets"
+		};
+
+	}
+	rpc ListFindings(google.cloud.securitycenter.v1.ListFindingsRequest) returns (google.cloud.securitycenter.v1.ListFindingsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=organizations/*/sources/*}/findings"
+		};
+
+	}
+	rpc ListNotificationConfigs(google.cloud.securitycenter.v1.ListNotificationConfigsRequest) returns (google.cloud.securitycenter.v1.ListNotificationConfigsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=organizations/*}/notificationConfigs"
+		};
+
+	}
+	rpc ListSources(google.cloud.securitycenter.v1.ListSourcesRequest) returns (google.cloud.securitycenter.v1.ListSourcesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=organizations/*}/sources"
+		};
+
+	}
+	rpc RunAssetDiscovery(google.cloud.securitycenter.v1.RunAssetDiscoveryRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.securitycenter.v1.RunAssetDiscoveryResponse"
+			metadata_type: "google.protobuf.Empty"
+		};
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v1/{parent=organizations/*}/assets:runDiscovery"
+			body: "*"
+		};
+
+	}
+	rpc SetFindingState(google.cloud.securitycenter.v1.SetFindingStateRequest) returns (google.cloud.securitycenter.v1.Finding) {
+		option (google.api.method_signature) = "name,state,start_time";
+		option (google.api.http) = {
+			post: "/v1/{name=organizations/*/sources/*/findings/*}:setState"
+			body: "*"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v1/{resource=organizations/*/sources/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v1/{resource=organizations/*/sources/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+	rpc UpdateFinding(google.cloud.securitycenter.v1.UpdateFindingRequest) returns (google.cloud.securitycenter.v1.Finding) {
+		option (google.api.method_signature) = "finding";
+		option (google.api.http) = {
+			patch: "/v1/{finding.name=organizations/*/sources/*/findings/*}"
+			body: "finding"
+		};
+
+	}
+	rpc UpdateNotificationConfig(google.cloud.securitycenter.v1.UpdateNotificationConfigRequest) returns (google.cloud.securitycenter.v1.NotificationConfig) {
+		option (google.api.method_signature) = "notification_config";
+		option (google.api.method_signature) = "notification_config,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{notification_config.name=organizations/*/notificationConfigs/*}"
+			body: "notification_config"
+		};
+
+	}
+	rpc UpdateOrganizationSettings(google.cloud.securitycenter.v1.UpdateOrganizationSettingsRequest) returns (google.cloud.securitycenter.v1.OrganizationSettings) {
+		option (google.api.method_signature) = "organization_settings";
+		option (google.api.http) = {
+			patch: "/v1/{organization_settings.name=organizations/*/organizationSettings}"
+			body: "organization_settings"
+		};
+
+	}
+	rpc UpdateSource(google.cloud.securitycenter.v1.UpdateSourceRequest) returns (google.cloud.securitycenter.v1.Source) {
+		option (google.api.method_signature) = "source";
+		option (google.api.http) = {
+			patch: "/v1/{source.name=organizations/*/sources/*}"
+			body: "source"
+		};
+
+	}
+	rpc UpdateSecurityMarks(google.cloud.securitycenter.v1.UpdateSecurityMarksRequest) returns (google.cloud.securitycenter.v1.SecurityMarks) {
+		option (google.api.method_signature) = "security_marks";
+		option (google.api.http) = {
+			patch: "/v1/{security_marks.name=organizations/*/assets/*/securityMarks}"
+			body: "security_marks"
+			additional_bindings: {
+				patch: "/v1/{security_marks.name=organizations/*/sources/*/findings/*/securityMarks}"
+				body: "security_marks"
+			}
+		};
+
+	}
+}
+
+message CreateFindingRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/Source"
+		}
+	];
+	string finding_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.securitycenter.v1.Finding finding = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateNotificationConfigRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	string config_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.securitycenter.v1.NotificationConfig notification_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateSourceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	google.cloud.securitycenter.v1.Source source = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteNotificationConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/NotificationConfig"
+		}
+	];
+}
+
+message GetNotificationConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/NotificationConfig"
+		}
+	];
+}
+
+message GetOrganizationSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/OrganizationSettings"
+		}
+	];
+}
+
+message GetSourceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/Source"
+		}
+	];
+}
+
+message GroupAssetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	string filter = 2;
+	string group_by = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration compare_duration = 4;
+	google.protobuf.Timestamp read_time = 5;
+	string page_token = 7;
+	int32 page_size = 8;
+}
+
+message GroupAssetsResponse {
+
+	repeated GroupResult group_by_results = 1;
+	google.protobuf.Timestamp read_time = 2;
+	string next_page_token = 3;
+	int32 total_size = 4;
+}
+
+message GroupFindingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/Source"
+		}
+	];
+	string filter = 2;
+	string group_by = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp read_time = 4;
+	google.protobuf.Duration compare_duration = 5;
+	string page_token = 7;
+	int32 page_size = 8;
+}
+
+message GroupFindingsResponse {
+
+	repeated GroupResult group_by_results = 1;
+	google.protobuf.Timestamp read_time = 2;
+	string next_page_token = 3;
+	int32 total_size = 4;
+}
+
+message GroupResult {
+
+	map<string, google.protobuf.Value> properties = 1;
+	int64 count = 2;
+}
+
+message ListNotificationConfigsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListNotificationConfigsResponse {
+
+	repeated google.cloud.securitycenter.v1.NotificationConfig notification_configs = 1;
+	string next_page_token = 2;
+}
+
+message ListSourcesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 7;
+}
+
+message ListSourcesResponse {
+
+	repeated google.cloud.securitycenter.v1.Source sources = 1;
+	string next_page_token = 2;
+}
+
+message ListAssetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+	string filter = 2;
+	string order_by = 3;
+	google.protobuf.Timestamp read_time = 4;
+	google.protobuf.Duration compare_duration = 5;
+	google.protobuf.FieldMask field_mask = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 8;
+	int32 page_size = 9;
+}
+
+message ListAssetsResponse {
+
+	message ListAssetsResult {
+
+		enum StateChange {
+
+			UNUSED = 0;
+			ADDED = 1;
+			REMOVED = 2;
+			ACTIVE = 3;
+		}
+
+		google.cloud.securitycenter.v1.Asset asset = 1;
+		StateChange state_change = 2;
+	}
+
+	repeated ListAssetsResult list_assets_results = 1;
+	google.protobuf.Timestamp read_time = 2;
+	string next_page_token = 3;
+	int32 total_size = 4;
+}
+
+message ListFindingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/Source"
+		}
+	];
+	string filter = 2;
+	string order_by = 3;
+	google.protobuf.Timestamp read_time = 4;
+	google.protobuf.Duration compare_duration = 5;
+	google.protobuf.FieldMask field_mask = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 8;
+	int32 page_size = 9;
+}
+
+message ListFindingsResponse {
+
+	message ListFindingsResult {
+
+		message Resource {
+
+			string name = 1;
+			string project_name = 2;
+			string project_display_name = 3;
+			string parent_name = 4;
+			string parent_display_name = 5;
+		}
+
+		enum StateChange {
+
+			UNUSED = 0;
+			CHANGED = 1;
+			UNCHANGED = 2;
+			ADDED = 3;
+			REMOVED = 4;
+		}
+
+		google.cloud.securitycenter.v1.Finding finding = 1;
+		StateChange state_change = 2;
+		Resource resource = 3;
+	}
+
+	repeated ListFindingsResult list_findings_results = 1;
+	google.protobuf.Timestamp read_time = 2;
+	string next_page_token = 3;
+	int32 total_size = 4;
+}
+
+message SetFindingStateRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "securitycenter.googleapis.com/Finding"
+		}
+	];
+	google.cloud.securitycenter.v1.Finding.State state = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp start_time = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RunAssetDiscoveryRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Organization"
+		}
+	];
+}
+
+message UpdateFindingRequest {
+
+	google.cloud.securitycenter.v1.Finding finding = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateNotificationConfigRequest {
+
+	google.cloud.securitycenter.v1.NotificationConfig notification_config = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateOrganizationSettingsRequest {
+
+	google.cloud.securitycenter.v1.OrganizationSettings organization_settings = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateSourceRequest {
+
+	google.cloud.securitycenter.v1.Source source = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateSecurityMarksRequest {
+
+	google.cloud.securitycenter.v1.SecurityMarks security_marks = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+	google.protobuf.Timestamp start_time = 3;
+}

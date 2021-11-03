@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1p4beta1;
+
+import "google/iam/v1/policy.proto";
+import "google/rpc/code.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.asset.v1p4beta1";
+option java_outer_classname = "AssetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1p4beta1;asset";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Asset.V1P4Beta1";
+option php_namespace = "Google\\Cloud\\Asset\\V1p4beta1";
+
+
+message IamPolicyAnalysisResult {
+
+	message AnalysisState {
+
+		google.rpc.Code code = 1;
+		string cause = 2;
+	}
+
+	message Resource {
+
+		string full_resource_name = 1;
+		AnalysisState analysis_state = 2;
+	}
+
+	message Access {
+
+		oneof oneof_access {
+			string role = 1;
+			string permission = 2;
+		}
+		AnalysisState analysis_state = 3;
+	}
+
+	message Edge {
+
+		string source_node = 1;
+		string target_node = 2;
+	}
+
+	message Identity {
+
+		string name = 1;
+		AnalysisState analysis_state = 2;
+	}
+
+	message AccessControlList {
+
+		repeated Resource resources = 1;
+		repeated Access accesses = 2;
+		repeated Edge resource_edges = 3;
+	}
+
+	message IdentityList {
+
+		repeated Identity identities = 1;
+		repeated Edge group_edges = 2;
+	}
+
+	string attached_resource_full_name = 1;
+	google.iam.v1.Binding iam_binding = 2;
+	repeated AccessControlList access_control_lists = 3;
+	IdentityList identity_list = 4;
+	bool fully_explored = 5;
+}

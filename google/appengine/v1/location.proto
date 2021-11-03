@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package google.appengine.v1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1";
+option java_outer_classname = "LocationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+
+
+message LocationMetadata {
+
+	bool standard_environment_available = 2;
+	bool flexible_environment_available = 4;
+}

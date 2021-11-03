@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.services;
+
+import "google/ads/googleads/v4/resources/payments_account.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.ads.googleads.v4.services";
+option java_outer_classname = "PaymentsAccountServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V4::Services";
+
+
+service PaymentsAccountService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc ListPaymentsAccounts(google.ads.googleads.v4.services.ListPaymentsAccountsRequest) returns (google.ads.googleads.v4.services.ListPaymentsAccountsResponse) {
+		option (google.api.method_signature) = "customer_id";
+		option (google.api.http) = {
+			get: "/v4/customers/{customer_id=*}/paymentsAccounts"
+		};
+
+	}
+}
+
+message ListPaymentsAccountsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListPaymentsAccountsResponse {
+
+	repeated google.ads.googleads.v4.resources.PaymentsAccount payments_accounts = 1;
+}

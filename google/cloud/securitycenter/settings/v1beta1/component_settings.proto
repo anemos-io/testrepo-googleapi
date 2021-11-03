@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.settings.v1beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.securitycenter.settings.v1beta1";
+option java_outer_classname = "ComponentSettingsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/settings/v1beta1;settings";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.SecurityCenter.Settings.V1Beta1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\Settings\\V1beta1";
+option ruby_package = "Google::Cloud::SecurityCenter::Settings::V1beta1";
+
+
+enum ComponentEnablementState {
+
+	COMPONENT_ENABLEMENT_STATE_UNSPECIFIED = 0;
+	DISABLE = 1;
+	ENABLE = 2;
+	INHERIT = 3;
+}
+
+message ComponentSettings {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/ComponentSettings"
+		pattern: ["organizations/{organization}/components/{component}/settings","folders/{folder}/components/{component}/settings","projects/{project}/components/{component}/settings","projects/{project}/locations/{location}/clusters/{cluster}/components/{component}/settings","projects/{project}/regions/{region}/clusters/{cluster}/components/{component}/settings","projects/{project}/zones/{zone}/clusters/{cluster}/components/{component}/settings"]
+	};
+
+	message DetectorSettings {
+
+		ComponentEnablementState state = 1;
+	}
+
+	string name = 1;
+	ComponentEnablementState state = 2;
+	string project_service_account = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, DetectorSettings> detector_settings = 4;
+	string etag = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof specific_settings {
+		ContainerThreatDetectionSettings container_threat_detection_settings = 41;
+		EventThreatDetectionSettings event_threat_detection_settings = 42;
+		SecurityHealthAnalyticsSettings security_health_analytics_settings = 44;
+		WebSecurityScanner web_security_scanner_settings = 40;
+	}
+}
+
+message WebSecurityScanner {
+
+}
+
+message ContainerThreatDetectionSettings {
+
+}
+
+message EventThreatDetectionSettings {
+
+}
+
+message SecurityHealthAnalyticsSettings {
+
+	message NonOrgIamMemberSettings {
+
+		repeated string approved_identities = 1;
+	}
+
+	message AdminServiceAccountSettings {
+
+		repeated string approved_identities = 1;
+	}
+
+	NonOrgIamMemberSettings non_org_iam_member_settings = 1;
+	AdminServiceAccountSettings admin_service_account_settings = 2;
+}

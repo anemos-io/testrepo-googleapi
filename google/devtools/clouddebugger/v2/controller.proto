@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package google.devtools.clouddebugger.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/devtools/clouddebugger/v2/data.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.devtools.clouddebugger.v2";
+option java_outer_classname = "ControllerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/clouddebugger/v2;clouddebugger";
+option csharp_namespace = "Google.Cloud.Debugger.V2";
+option php_namespace = "Google\\Cloud\\Debugger\\V2";
+option ruby_package = "Google::Cloud::Debugger::V2";
+
+
+service Controller2 {
+	option (google.api.default_host) = "clouddebugger.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud_debugger";
+
+	rpc RegisterDebuggee(google.devtools.clouddebugger.v2.RegisterDebuggeeRequest) returns (google.devtools.clouddebugger.v2.RegisterDebuggeeResponse) {
+		option (google.api.method_signature) = "debuggee";
+		option (google.api.http) = {
+			post: "/v2/controller/debuggees/register"
+			body: "*"
+		};
+
+	}
+	rpc ListActiveBreakpoints(google.devtools.clouddebugger.v2.ListActiveBreakpointsRequest) returns (google.devtools.clouddebugger.v2.ListActiveBreakpointsResponse) {
+		option (google.api.method_signature) = "debuggee_id";
+		option (google.api.http) = {
+			get: "/v2/controller/debuggees/{debuggee_id}/breakpoints"
+		};
+
+	}
+	rpc UpdateActiveBreakpoint(google.devtools.clouddebugger.v2.UpdateActiveBreakpointRequest) returns (google.devtools.clouddebugger.v2.UpdateActiveBreakpointResponse) {
+		option (google.api.method_signature) = "debuggee_id,breakpoint";
+		option (google.api.http) = {
+			put: "/v2/controller/debuggees/{debuggee_id}/breakpoints/{breakpoint.id}"
+			body: "*"
+		};
+
+	}
+}
+
+message RegisterDebuggeeRequest {
+
+	google.devtools.clouddebugger.v2.Debuggee debuggee = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RegisterDebuggeeResponse {
+
+	google.devtools.clouddebugger.v2.Debuggee debuggee = 1;
+}
+
+message ListActiveBreakpointsRequest {
+
+	string debuggee_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string wait_token = 2;
+	bool success_on_timeout = 3;
+}
+
+message ListActiveBreakpointsResponse {
+
+	repeated google.devtools.clouddebugger.v2.Breakpoint breakpoints = 1;
+	string next_wait_token = 2;
+	bool wait_expired = 3;
+}
+
+message UpdateActiveBreakpointRequest {
+
+	string debuggee_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.devtools.clouddebugger.v2.Breakpoint breakpoint = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateActiveBreakpointResponse {
+
+}

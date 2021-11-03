@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package google.storagetransfer.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/storagetransfer/v1/transfer_types.proto";
+
+option java_package = "com.google.storagetransfer.v1.proto";
+option java_outer_classname = "TransferProto";
+option go_package = "google.golang.org/genproto/googleapis/storagetransfer/v1;storagetransfer";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.StorageTransfer.V1";
+option php_namespace = "Google\\Cloud\\StorageTransfer\\V1";
+
+
+service StorageTransferService {
+
+	rpc GetGoogleServiceAccount(google.storagetransfer.v1.GetGoogleServiceAccountRequest) returns (google.storagetransfer.v1.GoogleServiceAccount) {
+		option (google.api.http) = {
+			get: "/v1/googleServiceAccounts/{project_id}"
+		};
+
+	}
+	rpc CreateTransferJob(google.storagetransfer.v1.CreateTransferJobRequest) returns (google.storagetransfer.v1.TransferJob) {
+		option (google.api.http) = {
+			post: "/v1/transferJobs"
+			body: "transfer_job"
+		};
+
+	}
+	rpc UpdateTransferJob(google.storagetransfer.v1.UpdateTransferJobRequest) returns (google.storagetransfer.v1.TransferJob) {
+		option (google.api.http) = {
+			patch: "/v1/{job_name=transferJobs/**}"
+			body: "*"
+		};
+
+	}
+	rpc GetTransferJob(google.storagetransfer.v1.GetTransferJobRequest) returns (google.storagetransfer.v1.TransferJob) {
+		option (google.api.http) = {
+			get: "/v1/{job_name=transferJobs/**}"
+		};
+
+	}
+	rpc ListTransferJobs(google.storagetransfer.v1.ListTransferJobsRequest) returns (google.storagetransfer.v1.ListTransferJobsResponse) {
+		option (google.api.http) = {
+			get: "/v1/transferJobs"
+		};
+
+	}
+	rpc PauseTransferOperation(google.storagetransfer.v1.PauseTransferOperationRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{name=transferOperations/**}:pause"
+			body: "*"
+		};
+
+	}
+	rpc ResumeTransferOperation(google.storagetransfer.v1.ResumeTransferOperationRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{name=transferOperations/**}:resume"
+			body: "*"
+		};
+
+	}
+}
+
+message GetGoogleServiceAccountRequest {
+
+	string project_id = 1;
+}
+
+message CreateTransferJobRequest {
+
+	google.storagetransfer.v1.TransferJob transfer_job = 1;
+}
+
+message UpdateTransferJobRequest {
+
+	string job_name = 1;
+	string project_id = 2;
+	google.storagetransfer.v1.TransferJob transfer_job = 3;
+	google.protobuf.FieldMask update_transfer_job_field_mask = 4;
+}
+
+message GetTransferJobRequest {
+
+	string job_name = 1;
+	string project_id = 2;
+}
+
+message ListTransferJobsRequest {
+
+	string filter = 1;
+	int32 page_size = 4;
+	string page_token = 5;
+}
+
+message ListTransferJobsResponse {
+
+	repeated google.storagetransfer.v1.TransferJob transfer_jobs = 1;
+	string next_page_token = 2;
+}
+
+message PauseTransferOperationRequest {
+
+	string name = 1;
+}
+
+message ResumeTransferOperationRequest {
+
+	string name = 1;
+}

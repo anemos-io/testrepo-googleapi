@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package google.search.partnerdataingestion.logging.v1;
+
+option java_package = "com.google.search.partnerdataingestion.logging.v1";
+option java_outer_classname = "PlatformLogProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/search/partnerdataingestion/logging/v1;logging";
+option cc_enable_arenas = true;
+
+
+message IngestDetailsLog {
+
+	string ingestion_tracking_id = 1;
+	string content = 2;
+}

@@ -1,0 +1,412 @@
+syntax = "proto3";
+
+package google.bigtable.admin.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/bigtable/admin/v2/instance.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.bigtable.admin.v2";
+option java_outer_classname = "BigtableInstanceAdminProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/admin/v2;admin";
+option csharp_namespace = "Google.Cloud.Bigtable.Admin.V2";
+option php_namespace = "Google\\Cloud\\Bigtable\\Admin\\V2";
+option ruby_package = "Google::Cloud::Bigtable::Admin::V2";
+
+
+service BigtableInstanceAdmin {
+	option (google.api.default_host) = "bigtableadmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/bigtable.admin,https://www.googleapis.com/auth/bigtable.admin.cluster,https://www.googleapis.com/auth/bigtable.admin.instance,https://www.googleapis.com/auth/cloud-bigtable.admin,https://www.googleapis.com/auth/cloud-bigtable.admin.cluster,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc CreateInstance(google.bigtable.admin.v2.CreateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "CreateInstanceMetadata"
+		};
+		option (google.api.method_signature) = "parent,instance_id,instance,clusters";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/instances"
+			body: "*"
+		};
+
+	}
+	rpc GetInstance(google.bigtable.admin.v2.GetInstanceRequest) returns (google.bigtable.admin.v2.Instance) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*}"
+		};
+
+	}
+	rpc ListInstances(google.bigtable.admin.v2.ListInstancesRequest) returns (google.bigtable.admin.v2.ListInstancesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/instances"
+		};
+
+	}
+	rpc UpdateInstance(google.bigtable.admin.v2.Instance) returns (google.bigtable.admin.v2.Instance) {
+		option (google.api.http) = {
+			put: "/v2/{name=projects/*/instances/*}"
+			body: "*"
+		};
+
+	}
+	rpc PartialUpdateInstance(google.bigtable.admin.v2.PartialUpdateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Instance"
+			metadata_type: "UpdateInstanceMetadata"
+		};
+		option (google.api.method_signature) = "instance,update_mask";
+		option (google.api.http) = {
+			patch: "/v2/{instance.name=projects/*/instances/*}"
+			body: "instance"
+		};
+
+	}
+	rpc DeleteInstance(google.bigtable.admin.v2.DeleteInstanceRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/instances/*}"
+		};
+
+	}
+	rpc CreateCluster(google.bigtable.admin.v2.CreateClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Cluster"
+			metadata_type: "CreateClusterMetadata"
+		};
+		option (google.api.method_signature) = "parent,cluster_id,cluster";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/instances/*}/clusters"
+			body: "cluster"
+		};
+
+	}
+	rpc GetCluster(google.bigtable.admin.v2.GetClusterRequest) returns (google.bigtable.admin.v2.Cluster) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/clusters/*}"
+		};
+
+	}
+	rpc ListClusters(google.bigtable.admin.v2.ListClustersRequest) returns (google.bigtable.admin.v2.ListClustersResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*/instances/*}/clusters"
+		};
+
+	}
+	rpc UpdateCluster(google.bigtable.admin.v2.Cluster) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Cluster"
+			metadata_type: "UpdateClusterMetadata"
+		};
+		option (google.api.http) = {
+			put: "/v2/{name=projects/*/instances/*/clusters/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteCluster(google.bigtable.admin.v2.DeleteClusterRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/instances/*/clusters/*}"
+		};
+
+	}
+	rpc CreateAppProfile(google.bigtable.admin.v2.CreateAppProfileRequest) returns (google.bigtable.admin.v2.AppProfile) {
+		option (google.api.method_signature) = "parent,app_profile_id,app_profile";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/instances/*}/appProfiles"
+			body: "app_profile"
+		};
+
+	}
+	rpc GetAppProfile(google.bigtable.admin.v2.GetAppProfileRequest) returns (google.bigtable.admin.v2.AppProfile) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/appProfiles/*}"
+		};
+
+	}
+	rpc ListAppProfiles(google.bigtable.admin.v2.ListAppProfilesRequest) returns (google.bigtable.admin.v2.ListAppProfilesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*/instances/*}/appProfiles"
+		};
+
+	}
+	rpc UpdateAppProfile(google.bigtable.admin.v2.UpdateAppProfileRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AppProfile"
+			metadata_type: "UpdateAppProfileMetadata"
+		};
+		option (google.api.method_signature) = "app_profile,update_mask";
+		option (google.api.http) = {
+			patch: "/v2/{app_profile.name=projects/*/instances/*/appProfiles/*}"
+			body: "app_profile"
+		};
+
+	}
+	rpc DeleteAppProfile(google.bigtable.admin.v2.DeleteAppProfileRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/instances/*/appProfiles/*}"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v2/{resource=projects/*/instances/*}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v2/{resource=projects/*/instances/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v2/{resource=projects/*/instances/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateInstanceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string instance_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.bigtable.admin.v2.Instance instance = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, google.bigtable.admin.v2.Cluster> clusters = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+}
+
+message ListInstancesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string page_token = 2;
+}
+
+message ListInstancesResponse {
+
+	repeated google.bigtable.admin.v2.Instance instances = 1;
+	repeated string failed_locations = 2;
+	string next_page_token = 3;
+}
+
+message PartialUpdateInstanceRequest {
+
+	google.bigtable.admin.v2.Instance instance = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+}
+
+message CreateClusterRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+	string cluster_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.bigtable.admin.v2.Cluster cluster = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetClusterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Cluster"
+		}
+	];
+}
+
+message ListClustersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+	string page_token = 2;
+}
+
+message ListClustersResponse {
+
+	repeated google.bigtable.admin.v2.Cluster clusters = 1;
+	repeated string failed_locations = 2;
+	string next_page_token = 3;
+}
+
+message DeleteClusterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Cluster"
+		}
+	];
+}
+
+message CreateInstanceMetadata {
+
+	CreateInstanceRequest original_request = 1;
+	google.protobuf.Timestamp request_time = 2;
+	google.protobuf.Timestamp finish_time = 3;
+}
+
+message UpdateInstanceMetadata {
+
+	PartialUpdateInstanceRequest original_request = 1;
+	google.protobuf.Timestamp request_time = 2;
+	google.protobuf.Timestamp finish_time = 3;
+}
+
+message CreateClusterMetadata {
+
+	CreateClusterRequest original_request = 1;
+	google.protobuf.Timestamp request_time = 2;
+	google.protobuf.Timestamp finish_time = 3;
+}
+
+message UpdateClusterMetadata {
+
+	google.bigtable.admin.v2.Cluster original_request = 1;
+	google.protobuf.Timestamp request_time = 2;
+	google.protobuf.Timestamp finish_time = 3;
+}
+
+message CreateAppProfileRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+	string app_profile_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.bigtable.admin.v2.AppProfile app_profile = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool ignore_warnings = 4;
+}
+
+message GetAppProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/AppProfile"
+		}
+	];
+}
+
+message ListAppProfilesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+	int32 page_size = 3;
+	string page_token = 2;
+}
+
+message ListAppProfilesResponse {
+
+	repeated google.bigtable.admin.v2.AppProfile app_profiles = 1;
+	string next_page_token = 2;
+	repeated string failed_locations = 3;
+}
+
+message UpdateAppProfileRequest {
+
+	google.bigtable.admin.v2.AppProfile app_profile = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool ignore_warnings = 3;
+}
+
+message DeleteAppProfileRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/AppProfile"
+		}
+	];
+	bool ignore_warnings = 2;
+}
+
+message UpdateAppProfileMetadata {
+
+}

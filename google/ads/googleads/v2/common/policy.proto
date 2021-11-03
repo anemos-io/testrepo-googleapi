@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.common;
+
+import "google/ads/googleads/v2/enums/policy_topic_entry_type.proto";
+import "google/ads/googleads/v2/enums/policy_topic_evidence_destination_mismatch_url_type.proto";
+import "google/ads/googleads/v2/enums/policy_topic_evidence_destination_not_working_device.proto";
+import "google/ads/googleads/v2/enums/policy_topic_evidence_destination_not_working_dns_error_type.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.common";
+option java_outer_classname = "PolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V2::Common";
+
+
+message PolicyViolationKey {
+
+	google.protobuf.StringValue policy_name = 1;
+	google.protobuf.StringValue violating_text = 2;
+}
+
+message PolicyValidationParameter {
+
+	repeated google.protobuf.StringValue ignorable_policy_topics = 1;
+	repeated PolicyViolationKey exempt_policy_violation_keys = 2;
+}
+
+message PolicyTopicEntry {
+
+	google.protobuf.StringValue topic = 1;
+	google.ads.googleads.v2.enums.PolicyTopicEntryTypeEnum.PolicyTopicEntryType type = 2;
+	repeated PolicyTopicEvidence evidences = 3;
+	repeated PolicyTopicConstraint constraints = 4;
+}
+
+message PolicyTopicEvidence {
+
+	message TextList {
+
+		repeated google.protobuf.StringValue texts = 1;
+	}
+
+	message WebsiteList {
+
+		repeated google.protobuf.StringValue websites = 1;
+	}
+
+	message DestinationTextList {
+
+		repeated google.protobuf.StringValue destination_texts = 1;
+	}
+
+	message DestinationMismatch {
+
+		repeated google.ads.googleads.v2.enums.PolicyTopicEvidenceDestinationMismatchUrlTypeEnum.PolicyTopicEvidenceDestinationMismatchUrlType url_types = 1;
+	}
+
+	message DestinationNotWorking {
+
+		google.protobuf.StringValue expanded_url = 3;
+		google.ads.googleads.v2.enums.PolicyTopicEvidenceDestinationNotWorkingDeviceEnum.PolicyTopicEvidenceDestinationNotWorkingDevice device = 4;
+		google.protobuf.StringValue last_checked_date_time = 5;
+		oneof reason {
+			google.ads.googleads.v2.enums.PolicyTopicEvidenceDestinationNotWorkingDnsErrorTypeEnum.PolicyTopicEvidenceDestinationNotWorkingDnsErrorType dns_error_type = 1;
+			google.protobuf.Int64Value http_error_code = 2;
+		}
+	}
+
+	oneof value {
+		WebsiteList website_list = 3;
+		TextList text_list = 4;
+		google.protobuf.StringValue language_code = 5;
+		DestinationTextList destination_text_list = 6;
+		DestinationMismatch destination_mismatch = 7;
+		DestinationNotWorking destination_not_working = 8;
+	}
+}
+
+message PolicyTopicConstraint {
+
+	message CountryConstraintList {
+
+		google.protobuf.Int32Value total_targeted_countries = 1;
+		repeated CountryConstraint countries = 2;
+	}
+
+	message ResellerConstraint {
+
+	}
+
+	message CountryConstraint {
+
+		google.protobuf.StringValue country_criterion = 1;
+	}
+
+	oneof value {
+		CountryConstraintList country_constraint_list = 1;
+		ResellerConstraint reseller_constraint = 2;
+		CountryConstraintList certificate_missing_in_country_list = 3;
+		CountryConstraintList certificate_domain_mismatch_in_country_list = 4;
+	}
+}

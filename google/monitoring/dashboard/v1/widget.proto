@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+import "google/api/field_behavior.proto";
+import "google/monitoring/dashboard/v1/scorecard.proto";
+import "google/monitoring/dashboard/v1/text.proto";
+import "google/monitoring/dashboard/v1/xychart.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "WidgetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+message Widget {
+
+	string title = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof content {
+		google.monitoring.dashboard.v1.XyChart xy_chart = 2;
+		google.monitoring.dashboard.v1.Scorecard scorecard = 3;
+		google.monitoring.dashboard.v1.Text text = 4;
+		google.protobuf.Empty blank = 5;
+	}
+}

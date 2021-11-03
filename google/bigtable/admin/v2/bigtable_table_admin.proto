@@ -1,0 +1,545 @@
+syntax = "proto3";
+
+package google.bigtable.admin.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/bigtable/admin/v2/common.proto";
+import "google/bigtable/admin/v2/table.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.bigtable.admin.v2";
+option java_outer_classname = "BigtableTableAdminProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/admin/v2;admin";
+option csharp_namespace = "Google.Cloud.Bigtable.Admin.V2";
+option php_namespace = "Google\\Cloud\\Bigtable\\Admin\\V2";
+option ruby_package = "Google::Cloud::Bigtable::Admin::V2";
+
+
+service BigtableTableAdmin {
+	option (google.api.default_host) = "bigtableadmin.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/bigtable.admin,https://www.googleapis.com/auth/bigtable.admin.table,https://www.googleapis.com/auth/cloud-bigtable.admin,https://www.googleapis.com/auth/cloud-bigtable.admin.table,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc CreateTable(google.bigtable.admin.v2.CreateTableRequest) returns (google.bigtable.admin.v2.Table) {
+		option (google.api.method_signature) = "parent,table_id,table";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/instances/*}/tables"
+			body: "*"
+		};
+
+	}
+	rpc CreateTableFromSnapshot(google.bigtable.admin.v2.CreateTableFromSnapshotRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Table"
+			metadata_type: "CreateTableFromSnapshotMetadata"
+		};
+		option (google.api.method_signature) = "parent,table_id,source_snapshot";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/instances/*}/tables:createFromSnapshot"
+			body: "*"
+		};
+
+	}
+	rpc ListTables(google.bigtable.admin.v2.ListTablesRequest) returns (google.bigtable.admin.v2.ListTablesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*/instances/*}/tables"
+		};
+
+	}
+	rpc GetTable(google.bigtable.admin.v2.GetTableRequest) returns (google.bigtable.admin.v2.Table) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/tables/*}"
+		};
+
+	}
+	rpc DeleteTable(google.bigtable.admin.v2.DeleteTableRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/instances/*/tables/*}"
+		};
+
+	}
+	rpc ModifyColumnFamilies(google.bigtable.admin.v2.ModifyColumnFamiliesRequest) returns (google.bigtable.admin.v2.Table) {
+		option (google.api.method_signature) = "name,modifications";
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*/instances/*/tables/*}:modifyColumnFamilies"
+			body: "*"
+		};
+
+	}
+	rpc DropRowRange(google.bigtable.admin.v2.DropRowRangeRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*/instances/*/tables/*}:dropRowRange"
+			body: "*"
+		};
+
+	}
+	rpc GenerateConsistencyToken(google.bigtable.admin.v2.GenerateConsistencyTokenRequest) returns (google.bigtable.admin.v2.GenerateConsistencyTokenResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*/instances/*/tables/*}:generateConsistencyToken"
+			body: "*"
+		};
+
+	}
+	rpc CheckConsistency(google.bigtable.admin.v2.CheckConsistencyRequest) returns (google.bigtable.admin.v2.CheckConsistencyResponse) {
+		option (google.api.method_signature) = "name,consistency_token";
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*/instances/*/tables/*}:checkConsistency"
+			body: "*"
+		};
+
+	}
+	rpc SnapshotTable(google.bigtable.admin.v2.SnapshotTableRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Snapshot"
+			metadata_type: "SnapshotTableMetadata"
+		};
+		option (google.api.method_signature) = "name,cluster,snapshot_id,description";
+		option (google.api.http) = {
+			post: "/v2/{name=projects/*/instances/*/tables/*}:snapshot"
+			body: "*"
+		};
+
+	}
+	rpc GetSnapshot(google.bigtable.admin.v2.GetSnapshotRequest) returns (google.bigtable.admin.v2.Snapshot) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/clusters/*/snapshots/*}"
+		};
+
+	}
+	rpc ListSnapshots(google.bigtable.admin.v2.ListSnapshotsRequest) returns (google.bigtable.admin.v2.ListSnapshotsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*/instances/*/clusters/*}/snapshots"
+		};
+
+	}
+	rpc DeleteSnapshot(google.bigtable.admin.v2.DeleteSnapshotRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/instances/*/clusters/*/snapshots/*}"
+		};
+
+	}
+	rpc CreateBackup(google.bigtable.admin.v2.CreateBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Backup"
+			metadata_type: "CreateBackupMetadata"
+		};
+		option (google.api.method_signature) = "parent,backup_id,backup";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/instances/*/clusters/*}/backups"
+			body: "backup"
+		};
+
+	}
+	rpc GetBackup(google.bigtable.admin.v2.GetBackupRequest) returns (google.bigtable.admin.v2.Backup) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/clusters/*/backups/*}"
+		};
+
+	}
+	rpc UpdateBackup(google.bigtable.admin.v2.UpdateBackupRequest) returns (google.bigtable.admin.v2.Backup) {
+		option (google.api.method_signature) = "backup,update_mask";
+		option (google.api.http) = {
+			patch: "/v2/{backup.name=projects/*/instances/*/clusters/*/backups/*}"
+			body: "backup"
+		};
+
+	}
+	rpc DeleteBackup(google.bigtable.admin.v2.DeleteBackupRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=projects/*/instances/*/clusters/*/backups/*}"
+		};
+
+	}
+	rpc ListBackups(google.bigtable.admin.v2.ListBackupsRequest) returns (google.bigtable.admin.v2.ListBackupsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*/instances/*/clusters/*}/backups"
+		};
+
+	}
+	rpc RestoreTable(google.bigtable.admin.v2.RestoreTableRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Table"
+			metadata_type: "RestoreTableMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*/instances/*}/tables:restore"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v2/{resource=projects/*/instances/*/tables/*}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v2/{resource=projects/*/instances/*/tables/*}:setIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v2/{resource=projects/*/instances/*/clusters/*/backups/*}:setIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v2/{resource=projects/*/instances/*/tables/*}:testIamPermissions"
+			body: "*"
+			additional_bindings: {
+				post: "/v2/{resource=projects/*/instances/*/clusters/*/backups/*}:testIamPermissions"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message CreateTableRequest {
+
+	message Split {
+
+		bytes key = 1;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+	string table_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.bigtable.admin.v2.Table table = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated Split initial_splits = 4;
+}
+
+message CreateTableFromSnapshotRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+	string table_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string source_snapshot = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Snapshot"
+		}
+	];
+}
+
+message DropRowRangeRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Table"
+		}
+	];
+	oneof target {
+		bytes row_key_prefix = 2;
+		bool delete_all_data_from_table = 3;
+	}
+}
+
+message ListTablesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Instance"
+		}
+	];
+	google.bigtable.admin.v2.Table.View view = 2;
+	int32 page_size = 4;
+	string page_token = 3;
+}
+
+message ListTablesResponse {
+
+	repeated google.bigtable.admin.v2.Table tables = 1;
+	string next_page_token = 2;
+}
+
+message GetTableRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Table"
+		}
+	];
+	google.bigtable.admin.v2.Table.View view = 2;
+}
+
+message DeleteTableRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Table"
+		}
+	];
+}
+
+message ModifyColumnFamiliesRequest {
+
+	message Modification {
+
+		string id = 1;
+		oneof mod {
+			google.bigtable.admin.v2.ColumnFamily create = 2;
+			google.bigtable.admin.v2.ColumnFamily update = 3;
+			bool drop = 4;
+		}
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Table"
+		}
+	];
+	repeated Modification modifications = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GenerateConsistencyTokenRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Table"
+		}
+	];
+}
+
+message GenerateConsistencyTokenResponse {
+
+	string consistency_token = 1;
+}
+
+message CheckConsistencyRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Table"
+		}
+	];
+	string consistency_token = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CheckConsistencyResponse {
+
+	bool consistent = 1;
+}
+
+message SnapshotTableRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Table"
+		}
+	];
+	string cluster = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Cluster"
+		}
+	];
+	string snapshot_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration ttl = 4;
+	string description = 5;
+}
+
+message GetSnapshotRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Snapshot"
+		}
+	];
+}
+
+message ListSnapshotsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Cluster"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListSnapshotsResponse {
+
+	repeated google.bigtable.admin.v2.Snapshot snapshots = 1;
+	string next_page_token = 2;
+}
+
+message DeleteSnapshotRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Snapshot"
+		}
+	];
+}
+
+message SnapshotTableMetadata {
+
+	SnapshotTableRequest original_request = 1;
+	google.protobuf.Timestamp request_time = 2;
+	google.protobuf.Timestamp finish_time = 3;
+}
+
+message CreateTableFromSnapshotMetadata {
+
+	CreateTableFromSnapshotRequest original_request = 1;
+	google.protobuf.Timestamp request_time = 2;
+	google.protobuf.Timestamp finish_time = 3;
+}
+
+message CreateBackupRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Cluster"
+		}
+	];
+	string backup_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.bigtable.admin.v2.Backup backup = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreateBackupMetadata {
+
+	string name = 1;
+	string source_table = 2;
+	google.protobuf.Timestamp start_time = 3;
+	google.protobuf.Timestamp end_time = 4;
+}
+
+message GetBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Backup"
+		}
+	];
+}
+
+message UpdateBackupRequest {
+
+	google.bigtable.admin.v2.Backup backup = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteBackupRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Backup"
+		}
+	];
+}
+
+message ListBackupsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigtable.googleapis.com/Cluster"
+		}
+	];
+	string filter = 2;
+	string order_by = 3;
+	int32 page_size = 4;
+	string page_token = 5;
+}
+
+message ListBackupsResponse {
+
+	repeated google.bigtable.admin.v2.Backup backups = 1;
+	string next_page_token = 2;
+}
+
+message RestoreTableRequest {
+
+	string parent = 1;
+	string table_id = 2;
+	oneof source {
+		string backup = 3;
+	}
+}
+
+message RestoreTableMetadata {
+
+	string name = 1;
+	google.bigtable.admin.v2.RestoreSourceType source_type = 2;
+	oneof source_info {
+		google.bigtable.admin.v2.BackupInfo backup_info = 3;
+	}
+	string optimize_table_operation_name = 4;
+	google.bigtable.admin.v2.OperationProgress progress = 5;
+}
+
+message OptimizeRestoredTableMetadata {
+
+	string name = 1;
+	google.bigtable.admin.v2.OperationProgress progress = 2;
+}

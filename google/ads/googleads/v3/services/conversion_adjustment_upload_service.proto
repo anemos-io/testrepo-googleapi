@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.services;
+
+import "google/ads/googleads/v3/enums/conversion_adjustment_type.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v3.services";
+option java_outer_classname = "ConversionAdjustmentUploadServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V3::Services";
+
+
+service ConversionAdjustmentUploadService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc UploadConversionAdjustments(google.ads.googleads.v3.services.UploadConversionAdjustmentsRequest) returns (google.ads.googleads.v3.services.UploadConversionAdjustmentsResponse) {
+		option (google.api.method_signature) = "customer_id,conversion_adjustments,partial_failure";
+		option (google.api.http) = {
+			post: "/v3/customers/{customer_id=*}:uploadConversionAdjustments"
+			body: "*"
+		};
+
+	}
+}
+
+message UploadConversionAdjustmentsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ConversionAdjustment conversion_adjustments = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 4;
+}
+
+message UploadConversionAdjustmentsResponse {
+
+	google.rpc.Status partial_failure_error = 1;
+	repeated ConversionAdjustmentResult results = 2;
+}
+
+message ConversionAdjustment {
+
+	google.protobuf.StringValue conversion_action = 3;
+	google.protobuf.StringValue adjustment_date_time = 4;
+	google.ads.googleads.v3.enums.ConversionAdjustmentTypeEnum.ConversionAdjustmentType adjustment_type = 5;
+	RestatementValue restatement_value = 6;
+	oneof conversion_identifier {
+		GclidDateTimePair gclid_date_time_pair = 1;
+		google.protobuf.StringValue order_id = 2;
+	}
+}
+
+message RestatementValue {
+
+	google.protobuf.DoubleValue adjusted_value = 1;
+	google.protobuf.StringValue currency_code = 2;
+}
+
+message GclidDateTimePair {
+
+	google.protobuf.StringValue gclid = 1;
+	google.protobuf.StringValue conversion_date_time = 2;
+}
+
+message ConversionAdjustmentResult {
+
+	google.protobuf.StringValue conversion_action = 3;
+	google.protobuf.StringValue adjustment_date_time = 4;
+	google.ads.googleads.v3.enums.ConversionAdjustmentTypeEnum.ConversionAdjustmentType adjustment_type = 5;
+	oneof conversion_identifier {
+		GclidDateTimePair gclid_date_time_pair = 1;
+		google.protobuf.StringValue order_id = 2;
+	}
+}

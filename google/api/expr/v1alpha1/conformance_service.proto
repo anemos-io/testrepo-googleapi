@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package google.api.expr.v1alpha1;
+
+import "google/api/expr/v1alpha1/checked.proto";
+import "google/api/expr/v1alpha1/eval.proto";
+import "google/api/expr/v1alpha1/syntax.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.api.expr.v1alpha1";
+option java_outer_classname = "ConformanceServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/expr/conformance/v1alpha1;confpb";
+option cc_enable_arenas = true;
+
+
+service ConformanceService {
+
+	rpc Parse(google.api.expr.v1alpha1.ParseRequest) returns (google.api.expr.v1alpha1.ParseResponse) {}
+	rpc Check(google.api.expr.v1alpha1.CheckRequest) returns (google.api.expr.v1alpha1.CheckResponse) {}
+	rpc Eval(google.api.expr.v1alpha1.EvalRequest) returns (google.api.expr.v1alpha1.EvalResponse) {}
+}
+
+message ParseRequest {
+
+	string cel_source = 1;
+	string syntax_version = 2;
+	string source_location = 3;
+	bool disable_macros = 4;
+}
+
+message ParseResponse {
+
+	google.api.expr.v1alpha1.ParsedExpr parsed_expr = 1;
+	repeated google.rpc.Status issues = 2;
+}
+
+message CheckRequest {
+
+	google.api.expr.v1alpha1.ParsedExpr parsed_expr = 1;
+	repeated google.api.expr.v1alpha1.Decl type_env = 2;
+	string container = 3;
+	bool no_std_env = 4;
+}
+
+message CheckResponse {
+
+	google.api.expr.v1alpha1.CheckedExpr checked_expr = 1;
+	repeated google.rpc.Status issues = 2;
+}
+
+message EvalRequest {
+
+	oneof expr_kind {
+		google.api.expr.v1alpha1.ParsedExpr parsed_expr = 1;
+		google.api.expr.v1alpha1.CheckedExpr checked_expr = 2;
+	}
+	map<string, google.api.expr.v1alpha1.ExprValue> bindings = 3;
+	string container = 4;
+}
+
+message EvalResponse {
+
+	google.api.expr.v1alpha1.ExprValue result = 1;
+	repeated google.rpc.Status issues = 2;
+}
+
+message IssueDetails {
+
+	enum Severity {
+
+		SEVERITY_UNSPECIFIED = 0;
+		DEPRECATION = 1;
+		WARNING = 2;
+		ERROR = 3;
+	}
+
+	Severity severity = 1;
+	google.api.expr.v1alpha1.SourcePosition position = 2;
+	int64 id = 3;
+}

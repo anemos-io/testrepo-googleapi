@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package google.bigtable.v1;
+
+import "google/api/annotations.proto";
+import "google/bigtable/v1/bigtable_data.proto";
+import "google/bigtable/v1/bigtable_service_messages.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.bigtable.v1";
+option java_outer_classname = "BigtableServicesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/v1;bigtable";
+option java_generic_services = true;
+
+
+service BigtableService {
+
+	rpc ReadRows(google.bigtable.v1.ReadRowsRequest) returns (stream google.bigtable.v1.ReadRowsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{table_name=projects/*/zones/*/clusters/*/tables/*}/rows:read"
+			body: "*"
+		};
+
+	}
+	rpc SampleRowKeys(google.bigtable.v1.SampleRowKeysRequest) returns (stream google.bigtable.v1.SampleRowKeysResponse) {
+		option (google.api.http) = {
+			get: "/v1/{table_name=projects/*/zones/*/clusters/*/tables/*}/rows:sampleKeys"
+		};
+
+	}
+	rpc MutateRow(google.bigtable.v1.MutateRowRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{table_name=projects/*/zones/*/clusters/*/tables/*}/rows/{row_key}:mutate"
+			body: "*"
+		};
+
+	}
+	rpc MutateRows(google.bigtable.v1.MutateRowsRequest) returns (google.bigtable.v1.MutateRowsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{table_name=projects/*/zones/*/clusters/*/tables/*}:mutateRows"
+			body: "*"
+		};
+
+	}
+	rpc CheckAndMutateRow(google.bigtable.v1.CheckAndMutateRowRequest) returns (google.bigtable.v1.CheckAndMutateRowResponse) {
+		option (google.api.http) = {
+			post: "/v1/{table_name=projects/*/zones/*/clusters/*/tables/*}/rows/{row_key}:checkAndMutate"
+			body: "*"
+		};
+
+	}
+	rpc ReadModifyWriteRow(google.bigtable.v1.ReadModifyWriteRowRequest) returns (google.bigtable.v1.Row) {
+		option (google.api.http) = {
+			post: "/v1/{table_name=projects/*/zones/*/clusters/*/tables/*}/rows/{row_key}:readModifyWrite"
+			body: "*"
+		};
+
+	}
+}

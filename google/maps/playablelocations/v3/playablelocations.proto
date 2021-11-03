@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package google.maps.playablelocations.v3;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/maps/playablelocations/v3/resources.proto";
+import "google/maps/playablelocations/v3/sample/resources.proto";
+import "google/maps/unity/clientinfo.proto";
+import "google/protobuf/duration.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.maps.playablelocations.v3";
+option java_outer_classname = "PlayableLocationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/playablelocations/v3;playablelocations";
+option objc_class_prefix = "GMPL";
+option csharp_namespace = "Google.Maps.PlayableLocations.V3";
+
+
+service PlayableLocations {
+	option (google.api.default_host) = "playablelocations.googleapis.com";
+
+	rpc SamplePlayableLocations(google.maps.playablelocations.v3.SamplePlayableLocationsRequest) returns (google.maps.playablelocations.v3.SamplePlayableLocationsResponse) {
+		option (google.api.http) = {
+			post: "/v3:samplePlayableLocations"
+			body: "*"
+		};
+
+	}
+	rpc LogPlayerReports(google.maps.playablelocations.v3.LogPlayerReportsRequest) returns (google.maps.playablelocations.v3.LogPlayerReportsResponse) {
+		option (google.api.http) = {
+			post: "/v3:logPlayerReports"
+			body: "*"
+		};
+
+	}
+	rpc LogImpressions(google.maps.playablelocations.v3.LogImpressionsRequest) returns (google.maps.playablelocations.v3.LogImpressionsResponse) {
+		option (google.api.http) = {
+			post: "/v3:logImpressions"
+			body: "*"
+		};
+
+	}
+}
+
+message SamplePlayableLocationsRequest {
+
+	google.maps.playablelocations.v3.sample.AreaFilter area_filter = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.maps.playablelocations.v3.sample.Criterion criteria = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SamplePlayableLocationsResponse {
+
+	map<int32, google.maps.playablelocations.v3.sample.PlayableLocationList> locations_per_game_object_type = 1;
+	google.protobuf.Duration ttl = 9;
+}
+
+message LogPlayerReportsRequest {
+
+	repeated google.maps.playablelocations.v3.PlayerReport player_reports = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.maps.unity.ClientInfo client_info = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message LogPlayerReportsResponse {
+
+}
+
+message LogImpressionsRequest {
+
+	repeated google.maps.playablelocations.v3.Impression impressions = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.maps.unity.ClientInfo client_info = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message LogImpressionsResponse {
+
+}

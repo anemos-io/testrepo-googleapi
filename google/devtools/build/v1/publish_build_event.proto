@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package google.devtools.build.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/devtools/build/v1/build_events.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.devtools.build.v1";
+option java_outer_classname = "BackendProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/build/v1;build";
+option cc_enable_arenas = true;
+
+
+service PublishBuildEvent {
+	option (google.api.default_host) = "buildeventservice.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc PublishLifecycleEvent(google.devtools.build.v1.PublishLifecycleEventRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id=*}/lifecycleEvents:publish"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/lifecycleEvents:publish"
+				body: "*"
+			}
+		};
+
+	}
+	rpc PublishBuildToolEventStream(stream google.devtools.build.v1.PublishBuildToolEventStreamRequest) returns (stream google.devtools.build.v1.PublishBuildToolEventStreamResponse) {
+		option (google.api.method_signature) = "ordered_build_event,notification_keywords,project_id";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id=*}/events:publish"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/events:publish"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message PublishLifecycleEventRequest {
+
+	enum ServiceLevel {
+
+		NONINTERACTIVE = 0;
+		INTERACTIVE = 1;
+	}
+
+	ServiceLevel service_level = 1;
+	OrderedBuildEvent build_event = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration stream_timeout = 3;
+	repeated string notification_keywords = 4;
+	string project_id = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PublishBuildToolEventStreamResponse {
+
+	google.devtools.build.v1.StreamId stream_id = 1;
+	int64 sequence_number = 2;
+}
+
+message OrderedBuildEvent {
+
+	google.devtools.build.v1.StreamId stream_id = 1;
+	int64 sequence_number = 2;
+	google.devtools.build.v1.BuildEvent event = 3;
+}
+
+message PublishBuildToolEventStreamRequest {
+
+	OrderedBuildEvent ordered_build_event = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string notification_keywords = 5;
+	string project_id = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

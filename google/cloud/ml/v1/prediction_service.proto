@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.cloud.ml.v1;
+
+import "google/api/annotations.proto";
+import "google/api/httpbody.proto";
+
+option java_package = "com.google.cloud.ml.api.v1";
+option java_outer_classname = "PredictionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/ml/v1;ml";
+
+
+service OnlinePredictionService {
+
+	rpc Predict(google.cloud.ml.v1.PredictRequest) returns (google.api.HttpBody) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/**}:predict"
+			body: "*"
+		};
+
+	}
+}
+
+message PredictRequest {
+
+	string name = 1;
+	google.api.HttpBody http_body = 2;
+}

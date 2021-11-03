@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1beta1;
+
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1beta1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1Beta1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1beta1";
+option ruby_package = "Google::Cloud::DataCatalog::V1beta1";
+
+
+message Schema {
+
+	repeated ColumnSchema columns = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ColumnSchema {
+
+	string column = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string mode = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated ColumnSchema subcolumns = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

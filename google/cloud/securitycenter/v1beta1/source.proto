@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1beta1;
+
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1beta1;securitycenter";
+
+
+message Source {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/Source"
+		pattern: ["organizations/{organization}/sources/{source}"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	string description = 3;
+}

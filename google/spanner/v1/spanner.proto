@@ -1,0 +1,417 @@
+syntax = "proto3";
+
+package google.spanner.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/spanner/v1/keys.proto";
+import "google/spanner/v1/mutation.proto";
+import "google/spanner/v1/result_set.proto";
+import "google/spanner/v1/transaction.proto";
+import "google/spanner/v1/type.proto";
+
+option java_package = "com.google.spanner.v1";
+option java_outer_classname = "SpannerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/v1;spanner";
+option csharp_namespace = "Google.Cloud.Spanner.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\V1";
+option ruby_package = "Google::Cloud::Spanner::V1";
+option (google.api.resource_definition) = {
+	type: "spanner.googleapis.com/Database"
+	pattern: ["projects/{project}/instances/{instance}/databases/{database}"]
+};
+
+
+service Spanner {
+	option (google.api.default_host) = "spanner.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/spanner.data";
+
+	rpc CreateSession(google.spanner.v1.CreateSessionRequest) returns (google.spanner.v1.Session) {
+		option (google.api.method_signature) = "database";
+		option (google.api.http) = {
+			post: "/v1/{database=projects/*/instances/*/databases/*}/sessions"
+			body: "*"
+		};
+
+	}
+	rpc BatchCreateSessions(google.spanner.v1.BatchCreateSessionsRequest) returns (google.spanner.v1.BatchCreateSessionsResponse) {
+		option (google.api.method_signature) = "database,session_count";
+		option (google.api.http) = {
+			post: "/v1/{database=projects/*/instances/*/databases/*}/sessions:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc GetSession(google.spanner.v1.GetSessionRequest) returns (google.spanner.v1.Session) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/instances/*/databases/*/sessions/*}"
+		};
+
+	}
+	rpc ListSessions(google.spanner.v1.ListSessionsRequest) returns (google.spanner.v1.ListSessionsResponse) {
+		option (google.api.method_signature) = "database";
+		option (google.api.http) = {
+			get: "/v1/{database=projects/*/instances/*/databases/*}/sessions"
+		};
+
+	}
+	rpc DeleteSession(google.spanner.v1.DeleteSessionRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/instances/*/databases/*/sessions/*}"
+		};
+
+	}
+	rpc ExecuteSql(google.spanner.v1.ExecuteSqlRequest) returns (google.spanner.v1.ResultSet) {
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:executeSql"
+			body: "*"
+		};
+
+	}
+	rpc ExecuteStreamingSql(google.spanner.v1.ExecuteSqlRequest) returns (stream google.spanner.v1.PartialResultSet) {
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:executeStreamingSql"
+			body: "*"
+		};
+
+	}
+	rpc ExecuteBatchDml(google.spanner.v1.ExecuteBatchDmlRequest) returns (google.spanner.v1.ExecuteBatchDmlResponse) {
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:executeBatchDml"
+			body: "*"
+		};
+
+	}
+	rpc Read(google.spanner.v1.ReadRequest) returns (google.spanner.v1.ResultSet) {
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:read"
+			body: "*"
+		};
+
+	}
+	rpc StreamingRead(google.spanner.v1.ReadRequest) returns (stream google.spanner.v1.PartialResultSet) {
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:streamingRead"
+			body: "*"
+		};
+
+	}
+	rpc BeginTransaction(google.spanner.v1.BeginTransactionRequest) returns (google.spanner.v1.Transaction) {
+		option (google.api.method_signature) = "session,options";
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:beginTransaction"
+			body: "*"
+		};
+
+	}
+	rpc Commit(google.spanner.v1.CommitRequest) returns (google.spanner.v1.CommitResponse) {
+		option (google.api.method_signature) = "session,transaction_id,mutations";
+		option (google.api.method_signature) = "session,single_use_transaction,mutations";
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:commit"
+			body: "*"
+		};
+
+	}
+	rpc Rollback(google.spanner.v1.RollbackRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "session,transaction_id";
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:rollback"
+			body: "*"
+		};
+
+	}
+	rpc PartitionQuery(google.spanner.v1.PartitionQueryRequest) returns (google.spanner.v1.PartitionResponse) {
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:partitionQuery"
+			body: "*"
+		};
+
+	}
+	rpc PartitionRead(google.spanner.v1.PartitionReadRequest) returns (google.spanner.v1.PartitionResponse) {
+		option (google.api.http) = {
+			post: "/v1/{session=projects/*/instances/*/databases/*/sessions/*}:partitionRead"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateSessionRequest {
+
+	string database = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+	Session session = 2;
+}
+
+message BatchCreateSessionsRequest {
+
+	string database = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+	Session session_template = 2;
+	int32 session_count = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCreateSessionsResponse {
+
+	repeated Session session = 1;
+}
+
+message Session {
+	option (google.api.resource) = {
+		type: "spanner.googleapis.com/Session"
+		pattern: ["projects/{project}/instances/{instance}/databases/{database}/sessions/{session}"]
+	};
+
+	string name = 1;
+	map<string, string> labels = 2;
+	google.protobuf.Timestamp create_time = 3;
+	google.protobuf.Timestamp approximate_last_use_time = 4;
+}
+
+message GetSessionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+}
+
+message ListSessionsRequest {
+
+	string database = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListSessionsResponse {
+
+	repeated Session sessions = 1;
+	string next_page_token = 2;
+}
+
+message DeleteSessionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+}
+
+message ExecuteSqlRequest {
+
+	message QueryOptions {
+
+		string optimizer_version = 1;
+	}
+
+	enum QueryMode {
+
+		NORMAL = 0;
+		PLAN = 1;
+		PROFILE = 2;
+	}
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+	google.spanner.v1.TransactionSelector transaction = 2;
+	string sql = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Struct params = 4;
+	map<string, google.spanner.v1.Type> param_types = 5;
+	bytes resume_token = 6;
+	QueryMode query_mode = 7;
+	bytes partition_token = 8;
+	int64 seqno = 9;
+	QueryOptions query_options = 10;
+}
+
+message ExecuteBatchDmlRequest {
+
+	message Statement {
+
+		string sql = 1;
+		google.protobuf.Struct params = 2;
+		map<string, google.spanner.v1.Type> param_types = 3;
+	}
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+	google.spanner.v1.TransactionSelector transaction = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated Statement statements = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 seqno = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExecuteBatchDmlResponse {
+
+	repeated google.spanner.v1.ResultSet result_sets = 1;
+	google.rpc.Status status = 2;
+}
+
+message PartitionOptions {
+
+	int64 partition_size_bytes = 1;
+	int64 max_partitions = 2;
+}
+
+message PartitionQueryRequest {
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+	google.spanner.v1.TransactionSelector transaction = 2;
+	string sql = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Struct params = 4;
+	map<string, google.spanner.v1.Type> param_types = 5;
+	PartitionOptions partition_options = 6;
+}
+
+message PartitionReadRequest {
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+	google.spanner.v1.TransactionSelector transaction = 2;
+	string table = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string index = 4;
+	repeated string columns = 5;
+	google.spanner.v1.KeySet key_set = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	PartitionOptions partition_options = 9;
+}
+
+message Partition {
+
+	bytes partition_token = 1;
+}
+
+message PartitionResponse {
+
+	repeated Partition partitions = 1;
+	google.spanner.v1.Transaction transaction = 2;
+}
+
+message ReadRequest {
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+	google.spanner.v1.TransactionSelector transaction = 2;
+	string table = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string index = 4;
+	repeated string columns = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.spanner.v1.KeySet key_set = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 limit = 8;
+	bytes resume_token = 9;
+	bytes partition_token = 10;
+}
+
+message BeginTransactionRequest {
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+	google.spanner.v1.TransactionOptions options = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CommitRequest {
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+	oneof transaction {
+		bytes transaction_id = 2;
+		google.spanner.v1.TransactionOptions single_use_transaction = 3;
+	}
+	repeated google.spanner.v1.Mutation mutations = 4;
+}
+
+message CommitResponse {
+
+	google.protobuf.Timestamp commit_timestamp = 1;
+}
+
+message RollbackRequest {
+
+	string session = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Session"
+		}
+	];
+	bytes transaction_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

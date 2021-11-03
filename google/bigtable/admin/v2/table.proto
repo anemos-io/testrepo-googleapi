@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package google.bigtable.admin.v2;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.bigtable.admin.v2";
+option java_outer_classname = "TableProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/admin/v2;admin";
+option csharp_namespace = "Google.Cloud.Bigtable.Admin.V2";
+option php_namespace = "Google\\Cloud\\Bigtable\\Admin\\V2";
+option ruby_package = "Google::Cloud::Bigtable::Admin::V2";
+
+
+enum RestoreSourceType {
+
+	RESTORE_SOURCE_TYPE_UNSPECIFIED = 0;
+	BACKUP = 1;
+}
+
+message RestoreInfo {
+
+	RestoreSourceType source_type = 1;
+	oneof source_info {
+		BackupInfo backup_info = 2;
+	}
+}
+
+message Table {
+	option (google.api.resource) = {
+		type: "bigtable.googleapis.com/Table"
+		pattern: ["projects/{project}/instances/{instance}/tables/{table}"]
+	};
+
+	message ClusterState {
+
+		enum ReplicationState {
+
+			STATE_NOT_KNOWN = 0;
+			INITIALIZING = 1;
+			PLANNED_MAINTENANCE = 2;
+			UNPLANNED_MAINTENANCE = 3;
+			READY = 4;
+			READY_OPTIMIZING = 5;
+		}
+
+		ReplicationState replication_state = 1;
+	}
+
+	enum TimestampGranularity {
+
+		TIMESTAMP_GRANULARITY_UNSPECIFIED = 0;
+		MILLIS = 1;
+	}
+
+	enum View {
+
+		VIEW_UNSPECIFIED = 0;
+		NAME_ONLY = 1;
+		SCHEMA_VIEW = 2;
+		REPLICATION_VIEW = 3;
+		FULL = 4;
+	}
+
+	string name = 1;
+	map<string, ClusterState> cluster_states = 2;
+	map<string, ColumnFamily> column_families = 3;
+	TimestampGranularity granularity = 4;
+	RestoreInfo restore_info = 6;
+}
+
+message ColumnFamily {
+
+	GcRule gc_rule = 1;
+}
+
+message GcRule {
+
+	message Intersection {
+
+		repeated GcRule rules = 1;
+	}
+
+	message Union {
+
+		repeated GcRule rules = 1;
+	}
+
+	oneof rule {
+		int32 max_num_versions = 1;
+		google.protobuf.Duration max_age = 2;
+		Intersection intersection = 3;
+		Union union = 4;
+	}
+}
+
+message Snapshot {
+	option (google.api.resource) = {
+		type: "bigtable.googleapis.com/Snapshot"
+		pattern: ["projects/{project}/instances/{instance}/clusters/{cluster}/snapshots/{snapshot}"]
+	};
+
+	enum State {
+
+		STATE_NOT_KNOWN = 0;
+		READY = 1;
+		CREATING = 2;
+	}
+
+	string name = 1;
+	Table source_table = 2;
+	int64 data_size_bytes = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp delete_time = 5;
+	State state = 6;
+	string description = 7;
+}
+
+message Backup {
+	option (google.api.resource) = {
+		type: "bigtable.googleapis.com/Backup"
+		pattern: ["projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string source_table = 2 [
+		(google.api.field_behavior) = IMMUTABLE,
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp expire_time = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp start_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 size_bytes = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message BackupInfo {
+
+	string backup = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string source_table = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package grafeas.v1beta1.attestation;
+
+import "google/devtools/containeranalysis/v1beta1/common/common.proto";
+
+option java_package = "io.grafeas.v1beta1.attestation";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/attestation;attestation";
+option objc_class_prefix = "GRA";
+
+
+message PgpSignedAttestation {
+
+	enum ContentType {
+
+		CONTENT_TYPE_UNSPECIFIED = 0;
+		SIMPLE_SIGNING_JSON = 1;
+	}
+
+	string signature = 1;
+	ContentType content_type = 3;
+	oneof key_id {
+		string pgp_key_id = 2;
+	}
+}
+
+message GenericSignedAttestation {
+
+	enum ContentType {
+
+		CONTENT_TYPE_UNSPECIFIED = 0;
+		SIMPLE_SIGNING_JSON = 1;
+	}
+
+	ContentType content_type = 1;
+	bytes serialized_payload = 2;
+	repeated grafeas.v1beta1.Signature signatures = 3;
+}
+
+message Authority {
+
+	message Hint {
+
+		string human_readable_name = 1;
+	}
+
+	Hint hint = 1;
+}
+
+message Details {
+
+	Attestation attestation = 1;
+}
+
+message Attestation {
+
+	oneof signature {
+		PgpSignedAttestation pgp_signed_attestation = 1;
+		GenericSignedAttestation generic_signed_attestation = 2;
+	}
+}

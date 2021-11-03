@@ -1,0 +1,456 @@
+syntax = "proto3";
+
+package google.cloud.iot.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/iot/v1/resources.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.iot.v1";
+option java_outer_classname = "DeviceManagerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/iot/v1;iot";
+option cc_enable_arenas = true;
+
+
+service DeviceManager {
+	option (google.api.default_host) = "cloudiot.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloudiot";
+
+	rpc CreateDeviceRegistry(google.cloud.iot.v1.CreateDeviceRegistryRequest) returns (google.cloud.iot.v1.DeviceRegistry) {
+		option (google.api.method_signature) = "parent,device_registry";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/registries"
+			body: "device_registry"
+		};
+
+	}
+	rpc GetDeviceRegistry(google.cloud.iot.v1.GetDeviceRegistryRequest) returns (google.cloud.iot.v1.DeviceRegistry) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/registries/*}"
+		};
+
+	}
+	rpc UpdateDeviceRegistry(google.cloud.iot.v1.UpdateDeviceRegistryRequest) returns (google.cloud.iot.v1.DeviceRegistry) {
+		option (google.api.method_signature) = "device_registry,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{device_registry.name=projects/*/locations/*/registries/*}"
+			body: "device_registry"
+		};
+
+	}
+	rpc DeleteDeviceRegistry(google.cloud.iot.v1.DeleteDeviceRegistryRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/registries/*}"
+		};
+
+	}
+	rpc ListDeviceRegistries(google.cloud.iot.v1.ListDeviceRegistriesRequest) returns (google.cloud.iot.v1.ListDeviceRegistriesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/registries"
+		};
+
+	}
+	rpc CreateDevice(google.cloud.iot.v1.CreateDeviceRequest) returns (google.cloud.iot.v1.Device) {
+		option (google.api.method_signature) = "parent,device";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/registries/*}/devices"
+			body: "device"
+		};
+
+	}
+	rpc GetDevice(google.cloud.iot.v1.GetDeviceRequest) returns (google.cloud.iot.v1.Device) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/registries/*/devices/*}"
+			additional_bindings: {
+				get: "/v1/{name=projects/*/locations/*/registries/*/groups/*/devices/*}"
+			}
+		};
+
+	}
+	rpc UpdateDevice(google.cloud.iot.v1.UpdateDeviceRequest) returns (google.cloud.iot.v1.Device) {
+		option (google.api.method_signature) = "device,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{device.name=projects/*/locations/*/registries/*/devices/*}"
+			body: "device"
+			additional_bindings: {
+				patch: "/v1/{device.name=projects/*/locations/*/registries/*/groups/*/devices/*}"
+				body: "device"
+			}
+		};
+
+	}
+	rpc DeleteDevice(google.cloud.iot.v1.DeleteDeviceRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/registries/*/devices/*}"
+		};
+
+	}
+	rpc ListDevices(google.cloud.iot.v1.ListDevicesRequest) returns (google.cloud.iot.v1.ListDevicesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*/registries/*}/devices"
+			additional_bindings: {
+				get: "/v1/{parent=projects/*/locations/*/registries/*/groups/*}/devices"
+			}
+		};
+
+	}
+	rpc ModifyCloudToDeviceConfig(google.cloud.iot.v1.ModifyCloudToDeviceConfigRequest) returns (google.cloud.iot.v1.DeviceConfig) {
+		option (google.api.method_signature) = "name,binary_data";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/registries/*/devices/*}:modifyCloudToDeviceConfig"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{name=projects/*/locations/*/registries/*/groups/*/devices/*}:modifyCloudToDeviceConfig"
+				body: "*"
+			}
+		};
+
+	}
+	rpc ListDeviceConfigVersions(google.cloud.iot.v1.ListDeviceConfigVersionsRequest) returns (google.cloud.iot.v1.ListDeviceConfigVersionsResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/registries/*/devices/*}/configVersions"
+			additional_bindings: {
+				get: "/v1/{name=projects/*/locations/*/registries/*/groups/*/devices/*}/configVersions"
+			}
+		};
+
+	}
+	rpc ListDeviceStates(google.cloud.iot.v1.ListDeviceStatesRequest) returns (google.cloud.iot.v1.ListDeviceStatesResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/registries/*/devices/*}/states"
+			additional_bindings: {
+				get: "/v1/{name=projects/*/locations/*/registries/*/groups/*/devices/*}/states"
+			}
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/registries/*}:setIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/registries/*/groups/*}:setIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/registries/*}:getIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/registries/*/groups/*}:getIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/registries/*}:testIamPermissions"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/locations/*/registries/*/groups/*}:testIamPermissions"
+				body: "*"
+			}
+		};
+
+	}
+	rpc SendCommandToDevice(google.cloud.iot.v1.SendCommandToDeviceRequest) returns (google.cloud.iot.v1.SendCommandToDeviceResponse) {
+		option (google.api.method_signature) = "name,binary_data";
+		option (google.api.method_signature) = "name,binary_data,subfolder";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/registries/*/devices/*}:sendCommandToDevice"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{name=projects/*/locations/*/registries/*/groups/*/devices/*}:sendCommandToDevice"
+				body: "*"
+			}
+		};
+
+	}
+	rpc BindDeviceToGateway(google.cloud.iot.v1.BindDeviceToGatewayRequest) returns (google.cloud.iot.v1.BindDeviceToGatewayResponse) {
+		option (google.api.method_signature) = "parent,gateway_id,device_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/registries/*}:bindDeviceToGateway"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{parent=projects/*/locations/*/registries/*/groups/*}:bindDeviceToGateway"
+				body: "*"
+			}
+		};
+
+	}
+	rpc UnbindDeviceFromGateway(google.cloud.iot.v1.UnbindDeviceFromGatewayRequest) returns (google.cloud.iot.v1.UnbindDeviceFromGatewayResponse) {
+		option (google.api.method_signature) = "parent,gateway_id,device_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*/registries/*}:unbindDeviceFromGateway"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{parent=projects/*/locations/*/registries/*/groups/*}:unbindDeviceFromGateway"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message CreateDeviceRegistryRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	google.cloud.iot.v1.DeviceRegistry device_registry = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetDeviceRegistryRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Registry"
+		}
+	];
+}
+
+message DeleteDeviceRegistryRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Registry"
+		}
+	];
+}
+
+message UpdateDeviceRegistryRequest {
+
+	google.cloud.iot.v1.DeviceRegistry device_registry = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListDeviceRegistriesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListDeviceRegistriesResponse {
+
+	repeated google.cloud.iot.v1.DeviceRegistry device_registries = 1;
+	string next_page_token = 2;
+}
+
+message CreateDeviceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Registry"
+		}
+	];
+	google.cloud.iot.v1.Device device = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetDeviceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Device"
+		}
+	];
+	google.protobuf.FieldMask field_mask = 2;
+}
+
+message UpdateDeviceRequest {
+
+	google.cloud.iot.v1.Device device = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteDeviceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Device"
+		}
+	];
+}
+
+message ListDevicesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Registry"
+		}
+	];
+	repeated uint64 device_num_ids = 2;
+	repeated string device_ids = 3;
+	google.protobuf.FieldMask field_mask = 4;
+	GatewayListOptions gateway_list_options = 6;
+	int32 page_size = 100;
+	string page_token = 101;
+}
+
+message GatewayListOptions {
+
+	oneof filter {
+		google.cloud.iot.v1.GatewayType gateway_type = 1;
+		string associations_gateway_id = 2;
+		string associations_device_id = 3;
+	}
+}
+
+message ListDevicesResponse {
+
+	repeated google.cloud.iot.v1.Device devices = 1;
+	string next_page_token = 2;
+}
+
+message ModifyCloudToDeviceConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Device"
+		}
+	];
+	int64 version_to_update = 2;
+	bytes binary_data = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListDeviceConfigVersionsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Device"
+		}
+	];
+	int32 num_versions = 2;
+}
+
+message ListDeviceConfigVersionsResponse {
+
+	repeated google.cloud.iot.v1.DeviceConfig device_configs = 1;
+}
+
+message ListDeviceStatesRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Device"
+		}
+	];
+	int32 num_states = 2;
+}
+
+message ListDeviceStatesResponse {
+
+	repeated google.cloud.iot.v1.DeviceState device_states = 1;
+}
+
+message SendCommandToDeviceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Device"
+		}
+	];
+	bytes binary_data = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string subfolder = 3;
+}
+
+message SendCommandToDeviceResponse {
+
+}
+
+message BindDeviceToGatewayRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Registry"
+		}
+	];
+	string gateway_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string device_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BindDeviceToGatewayResponse {
+
+}
+
+message UnbindDeviceFromGatewayRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudiot.googleapis.com/Registry"
+		}
+	];
+	string gateway_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string device_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UnbindDeviceFromGatewayResponse {
+
+}

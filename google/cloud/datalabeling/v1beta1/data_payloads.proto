@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package google.cloud.datalabeling.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.datalabeling.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datalabeling/v1beta1;datalabeling";
+
+
+message ImagePayload {
+
+	string mime_type = 1;
+	bytes image_thumbnail = 2;
+	string image_uri = 3;
+	string signed_uri = 4;
+}
+
+message TextPayload {
+
+	string text_content = 1;
+}
+
+message VideoThumbnail {
+
+	bytes thumbnail = 1;
+	google.protobuf.Duration time_offset = 2;
+}
+
+message VideoPayload {
+
+	string mime_type = 1;
+	string video_uri = 2;
+	repeated VideoThumbnail video_thumbnails = 3;
+	float frame_rate = 4;
+	string signed_uri = 5;
+}

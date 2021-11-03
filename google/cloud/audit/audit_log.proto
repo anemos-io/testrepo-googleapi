@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package google.cloud.audit;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+import "google/rpc/context/attribute_context.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.audit";
+option java_outer_classname = "AuditLogProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/audit;audit";
+option cc_enable_arenas = true;
+
+
+message AuditLog {
+
+	string service_name = 7;
+	string method_name = 8;
+	string resource_name = 11;
+	ResourceLocation resource_location = 20;
+	google.protobuf.Struct resource_original_state = 19;
+	int64 num_response_items = 12;
+	google.rpc.Status status = 2;
+	AuthenticationInfo authentication_info = 3;
+	repeated AuthorizationInfo authorization_info = 9;
+	RequestMetadata request_metadata = 4;
+	google.protobuf.Struct request = 16;
+	google.protobuf.Struct response = 17;
+	google.protobuf.Struct metadata = 18;
+	google.protobuf.Any service_data = 15;
+}
+
+message AuthenticationInfo {
+
+	string principal_email = 1;
+	string authority_selector = 2;
+	google.protobuf.Struct third_party_principal = 4;
+	string service_account_key_name = 5;
+	repeated ServiceAccountDelegationInfo service_account_delegation_info = 6;
+	string principal_subject = 8;
+}
+
+message AuthorizationInfo {
+
+	string resource = 1;
+	string permission = 2;
+	bool granted = 3;
+	google.rpc.context.AttributeContext.Resource resource_attributes = 5;
+}
+
+message RequestMetadata {
+
+	string caller_ip = 1;
+	string caller_supplied_user_agent = 2;
+	string caller_network = 3;
+	google.rpc.context.AttributeContext.Request request_attributes = 7;
+	google.rpc.context.AttributeContext.Peer destination_attributes = 8;
+}
+
+message ResourceLocation {
+
+	repeated string current_locations = 1;
+	repeated string original_locations = 2;
+}
+
+message ServiceAccountDelegationInfo {
+
+	message FirstPartyPrincipal {
+
+		string principal_email = 1;
+		google.protobuf.Struct service_metadata = 2;
+	}
+
+	message ThirdPartyPrincipal {
+
+		google.protobuf.Struct third_party_claims = 1;
+	}
+
+	oneof Authority {
+		FirstPartyPrincipal first_party_principal = 1;
+		ThirdPartyPrincipal third_party_principal = 2;
+	}
+}

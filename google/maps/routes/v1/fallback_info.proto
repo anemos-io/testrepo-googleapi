@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.maps.routes.v1;
+
+option java_package = "com.google.maps.routes.v1";
+option java_outer_classname = "FallbackInfoProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/routes/v1;routes";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GMRS";
+option csharp_namespace = "Google.Maps.Routes.V1";
+option php_namespace = "Google\\Maps\\Routes\\V1";
+
+
+enum FallbackReason {
+
+	FALLBACK_REASON_UNSPECIFIED = 0;
+	SERVER_ERROR = 1;
+	LATENCY_EXCEEDED = 2;
+}
+
+enum FallbackRoutingMode {
+
+	FALLBACK_ROUTING_MODE_UNSPECIFIED = 0;
+	FALLBACK_TRAFFIC_UNAWARE = 1;
+	FALLBACK_TRAFFIC_AWARE = 2;
+}
+
+message FallbackInfo {
+
+	FallbackRoutingMode routing_mode = 1;
+	FallbackReason reason = 2;
+}

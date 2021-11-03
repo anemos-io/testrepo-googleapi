@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package google.appengine.v1;
+
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1";
+option java_outer_classname = "ApplicationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+
+
+message Application {
+
+	message IdentityAwareProxy {
+
+		bool enabled = 1;
+		string oauth2_client_id = 2;
+		string oauth2_client_secret = 3;
+		string oauth2_client_secret_sha256 = 4;
+	}
+
+	message FeatureSettings {
+
+		bool split_health_checks = 1;
+		bool use_container_optimized_os = 2;
+	}
+
+	enum ServingStatus {
+
+		UNSPECIFIED = 0;
+		SERVING = 1;
+		USER_DISABLED = 2;
+		SYSTEM_DISABLED = 3;
+	}
+
+	enum DatabaseType {
+
+		DATABASE_TYPE_UNSPECIFIED = 0;
+		CLOUD_DATASTORE = 1;
+		CLOUD_FIRESTORE = 2;
+		CLOUD_DATASTORE_COMPATIBILITY = 3;
+	}
+
+	string name = 1;
+	string id = 2;
+	repeated UrlDispatchRule dispatch_rules = 3;
+	string auth_domain = 6;
+	string location_id = 7;
+	string code_bucket = 8;
+	google.protobuf.Duration default_cookie_expiration = 9;
+	ServingStatus serving_status = 10;
+	string default_hostname = 11;
+	string default_bucket = 12;
+	IdentityAwareProxy iap = 14;
+	string gcr_domain = 16;
+	DatabaseType database_type = 17;
+	FeatureSettings feature_settings = 18;
+}
+
+message UrlDispatchRule {
+
+	string domain = 1;
+	string path = 2;
+	string service = 3;
+}

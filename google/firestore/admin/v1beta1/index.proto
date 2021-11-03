@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package google.firestore.admin.v1beta1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.firestore.admin.v1beta1";
+option java_outer_classname = "IndexProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firestore/admin/v1beta1;admin";
+option objc_class_prefix = "GCFS";
+option csharp_namespace = "Google.Cloud.Firestore.Admin.V1Beta1";
+
+
+message IndexField {
+
+	enum Mode {
+
+		MODE_UNSPECIFIED = 0;
+		ASCENDING = 2;
+		DESCENDING = 3;
+		ARRAY_CONTAINS = 4;
+	}
+
+	string field_path = 1;
+	Mode mode = 2;
+}
+
+message Index {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 3;
+		READY = 2;
+		ERROR = 5;
+	}
+
+	string name = 1;
+	string collection_id = 2;
+	repeated IndexField fields = 3;
+	State state = 6;
+}

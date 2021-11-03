@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package grafeas.v1beta1.build;
+
+import "google/devtools/containeranalysis/v1beta1/provenance/provenance.proto";
+
+option java_package = "io.grafeas.v1beta1.build";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/build;build";
+option objc_class_prefix = "GRA";
+
+
+message Build {
+
+	string builder_version = 1;
+	BuildSignature signature = 2;
+}
+
+message BuildSignature {
+
+	enum KeyType {
+
+		KEY_TYPE_UNSPECIFIED = 0;
+		PGP_ASCII_ARMORED = 1;
+		PKIX_PEM = 2;
+	}
+
+	string public_key = 1;
+	bytes signature = 2;
+	string key_id = 3;
+	KeyType key_type = 4;
+}
+
+message Details {
+
+	grafeas.v1beta1.provenance.BuildProvenance provenance = 1;
+	string provenance_bytes = 2;
+}

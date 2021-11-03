@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package grafeas.v1beta1.vulnerability;
+
+option java_package = "io.grafeas.v1beta1.vulnerability";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/cvss;cvss";
+option objc_class_prefix = "GRA";
+
+
+message CVSSv3 {
+
+	enum AttackVector {
+
+		ATTACK_VECTOR_UNSPECIFIED = 0;
+		ATTACK_VECTOR_NETWORK = 1;
+		ATTACK_VECTOR_ADJACENT = 2;
+		ATTACK_VECTOR_LOCAL = 3;
+		ATTACK_VECTOR_PHYSICAL = 4;
+	}
+
+	enum AttackComplexity {
+
+		ATTACK_COMPLEXITY_UNSPECIFIED = 0;
+		ATTACK_COMPLEXITY_LOW = 1;
+		ATTACK_COMPLEXITY_HIGH = 2;
+	}
+
+	enum PrivilegesRequired {
+
+		PRIVILEGES_REQUIRED_UNSPECIFIED = 0;
+		PRIVILEGES_REQUIRED_NONE = 1;
+		PRIVILEGES_REQUIRED_LOW = 2;
+		PRIVILEGES_REQUIRED_HIGH = 3;
+	}
+
+	enum UserInteraction {
+
+		USER_INTERACTION_UNSPECIFIED = 0;
+		USER_INTERACTION_NONE = 1;
+		USER_INTERACTION_REQUIRED = 2;
+	}
+
+	enum Scope {
+
+		SCOPE_UNSPECIFIED = 0;
+		SCOPE_UNCHANGED = 1;
+		SCOPE_CHANGED = 2;
+	}
+
+	enum Impact {
+
+		IMPACT_UNSPECIFIED = 0;
+		IMPACT_HIGH = 1;
+		IMPACT_LOW = 2;
+		IMPACT_NONE = 3;
+	}
+
+	float base_score = 1;
+	float exploitability_score = 2;
+	float impact_score = 3;
+	AttackVector attack_vector = 5;
+	AttackComplexity attack_complexity = 6;
+	PrivilegesRequired privileges_required = 7;
+	UserInteraction user_interaction = 8;
+	Scope scope = 9;
+	Impact confidentiality_impact = 10;
+	Impact integrity_impact = 11;
+	Impact availability_impact = 12;
+}

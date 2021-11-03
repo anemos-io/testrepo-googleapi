@@ -1,0 +1,179 @@
+syntax = "proto3";
+
+package google.logging.v2;
+
+import "google/api/client.proto";
+import "google/api/distribution.proto";
+import "google/api/field_behavior.proto";
+import "google/api/metric.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.logging.v2";
+option java_outer_classname = "LoggingMetricsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/logging/v2;logging";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Logging.V2";
+option php_namespace = "Google\\Cloud\\Logging\\V2";
+option ruby_package = "Google::Cloud::Logging::V2";
+
+
+service MetricsServiceV2 {
+	option (google.api.default_host) = "logging.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/logging.admin,https://www.googleapis.com/auth/logging.read,https://www.googleapis.com/auth/logging.write";
+
+	rpc ListLogMetrics(google.logging.v2.ListLogMetricsRequest) returns (google.logging.v2.ListLogMetricsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/metrics"
+		};
+
+	}
+	rpc GetLogMetric(google.logging.v2.GetLogMetricRequest) returns (google.logging.v2.LogMetric) {
+		option (google.api.method_signature) = "metric_name";
+		option (google.api.http) = {
+			get: "/v2/{metric_name=projects/*/metrics/*}"
+		};
+
+	}
+	rpc CreateLogMetric(google.logging.v2.CreateLogMetricRequest) returns (google.logging.v2.LogMetric) {
+		option (google.api.method_signature) = "parent,metric";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/metrics"
+			body: "metric"
+		};
+
+	}
+	rpc UpdateLogMetric(google.logging.v2.UpdateLogMetricRequest) returns (google.logging.v2.LogMetric) {
+		option (google.api.method_signature) = "metric_name,metric";
+		option (google.api.http) = {
+			put: "/v2/{metric_name=projects/*/metrics/*}"
+			body: "metric"
+		};
+
+	}
+	rpc DeleteLogMetric(google.logging.v2.DeleteLogMetricRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "metric_name";
+		option (google.api.http) = {
+			delete: "/v2/{metric_name=projects/*/metrics/*}"
+		};
+
+	}
+}
+
+message LogMetric {
+	option (google.api.resource) = {
+		type: "logging.googleapis.com/LogMetric"
+		pattern: ["projects/{project}/metrics/{metric}"]
+	};
+
+	enum ApiVersion {
+
+		V2 = 0;
+		V1 = 1;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.api.MetricDescriptor metric_descriptor = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string value_extractor = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> label_extractors = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.api.Distribution.BucketOptions bucket_options = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp create_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ApiVersion version = 4 [
+		deprecated = true
+	];
+}
+
+message ListLogMetricsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListLogMetricsResponse {
+
+	repeated LogMetric metrics = 1;
+	string next_page_token = 2;
+}
+
+message GetLogMetricRequest {
+
+	string metric_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogMetric"
+		}
+	];
+}
+
+message CreateLogMetricRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "logging.googleapis.com/LogMetric"
+		}
+	];
+	LogMetric metric = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateLogMetricRequest {
+
+	string metric_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogMetric"
+		}
+	];
+	LogMetric metric = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteLogMetricRequest {
+
+	string metric_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogMetric"
+		}
+	];
+}

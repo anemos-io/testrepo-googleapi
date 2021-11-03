@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package google.cloud.orgpolicy.v1;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.orgpolicy.v1";
+option java_outer_classname = "OrgPolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/orgpolicy/v1;orgpolicy";
+option csharp_namespace = "Google.Cloud.OrgPolicy.V1";
+option php_namespace = "Google\\Cloud\\OrgPolicy\\V1";
+option ruby_package = "Google::Cloud::OrgPolicy::V1";
+
+
+message Policy {
+
+	message ListPolicy {
+
+		enum AllValues {
+
+			ALL_VALUES_UNSPECIFIED = 0;
+			ALLOW = 1;
+			DENY = 2;
+		}
+
+		repeated string allowed_values = 1;
+		repeated string denied_values = 2;
+		AllValues all_values = 3;
+		string suggested_value = 4;
+		bool inherit_from_parent = 5;
+	}
+
+	message BooleanPolicy {
+
+		bool enforced = 1;
+	}
+
+	message RestoreDefault {
+
+	}
+
+	int32 version = 1;
+	string constraint = 2;
+	bytes etag = 3;
+	google.protobuf.Timestamp update_time = 4;
+	oneof policy_type {
+		ListPolicy list_policy = 5;
+		BooleanPolicy boolean_policy = 6;
+		RestoreDefault restore_default = 7;
+	}
+}

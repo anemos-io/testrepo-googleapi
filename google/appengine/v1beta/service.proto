@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.appengine.v1beta;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1beta";
+option java_outer_classname = "ServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+
+
+message Service {
+
+	string name = 1;
+	string id = 2;
+	TrafficSplit split = 3;
+}
+
+message TrafficSplit {
+
+	enum ShardBy {
+
+		UNSPECIFIED = 0;
+		COOKIE = 1;
+		IP = 2;
+		RANDOM = 3;
+	}
+
+	ShardBy shard_by = 1;
+	map<string, double> allocations = 2;
+}

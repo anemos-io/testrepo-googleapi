@@ -1,0 +1,253 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.common;
+
+import "google/ads/googleads/v5/common/criteria.proto";
+import "google/ads/googleads/v5/enums/ad_network_type.proto";
+import "google/ads/googleads/v5/enums/budget_campaign_association_status.proto";
+import "google/ads/googleads/v5/enums/click_type.proto";
+import "google/ads/googleads/v5/enums/conversion_action_category.proto";
+import "google/ads/googleads/v5/enums/conversion_attribution_event_type.proto";
+import "google/ads/googleads/v5/enums/conversion_lag_bucket.proto";
+import "google/ads/googleads/v5/enums/conversion_or_adjustment_lag_bucket.proto";
+import "google/ads/googleads/v5/enums/day_of_week.proto";
+import "google/ads/googleads/v5/enums/device.proto";
+import "google/ads/googleads/v5/enums/external_conversion_source.proto";
+import "google/ads/googleads/v5/enums/hotel_date_selection_type.proto";
+import "google/ads/googleads/v5/enums/hotel_price_bucket.proto";
+import "google/ads/googleads/v5/enums/hotel_rate_type.proto";
+import "google/ads/googleads/v5/enums/month_of_year.proto";
+import "google/ads/googleads/v5/enums/placeholder_type.proto";
+import "google/ads/googleads/v5/enums/product_channel.proto";
+import "google/ads/googleads/v5/enums/product_channel_exclusivity.proto";
+import "google/ads/googleads/v5/enums/product_condition.proto";
+import "google/ads/googleads/v5/enums/search_engine_results_page_type.proto";
+import "google/ads/googleads/v5/enums/search_term_match_type.proto";
+import "google/ads/googleads/v5/enums/slot.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.common";
+option java_outer_classname = "SegmentsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V5::Common";
+
+
+message Segments {
+
+	google.ads.googleads.v5.enums.AdNetworkTypeEnum.AdNetworkType ad_network_type = 3;
+	BudgetCampaignAssociationStatus budget_campaign_association_status = 134;
+	google.ads.googleads.v5.enums.ClickTypeEnum.ClickType click_type = 26;
+	oneof _conversion_action {
+		string conversion_action = 113;
+	}
+	google.ads.googleads.v5.enums.ConversionActionCategoryEnum.ConversionActionCategory conversion_action_category = 53;
+	oneof _conversion_action_name {
+		string conversion_action_name = 114;
+	}
+	oneof _conversion_adjustment {
+		bool conversion_adjustment = 115;
+	}
+	google.ads.googleads.v5.enums.ConversionAttributionEventTypeEnum.ConversionAttributionEventType conversion_attribution_event_type = 2;
+	google.ads.googleads.v5.enums.ConversionLagBucketEnum.ConversionLagBucket conversion_lag_bucket = 50;
+	google.ads.googleads.v5.enums.ConversionOrAdjustmentLagBucketEnum.ConversionOrAdjustmentLagBucket conversion_or_adjustment_lag_bucket = 51;
+	oneof _date {
+		string date = 79;
+	}
+	google.ads.googleads.v5.enums.DayOfWeekEnum.DayOfWeek day_of_week = 5;
+	google.ads.googleads.v5.enums.DeviceEnum.Device device = 1;
+	google.ads.googleads.v5.enums.ExternalConversionSourceEnum.ExternalConversionSource external_conversion_source = 55;
+	oneof _geo_target_airport {
+		string geo_target_airport = 116;
+	}
+	oneof _geo_target_canton {
+		string geo_target_canton = 117;
+	}
+	oneof _geo_target_city {
+		string geo_target_city = 118;
+	}
+	oneof _geo_target_country {
+		string geo_target_country = 119;
+	}
+	oneof _geo_target_county {
+		string geo_target_county = 120;
+	}
+	oneof _geo_target_district {
+		string geo_target_district = 121;
+	}
+	oneof _geo_target_metro {
+		string geo_target_metro = 122;
+	}
+	oneof _geo_target_most_specific_location {
+		string geo_target_most_specific_location = 123;
+	}
+	oneof _geo_target_postal_code {
+		string geo_target_postal_code = 124;
+	}
+	oneof _geo_target_province {
+		string geo_target_province = 125;
+	}
+	oneof _geo_target_region {
+		string geo_target_region = 126;
+	}
+	oneof _geo_target_state {
+		string geo_target_state = 127;
+	}
+	oneof _hotel_booking_window_days {
+		int64 hotel_booking_window_days = 135;
+	}
+	oneof _hotel_center_id {
+		int64 hotel_center_id = 80;
+	}
+	oneof _hotel_check_in_date {
+		string hotel_check_in_date = 81;
+	}
+	google.ads.googleads.v5.enums.DayOfWeekEnum.DayOfWeek hotel_check_in_day_of_week = 9;
+	oneof _hotel_city {
+		string hotel_city = 82;
+	}
+	oneof _hotel_class {
+		int32 hotel_class = 83;
+	}
+	oneof _hotel_country {
+		string hotel_country = 84;
+	}
+	google.ads.googleads.v5.enums.HotelDateSelectionTypeEnum.HotelDateSelectionType hotel_date_selection_type = 13;
+	oneof _hotel_length_of_stay {
+		int32 hotel_length_of_stay = 85;
+	}
+	oneof _hotel_rate_rule_id {
+		string hotel_rate_rule_id = 86;
+	}
+	google.ads.googleads.v5.enums.HotelRateTypeEnum.HotelRateType hotel_rate_type = 74;
+	google.ads.googleads.v5.enums.HotelPriceBucketEnum.HotelPriceBucket hotel_price_bucket = 78;
+	oneof _hotel_state {
+		string hotel_state = 87;
+	}
+	oneof _hour {
+		int32 hour = 88;
+	}
+	oneof _interaction_on_this_extension {
+		bool interaction_on_this_extension = 89;
+	}
+	Keyword keyword = 61;
+	oneof _month {
+		string month = 90;
+	}
+	google.ads.googleads.v5.enums.MonthOfYearEnum.MonthOfYear month_of_year = 18;
+	oneof _partner_hotel_id {
+		string partner_hotel_id = 91;
+	}
+	google.ads.googleads.v5.enums.PlaceholderTypeEnum.PlaceholderType placeholder_type = 20;
+	oneof _product_aggregator_id {
+		int64 product_aggregator_id = 132;
+	}
+	oneof _product_bidding_category_level1 {
+		string product_bidding_category_level1 = 92;
+	}
+	oneof _product_bidding_category_level2 {
+		string product_bidding_category_level2 = 93;
+	}
+	oneof _product_bidding_category_level3 {
+		string product_bidding_category_level3 = 94;
+	}
+	oneof _product_bidding_category_level4 {
+		string product_bidding_category_level4 = 95;
+	}
+	oneof _product_bidding_category_level5 {
+		string product_bidding_category_level5 = 96;
+	}
+	oneof _product_brand {
+		string product_brand = 97;
+	}
+	google.ads.googleads.v5.enums.ProductChannelEnum.ProductChannel product_channel = 30;
+	google.ads.googleads.v5.enums.ProductChannelExclusivityEnum.ProductChannelExclusivity product_channel_exclusivity = 31;
+	google.ads.googleads.v5.enums.ProductConditionEnum.ProductCondition product_condition = 32;
+	oneof _product_country {
+		string product_country = 98;
+	}
+	oneof _product_custom_attribute0 {
+		string product_custom_attribute0 = 99;
+	}
+	oneof _product_custom_attribute1 {
+		string product_custom_attribute1 = 100;
+	}
+	oneof _product_custom_attribute2 {
+		string product_custom_attribute2 = 101;
+	}
+	oneof _product_custom_attribute3 {
+		string product_custom_attribute3 = 102;
+	}
+	oneof _product_custom_attribute4 {
+		string product_custom_attribute4 = 103;
+	}
+	oneof _product_item_id {
+		string product_item_id = 104;
+	}
+	oneof _product_language {
+		string product_language = 105;
+	}
+	oneof _product_merchant_id {
+		int64 product_merchant_id = 133;
+	}
+	oneof _product_store_id {
+		string product_store_id = 106;
+	}
+	oneof _product_title {
+		string product_title = 107;
+	}
+	oneof _product_type_l1 {
+		string product_type_l1 = 108;
+	}
+	oneof _product_type_l2 {
+		string product_type_l2 = 109;
+	}
+	oneof _product_type_l3 {
+		string product_type_l3 = 110;
+	}
+	oneof _product_type_l4 {
+		string product_type_l4 = 111;
+	}
+	oneof _product_type_l5 {
+		string product_type_l5 = 112;
+	}
+	oneof _quarter {
+		string quarter = 128;
+	}
+	google.ads.googleads.v5.enums.SearchEngineResultsPageTypeEnum.SearchEngineResultsPageType search_engine_results_page_type = 70;
+	google.ads.googleads.v5.enums.SearchTermMatchTypeEnum.SearchTermMatchType search_term_match_type = 22;
+	google.ads.googleads.v5.enums.SlotEnum.Slot slot = 23;
+	oneof _webpage {
+		string webpage = 129;
+	}
+	oneof _week {
+		string week = 130;
+	}
+	oneof _year {
+		int32 year = 131;
+	}
+}
+
+message Keyword {
+
+	oneof _ad_group_criterion {
+		string ad_group_criterion = 3;
+	}
+	google.ads.googleads.v5.common.KeywordInfo info = 2;
+}
+
+message BudgetCampaignAssociationStatus {
+
+	oneof _campaign {
+		string campaign = 1 [
+			(google.api.resource_reference) = {
+				type: "googleads.googleapis.com/Campaign"
+			}
+		];
+	}
+	google.ads.googleads.v5.enums.BudgetCampaignAssociationStatusEnum.BudgetCampaignAssociationStatus status = 2;
+}

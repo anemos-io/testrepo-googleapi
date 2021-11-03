@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.enums";
+option java_outer_classname = "IncomeRangeTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V4::Enums";
+
+
+message IncomeRangeTypeEnum {
+
+	enum IncomeRangeType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		INCOME_RANGE_0_50 = 510001;
+		INCOME_RANGE_50_60 = 510002;
+		INCOME_RANGE_60_70 = 510003;
+		INCOME_RANGE_70_80 = 510004;
+		INCOME_RANGE_80_90 = 510005;
+		INCOME_RANGE_90_UP = 510006;
+		INCOME_RANGE_UNDETERMINED = 510000;
+	}
+
+}

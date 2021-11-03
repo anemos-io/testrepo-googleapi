@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.resources;
+
+import "google/ads/googleads/v4/common/criteria.proto";
+import "google/ads/googleads/v4/enums/bid_modifier_source.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.resources";
+option java_outer_classname = "AdGroupBidModifierProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V4::Resources";
+
+
+message AdGroupBidModifier {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AdGroupBidModifier"
+		pattern: ["customers/{customer}/adGroupBidModifiers/{ad_group_bid_modifier}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupBidModifier"
+		}
+	];
+	google.protobuf.StringValue ad_group = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroup"
+		}
+	];
+	google.protobuf.Int64Value criterion_id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.DoubleValue bid_modifier = 4;
+	google.protobuf.StringValue base_ad_group = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroup"
+		}
+	];
+	google.ads.googleads.v4.enums.BidModifierSourceEnum.BidModifierSource bid_modifier_source = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof criterion {
+		google.ads.googleads.v4.common.HotelDateSelectionTypeInfo hotel_date_selection_type = 5 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.HotelAdvanceBookingWindowInfo hotel_advance_booking_window = 6 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.HotelLengthOfStayInfo hotel_length_of_stay = 7 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.HotelCheckInDayInfo hotel_check_in_day = 8 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.DeviceInfo device = 11 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+		google.ads.googleads.v4.common.PreferredContentInfo preferred_content = 12 [
+			(google.api.field_behavior) = IMMUTABLE
+		];
+	}
+}

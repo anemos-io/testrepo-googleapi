@@ -1,0 +1,274 @@
+syntax = "proto3";
+
+package google.spanner.admin.instance.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.spanner.admin.instance.v1";
+option java_outer_classname = "SpannerInstanceAdminProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/admin/instance/v1;instance";
+option csharp_namespace = "Google.Cloud.Spanner.Admin.Instance.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\Admin\\Instance\\V1";
+option ruby_package = "Google::Cloud::Spanner::Admin::Instance::V1";
+
+
+service InstanceAdmin {
+	option (google.api.default_host) = "spanner.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/spanner.admin";
+
+	rpc ListInstanceConfigs(google.spanner.admin.instance.v1.ListInstanceConfigsRequest) returns (google.spanner.admin.instance.v1.ListInstanceConfigsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/instanceConfigs"
+		};
+
+	}
+	rpc GetInstanceConfig(google.spanner.admin.instance.v1.GetInstanceConfigRequest) returns (google.spanner.admin.instance.v1.InstanceConfig) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/instanceConfigs/*}"
+		};
+
+	}
+	rpc ListInstances(google.spanner.admin.instance.v1.ListInstancesRequest) returns (google.spanner.admin.instance.v1.ListInstancesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/instances"
+		};
+
+	}
+	rpc GetInstance(google.spanner.admin.instance.v1.GetInstanceRequest) returns (google.spanner.admin.instance.v1.Instance) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/instances/*}"
+		};
+
+	}
+	rpc CreateInstance(google.spanner.admin.instance.v1.CreateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.spanner.admin.instance.v1.Instance"
+			metadata_type: "google.spanner.admin.instance.v1.CreateInstanceMetadata"
+		};
+		option (google.api.method_signature) = "parent,instance_id,instance";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/instances"
+			body: "*"
+		};
+
+	}
+	rpc UpdateInstance(google.spanner.admin.instance.v1.UpdateInstanceRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.spanner.admin.instance.v1.Instance"
+			metadata_type: "google.spanner.admin.instance.v1.UpdateInstanceMetadata"
+		};
+		option (google.api.method_signature) = "instance,field_mask";
+		option (google.api.http) = {
+			patch: "/v1/{instance.name=projects/*/instances/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteInstance(google.spanner.admin.instance.v1.DeleteInstanceRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/instances/*}"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/instances/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/instances/*}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/instances/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+}
+
+message ReplicaInfo {
+
+	enum ReplicaType {
+
+		TYPE_UNSPECIFIED = 0;
+		READ_WRITE = 1;
+		READ_ONLY = 2;
+		WITNESS = 3;
+	}
+
+	string location = 1;
+	ReplicaType type = 2;
+	bool default_leader_location = 3;
+}
+
+message InstanceConfig {
+	option (google.api.resource) = {
+		type: "spanner.googleapis.com/InstanceConfig"
+		pattern: ["projects/{project}/instanceConfigs/{instance_config}"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	repeated ReplicaInfo replicas = 3;
+}
+
+message Instance {
+	option (google.api.resource) = {
+		type: "spanner.googleapis.com/Instance"
+		pattern: ["projects/{project}/instances/{instance}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+	}
+
+	string name = 1;
+	string config = 2 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/InstanceConfig"
+		}
+	];
+	string display_name = 3;
+	int32 node_count = 5;
+	State state = 6;
+	map<string, string> labels = 7;
+	repeated string endpoint_uris = 8;
+}
+
+message ListInstanceConfigsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListInstanceConfigsResponse {
+
+	repeated InstanceConfig instance_configs = 1;
+	string next_page_token = 2;
+}
+
+message GetInstanceConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/InstanceConfig"
+		}
+	];
+}
+
+message GetInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Instance"
+		}
+	];
+	google.protobuf.FieldMask field_mask = 2;
+}
+
+message CreateInstanceRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string instance_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Instance instance = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListInstancesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 4;
+}
+
+message ListInstancesResponse {
+
+	repeated Instance instances = 1;
+	string next_page_token = 2;
+}
+
+message UpdateInstanceRequest {
+
+	Instance instance = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask field_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteInstanceRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Instance"
+		}
+	];
+}
+
+message CreateInstanceMetadata {
+
+	Instance instance = 1;
+	google.protobuf.Timestamp start_time = 2;
+	google.protobuf.Timestamp cancel_time = 3;
+	google.protobuf.Timestamp end_time = 4;
+}
+
+message UpdateInstanceMetadata {
+
+	Instance instance = 1;
+	google.protobuf.Timestamp start_time = 2;
+	google.protobuf.Timestamp cancel_time = 3;
+	google.protobuf.Timestamp end_time = 4;
+}

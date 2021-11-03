@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package google.devtools.clouderrorreporting.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.devtools.clouderrorreporting.v1beta1";
+option java_outer_classname = "CommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/clouderrorreporting/v1beta1;clouderrorreporting";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.ErrorReporting.V1Beta1";
+option php_namespace = "Google\\Cloud\\ErrorReporting\\V1beta1";
+option ruby_package = "Google::Cloud::ErrorReporting::V1beta1";
+
+
+message ErrorGroup {
+	option (google.api.resource) = {
+		type: "clouderrorreporting.googleapis.com/ErrorGroup"
+		pattern: ["projects/{project}/groups/{group}"]
+	};
+
+	string name = 1;
+	string group_id = 2;
+	repeated TrackingIssue tracking_issues = 3;
+}
+
+message TrackingIssue {
+
+	string url = 1;
+}
+
+message ErrorEvent {
+
+	google.protobuf.Timestamp event_time = 1;
+	ServiceContext service_context = 2;
+	string message = 3;
+	ErrorContext context = 5;
+}
+
+message ServiceContext {
+
+	string service = 2;
+	string version = 3;
+	string resource_type = 4;
+}
+
+message ErrorContext {
+
+	HttpRequestContext http_request = 1;
+	string user = 2;
+	SourceLocation report_location = 3;
+}
+
+message HttpRequestContext {
+
+	string method = 1;
+	string url = 2;
+	string user_agent = 3;
+	string referrer = 4;
+	int32 response_status_code = 5;
+	string remote_ip = 6;
+}
+
+message SourceLocation {
+
+	string file_path = 1;
+	int32 line_number = 2;
+	string function_name = 4;
+}

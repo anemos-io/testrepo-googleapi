@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.resources;
+
+import "google/ads/googleads/v3/common/matching_function.proto";
+import "google/ads/googleads/v3/enums/feed_link_status.proto";
+import "google/ads/googleads/v3/enums/placeholder_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.resources";
+option java_outer_classname = "AdGroupFeedProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V3::Resources";
+
+
+message AdGroupFeed {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/AdGroupFeed"
+		pattern: ["customers/{customer}/adGroupFeeds/{ad_group_feed}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroupFeed"
+		}
+	];
+	google.protobuf.StringValue feed = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Feed"
+		}
+	];
+	google.protobuf.StringValue ad_group = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroup"
+		}
+	];
+	repeated google.ads.googleads.v3.enums.PlaceholderTypeEnum.PlaceholderType placeholder_types = 4;
+	google.ads.googleads.v3.common.MatchingFunction matching_function = 5;
+	google.ads.googleads.v3.enums.FeedLinkStatusEnum.FeedLinkStatus status = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

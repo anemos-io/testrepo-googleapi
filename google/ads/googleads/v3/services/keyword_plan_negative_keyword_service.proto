@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.services;
+
+import "google/ads/googleads/v3/resources/keyword_plan_negative_keyword.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v3.services";
+option java_outer_classname = "KeywordPlanNegativeKeywordServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V3::Services";
+
+
+service KeywordPlanNegativeKeywordService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetKeywordPlanNegativeKeyword(google.ads.googleads.v3.services.GetKeywordPlanNegativeKeywordRequest) returns (google.ads.googleads.v3.resources.KeywordPlanNegativeKeyword) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v3/{resource_name=customers/*/keywordPlanNegativeKeywords/*}"
+		};
+
+	}
+	rpc MutateKeywordPlanNegativeKeywords(google.ads.googleads.v3.services.MutateKeywordPlanNegativeKeywordsRequest) returns (google.ads.googleads.v3.services.MutateKeywordPlanNegativeKeywordsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v3/customers/{customer_id=*}/keywordPlanNegativeKeywords:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetKeywordPlanNegativeKeywordRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/KeywordPlanNegativeKeyword"
+		}
+	];
+}
+
+message MutateKeywordPlanNegativeKeywordsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated KeywordPlanNegativeKeywordOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+}
+
+message KeywordPlanNegativeKeywordOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	oneof operation {
+		google.ads.googleads.v3.resources.KeywordPlanNegativeKeyword create = 1;
+		google.ads.googleads.v3.resources.KeywordPlanNegativeKeyword update = 2;
+		string remove = 3;
+	}
+}
+
+message MutateKeywordPlanNegativeKeywordsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateKeywordPlanNegativeKeywordResult results = 2;
+}
+
+message MutateKeywordPlanNegativeKeywordResult {
+
+	string resource_name = 1;
+}

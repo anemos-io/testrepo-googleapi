@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.spanner.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.spanner.v1";
+option java_outer_classname = "TypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/v1;spanner";
+option csharp_namespace = "Google.Cloud.Spanner.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\V1";
+option ruby_package = "Google::Cloud::Spanner::V1";
+
+
+enum TypeCode {
+
+	TYPE_CODE_UNSPECIFIED = 0;
+	BOOL = 1;
+	INT64 = 2;
+	FLOAT64 = 3;
+	TIMESTAMP = 4;
+	DATE = 5;
+	STRING = 6;
+	BYTES = 7;
+	ARRAY = 8;
+	STRUCT = 9;
+	NUMERIC = 10;
+}
+
+message Type {
+
+	TypeCode code = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Type array_element_type = 2;
+	StructType struct_type = 3;
+}
+
+message StructType {
+
+	message Field {
+
+		string name = 1;
+		Type type = 2;
+	}
+
+	repeated Field fields = 1;
+}

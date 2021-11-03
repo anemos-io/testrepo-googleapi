@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.errors";
+option java_outer_classname = "FeedItemTargetErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V2::Errors";
+
+
+message FeedItemTargetErrorEnum {
+
+	enum FeedItemTargetError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		MUST_SET_TARGET_ONEOF_ON_CREATE = 2;
+		FEED_ITEM_TARGET_ALREADY_EXISTS = 3;
+		FEED_ITEM_SCHEDULES_CANNOT_OVERLAP = 4;
+		TARGET_LIMIT_EXCEEDED_FOR_GIVEN_TYPE = 5;
+		TOO_MANY_SCHEDULES_PER_DAY = 6;
+		CANNOT_HAVE_ENABLED_CAMPAIGN_AND_ENABLED_AD_GROUP_TARGETS = 7;
+		DUPLICATE_AD_SCHEDULE = 8;
+		DUPLICATE_KEYWORD = 9;
+	}
+
+}

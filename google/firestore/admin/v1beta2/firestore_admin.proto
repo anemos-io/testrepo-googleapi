@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package google.firestore.admin.v1beta2;
+
+import "google/api/annotations.proto";
+import "google/firestore/admin/v1beta2/field.proto";
+import "google/firestore/admin/v1beta2/index.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.firestore.admin.v1beta2";
+option java_outer_classname = "FirestoreAdminProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firestore/admin/v1beta2;admin";
+option objc_class_prefix = "GCFS";
+option csharp_namespace = "Google.Cloud.Firestore.Admin.V1Beta2";
+
+
+service FirestoreAdmin {
+	option (google.api.default_host) = "firestore.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/datastore";
+
+	rpc CreateIndex(google.firestore.admin.v1beta2.CreateIndexRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta2/{parent=projects/*/databases/*/collectionGroups/*}/indexes"
+			body: "index"
+		};
+
+	}
+	rpc ListIndexes(google.firestore.admin.v1beta2.ListIndexesRequest) returns (google.firestore.admin.v1beta2.ListIndexesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta2/{parent=projects/*/databases/*/collectionGroups/*}/indexes"
+		};
+
+	}
+	rpc GetIndex(google.firestore.admin.v1beta2.GetIndexRequest) returns (google.firestore.admin.v1beta2.Index) {
+		option (google.api.http) = {
+			get: "/v1beta2/{name=projects/*/databases/*/collectionGroups/*/indexes/*}"
+		};
+
+	}
+	rpc DeleteIndex(google.firestore.admin.v1beta2.DeleteIndexRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta2/{name=projects/*/databases/*/collectionGroups/*/indexes/*}"
+		};
+
+	}
+	rpc GetField(google.firestore.admin.v1beta2.GetFieldRequest) returns (google.firestore.admin.v1beta2.Field) {
+		option (google.api.http) = {
+			get: "/v1beta2/{name=projects/*/databases/*/collectionGroups/*/fields/*}"
+		};
+
+	}
+	rpc UpdateField(google.firestore.admin.v1beta2.UpdateFieldRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			patch: "/v1beta2/{field.name=projects/*/databases/*/collectionGroups/*/fields/*}"
+			body: "field"
+		};
+
+	}
+	rpc ListFields(google.firestore.admin.v1beta2.ListFieldsRequest) returns (google.firestore.admin.v1beta2.ListFieldsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta2/{parent=projects/*/databases/*/collectionGroups/*}/fields"
+		};
+
+	}
+	rpc ExportDocuments(google.firestore.admin.v1beta2.ExportDocumentsRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta2/{name=projects/*/databases/*}:exportDocuments"
+			body: "*"
+		};
+
+	}
+	rpc ImportDocuments(google.firestore.admin.v1beta2.ImportDocumentsRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta2/{name=projects/*/databases/*}:importDocuments"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateIndexRequest {
+
+	string parent = 1;
+	google.firestore.admin.v1beta2.Index index = 2;
+}
+
+message ListIndexesRequest {
+
+	string parent = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListIndexesResponse {
+
+	repeated google.firestore.admin.v1beta2.Index indexes = 1;
+	string next_page_token = 2;
+}
+
+message GetIndexRequest {
+
+	string name = 1;
+}
+
+message DeleteIndexRequest {
+
+	string name = 1;
+}
+
+message UpdateFieldRequest {
+
+	google.firestore.admin.v1beta2.Field field = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetFieldRequest {
+
+	string name = 1;
+}
+
+message ListFieldsRequest {
+
+	string parent = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListFieldsResponse {
+
+	repeated google.firestore.admin.v1beta2.Field fields = 1;
+	string next_page_token = 2;
+}
+
+message ExportDocumentsRequest {
+
+	string name = 1;
+	repeated string collection_ids = 2;
+	string output_uri_prefix = 3;
+}
+
+message ImportDocumentsRequest {
+
+	string name = 1;
+	repeated string collection_ids = 2;
+	string input_uri_prefix = 3;
+}

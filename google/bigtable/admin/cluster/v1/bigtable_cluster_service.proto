@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package google.bigtable.admin.cluster.v1;
+
+import "google/api/annotations.proto";
+import "google/bigtable/admin/cluster/v1/bigtable_cluster_data.proto";
+import "google/bigtable/admin/cluster/v1/bigtable_cluster_service_messages.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.bigtable.admin.cluster.v1";
+option java_outer_classname = "BigtableClusterServicesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/admin/cluster/v1;cluster";
+
+
+service BigtableClusterService {
+
+	rpc ListZones(google.bigtable.admin.cluster.v1.ListZonesRequest) returns (google.bigtable.admin.cluster.v1.ListZonesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*}/zones"
+		};
+
+	}
+	rpc GetCluster(google.bigtable.admin.cluster.v1.GetClusterRequest) returns (google.bigtable.admin.cluster.v1.Cluster) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/zones/*/clusters/*}"
+		};
+
+	}
+	rpc ListClusters(google.bigtable.admin.cluster.v1.ListClustersRequest) returns (google.bigtable.admin.cluster.v1.ListClustersResponse) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*}/aggregated/clusters"
+		};
+
+	}
+	rpc CreateCluster(google.bigtable.admin.cluster.v1.CreateClusterRequest) returns (google.bigtable.admin.cluster.v1.Cluster) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/zones/*}/clusters"
+			body: "*"
+		};
+
+	}
+	rpc UpdateCluster(google.bigtable.admin.cluster.v1.Cluster) returns (google.bigtable.admin.cluster.v1.Cluster) {
+		option (google.api.http) = {
+			put: "/v1/{name=projects/*/zones/*/clusters/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteCluster(google.bigtable.admin.cluster.v1.DeleteClusterRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/zones/*/clusters/*}"
+		};
+
+	}
+	rpc UndeleteCluster(google.bigtable.admin.cluster.v1.UndeleteClusterRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/zones/*/clusters/*}:undelete"
+		};
+
+	}
+}

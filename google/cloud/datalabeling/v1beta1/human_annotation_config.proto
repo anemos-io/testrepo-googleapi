@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package google.cloud.datalabeling.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.cloud.datalabeling.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datalabeling/v1beta1;datalabeling";
+
+
+enum StringAggregationType {
+
+	STRING_AGGREGATION_TYPE_UNSPECIFIED = 0;
+	MAJORITY_VOTE = 1;
+	UNANIMOUS_VOTE = 2;
+	NO_AGGREGATION = 3;
+}
+
+message HumanAnnotationConfig {
+
+	string instruction = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string annotated_dataset_display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string annotated_dataset_description = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string label_group = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string language_code = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 replica_count = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Duration question_duration = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string contributor_emails = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string user_email_address = 10;
+}
+
+message ImageClassificationConfig {
+
+	string annotation_spec_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool allow_multi_label = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	StringAggregationType answer_aggregation_type = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message BoundingPolyConfig {
+
+	string annotation_spec_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string instruction_message = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PolylineConfig {
+
+	string annotation_spec_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string instruction_message = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SegmentationConfig {
+
+	string annotation_spec_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string instruction_message = 2;
+}
+
+message VideoClassificationConfig {
+
+	message AnnotationSpecSetConfig {
+
+		string annotation_spec_set = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		bool allow_multi_label = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	repeated AnnotationSpecSetConfig annotation_spec_set_configs = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool apply_shot_detection = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ObjectDetectionConfig {
+
+	string annotation_spec_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	double extraction_frame_rate = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ObjectTrackingConfig {
+
+	string annotation_spec_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message EventConfig {
+
+	repeated string annotation_spec_sets = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message TextClassificationConfig {
+
+	bool allow_multi_label = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string annotation_spec_set = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	SentimentConfig sentiment_config = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SentimentConfig {
+
+	bool enable_label_sentiment_selection = 1;
+}
+
+message TextEntityExtractionConfig {
+
+	string annotation_spec_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

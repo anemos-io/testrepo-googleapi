@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.errors";
+option java_outer_classname = "SettingErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V3::Errors";
+
+
+message SettingErrorEnum {
+
+	enum SettingError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		SETTING_TYPE_IS_NOT_AVAILABLE = 3;
+		SETTING_TYPE_IS_NOT_COMPATIBLE_WITH_CAMPAIGN = 4;
+		TARGETING_SETTING_CONTAINS_INVALID_CRITERION_TYPE_GROUP = 5;
+		TARGETING_SETTING_DEMOGRAPHIC_CRITERION_TYPE_GROUPS_MUST_BE_SET_TO_TARGET_ALL = 6;
+		TARGETING_SETTING_CANNOT_CHANGE_TARGET_ALL_TO_FALSE_FOR_DEMOGRAPHIC_CRITERION_TYPE_GROUP = 7;
+		DYNAMIC_SEARCH_ADS_SETTING_AT_LEAST_ONE_FEED_ID_MUST_BE_PRESENT = 8;
+		DYNAMIC_SEARCH_ADS_SETTING_CONTAINS_INVALID_DOMAIN_NAME = 9;
+		DYNAMIC_SEARCH_ADS_SETTING_CONTAINS_SUBDOMAIN_NAME = 10;
+		DYNAMIC_SEARCH_ADS_SETTING_CONTAINS_INVALID_LANGUAGE_CODE = 11;
+		TARGET_ALL_IS_NOT_ALLOWED_FOR_PLACEMENT_IN_SEARCH_CAMPAIGN = 12;
+	}
+
+}

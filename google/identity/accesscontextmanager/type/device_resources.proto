@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package google.identity.accesscontextmanager.type;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.identity.accesscontextmanager.type";
+option java_outer_classname = "TypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/identity/accesscontextmanager/type;type";
+option csharp_namespace = "Google.Identity.AccessContextManager.Type";
+option php_namespace = "Google\\Identity\\AccessContextManager\\Type";
+option ruby_package = "Google::Identity::AccessContextManager::Type";
+
+
+enum DeviceEncryptionStatus {
+
+	ENCRYPTION_UNSPECIFIED = 0;
+	ENCRYPTION_UNSUPPORTED = 1;
+	UNENCRYPTED = 2;
+	ENCRYPTED = 3;
+}
+
+enum OsType {
+
+	OS_UNSPECIFIED = 0;
+	DESKTOP_MAC = 1;
+	DESKTOP_WINDOWS = 2;
+	DESKTOP_LINUX = 3;
+	DESKTOP_CHROME_OS = 6;
+	ANDROID = 4;
+	IOS = 5;
+}
+
+enum DeviceManagementLevel {
+
+	MANAGEMENT_UNSPECIFIED = 0;
+	NONE = 1;
+	BASIC = 2;
+	COMPLETE = 3;
+}

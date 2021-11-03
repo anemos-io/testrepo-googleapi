@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1;
+
+option java_package = "com.google.cloud.websecurityscanner.v1";
+option java_outer_classname = "FindingAddonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1;websecurityscanner";
+
+
+message Form {
+
+	string action_uri = 1;
+	repeated string fields = 2;
+}
+
+message OutdatedLibrary {
+
+	string library_name = 1;
+	string version = 2;
+	repeated string learn_more_urls = 3;
+}
+
+message ViolatingResource {
+
+	string content_type = 1;
+	string resource_url = 2;
+}
+
+message VulnerableParameters {
+
+	repeated string parameter_names = 1;
+}
+
+message VulnerableHeaders {
+
+	message Header {
+
+		string name = 1;
+		string value = 2;
+	}
+
+	repeated Header headers = 1;
+	repeated Header missing_headers = 2;
+}
+
+message Xss {
+
+	enum AttackVector {
+
+		ATTACK_VECTOR_UNSPECIFIED = 0;
+		LOCAL_STORAGE = 1;
+		SESSION_STORAGE = 2;
+		WINDOW_NAME = 3;
+		REFERRER = 4;
+		FORM_INPUT = 5;
+		COOKIE = 6;
+		POST_MESSAGE = 7;
+		GET_PARAMETERS = 8;
+		URL_FRAGMENT = 9;
+		HTML_COMMENT = 10;
+		POST_PARAMETERS = 11;
+		PROTOCOL = 12;
+		STORED_XSS = 13;
+		SAME_ORIGIN = 14;
+		USER_CONTROLLABLE_URL = 15;
+	}
+
+	repeated string stack_traces = 1;
+	string error_message = 2;
+	AttackVector attack_vector = 3;
+	string stored_xss_seeding_url = 4;
+}

@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package google.maps.routes.v1;
+
+import "google/maps/routes/v1/polyline.proto";
+import "google/maps/routes/v1/toll_passes.proto";
+import "google/maps/routes/v1/vehicle_emission_type.proto";
+import "google/maps/routes/v1/waypoint.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.maps.routes.v1";
+option java_outer_classname = "ComputeRoutesRequestProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/routes/v1;routes";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GMRS";
+option csharp_namespace = "Google.Maps.Routes.V1";
+option php_namespace = "Google\\Maps\\Routes\\V1";
+
+
+enum RouteTravelMode {
+
+	TRAVEL_MODE_UNSPECIFIED = 0;
+	DRIVE = 1;
+	BICYCLE = 2;
+	WALK = 3;
+	TWO_WHEELER = 4;
+}
+
+enum RoutingPreference {
+
+	ROUTING_PREFERENCE_UNSPECIFIED = 0;
+	TRAFFIC_UNAWARE = 1;
+	TRAFFIC_AWARE = 2;
+	TRAFFIC_AWARE_OPTIMAL = 3;
+}
+
+enum Units {
+
+	UNITS_UNSPECIFIED = 0;
+	METRIC = 1;
+	IMPERIAL = 2;
+}
+
+message ComputeRoutesRequest {
+
+	google.maps.routes.v1.Waypoint origin = 1;
+	google.maps.routes.v1.Waypoint destination = 2;
+	repeated google.maps.routes.v1.Waypoint intermediates = 3;
+	RouteTravelMode travel_mode = 4;
+	RoutingPreference routing_preference = 5;
+	google.maps.routes.v1.PolylineQuality polyline_quality = 6;
+	google.protobuf.Timestamp departure_time = 7;
+	bool compute_alternative_routes = 8;
+	RouteModifiers route_modifiers = 9;
+	string language_code = 10;
+	Units units = 11;
+}
+
+message RouteModifiers {
+
+	bool avoid_tolls = 1;
+	bool avoid_highways = 2;
+	bool avoid_ferries = 3;
+	bool avoid_indoor = 4;
+	VehicleInfo vehicle_info = 5;
+	repeated google.maps.routes.v1.TollPass toll_passes = 6;
+}
+
+message VehicleInfo {
+
+	string license_plate_last_character = 1;
+	google.maps.routes.v1.VehicleEmissionType emission_type = 2;
+}

@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+package google.storagetransfer.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/code.proto";
+import "google/type/date.proto";
+import "google/type/timeofday.proto";
+
+option java_package = "com.google.storagetransfer.v1.proto";
+option java_outer_classname = "TransferTypes";
+option go_package = "google.golang.org/genproto/googleapis/storagetransfer/v1;storagetransfer";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.StorageTransfer.V1";
+option php_namespace = "Google\\Cloud\\StorageTransfer\\V1";
+
+
+message GoogleServiceAccount {
+
+	string account_email = 1;
+}
+
+message AwsAccessKey {
+
+	string access_key_id = 1;
+	string secret_access_key = 2;
+}
+
+message ObjectConditions {
+
+	google.protobuf.Duration min_time_elapsed_since_last_modification = 1;
+	google.protobuf.Duration max_time_elapsed_since_last_modification = 2;
+	repeated string include_prefixes = 3;
+	repeated string exclude_prefixes = 4;
+}
+
+message GcsData {
+
+	string bucket_name = 1;
+}
+
+message AwsS3Data {
+
+	string bucket_name = 1;
+	AwsAccessKey aws_access_key = 2;
+}
+
+message HttpData {
+
+	string list_url = 1;
+}
+
+message TransferOptions {
+
+	bool overwrite_objects_already_existing_in_sink = 1;
+	bool delete_objects_unique_in_sink = 2;
+	bool delete_objects_from_source_after_transfer = 3;
+}
+
+message TransferSpec {
+
+	oneof data_source {
+		GcsData gcs_data_source = 1;
+		AwsS3Data aws_s3_data_source = 2;
+		HttpData http_data_source = 3;
+	}
+	oneof data_sink {
+		GcsData gcs_data_sink = 4;
+	}
+	ObjectConditions object_conditions = 5;
+	TransferOptions transfer_options = 6;
+}
+
+message Schedule {
+
+	google.type.Date schedule_start_date = 1;
+	google.type.Date schedule_end_date = 2;
+	google.type.TimeOfDay start_time_of_day = 3;
+}
+
+message TransferJob {
+
+	enum Status {
+
+		STATUS_UNSPECIFIED = 0;
+		ENABLED = 1;
+		DISABLED = 2;
+		DELETED = 3;
+	}
+
+	string name = 1;
+	string description = 2;
+	string project_id = 3;
+	TransferSpec transfer_spec = 4;
+	Schedule schedule = 5;
+	Status status = 6;
+	google.protobuf.Timestamp creation_time = 7;
+	google.protobuf.Timestamp last_modification_time = 8;
+	google.protobuf.Timestamp deletion_time = 9;
+}
+
+message ErrorLogEntry {
+
+	string url = 1;
+	repeated string error_details = 3;
+}
+
+message ErrorSummary {
+
+	google.rpc.Code error_code = 1;
+	int64 error_count = 2;
+	repeated ErrorLogEntry error_log_entries = 3;
+}
+
+message TransferCounters {
+
+	int64 objects_found_from_source = 1;
+	int64 bytes_found_from_source = 2;
+	int64 objects_found_only_from_sink = 3;
+	int64 bytes_found_only_from_sink = 4;
+	int64 objects_from_source_skipped_by_sync = 5;
+	int64 bytes_from_source_skipped_by_sync = 6;
+	int64 objects_copied_to_sink = 7;
+	int64 bytes_copied_to_sink = 8;
+	int64 objects_deleted_from_source = 9;
+	int64 bytes_deleted_from_source = 10;
+	int64 objects_deleted_from_sink = 11;
+	int64 bytes_deleted_from_sink = 12;
+	int64 objects_from_source_failed = 13;
+	int64 bytes_from_source_failed = 14;
+	int64 objects_failed_to_delete_from_sink = 15;
+	int64 bytes_failed_to_delete_from_sink = 16;
+}
+
+message TransferOperation {
+
+	enum Status {
+
+		STATUS_UNSPECIFIED = 0;
+		IN_PROGRESS = 1;
+		PAUSED = 2;
+		SUCCESS = 3;
+		FAILED = 4;
+		ABORTED = 5;
+	}
+
+	string name = 1;
+	string project_id = 2;
+	TransferSpec transfer_spec = 3;
+	google.protobuf.Timestamp start_time = 4;
+	google.protobuf.Timestamp end_time = 5;
+	Status status = 6;
+	TransferCounters counters = 7;
+	repeated ErrorSummary error_breakdowns = 8;
+	string transfer_job_name = 9;
+}

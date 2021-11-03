@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.genomics.v1;
+
+import "google/api/annotations.proto";
+import "google/genomics/v1/readgroup.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.genomics.v1";
+option java_outer_classname = "ReadGroupSetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/genomics/v1;genomics";
+option cc_enable_arenas = true;
+
+
+message ReadGroupSet {
+
+	string id = 1;
+	string dataset_id = 2;
+	string reference_set_id = 3;
+	string name = 4;
+	string filename = 5;
+	repeated google.genomics.v1.ReadGroup read_groups = 6;
+	map<string, google.protobuf.ListValue> info = 7;
+}

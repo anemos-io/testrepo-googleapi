@@ -1,0 +1,264 @@
+syntax = "proto3";
+
+package google.example.library.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.example.library.v1";
+option java_outer_classname = "LibraryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/example/library/v1;library";
+
+
+service LibraryService {
+	option (google.api.default_host) = "library-example.googleapis.com";
+
+	rpc CreateShelf(google.example.library.v1.CreateShelfRequest) returns (google.example.library.v1.Shelf) {
+		option (google.api.method_signature) = "shelf";
+		option (google.api.http) = {
+			post: "/v1/shelves"
+			body: "shelf"
+		};
+
+	}
+	rpc GetShelf(google.example.library.v1.GetShelfRequest) returns (google.example.library.v1.Shelf) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=shelves/*}"
+		};
+
+	}
+	rpc ListShelves(google.example.library.v1.ListShelvesRequest) returns (google.example.library.v1.ListShelvesResponse) {
+		option (google.api.http) = {
+			get: "/v1/shelves"
+		};
+
+	}
+	rpc DeleteShelf(google.example.library.v1.DeleteShelfRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=shelves/*}"
+		};
+
+	}
+	rpc MergeShelves(google.example.library.v1.MergeShelvesRequest) returns (google.example.library.v1.Shelf) {
+		option (google.api.method_signature) = "name,other_shelf_name";
+		option (google.api.http) = {
+			post: "/v1/{name=shelves/*}:merge"
+			body: "*"
+		};
+
+	}
+	rpc CreateBook(google.example.library.v1.CreateBookRequest) returns (google.example.library.v1.Book) {
+		option (google.api.method_signature) = "name,book";
+		option (google.api.http) = {
+			post: "/v1/{name=shelves/*}/books"
+			body: "book"
+		};
+
+	}
+	rpc GetBook(google.example.library.v1.GetBookRequest) returns (google.example.library.v1.Book) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=shelves/*/books/*}"
+		};
+
+	}
+	rpc ListBooks(google.example.library.v1.ListBooksRequest) returns (google.example.library.v1.ListBooksResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=shelves/*}/books"
+		};
+
+	}
+	rpc DeleteBook(google.example.library.v1.DeleteBookRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=shelves/*/books/*}"
+		};
+
+	}
+	rpc UpdateBook(google.example.library.v1.UpdateBookRequest) returns (google.example.library.v1.Book) {
+		option (google.api.method_signature) = "book";
+		option (google.api.http) = {
+			put: "/v1/{book.name=shelves/*/books/*}"
+			body: "book"
+		};
+
+	}
+	rpc MoveBook(google.example.library.v1.MoveBookRequest) returns (google.example.library.v1.Book) {
+		option (google.api.method_signature) = "name,other_shelf_name";
+		option (google.api.http) = {
+			post: "/v1/{name=shelves/*/books/*}:move"
+			body: "*"
+		};
+
+	}
+}
+
+message Book {
+	option (google.api.resource) = {
+		type: "library-example.googleapis.com/Book"
+		pattern: ["shelves/{shelf_id}/books/{book_id}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "library-example.googleapis.com/Book"
+		}
+	];
+	string author = 2;
+	string title = 3;
+	bool read = 4;
+}
+
+message Shelf {
+	option (google.api.resource) = {
+		type: "library-example.googleapis.com/Shelf"
+		pattern: ["shelves/{shelf_id}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "library-example.googleapis.com/Shelf"
+		}
+	];
+	string theme = 2;
+}
+
+message CreateShelfRequest {
+
+	Shelf shelf = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetShelfRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Shelf"
+		}
+	];
+}
+
+message ListShelvesRequest {
+
+	int32 page_size = 1;
+	string page_token = 2;
+}
+
+message ListShelvesResponse {
+
+	repeated Shelf shelves = 1;
+	string next_page_token = 2;
+}
+
+message DeleteShelfRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Shelf"
+		}
+	];
+}
+
+message MergeShelvesRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Shelf"
+		}
+	];
+	string other_shelf_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Shelf"
+		}
+	];
+}
+
+message CreateBookRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Shelf"
+		}
+	];
+	Book book = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetBookRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Book"
+		}
+	];
+}
+
+message ListBooksRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Shelf"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListBooksResponse {
+
+	repeated Book books = 1;
+	string next_page_token = 2;
+}
+
+message UpdateBookRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Book book = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteBookRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Book"
+		}
+	];
+}
+
+message MoveBookRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Book"
+		}
+	];
+	string other_shelf_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "Shelf"
+		}
+	];
+}

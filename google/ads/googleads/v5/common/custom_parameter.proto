@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.common;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.common";
+option java_outer_classname = "CustomParameterProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V5::Common";
+
+
+message CustomParameter {
+
+	oneof _key {
+		string key = 3;
+	}
+	oneof _value {
+		string value = 4;
+	}
+}

@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1;
+
+import "google/api/resource.proto";
+import "google/cloud/orgpolicy/v1/orgpolicy.proto";
+import "google/iam/v1/policy.proto";
+import "google/identity/accesscontextmanager/v1/access_level.proto";
+import "google/identity/accesscontextmanager/v1/access_policy.proto";
+import "google/identity/accesscontextmanager/v1/service_perimeter.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/code.proto";
+
+option java_package = "com.google.cloud.asset.v1";
+option java_outer_classname = "AssetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1;asset";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Asset.V1";
+option php_namespace = "Google\\Cloud\\Asset\\V1";
+
+
+message TemporalAsset {
+
+	enum PriorAssetState {
+
+		PRIOR_ASSET_STATE_UNSPECIFIED = 0;
+		PRESENT = 1;
+		INVALID = 2;
+		DOES_NOT_EXIST = 3;
+		DELETED = 4;
+	}
+
+	TimeWindow window = 1;
+	bool deleted = 2;
+	Asset asset = 3;
+	PriorAssetState prior_asset_state = 4;
+	Asset prior_asset = 5;
+}
+
+message TimeWindow {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+}
+
+message Asset {
+	option (google.api.resource) = {
+		type: "cloudasset.googleapis.com/Asset"
+		pattern: ["*"]
+	};
+
+	google.protobuf.Timestamp update_time = 11;
+	string name = 1;
+	string asset_type = 2;
+	Resource resource = 3;
+	google.iam.v1.Policy iam_policy = 4;
+	repeated google.cloud.orgpolicy.v1.Policy org_policy = 6;
+	oneof access_context_policy {
+		google.identity.accesscontextmanager.v1.AccessPolicy access_policy = 7;
+		google.identity.accesscontextmanager.v1.AccessLevel access_level = 8;
+		google.identity.accesscontextmanager.v1.ServicePerimeter service_perimeter = 9;
+	}
+	repeated string ancestors = 10;
+}
+
+message Resource {
+
+	string version = 1;
+	string discovery_document_uri = 2;
+	string discovery_name = 3;
+	string resource_url = 4;
+	string parent = 5;
+	google.protobuf.Struct data = 6;
+	string location = 8;
+}
+
+message ResourceSearchResult {
+
+	string name = 1;
+	string asset_type = 2;
+	string project = 3;
+	string display_name = 4;
+	string description = 5;
+	string location = 6;
+	map<string, string> labels = 7;
+	repeated string network_tags = 8;
+	google.protobuf.Struct additional_attributes = 9;
+}
+
+message IamPolicySearchResult {
+
+	message Explanation {
+
+		message Permissions {
+
+			repeated string permissions = 1;
+		}
+
+		map<string, Permissions> matched_permissions = 1;
+	}
+
+	string resource = 1;
+	string project = 2;
+	google.iam.v1.Policy policy = 3;
+	Explanation explanation = 4;
+}
+
+message IamPolicyAnalysisState {
+
+	google.rpc.Code code = 1;
+	string cause = 2;
+}
+
+message IamPolicyAnalysisResult {
+
+	message Resource {
+
+		string full_resource_name = 1;
+		IamPolicyAnalysisState analysis_state = 2;
+	}
+
+	message Access {
+
+		oneof oneof_access {
+			string role = 1;
+			string permission = 2;
+		}
+		IamPolicyAnalysisState analysis_state = 3;
+	}
+
+	message Identity {
+
+		string name = 1;
+		IamPolicyAnalysisState analysis_state = 2;
+	}
+
+	message Edge {
+
+		string source_node = 1;
+		string target_node = 2;
+	}
+
+	message AccessControlList {
+
+		repeated Resource resources = 1;
+		repeated Access accesses = 2;
+		repeated Edge resource_edges = 3;
+	}
+
+	message IdentityList {
+
+		repeated Identity identities = 1;
+		repeated Edge group_edges = 2;
+	}
+
+	string attached_resource_full_name = 1;
+	google.iam.v1.Binding iam_binding = 2;
+	repeated AccessControlList access_control_lists = 3;
+	IdentityList identity_list = 4;
+	bool fully_explored = 5;
+}

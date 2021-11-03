@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+package google.analytics.data.v1alpha;
+
+import "google/analytics/data/v1alpha/data.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.analytics.data.v1alpha";
+option java_outer_classname = "AnalyticsDataApiProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/analytics/data/v1alpha;data";
+
+
+service AlphaAnalyticsData {
+	option (google.api.default_host) = "analyticsdata.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/analytics,https://www.googleapis.com/auth/analytics.readonly";
+
+	rpc RunReport(google.analytics.data.v1alpha.RunReportRequest) returns (google.analytics.data.v1alpha.RunReportResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha:runReport"
+			body: "*"
+		};
+
+	}
+	rpc RunPivotReport(google.analytics.data.v1alpha.RunPivotReportRequest) returns (google.analytics.data.v1alpha.RunPivotReportResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha:runPivotReport"
+			body: "*"
+		};
+
+	}
+	rpc BatchRunReports(google.analytics.data.v1alpha.BatchRunReportsRequest) returns (google.analytics.data.v1alpha.BatchRunReportsResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha:batchRunReports"
+			body: "*"
+		};
+
+	}
+	rpc BatchRunPivotReports(google.analytics.data.v1alpha.BatchRunPivotReportsRequest) returns (google.analytics.data.v1alpha.BatchRunPivotReportsResponse) {
+		option (google.api.http) = {
+			post: "/v1alpha:batchRunPivotReports"
+			body: "*"
+		};
+
+	}
+	rpc GetMetadata(google.analytics.data.v1alpha.GetMetadataRequest) returns (google.analytics.data.v1alpha.Metadata) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=metadata}"
+			additional_bindings: {
+				get: "/v1alpha/{name=properties/*/metadata}"
+			}
+		};
+
+	}
+}
+
+message Metadata {
+	option (google.api.resource) = {
+		type: "analyticsdata.googleapis.com/Metadata"
+		pattern: ["metadata","properties/{property}/metadata"]
+	};
+
+	string name = 3;
+	repeated google.analytics.data.v1alpha.DimensionMetadata dimensions = 1;
+	repeated google.analytics.data.v1alpha.MetricMetadata metrics = 2;
+}
+
+message RunReportRequest {
+
+	google.analytics.data.v1alpha.Entity entity = 1;
+	repeated google.analytics.data.v1alpha.Dimension dimensions = 2;
+	repeated google.analytics.data.v1alpha.Metric metrics = 3;
+	repeated google.analytics.data.v1alpha.DateRange date_ranges = 4;
+	int64 offset = 5;
+	int64 limit = 6;
+	repeated google.analytics.data.v1alpha.MetricAggregation metric_aggregations = 7;
+	google.analytics.data.v1alpha.FilterExpression dimension_filter = 8;
+	google.analytics.data.v1alpha.FilterExpression metric_filter = 9;
+	repeated google.analytics.data.v1alpha.OrderBy order_bys = 10;
+	string currency_code = 11;
+	google.analytics.data.v1alpha.CohortSpec cohort_spec = 12;
+	bool keep_empty_rows = 13;
+	bool return_property_quota = 14;
+}
+
+message RunReportResponse {
+
+	repeated google.analytics.data.v1alpha.DimensionHeader dimension_headers = 11;
+	repeated google.analytics.data.v1alpha.MetricHeader metric_headers = 1;
+	repeated google.analytics.data.v1alpha.Row rows = 2;
+	repeated google.analytics.data.v1alpha.Row totals = 8;
+	repeated google.analytics.data.v1alpha.Row maximums = 9;
+	repeated google.analytics.data.v1alpha.Row minimums = 10;
+	google.analytics.data.v1alpha.ResponseMetaData metadata = 6;
+	google.analytics.data.v1alpha.PropertyQuota property_quota = 7;
+}
+
+message RunPivotReportRequest {
+
+	google.analytics.data.v1alpha.Entity entity = 1;
+	repeated google.analytics.data.v1alpha.Dimension dimensions = 2;
+	repeated google.analytics.data.v1alpha.Metric metrics = 3;
+	google.analytics.data.v1alpha.FilterExpression dimension_filter = 4;
+	google.analytics.data.v1alpha.FilterExpression metric_filter = 5;
+	repeated google.analytics.data.v1alpha.Pivot pivots = 6;
+	repeated google.analytics.data.v1alpha.DateRange date_ranges = 7;
+	string currency_code = 8;
+	google.analytics.data.v1alpha.CohortSpec cohort_spec = 9;
+	bool keep_empty_rows = 10;
+	bool return_property_quota = 11;
+}
+
+message RunPivotReportResponse {
+
+	repeated google.analytics.data.v1alpha.PivotHeader pivot_headers = 1;
+	repeated google.analytics.data.v1alpha.DimensionHeader dimension_headers = 7;
+	repeated google.analytics.data.v1alpha.MetricHeader metric_headers = 2;
+	repeated google.analytics.data.v1alpha.Row rows = 3;
+	repeated google.analytics.data.v1alpha.Row aggregates = 4;
+	google.analytics.data.v1alpha.ResponseMetaData metadata = 5;
+	google.analytics.data.v1alpha.PropertyQuota property_quota = 6;
+}
+
+message BatchRunReportsRequest {
+
+	google.analytics.data.v1alpha.Entity entity = 1;
+	repeated RunReportRequest requests = 2;
+}
+
+message BatchRunReportsResponse {
+
+	repeated RunReportResponse reports = 1;
+}
+
+message BatchRunPivotReportsRequest {
+
+	google.analytics.data.v1alpha.Entity entity = 1;
+	repeated RunPivotReportRequest requests = 2;
+}
+
+message BatchRunPivotReportsResponse {
+
+	repeated RunPivotReportResponse pivot_reports = 1;
+}
+
+message GetMetadataRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "analyticsdata.googleapis.com/Metadata"
+		}
+	];
+}

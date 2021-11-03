@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1p1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/asset/v1p1beta1/assets.proto";
+
+option java_package = "com.google.cloud.asset.v1p1beta1";
+option java_outer_classname = "AssetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1p1beta1;asset";
+option csharp_namespace = "Google.Cloud.Asset.V1P1Beta1";
+option php_namespace = "Google\\Cloud\\Asset\\V1p1beta1";
+
+
+service AssetService {
+	option (google.api.default_host) = "cloudasset.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SearchAllResources(google.cloud.asset.v1p1beta1.SearchAllResourcesRequest) returns (google.cloud.asset.v1p1beta1.SearchAllResourcesResponse) {
+		option (google.api.method_signature) = "scope,query,asset_types";
+		option (google.api.http) = {
+			get: "/v1p1beta1/{scope=*/*}/resources:searchAll"
+		};
+
+	}
+	rpc SearchAllIamPolicies(google.cloud.asset.v1p1beta1.SearchAllIamPoliciesRequest) returns (google.cloud.asset.v1p1beta1.SearchAllIamPoliciesResponse) {
+		option (google.api.method_signature) = "scope,query";
+		option (google.api.http) = {
+			get: "/v1p1beta1/{scope=*/*}/iamPolicies:searchAll"
+		};
+
+	}
+}
+
+message SearchAllResourcesRequest {
+
+	string scope = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string asset_types = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SearchAllResourcesResponse {
+
+	repeated google.cloud.asset.v1p1beta1.StandardResourceMetadata results = 1;
+	string next_page_token = 2;
+}
+
+message SearchAllIamPoliciesRequest {
+
+	string scope = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string query = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SearchAllIamPoliciesResponse {
+
+	repeated google.cloud.asset.v1p1beta1.IamPolicySearchResult results = 1;
+	string next_page_token = 2;
+}

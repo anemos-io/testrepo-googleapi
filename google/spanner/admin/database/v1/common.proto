@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package google.spanner.admin.database.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.spanner.admin.database.v1";
+option java_outer_classname = "CommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/admin/database/v1;database";
+option csharp_namespace = "Google.Cloud.Spanner.Admin.Database.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\Admin\\Database\\V1";
+option ruby_package = "Google::Cloud::Spanner::Admin::Database::V1";
+
+
+message OperationProgress {
+
+	int32 progress_percent = 1;
+	google.protobuf.Timestamp start_time = 2;
+	google.protobuf.Timestamp end_time = 3;
+}

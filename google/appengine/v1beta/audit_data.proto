@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.appengine.v1beta;
+
+import "google/appengine/v1beta/appengine.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1beta";
+option java_outer_classname = "AuditDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+
+
+message AuditData {
+
+	oneof method {
+		UpdateServiceMethod update_service = 1;
+		CreateVersionMethod create_version = 2;
+	}
+}
+
+message UpdateServiceMethod {
+
+	google.appengine.v1beta.UpdateServiceRequest request = 1;
+}
+
+message CreateVersionMethod {
+
+	google.appengine.v1beta.CreateVersionRequest request = 1;
+}

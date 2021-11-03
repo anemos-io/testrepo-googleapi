@@ -1,0 +1,195 @@
+syntax = "proto3";
+
+package google.cloud.gaming.v1beta;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/gaming/v1beta/common.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.gaming.v1beta";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gaming/v1beta;gaming";
+
+
+message ListGameServerDeploymentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gameservices.googleapis.com/GameServerDeployment"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListGameServerDeploymentsResponse {
+
+	repeated GameServerDeployment game_server_deployments = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 4;
+}
+
+message GetGameServerDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gameservices.googleapis.com/GameServerDeployment"
+		}
+	];
+}
+
+message GetGameServerDeploymentRolloutRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gameservices.googleapis.com/GameServerDeployment"
+		}
+	];
+}
+
+message CreateGameServerDeploymentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gameservices.googleapis.com/GameServerDeployment"
+		}
+	];
+	string deployment_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	GameServerDeployment game_server_deployment = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteGameServerDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gameservices.googleapis.com/GameServerDeployment"
+		}
+	];
+}
+
+message UpdateGameServerDeploymentRequest {
+
+	GameServerDeployment game_server_deployment = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateGameServerDeploymentRolloutRequest {
+
+	GameServerDeploymentRollout rollout = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message FetchDeploymentStateRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message FetchDeploymentStateResponse {
+
+	message DeployedClusterState {
+
+		string cluster = 1;
+		repeated google.cloud.gaming.v1beta.DeployedFleetDetails fleet_details = 2;
+	}
+
+	repeated DeployedClusterState cluster_state = 1;
+	repeated string unavailable = 2;
+}
+
+message GameServerDeployment {
+	option (google.api.resource) = {
+		type: "gameservices.googleapis.com/GameServerDeployment"
+		pattern: ["projects/{project}/locations/{location}/gameServerDeployments/{deployment}"]
+	};
+
+	string name = 1;
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string etag = 7;
+	string description = 8;
+}
+
+message GameServerConfigOverride {
+
+	oneof selector {
+		google.cloud.gaming.v1beta.RealmSelector realms_selector = 1;
+	}
+	oneof change {
+		string config_version = 100;
+	}
+}
+
+message GameServerDeploymentRollout {
+	option (google.api.resource) = {
+		type: "gameservices.googleapis.com/GameServerDeploymentRollout"
+		pattern: ["projects/{project}/locations/{location}/gameServerDeployments/{deployment}/rollout"]
+	};
+
+	string name = 1;
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string default_game_server_config = 4;
+	repeated GameServerConfigOverride game_server_config_overrides = 5;
+	string etag = 6;
+}
+
+message PreviewGameServerDeploymentRolloutRequest {
+
+	GameServerDeploymentRollout rollout = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp preview_time = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PreviewGameServerDeploymentRolloutResponse {
+
+	repeated string unavailable = 2;
+	string etag = 3;
+	google.cloud.gaming.v1beta.TargetState target_state = 4;
+}

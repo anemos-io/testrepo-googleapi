@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.errors";
+option java_outer_classname = "InternalErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V5::Errors";
+
+
+message InternalErrorEnum {
+
+	enum InternalError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		INTERNAL_ERROR = 2;
+		ERROR_CODE_NOT_PUBLISHED = 3;
+		TRANSIENT_ERROR = 4;
+		DEADLINE_EXCEEDED = 5;
+	}
+
+}

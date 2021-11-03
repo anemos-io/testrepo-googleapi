@@ -1,0 +1,300 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/v2/validation_result.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2";
+option java_outer_classname = "AgentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2";
+
+
+service Agents {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc GetAgent(google.cloud.dialogflow.v2.GetAgentRequest) returns (google.cloud.dialogflow.v2.Agent) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/agent"
+		};
+
+	}
+	rpc SetAgent(google.cloud.dialogflow.v2.SetAgentRequest) returns (google.cloud.dialogflow.v2.Agent) {
+		option (google.api.method_signature) = "agent";
+		option (google.api.http) = {
+			post: "/v2/{agent.parent=projects/*}/agent"
+			body: "agent"
+		};
+
+	}
+	rpc DeleteAgent(google.cloud.dialogflow.v2.DeleteAgentRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			delete: "/v2/{parent=projects/*}/agent"
+		};
+
+	}
+	rpc SearchAgents(google.cloud.dialogflow.v2.SearchAgentsRequest) returns (google.cloud.dialogflow.v2.SearchAgentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/agent:search"
+		};
+
+	}
+	rpc TrainAgent(google.cloud.dialogflow.v2.TrainAgentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/agent:train"
+			body: "*"
+		};
+
+	}
+	rpc ExportAgent(google.cloud.dialogflow.v2.ExportAgentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.dialogflow.v2.ExportAgentResponse"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/agent:export"
+			body: "*"
+		};
+
+	}
+	rpc ImportAgent(google.cloud.dialogflow.v2.ImportAgentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/agent:import"
+			body: "*"
+		};
+
+	}
+	rpc RestoreAgent(google.cloud.dialogflow.v2.RestoreAgentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.http) = {
+			post: "/v2/{parent=projects/*}/agent:restore"
+			body: "*"
+		};
+
+	}
+	rpc GetValidationResult(google.cloud.dialogflow.v2.GetValidationResultRequest) returns (google.cloud.dialogflow.v2.ValidationResult) {
+		option (google.api.http) = {
+			get: "/v2/{parent=projects/*}/agent/validationResult"
+		};
+
+	}
+}
+
+message Agent {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Agent"
+		pattern: ["projects/{project}/agent"]
+	};
+
+	enum MatchMode {
+
+		MATCH_MODE_UNSPECIFIED = 0;
+		MATCH_MODE_HYBRID = 1;
+		MATCH_MODE_ML_ONLY = 2;
+	}
+
+	enum ApiVersion {
+
+		API_VERSION_UNSPECIFIED = 0;
+		API_VERSION_V1 = 1;
+		API_VERSION_V2 = 2;
+		API_VERSION_V2_BETA_1 = 3;
+	}
+
+	enum Tier {
+
+		TIER_UNSPECIFIED = 0;
+		TIER_STANDARD = 1;
+		TIER_ENTERPRISE = 2;
+		TIER_ENTERPRISE_PLUS = 3;
+	}
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string default_language_code = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string supported_language_codes = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string time_zone = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string avatar_uri = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool enable_logging = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	MatchMode match_mode = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	float classification_threshold = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ApiVersion api_version = 14 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Tier tier = 15 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetAgentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+}
+
+message SetAgentRequest {
+
+	Agent agent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteAgentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+}
+
+message SearchAgentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3;
+}
+
+message SearchAgentsResponse {
+
+	repeated Agent agents = 1;
+	string next_page_token = 2;
+}
+
+message TrainAgentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+}
+
+message ExportAgentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	string agent_uri = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExportAgentResponse {
+
+	oneof agent {
+		string agent_uri = 1;
+		bytes agent_content = 2;
+	}
+}
+
+message ImportAgentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	oneof agent {
+		string agent_uri = 2;
+		bytes agent_content = 3;
+	}
+}
+
+message RestoreAgentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	oneof agent {
+		string agent_uri = 2;
+		bytes agent_content = 3;
+	}
+}
+
+message GetValidationResultRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Agent"
+		}
+	];
+	string language_code = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

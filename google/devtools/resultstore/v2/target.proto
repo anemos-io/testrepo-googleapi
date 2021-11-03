@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/devtools/resultstore/v2/common.proto";
+import "google/devtools/resultstore/v2/file.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+enum TargetType {
+
+	TARGET_TYPE_UNSPECIFIED = 0;
+	APPLICATION = 1;
+	BINARY = 2;
+	LIBRARY = 3;
+	PACKAGE = 4;
+	TEST = 5;
+}
+
+enum TestSize {
+
+	TEST_SIZE_UNSPECIFIED = 0;
+	SMALL = 1;
+	MEDIUM = 2;
+	LARGE = 3;
+	ENORMOUS = 4;
+	OTHER_SIZE = 5;
+}
+
+message Target {
+
+	message Id {
+
+		string invocation_id = 1;
+		string target_id = 2;
+	}
+
+	string name = 1;
+	Id id = 2;
+	google.devtools.resultstore.v2.StatusAttributes status_attributes = 3;
+	google.devtools.resultstore.v2.Timing timing = 4;
+	TargetAttributes target_attributes = 5;
+	TestAttributes test_attributes = 6;
+	repeated google.devtools.resultstore.v2.Property properties = 7;
+	repeated google.devtools.resultstore.v2.File files = 8;
+	bool visible = 10;
+}
+
+message TargetAttributes {
+
+	TargetType type = 1;
+	google.devtools.resultstore.v2.Language language = 2;
+	repeated string tags = 3;
+}
+
+message TestAttributes {
+
+	TestSize size = 1;
+}

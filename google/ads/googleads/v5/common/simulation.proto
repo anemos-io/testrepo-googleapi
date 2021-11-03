@@ -1,0 +1,207 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.common;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.common";
+option java_outer_classname = "SimulationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V5::Common";
+
+
+message BidModifierSimulationPointList {
+
+	repeated BidModifierSimulationPoint points = 1;
+}
+
+message CpcBidSimulationPointList {
+
+	repeated CpcBidSimulationPoint points = 1;
+}
+
+message CpvBidSimulationPointList {
+
+	repeated CpvBidSimulationPoint points = 1;
+}
+
+message TargetCpaSimulationPointList {
+
+	repeated TargetCpaSimulationPoint points = 1;
+}
+
+message TargetRoasSimulationPointList {
+
+	repeated TargetRoasSimulationPoint points = 1;
+}
+
+message PercentCpcBidSimulationPointList {
+
+	repeated PercentCpcBidSimulationPoint points = 1;
+}
+
+message BidModifierSimulationPoint {
+
+	oneof _bid_modifier {
+		double bid_modifier = 15;
+	}
+	oneof _biddable_conversions {
+		double biddable_conversions = 16;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 17;
+	}
+	oneof _clicks {
+		int64 clicks = 18;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 19;
+	}
+	oneof _impressions {
+		int64 impressions = 20;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 21;
+	}
+	oneof _parent_biddable_conversions {
+		double parent_biddable_conversions = 22;
+	}
+	oneof _parent_biddable_conversions_value {
+		double parent_biddable_conversions_value = 23;
+	}
+	oneof _parent_clicks {
+		int64 parent_clicks = 24;
+	}
+	oneof _parent_cost_micros {
+		int64 parent_cost_micros = 25;
+	}
+	oneof _parent_impressions {
+		int64 parent_impressions = 26;
+	}
+	oneof _parent_top_slot_impressions {
+		int64 parent_top_slot_impressions = 27;
+	}
+	oneof _parent_required_budget_micros {
+		int64 parent_required_budget_micros = 28;
+	}
+}
+
+message CpcBidSimulationPoint {
+
+	oneof _cpc_bid_micros {
+		int64 cpc_bid_micros = 8;
+	}
+	oneof _biddable_conversions {
+		double biddable_conversions = 9;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 10;
+	}
+	oneof _clicks {
+		int64 clicks = 11;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 12;
+	}
+	oneof _impressions {
+		int64 impressions = 13;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 14;
+	}
+}
+
+message CpvBidSimulationPoint {
+
+	oneof _cpv_bid_micros {
+		int64 cpv_bid_micros = 5;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 6;
+	}
+	oneof _impressions {
+		int64 impressions = 7;
+	}
+	oneof _views {
+		int64 views = 8;
+	}
+}
+
+message TargetCpaSimulationPoint {
+
+	oneof _target_cpa_micros {
+		int64 target_cpa_micros = 8;
+	}
+	oneof _biddable_conversions {
+		double biddable_conversions = 9;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 10;
+	}
+	oneof _clicks {
+		int64 clicks = 11;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 12;
+	}
+	oneof _impressions {
+		int64 impressions = 13;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 14;
+	}
+}
+
+message TargetRoasSimulationPoint {
+
+	oneof _target_roas {
+		double target_roas = 8;
+	}
+	oneof _biddable_conversions {
+		double biddable_conversions = 9;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 10;
+	}
+	oneof _clicks {
+		int64 clicks = 11;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 12;
+	}
+	oneof _impressions {
+		int64 impressions = 13;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 14;
+	}
+}
+
+message PercentCpcBidSimulationPoint {
+
+	oneof _percent_cpc_bid_micros {
+		int64 percent_cpc_bid_micros = 1;
+	}
+	oneof _biddable_conversions {
+		double biddable_conversions = 2;
+	}
+	oneof _biddable_conversions_value {
+		double biddable_conversions_value = 3;
+	}
+	oneof _clicks {
+		int64 clicks = 4;
+	}
+	oneof _cost_micros {
+		int64 cost_micros = 5;
+	}
+	oneof _impressions {
+		int64 impressions = 6;
+	}
+	oneof _top_slot_impressions {
+		int64 top_slot_impressions = 7;
+	}
+}

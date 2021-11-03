@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.enums";
+option java_outer_classname = "PromotionPlaceholderFieldProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V4::Enums";
+
+
+message PromotionPlaceholderFieldEnum {
+
+	enum PromotionPlaceholderField {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		PROMOTION_TARGET = 2;
+		DISCOUNT_MODIFIER = 3;
+		PERCENT_OFF = 4;
+		MONEY_AMOUNT_OFF = 5;
+		PROMOTION_CODE = 6;
+		ORDERS_OVER_AMOUNT = 7;
+		PROMOTION_START = 8;
+		PROMOTION_END = 9;
+		OCCASION = 10;
+		FINAL_URLS = 11;
+		FINAL_MOBILE_URLS = 12;
+		TRACKING_URL = 13;
+		LANGUAGE = 14;
+		FINAL_URL_SUFFIX = 15;
+	}
+
+}

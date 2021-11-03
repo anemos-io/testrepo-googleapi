@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.spanner.v1;
+
+import "google/protobuf/struct.proto";
+import "google/spanner/v1/query_plan.proto";
+import "google/spanner/v1/transaction.proto";
+import "google/spanner/v1/type.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.spanner.v1";
+option java_outer_classname = "ResultSetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/v1;spanner";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Spanner.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\V1";
+option ruby_package = "Google::Cloud::Spanner::V1";
+
+
+message ResultSet {
+
+	ResultSetMetadata metadata = 1;
+	repeated google.protobuf.ListValue rows = 2;
+	ResultSetStats stats = 3;
+}
+
+message PartialResultSet {
+
+	ResultSetMetadata metadata = 1;
+	repeated google.protobuf.Value values = 2;
+	bool chunked_value = 3;
+	bytes resume_token = 4;
+	ResultSetStats stats = 5;
+}
+
+message ResultSetMetadata {
+
+	google.spanner.v1.StructType row_type = 1;
+	google.spanner.v1.Transaction transaction = 2;
+}
+
+message ResultSetStats {
+
+	google.spanner.v1.QueryPlan query_plan = 1;
+	google.protobuf.Struct query_stats = 2;
+	oneof row_count {
+		int64 row_count_exact = 3;
+		int64 row_count_lower_bound = 4;
+	}
+}

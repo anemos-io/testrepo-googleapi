@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
+option java_outer_classname = "EnvironmentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3beta1;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+
+
+service Environments {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListEnvironments(google.cloud.dialogflow.cx.v3beta1.ListEnvironmentsRequest) returns (google.cloud.dialogflow.cx.v3beta1.ListEnvironmentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3beta1/{parent=projects/*/locations/*/agents/*}/environments"
+		};
+
+	}
+	rpc GetEnvironment(google.cloud.dialogflow.cx.v3beta1.GetEnvironmentRequest) returns (google.cloud.dialogflow.cx.v3beta1.Environment) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3beta1/{name=projects/*/locations/*/agents/*/environments/*}"
+		};
+
+	}
+	rpc CreateEnvironment(google.cloud.dialogflow.cx.v3beta1.CreateEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Environment"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "parent,environment";
+		option (google.api.http) = {
+			post: "/v3beta1/{parent=projects/*/locations/*/agents/*}/environments"
+			body: "environment"
+		};
+
+	}
+	rpc UpdateEnvironment(google.cloud.dialogflow.cx.v3beta1.UpdateEnvironmentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Environment"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "environment,update_mask";
+		option (google.api.http) = {
+			patch: "/v3beta1/{environment.name=projects/*/locations/*/agents/*/environments/*}"
+			body: "environment"
+		};
+
+	}
+	rpc DeleteEnvironment(google.cloud.dialogflow.cx.v3beta1.DeleteEnvironmentRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3beta1/{name=projects/*/locations/*/agents/*/environments/*}"
+		};
+
+	}
+	rpc LookupEnvironmentHistory(google.cloud.dialogflow.cx.v3beta1.LookupEnvironmentHistoryRequest) returns (google.cloud.dialogflow.cx.v3beta1.LookupEnvironmentHistoryResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3beta1/{name=projects/*/locations/*/agents/*/environments/*}:lookupEnvironmentHistory"
+		};
+
+	}
+}
+
+message Environment {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Environment"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/environments/{environment}"]
+	};
+
+	message VersionConfig {
+
+		string version = 1 [
+			(google.api.field_behavior) = REQUIRED
+			(google.api.resource_reference) = {
+				type: "dialogflow.googleapis.com/Version"
+			}
+		];
+	}
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3;
+	repeated VersionConfig version_configs = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListEnvironmentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListEnvironmentsResponse {
+
+	repeated Environment environments = 1;
+	string next_page_token = 2;
+}
+
+message GetEnvironmentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+}
+
+message CreateEnvironmentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+	Environment environment = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateEnvironmentRequest {
+
+	Environment environment = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteEnvironmentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+}
+
+message LookupEnvironmentHistoryRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Environment"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message LookupEnvironmentHistoryResponse {
+
+	repeated Environment environments = 1;
+	string next_page_token = 2;
+}

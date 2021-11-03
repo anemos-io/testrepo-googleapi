@@ -1,0 +1,261 @@
+syntax = "proto3";
+
+package google.cloud.documentai.v1beta2;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/documentai/v1beta2/geometry.proto";
+import "google/rpc/status.proto";
+import "google/type/color.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.documentai.v1beta2";
+option java_outer_classname = "DocumentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/documentai/v1beta2;documentai";
+option csharp_namespace = "Google.Cloud.DocumentAI.V1Beta2";
+option php_namespace = "Google\\Cloud\\DocumentAi\\V1beta2";
+option ruby_package = "Google::Cloud::DocumentAI::V1beta2";
+
+
+message Document {
+
+	message ShardInfo {
+
+		int64 shard_index = 1;
+		int64 shard_count = 2;
+		int64 text_offset = 3;
+	}
+
+	message Label {
+
+		oneof source {
+			string automl_model = 2;
+		}
+		string name = 1;
+		float confidence = 3;
+	}
+
+	message Style {
+
+		message FontSize {
+
+			float size = 1;
+			string unit = 2;
+		}
+
+		TextAnchor text_anchor = 1;
+		google.type.Color color = 2;
+		google.type.Color background_color = 3;
+		string font_weight = 4;
+		string text_style = 5;
+		string text_decoration = 6;
+		FontSize font_size = 7;
+	}
+
+	message Page {
+
+		message Dimension {
+
+			float width = 1;
+			float height = 2;
+			string unit = 3;
+		}
+
+		message Layout {
+
+			enum Orientation {
+
+				ORIENTATION_UNSPECIFIED = 0;
+				PAGE_UP = 1;
+				PAGE_RIGHT = 2;
+				PAGE_DOWN = 3;
+				PAGE_LEFT = 4;
+			}
+
+			TextAnchor text_anchor = 1;
+			float confidence = 2;
+			google.cloud.documentai.v1beta2.BoundingPoly bounding_poly = 3;
+			Orientation orientation = 4;
+			string id = 5 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+		}
+
+		message Block {
+
+			Layout layout = 1;
+			repeated DetectedLanguage detected_languages = 2;
+		}
+
+		message Paragraph {
+
+			Layout layout = 1;
+			repeated DetectedLanguage detected_languages = 2;
+		}
+
+		message Line {
+
+			Layout layout = 1;
+			repeated DetectedLanguage detected_languages = 2;
+		}
+
+		message Token {
+
+			message DetectedBreak {
+
+				enum Type {
+
+					TYPE_UNSPECIFIED = 0;
+					SPACE = 1;
+					WIDE_SPACE = 2;
+					HYPHEN = 3;
+				}
+
+				Type type = 1;
+			}
+
+			Layout layout = 1;
+			DetectedBreak detected_break = 2;
+			repeated DetectedLanguage detected_languages = 3;
+		}
+
+		message VisualElement {
+
+			Layout layout = 1;
+			string type = 2;
+			repeated DetectedLanguage detected_languages = 3;
+		}
+
+		message Table {
+
+			message TableRow {
+
+				repeated TableCell cells = 1;
+			}
+
+			message TableCell {
+
+				Layout layout = 1;
+				int32 row_span = 2;
+				int32 col_span = 3;
+				repeated DetectedLanguage detected_languages = 4;
+			}
+
+			Layout layout = 1;
+			repeated TableRow header_rows = 2;
+			repeated TableRow body_rows = 3;
+			repeated DetectedLanguage detected_languages = 4;
+		}
+
+		message FormField {
+
+			Layout field_name = 1;
+			Layout field_value = 2;
+			repeated DetectedLanguage name_detected_languages = 3;
+			repeated DetectedLanguage value_detected_languages = 4;
+			string value_type = 5;
+			string corrected_key_text = 6;
+			string corrected_value_text = 7;
+		}
+
+		message DetectedLanguage {
+
+			string language_code = 1;
+			float confidence = 2;
+		}
+
+		int32 page_number = 1;
+		Dimension dimension = 2;
+		Layout layout = 3;
+		repeated DetectedLanguage detected_languages = 4;
+		repeated Block blocks = 5;
+		repeated Paragraph paragraphs = 6;
+		repeated Line lines = 7;
+		repeated Token tokens = 8;
+		repeated VisualElement visual_elements = 9;
+		repeated Table tables = 10;
+		repeated FormField form_fields = 11;
+	}
+
+	message Entity {
+
+		TextAnchor text_anchor = 1;
+		string type = 2;
+		string mention_text = 3;
+		string mention_id = 4;
+		float confidence = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		PageAnchor page_anchor = 6 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		string id = 7 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		google.cloud.documentai.v1beta2.BoundingPoly bounding_poly_for_demo_frontend = 8 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+
+	message EntityRelation {
+
+		string subject_id = 1;
+		string object_id = 2;
+		string relation = 3;
+	}
+
+	message TextAnchor {
+
+		message TextSegment {
+
+			int64 start_index = 1;
+			int64 end_index = 2;
+		}
+
+		repeated TextSegment text_segments = 1;
+	}
+
+	message PageAnchor {
+
+		message PageRef {
+
+			enum LayoutType {
+
+				LAYOUT_TYPE_UNSPECIFIED = 0;
+				BLOCK = 1;
+				PARAGRAPH = 2;
+				LINE = 3;
+				TOKEN = 4;
+				VISUAL_ELEMENT = 5;
+				TABLE = 6;
+				FORM_FIELD = 7;
+			}
+
+			int64 page = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+			LayoutType layout_type = 2 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+			string layout_id = 3 [
+				(google.api.field_behavior) = OPTIONAL
+			];
+		}
+
+		repeated PageRef page_refs = 1;
+	}
+
+	oneof source {
+		string uri = 1;
+		bytes content = 2;
+	}
+	string mime_type = 3;
+	string text = 4;
+	repeated Style text_styles = 5;
+	repeated Page pages = 6;
+	repeated Entity entities = 7;
+	repeated EntityRelation entity_relations = 8;
+	ShardInfo shard_info = 9;
+	repeated Label labels = 11;
+	google.rpc.Status error = 10;
+}

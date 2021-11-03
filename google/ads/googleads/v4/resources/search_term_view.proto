@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.resources;
+
+import "google/ads/googleads/v4/enums/search_term_targeting_status.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.resources";
+option java_outer_classname = "SearchTermViewProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V4::Resources";
+
+
+message SearchTermView {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/SearchTermView"
+		pattern: ["customers/{customer}/searchTermViews/{search_term_view}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/SearchTermView"
+		}
+	];
+	google.protobuf.StringValue search_term = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue ad_group = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/AdGroup"
+		}
+	];
+	google.ads.googleads.v4.enums.SearchTermTargetingStatusEnum.SearchTermTargetingStatus status = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

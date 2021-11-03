@@ -1,0 +1,371 @@
+syntax = "proto3";
+
+package google.iam.v1beta;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.iam.v1beta";
+option java_outer_classname = "WorkloadIdentityPoolProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/iam/v1beta;iam";
+
+
+service WorkloadIdentityPools {
+	option (google.api.default_host) = "iam.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListWorkloadIdentityPools(google.iam.v1beta.ListWorkloadIdentityPoolsRequest) returns (google.iam.v1beta.ListWorkloadIdentityPoolsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*/locations/*}/workloadIdentityPools"
+		};
+
+	}
+	rpc GetWorkloadIdentityPool(google.iam.v1beta.GetWorkloadIdentityPoolRequest) returns (google.iam.v1beta.WorkloadIdentityPool) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/locations/*/workloadIdentityPools/*}"
+		};
+
+	}
+	rpc CreateWorkloadIdentityPool(google.iam.v1beta.CreateWorkloadIdentityPoolRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WorkloadIdentityPool"
+			metadata_type: "WorkloadIdentityPoolOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,workload_identity_pool,workload_identity_pool_id";
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*/locations/*}/workloadIdentityPools"
+			body: "workload_identity_pool"
+		};
+
+	}
+	rpc UpdateWorkloadIdentityPool(google.iam.v1beta.UpdateWorkloadIdentityPoolRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WorkloadIdentityPool"
+			metadata_type: "WorkloadIdentityPoolOperationMetadata"
+		};
+		option (google.api.method_signature) = "workload_identity_pool,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta/{workload_identity_pool.name=projects/*/locations/*/workloadIdentityPools/*}"
+			body: "workload_identity_pool"
+		};
+
+	}
+	rpc DeleteWorkloadIdentityPool(google.iam.v1beta.DeleteWorkloadIdentityPoolRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WorkloadIdentityPool"
+			metadata_type: "WorkloadIdentityPoolOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta/{name=projects/*/locations/*/workloadIdentityPools/*}"
+		};
+
+	}
+	rpc UndeleteWorkloadIdentityPool(google.iam.v1beta.UndeleteWorkloadIdentityPoolRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WorkloadIdentityPool"
+			metadata_type: "WorkloadIdentityPoolOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta/{name=projects/*/locations/*/workloadIdentityPools/*}:undelete"
+			body: "*"
+		};
+
+	}
+	rpc ListWorkloadIdentityPoolProviders(google.iam.v1beta.ListWorkloadIdentityPoolProvidersRequest) returns (google.iam.v1beta.ListWorkloadIdentityPoolProvidersResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*/locations/*/workloadIdentityPools/*}/providers"
+		};
+
+	}
+	rpc GetWorkloadIdentityPoolProvider(google.iam.v1beta.GetWorkloadIdentityPoolProviderRequest) returns (google.iam.v1beta.WorkloadIdentityPoolProvider) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/locations/*/workloadIdentityPools/*/providers/*}"
+		};
+
+	}
+	rpc CreateWorkloadIdentityPoolProvider(google.iam.v1beta.CreateWorkloadIdentityPoolProviderRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WorkloadIdentityPoolProvider"
+			metadata_type: "WorkloadIdentityPoolProviderOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,workload_identity_pool_provider,workload_identity_pool_provider_id";
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*/locations/*/workloadIdentityPools/*}/providers"
+			body: "workload_identity_pool_provider"
+		};
+
+	}
+	rpc UpdateWorkloadIdentityPoolProvider(google.iam.v1beta.UpdateWorkloadIdentityPoolProviderRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WorkloadIdentityPoolProvider"
+			metadata_type: "WorkloadIdentityPoolProviderOperationMetadata"
+		};
+		option (google.api.method_signature) = "workload_identity_pool_provider,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta/{workload_identity_pool_provider.name=projects/*/locations/*/workloadIdentityPools/*/providers/*}"
+			body: "workload_identity_pool_provider"
+		};
+
+	}
+	rpc DeleteWorkloadIdentityPoolProvider(google.iam.v1beta.DeleteWorkloadIdentityPoolProviderRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WorkloadIdentityPoolProvider"
+			metadata_type: "WorkloadIdentityPoolProviderOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta/{name=projects/*/locations/*/workloadIdentityPools/*/providers/*}"
+		};
+
+	}
+	rpc UndeleteWorkloadIdentityPoolProvider(google.iam.v1beta.UndeleteWorkloadIdentityPoolProviderRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "WorkloadIdentityPoolProvider"
+			metadata_type: "WorkloadIdentityPoolProviderOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1beta/{name=projects/*/locations/*/workloadIdentityPools/*/providers/*}:undelete"
+			body: "*"
+		};
+
+	}
+}
+
+message WorkloadIdentityPool {
+	option (google.api.resource) = {
+		type: "iam.googleapis.com/WorkloadIdentityPool"
+		pattern: ["projects/{project}/locations/{location}/workloadIdentityPools/{workload_identity_pool}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		DELETED = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2;
+	string description = 3;
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool disabled = 5;
+}
+
+message WorkloadIdentityPoolProvider {
+	option (google.api.resource) = {
+		type: "iam.googleapis.com/WorkloadIdentityPoolProvider"
+		pattern: ["projects/{project}/locations/{location}/workloadIdentityPools/{workload_identity_pool}/providers/{workload_identity_pool_provider}"]
+	};
+
+	message Aws {
+
+		string account_id = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	message Oidc {
+
+		string issuer_uri = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		repeated string allowed_audiences = 2;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		DELETED = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 2;
+	string description = 3;
+	State state = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool disabled = 5;
+	map<string, string> attribute_mapping = 6;
+	string attribute_condition = 7;
+	oneof provider_config {
+		Aws aws = 8;
+		Oidc oidc = 9;
+	}
+}
+
+message ListWorkloadIdentityPoolsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	bool show_deleted = 4;
+}
+
+message ListWorkloadIdentityPoolsResponse {
+
+	repeated WorkloadIdentityPool workload_identity_pools = 1;
+	string next_page_token = 2;
+}
+
+message GetWorkloadIdentityPoolRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/WorkloadIdentityPool"
+		}
+	];
+}
+
+message CreateWorkloadIdentityPoolRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	WorkloadIdentityPool workload_identity_pool = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string workload_identity_pool_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateWorkloadIdentityPoolRequest {
+
+	WorkloadIdentityPool workload_identity_pool = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteWorkloadIdentityPoolRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/WorkloadIdentityPool"
+		}
+	];
+}
+
+message UndeleteWorkloadIdentityPoolRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/WorkloadIdentityPool"
+		}
+	];
+}
+
+message ListWorkloadIdentityPoolProvidersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/WorkloadIdentityPool"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	bool show_deleted = 4;
+}
+
+message ListWorkloadIdentityPoolProvidersResponse {
+
+	repeated WorkloadIdentityPoolProvider workload_identity_pool_providers = 1;
+	string next_page_token = 2;
+}
+
+message GetWorkloadIdentityPoolProviderRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/WorkloadIdentityPoolProvider"
+		}
+	];
+}
+
+message CreateWorkloadIdentityPoolProviderRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/WorkloadIdentityPool"
+		}
+	];
+	WorkloadIdentityPoolProvider workload_identity_pool_provider = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string workload_identity_pool_provider_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateWorkloadIdentityPoolProviderRequest {
+
+	WorkloadIdentityPoolProvider workload_identity_pool_provider = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteWorkloadIdentityPoolProviderRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/WorkloadIdentityPoolProvider"
+		}
+	];
+}
+
+message UndeleteWorkloadIdentityPoolProviderRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "iam.googleapis.com/WorkloadIdentityPoolProvider"
+		}
+	];
+}
+
+message WorkloadIdentityPoolOperationMetadata {
+
+}
+
+message WorkloadIdentityPoolProviderOperationMetadata {
+
+}

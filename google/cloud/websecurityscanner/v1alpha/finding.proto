@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1alpha;
+
+import "google/api/resource.proto";
+import "google/cloud/websecurityscanner/v1alpha/finding_addon.proto";
+
+option java_package = "com.google.cloud.websecurityscanner.v1alpha";
+option java_outer_classname = "FindingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1alpha;websecurityscanner";
+
+
+message Finding {
+	option (google.api.resource) = {
+		type: "websecurityscanner.googleapis.com/Finding"
+		pattern: ["projects/{project}/scanConfigs/{scan_config}/scanRuns/{scan_run}/findings/{finding}"]
+	};
+
+	enum FindingType {
+
+		FINDING_TYPE_UNSPECIFIED = 0;
+		MIXED_CONTENT = 1;
+		OUTDATED_LIBRARY = 2;
+		ROSETTA_FLASH = 5;
+		XSS_CALLBACK = 3;
+		XSS_ERROR = 4;
+		CLEAR_TEXT_PASSWORD = 6;
+		INVALID_CONTENT_TYPE = 7;
+		XSS_ANGULAR_CALLBACK = 8;
+		INVALID_HEADER = 9;
+		MISSPELLED_SECURITY_HEADER_NAME = 10;
+		MISMATCHING_SECURITY_HEADER_VALUES = 11;
+	}
+
+	string name = 1;
+	FindingType finding_type = 2;
+	string http_method = 3;
+	string fuzzed_url = 4;
+	string body = 5;
+	string description = 6;
+	string reproduction_url = 7;
+	string frame_url = 8;
+	string final_url = 9;
+	string tracking_id = 10;
+	google.cloud.websecurityscanner.v1alpha.OutdatedLibrary outdated_library = 11;
+	google.cloud.websecurityscanner.v1alpha.ViolatingResource violating_resource = 12;
+	google.cloud.websecurityscanner.v1alpha.VulnerableHeaders vulnerable_headers = 15;
+	google.cloud.websecurityscanner.v1alpha.VulnerableParameters vulnerable_parameters = 13;
+	google.cloud.websecurityscanner.v1alpha.Xss xss = 14;
+}

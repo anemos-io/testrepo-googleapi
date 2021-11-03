@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.firestore.admin.v1beta2;
+
+import "google/firestore/admin/v1beta2/index.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.firestore.admin.v1beta2";
+option java_outer_classname = "FieldProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firestore/admin/v1beta2;admin";
+option objc_class_prefix = "GCFS";
+option csharp_namespace = "Google.Cloud.Firestore.Admin.V1Beta2";
+
+
+message Field {
+
+	message IndexConfig {
+
+		repeated google.firestore.admin.v1beta2.Index indexes = 1;
+		bool uses_ancestor_config = 2;
+		string ancestor_field = 3;
+		bool reverting = 4;
+	}
+
+	string name = 1;
+	IndexConfig index_config = 2;
+}

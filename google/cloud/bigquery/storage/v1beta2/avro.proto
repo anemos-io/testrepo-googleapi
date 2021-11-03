@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.storage.v1beta2;
+
+option java_package = "com.google.cloud.bigquery.storage.v1beta2";
+option java_outer_classname = "AvroProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1beta2;storage";
+
+
+message AvroSchema {
+
+	string schema = 1;
+}
+
+message AvroRows {
+
+	bytes serialized_binary_rows = 1;
+}

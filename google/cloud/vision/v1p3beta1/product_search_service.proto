@@ -1,0 +1,487 @@
+syntax = "proto3";
+
+package google.cloud.vision.v1p3beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/vision/v1p3beta1/geometry.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.vision.v1p3beta1";
+option java_outer_classname = "ProductSearchServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/vision/v1p3beta1;vision";
+option cc_enable_arenas = true;
+
+
+service ProductSearch {
+	option (google.api.default_host) = "vision.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-vision";
+
+	rpc CreateProductSet(google.cloud.vision.v1p3beta1.CreateProductSetRequest) returns (google.cloud.vision.v1p3beta1.ProductSet) {
+		option (google.api.method_signature) = "parent,product_set,product_set_id";
+		option (google.api.http) = {
+			post: "/v1p3beta1/{parent=projects/*/locations/*}/productSets"
+			body: "product_set"
+		};
+
+	}
+	rpc ListProductSets(google.cloud.vision.v1p3beta1.ListProductSetsRequest) returns (google.cloud.vision.v1p3beta1.ListProductSetsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1p3beta1/{parent=projects/*/locations/*}/productSets"
+		};
+
+	}
+	rpc GetProductSet(google.cloud.vision.v1p3beta1.GetProductSetRequest) returns (google.cloud.vision.v1p3beta1.ProductSet) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1p3beta1/{name=projects/*/locations/*/productSets/*}"
+		};
+
+	}
+	rpc UpdateProductSet(google.cloud.vision.v1p3beta1.UpdateProductSetRequest) returns (google.cloud.vision.v1p3beta1.ProductSet) {
+		option (google.api.method_signature) = "product_set,update_mask";
+		option (google.api.http) = {
+			patch: "/v1p3beta1/{product_set.name=projects/*/locations/*/productSets/*}"
+			body: "product_set"
+		};
+
+	}
+	rpc DeleteProductSet(google.cloud.vision.v1p3beta1.DeleteProductSetRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1p3beta1/{name=projects/*/locations/*/productSets/*}"
+		};
+
+	}
+	rpc CreateProduct(google.cloud.vision.v1p3beta1.CreateProductRequest) returns (google.cloud.vision.v1p3beta1.Product) {
+		option (google.api.method_signature) = "parent,product,product_id";
+		option (google.api.http) = {
+			post: "/v1p3beta1/{parent=projects/*/locations/*}/products"
+			body: "product"
+		};
+
+	}
+	rpc ListProducts(google.cloud.vision.v1p3beta1.ListProductsRequest) returns (google.cloud.vision.v1p3beta1.ListProductsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1p3beta1/{parent=projects/*/locations/*}/products"
+		};
+
+	}
+	rpc GetProduct(google.cloud.vision.v1p3beta1.GetProductRequest) returns (google.cloud.vision.v1p3beta1.Product) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1p3beta1/{name=projects/*/locations/*/products/*}"
+		};
+
+	}
+	rpc UpdateProduct(google.cloud.vision.v1p3beta1.UpdateProductRequest) returns (google.cloud.vision.v1p3beta1.Product) {
+		option (google.api.method_signature) = "product,update_mask";
+		option (google.api.http) = {
+			patch: "/v1p3beta1/{product.name=projects/*/locations/*/products/*}"
+			body: "product"
+		};
+
+	}
+	rpc DeleteProduct(google.cloud.vision.v1p3beta1.DeleteProductRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1p3beta1/{name=projects/*/locations/*/products/*}"
+		};
+
+	}
+	rpc CreateReferenceImage(google.cloud.vision.v1p3beta1.CreateReferenceImageRequest) returns (google.cloud.vision.v1p3beta1.ReferenceImage) {
+		option (google.api.method_signature) = "parent,reference_image,reference_image_id";
+		option (google.api.http) = {
+			post: "/v1p3beta1/{parent=projects/*/locations/*/products/*}/referenceImages"
+			body: "reference_image"
+		};
+
+	}
+	rpc DeleteReferenceImage(google.cloud.vision.v1p3beta1.DeleteReferenceImageRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1p3beta1/{name=projects/*/locations/*/products/*/referenceImages/*}"
+		};
+
+	}
+	rpc ListReferenceImages(google.cloud.vision.v1p3beta1.ListReferenceImagesRequest) returns (google.cloud.vision.v1p3beta1.ListReferenceImagesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1p3beta1/{parent=projects/*/locations/*/products/*}/referenceImages"
+		};
+
+	}
+	rpc GetReferenceImage(google.cloud.vision.v1p3beta1.GetReferenceImageRequest) returns (google.cloud.vision.v1p3beta1.ReferenceImage) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1p3beta1/{name=projects/*/locations/*/products/*/referenceImages/*}"
+		};
+
+	}
+	rpc AddProductToProductSet(google.cloud.vision.v1p3beta1.AddProductToProductSetRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name,product";
+		option (google.api.http) = {
+			post: "/v1p3beta1/{name=projects/*/locations/*/productSets/*}:addProduct"
+			body: "*"
+		};
+
+	}
+	rpc RemoveProductFromProductSet(google.cloud.vision.v1p3beta1.RemoveProductFromProductSetRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name,product";
+		option (google.api.http) = {
+			post: "/v1p3beta1/{name=projects/*/locations/*/productSets/*}:removeProduct"
+			body: "*"
+		};
+
+	}
+	rpc ListProductsInProductSet(google.cloud.vision.v1p3beta1.ListProductsInProductSetRequest) returns (google.cloud.vision.v1p3beta1.ListProductsInProductSetResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1p3beta1/{name=projects/*/locations/*/productSets/*}/products"
+		};
+
+	}
+	rpc ImportProductSets(google.cloud.vision.v1p3beta1.ImportProductSetsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "ImportProductSetsResponse"
+			metadata_type: "BatchOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,input_config";
+		option (google.api.http) = {
+			post: "/v1p3beta1/{parent=projects/*/locations/*}/productSets:import"
+			body: "*"
+		};
+
+	}
+}
+
+message Product {
+	option (google.api.resource) = {
+		type: "vision.googleapis.com/Product"
+		pattern: ["projects/{project}/locations/{location}/products/{product}"]
+	};
+
+	message KeyValue {
+
+		string key = 1;
+		string value = 2;
+	}
+
+	string name = 1;
+	string display_name = 2;
+	string description = 3;
+	string product_category = 4 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	repeated KeyValue product_labels = 5;
+}
+
+message ProductSet {
+	option (google.api.resource) = {
+		type: "vision.googleapis.com/ProductSet"
+		pattern: ["projects/{project}/locations/{location}/productSets/{product_set}"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	google.protobuf.Timestamp index_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.rpc.Status index_error = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ReferenceImage {
+	option (google.api.resource) = {
+		type: "vision.googleapis.com/ReferenceImage"
+		pattern: ["projects/{project}/locations/{location}/products/{product}/referenceImages/{reference_image}"]
+	};
+
+	string name = 1;
+	string uri = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.vision.v1p3beta1.BoundingPoly bounding_polys = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CreateProductRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	Product product = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string product_id = 3;
+}
+
+message ListProductsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListProductsResponse {
+
+	repeated Product products = 1;
+	string next_page_token = 2;
+}
+
+message GetProductRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/Product"
+		}
+	];
+}
+
+message UpdateProductRequest {
+
+	Product product = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteProductRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/Product"
+		}
+	];
+}
+
+message CreateProductSetRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	ProductSet product_set = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string product_set_id = 3;
+}
+
+message ListProductSetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListProductSetsResponse {
+
+	repeated ProductSet product_sets = 1;
+	string next_page_token = 2;
+}
+
+message GetProductSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/ProductSet"
+		}
+	];
+}
+
+message UpdateProductSetRequest {
+
+	ProductSet product_set = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteProductSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/ProductSet"
+		}
+	];
+}
+
+message CreateReferenceImageRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/Product"
+		}
+	];
+	ReferenceImage reference_image = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string reference_image_id = 3;
+}
+
+message ListReferenceImagesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/Product"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListReferenceImagesResponse {
+
+	repeated ReferenceImage reference_images = 1;
+	int32 page_size = 2;
+	string next_page_token = 3;
+}
+
+message GetReferenceImageRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/ReferenceImage"
+		}
+	];
+}
+
+message DeleteReferenceImageRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/ReferenceImage"
+		}
+	];
+}
+
+message AddProductToProductSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/ProductSet"
+		}
+	];
+	string product = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/Product"
+		}
+	];
+}
+
+message RemoveProductFromProductSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/ProductSet"
+		}
+	];
+	string product = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/Product"
+		}
+	];
+}
+
+message ListProductsInProductSetRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/ProductSet"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListProductsInProductSetResponse {
+
+	repeated Product products = 1;
+	string next_page_token = 2;
+}
+
+message ImportProductSetsGcsSource {
+
+	string csv_file_uri = 1;
+}
+
+message ImportProductSetsInputConfig {
+
+	oneof source {
+		ImportProductSetsGcsSource gcs_source = 1;
+	}
+}
+
+message ImportProductSetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	ImportProductSetsInputConfig input_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ImportProductSetsResponse {
+
+	repeated ReferenceImage reference_images = 1;
+	repeated google.rpc.Status statuses = 2;
+}
+
+message BatchOperationMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		PROCESSING = 1;
+		SUCCESSFUL = 2;
+		FAILED = 3;
+		CANCELLED = 4;
+	}
+
+	State state = 1;
+	google.protobuf.Timestamp submit_time = 2;
+	google.protobuf.Timestamp end_time = 3;
+}

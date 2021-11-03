@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package google.cloud.webrisk.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.webrisk.v1beta1";
+option java_outer_classname = "WebRiskProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/webrisk/v1beta1;webrisk";
+option objc_class_prefix = "GCWR";
+option csharp_namespace = "Google.Cloud.WebRisk.V1Beta1";
+option php_namespace = "Google\\Cloud\\WebRisk\\V1beta1";
+option ruby_package = "Google::Cloud::WebRisk::V1beta1";
+
+
+enum ThreatType {
+
+	THREAT_TYPE_UNSPECIFIED = 0;
+	MALWARE = 1;
+	SOCIAL_ENGINEERING = 2;
+	UNWANTED_SOFTWARE = 3;
+}
+
+enum CompressionType {
+
+	COMPRESSION_TYPE_UNSPECIFIED = 0;
+	RAW = 1;
+	RICE = 2;
+}
+
+service WebRiskServiceV1Beta1 {
+	option (google.api.default_host) = "webrisk.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ComputeThreatListDiff(google.cloud.webrisk.v1beta1.ComputeThreatListDiffRequest) returns (google.cloud.webrisk.v1beta1.ComputeThreatListDiffResponse) {
+		option (google.api.method_signature) = "threat_type,version_token,constraints";
+		option (google.api.http) = {
+			get: "/v1beta1/threatLists:computeDiff"
+		};
+
+	}
+	rpc SearchUris(google.cloud.webrisk.v1beta1.SearchUrisRequest) returns (google.cloud.webrisk.v1beta1.SearchUrisResponse) {
+		option (google.api.method_signature) = "uri,threat_types";
+		option (google.api.http) = {
+			get: "/v1beta1/uris:search"
+		};
+
+	}
+	rpc SearchHashes(google.cloud.webrisk.v1beta1.SearchHashesRequest) returns (google.cloud.webrisk.v1beta1.SearchHashesResponse) {
+		option (google.api.method_signature) = "hash_prefix,threat_types";
+		option (google.api.http) = {
+			get: "/v1beta1/hashes:search"
+		};
+
+	}
+}
+
+message ComputeThreatListDiffRequest {
+
+	message Constraints {
+
+		int32 max_diff_entries = 1;
+		int32 max_database_entries = 2;
+		repeated CompressionType supported_compressions = 3;
+	}
+
+	ThreatType threat_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bytes version_token = 2;
+	Constraints constraints = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ComputeThreatListDiffResponse {
+
+	message Checksum {
+
+		bytes sha256 = 1;
+	}
+
+	enum ResponseType {
+
+		RESPONSE_TYPE_UNSPECIFIED = 0;
+		DIFF = 1;
+		RESET = 2;
+	}
+
+	ResponseType response_type = 4;
+	ThreatEntryAdditions additions = 5;
+	ThreatEntryRemovals removals = 6;
+	bytes new_version_token = 7;
+	Checksum checksum = 8;
+	google.protobuf.Timestamp recommended_next_diff = 2;
+}
+
+message SearchUrisRequest {
+
+	string uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ThreatType threat_types = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SearchUrisResponse {
+
+	message ThreatUri {
+
+		repeated ThreatType threat_types = 1;
+		google.protobuf.Timestamp expire_time = 2;
+	}
+
+	ThreatUri threat = 1;
+}
+
+message SearchHashesRequest {
+
+	bytes hash_prefix = 1;
+	repeated ThreatType threat_types = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SearchHashesResponse {
+
+	message ThreatHash {
+
+		repeated ThreatType threat_types = 1;
+		bytes hash = 2;
+		google.protobuf.Timestamp expire_time = 3;
+	}
+
+	repeated ThreatHash threats = 1;
+	google.protobuf.Timestamp negative_expire_time = 2;
+}
+
+message ThreatEntryAdditions {
+
+	repeated RawHashes raw_hashes = 1;
+	RiceDeltaEncoding rice_hashes = 2;
+}
+
+message ThreatEntryRemovals {
+
+	RawIndices raw_indices = 1;
+	RiceDeltaEncoding rice_indices = 2;
+}
+
+message RawIndices {
+
+	repeated int32 indices = 1;
+}
+
+message RawHashes {
+
+	int32 prefix_size = 1;
+	bytes raw_hashes = 2;
+}
+
+message RiceDeltaEncoding {
+
+	int64 first_value = 1;
+	int32 rice_parameter = 2;
+	int32 entry_count = 3;
+	bytes encoded_data = 4;
+}

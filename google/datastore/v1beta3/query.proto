@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package google.datastore.v1beta3;
+
+import "google/api/annotations.proto";
+import "google/datastore/v1beta3/entity.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/latlng.proto";
+
+option java_package = "com.google.datastore.v1beta3";
+option java_outer_classname = "QueryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/datastore/v1beta3;datastore";
+option csharp_namespace = "Google.Cloud.Datastore.V1Beta3";
+option php_namespace = "Google\\Cloud\\Datastore\\V1beta3";
+option ruby_package = "Google::Cloud::Datastore::V1beta3";
+
+
+message EntityResult {
+
+	enum ResultType {
+
+		RESULT_TYPE_UNSPECIFIED = 0;
+		FULL = 1;
+		PROJECTION = 2;
+		KEY_ONLY = 3;
+	}
+
+	google.datastore.v1beta3.Entity entity = 1;
+	int64 version = 4;
+	bytes cursor = 3;
+}
+
+message Query {
+
+	repeated Projection projection = 2;
+	repeated KindExpression kind = 3;
+	Filter filter = 4;
+	repeated PropertyOrder order = 5;
+	repeated PropertyReference distinct_on = 6;
+	bytes start_cursor = 7;
+	bytes end_cursor = 8;
+	int32 offset = 10;
+	google.protobuf.Int32Value limit = 12;
+}
+
+message KindExpression {
+
+	string name = 1;
+}
+
+message PropertyReference {
+
+	string name = 2;
+}
+
+message Projection {
+
+	PropertyReference property = 1;
+}
+
+message PropertyOrder {
+
+	enum Direction {
+
+		DIRECTION_UNSPECIFIED = 0;
+		ASCENDING = 1;
+		DESCENDING = 2;
+	}
+
+	PropertyReference property = 1;
+	Direction direction = 2;
+}
+
+message Filter {
+
+	oneof filter_type {
+		CompositeFilter composite_filter = 1;
+		PropertyFilter property_filter = 2;
+	}
+}
+
+message CompositeFilter {
+
+	enum Operator {
+
+		OPERATOR_UNSPECIFIED = 0;
+		AND = 1;
+	}
+
+	Operator op = 1;
+	repeated Filter filters = 2;
+}
+
+message PropertyFilter {
+
+	enum Operator {
+
+		OPERATOR_UNSPECIFIED = 0;
+		LESS_THAN = 1;
+		LESS_THAN_OR_EQUAL = 2;
+		GREATER_THAN = 3;
+		GREATER_THAN_OR_EQUAL = 4;
+		EQUAL = 5;
+		HAS_ANCESTOR = 11;
+	}
+
+	PropertyReference property = 1;
+	Operator op = 2;
+	google.datastore.v1beta3.Value value = 3;
+}
+
+message GqlQuery {
+
+	string query_string = 1;
+	bool allow_literals = 2;
+	map<string, GqlQueryParameter> named_bindings = 5;
+	repeated GqlQueryParameter positional_bindings = 4;
+}
+
+message GqlQueryParameter {
+
+	oneof parameter_type {
+		google.datastore.v1beta3.Value value = 2;
+		bytes cursor = 3;
+	}
+}
+
+message QueryResultBatch {
+
+	enum MoreResultsType {
+
+		MORE_RESULTS_TYPE_UNSPECIFIED = 0;
+		NOT_FINISHED = 1;
+		MORE_RESULTS_AFTER_LIMIT = 2;
+		MORE_RESULTS_AFTER_CURSOR = 4;
+		NO_MORE_RESULTS = 3;
+	}
+
+	int32 skipped_results = 6;
+	bytes skipped_cursor = 3;
+	ResultType entity_result_type = 1;
+	repeated EntityResult entity_results = 2;
+	bytes end_cursor = 4;
+	MoreResultsType more_results = 5;
+	int64 snapshot_version = 7;
+}

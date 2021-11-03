@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package google.appengine.v1beta;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1beta";
+option java_outer_classname = "OperationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+
+
+message OperationMetadataV1Beta {
+
+	string method = 1;
+	google.protobuf.Timestamp insert_time = 2;
+	google.protobuf.Timestamp end_time = 3;
+	string user = 4;
+	string target = 5;
+	string ephemeral_message = 6;
+	repeated string warning = 7;
+	oneof method_metadata {
+		CreateVersionMetadataV1Beta create_version_metadata = 8;
+	}
+}
+
+message CreateVersionMetadataV1Beta {
+
+	string cloud_build_id = 1;
+}

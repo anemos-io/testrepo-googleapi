@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.services;
+
+import "google/ads/googleads/v4/resources/batch_job.proto";
+import "google/ads/googleads/v4/services/google_ads_service.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v4.services";
+option java_outer_classname = "BatchJobServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V4::Services";
+
+
+service BatchJobService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc MutateBatchJob(google.ads.googleads.v4.services.MutateBatchJobRequest) returns (google.ads.googleads.v4.services.MutateBatchJobResponse) {
+		option (google.api.method_signature) = "customer_id,operation";
+		option (google.api.http) = {
+			post: "/v4/customers/{customer_id=*}/batchJobs:mutate"
+			body: "*"
+		};
+
+	}
+	rpc GetBatchJob(google.ads.googleads.v4.services.GetBatchJobRequest) returns (google.ads.googleads.v4.resources.BatchJob) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v4/{resource_name=customers/*/batchJobs/*}"
+		};
+
+	}
+	rpc ListBatchJobResults(google.ads.googleads.v4.services.ListBatchJobResultsRequest) returns (google.ads.googleads.v4.services.ListBatchJobResultsResponse) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v4/{resource_name=customers/*/batchJobs/*}:listResults"
+		};
+
+	}
+	rpc RunBatchJob(google.ads.googleads.v4.services.RunBatchJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.ads.googleads.v4.resources.BatchJob.BatchJobMetadata"
+		};
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			post: "/v4/{resource_name=customers/*/batchJobs/*}:run"
+			body: "*"
+		};
+
+	}
+	rpc AddBatchJobOperations(google.ads.googleads.v4.services.AddBatchJobOperationsRequest) returns (google.ads.googleads.v4.services.AddBatchJobOperationsResponse) {
+		option (google.api.method_signature) = "resource_name,sequence_token,mutate_operations";
+		option (google.api.method_signature) = "resource_name,mutate_operations";
+		option (google.api.http) = {
+			post: "/v4/{resource_name=customers/*/batchJobs/*}:addOperations"
+			body: "*"
+		};
+
+	}
+}
+
+message MutateBatchJobRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	BatchJobOperation operation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchJobOperation {
+
+	oneof operation {
+		google.ads.googleads.v4.resources.BatchJob create = 1;
+		string remove = 3;
+	}
+}
+
+message MutateBatchJobResponse {
+
+	MutateBatchJobResult result = 1;
+}
+
+message MutateBatchJobResult {
+
+	string resource_name = 1;
+}
+
+message GetBatchJobRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/BatchJob"
+		}
+	];
+}
+
+message RunBatchJobRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/BatchJob"
+		}
+	];
+}
+
+message AddBatchJobOperationsRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/BatchJob"
+		}
+	];
+	string sequence_token = 2;
+	repeated google.ads.googleads.v4.services.MutateOperation mutate_operations = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message AddBatchJobOperationsResponse {
+
+	int64 total_operations = 1;
+	string next_sequence_token = 2;
+}
+
+message ListBatchJobResultsRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/BatchJob"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListBatchJobResultsResponse {
+
+	repeated BatchJobResult results = 1;
+	string next_page_token = 2;
+}
+
+message BatchJobResult {
+
+	int64 operation_index = 1;
+	google.ads.googleads.v4.services.MutateOperationResponse mutate_operation_response = 2;
+	google.rpc.Status status = 3;
+}

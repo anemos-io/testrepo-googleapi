@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+package google.bigtable.v1;
+
+option java_package = "com.google.bigtable.v1";
+option java_outer_classname = "BigtableDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/v1;bigtable";
+
+
+message Row {
+
+	bytes key = 1;
+	repeated Family families = 2;
+}
+
+message Family {
+
+	string name = 1;
+	repeated Column columns = 2;
+}
+
+message Column {
+
+	bytes qualifier = 1;
+	repeated Cell cells = 2;
+}
+
+message Cell {
+
+	int64 timestamp_micros = 1;
+	bytes value = 2;
+	repeated string labels = 3;
+}
+
+message RowRange {
+
+	bytes start_key = 2;
+	bytes end_key = 3;
+}
+
+message RowSet {
+
+	repeated bytes row_keys = 1;
+	repeated RowRange row_ranges = 2;
+}
+
+message ColumnRange {
+
+	string family_name = 1;
+	oneof start_qualifier {
+		bytes start_qualifier_inclusive = 2;
+		bytes start_qualifier_exclusive = 3;
+	}
+	oneof end_qualifier {
+		bytes end_qualifier_inclusive = 4;
+		bytes end_qualifier_exclusive = 5;
+	}
+}
+
+message TimestampRange {
+
+	int64 start_timestamp_micros = 1;
+	int64 end_timestamp_micros = 2;
+}
+
+message ValueRange {
+
+	oneof start_value {
+		bytes start_value_inclusive = 1;
+		bytes start_value_exclusive = 2;
+	}
+	oneof end_value {
+		bytes end_value_inclusive = 3;
+		bytes end_value_exclusive = 4;
+	}
+}
+
+message RowFilter {
+
+	message Chain {
+
+		repeated RowFilter filters = 1;
+	}
+
+	message Interleave {
+
+		repeated RowFilter filters = 1;
+	}
+
+	message Condition {
+
+		RowFilter predicate_filter = 1;
+		RowFilter true_filter = 2;
+		RowFilter false_filter = 3;
+	}
+
+	oneof filter {
+		Chain chain = 1;
+		Interleave interleave = 2;
+		Condition condition = 3;
+		bool sink = 16;
+		bool pass_all_filter = 17;
+		bool block_all_filter = 18;
+		bytes row_key_regex_filter = 4;
+		double row_sample_filter = 14;
+		string family_name_regex_filter = 5;
+		bytes column_qualifier_regex_filter = 6;
+		ColumnRange column_range_filter = 7;
+		TimestampRange timestamp_range_filter = 8;
+		bytes value_regex_filter = 9;
+		ValueRange value_range_filter = 15;
+		int32 cells_per_row_offset_filter = 10;
+		int32 cells_per_row_limit_filter = 11;
+		int32 cells_per_column_limit_filter = 12;
+		bool strip_value_transformer = 13;
+		string apply_label_transformer = 19;
+	}
+}
+
+message Mutation {
+
+	message SetCell {
+
+		string family_name = 1;
+		bytes column_qualifier = 2;
+		int64 timestamp_micros = 3;
+		bytes value = 4;
+	}
+
+	message DeleteFromColumn {
+
+		string family_name = 1;
+		bytes column_qualifier = 2;
+		TimestampRange time_range = 3;
+	}
+
+	message DeleteFromFamily {
+
+		string family_name = 1;
+	}
+
+	message DeleteFromRow {
+
+	}
+
+	oneof mutation {
+		SetCell set_cell = 1;
+		DeleteFromColumn delete_from_column = 2;
+		DeleteFromFamily delete_from_family = 3;
+		DeleteFromRow delete_from_row = 4;
+	}
+}
+
+message ReadModifyWriteRule {
+
+	string family_name = 1;
+	bytes column_qualifier = 2;
+	oneof rule {
+		bytes append_value = 3;
+		int64 increment_amount = 4;
+	}
+}

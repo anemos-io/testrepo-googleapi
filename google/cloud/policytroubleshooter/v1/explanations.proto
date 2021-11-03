@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package google.cloud.policytroubleshooter.v1;
+
+import "google/api/field_behavior.proto";
+import "google/iam/v1/policy.proto";
+import "google/type/expr.proto";
+
+option go_package = "google.golang.org/genproto/googleapis/cloud/policytroubleshooter/v1;policytroubleshooter";
+option csharp_namespace = "Google.Cloud.PolicyTroubleshooter.V1";
+option php_namespace = "Google\\Cloud\\PolicyTroubleshooter\\V1";
+option ruby_package = "Google::Cloud::PolicyTroubleshooter::V1";
+
+
+enum AccessState {
+
+	ACCESS_STATE_UNSPECIFIED = 0;
+	GRANTED = 1;
+	NOT_GRANTED = 2;
+	UNKNOWN_CONDITIONAL = 3;
+	UNKNOWN_INFO_DENIED = 4;
+}
+
+enum HeuristicRelevance {
+
+	HEURISTIC_RELEVANCE_UNSPECIFIED = 0;
+	NORMAL = 1;
+	HIGH = 2;
+}
+
+message AccessTuple {
+
+	string principal = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string full_resource_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string permission = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ExplainedPolicy {
+
+	AccessState access = 1;
+	string full_resource_name = 2;
+	google.iam.v1.Policy policy = 3;
+	repeated BindingExplanation binding_explanations = 4;
+	HeuristicRelevance relevance = 5;
+}
+
+message BindingExplanation {
+
+	message AnnotatedMembership {
+
+		Membership membership = 1;
+		HeuristicRelevance relevance = 2;
+	}
+
+	enum RolePermission {
+
+		ROLE_PERMISSION_UNSPECIFIED = 0;
+		ROLE_PERMISSION_INCLUDED = 1;
+		ROLE_PERMISSION_NOT_INCLUDED = 2;
+		ROLE_PERMISSION_UNKNOWN_INFO_DENIED = 3;
+	}
+
+	enum Membership {
+
+		MEMBERSHIP_UNSPECIFIED = 0;
+		MEMBERSHIP_INCLUDED = 1;
+		MEMBERSHIP_NOT_INCLUDED = 2;
+		MEMBERSHIP_UNKNOWN_INFO_DENIED = 3;
+		MEMBERSHIP_UNKNOWN_UNSUPPORTED = 4;
+	}
+
+	AccessState access = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string role = 2;
+	RolePermission role_permission = 3;
+	HeuristicRelevance role_permission_relevance = 4;
+	map<string, AnnotatedMembership> memberships = 5;
+	HeuristicRelevance relevance = 6;
+	google.type.Expr condition = 7;
+}

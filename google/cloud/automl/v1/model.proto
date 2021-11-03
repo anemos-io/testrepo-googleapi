@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1;
+
+import "google/api/resource.proto";
+import "google/cloud/automl/v1/image.proto";
+import "google/cloud/automl/v1/text.proto";
+import "google/cloud/automl/v1/translation.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1;automl";
+option csharp_namespace = "Google.Cloud.AutoML.V1";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1";
+option ruby_package = "Google::Cloud::AutoML::V1";
+
+
+message Model {
+	option (google.api.resource) = {
+		type: "automl.googleapis.com/Model"
+		pattern: ["projects/{project}/locations/{location}/models/{model}"]
+	};
+
+	enum DeploymentState {
+
+		DEPLOYMENT_STATE_UNSPECIFIED = 0;
+		DEPLOYED = 1;
+		UNDEPLOYED = 2;
+	}
+
+	oneof model_metadata {
+		google.cloud.automl.v1.TranslationModelMetadata translation_model_metadata = 15;
+		google.cloud.automl.v1.ImageClassificationModelMetadata image_classification_model_metadata = 13;
+		google.cloud.automl.v1.TextClassificationModelMetadata text_classification_model_metadata = 14;
+		google.cloud.automl.v1.ImageObjectDetectionModelMetadata image_object_detection_model_metadata = 20;
+		google.cloud.automl.v1.TextExtractionModelMetadata text_extraction_model_metadata = 19;
+		google.cloud.automl.v1.TextSentimentModelMetadata text_sentiment_model_metadata = 22;
+	}
+	string name = 1;
+	string display_name = 2;
+	string dataset_id = 3;
+	google.protobuf.Timestamp create_time = 7;
+	google.protobuf.Timestamp update_time = 11;
+	DeploymentState deployment_state = 8;
+	string etag = 10;
+	map<string, string> labels = 34;
+}

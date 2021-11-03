@@ -1,0 +1,177 @@
+syntax = "proto3";
+
+package google.home.graph.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/home/graph/v1/device.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.home.graph.v1";
+option java_outer_classname = "HomeGraphApiServiceProto";
+option go_package = "google.golang.org/genproto/googleapis/home/graph/v1;graph";
+option (google.api.resource_definition) = {
+	type: "homegraph.googleapis.com/AgentUserPath"
+	pattern: ["agentUsers/{agent_user_path=**}"]
+};
+
+
+service HomeGraphApiService {
+	option (google.api.default_host) = "homegraph.googleapis.com";
+
+	rpc RequestSyncDevices(google.home.graph.v1.RequestSyncDevicesRequest) returns (google.home.graph.v1.RequestSyncDevicesResponse) {
+		option (google.api.method_signature) = "agent_user_id";
+		option (google.api.http) = {
+			post: "/v1/devices:requestSync"
+			body: "*"
+		};
+
+	}
+	rpc ReportStateAndNotification(google.home.graph.v1.ReportStateAndNotificationRequest) returns (google.home.graph.v1.ReportStateAndNotificationResponse) {
+		option (google.api.method_signature) = "request_id,event_id,agent_user_id,payload";
+		option (google.api.http) = {
+			post: "/v1/devices:reportStateAndNotification"
+			body: "*"
+		};
+
+	}
+	rpc DeleteAgentUser(google.home.graph.v1.DeleteAgentUserRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "request_id,agent_user_id";
+		option (google.api.http) = {
+			delete: "/v1/{agent_user_id=agentUsers/**}"
+		};
+
+	}
+	rpc Query(google.home.graph.v1.QueryRequest) returns (google.home.graph.v1.QueryResponse) {
+		option (google.api.method_signature) = "request_id,agent_user_id,inputs";
+		option (google.api.http) = {
+			post: "/v1/devices:query"
+			body: "*"
+		};
+
+	}
+	rpc Sync(google.home.graph.v1.SyncRequest) returns (google.home.graph.v1.SyncResponse) {
+		option (google.api.method_signature) = "request_id,agent_user_id";
+		option (google.api.http) = {
+			post: "/v1/devices:sync"
+			body: "*"
+		};
+
+	}
+}
+
+message RequestSyncDevicesRequest {
+
+	string agent_user_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool async = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message RequestSyncDevicesResponse {
+
+}
+
+message ReportStateAndNotificationRequest {
+
+	string request_id = 1;
+	string event_id = 4;
+	string agent_user_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string follow_up_token = 5 [
+		deprecated = true
+	];
+	StateAndNotificationPayload payload = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReportStateAndNotificationResponse {
+
+	string request_id = 1;
+}
+
+message StateAndNotificationPayload {
+
+	ReportStateAndNotificationDevice devices = 1;
+}
+
+message ReportStateAndNotificationDevice {
+
+	google.protobuf.Struct states = 1;
+	google.protobuf.Struct notifications = 2;
+}
+
+message DeleteAgentUserRequest {
+
+	string request_id = 1;
+	string agent_user_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "homegraph.googleapis.com/AgentUserPath"
+		}
+	];
+}
+
+message QueryRequest {
+
+	string request_id = 1;
+	string agent_user_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated QueryRequestInput inputs = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message QueryRequestInput {
+
+	QueryRequestPayload payload = 1;
+}
+
+message QueryRequestPayload {
+
+	repeated AgentDeviceId devices = 1;
+}
+
+message AgentDeviceId {
+
+	string id = 1;
+}
+
+message QueryResponse {
+
+	string request_id = 1;
+	QueryResponsePayload payload = 2;
+}
+
+message QueryResponsePayload {
+
+	map<string, google.protobuf.Struct> devices = 1;
+}
+
+message SyncRequest {
+
+	string request_id = 1;
+	string agent_user_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message SyncResponse {
+
+	string request_id = 1;
+	SyncResponsePayload payload = 2;
+}
+
+message SyncResponsePayload {
+
+	string agent_user_id = 1;
+	repeated google.home.graph.v1.Device devices = 2;
+}

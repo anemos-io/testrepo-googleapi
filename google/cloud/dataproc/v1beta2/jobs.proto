@@ -1,0 +1,585 @@
+syntax = "proto3";
+
+package google.cloud.dataproc.v1beta2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dataproc.v1beta2";
+option java_outer_classname = "JobsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataproc/v1beta2;dataproc";
+
+
+service JobController {
+	option (google.api.default_host) = "dataproc.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc SubmitJob(google.cloud.dataproc.v1beta2.SubmitJobRequest) returns (google.cloud.dataproc.v1beta2.Job) {
+		option (google.api.method_signature) = "project_id, region, job";
+		option (google.api.http) = {
+			post: "/v1beta2/projects/{project_id}/regions/{region}/jobs:submit"
+			body: "*"
+		};
+
+	}
+	rpc SubmitJobAsOperation(google.cloud.dataproc.v1beta2.SubmitJobRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Job"
+			metadata_type: "JobMetadata"
+		};
+		option (google.api.method_signature) = "project_id, region, job";
+		option (google.api.http) = {
+			post: "/v1beta2/projects/{project_id}/regions/{region}/jobs:submitAsOperation"
+			body: "*"
+		};
+
+	}
+	rpc GetJob(google.cloud.dataproc.v1beta2.GetJobRequest) returns (google.cloud.dataproc.v1beta2.Job) {
+		option (google.api.method_signature) = "project_id, region, job_id";
+		option (google.api.http) = {
+			get: "/v1beta2/projects/{project_id}/regions/{region}/jobs/{job_id}"
+		};
+
+	}
+	rpc ListJobs(google.cloud.dataproc.v1beta2.ListJobsRequest) returns (google.cloud.dataproc.v1beta2.ListJobsResponse) {
+		option (google.api.method_signature) = "project_id, region";
+		option (google.api.method_signature) = "project_id, region, filter";
+		option (google.api.http) = {
+			get: "/v1beta2/projects/{project_id}/regions/{region}/jobs"
+		};
+
+	}
+	rpc UpdateJob(google.cloud.dataproc.v1beta2.UpdateJobRequest) returns (google.cloud.dataproc.v1beta2.Job) {
+		option (google.api.http) = {
+			patch: "/v1beta2/projects/{project_id}/regions/{region}/jobs/{job_id}"
+			body: "job"
+		};
+
+	}
+	rpc CancelJob(google.cloud.dataproc.v1beta2.CancelJobRequest) returns (google.cloud.dataproc.v1beta2.Job) {
+		option (google.api.method_signature) = "project_id, region, job_id";
+		option (google.api.http) = {
+			post: "/v1beta2/projects/{project_id}/regions/{region}/jobs/{job_id}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc DeleteJob(google.cloud.dataproc.v1beta2.DeleteJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "project_id, region, job_id";
+		option (google.api.http) = {
+			delete: "/v1beta2/projects/{project_id}/regions/{region}/jobs/{job_id}"
+		};
+
+	}
+}
+
+message LoggingConfig {
+
+	enum Level {
+
+		LEVEL_UNSPECIFIED = 0;
+		ALL = 1;
+		TRACE = 2;
+		DEBUG = 3;
+		INFO = 4;
+		WARN = 5;
+		ERROR = 6;
+		FATAL = 7;
+		OFF = 8;
+	}
+
+	map<string, Level> driver_log_levels = 2;
+}
+
+message HadoopJob {
+
+	oneof driver {
+		string main_jar_file_uri = 1;
+		string main_class = 2;
+	}
+	repeated string args = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string jar_file_uris = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string file_uris = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string archive_uris = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LoggingConfig logging_config = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SparkJob {
+
+	oneof driver {
+		string main_jar_file_uri = 1;
+		string main_class = 2;
+	}
+	repeated string args = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string jar_file_uris = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string file_uris = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string archive_uris = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LoggingConfig logging_config = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PySparkJob {
+
+	string main_python_file_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string args = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string python_file_uris = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string jar_file_uris = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string file_uris = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string archive_uris = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LoggingConfig logging_config = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message QueryList {
+
+	repeated string queries = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message HiveJob {
+
+	oneof queries {
+		string query_file_uri = 1;
+		QueryList query_list = 2;
+	}
+	bool continue_on_failure = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> script_variables = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string jar_file_uris = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SparkSqlJob {
+
+	oneof queries {
+		string query_file_uri = 1;
+		QueryList query_list = 2;
+	}
+	map<string, string> script_variables = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string jar_file_uris = 56 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LoggingConfig logging_config = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PigJob {
+
+	oneof queries {
+		string query_file_uri = 1;
+		QueryList query_list = 2;
+	}
+	bool continue_on_failure = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> script_variables = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string jar_file_uris = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LoggingConfig logging_config = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SparkRJob {
+
+	string main_r_file_uri = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string args = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string file_uris = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string archive_uris = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LoggingConfig logging_config = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PrestoJob {
+
+	oneof queries {
+		string query_file_uri = 1;
+		QueryList query_list = 2;
+	}
+	bool continue_on_failure = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string output_format = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string client_tags = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LoggingConfig logging_config = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message JobPlacement {
+
+	string cluster_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_uuid = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message JobStatus {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		SETUP_DONE = 8;
+		RUNNING = 2;
+		CANCEL_PENDING = 3;
+		CANCEL_STARTED = 7;
+		CANCELLED = 4;
+		DONE = 5;
+		ERROR = 6;
+		ATTEMPT_FAILURE = 9;
+	}
+
+	enum Substate {
+
+		UNSPECIFIED = 0;
+		SUBMITTED = 1;
+		QUEUED = 2;
+		STALE_STATUS = 3;
+	}
+
+	State state = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string details = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp state_start_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Substate substate = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message JobReference {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string job_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message YarnApplication {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		NEW = 1;
+		NEW_SAVING = 2;
+		SUBMITTED = 3;
+		ACCEPTED = 4;
+		RUNNING = 5;
+		FINISHED = 6;
+		FAILED = 7;
+		KILLED = 8;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	float progress = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string tracking_url = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Job {
+
+	JobReference reference = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	JobPlacement placement = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof type_job {
+		HadoopJob hadoop_job = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		SparkJob spark_job = 4 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		PySparkJob pyspark_job = 5 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		HiveJob hive_job = 6 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		PigJob pig_job = 7 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		SparkRJob spark_r_job = 21 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		SparkSqlJob spark_sql_job = 12 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		PrestoJob presto_job = 23 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	JobStatus status = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated JobStatus status_history = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated YarnApplication yarn_applications = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string submitted_by = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string driver_output_resource_uri = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string driver_control_files_uri = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 18 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	JobScheduling scheduling = 20 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string job_uuid = 22 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool done = 24 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message JobScheduling {
+
+	int32 max_failures_per_hour = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message JobMetadata {
+
+	string job_id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	JobStatus status = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string operation_type = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message SubmitJobRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Job job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetJobRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string job_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListJobsRequest {
+
+	enum JobStateMatcher {
+
+		ALL = 0;
+		ACTIVE = 1;
+		NON_ACTIVE = 2;
+	}
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string cluster_name = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	JobStateMatcher job_state_matcher = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateJobRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string job_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Job job = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListJobsResponse {
+
+	repeated Job jobs = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string next_page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CancelJobRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string job_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteJobRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string job_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

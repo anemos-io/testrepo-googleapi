@@ -1,0 +1,355 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.common;
+
+import "google/ads/googleads/v3/enums/age_range_type.proto";
+import "google/ads/googleads/v3/enums/app_payment_model_type.proto";
+import "google/ads/googleads/v3/enums/content_label_type.proto";
+import "google/ads/googleads/v3/enums/day_of_week.proto";
+import "google/ads/googleads/v3/enums/device.proto";
+import "google/ads/googleads/v3/enums/gender_type.proto";
+import "google/ads/googleads/v3/enums/hotel_date_selection_type.proto";
+import "google/ads/googleads/v3/enums/income_range_type.proto";
+import "google/ads/googleads/v3/enums/interaction_type.proto";
+import "google/ads/googleads/v3/enums/keyword_match_type.proto";
+import "google/ads/googleads/v3/enums/listing_group_type.proto";
+import "google/ads/googleads/v3/enums/location_group_radius_units.proto";
+import "google/ads/googleads/v3/enums/minute_of_hour.proto";
+import "google/ads/googleads/v3/enums/parental_status_type.proto";
+import "google/ads/googleads/v3/enums/preferred_content_type.proto";
+import "google/ads/googleads/v3/enums/product_bidding_category_level.proto";
+import "google/ads/googleads/v3/enums/product_channel.proto";
+import "google/ads/googleads/v3/enums/product_channel_exclusivity.proto";
+import "google/ads/googleads/v3/enums/product_condition.proto";
+import "google/ads/googleads/v3/enums/product_custom_attribute_index.proto";
+import "google/ads/googleads/v3/enums/product_type_level.proto";
+import "google/ads/googleads/v3/enums/proximity_radius_units.proto";
+import "google/ads/googleads/v3/enums/webpage_condition_operand.proto";
+import "google/ads/googleads/v3/enums/webpage_condition_operator.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.common";
+option java_outer_classname = "CriteriaProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V3::Common";
+
+
+message KeywordInfo {
+
+	google.protobuf.StringValue text = 1;
+	google.ads.googleads.v3.enums.KeywordMatchTypeEnum.KeywordMatchType match_type = 2;
+}
+
+message PlacementInfo {
+
+	google.protobuf.StringValue url = 1;
+}
+
+message MobileAppCategoryInfo {
+
+	google.protobuf.StringValue mobile_app_category_constant = 1;
+}
+
+message MobileApplicationInfo {
+
+	google.protobuf.StringValue app_id = 2;
+	google.protobuf.StringValue name = 3;
+}
+
+message LocationInfo {
+
+	google.protobuf.StringValue geo_target_constant = 1;
+}
+
+message DeviceInfo {
+
+	google.ads.googleads.v3.enums.DeviceEnum.Device type = 1;
+}
+
+message PreferredContentInfo {
+
+	google.ads.googleads.v3.enums.PreferredContentTypeEnum.PreferredContentType type = 2;
+}
+
+message ListingGroupInfo {
+
+	google.ads.googleads.v3.enums.ListingGroupTypeEnum.ListingGroupType type = 1;
+	ListingDimensionInfo case_value = 2;
+	google.protobuf.StringValue parent_ad_group_criterion = 3;
+}
+
+message ListingScopeInfo {
+
+	repeated ListingDimensionInfo dimensions = 2;
+}
+
+message ListingDimensionInfo {
+
+	oneof dimension {
+		HotelIdInfo hotel_id = 2;
+		HotelClassInfo hotel_class = 3;
+		HotelCountryRegionInfo hotel_country_region = 4;
+		HotelStateInfo hotel_state = 5;
+		HotelCityInfo hotel_city = 6;
+		ProductBiddingCategoryInfo product_bidding_category = 13;
+		ProductBrandInfo product_brand = 15;
+		ProductChannelInfo product_channel = 8;
+		ProductChannelExclusivityInfo product_channel_exclusivity = 9;
+		ProductConditionInfo product_condition = 10;
+		ProductCustomAttributeInfo product_custom_attribute = 16;
+		ProductItemIdInfo product_item_id = 11;
+		ProductTypeInfo product_type = 12;
+		UnknownListingDimensionInfo unknown_listing_dimension = 14;
+	}
+}
+
+message HotelIdInfo {
+
+	google.protobuf.StringValue value = 1;
+}
+
+message HotelClassInfo {
+
+	google.protobuf.Int64Value value = 1;
+}
+
+message HotelCountryRegionInfo {
+
+	google.protobuf.StringValue country_region_criterion = 1;
+}
+
+message HotelStateInfo {
+
+	google.protobuf.StringValue state_criterion = 1;
+}
+
+message HotelCityInfo {
+
+	google.protobuf.StringValue city_criterion = 1;
+}
+
+message ProductBiddingCategoryInfo {
+
+	google.protobuf.Int64Value id = 1;
+	google.protobuf.StringValue country_code = 2;
+	google.ads.googleads.v3.enums.ProductBiddingCategoryLevelEnum.ProductBiddingCategoryLevel level = 3;
+}
+
+message ProductBrandInfo {
+
+	google.protobuf.StringValue value = 1;
+}
+
+message ProductChannelInfo {
+
+	google.ads.googleads.v3.enums.ProductChannelEnum.ProductChannel channel = 1;
+}
+
+message ProductChannelExclusivityInfo {
+
+	google.ads.googleads.v3.enums.ProductChannelExclusivityEnum.ProductChannelExclusivity channel_exclusivity = 1;
+}
+
+message ProductConditionInfo {
+
+	google.ads.googleads.v3.enums.ProductConditionEnum.ProductCondition condition = 1;
+}
+
+message ProductCustomAttributeInfo {
+
+	google.protobuf.StringValue value = 1;
+	google.ads.googleads.v3.enums.ProductCustomAttributeIndexEnum.ProductCustomAttributeIndex index = 2;
+}
+
+message ProductItemIdInfo {
+
+	google.protobuf.StringValue value = 1;
+}
+
+message ProductTypeInfo {
+
+	google.protobuf.StringValue value = 1;
+	google.ads.googleads.v3.enums.ProductTypeLevelEnum.ProductTypeLevel level = 2;
+}
+
+message UnknownListingDimensionInfo {
+
+}
+
+message HotelDateSelectionTypeInfo {
+
+	google.ads.googleads.v3.enums.HotelDateSelectionTypeEnum.HotelDateSelectionType type = 1;
+}
+
+message HotelAdvanceBookingWindowInfo {
+
+	google.protobuf.Int64Value min_days = 1;
+	google.protobuf.Int64Value max_days = 2;
+}
+
+message HotelLengthOfStayInfo {
+
+	google.protobuf.Int64Value min_nights = 1;
+	google.protobuf.Int64Value max_nights = 2;
+}
+
+message HotelCheckInDayInfo {
+
+	google.ads.googleads.v3.enums.DayOfWeekEnum.DayOfWeek day_of_week = 1;
+}
+
+message InteractionTypeInfo {
+
+	google.ads.googleads.v3.enums.InteractionTypeEnum.InteractionType type = 1;
+}
+
+message AdScheduleInfo {
+
+	google.ads.googleads.v3.enums.MinuteOfHourEnum.MinuteOfHour start_minute = 1;
+	google.ads.googleads.v3.enums.MinuteOfHourEnum.MinuteOfHour end_minute = 2;
+	google.protobuf.Int32Value start_hour = 3;
+	google.protobuf.Int32Value end_hour = 4;
+	google.ads.googleads.v3.enums.DayOfWeekEnum.DayOfWeek day_of_week = 5;
+}
+
+message AgeRangeInfo {
+
+	google.ads.googleads.v3.enums.AgeRangeTypeEnum.AgeRangeType type = 1;
+}
+
+message GenderInfo {
+
+	google.ads.googleads.v3.enums.GenderTypeEnum.GenderType type = 1;
+}
+
+message IncomeRangeInfo {
+
+	google.ads.googleads.v3.enums.IncomeRangeTypeEnum.IncomeRangeType type = 1;
+}
+
+message ParentalStatusInfo {
+
+	google.ads.googleads.v3.enums.ParentalStatusTypeEnum.ParentalStatusType type = 1;
+}
+
+message YouTubeVideoInfo {
+
+	google.protobuf.StringValue video_id = 1;
+}
+
+message YouTubeChannelInfo {
+
+	google.protobuf.StringValue channel_id = 1;
+}
+
+message UserListInfo {
+
+	google.protobuf.StringValue user_list = 1;
+}
+
+message ProximityInfo {
+
+	GeoPointInfo geo_point = 1;
+	google.protobuf.DoubleValue radius = 2;
+	google.ads.googleads.v3.enums.ProximityRadiusUnitsEnum.ProximityRadiusUnits radius_units = 3;
+	AddressInfo address = 4;
+}
+
+message GeoPointInfo {
+
+	google.protobuf.Int32Value longitude_in_micro_degrees = 1;
+	google.protobuf.Int32Value latitude_in_micro_degrees = 2;
+}
+
+message AddressInfo {
+
+	google.protobuf.StringValue postal_code = 1;
+	google.protobuf.StringValue province_code = 2;
+	google.protobuf.StringValue country_code = 3;
+	google.protobuf.StringValue province_name = 4;
+	google.protobuf.StringValue street_address = 5;
+	google.protobuf.StringValue street_address2 = 6;
+	google.protobuf.StringValue city_name = 7;
+}
+
+message TopicInfo {
+
+	google.protobuf.StringValue topic_constant = 1;
+	repeated google.protobuf.StringValue path = 2;
+}
+
+message LanguageInfo {
+
+	google.protobuf.StringValue language_constant = 1;
+}
+
+message IpBlockInfo {
+
+	google.protobuf.StringValue ip_address = 1;
+}
+
+message ContentLabelInfo {
+
+	google.ads.googleads.v3.enums.ContentLabelTypeEnum.ContentLabelType type = 1;
+}
+
+message CarrierInfo {
+
+	google.protobuf.StringValue carrier_constant = 1;
+}
+
+message UserInterestInfo {
+
+	google.protobuf.StringValue user_interest_category = 1;
+}
+
+message WebpageInfo {
+
+	google.protobuf.StringValue criterion_name = 1;
+	repeated WebpageConditionInfo conditions = 2;
+}
+
+message WebpageConditionInfo {
+
+	google.ads.googleads.v3.enums.WebpageConditionOperandEnum.WebpageConditionOperand operand = 1;
+	google.ads.googleads.v3.enums.WebpageConditionOperatorEnum.WebpageConditionOperator operator = 2;
+	google.protobuf.StringValue argument = 3;
+}
+
+message OperatingSystemVersionInfo {
+
+	google.protobuf.StringValue operating_system_version_constant = 1;
+}
+
+message AppPaymentModelInfo {
+
+	google.ads.googleads.v3.enums.AppPaymentModelTypeEnum.AppPaymentModelType type = 1;
+}
+
+message MobileDeviceInfo {
+
+	google.protobuf.StringValue mobile_device_constant = 1;
+}
+
+message CustomAffinityInfo {
+
+	google.protobuf.StringValue custom_affinity = 1;
+}
+
+message CustomIntentInfo {
+
+	google.protobuf.StringValue custom_intent = 1;
+}
+
+message LocationGroupInfo {
+
+	google.protobuf.StringValue feed = 1;
+	repeated google.protobuf.StringValue geo_target_constants = 2;
+	google.protobuf.Int64Value radius = 3;
+	google.ads.googleads.v3.enums.LocationGroupRadiusUnitsEnum.LocationGroupRadiusUnits radius_units = 4;
+}

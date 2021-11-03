@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1";
+option ruby_package = "Google::Cloud::DataCatalog::V1";
+
+
+message Tag {
+	option (google.api.resource) = {
+		type: "datacatalog.googleapis.com/Tag"
+		pattern: ["projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry}/tags/{tag}"]
+	};
+
+	string name = 1;
+	string template = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string template_display_name = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof scope {
+		string column = 4;
+	}
+	map<string, TagField> fields = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message TagField {
+
+	message EnumValue {
+
+		string display_name = 1;
+	}
+
+	string display_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof kind {
+		double double_value = 2;
+		string string_value = 3;
+		bool bool_value = 4;
+		google.protobuf.Timestamp timestamp_value = 5;
+		EnumValue enum_value = 6;
+	}
+	int32 order = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message TagTemplate {
+	option (google.api.resource) = {
+		type: "datacatalog.googleapis.com/TagTemplate"
+		pattern: ["projects/{project}/locations/{location}/tagTemplates/{tag_template}"]
+	};
+
+	string name = 1;
+	string display_name = 2;
+	map<string, TagTemplateField> fields = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message TagTemplateField {
+	option (google.api.resource) = {
+		type: "datacatalog.googleapis.com/TagTemplateField"
+		pattern: ["projects/{project}/locations/{location}/tagTemplates/{tag_template}/fields/{field}"]
+	};
+
+	string name = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 1;
+	FieldType type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool is_required = 3;
+	int32 order = 5;
+}
+
+message FieldType {
+
+	message EnumType {
+
+		message EnumValue {
+
+			string display_name = 1 [
+				(google.api.field_behavior) = REQUIRED
+			];
+		}
+
+		repeated EnumValue allowed_values = 1;
+	}
+
+	enum PrimitiveType {
+
+		PRIMITIVE_TYPE_UNSPECIFIED = 0;
+		DOUBLE = 1;
+		STRING = 2;
+		BOOL = 3;
+		TIMESTAMP = 4;
+	}
+
+	oneof type_decl {
+		PrimitiveType primitive_type = 1;
+		EnumType enum_type = 2;
+	}
+}

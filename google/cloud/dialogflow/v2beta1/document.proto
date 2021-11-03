@@ -1,0 +1,253 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.v2beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/v2beta1/gcs.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.dialogflow.v2beta1";
+option java_outer_classname = "DocumentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/v2beta1;dialogflow";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.V2beta1";
+
+
+service Documents {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc ListDocuments(google.cloud.dialogflow.v2beta1.ListDocumentsRequest) returns (google.cloud.dialogflow.v2beta1.ListDocumentsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2beta1/{parent=projects/*/knowledgeBases/*}/documents"
+			additional_bindings: {
+				get: "/v2beta1/{parent=projects/*/agent/knowledgeBases/*}/documents"
+			}
+		};
+
+	}
+	rpc GetDocument(google.cloud.dialogflow.v2beta1.GetDocumentRequest) returns (google.cloud.dialogflow.v2beta1.Document) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2beta1/{name=projects/*/knowledgeBases/*/documents/*}"
+			additional_bindings: {
+				get: "/v2beta1/{name=projects/*/agent/knowledgeBases/*/documents/*}"
+			}
+		};
+
+	}
+	rpc CreateDocument(google.cloud.dialogflow.v2beta1.CreateDocumentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Document"
+			metadata_type: "KnowledgeOperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,document";
+		option (google.api.http) = {
+			post: "/v2beta1/{parent=projects/*/knowledgeBases/*}/documents"
+			body: "document"
+			additional_bindings: {
+				post: "/v2beta1/{parent=projects/*/agent/knowledgeBases/*}/documents"
+				body: "document"
+			}
+		};
+
+	}
+	rpc DeleteDocument(google.cloud.dialogflow.v2beta1.DeleteDocumentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "KnowledgeOperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2beta1/{name=projects/*/knowledgeBases/*/documents/*}"
+			additional_bindings: {
+				delete: "/v2beta1/{name=projects/*/agent/knowledgeBases/*/documents/*}"
+			}
+		};
+
+	}
+	rpc UpdateDocument(google.cloud.dialogflow.v2beta1.UpdateDocumentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Document"
+			metadata_type: "KnowledgeOperationMetadata"
+		};
+		option (google.api.method_signature) = "document,update_mask";
+		option (google.api.method_signature) = "document";
+		option (google.api.http) = {
+			patch: "/v2beta1/{document.name=projects/*/knowledgeBases/*/documents/*}"
+			body: "document"
+			additional_bindings: {
+				patch: "/v2beta1/{document.name=projects/*/agent/knowledgeBases/*/documents/*}"
+				body: "document"
+			}
+		};
+
+	}
+	rpc ReloadDocument(google.cloud.dialogflow.v2beta1.ReloadDocumentRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Document"
+			metadata_type: "KnowledgeOperationMetadata"
+		};
+		option (google.api.http) = {
+			post: "/v2beta1/{name=projects/*/knowledgeBases/*/documents/*}:reload"
+			body: "*"
+			additional_bindings: {
+				post: "/v2beta1/{name=projects/*/agent/knowledgeBases/*/documents/*}:reload"
+				body: "*"
+			}
+		};
+
+	}
+}
+
+message Document {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Document"
+		pattern: ["projects/{project}/knowledgeBases/{knowledge_base}/documents/{document}"]
+	};
+
+	message ReloadStatus {
+
+		google.protobuf.Timestamp time = 1;
+		google.rpc.Status status = 2;
+	}
+
+	enum KnowledgeType {
+
+		KNOWLEDGE_TYPE_UNSPECIFIED = 0;
+		FAQ = 1;
+		EXTRACTIVE_QA = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string mime_type = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated KnowledgeType knowledge_types = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof source {
+		string content_uri = 5;
+		string content = 6 [
+			deprecated = true
+		];
+		bytes raw_content = 9;
+	}
+	bool enable_auto_reload = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ReloadStatus latest_reload_status = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message GetDocumentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Document"
+		}
+	];
+}
+
+message ListDocumentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Document"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListDocumentsResponse {
+
+	repeated Document documents = 1;
+	string next_page_token = 2;
+}
+
+message CreateDocumentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Document"
+		}
+	];
+	Document document = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteDocumentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Document"
+		}
+	];
+}
+
+message UpdateDocumentRequest {
+
+	Document document = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message KnowledgeOperationMetadata {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		PENDING = 1;
+		RUNNING = 2;
+		DONE = 3;
+	}
+
+	State state = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ReloadDocumentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Document"
+		}
+	];
+	oneof source {
+		google.cloud.dialogflow.v2beta1.GcsSource gcs_source = 3;
+	}
+}
+
+message AutoApproveSmartMessagingEntriesResponse {
+
+	int32 enabled_count = 1;
+	int32 disabled_count = 2;
+	int32 unreviewed_count = 3;
+}

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.api.servicecontrol.v1;
+
+option java_package = "com.google.api.servicecontrol.v1";
+option java_outer_classname = "DistributionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/servicecontrol/v1;servicecontrol";
+option cc_enable_arenas = true;
+
+
+message Distribution {
+
+	message LinearBuckets {
+
+		int32 num_finite_buckets = 1;
+		double width = 2;
+		double offset = 3;
+	}
+
+	message ExponentialBuckets {
+
+		int32 num_finite_buckets = 1;
+		double growth_factor = 2;
+		double scale = 3;
+	}
+
+	message ExplicitBuckets {
+
+		repeated double bounds = 1;
+	}
+
+	int64 count = 1;
+	double mean = 2;
+	double minimum = 3;
+	double maximum = 4;
+	double sum_of_squared_deviation = 5;
+	repeated int64 bucket_counts = 6;
+	oneof bucket_option {
+		LinearBuckets linear_buckets = 7;
+		ExponentialBuckets exponential_buckets = 8;
+		ExplicitBuckets explicit_buckets = 9;
+	}
+}

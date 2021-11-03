@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.cloud.recommendationengine.v1beta1;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.recommendationengine.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommendationengine/v1beta1;recommendationengine";
+option objc_class_prefix = "RECAI";
+option csharp_namespace = "Google.Cloud.RecommendationEngine.V1Beta1";
+option php_namespace = "Google\\Cloud\\RecommendationEngine\\V1beta1";
+option ruby_package = "Google::Cloud::RecommendationEngine::V1beta1";
+
+
+message FeatureMap {
+
+	message StringList {
+
+		repeated string value = 1;
+	}
+
+	message FloatList {
+
+		repeated float value = 1;
+	}
+
+	map<string, StringList> categorical_features = 1;
+	map<string, FloatList> numerical_features = 2;
+}

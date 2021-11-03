@@ -1,0 +1,189 @@
+syntax = "proto3";
+
+package google.cloud.iot.v1;
+
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.iot.v1";
+option java_outer_classname = "ResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/iot/v1;iot";
+option cc_enable_arenas = true;
+
+
+enum MqttState {
+
+	MQTT_STATE_UNSPECIFIED = 0;
+	MQTT_ENABLED = 1;
+	MQTT_DISABLED = 2;
+}
+
+enum HttpState {
+
+	HTTP_STATE_UNSPECIFIED = 0;
+	HTTP_ENABLED = 1;
+	HTTP_DISABLED = 2;
+}
+
+enum LogLevel {
+
+	LOG_LEVEL_UNSPECIFIED = 0;
+	NONE = 10;
+	ERROR = 20;
+	INFO = 30;
+	DEBUG = 40;
+}
+
+enum GatewayType {
+
+	GATEWAY_TYPE_UNSPECIFIED = 0;
+	GATEWAY = 1;
+	NON_GATEWAY = 2;
+}
+
+enum GatewayAuthMethod {
+
+	GATEWAY_AUTH_METHOD_UNSPECIFIED = 0;
+	ASSOCIATION_ONLY = 1;
+	DEVICE_AUTH_TOKEN_ONLY = 2;
+	ASSOCIATION_AND_DEVICE_AUTH_TOKEN = 3;
+}
+
+enum PublicKeyCertificateFormat {
+
+	UNSPECIFIED_PUBLIC_KEY_CERTIFICATE_FORMAT = 0;
+	X509_CERTIFICATE_PEM = 1;
+}
+
+enum PublicKeyFormat {
+
+	UNSPECIFIED_PUBLIC_KEY_FORMAT = 0;
+	RSA_PEM = 3;
+	RSA_X509_PEM = 1;
+	ES256_PEM = 2;
+	ES256_X509_PEM = 4;
+}
+
+message Device {
+	option (google.api.resource) = {
+		type: "cloudiot.googleapis.com/Device"
+		pattern: ["projects/{project}/locations/{location}/registries/{registry}/devices/{device}"]
+	};
+
+	string id = 1;
+	string name = 2;
+	uint64 num_id = 3;
+	repeated DeviceCredential credentials = 12;
+	google.protobuf.Timestamp last_heartbeat_time = 7;
+	google.protobuf.Timestamp last_event_time = 8;
+	google.protobuf.Timestamp last_state_time = 20;
+	google.protobuf.Timestamp last_config_ack_time = 14;
+	google.protobuf.Timestamp last_config_send_time = 18;
+	bool blocked = 19;
+	google.protobuf.Timestamp last_error_time = 10;
+	google.rpc.Status last_error_status = 11;
+	DeviceConfig config = 13;
+	DeviceState state = 16;
+	LogLevel log_level = 21;
+	map<string, string> metadata = 17;
+	GatewayConfig gateway_config = 24;
+}
+
+message GatewayConfig {
+
+	GatewayType gateway_type = 1;
+	GatewayAuthMethod gateway_auth_method = 2;
+	string last_accessed_gateway_id = 3;
+	google.protobuf.Timestamp last_accessed_gateway_time = 4;
+}
+
+message DeviceRegistry {
+	option (google.api.resource) = {
+		type: "cloudiot.googleapis.com/Registry"
+		pattern: ["projects/{project}/locations/{location}/registries/{registry}"]
+	};
+
+	string id = 1;
+	string name = 2;
+	repeated EventNotificationConfig event_notification_configs = 10;
+	StateNotificationConfig state_notification_config = 7;
+	MqttConfig mqtt_config = 4;
+	HttpConfig http_config = 9;
+	LogLevel log_level = 11;
+	repeated RegistryCredential credentials = 8;
+}
+
+message MqttConfig {
+
+	MqttState mqtt_enabled_state = 1;
+}
+
+message HttpConfig {
+
+	HttpState http_enabled_state = 1;
+}
+
+message EventNotificationConfig {
+
+	string subfolder_matches = 2;
+	string pubsub_topic_name = 1;
+}
+
+message StateNotificationConfig {
+
+	string pubsub_topic_name = 1;
+}
+
+message RegistryCredential {
+
+	oneof credential {
+		PublicKeyCertificate public_key_certificate = 1;
+	}
+}
+
+message X509CertificateDetails {
+
+	string issuer = 1;
+	string subject = 2;
+	google.protobuf.Timestamp start_time = 3;
+	google.protobuf.Timestamp expiry_time = 4;
+	string signature_algorithm = 5;
+	string public_key_type = 6;
+}
+
+message PublicKeyCertificate {
+
+	PublicKeyCertificateFormat format = 1;
+	string certificate = 2;
+	X509CertificateDetails x509_details = 3;
+}
+
+message DeviceCredential {
+
+	oneof credential {
+		PublicKeyCredential public_key = 2;
+	}
+	google.protobuf.Timestamp expiration_time = 6;
+}
+
+message PublicKeyCredential {
+
+	PublicKeyFormat format = 1;
+	string key = 2;
+}
+
+message DeviceConfig {
+
+	int64 version = 1;
+	google.protobuf.Timestamp cloud_update_time = 2;
+	google.protobuf.Timestamp device_ack_time = 3;
+	bytes binary_data = 4;
+}
+
+message DeviceState {
+
+	google.protobuf.Timestamp update_time = 1;
+	bytes binary_data = 2;
+}

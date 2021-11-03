@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.services;
+
+import "google/ads/googleads/v4/resources/google_ads_field.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.ads.googleads.v4.services";
+option java_outer_classname = "GoogleAdsFieldServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V4::Services";
+
+
+service GoogleAdsFieldService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetGoogleAdsField(google.ads.googleads.v4.services.GetGoogleAdsFieldRequest) returns (google.ads.googleads.v4.resources.GoogleAdsField) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v4/{resource_name=googleAdsFields/*}"
+		};
+
+	}
+	rpc SearchGoogleAdsFields(google.ads.googleads.v4.services.SearchGoogleAdsFieldsRequest) returns (google.ads.googleads.v4.services.SearchGoogleAdsFieldsResponse) {
+		option (google.api.method_signature) = "query";
+		option (google.api.http) = {
+			post: "/v4/googleAdsFields:search"
+			body: "*"
+		};
+
+	}
+}
+
+message GetGoogleAdsFieldRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/GoogleAdsField"
+		}
+	];
+}
+
+message SearchGoogleAdsFieldsRequest {
+
+	string query = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message SearchGoogleAdsFieldsResponse {
+
+	repeated google.ads.googleads.v4.resources.GoogleAdsField results = 1;
+	string next_page_token = 2;
+	int64 total_results_count = 3;
+}

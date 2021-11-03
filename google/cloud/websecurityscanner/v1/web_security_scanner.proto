@@ -1,0 +1,212 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1;
+
+import "google/api/annotations.proto";
+import "google/cloud/websecurityscanner/v1/crawled_url.proto";
+import "google/cloud/websecurityscanner/v1/finding.proto";
+import "google/cloud/websecurityscanner/v1/finding_type_stats.proto";
+import "google/cloud/websecurityscanner/v1/scan_config.proto";
+import "google/cloud/websecurityscanner/v1/scan_run.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.websecurityscanner.v1";
+option java_outer_classname = "WebSecurityScannerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1;websecurityscanner";
+
+
+service WebSecurityScanner {
+	option (google.api.default_host) = "websecurityscanner.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateScanConfig(google.cloud.websecurityscanner.v1.CreateScanConfigRequest) returns (google.cloud.websecurityscanner.v1.ScanConfig) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/scanConfigs"
+			body: "scan_config"
+		};
+
+	}
+	rpc DeleteScanConfig(google.cloud.websecurityscanner.v1.DeleteScanConfigRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/scanConfigs/*}"
+		};
+
+	}
+	rpc GetScanConfig(google.cloud.websecurityscanner.v1.GetScanConfigRequest) returns (google.cloud.websecurityscanner.v1.ScanConfig) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/scanConfigs/*}"
+		};
+
+	}
+	rpc ListScanConfigs(google.cloud.websecurityscanner.v1.ListScanConfigsRequest) returns (google.cloud.websecurityscanner.v1.ListScanConfigsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/scanConfigs"
+		};
+
+	}
+	rpc UpdateScanConfig(google.cloud.websecurityscanner.v1.UpdateScanConfigRequest) returns (google.cloud.websecurityscanner.v1.ScanConfig) {
+		option (google.api.http) = {
+			patch: "/v1/{scan_config.name=projects/*/scanConfigs/*}"
+			body: "scan_config"
+		};
+
+	}
+	rpc StartScanRun(google.cloud.websecurityscanner.v1.StartScanRunRequest) returns (google.cloud.websecurityscanner.v1.ScanRun) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/scanConfigs/*}:start"
+			body: "*"
+		};
+
+	}
+	rpc GetScanRun(google.cloud.websecurityscanner.v1.GetScanRunRequest) returns (google.cloud.websecurityscanner.v1.ScanRun) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/scanConfigs/*/scanRuns/*}"
+		};
+
+	}
+	rpc ListScanRuns(google.cloud.websecurityscanner.v1.ListScanRunsRequest) returns (google.cloud.websecurityscanner.v1.ListScanRunsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/scanConfigs/*}/scanRuns"
+		};
+
+	}
+	rpc StopScanRun(google.cloud.websecurityscanner.v1.StopScanRunRequest) returns (google.cloud.websecurityscanner.v1.ScanRun) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/scanConfigs/*/scanRuns/*}:stop"
+			body: "*"
+		};
+
+	}
+	rpc ListCrawledUrls(google.cloud.websecurityscanner.v1.ListCrawledUrlsRequest) returns (google.cloud.websecurityscanner.v1.ListCrawledUrlsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/scanConfigs/*/scanRuns/*}/crawledUrls"
+		};
+
+	}
+	rpc GetFinding(google.cloud.websecurityscanner.v1.GetFindingRequest) returns (google.cloud.websecurityscanner.v1.Finding) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/scanConfigs/*/scanRuns/*/findings/*}"
+		};
+
+	}
+	rpc ListFindings(google.cloud.websecurityscanner.v1.ListFindingsRequest) returns (google.cloud.websecurityscanner.v1.ListFindingsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/scanConfigs/*/scanRuns/*}/findings"
+		};
+
+	}
+	rpc ListFindingTypeStats(google.cloud.websecurityscanner.v1.ListFindingTypeStatsRequest) returns (google.cloud.websecurityscanner.v1.ListFindingTypeStatsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/scanConfigs/*/scanRuns/*}/findingTypeStats"
+		};
+
+	}
+}
+
+message CreateScanConfigRequest {
+
+	string parent = 1;
+	google.cloud.websecurityscanner.v1.ScanConfig scan_config = 2;
+}
+
+message DeleteScanConfigRequest {
+
+	string name = 1;
+}
+
+message GetScanConfigRequest {
+
+	string name = 1;
+}
+
+message ListScanConfigsRequest {
+
+	string parent = 1;
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message UpdateScanConfigRequest {
+
+	google.cloud.websecurityscanner.v1.ScanConfig scan_config = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message ListScanConfigsResponse {
+
+	repeated google.cloud.websecurityscanner.v1.ScanConfig scan_configs = 1;
+	string next_page_token = 2;
+}
+
+message StartScanRunRequest {
+
+	string name = 1;
+}
+
+message GetScanRunRequest {
+
+	string name = 1;
+}
+
+message ListScanRunsRequest {
+
+	string parent = 1;
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListScanRunsResponse {
+
+	repeated google.cloud.websecurityscanner.v1.ScanRun scan_runs = 1;
+	string next_page_token = 2;
+}
+
+message StopScanRunRequest {
+
+	string name = 1;
+}
+
+message ListCrawledUrlsRequest {
+
+	string parent = 1;
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListCrawledUrlsResponse {
+
+	repeated google.cloud.websecurityscanner.v1.CrawledUrl crawled_urls = 1;
+	string next_page_token = 2;
+}
+
+message GetFindingRequest {
+
+	string name = 1;
+}
+
+message ListFindingsRequest {
+
+	string parent = 1;
+	string filter = 2;
+	string page_token = 3;
+	int32 page_size = 4;
+}
+
+message ListFindingsResponse {
+
+	repeated google.cloud.websecurityscanner.v1.Finding findings = 1;
+	string next_page_token = 2;
+}
+
+message ListFindingTypeStatsRequest {
+
+	string parent = 1;
+}
+
+message ListFindingTypeStatsResponse {
+
+	repeated google.cloud.websecurityscanner.v1.FindingTypeStats finding_type_stats = 1;
+}

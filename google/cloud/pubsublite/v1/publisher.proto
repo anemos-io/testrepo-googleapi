@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package google.cloud.pubsublite.v1;
+
+import "google/cloud/pubsublite/v1/common.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.pubsublite.proto";
+option java_outer_classname = "PublisherProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/pubsublite/v1;pubsublite";
+option cc_enable_arenas = true;
+
+
+service PublisherService {
+	option (google.api.default_host) = "pubsublite.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc Publish(stream google.cloud.pubsublite.v1.PublishRequest) returns (stream google.cloud.pubsublite.v1.PublishResponse) {}
+}
+
+message InitialPublishRequest {
+
+	string topic = 1;
+	int64 partition = 2;
+}
+
+message InitialPublishResponse {
+
+}
+
+message MessagePublishRequest {
+
+	repeated google.cloud.pubsublite.v1.PubSubMessage messages = 1;
+}
+
+message MessagePublishResponse {
+
+	google.cloud.pubsublite.v1.Cursor start_cursor = 1;
+}
+
+message PublishRequest {
+
+	oneof request_type {
+		InitialPublishRequest initial_request = 1;
+		MessagePublishRequest message_publish_request = 2;
+	}
+}
+
+message PublishResponse {
+
+	oneof response_type {
+		InitialPublishResponse initial_response = 1;
+		MessagePublishResponse message_response = 2;
+	}
+}

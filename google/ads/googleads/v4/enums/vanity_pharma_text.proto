@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.enums";
+option java_outer_classname = "VanityPharmaTextProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V4::Enums";
+
+
+message VanityPharmaTextEnum {
+
+	enum VanityPharmaText {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		PRESCRIPTION_TREATMENT_WEBSITE_EN = 2;
+		PRESCRIPTION_TREATMENT_WEBSITE_ES = 3;
+		PRESCRIPTION_DEVICE_WEBSITE_EN = 4;
+		PRESCRIPTION_DEVICE_WEBSITE_ES = 5;
+		MEDICAL_DEVICE_WEBSITE_EN = 6;
+		MEDICAL_DEVICE_WEBSITE_ES = 7;
+		PREVENTATIVE_TREATMENT_WEBSITE_EN = 8;
+		PREVENTATIVE_TREATMENT_WEBSITE_ES = 9;
+		PRESCRIPTION_CONTRACEPTION_WEBSITE_EN = 10;
+		PRESCRIPTION_CONTRACEPTION_WEBSITE_ES = 11;
+		PRESCRIPTION_VACCINE_WEBSITE_EN = 12;
+		PRESCRIPTION_VACCINE_WEBSITE_ES = 13;
+	}
+
+}

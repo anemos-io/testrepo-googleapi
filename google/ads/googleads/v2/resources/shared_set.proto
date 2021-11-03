@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.resources;
+
+import "google/ads/googleads/v2/enums/shared_set_status.proto";
+import "google/ads/googleads/v2/enums/shared_set_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.resources";
+option java_outer_classname = "SharedSetProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V2::Resources";
+
+
+message SharedSet {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/SharedSet"
+		pattern: ["customers/{customer}/sharedSets/{shared_set}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/SharedSet"
+		}
+	];
+	google.protobuf.Int64Value id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v2.enums.SharedSetTypeEnum.SharedSetType type = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.StringValue name = 4;
+	google.ads.googleads.v2.enums.SharedSetStatusEnum.SharedSetStatus status = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value member_count = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value reference_count = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

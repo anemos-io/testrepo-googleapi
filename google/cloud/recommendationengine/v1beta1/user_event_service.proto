@@ -1,0 +1,160 @@
+syntax = "proto3";
+
+package google.cloud.recommendationengine.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/httpbody.proto";
+import "google/api/resource.proto";
+import "google/cloud/recommendationengine/v1beta1/import.proto";
+import "google/cloud/recommendationengine/v1beta1/user_event.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/date.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.recommendationengine.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommendationengine/v1beta1;recommendationengine";
+option objc_class_prefix = "RECAI";
+option csharp_namespace = "Google.Cloud.RecommendationEngine.V1Beta1";
+option php_namespace = "Google\\Cloud\\RecommendationEngine\\V1beta1";
+option ruby_package = "Google::Cloud::RecommendationEngine::V1beta1";
+
+
+service UserEventService {
+	option (google.api.default_host) = "recommendationengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc WriteUserEvent(google.cloud.recommendationengine.v1beta1.WriteUserEventRequest) returns (google.cloud.recommendationengine.v1beta1.UserEvent) {
+		option (google.api.method_signature) = "parent,user_event";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/catalogs/*/eventStores/*}/userEvents:write"
+			body: "user_event"
+		};
+
+	}
+	rpc CollectUserEvent(google.cloud.recommendationengine.v1beta1.CollectUserEventRequest) returns (google.api.HttpBody) {
+		option (google.api.method_signature) = "parent,user_event,uri,ets";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/catalogs/*/eventStores/*}/userEvents:collect"
+		};
+
+	}
+	rpc ListUserEvents(google.cloud.recommendationengine.v1beta1.ListUserEventsRequest) returns (google.cloud.recommendationengine.v1beta1.ListUserEventsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/catalogs/*/eventStores/*}/userEvents"
+		};
+
+	}
+	rpc PurgeUserEvents(google.cloud.recommendationengine.v1beta1.PurgeUserEventsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.recommendationengine.v1beta1.PurgeUserEventsResponse"
+			metadata_type: "google.cloud.recommendationengine.v1beta1.PurgeUserEventsMetadata"
+		};
+		option (google.api.method_signature) = "parent,filter,force";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/catalogs/*/eventStores/*}/userEvents:purge"
+			body: "*"
+		};
+
+	}
+	rpc ImportUserEvents(google.cloud.recommendationengine.v1beta1.ImportUserEventsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.recommendationengine.v1beta1.ImportUserEventsResponse"
+			metadata_type: "google.cloud.recommendationengine.v1beta1.ImportMetadata"
+		};
+		option (google.api.method_signature) = "parent,request_id,input_config,errors_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/catalogs/*/eventStores/*}/userEvents:import"
+			body: "*"
+		};
+
+	}
+}
+
+message PurgeUserEventsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/EventStore"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool force = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PurgeUserEventsMetadata {
+
+	string operation_name = 1;
+	google.protobuf.Timestamp create_time = 2;
+}
+
+message PurgeUserEventsResponse {
+
+	int64 purged_events_count = 1;
+	repeated google.cloud.recommendationengine.v1beta1.UserEvent user_events_sample = 2;
+}
+
+message WriteUserEventRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/EventStore"
+		}
+	];
+	google.cloud.recommendationengine.v1beta1.UserEvent user_event = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CollectUserEventRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/EventStore"
+		}
+	];
+	string user_event = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string uri = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int64 ets = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListUserEventsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/EventStore"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListUserEventsResponse {
+
+	repeated google.cloud.recommendationengine.v1beta1.UserEvent user_events = 1;
+	string next_page_token = 2;
+}

@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.storage.v1alpha2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/bigquery/storage/v1alpha2/protobuf.proto";
+import "google/cloud/bigquery/storage/v1alpha2/stream.proto";
+import "google/cloud/bigquery/storage/v1alpha2/table.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.bigquery.storage.v1alpha2";
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1alpha2;storage";
+
+
+service BigQueryWrite {
+	option (google.api.default_host) = "bigquerystorage.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/bigquery.insertdata,https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateWriteStream(google.cloud.bigquery.storage.v1alpha2.CreateWriteStreamRequest) returns (google.cloud.bigquery.storage.v1alpha2.WriteStream) {
+		option (google.api.method_signature) = "parent,write_stream";
+		option (google.api.http) = {
+			post: "/v1alpha2/{parent=projects/*/datasets/*/tables/*}"
+			body: "write_stream"
+		};
+
+	}
+	rpc AppendRows(stream google.cloud.bigquery.storage.v1alpha2.AppendRowsRequest) returns (stream google.cloud.bigquery.storage.v1alpha2.AppendRowsResponse) {
+		option (google.api.method_signature) = "write_stream";
+		option (google.api.http) = {
+			post: "/v1alpha2/{write_stream=projects/*/datasets/*/tables/*/streams/*}"
+			body: "*"
+		};
+
+	}
+	rpc GetWriteStream(google.cloud.bigquery.storage.v1alpha2.GetWriteStreamRequest) returns (google.cloud.bigquery.storage.v1alpha2.WriteStream) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1alpha2/{name=projects/*/datasets/*/tables/*/streams/*}"
+			body: "*"
+		};
+
+	}
+	rpc FinalizeWriteStream(google.cloud.bigquery.storage.v1alpha2.FinalizeWriteStreamRequest) returns (google.cloud.bigquery.storage.v1alpha2.FinalizeWriteStreamResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1alpha2/{name=projects/*/datasets/*/tables/*/streams/*}"
+			body: "*"
+		};
+
+	}
+	rpc BatchCommitWriteStreams(google.cloud.bigquery.storage.v1alpha2.BatchCommitWriteStreamsRequest) returns (google.cloud.bigquery.storage.v1alpha2.BatchCommitWriteStreamsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha2/{parent=projects/*/datasets/*/tables/*}"
+		};
+
+	}
+	rpc FlushRows(google.cloud.bigquery.storage.v1alpha2.FlushRowsRequest) returns (google.cloud.bigquery.storage.v1alpha2.FlushRowsResponse) {
+		option (google.api.method_signature) = "write_stream";
+		option (google.api.http) = {
+			post: "/v1alpha2/{write_stream=projects/*/datasets/*/tables/*/streams/*}"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateWriteStreamRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerystorage.googleapis.com/Table"
+		}
+	];
+	google.cloud.bigquery.storage.v1alpha2.WriteStream write_stream = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message AppendRowsRequest {
+
+	message ProtoData {
+
+		google.cloud.bigquery.storage.v1alpha2.ProtoSchema writer_schema = 1;
+		google.cloud.bigquery.storage.v1alpha2.ProtoRows rows = 2;
+	}
+
+	string write_stream = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerystorage.googleapis.com/WriteStream"
+		}
+	];
+	google.protobuf.Int64Value offset = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof rows {
+		ProtoData proto_rows = 4;
+	}
+	bool ignore_unknown_fields = 5;
+}
+
+message AppendRowsResponse {
+
+	oneof response {
+		int64 offset = 1;
+		google.rpc.Status error = 2;
+	}
+	google.cloud.bigquery.storage.v1alpha2.TableSchema updated_schema = 3;
+}
+
+message GetWriteStreamRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerystorage.googleapis.com/WriteStream"
+		}
+	];
+}
+
+message BatchCommitWriteStreamsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerystorage.googleapis.com/Table"
+		}
+	];
+	repeated string write_streams = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BatchCommitWriteStreamsResponse {
+
+	google.protobuf.Timestamp commit_time = 1;
+}
+
+message FinalizeWriteStreamRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerystorage.googleapis.com/WriteStream"
+		}
+	];
+}
+
+message FinalizeWriteStreamResponse {
+
+	int64 row_count = 1;
+}
+
+message FlushRowsRequest {
+
+	string write_stream = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigquerystorage.googleapis.com/WriteStream"
+		}
+	];
+	int64 offset = 2;
+}
+
+message FlushRowsResponse {
+
+	int64 offset = 1;
+}

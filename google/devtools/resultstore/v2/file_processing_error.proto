@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+enum FileProcessingErrorType {
+
+	FILE_PROCESSING_ERROR_TYPE_UNSPECIFIED = 0;
+	GENERIC_READ_ERROR = 1;
+	GENERIC_PARSE_ERROR = 2;
+	FILE_TOO_LARGE = 3;
+	OUTPUT_TOO_LARGE = 4;
+	ACCESS_DENIED = 5;
+	DEADLINE_EXCEEDED = 6;
+	NOT_FOUND = 7;
+	FILE_EMPTY = 8;
+}
+
+message FileProcessingErrors {
+
+	string file_uid = 1;
+	repeated FileProcessingError file_processing_errors = 3;
+}
+
+message FileProcessingError {
+
+	FileProcessingErrorType type = 1;
+	string message = 2;
+}

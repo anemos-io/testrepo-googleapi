@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+package google.cloud.managedidentities.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.managedidentities.v1";
+option java_outer_classname = "ResourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/managedidentities/v1;managedidentities";
+option csharp_namespace = "Google.Cloud.ManagedIdentities.V1";
+
+
+message Domain {
+	option (google.api.resource) = {
+		type: "managedidentities.googleapis.com/Domain"
+		pattern: ["projects/{project}/locations/{location}/domains/{domain}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		UPDATING = 3;
+		DELETING = 4;
+		REPAIRING = 5;
+		PERFORMING_MAINTENANCE = 6;
+		UNAVAILABLE = 7;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> labels = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string authorized_networks = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string reserved_ip_range = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string locations = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string admin = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string fqdn = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated Trust trusts = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Trust {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		UPDATING = 2;
+		DELETING = 3;
+		CONNECTED = 4;
+		DISCONNECTED = 5;
+	}
+
+	enum TrustType {
+
+		TRUST_TYPE_UNSPECIFIED = 0;
+		FOREST = 1;
+		EXTERNAL = 2;
+	}
+
+	enum TrustDirection {
+
+		TRUST_DIRECTION_UNSPECIFIED = 0;
+		INBOUND = 1;
+		OUTBOUND = 2;
+		BIDIRECTIONAL = 3;
+	}
+
+	string target_domain_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	TrustType trust_type = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	TrustDirection trust_direction = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool selective_authentication = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string target_dns_ip_addresses = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string trust_handshake_secret = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp create_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	State state = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string state_description = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp last_trust_heartbeat_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

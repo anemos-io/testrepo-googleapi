@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.resources;
+
+import "google/ads/googleads/v5/common/bidding.proto";
+import "google/ads/googleads/v5/enums/bidding_strategy_status.proto";
+import "google/ads/googleads/v5/enums/bidding_strategy_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.resources";
+option java_outer_classname = "BiddingStrategyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V5::Resources";
+
+
+message BiddingStrategy {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/BiddingStrategy"
+		pattern: ["customers/{customer}/biddingStrategies/{bidding_strategy}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/BiddingStrategy"
+		}
+	];
+	oneof _id {
+		int64 id = 16 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _name {
+		string name = 17;
+	}
+	google.ads.googleads.v5.enums.BiddingStrategyStatusEnum.BiddingStrategyStatus status = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v5.enums.BiddingStrategyTypeEnum.BiddingStrategyType type = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof _effective_currency_code {
+		string effective_currency_code = 20 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _campaign_count {
+		int64 campaign_count = 18 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof _non_removed_campaign_count {
+		int64 non_removed_campaign_count = 19 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	oneof scheme {
+		google.ads.googleads.v5.common.EnhancedCpc enhanced_cpc = 7;
+		google.ads.googleads.v5.common.TargetCpa target_cpa = 9;
+		google.ads.googleads.v5.common.TargetImpressionShare target_impression_share = 48;
+		google.ads.googleads.v5.common.TargetRoas target_roas = 11;
+		google.ads.googleads.v5.common.TargetSpend target_spend = 12;
+	}
+}

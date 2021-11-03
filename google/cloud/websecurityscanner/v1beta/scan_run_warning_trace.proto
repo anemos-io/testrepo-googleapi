@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1beta;
+
+option java_package = "com.google.cloud.websecurityscanner.v1beta";
+option java_outer_classname = "ScanRunWarningTraceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1beta;websecurityscanner";
+option php_namespace = "Google\\Cloud\\WebSecurityScanner\\V1beta";
+
+
+message ScanRunWarningTrace {
+
+	enum Code {
+
+		CODE_UNSPECIFIED = 0;
+		INSUFFICIENT_CRAWL_RESULTS = 1;
+		TOO_MANY_CRAWL_RESULTS = 2;
+		TOO_MANY_FUZZ_TASKS = 3;
+		BLOCKED_BY_IAP = 4;
+	}
+
+	Code code = 1;
+}

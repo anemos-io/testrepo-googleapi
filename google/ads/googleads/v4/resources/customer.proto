@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.resources;
+
+import "google/ads/googleads/v4/enums/customer_pay_per_conversion_eligibility_failure_reason.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.resources";
+option java_outer_classname = "CustomerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V4::Resources";
+
+
+message Customer {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/Customer"
+		pattern: ["customers/{customer}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Customer"
+		}
+	];
+	google.protobuf.Int64Value id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue descriptive_name = 4;
+	google.protobuf.StringValue currency_code = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.StringValue time_zone = 6 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.StringValue tracking_url_template = 7;
+	google.protobuf.StringValue final_url_suffix = 11;
+	google.protobuf.BoolValue auto_tagging_enabled = 8;
+	google.protobuf.BoolValue has_partners_badge = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.BoolValue manager = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.BoolValue test_account = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CallReportingSetting call_reporting_setting = 10;
+	ConversionTrackingSetting conversion_tracking_setting = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	RemarketingSetting remarketing_setting = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.ads.googleads.v4.enums.CustomerPayPerConversionEligibilityFailureReasonEnum.CustomerPayPerConversionEligibilityFailureReason pay_per_conversion_eligibility_failure_reasons = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.DoubleValue optimization_score = 17 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CallReportingSetting {
+
+	google.protobuf.BoolValue call_reporting_enabled = 1;
+	google.protobuf.BoolValue call_conversion_reporting_enabled = 2;
+	google.protobuf.StringValue call_conversion_action = 9 [
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/ConversionAction"
+		}
+	];
+}
+
+message ConversionTrackingSetting {
+
+	google.protobuf.Int64Value conversion_tracking_id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Int64Value cross_account_conversion_tracking_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message RemarketingSetting {
+
+	google.protobuf.StringValue google_global_site_tag = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

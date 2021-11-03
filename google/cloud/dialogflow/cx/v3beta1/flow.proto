@@ -1,0 +1,192 @@
+syntax = "proto3";
+
+package google.cloud.dialogflow.cx.v3beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/dialogflow/cx/v3beta1/page.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.dialogflow.cx.v3beta1";
+option java_outer_classname = "FlowProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dialogflow/cx/v3beta1;cx";
+option cc_enable_arenas = true;
+option objc_class_prefix = "DF";
+option csharp_namespace = "Google.Cloud.Dialogflow.Cx.V3Beta1";
+
+
+service Flows {
+	option (google.api.default_host) = "dialogflow.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/dialogflow";
+
+	rpc CreateFlow(google.cloud.dialogflow.cx.v3beta1.CreateFlowRequest) returns (google.cloud.dialogflow.cx.v3beta1.Flow) {
+		option (google.api.method_signature) = "parent,flow";
+		option (google.api.http) = {
+			post: "/v3beta1/{parent=projects/*/locations/*/agents/*}/flows"
+			body: "flow"
+		};
+
+	}
+	rpc DeleteFlow(google.cloud.dialogflow.cx.v3beta1.DeleteFlowRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v3beta1/{name=projects/*/locations/*/agents/*/flows/*}"
+		};
+
+	}
+	rpc ListFlows(google.cloud.dialogflow.cx.v3beta1.ListFlowsRequest) returns (google.cloud.dialogflow.cx.v3beta1.ListFlowsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v3beta1/{parent=projects/*/locations/*/agents/*}/flows"
+		};
+
+	}
+	rpc GetFlow(google.cloud.dialogflow.cx.v3beta1.GetFlowRequest) returns (google.cloud.dialogflow.cx.v3beta1.Flow) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v3beta1/{name=projects/*/locations/*/agents/*/flows/*}"
+		};
+
+	}
+	rpc UpdateFlow(google.cloud.dialogflow.cx.v3beta1.UpdateFlowRequest) returns (google.cloud.dialogflow.cx.v3beta1.Flow) {
+		option (google.api.method_signature) = "flow,update_mask";
+		option (google.api.http) = {
+			patch: "/v3beta1/{flow.name=projects/*/locations/*/agents/*/flows/*}"
+			body: "flow"
+		};
+
+	}
+	rpc TrainFlow(google.cloud.dialogflow.cx.v3beta1.TrainFlowRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.protobuf.Struct"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v3beta1/{name=projects/*/locations/*/agents/*/flows/*}:train"
+			body: "*"
+		};
+
+	}
+}
+
+message NluSettings {
+
+	enum ModelType {
+
+		MODEL_TYPE_UNSPECIFIED = 0;
+		MODEL_TYPE_STANDARD = 1;
+		MODEL_TYPE_ADVANCED = 3;
+	}
+
+	enum ModelTrainingMode {
+
+		MODEL_TRAINING_MODE_UNSPECIFIED = 0;
+		MODEL_TRAINING_MODE_AUTOMATIC = 1;
+		MODEL_TRAINING_MODE_MANUAL = 2;
+	}
+
+	ModelType model_type = 1;
+	float classification_threshold = 3;
+	ModelTrainingMode model_training_mode = 4;
+	bool enable_spell_correction = 5 [
+		deprecated = true
+	];
+}
+
+message Flow {
+	option (google.api.resource) = {
+		type: "dialogflow.googleapis.com/Flow"
+		pattern: ["projects/{project}/locations/{location}/agents/{agent}/flows/{flow}"]
+	};
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 3;
+	repeated google.cloud.dialogflow.cx.v3beta1.TransitionRoute transition_routes = 4;
+	repeated google.cloud.dialogflow.cx.v3beta1.EventHandler event_handlers = 10;
+	NluSettings nlu_settings = 11;
+}
+
+message CreateFlowRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Flow"
+		}
+	];
+	Flow flow = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3;
+}
+
+message DeleteFlowRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Flow"
+		}
+	];
+	bool force = 2;
+}
+
+message ListFlowsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "dialogflow.googleapis.com/Flow"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string language_code = 4;
+}
+
+message ListFlowsResponse {
+
+	repeated Flow flows = 1;
+	string next_page_token = 2;
+}
+
+message GetFlowRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Flow"
+		}
+	];
+	string language_code = 2;
+}
+
+message UpdateFlowRequest {
+
+	Flow flow = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string language_code = 3;
+}
+
+message TrainFlowRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "dialogflow.googleapis.com/Flow"
+		}
+	];
+}

@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package google.cloud.recommender.v1;
+
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.recommender.v1";
+option java_outer_classname = "InsightProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommender/v1;recommender";
+option objc_class_prefix = "CREC";
+option csharp_namespace = "Google.Cloud.Recommender.V1";
+option (google.api.resource_definition) = {
+	type: "recommender.googleapis.com/InsightType"
+	pattern: ["projects/{project}/locations/{location}/insightTypes/{insight_type}"]
+};
+
+
+message Insight {
+	option (google.api.resource) = {
+		type: "recommender.googleapis.com/Insight"
+		pattern: ["projects/{project}/locations/{location}/insightTypes/{insight_type}/insights/{insight}"]
+	};
+
+	message RecommendationReference {
+
+		string recommendation = 1;
+	}
+
+	enum Category {
+
+		CATEGORY_UNSPECIFIED = 0;
+		COST = 1;
+		SECURITY = 2;
+		PERFORMANCE = 3;
+		MANAGEABILITY = 4;
+	}
+
+	string name = 1;
+	string description = 2;
+	repeated string target_resources = 9;
+	string insight_subtype = 10;
+	google.protobuf.Struct content = 3;
+	google.protobuf.Timestamp last_refresh_time = 4;
+	google.protobuf.Duration observation_period = 5;
+	InsightStateInfo state_info = 6;
+	Category category = 7;
+	string etag = 11;
+	repeated RecommendationReference associated_recommendations = 8;
+}
+
+message InsightStateInfo {
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		ACCEPTED = 2;
+		DISMISSED = 3;
+	}
+
+	State state = 1;
+	map<string, string> state_metadata = 2;
+}

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.bigtable.admin.cluster.v1;
+
+import "google/api/annotations.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.bigtable.admin.cluster.v1";
+option java_outer_classname = "BigtableClusterDataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/admin/cluster/v1;cluster";
+
+
+enum StorageType {
+
+	STORAGE_UNSPECIFIED = 0;
+	STORAGE_SSD = 1;
+	STORAGE_HDD = 2;
+}
+
+message Zone {
+
+	enum Status {
+
+		UNKNOWN = 0;
+		OK = 1;
+		PLANNED_MAINTENANCE = 2;
+		EMERGENCY_MAINENANCE = 3;
+	}
+
+	string name = 1;
+	string display_name = 2;
+	Status status = 3;
+}
+
+message Cluster {
+
+	string name = 1;
+	google.longrunning.Operation current_operation = 3;
+	string display_name = 4;
+	int32 serve_nodes = 5;
+	StorageType default_storage_type = 8;
+}

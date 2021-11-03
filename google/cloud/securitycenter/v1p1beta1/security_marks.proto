@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1p1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1p1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1p1beta1;securitycenter";
+option csharp_namespace = "Google.Cloud.SecurityCenter.V1P1Beta1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\V1p1beta1";
+option ruby_package = "Google::Cloud::SecurityCenter::V1p1beta1";
+
+
+message SecurityMarks {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/SecurityMarks"
+		pattern: ["organizations/{organization}/assets/{asset}/securityMarks","organizations/{organization}/sources/{source}/findings/{finding}/securityMarks"]
+	};
+
+	string name = 1;
+	map<string, string> marks = 2;
+}

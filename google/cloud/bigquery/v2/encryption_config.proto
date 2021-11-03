@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.v2;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.bigquery.v2";
+option java_outer_classname = "EncryptionConfigProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/v2;bigquery";
+
+
+message EncryptionConfiguration {
+
+	google.protobuf.StringValue kms_key_name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1beta;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/cloud/osconfig/v1beta/guest_policies.proto";
+import "google/cloud/osconfig/v1beta/patch_deployments.proto";
+import "google/cloud/osconfig/v1beta/patch_jobs.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.cloud.osconfig.v1beta";
+option java_outer_classname = "OsConfigProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1beta;osconfig";
+
+
+service OsConfigService {
+	option (google.api.default_host) = "osconfig.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ExecutePatchJob(google.cloud.osconfig.v1beta.ExecutePatchJobRequest) returns (google.cloud.osconfig.v1beta.PatchJob) {
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*}/patchJobs:execute"
+			body: "*"
+		};
+
+	}
+	rpc GetPatchJob(google.cloud.osconfig.v1beta.GetPatchJobRequest) returns (google.cloud.osconfig.v1beta.PatchJob) {
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/patchJobs/*}"
+		};
+
+	}
+	rpc CancelPatchJob(google.cloud.osconfig.v1beta.CancelPatchJobRequest) returns (google.cloud.osconfig.v1beta.PatchJob) {
+		option (google.api.http) = {
+			post: "/v1beta/{name=projects/*/patchJobs/*}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc ListPatchJobs(google.cloud.osconfig.v1beta.ListPatchJobsRequest) returns (google.cloud.osconfig.v1beta.ListPatchJobsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*}/patchJobs"
+		};
+
+	}
+	rpc ListPatchJobInstanceDetails(google.cloud.osconfig.v1beta.ListPatchJobInstanceDetailsRequest) returns (google.cloud.osconfig.v1beta.ListPatchJobInstanceDetailsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*/patchJobs/*}/instanceDetails"
+		};
+
+	}
+	rpc CreatePatchDeployment(google.cloud.osconfig.v1beta.CreatePatchDeploymentRequest) returns (google.cloud.osconfig.v1beta.PatchDeployment) {
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*}/patchDeployments"
+			body: "patch_deployment"
+		};
+
+	}
+	rpc GetPatchDeployment(google.cloud.osconfig.v1beta.GetPatchDeploymentRequest) returns (google.cloud.osconfig.v1beta.PatchDeployment) {
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/patchDeployments/*}"
+		};
+
+	}
+	rpc ListPatchDeployments(google.cloud.osconfig.v1beta.ListPatchDeploymentsRequest) returns (google.cloud.osconfig.v1beta.ListPatchDeploymentsResponse) {
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*}/patchDeployments"
+		};
+
+	}
+	rpc DeletePatchDeployment(google.cloud.osconfig.v1beta.DeletePatchDeploymentRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta/{name=projects/*/patchDeployments/*}"
+		};
+
+	}
+	rpc CreateGuestPolicy(google.cloud.osconfig.v1beta.CreateGuestPolicyRequest) returns (google.cloud.osconfig.v1beta.GuestPolicy) {
+		option (google.api.method_signature) = "parent, guest_policy";
+		option (google.api.http) = {
+			post: "/v1beta/{parent=projects/*}/guestPolicies"
+			body: "guest_policy"
+		};
+
+	}
+	rpc GetGuestPolicy(google.cloud.osconfig.v1beta.GetGuestPolicyRequest) returns (google.cloud.osconfig.v1beta.GuestPolicy) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta/{name=projects/*/guestPolicies/*}"
+		};
+
+	}
+	rpc ListGuestPolicies(google.cloud.osconfig.v1beta.ListGuestPoliciesRequest) returns (google.cloud.osconfig.v1beta.ListGuestPoliciesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1beta/{parent=projects/*}/guestPolicies"
+		};
+
+	}
+	rpc UpdateGuestPolicy(google.cloud.osconfig.v1beta.UpdateGuestPolicyRequest) returns (google.cloud.osconfig.v1beta.GuestPolicy) {
+		option (google.api.method_signature) = "guest_policy,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta/{guest_policy.name=projects/*/guestPolicies/*}"
+			body: "guest_policy"
+		};
+
+	}
+	rpc DeleteGuestPolicy(google.cloud.osconfig.v1beta.DeleteGuestPolicyRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta/{name=projects/*/guestPolicies/*}"
+		};
+
+	}
+	rpc LookupEffectiveGuestPolicy(google.cloud.osconfig.v1beta.LookupEffectiveGuestPolicyRequest) returns (google.cloud.osconfig.v1beta.EffectiveGuestPolicy) {
+		option (google.api.http) = {
+			post: "/v1beta/{instance=projects/*/zones/*/instances/*}:lookupEffectiveGuestPolicy"
+			body: "*"
+		};
+
+	}
+}

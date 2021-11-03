@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1;
+
+import "google/cloud/automl/v1/geometry.proto";
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1;automl";
+option csharp_namespace = "Google.Cloud.AutoML.V1";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1";
+option ruby_package = "Google::Cloud::AutoML::V1";
+
+
+message ImageObjectDetectionAnnotation {
+
+	google.cloud.automl.v1.BoundingPoly bounding_box = 1;
+	float score = 2;
+}
+
+message BoundingBoxMetricsEntry {
+
+	message ConfidenceMetricsEntry {
+
+		float confidence_threshold = 1;
+		float recall = 2;
+		float precision = 3;
+		float f1_score = 4;
+	}
+
+	float iou_threshold = 1;
+	float mean_average_precision = 2;
+	repeated ConfidenceMetricsEntry confidence_metrics_entries = 3;
+}
+
+message ImageObjectDetectionEvaluationMetrics {
+
+	int32 evaluated_bounding_box_count = 1;
+	repeated BoundingBoxMetricsEntry bounding_box_metrics_entries = 2;
+	float bounding_box_mean_average_precision = 3;
+}

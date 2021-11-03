@@ -1,0 +1,556 @@
+syntax = "proto3";
+
+package google.cloud.dataproc.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/dataproc/v1/shared.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.dataproc.v1";
+option java_outer_classname = "ClustersProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataproc/v1;dataproc";
+
+
+service ClusterController {
+	option (google.api.default_host) = "dataproc.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateCluster(google.cloud.dataproc.v1.CreateClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Cluster"
+			metadata_type: "google.cloud.dataproc.v1.ClusterOperationMetadata"
+		};
+		option (google.api.method_signature) = "project_id,region,cluster";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/regions/{region}/clusters"
+			body: "cluster"
+		};
+
+	}
+	rpc UpdateCluster(google.cloud.dataproc.v1.UpdateClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Cluster"
+			metadata_type: "google.cloud.dataproc.v1.ClusterOperationMetadata"
+		};
+		option (google.api.method_signature) = "project_id,region,cluster_name,cluster,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/projects/{project_id}/regions/{region}/clusters/{cluster_name}"
+			body: "cluster"
+		};
+
+	}
+	rpc DeleteCluster(google.cloud.dataproc.v1.DeleteClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.cloud.dataproc.v1.ClusterOperationMetadata"
+		};
+		option (google.api.method_signature) = "project_id,region,cluster_name";
+		option (google.api.http) = {
+			delete: "/v1/projects/{project_id}/regions/{region}/clusters/{cluster_name}"
+		};
+
+	}
+	rpc GetCluster(google.cloud.dataproc.v1.GetClusterRequest) returns (google.cloud.dataproc.v1.Cluster) {
+		option (google.api.method_signature) = "project_id,region,cluster_name";
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/regions/{region}/clusters/{cluster_name}"
+		};
+
+	}
+	rpc ListClusters(google.cloud.dataproc.v1.ListClustersRequest) returns (google.cloud.dataproc.v1.ListClustersResponse) {
+		option (google.api.method_signature) = "project_id,region";
+		option (google.api.method_signature) = "project_id,region,filter";
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/regions/{region}/clusters"
+		};
+
+	}
+	rpc DiagnoseCluster(google.cloud.dataproc.v1.DiagnoseClusterRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "DiagnoseClusterResults"
+			metadata_type: "google.cloud.dataproc.v1.ClusterOperationMetadata"
+		};
+		option (google.api.method_signature) = "project_id,region,cluster_name";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/regions/{region}/clusters/{cluster_name}:diagnose"
+			body: "*"
+		};
+
+	}
+}
+
+message Cluster {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ClusterConfig config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> labels = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ClusterStatus status = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated ClusterStatus status_history = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string cluster_uuid = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ClusterMetrics metrics = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ClusterConfig {
+
+	string config_bucket = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string temp_bucket = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	GceClusterConfig gce_cluster_config = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	InstanceGroupConfig master_config = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	InstanceGroupConfig worker_config = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	InstanceGroupConfig secondary_worker_config = 12 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	SoftwareConfig software_config = 13 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated NodeInitializationAction initialization_actions = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	EncryptionConfig encryption_config = 15 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	AutoscalingConfig autoscaling_config = 18 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	SecurityConfig security_config = 16 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	LifecycleConfig lifecycle_config = 17 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	EndpointConfig endpoint_config = 19 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message EndpointConfig {
+
+	map<string, string> http_ports = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool enable_http_port_access = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message AutoscalingConfig {
+
+	string policy_uri = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message EncryptionConfig {
+
+	string gce_pd_kms_key_name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GceClusterConfig {
+
+	string zone_uri = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string network_uri = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string subnetwork_uri = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool internal_ip_only = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string service_account = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string service_account_scopes = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string tags = 4;
+	map<string, string> metadata = 5;
+	ReservationAffinity reservation_affinity = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message InstanceGroupConfig {
+
+	enum Preemptibility {
+
+		PREEMPTIBILITY_UNSPECIFIED = 0;
+		NON_PREEMPTIBLE = 1;
+		PREEMPTIBLE = 2;
+	}
+
+	int32 num_instances = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string instance_names = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string image_uri = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string machine_type_uri = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	DiskConfig disk_config = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool is_preemptible = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Preemptibility preemptibility = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ManagedGroupConfig managed_group_config = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated AcceleratorConfig accelerators = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string min_cpu_platform = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ManagedGroupConfig {
+
+	string instance_template_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string instance_group_manager_name = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message AcceleratorConfig {
+
+	string accelerator_type_uri = 1;
+	int32 accelerator_count = 2;
+}
+
+message DiskConfig {
+
+	string boot_disk_type = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 boot_disk_size_gb = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 num_local_ssds = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message NodeInitializationAction {
+
+	string executable_file = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration execution_timeout = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ClusterStatus {
+
+	enum State {
+
+		UNKNOWN = 0;
+		CREATING = 1;
+		RUNNING = 2;
+		ERROR = 3;
+		DELETING = 4;
+		UPDATING = 5;
+	}
+
+	enum Substate {
+
+		UNSPECIFIED = 0;
+		UNHEALTHY = 1;
+		STALE_STATUS = 2;
+	}
+
+	State state = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string detail = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY,
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp state_start_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Substate substate = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message SecurityConfig {
+
+	KerberosConfig kerberos_config = 1;
+}
+
+message KerberosConfig {
+
+	bool enable_kerberos = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string root_principal_password_uri = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string kms_key_uri = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string keystore_uri = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string truststore_uri = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string keystore_password_uri = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string key_password_uri = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string truststore_password_uri = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string cross_realm_trust_realm = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string cross_realm_trust_kdc = 10 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string cross_realm_trust_admin_server = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string cross_realm_trust_shared_password_uri = 12 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string kdc_db_key_uri = 13 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 tgt_lifetime_hours = 14 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string realm = 15 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SoftwareConfig {
+
+	string image_version = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> properties = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated google.cloud.dataproc.v1.Component optional_components = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message LifecycleConfig {
+
+	google.protobuf.Duration idle_delete_ttl = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof ttl {
+		google.protobuf.Timestamp auto_delete_time = 2 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+		google.protobuf.Duration auto_delete_ttl = 3 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	google.protobuf.Timestamp idle_start_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ClusterMetrics {
+
+	map<string, int64> hdfs_metrics = 1;
+	map<string, int64> yarn_metrics = 2;
+}
+
+message CreateClusterRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Cluster cluster = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateClusterRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Cluster cluster = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration graceful_decommission_timeout = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.FieldMask update_mask = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string request_id = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteClusterRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_uuid = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string request_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message GetClusterRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListClustersRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string filter = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListClustersResponse {
+
+	repeated Cluster clusters = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string next_page_token = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message DiagnoseClusterRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string region = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string cluster_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DiagnoseClusterResults {
+
+	string output_uri = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ReservationAffinity {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		NO_RESERVATION = 1;
+		ANY_RESERVATION = 2;
+		SPECIFIC_RESERVATION = 3;
+	}
+
+	Type consume_reservation_type = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string key = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string values = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}

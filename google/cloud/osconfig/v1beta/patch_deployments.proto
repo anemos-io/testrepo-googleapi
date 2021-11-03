@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package google.cloud.osconfig.v1beta;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/osconfig/v1beta/patch_jobs.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/datetime.proto";
+import "google/type/dayofweek.proto";
+import "google/type/timeofday.proto";
+
+option java_package = "com.google.cloud.osconfig.v1beta";
+option java_outer_classname = "PatchDeployments";
+option go_package = "google.golang.org/genproto/googleapis/cloud/osconfig/v1beta;osconfig";
+
+
+message PatchDeployment {
+
+	string name = 1;
+	string description = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.cloud.osconfig.v1beta.PatchInstanceFilter instance_filter = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.osconfig.v1beta.PatchConfig patch_config = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Duration duration = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof schedule {
+		OneTimeSchedule one_time_schedule = 6 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		RecurringSchedule recurring_schedule = 7 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+	google.protobuf.Timestamp create_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp last_execute_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message OneTimeSchedule {
+
+	google.protobuf.Timestamp execute_time = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RecurringSchedule {
+
+	enum Frequency {
+
+		FREQUENCY_UNSPECIFIED = 0;
+		WEEKLY = 1;
+		MONTHLY = 2;
+	}
+
+	google.type.TimeZone time_zone = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp start_time = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp end_time = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.type.TimeOfDay time_of_day = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Frequency frequency = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof schedule_config {
+		WeeklySchedule weekly = 6 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		MonthlySchedule monthly = 7 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+	google.protobuf.Timestamp last_execute_time = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp next_execute_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message WeeklySchedule {
+
+	google.type.DayOfWeek day_of_week = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MonthlySchedule {
+
+	oneof day_of_month {
+		WeekDayOfMonth week_day_of_month = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		int32 month_day = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+}
+
+message WeekDayOfMonth {
+
+	int32 week_ordinal = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.type.DayOfWeek day_of_week = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CreatePatchDeploymentRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string patch_deployment_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	PatchDeployment patch_deployment = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetPatchDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListPatchDeploymentsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListPatchDeploymentsResponse {
+
+	repeated PatchDeployment patch_deployments = 1;
+	string next_page_token = 2;
+}
+
+message DeletePatchDeploymentRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

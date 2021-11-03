@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4beta1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/talent/v4beta1/common.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.talent.v4beta1";
+option java_outer_classname = "CompanyResourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4beta1;talent";
+option objc_class_prefix = "CTS";
+
+
+message Company {
+	option (google.api.resource) = {
+		type: "jobs.googleapis.com/Company"
+		pattern: ["projects/{project}/tenants/{tenant}/companies/{company}","projects/{project}/companies/{company}"]
+	};
+
+	message DerivedInfo {
+
+		google.cloud.talent.v4beta1.Location headquarters_location = 1;
+	}
+
+	string name = 1;
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string external_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.talent.v4beta1.CompanySize size = 4;
+	string headquarters_address = 5;
+	bool hiring_agency = 6;
+	string eeo_text = 7;
+	string website_uri = 8;
+	string career_site_uri = 9;
+	string image_uri = 10;
+	repeated string keyword_searchable_job_custom_attributes = 11;
+	DerivedInfo derived_info = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool suspended = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

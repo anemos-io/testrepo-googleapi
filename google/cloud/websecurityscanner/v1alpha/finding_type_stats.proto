@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1alpha;
+
+import "google/cloud/websecurityscanner/v1alpha/finding.proto";
+
+option java_package = "com.google.cloud.websecurityscanner.v1alpha";
+option java_outer_classname = "FindingTypeStatsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1alpha;websecurityscanner";
+
+
+message FindingTypeStats {
+
+	google.cloud.websecurityscanner.v1alpha.Finding.FindingType finding_type = 1;
+	int32 finding_count = 2;
+}

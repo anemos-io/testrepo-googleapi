@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package google.spanner.v1;
+
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.spanner.v1";
+option java_outer_classname = "QueryPlanProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/v1;spanner";
+option csharp_namespace = "Google.Cloud.Spanner.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\V1";
+option ruby_package = "Google::Cloud::Spanner::V1";
+
+
+message PlanNode {
+
+	message ChildLink {
+
+		int32 child_index = 1;
+		string type = 2;
+		string variable = 3;
+	}
+
+	message ShortRepresentation {
+
+		string description = 1;
+		map<string, int32> subqueries = 2;
+	}
+
+	enum Kind {
+
+		KIND_UNSPECIFIED = 0;
+		RELATIONAL = 1;
+		SCALAR = 2;
+	}
+
+	int32 index = 1;
+	Kind kind = 2;
+	string display_name = 3;
+	repeated ChildLink child_links = 4;
+	ShortRepresentation short_representation = 5;
+	google.protobuf.Struct metadata = 6;
+	google.protobuf.Struct execution_stats = 7;
+}
+
+message QueryPlan {
+
+	repeated PlanNode plan_nodes = 1;
+}

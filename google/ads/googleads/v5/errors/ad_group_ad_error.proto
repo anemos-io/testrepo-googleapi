@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.errors";
+option java_outer_classname = "AdGroupAdErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V5::Errors";
+
+
+message AdGroupAdErrorEnum {
+
+	enum AdGroupAdError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		AD_GROUP_AD_LABEL_DOES_NOT_EXIST = 2;
+		AD_GROUP_AD_LABEL_ALREADY_EXISTS = 3;
+		AD_NOT_UNDER_ADGROUP = 4;
+		CANNOT_OPERATE_ON_REMOVED_ADGROUPAD = 5;
+		CANNOT_CREATE_DEPRECATED_ADS = 6;
+		CANNOT_CREATE_TEXT_ADS = 7;
+		EMPTY_FIELD = 8;
+		RESOURCE_REFERENCED_IN_MULTIPLE_OPS = 9;
+		AD_TYPE_CANNOT_BE_PAUSED = 10;
+		AD_TYPE_CANNOT_BE_REMOVED = 11;
+	}
+
+}

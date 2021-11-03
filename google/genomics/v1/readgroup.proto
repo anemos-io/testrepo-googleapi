@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.genomics.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.genomics.v1";
+option java_outer_classname = "ReadGroupProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/genomics/v1;genomics";
+option cc_enable_arenas = true;
+
+
+message ReadGroup {
+
+	message Experiment {
+
+		string library_id = 1;
+		string platform_unit = 2;
+		string sequencing_center = 3;
+		string instrument_model = 4;
+	}
+
+	message Program {
+
+		string command_line = 1;
+		string id = 2;
+		string name = 3;
+		string prev_program_id = 4;
+		string version = 5;
+	}
+
+	string id = 1;
+	string dataset_id = 2;
+	string name = 3;
+	string description = 4;
+	string sample_id = 5;
+	Experiment experiment = 6;
+	int32 predicted_insert_size = 7;
+	repeated Program programs = 10;
+	string reference_set_id = 11;
+	map<string, google.protobuf.ListValue> info = 12;
+}

@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package google.cloud.tasks.v2beta3;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/tasks/v2beta3/target.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.tasks.v2beta3";
+option java_outer_classname = "QueueProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/tasks/v2beta3;tasks";
+
+
+message Queue {
+	option (google.api.resource) = {
+		type: "cloudtasks.googleapis.com/Queue"
+		pattern: ["projects/{project}/locations/{location}/queues/{queue}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		RUNNING = 1;
+		PAUSED = 2;
+		DISABLED = 3;
+	}
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		PULL = 1;
+		PUSH = 2;
+	}
+
+	string name = 1;
+	oneof queue_type {
+		google.cloud.tasks.v2beta3.AppEngineHttpQueue app_engine_http_queue = 3;
+	}
+	RateLimits rate_limits = 4;
+	RetryConfig retry_config = 5;
+	State state = 6;
+	google.protobuf.Timestamp purge_time = 7;
+	StackdriverLoggingConfig stackdriver_logging_config = 10;
+	Type type = 11 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}
+
+message RateLimits {
+
+	double max_dispatches_per_second = 1;
+	int32 max_burst_size = 2;
+	int32 max_concurrent_dispatches = 3;
+}
+
+message RetryConfig {
+
+	int32 max_attempts = 1;
+	google.protobuf.Duration max_retry_duration = 2;
+	google.protobuf.Duration min_backoff = 3;
+	google.protobuf.Duration max_backoff = 4;
+	int32 max_doublings = 5;
+}
+
+message StackdriverLoggingConfig {
+
+	double sampling_ratio = 1;
+}

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package google.api.servicecontrol.v1;
+
+import "google/rpc/status.proto";
+
+option java_package = "com.google.api.servicecontrol.v1";
+option java_outer_classname = "CheckErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/servicecontrol/v1;servicecontrol";
+option cc_enable_arenas = true;
+
+
+message CheckError {
+
+	enum Code {
+
+		ERROR_CODE_UNSPECIFIED = 0;
+		NOT_FOUND = 5;
+		PERMISSION_DENIED = 7;
+		RESOURCE_EXHAUSTED = 8;
+		SERVICE_NOT_ACTIVATED = 104;
+		BILLING_DISABLED = 107;
+		PROJECT_DELETED = 108;
+		PROJECT_INVALID = 114;
+		CONSUMER_INVALID = 125;
+		IP_ADDRESS_BLOCKED = 109;
+		REFERER_BLOCKED = 110;
+		CLIENT_APP_BLOCKED = 111;
+		API_TARGET_BLOCKED = 122;
+		API_KEY_INVALID = 105;
+		API_KEY_EXPIRED = 112;
+		API_KEY_NOT_FOUND = 113;
+		INVALID_CREDENTIAL = 123;
+		NAMESPACE_LOOKUP_UNAVAILABLE = 300;
+		SERVICE_STATUS_UNAVAILABLE = 301;
+		BILLING_STATUS_UNAVAILABLE = 302;
+		CLOUD_RESOURCE_MANAGER_BACKEND_UNAVAILABLE = 305;
+	}
+
+	Code code = 1;
+	string subject = 4;
+	string detail = 2;
+	google.rpc.Status status = 3;
+}

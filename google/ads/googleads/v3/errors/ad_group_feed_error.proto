@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.errors";
+option java_outer_classname = "AdGroupFeedErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V3::Errors";
+
+
+message AdGroupFeedErrorEnum {
+
+	enum AdGroupFeedError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		FEED_ALREADY_EXISTS_FOR_PLACEHOLDER_TYPE = 2;
+		CANNOT_CREATE_FOR_REMOVED_FEED = 3;
+		ADGROUP_FEED_ALREADY_EXISTS = 4;
+		CANNOT_OPERATE_ON_REMOVED_ADGROUP_FEED = 5;
+		INVALID_PLACEHOLDER_TYPE = 6;
+		MISSING_FEEDMAPPING_FOR_PLACEHOLDER_TYPE = 7;
+		NO_EXISTING_LOCATION_CUSTOMER_FEED = 8;
+	}
+
+}

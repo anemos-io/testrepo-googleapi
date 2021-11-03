@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/cloud/securitycenter/v1/security_marks.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1;securitycenter";
+option csharp_namespace = "Google.Cloud.SecurityCenter.V1";
+option php_namespace = "Google\\Cloud\\SecurityCenter\\V1";
+option ruby_package = "Google::Cloud::SecurityCenter::V1";
+
+
+message Asset {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/Asset"
+		pattern: ["organizations/{organization}/assets/{asset}"]
+	};
+
+	message SecurityCenterProperties {
+
+		string resource_name = 1;
+		string resource_type = 2;
+		string resource_parent = 3;
+		string resource_project = 4;
+		repeated string resource_owners = 5;
+		string resource_display_name = 6;
+		string resource_parent_display_name = 7;
+		string resource_project_display_name = 8;
+	}
+
+	message IamPolicy {
+
+		string policy_blob = 1;
+	}
+
+	string name = 1;
+	SecurityCenterProperties security_center_properties = 2;
+	map<string, google.protobuf.Value> resource_properties = 7;
+	google.cloud.securitycenter.v1.SecurityMarks security_marks = 8;
+	google.protobuf.Timestamp create_time = 9;
+	google.protobuf.Timestamp update_time = 10;
+	IamPolicy iam_policy = 11;
+}

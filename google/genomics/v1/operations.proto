@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package google.genomics.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.genomics.v1";
+option java_outer_classname = "OperationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/genomics/v1;genomics";
+option cc_enable_arenas = true;
+
+
+message OperationMetadata {
+
+	string project_id = 1;
+	google.protobuf.Timestamp create_time = 2;
+	google.protobuf.Timestamp start_time = 3;
+	google.protobuf.Timestamp end_time = 4;
+	google.protobuf.Any request = 5;
+	repeated OperationEvent events = 6;
+	string client_id = 7;
+	google.protobuf.Any runtime_metadata = 8;
+	map<string, string> labels = 9;
+}
+
+message OperationEvent {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	string description = 3;
+}

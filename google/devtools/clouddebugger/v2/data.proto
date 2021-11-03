@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package google.devtools.clouddebugger.v2;
+
+import "google/devtools/source/v1/source_context.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.devtools.clouddebugger.v2";
+option java_outer_classname = "DataProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/clouddebugger/v2;clouddebugger";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Debugger.V2";
+option php_namespace = "Google\\Cloud\\Debugger\\V2";
+option ruby_package = "Google::Cloud::Debugger::V2";
+
+
+message FormatMessage {
+
+	string format = 1;
+	repeated string parameters = 2;
+}
+
+message StatusMessage {
+
+	enum Reference {
+
+		UNSPECIFIED = 0;
+		BREAKPOINT_SOURCE_LOCATION = 3;
+		BREAKPOINT_CONDITION = 4;
+		BREAKPOINT_EXPRESSION = 7;
+		BREAKPOINT_AGE = 8;
+		VARIABLE_NAME = 5;
+		VARIABLE_VALUE = 6;
+	}
+
+	bool is_error = 1;
+	Reference refers_to = 2;
+	FormatMessage description = 3;
+}
+
+message SourceLocation {
+
+	string path = 1;
+	int32 line = 2;
+	int32 column = 3;
+}
+
+message Variable {
+
+	string name = 1;
+	string value = 2;
+	string type = 6;
+	repeated Variable members = 3;
+	google.protobuf.Int32Value var_table_index = 4;
+	StatusMessage status = 5;
+}
+
+message StackFrame {
+
+	string function = 1;
+	SourceLocation location = 2;
+	repeated Variable arguments = 3;
+	repeated Variable locals = 4;
+}
+
+message Breakpoint {
+
+	enum Action {
+
+		CAPTURE = 0;
+		LOG = 1;
+	}
+
+	enum LogLevel {
+
+		INFO = 0;
+		WARNING = 1;
+		ERROR = 2;
+	}
+
+	string id = 1;
+	Action action = 13;
+	SourceLocation location = 2;
+	string condition = 3;
+	repeated string expressions = 4;
+	string log_message_format = 14;
+	LogLevel log_level = 15;
+	bool is_final_state = 5;
+	google.protobuf.Timestamp create_time = 11;
+	google.protobuf.Timestamp final_time = 12;
+	string user_email = 16;
+	StatusMessage status = 10;
+	repeated StackFrame stack_frames = 7;
+	repeated Variable evaluated_expressions = 8;
+	repeated Variable variable_table = 9;
+	map<string, string> labels = 17;
+}
+
+message Debuggee {
+
+	string id = 1;
+	string project = 2;
+	string uniquifier = 3;
+	string description = 4;
+	bool is_inactive = 5;
+	string agent_version = 6;
+	bool is_disabled = 7;
+	StatusMessage status = 8;
+	repeated google.devtools.source.v1.SourceContext source_contexts = 9;
+	repeated google.devtools.source.v1.ExtendedSourceContext ext_source_contexts = 13 [
+		deprecated = true
+	];
+	map<string, string> labels = 11;
+}

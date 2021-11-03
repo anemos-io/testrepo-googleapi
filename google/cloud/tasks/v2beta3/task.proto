@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package google.cloud.tasks.v2beta3;
+
+import "google/api/resource.proto";
+import "google/cloud/tasks/v2beta3/target.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.tasks.v2beta3";
+option java_outer_classname = "TaskProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/tasks/v2beta3;tasks";
+
+
+message Task {
+	option (google.api.resource) = {
+		type: "cloudtasks.googleapis.com/Task"
+		pattern: ["projects/{project}/locations/{location}/queues/{queue}/tasks/{task}"]
+	};
+
+	enum View {
+
+		VIEW_UNSPECIFIED = 0;
+		BASIC = 1;
+		FULL = 2;
+	}
+
+	string name = 1;
+	oneof payload_type {
+		google.cloud.tasks.v2beta3.AppEngineHttpRequest app_engine_http_request = 3;
+		google.cloud.tasks.v2beta3.HttpRequest http_request = 11;
+	}
+	google.protobuf.Timestamp schedule_time = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Duration dispatch_deadline = 12;
+	int32 dispatch_count = 6;
+	int32 response_count = 7;
+	Attempt first_attempt = 8;
+	Attempt last_attempt = 9;
+	View view = 10;
+}
+
+message Attempt {
+
+	google.protobuf.Timestamp schedule_time = 1;
+	google.protobuf.Timestamp dispatch_time = 2;
+	google.protobuf.Timestamp response_time = 3;
+	google.rpc.Status response_status = 4;
+}

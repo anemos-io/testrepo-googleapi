@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.enums";
+option java_outer_classname = "ConversionActionTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V3::Enums";
+
+
+message ConversionActionTypeEnum {
+
+	enum ConversionActionType {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		AD_CALL = 2;
+		CLICK_TO_CALL = 3;
+		GOOGLE_PLAY_DOWNLOAD = 4;
+		GOOGLE_PLAY_IN_APP_PURCHASE = 5;
+		UPLOAD_CALLS = 6;
+		UPLOAD_CLICKS = 7;
+		WEBPAGE = 8;
+		WEBSITE_CALL = 9;
+	}
+
+}

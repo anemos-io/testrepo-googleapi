@@ -1,0 +1,359 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.v2;
+
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/bigquery/v2/encryption_config.proto";
+import "google/cloud/bigquery/v2/model_reference.proto";
+import "google/cloud/bigquery/v2/standard_sql.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.bigquery.v2";
+option java_outer_classname = "ModelProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/v2;bigquery";
+
+
+service ModelService {
+	option (google.api.default_host) = "bigquery.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/bigquery.readonly,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only";
+
+	rpc GetModel(google.cloud.bigquery.v2.GetModelRequest) returns (google.cloud.bigquery.v2.Model) {
+		option (google.api.method_signature) = "project_id,dataset_id,model_id";
+
+	}
+	rpc ListModels(google.cloud.bigquery.v2.ListModelsRequest) returns (google.cloud.bigquery.v2.ListModelsResponse) {
+		option (google.api.method_signature) = "project_id,dataset_id,max_results";
+
+	}
+	rpc PatchModel(google.cloud.bigquery.v2.PatchModelRequest) returns (google.cloud.bigquery.v2.Model) {
+		option (google.api.method_signature) = "project_id,dataset_id,model_id,model";
+
+	}
+	rpc DeleteModel(google.cloud.bigquery.v2.DeleteModelRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "project_id,dataset_id,model_id";
+
+	}
+}
+
+message Model {
+
+	message KmeansEnums {
+
+		enum KmeansInitializationMethod {
+
+			KMEANS_INITIALIZATION_METHOD_UNSPECIFIED = 0;
+			RANDOM = 1;
+			CUSTOM = 2;
+		}
+
+	}
+
+	message RegressionMetrics {
+
+		google.protobuf.DoubleValue mean_absolute_error = 1;
+		google.protobuf.DoubleValue mean_squared_error = 2;
+		google.protobuf.DoubleValue mean_squared_log_error = 3;
+		google.protobuf.DoubleValue median_absolute_error = 4;
+		google.protobuf.DoubleValue r_squared = 5;
+	}
+
+	message AggregateClassificationMetrics {
+
+		google.protobuf.DoubleValue precision = 1;
+		google.protobuf.DoubleValue recall = 2;
+		google.protobuf.DoubleValue accuracy = 3;
+		google.protobuf.DoubleValue threshold = 4;
+		google.protobuf.DoubleValue f1_score = 5;
+		google.protobuf.DoubleValue log_loss = 6;
+		google.protobuf.DoubleValue roc_auc = 7;
+	}
+
+	message BinaryClassificationMetrics {
+
+		message BinaryConfusionMatrix {
+
+			google.protobuf.DoubleValue positive_class_threshold = 1;
+			google.protobuf.Int64Value true_positives = 2;
+			google.protobuf.Int64Value false_positives = 3;
+			google.protobuf.Int64Value true_negatives = 4;
+			google.protobuf.Int64Value false_negatives = 5;
+			google.protobuf.DoubleValue precision = 6;
+			google.protobuf.DoubleValue recall = 7;
+			google.protobuf.DoubleValue f1_score = 8;
+			google.protobuf.DoubleValue accuracy = 9;
+		}
+
+		AggregateClassificationMetrics aggregate_classification_metrics = 1;
+		repeated BinaryConfusionMatrix binary_confusion_matrix_list = 2;
+		string positive_label = 3;
+		string negative_label = 4;
+	}
+
+	message MultiClassClassificationMetrics {
+
+		message ConfusionMatrix {
+
+			message Entry {
+
+				string predicted_label = 1;
+				google.protobuf.Int64Value item_count = 2;
+			}
+
+			message Row {
+
+				string actual_label = 1;
+				repeated Entry entries = 2;
+			}
+
+			google.protobuf.DoubleValue confidence_threshold = 1;
+			repeated Row rows = 2;
+		}
+
+		AggregateClassificationMetrics aggregate_classification_metrics = 1;
+		repeated ConfusionMatrix confusion_matrix_list = 2;
+	}
+
+	message ClusteringMetrics {
+
+		message Cluster {
+
+			message FeatureValue {
+
+				message CategoricalValue {
+
+					message CategoryCount {
+
+						string category = 1;
+						google.protobuf.Int64Value count = 2;
+					}
+
+					repeated CategoryCount category_counts = 1;
+				}
+
+				string feature_column = 1;
+				oneof value {
+					google.protobuf.DoubleValue numerical_value = 2;
+					CategoricalValue categorical_value = 3;
+				}
+			}
+
+			int64 centroid_id = 1;
+			repeated FeatureValue feature_values = 2;
+			google.protobuf.Int64Value count = 3;
+		}
+
+		google.protobuf.DoubleValue davies_bouldin_index = 1;
+		google.protobuf.DoubleValue mean_squared_distance = 2;
+		repeated Cluster clusters = 3;
+	}
+
+	message EvaluationMetrics {
+
+		oneof metrics {
+			RegressionMetrics regression_metrics = 1;
+			BinaryClassificationMetrics binary_classification_metrics = 2;
+			MultiClassClassificationMetrics multi_class_classification_metrics = 3;
+			ClusteringMetrics clustering_metrics = 4;
+		}
+	}
+
+	message TrainingRun {
+
+		message TrainingOptions {
+
+			int64 max_iterations = 1;
+			LossType loss_type = 2;
+			double learn_rate = 3;
+			google.protobuf.DoubleValue l1_regularization = 4;
+			google.protobuf.DoubleValue l2_regularization = 5;
+			google.protobuf.DoubleValue min_relative_progress = 6;
+			google.protobuf.BoolValue warm_start = 7;
+			google.protobuf.BoolValue early_stop = 8;
+			repeated string input_label_columns = 9;
+			DataSplitMethod data_split_method = 10;
+			double data_split_eval_fraction = 11;
+			string data_split_column = 12;
+			LearnRateStrategy learn_rate_strategy = 13;
+			double initial_learn_rate = 16;
+			map<string, double> label_class_weights = 17;
+			DistanceType distance_type = 20;
+			int64 num_clusters = 21;
+			string model_uri = 22;
+			OptimizationStrategy optimization_strategy = 23;
+			KmeansInitializationMethod kmeans_initialization_method = 33;
+			string kmeans_initialization_column = 34;
+		}
+
+		message IterationResult {
+
+			message ClusterInfo {
+
+				int64 centroid_id = 1;
+				google.protobuf.DoubleValue cluster_radius = 2;
+				google.protobuf.Int64Value cluster_size = 3;
+			}
+
+			google.protobuf.Int32Value index = 1;
+			google.protobuf.Int64Value duration_ms = 4;
+			google.protobuf.DoubleValue training_loss = 5;
+			google.protobuf.DoubleValue eval_loss = 6;
+			double learn_rate = 7;
+			repeated ClusterInfo cluster_infos = 8;
+		}
+
+		TrainingOptions training_options = 1;
+		google.protobuf.Timestamp start_time = 8;
+		repeated IterationResult results = 6;
+		EvaluationMetrics evaluation_metrics = 7;
+	}
+
+	enum ModelType {
+
+		MODEL_TYPE_UNSPECIFIED = 0;
+		LINEAR_REGRESSION = 1;
+		LOGISTIC_REGRESSION = 2;
+		KMEANS = 3;
+		TENSORFLOW = 6;
+	}
+
+	enum LossType {
+
+		LOSS_TYPE_UNSPECIFIED = 0;
+		MEAN_SQUARED_LOSS = 1;
+		MEAN_LOG_LOSS = 2;
+	}
+
+	enum DistanceType {
+
+		DISTANCE_TYPE_UNSPECIFIED = 0;
+		EUCLIDEAN = 1;
+		COSINE = 2;
+	}
+
+	enum DataSplitMethod {
+
+		DATA_SPLIT_METHOD_UNSPECIFIED = 0;
+		RANDOM = 1;
+		CUSTOM = 2;
+		SEQUENTIAL = 3;
+		NO_SPLIT = 4;
+		AUTO_SPLIT = 5;
+	}
+
+	enum LearnRateStrategy {
+
+		LEARN_RATE_STRATEGY_UNSPECIFIED = 0;
+		LINE_SEARCH = 1;
+		CONSTANT = 2;
+	}
+
+	enum OptimizationStrategy {
+
+		OPTIMIZATION_STRATEGY_UNSPECIFIED = 0;
+		BATCH_GRADIENT_DESCENT = 1;
+		NORMAL_EQUATION = 2;
+	}
+
+	string etag = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.bigquery.v2.ModelReference model_reference = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int64 creation_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 last_modified_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 12 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string friendly_name = 14 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 15;
+	int64 expiration_time = 16 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string location = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.cloud.bigquery.v2.EncryptionConfiguration encryption_configuration = 17;
+	ModelType model_type = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated TrainingRun training_runs = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.cloud.bigquery.v2.StandardSqlField feature_columns = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.cloud.bigquery.v2.StandardSqlField label_columns = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message GetModelRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string dataset_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string model_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PatchModelRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string dataset_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string model_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Model model = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteModelRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string dataset_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string model_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListModelsRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string dataset_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.UInt32Value max_results = 3;
+	string page_token = 4;
+}
+
+message ListModelsResponse {
+
+	repeated Model models = 1;
+	string next_page_token = 2;
+}

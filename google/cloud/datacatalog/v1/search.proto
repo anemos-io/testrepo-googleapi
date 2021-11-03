@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package google.cloud.datacatalog.v1;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/datacatalog/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.datacatalog.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/datacatalog/v1;datacatalog";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.DataCatalog.V1";
+option php_namespace = "Google\\Cloud\\DataCatalog\\V1";
+option ruby_package = "Google::Cloud::DataCatalog::V1";
+
+
+enum SearchResultType {
+
+	SEARCH_RESULT_TYPE_UNSPECIFIED = 0;
+	ENTRY = 1;
+	TAG_TEMPLATE = 2;
+	ENTRY_GROUP = 3;
+}
+
+message SearchCatalogResult {
+
+	SearchResultType search_result_type = 1;
+	string search_result_subtype = 2;
+	string relative_resource_name = 3;
+	string linked_resource = 4;
+	oneof system {
+		google.cloud.datacatalog.v1.IntegratedSystem integrated_system = 8 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+		string user_specified_system = 9;
+	}
+}

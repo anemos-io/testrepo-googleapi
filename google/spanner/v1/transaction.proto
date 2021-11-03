@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package google.spanner.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.spanner.v1";
+option java_outer_classname = "TransactionProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/v1;spanner";
+option csharp_namespace = "Google.Cloud.Spanner.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\V1";
+option ruby_package = "Google::Cloud::Spanner::V1";
+
+
+message TransactionOptions {
+
+	message ReadWrite {
+
+	}
+
+	message PartitionedDml {
+
+	}
+
+	message ReadOnly {
+
+		oneof timestamp_bound {
+			bool strong = 1;
+			google.protobuf.Timestamp min_read_timestamp = 2;
+			google.protobuf.Duration max_staleness = 3;
+			google.protobuf.Timestamp read_timestamp = 4;
+			google.protobuf.Duration exact_staleness = 5;
+		}
+		bool return_read_timestamp = 6;
+	}
+
+	oneof mode {
+		ReadWrite read_write = 1;
+		PartitionedDml partitioned_dml = 3;
+		ReadOnly read_only = 2;
+	}
+}
+
+message Transaction {
+
+	bytes id = 1;
+	google.protobuf.Timestamp read_timestamp = 2;
+}
+
+message TransactionSelector {
+
+	oneof selector {
+		TransactionOptions single_use = 1;
+		bytes id = 2;
+		TransactionOptions begin = 3;
+	}
+}

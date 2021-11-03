@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package google.cloud.policytroubleshooter.v1;
+
+import "google/cloud/policytroubleshooter/v1/explanations.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.cloud.policytroubleshooter.v1";
+option java_outer_classname = "IAMCheckerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/policytroubleshooter/v1;policytroubleshooter";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.PolicyTroubleshooter.V1";
+option php_namespace = "Google\\Cloud\\PolicyTroubleshooter\\V1";
+option ruby_package = "Google::Cloud::PolicyTroubleshooter::V1";
+
+
+service IamChecker {
+	option (google.api.default_host) = "policytroubleshooter.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc TroubleshootIamPolicy(google.cloud.policytroubleshooter.v1.TroubleshootIamPolicyRequest) returns (google.cloud.policytroubleshooter.v1.TroubleshootIamPolicyResponse) {
+		option (google.api.http) = {
+			post: "/v1/iam:troubleshoot"
+			body: "*"
+		};
+
+	}
+}
+
+message TroubleshootIamPolicyRequest {
+
+	google.cloud.policytroubleshooter.v1.AccessTuple access_tuple = 1;
+}
+
+message TroubleshootIamPolicyResponse {
+
+	google.cloud.policytroubleshooter.v1.AccessState access = 1;
+	repeated google.cloud.policytroubleshooter.v1.ExplainedPolicy explained_policies = 2;
+}

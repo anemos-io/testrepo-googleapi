@@ -1,0 +1,230 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4beta1;
+
+import "google/api/field_behavior.proto";
+import "google/cloud/talent/v4beta1/common.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/date.proto";
+import "google/type/latlng.proto";
+import "google/type/timeofday.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.talent.v4beta1";
+option java_outer_classname = "FiltersProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4beta1;talent";
+option objc_class_prefix = "CTS";
+
+
+message JobQuery {
+
+	string query = 1;
+	string query_language_code = 14;
+	repeated string companies = 2;
+	repeated LocationFilter location_filters = 3;
+	repeated google.cloud.talent.v4beta1.JobCategory job_categories = 4;
+	CommuteFilter commute_filter = 5;
+	repeated string company_display_names = 6;
+	CompensationFilter compensation_filter = 7;
+	string custom_attribute_filter = 8;
+	bool disable_spell_check = 9;
+	repeated google.cloud.talent.v4beta1.EmploymentType employment_types = 10;
+	repeated string language_codes = 11;
+	google.cloud.talent.v4beta1.TimestampRange publish_time_range = 12;
+	repeated string excluded_jobs = 13;
+}
+
+message ProfileQuery {
+
+	string query = 1;
+	repeated LocationFilter location_filters = 2;
+	repeated JobTitleFilter job_title_filters = 3;
+	repeated EmployerFilter employer_filters = 4;
+	repeated EducationFilter education_filters = 5;
+	repeated SkillFilter skill_filters = 6;
+	repeated WorkExperienceFilter work_experience_filter = 7;
+	repeated TimeFilter time_filters = 8;
+	google.protobuf.BoolValue hirable_filter = 9;
+	repeated ApplicationDateFilter application_date_filters = 10;
+	repeated ApplicationOutcomeNotesFilter application_outcome_notes_filters = 11;
+	repeated ApplicationJobFilter application_job_filters = 13;
+	string custom_attribute_filter = 15;
+	CandidateAvailabilityFilter candidate_availability_filter = 16 [
+		deprecated = true
+	];
+	repeated AvailabilityFilter availability_filters = 18;
+	repeated PersonNameFilter person_name_filters = 17;
+}
+
+message LocationFilter {
+
+	enum TelecommutePreference {
+
+		TELECOMMUTE_PREFERENCE_UNSPECIFIED = 0;
+		TELECOMMUTE_EXCLUDED = 1;
+		TELECOMMUTE_ALLOWED = 2;
+	}
+
+	string address = 1;
+	string region_code = 2;
+	google.type.LatLng lat_lng = 3;
+	double distance_in_miles = 4;
+	TelecommutePreference telecommute_preference = 5;
+	bool negated = 6;
+}
+
+message CompensationFilter {
+
+	enum FilterType {
+
+		FILTER_TYPE_UNSPECIFIED = 0;
+		UNIT_ONLY = 1;
+		UNIT_AND_AMOUNT = 2;
+		ANNUALIZED_BASE_AMOUNT = 3;
+		ANNUALIZED_TOTAL_AMOUNT = 4;
+	}
+
+	FilterType type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated google.cloud.talent.v4beta1.CompensationInfo.CompensationUnit units = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.talent.v4beta1.CompensationInfo.CompensationRange range = 3;
+	bool include_jobs_with_unspecified_compensation_range = 4;
+}
+
+message CommuteFilter {
+
+	enum RoadTraffic {
+
+		ROAD_TRAFFIC_UNSPECIFIED = 0;
+		TRAFFIC_FREE = 1;
+		BUSY_HOUR = 2;
+	}
+
+	google.cloud.talent.v4beta1.CommuteMethod commute_method = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.type.LatLng start_coordinates = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Duration travel_duration = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool allow_imprecise_addresses = 4;
+	oneof traffic_option {
+		RoadTraffic road_traffic = 5;
+		google.type.TimeOfDay departure_time = 6;
+	}
+}
+
+message JobTitleFilter {
+
+	string job_title = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool negated = 2;
+}
+
+message SkillFilter {
+
+	string skill = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool negated = 2;
+}
+
+message EmployerFilter {
+
+	enum EmployerFilterMode {
+
+		EMPLOYER_FILTER_MODE_UNSPECIFIED = 0;
+		ALL_EMPLOYMENT_RECORDS = 1;
+		CURRENT_EMPLOYMENT_RECORDS_ONLY = 2;
+		PAST_EMPLOYMENT_RECORDS_ONLY = 3;
+	}
+
+	string employer = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	EmployerFilterMode mode = 2;
+	bool negated = 3;
+}
+
+message EducationFilter {
+
+	string school = 1;
+	string field_of_study = 2;
+	google.cloud.talent.v4beta1.DegreeType degree_type = 3;
+	bool negated = 6;
+}
+
+message WorkExperienceFilter {
+
+	google.protobuf.Duration min_experience = 1;
+	google.protobuf.Duration max_experience = 2;
+}
+
+message ApplicationDateFilter {
+
+	google.type.Date start_date = 1;
+	google.type.Date end_date = 2;
+}
+
+message ApplicationOutcomeNotesFilter {
+
+	string outcome_notes = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool negated = 2;
+}
+
+message ApplicationJobFilter {
+
+	string job_requisition_id = 2;
+	string job_title = 3;
+	bool negated = 4;
+}
+
+message TimeFilter {
+
+	enum TimeField {
+
+		TIME_FIELD_UNSPECIFIED = 0;
+		CREATE_TIME = 1;
+		UPDATE_TIME = 2;
+	}
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	TimeField time_field = 3;
+}
+
+message CandidateAvailabilityFilter {
+	option deprecated = true;
+
+	bool negated = 1;
+}
+
+message AvailabilityFilter {
+
+	google.cloud.talent.v4beta1.AvailabilitySignalType signal_type = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.talent.v4beta1.TimestampRange range = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool required = 3;
+}
+
+message PersonNameFilter {
+
+	string person_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

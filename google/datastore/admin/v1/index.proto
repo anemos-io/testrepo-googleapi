@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package google.datastore.admin.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.datastore.admin.v1";
+option java_outer_classname = "IndexProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/datastore/admin/v1;admin";
+option csharp_namespace = "Google.Cloud.Datastore.Admin.V1";
+option ruby_package = "Google::Cloud::Datastore::Admin::V1";
+
+
+message Index {
+
+	message IndexedProperty {
+
+		string name = 1 [
+			(google.api.field_behavior) = REQUIRED
+		];
+		Direction direction = 2 [
+			(google.api.field_behavior) = REQUIRED
+		];
+	}
+
+	enum AncestorMode {
+
+		ANCESTOR_MODE_UNSPECIFIED = 0;
+		NONE = 1;
+		ALL_ANCESTORS = 2;
+	}
+
+	enum Direction {
+
+		DIRECTION_UNSPECIFIED = 0;
+		ASCENDING = 1;
+		DESCENDING = 2;
+	}
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		DELETING = 3;
+		ERROR = 4;
+	}
+
+	string project_id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string index_id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string kind = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	AncestorMode ancestor = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated IndexedProperty properties = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	State state = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

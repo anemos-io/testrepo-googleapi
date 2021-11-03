@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package google.cloud.location;
+
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+
+option java_package = "com.google.cloud.location";
+option java_outer_classname = "LocationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/location;location";
+option cc_enable_arenas = true;
+
+
+service Locations {
+
+	rpc ListLocations(google.cloud.location.ListLocationsRequest) returns (google.cloud.location.ListLocationsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*}/locations"
+		};
+
+	}
+	rpc GetLocation(google.cloud.location.GetLocationRequest) returns (google.cloud.location.Location) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*}"
+		};
+
+	}
+}
+
+message ListLocationsRequest {
+
+	string name = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListLocationsResponse {
+
+	repeated Location locations = 1;
+	string next_page_token = 2;
+}
+
+message GetLocationRequest {
+
+	string name = 1;
+}
+
+message Location {
+
+	string name = 1;
+	string location_id = 4;
+	string display_name = 5;
+	map<string, string> labels = 2;
+	google.protobuf.Any metadata = 3;
+}

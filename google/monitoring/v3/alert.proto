@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package google.monitoring.v3;
+
+import "google/api/resource.proto";
+import "google/monitoring/v3/common.proto";
+import "google/monitoring/v3/mutation_record.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.monitoring.v3";
+option java_outer_classname = "AlertProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/v3;monitoring";
+option csharp_namespace = "Google.Cloud.Monitoring.V3";
+option php_namespace = "Google\\Cloud\\Monitoring\\V3";
+option ruby_package = "Google::Cloud::Monitoring::V3";
+
+
+message AlertPolicy {
+	option (google.api.resource) = {
+		type: "monitoring.googleapis.com/AlertPolicy"
+		pattern: ["projects/{project}/alertPolicies/{alert_policy}","organizations/{organization}/alertPolicies/{alert_policy}","folders/{folder}/alertPolicies/{alert_policy}","*"]
+	};
+
+	message Documentation {
+
+		string content = 1;
+		string mime_type = 2;
+	}
+
+	message Condition {
+		option (google.api.resource) = {
+			type: "monitoring.googleapis.com/AlertPolicyCondition"
+			pattern: ["projects/{project}/alertPolicies/{alert_policy}/conditions/{condition}","organizations/{organization}/alertPolicies/{alert_policy}/conditions/{condition}","folders/{folder}/alertPolicies/{alert_policy}/conditions/{condition}","*"]
+		};
+
+		message Trigger {
+
+			oneof type {
+				int32 count = 1;
+				double percent = 2;
+			}
+		}
+
+		message MetricThreshold {
+
+			string filter = 2;
+			repeated google.monitoring.v3.Aggregation aggregations = 8;
+			string denominator_filter = 9;
+			repeated google.monitoring.v3.Aggregation denominator_aggregations = 10;
+			google.monitoring.v3.ComparisonType comparison = 4;
+			double threshold_value = 5;
+			google.protobuf.Duration duration = 6;
+			Trigger trigger = 7;
+		}
+
+		message MetricAbsence {
+
+			string filter = 1;
+			repeated google.monitoring.v3.Aggregation aggregations = 5;
+			google.protobuf.Duration duration = 2;
+			Trigger trigger = 3;
+		}
+
+		string name = 12;
+		string display_name = 6;
+		oneof condition {
+			MetricThreshold condition_threshold = 1;
+			MetricAbsence condition_absent = 2;
+		}
+	}
+
+	enum ConditionCombinerType {
+
+		COMBINE_UNSPECIFIED = 0;
+		AND = 1;
+		OR = 2;
+		AND_WITH_MATCHING_RESOURCE = 3;
+	}
+
+	string name = 1;
+	string display_name = 2;
+	Documentation documentation = 13;
+	map<string, string> user_labels = 16;
+	repeated Condition conditions = 12;
+	ConditionCombinerType combiner = 6;
+	google.protobuf.BoolValue enabled = 17;
+	google.rpc.Status validity = 18;
+	repeated string notification_channels = 14;
+	google.monitoring.v3.MutationRecord creation_record = 10;
+	google.monitoring.v3.MutationRecord mutation_record = 11;
+}

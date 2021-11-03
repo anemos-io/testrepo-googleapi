@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package google.cloud.talent.v4beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/talent/v4beta1/common.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/date.proto";
+
+option java_package = "com.google.cloud.talent.v4beta1";
+option java_outer_classname = "ApplicationResourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/talent/v4beta1;talent";
+option objc_class_prefix = "CTS";
+
+
+message Application {
+	option (google.api.resource) = {
+		type: "jobs.googleapis.com/Application"
+		pattern: ["projects/{project}/tenants/{tenant}/profiles/{profile}/applications/{application}"]
+	};
+
+	enum ApplicationState {
+
+		APPLICATION_STATE_UNSPECIFIED = 0;
+		IN_PROGRESS = 1;
+		CANDIDATE_WITHDREW = 2;
+		EMPLOYER_WITHDREW = 3;
+		COMPLETED = 4;
+		CLOSED = 5;
+	}
+
+	enum ApplicationStage {
+
+		APPLICATION_STAGE_UNSPECIFIED = 0;
+		NEW = 1;
+		SCREEN = 2;
+		HIRING_MANAGER_REVIEW = 3;
+		INTERVIEW = 4;
+		OFFER_EXTENDED = 5;
+		OFFER_ACCEPTED = 6;
+		STARTED = 7;
+	}
+
+	string name = 1;
+	string external_id = 31 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string profile = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string job = 4 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Job"
+		}
+	];
+	string company = 5 [
+		(google.api.resource_reference) = {
+			type: "jobs.googleapis.com/Company"
+		}
+	];
+	google.type.Date application_date = 7;
+	ApplicationStage stage = 11 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ApplicationState state = 13;
+	repeated google.cloud.talent.v4beta1.Interview interviews = 16;
+	google.protobuf.BoolValue referral = 18;
+	google.protobuf.Timestamp create_time = 19 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp update_time = 20;
+	string outcome_notes = 21;
+	google.cloud.talent.v4beta1.Outcome outcome = 22;
+	google.protobuf.BoolValue is_match = 28 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string job_title_snippet = 29 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

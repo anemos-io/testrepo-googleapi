@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package google.cloud.vision.v1p3beta1;
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/cloud/vision/v1p3beta1/geometry.proto";
+import "google/cloud/vision/v1p3beta1/product_search_service.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.vision.v1p3beta1";
+option java_outer_classname = "ProductSearchProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/vision/v1p3beta1;vision";
+option cc_enable_arenas = true;
+
+
+enum ProductSearchCategory {
+
+	PRODUCT_SEARCH_CATEGORY_UNSPECIFIED = 0;
+	SHOES = 1;
+	BAGS = 2;
+}
+
+enum ProductSearchResultsView {
+
+	BASIC = 0;
+	FULL = 1;
+}
+
+message ProductSearchParams {
+
+	string catalog_name = 1;
+	ProductSearchCategory category = 2;
+	string product_category = 5;
+	google.cloud.vision.v1p3beta1.NormalizedBoundingPoly normalized_bounding_poly = 3;
+	google.cloud.vision.v1p3beta1.BoundingPoly bounding_poly = 9;
+	ProductSearchResultsView view = 4;
+	string product_set = 6 [
+		(google.api.resource_reference) = {
+			type: "vision.googleapis.com/ProductSet"
+		}
+	];
+	repeated string product_categories = 7;
+	string filter = 8;
+}
+
+message ProductSearchResults {
+
+	message ProductInfo {
+
+		string product_id = 1;
+		string image_uri = 2;
+		float score = 3;
+	}
+
+	message Result {
+
+		google.cloud.vision.v1p3beta1.Product product = 1;
+		float score = 2;
+		string image = 3;
+	}
+
+	ProductSearchCategory category = 1;
+	string product_category = 4;
+	google.protobuf.Timestamp index_time = 2;
+	repeated ProductInfo products = 3;
+	repeated Result results = 5;
+}

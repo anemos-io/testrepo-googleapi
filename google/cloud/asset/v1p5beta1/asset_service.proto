@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package google.cloud.asset.v1p5beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/cloud/asset/v1p5beta1/assets.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.asset.v1p5beta1";
+option java_outer_classname = "AssetServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/asset/v1p5beta1;asset";
+option csharp_namespace = "Google.Cloud.Asset.V1P5Beta1";
+option php_namespace = "Google\\Cloud\\Asset\\V1p5beta1";
+
+
+enum ContentType {
+
+	CONTENT_TYPE_UNSPECIFIED = 0;
+	RESOURCE = 1;
+	IAM_POLICY = 2;
+	ORG_POLICY = 4;
+	ACCESS_POLICY = 5;
+}
+
+service AssetService {
+	option (google.api.default_host) = "cloudasset.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListAssets(google.cloud.asset.v1p5beta1.ListAssetsRequest) returns (google.cloud.asset.v1p5beta1.ListAssetsResponse) {
+		option (google.api.http) = {
+			get: "/v1p5beta1/{parent=*/*}/assets"
+		};
+
+	}
+}
+
+message ListAssetsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp read_time = 2;
+	repeated string asset_types = 3;
+	ContentType content_type = 4;
+	int32 page_size = 5;
+	string page_token = 6;
+}
+
+message ListAssetsResponse {
+
+	google.protobuf.Timestamp read_time = 1;
+	repeated google.cloud.asset.v1p5beta1.Asset assets = 2;
+	string next_page_token = 3;
+}

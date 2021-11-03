@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package google.appengine.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1";
+option java_outer_classname = "InstanceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1;appengine";
+
+
+message Instance {
+
+	enum Availability {
+
+		UNSPECIFIED = 0;
+		RESIDENT = 1;
+		DYNAMIC = 2;
+	}
+
+	string name = 1;
+	string id = 2;
+	string app_engine_release = 3;
+	Availability availability = 4;
+	string vm_name = 5;
+	string vm_zone_name = 6;
+	string vm_id = 7;
+	google.protobuf.Timestamp start_time = 8;
+	int32 requests = 9;
+	int32 errors = 10;
+	float qps = 11;
+	int32 average_latency = 12;
+	int64 memory_usage = 13;
+	string vm_status = 14;
+	bool vm_debug_enabled = 15;
+	string vm_ip = 16;
+}

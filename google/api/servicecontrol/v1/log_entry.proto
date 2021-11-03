@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package google.api.servicecontrol.v1;
+
+import "google/api/servicecontrol/v1/http_request.proto";
+import "google/logging/type/log_severity.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.api.servicecontrol.v1";
+option java_outer_classname = "LogEntryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/api/servicecontrol/v1;servicecontrol";
+
+
+message LogEntry {
+
+	string name = 10;
+	google.protobuf.Timestamp timestamp = 11;
+	google.logging.type.LogSeverity severity = 12;
+	google.api.servicecontrol.v1.HttpRequest http_request = 14;
+	string trace = 15;
+	string insert_id = 4;
+	map<string, string> labels = 13;
+	oneof payload {
+		google.protobuf.Any proto_payload = 2;
+		string text_payload = 3;
+		google.protobuf.Struct struct_payload = 6;
+	}
+	LogEntryOperation operation = 16;
+	LogEntrySourceLocation source_location = 17;
+}
+
+message LogEntryOperation {
+
+	string id = 1;
+	string producer = 2;
+	bool first = 3;
+	bool last = 4;
+}
+
+message LogEntrySourceLocation {
+
+	string file = 1;
+	int64 line = 2;
+	string function = 3;
+}

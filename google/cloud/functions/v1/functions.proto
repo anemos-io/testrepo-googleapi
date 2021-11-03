@@ -1,0 +1,319 @@
+syntax = "proto3";
+
+package google.cloud.functions.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.functions.v1";
+option java_outer_classname = "FunctionsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/functions/v1;functions";
+option objc_class_prefix = "GCF";
+
+
+enum CloudFunctionStatus {
+
+	CLOUD_FUNCTION_STATUS_UNSPECIFIED = 0;
+	ACTIVE = 1;
+	OFFLINE = 2;
+	DEPLOY_IN_PROGRESS = 3;
+	DELETE_IN_PROGRESS = 4;
+	UNKNOWN = 5;
+}
+
+service CloudFunctionsService {
+	option (google.api.default_host) = "cloudfunctions.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListFunctions(google.cloud.functions.v1.ListFunctionsRequest) returns (google.cloud.functions.v1.ListFunctionsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/functions"
+		};
+
+	}
+	rpc GetFunction(google.cloud.functions.v1.GetFunctionRequest) returns (google.cloud.functions.v1.CloudFunction) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/functions/*}"
+		};
+
+	}
+	rpc CreateFunction(google.cloud.functions.v1.CreateFunctionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CloudFunction"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.method_signature) = "location,function";
+		option (google.api.http) = {
+			post: "/v1/{location=projects/*/locations/*}/functions"
+			body: "function"
+		};
+
+	}
+	rpc UpdateFunction(google.cloud.functions.v1.UpdateFunctionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "CloudFunction"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.method_signature) = "function";
+		option (google.api.http) = {
+			patch: "/v1/{function.name=projects/*/locations/*/functions/*}"
+			body: "function"
+		};
+
+	}
+	rpc DeleteFunction(google.cloud.functions.v1.DeleteFunctionRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadataV1"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/functions/*}"
+		};
+
+	}
+	rpc CallFunction(google.cloud.functions.v1.CallFunctionRequest) returns (google.cloud.functions.v1.CallFunctionResponse) {
+		option (google.api.method_signature) = "name,data";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/functions/*}:call"
+			body: "*"
+		};
+
+	}
+	rpc GenerateUploadUrl(google.cloud.functions.v1.GenerateUploadUrlRequest) returns (google.cloud.functions.v1.GenerateUploadUrlResponse) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/functions:generateUploadUrl"
+			body: "*"
+		};
+
+	}
+	rpc GenerateDownloadUrl(google.cloud.functions.v1.GenerateDownloadUrlRequest) returns (google.cloud.functions.v1.GenerateDownloadUrlResponse) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/functions/*}:generateDownloadUrl"
+			body: "*"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/functions/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.http) = {
+			get: "/v1/{resource=projects/*/locations/*/functions/*}:getIamPolicy"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/functions/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+}
+
+message CloudFunction {
+	option (google.api.resource) = {
+		type: "cloudfunctions.googleapis.com/CloudFunction"
+		pattern: ["projects/{project}/locations/{location}/functions/{function}"]
+	};
+
+	enum VpcConnectorEgressSettings {
+
+		VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED = 0;
+		PRIVATE_RANGES_ONLY = 1;
+		ALL_TRAFFIC = 2;
+	}
+
+	enum IngressSettings {
+
+		INGRESS_SETTINGS_UNSPECIFIED = 0;
+		ALLOW_ALL = 1;
+		ALLOW_INTERNAL_ONLY = 2;
+		ALLOW_INTERNAL_AND_GCLB = 3;
+	}
+
+	string name = 1;
+	string description = 2;
+	oneof source_code {
+		string source_archive_url = 3;
+		SourceRepository source_repository = 4;
+		string source_upload_url = 16;
+	}
+	oneof trigger {
+		HttpsTrigger https_trigger = 5;
+		EventTrigger event_trigger = 6;
+	}
+	CloudFunctionStatus status = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string entry_point = 8;
+	string runtime = 19;
+	google.protobuf.Duration timeout = 9;
+	int32 available_memory_mb = 10;
+	string service_account_email = 11;
+	google.protobuf.Timestamp update_time = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 version_id = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 15;
+	map<string, string> environment_variables = 17;
+	string network = 18;
+	int32 max_instances = 20;
+	string vpc_connector = 22;
+	VpcConnectorEgressSettings vpc_connector_egress_settings = 23;
+	IngressSettings ingress_settings = 24;
+	string build_id = 27 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message SourceRepository {
+
+	string url = 1;
+	string deployed_url = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message HttpsTrigger {
+
+	string url = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message EventTrigger {
+
+	string event_type = 1;
+	string resource = 2;
+	string service = 3;
+	FailurePolicy failure_policy = 5;
+}
+
+message FailurePolicy {
+
+	message Retry {
+
+	}
+
+	oneof action {
+		Retry retry = 1;
+	}
+}
+
+message CreateFunctionRequest {
+
+	string location = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	CloudFunction function = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateFunctionRequest {
+
+	CloudFunction function = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetFunctionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudfunctions.googleapis.com/CloudFunction"
+		}
+	];
+}
+
+message ListFunctionsRequest {
+
+	string parent = 1 [
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListFunctionsResponse {
+
+	repeated CloudFunction functions = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message DeleteFunctionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudfunctions.googleapis.com/CloudFunction"
+		}
+	];
+}
+
+message CallFunctionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudfunctions.googleapis.com/CloudFunction"
+		}
+	];
+	string data = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message CallFunctionResponse {
+
+	string execution_id = 1;
+	string result = 2;
+	string error = 3;
+}
+
+message GenerateUploadUrlRequest {
+
+	string parent = 1;
+}
+
+message GenerateUploadUrlResponse {
+
+	string upload_url = 1;
+}
+
+message GenerateDownloadUrlRequest {
+
+	string name = 1;
+	uint64 version_id = 2;
+}
+
+message GenerateDownloadUrlResponse {
+
+	string download_url = 1;
+}

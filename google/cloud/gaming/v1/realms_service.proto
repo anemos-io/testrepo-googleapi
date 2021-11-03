@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package google.cloud.gaming.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/cloud/gaming/v1/realms.proto";
+import "google/longrunning/operations.proto";
+
+option java_package = "com.google.cloud.gaming.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gaming/v1;gaming";
+
+
+service RealmsService {
+	option (google.api.default_host) = "gameservices.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListRealms(google.cloud.gaming.v1.ListRealmsRequest) returns (google.cloud.gaming.v1.ListRealmsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/realms"
+		};
+
+	}
+	rpc GetRealm(google.cloud.gaming.v1.GetRealmRequest) returns (google.cloud.gaming.v1.Realm) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/realms/*}"
+		};
+
+	}
+	rpc CreateRealm(google.cloud.gaming.v1.CreateRealmRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Realm"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "parent,realm,realm_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/realms"
+			body: "realm"
+		};
+
+	}
+	rpc DeleteRealm(google.cloud.gaming.v1.DeleteRealmRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/realms/*}"
+		};
+
+	}
+	rpc UpdateRealm(google.cloud.gaming.v1.UpdateRealmRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Realm"
+			metadata_type: "OperationMetadata"
+		};
+		option (google.api.method_signature) = "realm,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{realm.name=projects/*/locations/*/realms/*}"
+			body: "realm"
+		};
+
+	}
+	rpc PreviewRealmUpdate(google.cloud.gaming.v1.PreviewRealmUpdateRequest) returns (google.cloud.gaming.v1.PreviewRealmUpdateResponse) {
+		option (google.api.http) = {
+			patch: "/v1/{realm.name=projects/*/locations/*/realms/*}:previewUpdate"
+			body: "realm"
+		};
+
+	}
+}

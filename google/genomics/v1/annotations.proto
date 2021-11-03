@@ -1,0 +1,316 @@
+syntax = "proto3";
+
+package google.genomics.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.genomics.v1";
+option java_outer_classname = "AnnotationsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/genomics/v1;genomics";
+option cc_enable_arenas = true;
+
+
+enum AnnotationType {
+
+	ANNOTATION_TYPE_UNSPECIFIED = 0;
+	GENERIC = 1;
+	VARIANT = 2;
+	GENE = 3;
+	TRANSCRIPT = 4;
+}
+
+service AnnotationServiceV1 {
+
+	rpc CreateAnnotationSet(google.genomics.v1.CreateAnnotationSetRequest) returns (google.genomics.v1.AnnotationSet) {
+		option (google.api.http) = {
+			post: "/v1/annotationsets"
+			body: "annotation_set"
+		};
+
+	}
+	rpc GetAnnotationSet(google.genomics.v1.GetAnnotationSetRequest) returns (google.genomics.v1.AnnotationSet) {
+		option (google.api.http) = {
+			get: "/v1/annotationsets/{annotation_set_id}"
+		};
+
+	}
+	rpc UpdateAnnotationSet(google.genomics.v1.UpdateAnnotationSetRequest) returns (google.genomics.v1.AnnotationSet) {
+		option (google.api.http) = {
+			put: "/v1/annotationsets/{annotation_set_id}"
+			body: "annotation_set"
+		};
+
+	}
+	rpc DeleteAnnotationSet(google.genomics.v1.DeleteAnnotationSetRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/annotationsets/{annotation_set_id}"
+		};
+
+	}
+	rpc SearchAnnotationSets(google.genomics.v1.SearchAnnotationSetsRequest) returns (google.genomics.v1.SearchAnnotationSetsResponse) {
+		option (google.api.http) = {
+			post: "/v1/annotationsets/search"
+			body: "*"
+		};
+
+	}
+	rpc CreateAnnotation(google.genomics.v1.CreateAnnotationRequest) returns (google.genomics.v1.Annotation) {
+		option (google.api.http) = {
+			post: "/v1/annotations"
+			body: "annotation"
+		};
+
+	}
+	rpc BatchCreateAnnotations(google.genomics.v1.BatchCreateAnnotationsRequest) returns (google.genomics.v1.BatchCreateAnnotationsResponse) {
+		option (google.api.http) = {
+			post: "/v1/annotations:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc GetAnnotation(google.genomics.v1.GetAnnotationRequest) returns (google.genomics.v1.Annotation) {
+		option (google.api.http) = {
+			get: "/v1/annotations/{annotation_id}"
+		};
+
+	}
+	rpc UpdateAnnotation(google.genomics.v1.UpdateAnnotationRequest) returns (google.genomics.v1.Annotation) {
+		option (google.api.http) = {
+			put: "/v1/annotations/{annotation_id}"
+			body: "annotation"
+		};
+
+	}
+	rpc DeleteAnnotation(google.genomics.v1.DeleteAnnotationRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/annotations/{annotation_id}"
+		};
+
+	}
+	rpc SearchAnnotations(google.genomics.v1.SearchAnnotationsRequest) returns (google.genomics.v1.SearchAnnotationsResponse) {
+		option (google.api.http) = {
+			post: "/v1/annotations/search"
+			body: "*"
+		};
+
+	}
+}
+
+message AnnotationSet {
+
+	string id = 1;
+	string dataset_id = 2;
+	string reference_set_id = 3;
+	string name = 4;
+	string source_uri = 5;
+	AnnotationType type = 6;
+	map<string, google.protobuf.ListValue> info = 17;
+}
+
+message Annotation {
+
+	string id = 1;
+	string annotation_set_id = 2;
+	string name = 3;
+	string reference_id = 4;
+	string reference_name = 5;
+	int64 start = 6;
+	int64 end = 7;
+	bool reverse_strand = 8;
+	AnnotationType type = 9;
+	oneof value {
+		VariantAnnotation variant = 10;
+		Transcript transcript = 11;
+	}
+	map<string, google.protobuf.ListValue> info = 12;
+}
+
+message VariantAnnotation {
+
+	message ClinicalCondition {
+
+		repeated string names = 1;
+		repeated ExternalId external_ids = 2;
+		string concept_id = 3;
+		string omim_id = 4;
+	}
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		TYPE_OTHER = 1;
+		INSERTION = 2;
+		DELETION = 3;
+		SUBSTITUTION = 4;
+		SNP = 5;
+		STRUCTURAL = 6;
+		CNV = 7;
+	}
+
+	enum Effect {
+
+		EFFECT_UNSPECIFIED = 0;
+		EFFECT_OTHER = 1;
+		FRAMESHIFT = 2;
+		FRAME_PRESERVING_INDEL = 3;
+		SYNONYMOUS_SNP = 4;
+		NONSYNONYMOUS_SNP = 5;
+		STOP_GAIN = 6;
+		STOP_LOSS = 7;
+		SPLICE_SITE_DISRUPTION = 8;
+	}
+
+	enum ClinicalSignificance {
+
+		CLINICAL_SIGNIFICANCE_UNSPECIFIED = 0;
+		CLINICAL_SIGNIFICANCE_OTHER = 1;
+		UNCERTAIN = 2;
+		BENIGN = 3;
+		LIKELY_BENIGN = 4;
+		LIKELY_PATHOGENIC = 5;
+		PATHOGENIC = 6;
+		DRUG_RESPONSE = 7;
+		HISTOCOMPATIBILITY = 8;
+		CONFERS_SENSITIVITY = 9;
+		RISK_FACTOR = 10;
+		ASSOCIATION = 11;
+		PROTECTIVE = 12;
+		MULTIPLE_REPORTED = 13;
+	}
+
+	Type type = 1;
+	Effect effect = 2;
+	string alternate_bases = 3;
+	string gene_id = 4;
+	repeated string transcript_ids = 5;
+	repeated ClinicalCondition conditions = 6;
+	ClinicalSignificance clinical_significance = 7;
+}
+
+message Transcript {
+
+	message Exon {
+
+		int64 start = 1;
+		int64 end = 2;
+		google.protobuf.Int32Value frame = 3;
+	}
+
+	message CodingSequence {
+
+		int64 start = 1;
+		int64 end = 2;
+	}
+
+	string gene_id = 1;
+	repeated Exon exons = 2;
+	CodingSequence coding_sequence = 3;
+}
+
+message ExternalId {
+
+	string source_name = 1;
+	string id = 2;
+}
+
+message CreateAnnotationSetRequest {
+
+	AnnotationSet annotation_set = 1;
+}
+
+message GetAnnotationSetRequest {
+
+	string annotation_set_id = 1;
+}
+
+message UpdateAnnotationSetRequest {
+
+	string annotation_set_id = 1;
+	AnnotationSet annotation_set = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteAnnotationSetRequest {
+
+	string annotation_set_id = 1;
+}
+
+message SearchAnnotationSetsRequest {
+
+	repeated string dataset_ids = 1;
+	string reference_set_id = 2;
+	string name = 3;
+	repeated AnnotationType types = 4;
+	string page_token = 5;
+	int32 page_size = 6;
+}
+
+message SearchAnnotationSetsResponse {
+
+	repeated AnnotationSet annotation_sets = 1;
+	string next_page_token = 2;
+}
+
+message CreateAnnotationRequest {
+
+	Annotation annotation = 1;
+}
+
+message BatchCreateAnnotationsRequest {
+
+	repeated Annotation annotations = 1;
+	string request_id = 2;
+}
+
+message BatchCreateAnnotationsResponse {
+
+	message Entry {
+
+		google.rpc.Status status = 1;
+		Annotation annotation = 2;
+	}
+
+	repeated Entry entries = 1;
+}
+
+message GetAnnotationRequest {
+
+	string annotation_id = 1;
+}
+
+message UpdateAnnotationRequest {
+
+	string annotation_id = 1;
+	Annotation annotation = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteAnnotationRequest {
+
+	string annotation_id = 1;
+}
+
+message SearchAnnotationsRequest {
+
+	repeated string annotation_set_ids = 1;
+	oneof reference {
+		string reference_id = 2;
+		string reference_name = 3;
+	}
+	int64 start = 4;
+	int64 end = 5;
+	string page_token = 6;
+	int32 page_size = 7;
+}
+
+message SearchAnnotationsResponse {
+
+	repeated Annotation annotations = 1;
+	string next_page_token = 2;
+}

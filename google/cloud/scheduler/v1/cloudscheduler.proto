@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package google.cloud.scheduler.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/scheduler/v1/job.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.scheduler.v1";
+option java_outer_classname = "SchedulerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/scheduler/v1;scheduler";
+option objc_class_prefix = "SCHEDULER";
+
+
+service CloudScheduler {
+	option (google.api.default_host) = "cloudscheduler.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListJobs(google.cloud.scheduler.v1.ListJobsRequest) returns (google.cloud.scheduler.v1.ListJobsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/jobs"
+		};
+
+	}
+	rpc GetJob(google.cloud.scheduler.v1.GetJobRequest) returns (google.cloud.scheduler.v1.Job) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/jobs/*}"
+		};
+
+	}
+	rpc CreateJob(google.cloud.scheduler.v1.CreateJobRequest) returns (google.cloud.scheduler.v1.Job) {
+		option (google.api.method_signature) = "parent,job";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/jobs"
+			body: "job"
+		};
+
+	}
+	rpc UpdateJob(google.cloud.scheduler.v1.UpdateJobRequest) returns (google.cloud.scheduler.v1.Job) {
+		option (google.api.method_signature) = "job,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{job.name=projects/*/locations/*/jobs/*}"
+			body: "job"
+		};
+
+	}
+	rpc DeleteJob(google.cloud.scheduler.v1.DeleteJobRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/jobs/*}"
+		};
+
+	}
+	rpc PauseJob(google.cloud.scheduler.v1.PauseJobRequest) returns (google.cloud.scheduler.v1.Job) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/jobs/*}:pause"
+			body: "*"
+		};
+
+	}
+	rpc ResumeJob(google.cloud.scheduler.v1.ResumeJobRequest) returns (google.cloud.scheduler.v1.Job) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/jobs/*}:resume"
+			body: "*"
+		};
+
+	}
+	rpc RunJob(google.cloud.scheduler.v1.RunJobRequest) returns (google.cloud.scheduler.v1.Job) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/*/jobs/*}:run"
+			body: "*"
+		};
+
+	}
+}
+
+message ListJobsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudscheduler.googleapis.com/Job"
+		}
+	];
+	int32 page_size = 5;
+	string page_token = 6;
+}
+
+message ListJobsResponse {
+
+	repeated google.cloud.scheduler.v1.Job jobs = 1;
+	string next_page_token = 2;
+}
+
+message GetJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudscheduler.googleapis.com/Job"
+		}
+	];
+}
+
+message CreateJobRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "cloudscheduler.googleapis.com/Job"
+		}
+	];
+	google.cloud.scheduler.v1.Job job = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateJobRequest {
+
+	google.cloud.scheduler.v1.Job job = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudscheduler.googleapis.com/Job"
+		}
+	];
+}
+
+message PauseJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudscheduler.googleapis.com/Job"
+		}
+	];
+}
+
+message ResumeJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudscheduler.googleapis.com/Job"
+		}
+	];
+}
+
+message RunJobRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudscheduler.googleapis.com/Job"
+		}
+	];
+}

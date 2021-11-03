@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.v2;
+
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.bigquery.v2";
+option java_outer_classname = "ModelReferenceProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/v2;bigquery";
+
+
+message ModelReference {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string dataset_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string model_id = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

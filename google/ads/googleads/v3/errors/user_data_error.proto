@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.errors";
+option java_outer_classname = "UserDataErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V3::Errors";
+
+
+message UserDataErrorEnum {
+
+	enum UserDataError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		OPERATIONS_FOR_CUSTOMER_MATCH_NOT_ALLOWED = 2;
+		TOO_MANY_USER_IDENTIFIERS = 3;
+		USER_LIST_NOT_APPLICABLE = 4;
+	}
+
+}

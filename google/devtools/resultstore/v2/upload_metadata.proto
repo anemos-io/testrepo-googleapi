@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+message UploadMetadata {
+
+	string name = 1;
+	string resume_token = 2;
+	bytes uploader_state = 3;
+}

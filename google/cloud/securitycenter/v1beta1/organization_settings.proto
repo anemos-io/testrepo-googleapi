@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1beta1;
+
+import "google/api/resource.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1beta1;securitycenter";
+
+
+message OrganizationSettings {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/OrganizationSettings"
+		pattern: ["organizations/{organization}/organizationSettings"]
+	};
+
+	message AssetDiscoveryConfig {
+
+		enum InclusionMode {
+
+			INCLUSION_MODE_UNSPECIFIED = 0;
+			INCLUDE_ONLY = 1;
+			EXCLUDE = 2;
+		}
+
+		repeated string project_ids = 1;
+		InclusionMode inclusion_mode = 2;
+	}
+
+	string name = 1;
+	bool enable_asset_discovery = 2;
+	AssetDiscoveryConfig asset_discovery_config = 3;
+}

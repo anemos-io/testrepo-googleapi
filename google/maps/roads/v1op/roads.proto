@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package google.maps.roads.v1op;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/latlng.proto";
+
+option java_package = "com.google.maps.roads.v1op";
+option java_outer_classname = "RoadsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/roads/v1op;roads";
+
+
+enum TravelMode {
+
+	TRAVEL_MODE_UNSPECIFIED = 0;
+	DRIVING = 1;
+	CYCLING = 2;
+	WALKING = 3;
+}
+
+service RoadsService {
+	option (google.api.default_host) = "roads.googleapis.com";
+
+	rpc SnapToRoads(google.maps.roads.v1op.SnapToRoadsRequest) returns (google.maps.roads.v1op.SnapToRoadsResponse) {}
+	rpc ListNearestRoads(google.maps.roads.v1op.ListNearestRoadsRequest) returns (google.maps.roads.v1op.ListNearestRoadsResponse) {}
+}
+
+message SnapToRoadsRequest {
+
+	string path = 1;
+	bool interpolate = 2;
+	string asset_id = 3;
+	TravelMode travel_mode = 4;
+}
+
+message SnappedPoint {
+
+	google.type.LatLng location = 1;
+	google.protobuf.UInt32Value original_index = 2;
+	string place_id = 3;
+}
+
+message SnapToRoadsResponse {
+
+	repeated SnappedPoint snapped_points = 1;
+	string warning_message = 2;
+}
+
+message ListNearestRoadsRequest {
+
+	string points = 1;
+	TravelMode travel_mode = 2;
+}
+
+message ListNearestRoadsResponse {
+
+	repeated SnappedPoint snapped_points = 1;
+}

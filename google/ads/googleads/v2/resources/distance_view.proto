@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.resources;
+
+import "google/ads/googleads/v2/enums/distance_bucket.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.resources";
+option java_outer_classname = "DistanceViewProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V2::Resources";
+
+
+message DistanceView {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/DistanceView"
+		pattern: ["customers/{customer}/distanceViews/{distance_view}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/DistanceView"
+		}
+	];
+	google.ads.googleads.v2.enums.DistanceBucketEnum.DistanceBucket distance_bucket = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.BoolValue metric_system = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

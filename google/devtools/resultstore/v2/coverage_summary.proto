@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/devtools/resultstore/v2/common.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+message LineCoverageSummary {
+
+	int32 instrumented_line_count = 1;
+	int32 executed_line_count = 2;
+}
+
+message BranchCoverageSummary {
+
+	int32 total_branch_count = 1;
+	int32 executed_branch_count = 2;
+	int32 taken_branch_count = 3;
+}
+
+message LanguageCoverageSummary {
+
+	google.devtools.resultstore.v2.Language language = 1;
+	LineCoverageSummary line_summary = 2;
+	BranchCoverageSummary branch_summary = 3;
+}

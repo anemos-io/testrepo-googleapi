@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package grafeas.v1beta1.image;
+
+option java_package = "io.grafeas.v1beta1.image";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/image;image";
+option objc_class_prefix = "GRA";
+
+
+message Layer {
+
+	enum Directive {
+
+		DIRECTIVE_UNSPECIFIED = 0;
+		MAINTAINER = 1;
+		RUN = 2;
+		CMD = 3;
+		LABEL = 4;
+		EXPOSE = 5;
+		ENV = 6;
+		ADD = 7;
+		COPY = 8;
+		ENTRYPOINT = 9;
+		VOLUME = 10;
+		USER = 11;
+		WORKDIR = 12;
+		ARG = 13;
+		ONBUILD = 14;
+		STOPSIGNAL = 15;
+		HEALTHCHECK = 16;
+		SHELL = 17;
+	}
+
+	Directive directive = 1;
+	string arguments = 2;
+}
+
+message Fingerprint {
+
+	string v1_name = 1;
+	repeated string v2_blob = 2;
+	string v2_name = 3;
+}
+
+message Basis {
+
+	string resource_url = 1;
+	Fingerprint fingerprint = 2;
+}
+
+message Details {
+
+	Derived derived_image = 1;
+}
+
+message Derived {
+
+	Fingerprint fingerprint = 1;
+	int32 distance = 2;
+	repeated Layer layer_info = 3;
+	string base_resource_url = 4;
+}

@@ -1,0 +1,310 @@
+syntax = "proto3";
+
+package grafeas.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/devtools/containeranalysis/v1beta1/attestation/attestation.proto";
+import "google/devtools/containeranalysis/v1beta1/build/build.proto";
+import "google/devtools/containeranalysis/v1beta1/common/common.proto";
+import "google/devtools/containeranalysis/v1beta1/deployment/deployment.proto";
+import "google/devtools/containeranalysis/v1beta1/discovery/discovery.proto";
+import "google/devtools/containeranalysis/v1beta1/image/image.proto";
+import "google/devtools/containeranalysis/v1beta1/package/package.proto";
+import "google/devtools/containeranalysis/v1beta1/provenance/provenance.proto";
+import "google/devtools/containeranalysis/v1beta1/vulnerability/vulnerability.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.grafeas.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/grafeas;grafeas";
+option objc_class_prefix = "GRA";
+
+
+service GrafeasV1Beta1 {
+	option (google.api.default_host) = "containeranalysis.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc GetOccurrence(grafeas.v1beta1.GetOccurrenceRequest) returns (grafeas.v1beta1.Occurrence) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/occurrences/*}"
+		};
+
+	}
+	rpc ListOccurrences(grafeas.v1beta1.ListOccurrencesRequest) returns (grafeas.v1beta1.ListOccurrencesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/occurrences"
+		};
+
+	}
+	rpc DeleteOccurrence(grafeas.v1beta1.DeleteOccurrenceRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/occurrences/*}"
+		};
+
+	}
+	rpc CreateOccurrence(grafeas.v1beta1.CreateOccurrenceRequest) returns (grafeas.v1beta1.Occurrence) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/occurrences"
+			body: "occurrence"
+		};
+
+	}
+	rpc BatchCreateOccurrences(grafeas.v1beta1.BatchCreateOccurrencesRequest) returns (grafeas.v1beta1.BatchCreateOccurrencesResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/occurrences:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc UpdateOccurrence(grafeas.v1beta1.UpdateOccurrenceRequest) returns (grafeas.v1beta1.Occurrence) {
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=projects/*/occurrences/*}"
+			body: "occurrence"
+		};
+
+	}
+	rpc GetOccurrenceNote(grafeas.v1beta1.GetOccurrenceNoteRequest) returns (grafeas.v1beta1.Note) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/occurrences/*}/notes"
+		};
+
+	}
+	rpc GetNote(grafeas.v1beta1.GetNoteRequest) returns (grafeas.v1beta1.Note) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/notes/*}"
+		};
+
+	}
+	rpc ListNotes(grafeas.v1beta1.ListNotesRequest) returns (grafeas.v1beta1.ListNotesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/notes"
+		};
+
+	}
+	rpc DeleteNote(grafeas.v1beta1.DeleteNoteRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/notes/*}"
+		};
+
+	}
+	rpc CreateNote(grafeas.v1beta1.CreateNoteRequest) returns (grafeas.v1beta1.Note) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/notes"
+			body: "note"
+		};
+
+	}
+	rpc BatchCreateNotes(grafeas.v1beta1.BatchCreateNotesRequest) returns (grafeas.v1beta1.BatchCreateNotesResponse) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*}/notes:batchCreate"
+			body: "*"
+		};
+
+	}
+	rpc UpdateNote(grafeas.v1beta1.UpdateNoteRequest) returns (grafeas.v1beta1.Note) {
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=projects/*/notes/*}"
+			body: "note"
+		};
+
+	}
+	rpc ListNoteOccurrences(grafeas.v1beta1.ListNoteOccurrencesRequest) returns (grafeas.v1beta1.ListNoteOccurrencesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/notes/*}/occurrences"
+		};
+
+	}
+	rpc GetVulnerabilityOccurrencesSummary(grafeas.v1beta1.GetVulnerabilityOccurrencesSummaryRequest) returns (grafeas.v1beta1.VulnerabilityOccurrencesSummary) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*}/occurrences:vulnerabilitySummary"
+		};
+
+	}
+}
+
+message Occurrence {
+
+	string name = 1;
+	Resource resource = 2;
+	string note_name = 3;
+	grafeas.v1beta1.NoteKind kind = 4;
+	string remediation = 5;
+	google.protobuf.Timestamp create_time = 6;
+	google.protobuf.Timestamp update_time = 7;
+	oneof details {
+		grafeas.v1beta1.vulnerability.Details vulnerability = 8;
+		grafeas.v1beta1.build.Details build = 9;
+		grafeas.v1beta1.image.Details derived_image = 10;
+		grafeas.v1beta1.package.Details installation = 11;
+		grafeas.v1beta1.deployment.Details deployment = 12;
+		grafeas.v1beta1.discovery.Details discovered = 13;
+		grafeas.v1beta1.attestation.Details attestation = 14;
+	}
+}
+
+message Resource {
+
+	string name = 1;
+	string uri = 2;
+	grafeas.v1beta1.provenance.Hash content_hash = 3;
+}
+
+message Note {
+
+	string name = 1;
+	string short_description = 2;
+	string long_description = 3;
+	grafeas.v1beta1.NoteKind kind = 4;
+	repeated grafeas.v1beta1.RelatedUrl related_url = 5;
+	google.protobuf.Timestamp expiration_time = 6;
+	google.protobuf.Timestamp create_time = 7;
+	google.protobuf.Timestamp update_time = 8;
+	repeated string related_note_names = 9;
+	oneof type {
+		grafeas.v1beta1.vulnerability.Vulnerability vulnerability = 10;
+		grafeas.v1beta1.build.Build build = 11;
+		grafeas.v1beta1.image.Basis base_image = 12;
+		grafeas.v1beta1.package.Package package = 13;
+		grafeas.v1beta1.deployment.Deployable deployable = 14;
+		grafeas.v1beta1.discovery.Discovery discovery = 15;
+		grafeas.v1beta1.attestation.Authority attestation_authority = 16;
+	}
+}
+
+message GetOccurrenceRequest {
+
+	string name = 1;
+}
+
+message ListOccurrencesRequest {
+
+	string parent = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListOccurrencesResponse {
+
+	repeated Occurrence occurrences = 1;
+	string next_page_token = 2;
+}
+
+message DeleteOccurrenceRequest {
+
+	string name = 1;
+}
+
+message CreateOccurrenceRequest {
+
+	string parent = 1;
+	Occurrence occurrence = 2;
+}
+
+message UpdateOccurrenceRequest {
+
+	string name = 1;
+	Occurrence occurrence = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message GetNoteRequest {
+
+	string name = 1;
+}
+
+message GetOccurrenceNoteRequest {
+
+	string name = 1;
+}
+
+message ListNotesRequest {
+
+	string parent = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListNotesResponse {
+
+	repeated Note notes = 1;
+	string next_page_token = 2;
+}
+
+message DeleteNoteRequest {
+
+	string name = 1;
+}
+
+message CreateNoteRequest {
+
+	string parent = 1;
+	string note_id = 2;
+	Note note = 3;
+}
+
+message UpdateNoteRequest {
+
+	string name = 1;
+	Note note = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message ListNoteOccurrencesRequest {
+
+	string name = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListNoteOccurrencesResponse {
+
+	repeated Occurrence occurrences = 1;
+	string next_page_token = 2;
+}
+
+message BatchCreateNotesRequest {
+
+	string parent = 1;
+	map<string, Note> notes = 2;
+}
+
+message BatchCreateNotesResponse {
+
+	repeated Note notes = 1;
+}
+
+message BatchCreateOccurrencesRequest {
+
+	string parent = 1;
+	repeated Occurrence occurrences = 2;
+}
+
+message BatchCreateOccurrencesResponse {
+
+	repeated Occurrence occurrences = 1;
+}
+
+message GetVulnerabilityOccurrencesSummaryRequest {
+
+	string parent = 1;
+	string filter = 2;
+}
+
+message VulnerabilityOccurrencesSummary {
+
+	message FixableTotalByDigest {
+
+		Resource resource = 1;
+		grafeas.v1beta1.vulnerability.Severity severity = 2;
+		int64 fixable_count = 3;
+		int64 total_count = 4;
+	}
+
+	repeated FixableTotalByDigest counts = 1;
+}

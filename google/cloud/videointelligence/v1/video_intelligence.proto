@@ -1,0 +1,404 @@
+syntax = "proto3";
+
+package google.cloud.videointelligence.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.videointelligence.v1";
+option java_outer_classname = "VideoIntelligenceServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/videointelligence/v1;videointelligence";
+option csharp_namespace = "Google.Cloud.VideoIntelligence.V1";
+option php_namespace = "Google\\Cloud\\VideoIntelligence\\V1";
+option ruby_package = "Google::Cloud::VideoIntelligence::V1";
+
+
+enum Feature {
+
+	FEATURE_UNSPECIFIED = 0;
+	LABEL_DETECTION = 1;
+	SHOT_CHANGE_DETECTION = 2;
+	EXPLICIT_CONTENT_DETECTION = 3;
+	FACE_DETECTION = 4;
+	SPEECH_TRANSCRIPTION = 6;
+	TEXT_DETECTION = 7;
+	OBJECT_TRACKING = 9;
+	LOGO_RECOGNITION = 12;
+}
+
+enum LabelDetectionMode {
+
+	LABEL_DETECTION_MODE_UNSPECIFIED = 0;
+	SHOT_MODE = 1;
+	FRAME_MODE = 2;
+	SHOT_AND_FRAME_MODE = 3;
+}
+
+enum Likelihood {
+
+	LIKELIHOOD_UNSPECIFIED = 0;
+	VERY_UNLIKELY = 1;
+	UNLIKELY = 2;
+	POSSIBLE = 3;
+	LIKELY = 4;
+	VERY_LIKELY = 5;
+}
+
+service VideoIntelligenceService {
+	option (google.api.default_host) = "videointelligence.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc AnnotateVideo(google.cloud.videointelligence.v1.AnnotateVideoRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AnnotateVideoResponse"
+			metadata_type: "AnnotateVideoProgress"
+		};
+		option (google.api.method_signature) = "input_uri,features";
+		option (google.api.http) = {
+			post: "/v1/videos:annotate"
+			body: "*"
+		};
+
+	}
+}
+
+message AnnotateVideoRequest {
+
+	string input_uri = 1;
+	bytes input_content = 6;
+	repeated Feature features = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	VideoContext video_context = 3;
+	string output_uri = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string location_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message VideoContext {
+
+	repeated VideoSegment segments = 1;
+	LabelDetectionConfig label_detection_config = 2;
+	ShotChangeDetectionConfig shot_change_detection_config = 3;
+	ExplicitContentDetectionConfig explicit_content_detection_config = 4;
+	FaceDetectionConfig face_detection_config = 5;
+	SpeechTranscriptionConfig speech_transcription_config = 6;
+	TextDetectionConfig text_detection_config = 8;
+	ObjectTrackingConfig object_tracking_config = 13;
+}
+
+message LabelDetectionConfig {
+
+	LabelDetectionMode label_detection_mode = 1;
+	bool stationary_camera = 2;
+	string model = 3;
+	float frame_confidence_threshold = 4;
+	float video_confidence_threshold = 5;
+}
+
+message ShotChangeDetectionConfig {
+
+	string model = 1;
+}
+
+message ObjectTrackingConfig {
+
+	string model = 1;
+}
+
+message FaceDetectionConfig {
+
+	string model = 1;
+	bool include_bounding_boxes = 2;
+}
+
+message ExplicitContentDetectionConfig {
+
+	string model = 1;
+}
+
+message TextDetectionConfig {
+
+	repeated string language_hints = 1;
+	string model = 2;
+}
+
+message VideoSegment {
+
+	google.protobuf.Duration start_time_offset = 1;
+	google.protobuf.Duration end_time_offset = 2;
+}
+
+message LabelSegment {
+
+	VideoSegment segment = 1;
+	float confidence = 2;
+}
+
+message LabelFrame {
+
+	google.protobuf.Duration time_offset = 1;
+	float confidence = 2;
+}
+
+message Entity {
+
+	string entity_id = 1;
+	string description = 2;
+	string language_code = 3;
+}
+
+message LabelAnnotation {
+
+	Entity entity = 1;
+	repeated Entity category_entities = 2;
+	repeated LabelSegment segments = 3;
+	repeated LabelFrame frames = 4;
+}
+
+message ExplicitContentFrame {
+
+	google.protobuf.Duration time_offset = 1;
+	Likelihood pornography_likelihood = 2;
+}
+
+message ExplicitContentAnnotation {
+
+	repeated ExplicitContentFrame frames = 1;
+}
+
+message NormalizedBoundingBox {
+
+	float left = 1;
+	float top = 2;
+	float right = 3;
+	float bottom = 4;
+}
+
+message FaceSegment {
+
+	VideoSegment segment = 1;
+}
+
+message FaceFrame {
+
+	repeated NormalizedBoundingBox normalized_bounding_boxes = 1;
+	google.protobuf.Duration time_offset = 2;
+}
+
+message FaceAnnotation {
+
+	bytes thumbnail = 1;
+	repeated FaceSegment segments = 2;
+	repeated FaceFrame frames = 3;
+}
+
+message TimestampedObject {
+
+	NormalizedBoundingBox normalized_bounding_box = 1;
+	google.protobuf.Duration time_offset = 2;
+	repeated DetectedAttribute attributes = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated DetectedLandmark landmarks = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message Track {
+
+	VideoSegment segment = 1;
+	repeated TimestampedObject timestamped_objects = 2;
+	repeated DetectedAttribute attributes = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	float confidence = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DetectedAttribute {
+
+	string name = 1;
+	float confidence = 2;
+	string value = 3;
+}
+
+message DetectedLandmark {
+
+	string name = 1;
+	NormalizedVertex point = 2;
+	float confidence = 3;
+}
+
+message VideoAnnotationResults {
+
+	string input_uri = 1;
+	VideoSegment segment = 10;
+	repeated LabelAnnotation segment_label_annotations = 2;
+	repeated LabelAnnotation segment_presence_label_annotations = 23;
+	repeated LabelAnnotation shot_label_annotations = 3;
+	repeated LabelAnnotation shot_presence_label_annotations = 24;
+	repeated LabelAnnotation frame_label_annotations = 4;
+	repeated FaceAnnotation face_annotations = 5;
+	repeated VideoSegment shot_annotations = 6;
+	ExplicitContentAnnotation explicit_annotation = 7;
+	repeated SpeechTranscription speech_transcriptions = 11;
+	repeated TextAnnotation text_annotations = 12;
+	repeated ObjectTrackingAnnotation object_annotations = 14;
+	repeated LogoRecognitionAnnotation logo_recognition_annotations = 19;
+	google.rpc.Status error = 9;
+}
+
+message AnnotateVideoResponse {
+
+	repeated VideoAnnotationResults annotation_results = 1;
+}
+
+message VideoAnnotationProgress {
+
+	string input_uri = 1;
+	int32 progress_percent = 2;
+	google.protobuf.Timestamp start_time = 3;
+	google.protobuf.Timestamp update_time = 4;
+	Feature feature = 5;
+	VideoSegment segment = 6;
+}
+
+message AnnotateVideoProgress {
+
+	repeated VideoAnnotationProgress annotation_progress = 1;
+}
+
+message SpeechTranscriptionConfig {
+
+	string language_code = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 max_alternatives = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool filter_profanity = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated SpeechContext speech_contexts = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool enable_automatic_punctuation = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated int32 audio_tracks = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool enable_speaker_diarization = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 diarization_speaker_count = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool enable_word_confidence = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SpeechContext {
+
+	repeated string phrases = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SpeechTranscription {
+
+	repeated SpeechRecognitionAlternative alternatives = 1;
+	string language_code = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message SpeechRecognitionAlternative {
+
+	string transcript = 1;
+	float confidence = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated WordInfo words = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message WordInfo {
+
+	google.protobuf.Duration start_time = 1;
+	google.protobuf.Duration end_time = 2;
+	string word = 3;
+	float confidence = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 speaker_tag = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message NormalizedVertex {
+
+	float x = 1;
+	float y = 2;
+}
+
+message NormalizedBoundingPoly {
+
+	repeated NormalizedVertex vertices = 1;
+}
+
+message TextSegment {
+
+	VideoSegment segment = 1;
+	float confidence = 2;
+	repeated TextFrame frames = 3;
+}
+
+message TextFrame {
+
+	NormalizedBoundingPoly rotated_bounding_box = 1;
+	google.protobuf.Duration time_offset = 2;
+}
+
+message TextAnnotation {
+
+	string text = 1;
+	repeated TextSegment segments = 2;
+}
+
+message ObjectTrackingFrame {
+
+	NormalizedBoundingBox normalized_bounding_box = 1;
+	google.protobuf.Duration time_offset = 2;
+}
+
+message ObjectTrackingAnnotation {
+
+	oneof track_info {
+		VideoSegment segment = 3;
+		int64 track_id = 5;
+	}
+	Entity entity = 1;
+	float confidence = 4;
+	repeated ObjectTrackingFrame frames = 2;
+}
+
+message LogoRecognitionAnnotation {
+
+	Entity entity = 1;
+	repeated Track tracks = 2;
+	repeated VideoSegment segments = 3;
+}

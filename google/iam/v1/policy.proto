@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package google.iam.v1;
+
+import "google/type/expr.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.iam.v1";
+option java_outer_classname = "PolicyProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/iam/v1;iam";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Iam.V1";
+option php_namespace = "Google\\Cloud\\Iam\\V1";
+
+
+message Policy {
+
+	int32 version = 1;
+	repeated Binding bindings = 4;
+	bytes etag = 3;
+}
+
+message Binding {
+
+	string role = 1;
+	repeated string members = 2;
+	google.type.Expr condition = 3;
+}
+
+message PolicyDelta {
+
+	repeated BindingDelta binding_deltas = 1;
+	repeated AuditConfigDelta audit_config_deltas = 2;
+}
+
+message BindingDelta {
+
+	enum Action {
+
+		ACTION_UNSPECIFIED = 0;
+		ADD = 1;
+		REMOVE = 2;
+	}
+
+	Action action = 1;
+	string role = 2;
+	string member = 3;
+	google.type.Expr condition = 4;
+}
+
+message AuditConfigDelta {
+
+	enum Action {
+
+		ACTION_UNSPECIFIED = 0;
+		ADD = 1;
+		REMOVE = 2;
+	}
+
+	Action action = 1;
+	string service = 2;
+	string exempted_member = 3;
+	string log_type = 4;
+}

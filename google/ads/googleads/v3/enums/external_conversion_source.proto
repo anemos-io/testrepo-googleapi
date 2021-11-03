@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.enums";
+option java_outer_classname = "ExternalConversionSourceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V3::Enums";
+
+
+message ExternalConversionSourceEnum {
+
+	enum ExternalConversionSource {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		WEBPAGE = 2;
+		ANALYTICS = 3;
+		UPLOAD = 4;
+		AD_CALL_METRICS = 5;
+		WEBSITE_CALL_METRICS = 6;
+		STORE_VISITS = 7;
+		ANDROID_IN_APP = 8;
+		IOS_IN_APP = 9;
+		IOS_FIRST_OPEN = 10;
+		APP_UNSPECIFIED = 11;
+		ANDROID_FIRST_OPEN = 12;
+		UPLOAD_CALLS = 13;
+		FIREBASE = 14;
+		CLICK_TO_CALL = 15;
+		SALESFORCE = 16;
+		STORE_SALES_CRM = 17;
+		STORE_SALES_PAYMENT_NETWORK = 18;
+		GOOGLE_PLAY = 19;
+		THIRD_PARTY_APP_ANALYTICS = 20;
+		GOOGLE_ATTRIBUTION = 21;
+		STORE_SALES_DIRECT = 22;
+	}
+
+}

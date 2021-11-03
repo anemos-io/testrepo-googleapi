@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+package google.monitoring.v3;
+
+import "google/api/monitored_resource.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.monitoring.v3";
+option java_outer_classname = "UptimeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/v3;monitoring";
+option csharp_namespace = "Google.Cloud.Monitoring.V3";
+option php_namespace = "Google\\Cloud\\Monitoring\\V3";
+option ruby_package = "Google::Cloud::Monitoring::V3";
+
+
+enum UptimeCheckRegion {
+
+	REGION_UNSPECIFIED = 0;
+	USA = 1;
+	EUROPE = 2;
+	SOUTH_AMERICA = 3;
+	ASIA_PACIFIC = 4;
+}
+
+enum GroupResourceType {
+
+	RESOURCE_TYPE_UNSPECIFIED = 0;
+	INSTANCE = 1;
+	AWS_ELB_LOAD_BALANCER = 2;
+}
+
+message InternalChecker {
+	option deprecated = true;
+
+	enum State {
+
+		UNSPECIFIED = 0;
+		CREATING = 1;
+		RUNNING = 2;
+	}
+
+	string name = 1;
+	string display_name = 2;
+	string network = 3;
+	string gcp_zone = 4;
+	string peer_project_id = 6;
+	State state = 7;
+}
+
+message UptimeCheckConfig {
+	option (google.api.resource) = {
+		type: "monitoring.googleapis.com/UptimeCheckConfig"
+		pattern: ["projects/{project}/uptimeCheckConfigs/{uptime_check_config}","organizations/{organization}/uptimeCheckConfigs/{uptime_check_config}","folders/{folder}/uptimeCheckConfigs/{uptime_check_config}","*"]
+	};
+
+	message ResourceGroup {
+
+		string group_id = 1;
+		GroupResourceType resource_type = 2;
+	}
+
+	message HttpCheck {
+
+		message BasicAuthentication {
+
+			string username = 1;
+			string password = 2;
+		}
+
+		enum RequestMethod {
+
+			METHOD_UNSPECIFIED = 0;
+			GET = 1;
+			POST = 2;
+		}
+
+		enum ContentType {
+
+			TYPE_UNSPECIFIED = 0;
+			URL_ENCODED = 1;
+		}
+
+		RequestMethod request_method = 8;
+		bool use_ssl = 1;
+		string path = 2;
+		int32 port = 3;
+		BasicAuthentication auth_info = 4;
+		bool mask_headers = 5;
+		map<string, string> headers = 6;
+		ContentType content_type = 9;
+		bool validate_ssl = 7;
+		bytes body = 10;
+	}
+
+	message TcpCheck {
+
+		int32 port = 1;
+	}
+
+	message ContentMatcher {
+
+		enum ContentMatcherOption {
+
+			CONTENT_MATCHER_OPTION_UNSPECIFIED = 0;
+			CONTAINS_STRING = 1;
+			NOT_CONTAINS_STRING = 2;
+			MATCHES_REGEX = 3;
+			NOT_MATCHES_REGEX = 4;
+		}
+
+		string content = 1;
+		ContentMatcherOption matcher = 2;
+	}
+
+	string name = 1;
+	string display_name = 2;
+	oneof resource {
+		google.api.MonitoredResource monitored_resource = 3;
+		ResourceGroup resource_group = 4;
+	}
+	oneof check_request_type {
+		HttpCheck http_check = 5;
+		TcpCheck tcp_check = 6;
+	}
+	google.protobuf.Duration period = 7;
+	google.protobuf.Duration timeout = 8;
+	repeated ContentMatcher content_matchers = 9;
+	repeated UptimeCheckRegion selected_regions = 10;
+	bool is_internal = 15 [
+		deprecated = true
+	];
+	repeated InternalChecker internal_checkers = 14 [
+		deprecated = true
+	];
+}
+
+message UptimeCheckIp {
+
+	UptimeCheckRegion region = 1;
+	string location = 2;
+	string ip_address = 3;
+}

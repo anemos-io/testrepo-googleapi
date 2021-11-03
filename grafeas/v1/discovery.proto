@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package grafeas.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "grafeas/v1/common.proto";
+
+option java_package = "io.grafeas.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/grafeas/v1;grafeas";
+option objc_class_prefix = "GRA";
+
+
+message DiscoveryNote {
+
+	grafeas.v1.NoteKind analysis_kind = 1;
+}
+
+message DiscoveryOccurrence {
+
+	enum ContinuousAnalysis {
+
+		CONTINUOUS_ANALYSIS_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		INACTIVE = 2;
+	}
+
+	enum AnalysisStatus {
+
+		ANALYSIS_STATUS_UNSPECIFIED = 0;
+		PENDING = 1;
+		SCANNING = 2;
+		FINISHED_SUCCESS = 3;
+		FINISHED_FAILED = 4;
+		FINISHED_UNSUPPORTED = 5;
+	}
+
+	ContinuousAnalysis continuous_analysis = 1;
+	AnalysisStatus analysis_status = 2;
+	google.rpc.Status analysis_status_error = 3;
+	string cpe = 4;
+	google.protobuf.Timestamp last_scan_time = 5;
+}

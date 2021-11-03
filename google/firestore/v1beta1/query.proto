@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package google.firestore.v1beta1;
+
+import "google/firestore/v1beta1/document.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.firestore.v1beta1";
+option java_outer_classname = "QueryProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firestore/v1beta1;firestore";
+option objc_class_prefix = "GCFS";
+option csharp_namespace = "Google.Cloud.Firestore.V1Beta1";
+option php_namespace = "Google\\Cloud\\Firestore\\V1beta1";
+option ruby_package = "Google::Cloud::Firestore::V1beta1";
+
+
+message StructuredQuery {
+
+	message CollectionSelector {
+
+		string collection_id = 2;
+		bool all_descendants = 3;
+	}
+
+	message Filter {
+
+		oneof filter_type {
+			CompositeFilter composite_filter = 1;
+			FieldFilter field_filter = 2;
+			UnaryFilter unary_filter = 3;
+		}
+	}
+
+	message CompositeFilter {
+
+		enum Operator {
+
+			OPERATOR_UNSPECIFIED = 0;
+			AND = 1;
+		}
+
+		Operator op = 1;
+		repeated Filter filters = 2;
+	}
+
+	message FieldFilter {
+
+		enum Operator {
+
+			OPERATOR_UNSPECIFIED = 0;
+			LESS_THAN = 1;
+			LESS_THAN_OR_EQUAL = 2;
+			GREATER_THAN = 3;
+			GREATER_THAN_OR_EQUAL = 4;
+			EQUAL = 5;
+			ARRAY_CONTAINS = 7;
+			IN = 8;
+			ARRAY_CONTAINS_ANY = 9;
+		}
+
+		FieldReference field = 1;
+		Operator op = 2;
+		google.firestore.v1beta1.Value value = 3;
+	}
+
+	message UnaryFilter {
+
+		enum Operator {
+
+			OPERATOR_UNSPECIFIED = 0;
+			IS_NAN = 2;
+			IS_NULL = 3;
+		}
+
+		Operator op = 1;
+		oneof operand_type {
+			FieldReference field = 2;
+		}
+	}
+
+	message Order {
+
+		FieldReference field = 1;
+		Direction direction = 2;
+	}
+
+	message FieldReference {
+
+		string field_path = 2;
+	}
+
+	message Projection {
+
+		repeated FieldReference fields = 2;
+	}
+
+	enum Direction {
+
+		DIRECTION_UNSPECIFIED = 0;
+		ASCENDING = 1;
+		DESCENDING = 2;
+	}
+
+	Projection select = 1;
+	repeated CollectionSelector from = 2;
+	Filter where = 3;
+	repeated Order order_by = 4;
+	Cursor start_at = 7;
+	Cursor end_at = 8;
+	int32 offset = 6;
+	google.protobuf.Int32Value limit = 5;
+}
+
+message Cursor {
+
+	repeated google.firestore.v1beta1.Value values = 1;
+	bool before = 2;
+}

@@ -1,0 +1,205 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.connection.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.cloud.bigquery.connection.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/connection/v1;connection";
+option csharp_namespace = "Google.Cloud.BigQuery.Connection.V1";
+option php_namespace = "Google\\Cloud\\BigQuery\\Connection\\V1";
+
+
+service ConnectionService {
+	option (google.api.default_host) = "bigqueryconnection.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateConnection(google.cloud.bigquery.connection.v1.CreateConnectionRequest) returns (google.cloud.bigquery.connection.v1.Connection) {
+		option (google.api.method_signature) = "parent,connection,connection_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/*}/connections"
+			body: "connection"
+		};
+
+	}
+	rpc GetConnection(google.cloud.bigquery.connection.v1.GetConnectionRequest) returns (google.cloud.bigquery.connection.v1.Connection) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/*/connections/*}"
+		};
+
+	}
+	rpc ListConnections(google.cloud.bigquery.connection.v1.ListConnectionsRequest) returns (google.cloud.bigquery.connection.v1.ListConnectionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/*}/connections"
+		};
+
+	}
+	rpc UpdateConnection(google.cloud.bigquery.connection.v1.UpdateConnectionRequest) returns (google.cloud.bigquery.connection.v1.Connection) {
+		option (google.api.method_signature) = "name,connection,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{name=projects/*/locations/*/connections/*}"
+			body: "connection"
+		};
+
+	}
+	rpc DeleteConnection(google.cloud.bigquery.connection.v1.DeleteConnectionRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/*/connections/*}"
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,options";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/connections/*}:getIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/connections/*}:setIamPolicy"
+			body: "*"
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/locations/*/connections/*}:testIamPermissions"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateConnectionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	string connection_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	Connection connection = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetConnectionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigqueryconnection.googleapis.com/Connection"
+		}
+	];
+}
+
+message ListConnectionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "locations.googleapis.com/Location"
+		}
+	];
+	int32 page_size = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string page_token = 3;
+}
+
+message ListConnectionsResponse {
+
+	string next_page_token = 1;
+	repeated Connection connections = 2;
+}
+
+message UpdateConnectionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigqueryconnection.googleapis.com/Connection"
+		}
+	];
+	Connection connection = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteConnectionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "bigqueryconnection.googleapis.com/Connection"
+		}
+	];
+}
+
+message Connection {
+	option (google.api.resource) = {
+		type: "bigqueryconnection.googleapis.com/Connection"
+		pattern: ["projects/{project}/locations/{location}/connections/{connection}"]
+	};
+
+	string name = 1;
+	string friendly_name = 2;
+	string description = 3;
+	oneof properties {
+		CloudSqlProperties cloud_sql = 4;
+	}
+	int64 creation_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 last_modified_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool has_credential = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CloudSqlProperties {
+
+	enum DatabaseType {
+
+		DATABASE_TYPE_UNSPECIFIED = 0;
+		POSTGRES = 1;
+		MYSQL = 2;
+	}
+
+	string instance_id = 1;
+	string database = 2;
+	DatabaseType type = 3;
+	CloudSqlCredential credential = 4 [
+		(google.api.field_behavior) = INPUT_ONLY
+	];
+}
+
+message CloudSqlCredential {
+
+	string username = 1;
+	string password = 2;
+}

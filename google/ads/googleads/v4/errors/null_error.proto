@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.errors";
+option java_outer_classname = "NullErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V4::Errors";
+
+
+message NullErrorEnum {
+
+	enum NullError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		NULL_CONTENT = 2;
+	}
+
+}

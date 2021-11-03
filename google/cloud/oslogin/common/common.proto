@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package google.cloud.oslogin.common;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+
+option java_package = "com.google.cloud.oslogin.common";
+option java_outer_classname = "OsLoginProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/oslogin/common;common";
+option csharp_namespace = "Google.Cloud.OsLogin.Common";
+option php_namespace = "Google\\Cloud\\OsLogin\\Common";
+option ruby_package = "Google::Cloud::OsLogin::Common";
+option (google.api.resource_definition) = {
+	type: "oslogin.googleapis.com/User"
+	pattern: ["users/{user}"]
+};
+
+
+enum OperatingSystemType {
+
+	OPERATING_SYSTEM_TYPE_UNSPECIFIED = 0;
+	LINUX = 1;
+	WINDOWS = 2;
+}
+
+message PosixAccount {
+	option (google.api.resource) = {
+		type: "oslogin.googleapis.com/PosixAccount"
+		pattern: ["users/{user}/projects/{project}"]
+	};
+
+	bool primary = 1;
+	string username = 2;
+	int64 uid = 3;
+	int64 gid = 4;
+	string home_directory = 5;
+	string shell = 6;
+	string gecos = 7;
+	string system_id = 8;
+	string account_id = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	OperatingSystemType operating_system_type = 10;
+	string name = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message SshPublicKey {
+	option (google.api.resource) = {
+		type: "oslogin.googleapis.com/SshPublicKey"
+		pattern: ["users/{user}/sshPublicKeys/{fingerprint}"]
+	};
+
+	string key = 1;
+	int64 expiration_time_usec = 2;
+	string fingerprint = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string name = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

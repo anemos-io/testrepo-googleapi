@@ -1,0 +1,242 @@
+syntax = "proto3";
+
+package google.genomics.v1alpha2;
+
+import "google/api/annotations.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/code.proto";
+
+option java_package = "com.google.genomics.v1a";
+option java_outer_classname = "PipelinesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/genomics/v1alpha2;genomics";
+option cc_enable_arenas = true;
+
+
+service PipelinesV1Alpha2 {
+
+	rpc CreatePipeline(google.genomics.v1alpha2.CreatePipelineRequest) returns (google.genomics.v1alpha2.Pipeline) {
+		option (google.api.http) = {
+			post: "/v1alpha2/pipelines"
+			body: "pipeline"
+		};
+
+	}
+	rpc RunPipeline(google.genomics.v1alpha2.RunPipelineRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1alpha2/pipelines:run"
+			body: "*"
+		};
+
+	}
+	rpc GetPipeline(google.genomics.v1alpha2.GetPipelineRequest) returns (google.genomics.v1alpha2.Pipeline) {
+		option (google.api.http) = {
+			get: "/v1alpha2/pipelines/{pipeline_id}"
+		};
+
+	}
+	rpc ListPipelines(google.genomics.v1alpha2.ListPipelinesRequest) returns (google.genomics.v1alpha2.ListPipelinesResponse) {
+		option (google.api.http) = {
+			get: "/v1alpha2/pipelines"
+		};
+
+	}
+	rpc DeletePipeline(google.genomics.v1alpha2.DeletePipelineRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1alpha2/pipelines/{pipeline_id}"
+		};
+
+	}
+	rpc GetControllerConfig(google.genomics.v1alpha2.GetControllerConfigRequest) returns (google.genomics.v1alpha2.ControllerConfig) {
+		option (google.api.http) = {
+			get: "/v1alpha2/pipelines:getControllerConfig"
+		};
+
+	}
+	rpc SetOperationStatus(google.genomics.v1alpha2.SetOperationStatusRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			put: "/v1alpha2/pipelines:setOperationStatus"
+			body: "*"
+		};
+
+	}
+}
+
+message ComputeEngine {
+
+	string instance_name = 1;
+	string zone = 2;
+	string machine_type = 3;
+	repeated string disk_names = 4;
+}
+
+message RuntimeMetadata {
+
+	ComputeEngine compute_engine = 1;
+}
+
+message Pipeline {
+
+	string project_id = 1;
+	string name = 2;
+	string description = 3;
+	repeated PipelineParameter input_parameters = 8;
+	repeated PipelineParameter output_parameters = 9;
+	oneof executor {
+		DockerExecutor docker = 5;
+	}
+	PipelineResources resources = 6;
+	string pipeline_id = 7;
+}
+
+message CreatePipelineRequest {
+
+	Pipeline pipeline = 1;
+}
+
+message RunPipelineArgs {
+
+	string project_id = 1;
+	map<string, string> inputs = 2;
+	map<string, string> outputs = 3;
+	ServiceAccount service_account = 4;
+	string client_id = 5;
+	PipelineResources resources = 6;
+	LoggingOptions logging = 7;
+	google.protobuf.Duration keep_vm_alive_on_failure_duration = 8;
+	map<string, string> labels = 9;
+}
+
+message RunPipelineRequest {
+
+	oneof pipeline {
+		string pipeline_id = 1;
+		Pipeline ephemeral_pipeline = 2;
+	}
+	RunPipelineArgs pipeline_args = 3;
+}
+
+message GetPipelineRequest {
+
+	string pipeline_id = 1;
+}
+
+message ListPipelinesRequest {
+
+	string project_id = 1;
+	string name_prefix = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListPipelinesResponse {
+
+	repeated Pipeline pipelines = 1;
+	string next_page_token = 2;
+}
+
+message DeletePipelineRequest {
+
+	string pipeline_id = 1;
+}
+
+message GetControllerConfigRequest {
+
+	string operation_id = 1;
+	uint64 validation_token = 2;
+}
+
+message ControllerConfig {
+
+	message RepeatedString {
+
+		repeated string values = 1;
+	}
+
+	string image = 1;
+	string cmd = 2;
+	string gcs_log_path = 3;
+	string machine_type = 4;
+	map<string, string> vars = 5;
+	map<string, string> disks = 6;
+	map<string, RepeatedString> gcs_sources = 7;
+	map<string, RepeatedString> gcs_sinks = 8;
+}
+
+message TimestampEvent {
+
+	string description = 1;
+	google.protobuf.Timestamp timestamp = 2;
+}
+
+message SetOperationStatusRequest {
+
+	string operation_id = 1;
+	repeated TimestampEvent timestamp_events = 2;
+	google.rpc.Code error_code = 3;
+	string error_message = 4;
+	uint64 validation_token = 5;
+}
+
+message ServiceAccount {
+
+	string email = 1;
+	repeated string scopes = 2;
+}
+
+message LoggingOptions {
+
+	string gcs_path = 1;
+}
+
+message PipelineResources {
+
+	message Disk {
+
+		enum Type {
+
+			TYPE_UNSPECIFIED = 0;
+			PERSISTENT_HDD = 1;
+			PERSISTENT_SSD = 2;
+			LOCAL_SSD = 3;
+		}
+
+		string name = 1;
+		Type type = 2;
+		int32 size_gb = 3;
+		string source = 4;
+		bool auto_delete = 6;
+		string mount_point = 8;
+	}
+
+	int32 minimum_cpu_cores = 1;
+	bool preemptible = 2;
+	double minimum_ram_gb = 3;
+	repeated Disk disks = 4;
+	repeated string zones = 5;
+	int32 boot_disk_size_gb = 6;
+	bool no_address = 7;
+}
+
+message PipelineParameter {
+
+	message LocalCopy {
+
+		string path = 1;
+		string disk = 2;
+	}
+
+	string name = 1;
+	string description = 2;
+	string default_value = 5;
+	LocalCopy local_copy = 6;
+}
+
+message DockerExecutor {
+
+	string image_name = 1;
+	string cmd = 2;
+}

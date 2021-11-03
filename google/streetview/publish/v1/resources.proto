@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package google.streetview.publish.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/latlng.proto";
+
+option java_package = "com.google.geo.ugc.streetview.publish.v1";
+option java_outer_classname = "StreetViewPublishResources";
+option go_package = "google.golang.org/genproto/googleapis/streetview/publish/v1;publish";
+
+
+message UploadRef {
+
+	string upload_url = 1;
+}
+
+message PhotoId {
+
+	string id = 1;
+}
+
+message Level {
+
+	double number = 1;
+	string name = 2;
+}
+
+message Pose {
+
+	google.type.LatLng lat_lng_pair = 1;
+	double altitude = 2;
+	double heading = 3;
+	double pitch = 4;
+	double roll = 5;
+	Level level = 7;
+	float accuracy_meters = 9;
+}
+
+message Place {
+
+	string place_id = 1;
+	string name = 2;
+	string language_code = 3;
+}
+
+message Connection {
+
+	PhotoId target = 1;
+}
+
+message Photo {
+
+	enum TransferStatus {
+
+		TRANSFER_STATUS_UNKNOWN = 0;
+		NEVER_TRANSFERRED = 1;
+		PENDING = 2;
+		COMPLETED = 3;
+		REJECTED = 4;
+		EXPIRED = 5;
+		CANCELLED = 6;
+		RECEIVED_VIA_TRANSFER = 7;
+	}
+
+	enum MapsPublishStatus {
+
+		UNSPECIFIED_MAPS_PUBLISH_STATUS = 0;
+		PUBLISHED = 1;
+		REJECTED_UNKNOWN = 2;
+	}
+
+	PhotoId photo_id = 1;
+	UploadRef upload_reference = 2;
+	string download_url = 3;
+	string thumbnail_url = 9;
+	string share_link = 11;
+	Pose pose = 4;
+	repeated Connection connections = 5;
+	google.protobuf.Timestamp capture_time = 6;
+	repeated Place places = 7;
+	int64 view_count = 10;
+	TransferStatus transfer_status = 12;
+	MapsPublishStatus maps_publish_status = 13;
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.errors";
+option java_outer_classname = "PolicyValidationParameterErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V2::Errors";
+
+
+message PolicyValidationParameterErrorEnum {
+
+	enum PolicyValidationParameterError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		UNSUPPORTED_AD_TYPE_FOR_IGNORABLE_POLICY_TOPICS = 2;
+		UNSUPPORTED_AD_TYPE_FOR_EXEMPT_POLICY_VIOLATION_KEYS = 3;
+		CANNOT_SET_BOTH_IGNORABLE_POLICY_TOPICS_AND_EXEMPT_POLICY_VIOLATION_KEYS = 4;
+	}
+
+}

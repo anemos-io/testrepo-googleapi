@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v3.enums";
+option java_outer_classname = "AccessRoleProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V3::Enums";
+
+
+message AccessRoleEnum {
+
+	enum AccessRole {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		ADMIN = 2;
+		STANDARD = 3;
+		READ_ONLY = 4;
+		EMAIL_ONLY = 5;
+	}
+
+}

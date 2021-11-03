@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/api/resource.proto";
+import "google/cloud/automl/v1beta1/classification.proto";
+import "google/cloud/automl/v1beta1/detection.proto";
+import "google/cloud/automl/v1beta1/regression.proto";
+import "google/cloud/automl/v1beta1/tables.proto";
+import "google/cloud/automl/v1beta1/text_extraction.proto";
+import "google/cloud/automl/v1beta1/text_sentiment.proto";
+import "google/cloud/automl/v1beta1/translation.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message ModelEvaluation {
+	option (google.api.resource) = {
+		type: "automl.googleapis.com/ModelEvaluation"
+		pattern: ["projects/{project}/locations/{location}/models/{model}/modelEvaluations/{model_evaluation}"]
+	};
+
+	oneof metrics {
+		google.cloud.automl.v1beta1.ClassificationEvaluationMetrics classification_evaluation_metrics = 8;
+		google.cloud.automl.v1beta1.RegressionEvaluationMetrics regression_evaluation_metrics = 24;
+		google.cloud.automl.v1beta1.TranslationEvaluationMetrics translation_evaluation_metrics = 9;
+		google.cloud.automl.v1beta1.ImageObjectDetectionEvaluationMetrics image_object_detection_evaluation_metrics = 12;
+		google.cloud.automl.v1beta1.VideoObjectTrackingEvaluationMetrics video_object_tracking_evaluation_metrics = 14;
+		google.cloud.automl.v1beta1.TextSentimentEvaluationMetrics text_sentiment_evaluation_metrics = 11;
+		google.cloud.automl.v1beta1.TextExtractionEvaluationMetrics text_extraction_evaluation_metrics = 13;
+	}
+	string name = 1;
+	string annotation_spec_id = 2;
+	string display_name = 15;
+	google.protobuf.Timestamp create_time = 5;
+	int32 evaluated_example_count = 6;
+}

@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+package google.cloud.gaming.v1beta;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/gaming/v1beta/common.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.gaming.v1beta";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gaming/v1beta;gaming";
+
+
+message ListGameServerClustersRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gameservices.googleapis.com/GameServerCluster"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListGameServerClustersResponse {
+
+	repeated GameServerCluster game_server_clusters = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 4;
+}
+
+message GetGameServerClusterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gameservices.googleapis.com/GameServerCluster"
+		}
+	];
+}
+
+message CreateGameServerClusterRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gameservices.googleapis.com/GameServerCluster"
+		}
+	];
+	string game_server_cluster_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	GameServerCluster game_server_cluster = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PreviewCreateGameServerClusterRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gameservices.googleapis.com/GameServerCluster"
+		}
+	];
+	string game_server_cluster_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	GameServerCluster game_server_cluster = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp preview_time = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PreviewCreateGameServerClusterResponse {
+
+	string etag = 2;
+	google.cloud.gaming.v1beta.TargetState target_state = 3;
+}
+
+message DeleteGameServerClusterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gameservices.googleapis.com/GameServerCluster"
+		}
+	];
+}
+
+message PreviewDeleteGameServerClusterRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gameservices.googleapis.com/GameServerCluster"
+		}
+	];
+	google.protobuf.Timestamp preview_time = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PreviewDeleteGameServerClusterResponse {
+
+	string etag = 2;
+	google.cloud.gaming.v1beta.TargetState target_state = 3;
+}
+
+message UpdateGameServerClusterRequest {
+
+	GameServerCluster game_server_cluster = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PreviewUpdateGameServerClusterRequest {
+
+	GameServerCluster game_server_cluster = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp preview_time = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PreviewUpdateGameServerClusterResponse {
+
+	string etag = 2;
+	google.cloud.gaming.v1beta.TargetState target_state = 3;
+}
+
+message GameServerClusterConnectionInfo {
+
+	oneof cluster_reference {
+		GkeClusterReference gke_cluster_reference = 7;
+	}
+	string namespace = 5;
+}
+
+message GkeClusterReference {
+
+	string cluster = 1;
+}
+
+message GameServerCluster {
+	option (google.api.resource) = {
+		type: "gameservices.googleapis.com/GameServerCluster"
+		pattern: ["projects/{project}/locations/{location}/realms/{realm}/gameServerClusters/{cluster}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	GameServerClusterConnectionInfo connection_info = 5;
+	string etag = 6;
+	string description = 7;
+}

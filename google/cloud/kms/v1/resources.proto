@@ -1,0 +1,259 @@
+syntax = "proto3";
+
+package google.cloud.kms.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.kms.v1";
+option java_outer_classname = "KmsResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/kms/v1;kms";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Kms.V1";
+option php_namespace = "Google\\Cloud\\Kms\\V1";
+
+
+enum ProtectionLevel {
+
+	PROTECTION_LEVEL_UNSPECIFIED = 0;
+	SOFTWARE = 1;
+	HSM = 2;
+	EXTERNAL = 3;
+}
+
+message KeyRing {
+	option (google.api.resource) = {
+		type: "cloudkms.googleapis.com/KeyRing"
+		pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CryptoKey {
+	option (google.api.resource) = {
+		type: "cloudkms.googleapis.com/CryptoKey"
+		pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}"]
+	};
+
+	enum CryptoKeyPurpose {
+
+		CRYPTO_KEY_PURPOSE_UNSPECIFIED = 0;
+		ENCRYPT_DECRYPT = 1;
+		ASYMMETRIC_SIGN = 5;
+		ASYMMETRIC_DECRYPT = 6;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CryptoKeyVersion primary = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CryptoKeyPurpose purpose = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp next_rotation_time = 7;
+	oneof rotation_schedule {
+		google.protobuf.Duration rotation_period = 8;
+	}
+	CryptoKeyVersionTemplate version_template = 11;
+	map<string, string> labels = 10;
+}
+
+message CryptoKeyVersionTemplate {
+
+	ProtectionLevel protection_level = 1;
+	CryptoKeyVersionAlgorithm algorithm = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message KeyOperationAttestation {
+
+	enum AttestationFormat {
+
+		ATTESTATION_FORMAT_UNSPECIFIED = 0;
+		CAVIUM_V1_COMPRESSED = 3;
+		CAVIUM_V2_COMPRESSED = 4;
+	}
+
+	AttestationFormat format = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bytes content = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CryptoKeyVersion {
+	option (google.api.resource) = {
+		type: "cloudkms.googleapis.com/CryptoKeyVersion"
+		pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}"]
+	};
+
+	enum CryptoKeyVersionAlgorithm {
+
+		CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED = 0;
+		GOOGLE_SYMMETRIC_ENCRYPTION = 1;
+		RSA_SIGN_PSS_2048_SHA256 = 2;
+		RSA_SIGN_PSS_3072_SHA256 = 3;
+		RSA_SIGN_PSS_4096_SHA256 = 4;
+		RSA_SIGN_PSS_4096_SHA512 = 15;
+		RSA_SIGN_PKCS1_2048_SHA256 = 5;
+		RSA_SIGN_PKCS1_3072_SHA256 = 6;
+		RSA_SIGN_PKCS1_4096_SHA256 = 7;
+		RSA_SIGN_PKCS1_4096_SHA512 = 16;
+		RSA_DECRYPT_OAEP_2048_SHA256 = 8;
+		RSA_DECRYPT_OAEP_3072_SHA256 = 9;
+		RSA_DECRYPT_OAEP_4096_SHA256 = 10;
+		RSA_DECRYPT_OAEP_4096_SHA512 = 17;
+		EC_SIGN_P256_SHA256 = 12;
+		EC_SIGN_P384_SHA384 = 13;
+		EXTERNAL_SYMMETRIC_ENCRYPTION = 18;
+	}
+
+	enum CryptoKeyVersionState {
+
+		CRYPTO_KEY_VERSION_STATE_UNSPECIFIED = 0;
+		PENDING_GENERATION = 5;
+		ENABLED = 1;
+		DISABLED = 2;
+		DESTROYED = 3;
+		DESTROY_SCHEDULED = 4;
+		PENDING_IMPORT = 6;
+		IMPORT_FAILED = 7;
+	}
+
+	enum CryptoKeyVersionView {
+
+		CRYPTO_KEY_VERSION_VIEW_UNSPECIFIED = 0;
+		FULL = 1;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CryptoKeyVersionState state = 3;
+	ProtectionLevel protection_level = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	CryptoKeyVersionAlgorithm algorithm = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	KeyOperationAttestation attestation = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp generate_time = 11 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp destroy_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp destroy_event_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string import_job = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp import_time = 15 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string import_failure_reason = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ExternalProtectionLevelOptions external_protection_level_options = 17;
+}
+
+message PublicKey {
+	option (google.api.resource) = {
+		type: "cloudkms.googleapis.com/PublicKey"
+		pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}/publicKey"]
+	};
+
+	string pem = 1;
+	CryptoKeyVersionAlgorithm algorithm = 2;
+	google.protobuf.Int64Value pem_crc32c = 3;
+	string name = 4;
+}
+
+message ImportJob {
+	option (google.api.resource) = {
+		type: "cloudkms.googleapis.com/ImportJob"
+		pattern: ["projects/{project}/locations/{location}/keyRings/{key_ring}/importJobs/{import_job}"]
+	};
+
+	message WrappingPublicKey {
+
+		string pem = 1;
+	}
+
+	enum ImportMethod {
+
+		IMPORT_METHOD_UNSPECIFIED = 0;
+		RSA_OAEP_3072_SHA1_AES_256 = 1;
+		RSA_OAEP_4096_SHA1_AES_256 = 2;
+	}
+
+	enum ImportJobState {
+
+		IMPORT_JOB_STATE_UNSPECIFIED = 0;
+		PENDING_GENERATION = 1;
+		ACTIVE = 2;
+		EXPIRED = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ImportMethod import_method = 2 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	ProtectionLevel protection_level = 9 [
+		(google.api.field_behavior) = REQUIRED,
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp generate_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp expire_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp expire_event_time = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ImportJobState state = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	WrappingPublicKey public_key = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	KeyOperationAttestation attestation = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ExternalProtectionLevelOptions {
+
+	string external_key_uri = 1;
+}

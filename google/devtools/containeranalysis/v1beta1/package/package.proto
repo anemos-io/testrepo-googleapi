@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package grafeas.v1beta1.package;
+
+option java_package = "io.grafeas.v1beta1.pkg";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/package;package";
+option objc_class_prefix = "GRA";
+
+
+enum Architecture {
+
+	ARCHITECTURE_UNSPECIFIED = 0;
+	X86 = 1;
+	X64 = 2;
+}
+
+message Distribution {
+
+	string cpe_uri = 1;
+	Architecture architecture = 2;
+	Version latest_version = 3;
+	string maintainer = 4;
+	string url = 5;
+	string description = 6;
+}
+
+message Location {
+
+	string cpe_uri = 1;
+	Version version = 2;
+	string path = 3;
+}
+
+message Package {
+
+	string name = 1;
+	repeated Distribution distribution = 10;
+}
+
+message Details {
+
+	Installation installation = 1;
+}
+
+message Installation {
+
+	string name = 1;
+	repeated Location location = 2;
+}
+
+message Version {
+
+	enum VersionKind {
+
+		VERSION_KIND_UNSPECIFIED = 0;
+		NORMAL = 1;
+		MINIMUM = 2;
+		MAXIMUM = 3;
+	}
+
+	int32 epoch = 1;
+	string name = 2;
+	string revision = 3;
+	VersionKind kind = 4;
+}

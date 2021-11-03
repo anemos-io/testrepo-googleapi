@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1alpha;
+
+option java_package = "com.google.cloud.websecurityscanner.v1alpha";
+option java_outer_classname = "CrawledUrlProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1alpha;websecurityscanner";
+
+
+message CrawledUrl {
+
+	string http_method = 1;
+	string url = 2;
+	string body = 3;
+}

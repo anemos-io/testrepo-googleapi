@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package google.maps.routes.v1;
+
+option java_package = "com.google.maps.routes.v1";
+option java_outer_classname = "VehicleEmissionTypeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/routes/v1;routes";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GMRS";
+option csharp_namespace = "Google.Maps.Routes.V1";
+option php_namespace = "Google\\Maps\\Routes\\V1";
+
+
+enum VehicleEmissionType {
+
+	VEHICLE_EMISSION_TYPE_UNSPECIFIED = 0;
+	GASOLINE = 1;
+	ELECTRIC = 2;
+	HYBRID = 3;
+}

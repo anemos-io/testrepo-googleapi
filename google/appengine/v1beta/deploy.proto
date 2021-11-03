@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package google.appengine.v1beta;
+
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.appengine.v1beta";
+option java_outer_classname = "DeployProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/appengine/v1beta;appengine";
+
+
+message Deployment {
+
+	map<string, FileInfo> files = 1;
+	ContainerInfo container = 2;
+	ZipInfo zip = 3;
+	BuildInfo build = 5;
+	CloudBuildOptions cloud_build_options = 6;
+}
+
+message FileInfo {
+
+	string source_url = 1;
+	string sha1_sum = 2;
+	string mime_type = 3;
+}
+
+message ContainerInfo {
+
+	string image = 1;
+}
+
+message BuildInfo {
+
+	string cloud_build_id = 1;
+}
+
+message CloudBuildOptions {
+
+	string app_yaml_path = 1;
+	google.protobuf.Duration cloud_build_timeout = 2;
+}
+
+message ZipInfo {
+
+	string source_url = 3;
+	int32 files_count = 4;
+}

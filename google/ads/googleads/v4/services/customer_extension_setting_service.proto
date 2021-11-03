@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.services;
+
+import "google/ads/googleads/v4/resources/customer_extension_setting.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v4.services";
+option java_outer_classname = "CustomerExtensionSettingServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V4::Services";
+
+
+service CustomerExtensionSettingService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetCustomerExtensionSetting(google.ads.googleads.v4.services.GetCustomerExtensionSettingRequest) returns (google.ads.googleads.v4.resources.CustomerExtensionSetting) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v4/{resource_name=customers/*/customerExtensionSettings/*}"
+		};
+
+	}
+	rpc MutateCustomerExtensionSettings(google.ads.googleads.v4.services.MutateCustomerExtensionSettingsRequest) returns (google.ads.googleads.v4.services.MutateCustomerExtensionSettingsResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v4/customers/{customer_id=*}/customerExtensionSettings:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCustomerExtensionSettingRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomerExtensionSetting"
+		}
+	];
+}
+
+message MutateCustomerExtensionSettingsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CustomerExtensionSettingOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+}
+
+message CustomerExtensionSettingOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	oneof operation {
+		google.ads.googleads.v4.resources.CustomerExtensionSetting create = 1;
+		google.ads.googleads.v4.resources.CustomerExtensionSetting update = 2;
+		string remove = 3;
+	}
+}
+
+message MutateCustomerExtensionSettingsResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateCustomerExtensionSettingResult results = 2;
+}
+
+message MutateCustomerExtensionSettingResult {
+
+	string resource_name = 1;
+}

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package google.home.graph.v1;
+
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.home.graph.v1";
+option java_outer_classname = "DeviceProto";
+option go_package = "google.golang.org/genproto/googleapis/home/graph/v1;graph";
+
+
+message Device {
+
+	string id = 1;
+	string type = 2;
+	repeated string traits = 3;
+	DeviceNames name = 4;
+	bool will_report_state = 5;
+	string room_hint = 6;
+	string structure_hint = 7;
+	DeviceInfo device_info = 8;
+	google.protobuf.Struct attributes = 9;
+	google.protobuf.Struct custom_data = 10;
+	repeated AgentOtherDeviceId other_device_ids = 11;
+	bool notification_supported_by_agent = 12;
+}
+
+message DeviceNames {
+
+	string name = 1;
+	repeated string nicknames = 2;
+	repeated string default_names = 3;
+}
+
+message DeviceInfo {
+
+	string manufacturer = 1;
+	string model = 2;
+	string hw_version = 3;
+	string sw_version = 4;
+}
+
+message AgentOtherDeviceId {
+
+	string agent_id = 1;
+	string device_id = 2;
+}

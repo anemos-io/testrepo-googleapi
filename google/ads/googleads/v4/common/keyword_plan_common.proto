@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.common;
+
+import "google/ads/googleads/v4/enums/keyword_plan_competition_level.proto";
+import "google/ads/googleads/v4/enums/month_of_year.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.common";
+option java_outer_classname = "KeywordPlanCommonProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/common;common";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Common";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Common";
+option ruby_package = "Google::Ads::GoogleAds::V4::Common";
+
+
+message KeywordPlanHistoricalMetrics {
+
+	google.protobuf.Int64Value avg_monthly_searches = 1;
+	repeated MonthlySearchVolume monthly_search_volumes = 6;
+	google.ads.googleads.v4.enums.KeywordPlanCompetitionLevelEnum.KeywordPlanCompetitionLevel competition = 2;
+	google.protobuf.Int64Value competition_index = 3;
+	google.protobuf.Int64Value low_top_of_page_bid_micros = 4;
+	google.protobuf.Int64Value high_top_of_page_bid_micros = 5;
+}
+
+message MonthlySearchVolume {
+
+	google.protobuf.Int64Value year = 1;
+	google.ads.googleads.v4.enums.MonthOfYearEnum.MonthOfYear month = 2;
+	google.protobuf.Int64Value monthly_searches = 3;
+}

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/cloud/automl/v1beta1/classification.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_outer_classname = "TextSentimentProto";
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message TextSentimentAnnotation {
+
+	int32 sentiment = 1;
+}
+
+message TextSentimentEvaluationMetrics {
+
+	float precision = 1;
+	float recall = 2;
+	float f1_score = 3;
+	float mean_absolute_error = 4;
+	float mean_squared_error = 5;
+	float linear_kappa = 6;
+	float quadratic_kappa = 7;
+	google.cloud.automl.v1beta1.ClassificationEvaluationMetrics.ConfusionMatrix confusion_matrix = 8;
+	repeated string annotation_spec_id = 9 [
+		deprecated = true
+	];
+}

@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.websecurityscanner.v1";
+option java_outer_classname = "ScanConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1;websecurityscanner";
+
+
+message ScanConfig {
+
+	message Authentication {
+
+		message GoogleAccount {
+
+			string username = 1;
+			string password = 2;
+		}
+
+		message CustomAccount {
+
+			string username = 1;
+			string password = 2;
+			string login_url = 3;
+		}
+
+		message IapCredential {
+
+			message IapTestServiceAccountInfo {
+
+				string target_audience_client_id = 1 [
+					(google.api.field_behavior) = REQUIRED
+				];
+			}
+
+			oneof iap_credentials {
+				IapTestServiceAccountInfo iap_test_service_account_info = 1;
+			}
+		}
+
+		oneof authentication {
+			GoogleAccount google_account = 1;
+			CustomAccount custom_account = 2;
+			IapCredential iap_credential = 4;
+		}
+	}
+
+	message Schedule {
+
+		google.protobuf.Timestamp schedule_time = 1;
+		int32 interval_duration_days = 2;
+	}
+
+	enum UserAgent {
+
+		USER_AGENT_UNSPECIFIED = 0;
+		CHROME_LINUX = 1;
+		CHROME_ANDROID = 2;
+		SAFARI_IPHONE = 3;
+	}
+
+	enum RiskLevel {
+
+		RISK_LEVEL_UNSPECIFIED = 0;
+		NORMAL = 1;
+		LOW = 2;
+	}
+
+	enum ExportToSecurityCommandCenter {
+
+		EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED = 0;
+		ENABLED = 1;
+		DISABLED = 2;
+	}
+
+	string name = 1;
+	string display_name = 2;
+	int32 max_qps = 3;
+	repeated string starting_urls = 4;
+	Authentication authentication = 5;
+	UserAgent user_agent = 6;
+	repeated string blacklist_patterns = 7;
+	Schedule schedule = 8;
+	ExportToSecurityCommandCenter export_to_security_command_center = 10;
+	RiskLevel risk_level = 12;
+	bool managed_scan = 13;
+	bool static_ip_scan = 14;
+}

@@ -1,0 +1,311 @@
+syntax = "proto3";
+
+package google.analytics.admin.v1alpha;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.analytics.admin.v1alpha";
+option java_outer_classname = "ResourcesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/analytics/admin/v1alpha;admin";
+
+
+enum IndustryCategory {
+
+	INDUSTRY_CATEGORY_UNSPECIFIED = 0;
+	AUTOMOTIVE = 1;
+	BUSINESS_AND_INDUSTRIAL_MARKETS = 2;
+	FINANCE = 3;
+	HEALTHCARE = 4;
+	TECHNOLOGY = 5;
+	TRAVEL = 6;
+	OTHER = 7;
+	ARTS_AND_ENTERTAINMENT = 8;
+	BEAUTY_AND_FITNESS = 9;
+	BOOKS_AND_LITERATURE = 10;
+	FOOD_AND_DRINK = 11;
+	GAMES = 12;
+	HOBBIES_AND_LEISURE = 13;
+	HOME_AND_GARDEN = 14;
+	INTERNET_AND_TELECOM = 15;
+	LAW_AND_GOVERNMENT = 16;
+	NEWS = 17;
+	ONLINE_COMMUNITIES = 18;
+	PEOPLE_AND_SOCIETY = 19;
+	PETS_AND_ANIMALS = 20;
+	REAL_ESTATE = 21;
+	REFERENCE = 22;
+	SCIENCE = 23;
+	SPORTS = 24;
+	JOBS_AND_EDUCATION = 25;
+	SHOPPING = 26;
+}
+
+enum MaximumUserAccess {
+
+	MAXIMUM_USER_ACCESS_UNSPECIFIED = 0;
+	NO_ACCESS = 1;
+	READ_AND_ANALYZE = 2;
+	EDITOR_WITHOUT_LINK_MANAGEMENT = 3;
+	EDITOR_INCLUDING_LINK_MANAGEMENT = 4;
+}
+
+message Account {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/Account"
+		pattern: ["accounts/{account}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string display_name = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string country_code = 5;
+	bool deleted = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Property {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/Property"
+		pattern: ["properties/{property}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string parent = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string display_name = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	IndustryCategory industry_category = 6;
+	string time_zone = 7;
+	string currency_code = 8;
+	bool deleted = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message AndroidAppDataStream {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/AndroidAppDataStream"
+		pattern: ["properties/{property}/androidAppDataStreams/{android_app_data_stream}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string firebase_app_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string package_name = 5 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string display_name = 6;
+}
+
+message IosAppDataStream {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/IosAppDataStream"
+		pattern: ["properties/{property}/iosAppDataStreams/{ios_app_data_stream}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string firebase_app_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string bundle_id = 5 [
+		(google.api.field_behavior) = IMMUTABLE,
+		(google.api.field_behavior) = REQUIRED
+	];
+	string display_name = 6;
+}
+
+message WebDataStream {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/WebDataStream"
+		pattern: ["properties/{property}/webDataStreams/{web_data_stream}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string measurement_id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string firebase_app_id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string default_uri = 6 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string display_name = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UserLink {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/UserLink"
+		pattern: ["accounts/{account}/userLinks/{user_link}","properties/{property}/userLinks/{user_link}"]
+	};
+
+	string name = 1;
+	string email_address = 2;
+	repeated string direct_roles = 3;
+}
+
+message AuditUserLink {
+
+	string name = 1;
+	string email_address = 2;
+	repeated string direct_roles = 3;
+	repeated string effective_roles = 4;
+}
+
+message EnhancedMeasurementSettings {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/EnhancedMeasurementSettings"
+		pattern: ["properties/{property}/webDataStreams/{web_data_stream}/enhancedMeasurementSettings"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool stream_enabled = 2;
+	bool page_views_enabled = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool scrolls_enabled = 4;
+	bool outbound_clicks_enabled = 5;
+	bool content_views_enabled = 6;
+	bool site_search_enabled = 7;
+	bool form_interactions_enabled = 8;
+	bool video_engagement_enabled = 9;
+	bool file_downloads_enabled = 10;
+	bool data_tagged_element_clicks_enabled = 11;
+	bool page_loads_enabled = 12;
+	bool page_changes_enabled = 13;
+	bool articles_and_blogs_enabled = 14;
+	bool products_and_ecommerce_enabled = 15;
+	string search_query_parameter = 16 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string url_query_parameter = 17;
+	string excluded_domains = 18;
+}
+
+message FirebaseLink {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/FirebaseLink"
+		pattern: ["properties/{property}/firebaseLinks/{firebase_link}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string project = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	MaximumUserAccess maximum_user_access = 4;
+}
+
+message GlobalSiteTag {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/GlobalSiteTag"
+		pattern: ["properties/{property}/globalSiteTag"]
+	};
+
+	string snippet = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+}
+
+message GoogleAdsLink {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/GoogleAdsLink"
+		pattern: ["properties/{property}/googleAdsLinks/{google_ads_link}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string parent = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string customer_id = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	bool can_manage_clients = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.BoolValue ads_personalization_enabled = 5;
+	string email_address = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message DataSharingSettings {
+	option (google.api.resource) = {
+		type: "analyticsadmin.googleapis.com/DataSharingSettings"
+		pattern: ["accounts/{account}/dataSharingSettings"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool sharing_with_google_support_enabled = 2;
+	bool sharing_with_google_assigned_sales_enabled = 3;
+	bool sharing_with_google_any_sales_enabled = 4;
+	bool sharing_with_google_products_enabled = 5;
+	bool sharing_with_others_enabled = 6;
+}

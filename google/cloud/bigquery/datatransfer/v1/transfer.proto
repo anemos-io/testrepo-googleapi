@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package google.cloud.bigquery.datatransfer.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.bigquery.datatransfer.v1";
+option java_outer_classname = "TransferProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/bigquery/datatransfer/v1;datatransfer";
+option objc_class_prefix = "GCBDT";
+option csharp_namespace = "Google.Cloud.BigQuery.DataTransfer.V1";
+option php_namespace = "Google\\Cloud\\BigQuery\\DataTransfer\\V1";
+option ruby_package = "Google::Cloud::Bigquery::DataTransfer::V1";
+
+
+enum TransferType {
+	option deprecated = true;
+
+	TRANSFER_TYPE_UNSPECIFIED = 0;
+	BATCH = 1;
+	STREAMING = 2;
+}
+
+enum TransferState {
+
+	TRANSFER_STATE_UNSPECIFIED = 0;
+	PENDING = 2;
+	RUNNING = 3;
+	SUCCEEDED = 4;
+	FAILED = 5;
+	CANCELLED = 6;
+}
+
+message EmailPreferences {
+
+	bool enable_failure_email = 1;
+}
+
+message ScheduleOptions {
+
+	bool disable_auto_scheduling = 3;
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+}
+
+message TransferConfig {
+	option (google.api.resource) = {
+		type: "bigquerydatatransfer.googleapis.com/TransferConfig"
+		pattern: ["projects/{project}/transferConfigs/{transfer_config}","projects/{project}/locations/{location}/transferConfigs/{transfer_config}"]
+	};
+
+	string name = 1;
+	oneof destination {
+		string destination_dataset_id = 2;
+	}
+	string display_name = 3;
+	string data_source_id = 5;
+	google.protobuf.Struct params = 9;
+	string schedule = 7;
+	ScheduleOptions schedule_options = 24;
+	int32 data_refresh_window_days = 12;
+	bool disabled = 13;
+	google.protobuf.Timestamp update_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp next_run_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	TransferState state = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int64 user_id = 11;
+	string dataset_region = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string notification_pubsub_topic = 15;
+	EmailPreferences email_preferences = 18;
+}
+
+message TransferRun {
+	option (google.api.resource) = {
+		type: "bigquerydatatransfer.googleapis.com/Run"
+		pattern: ["projects/{project}/transferConfigs/{transfer_config}/runs/{run}","projects/{project}/locations/{location}/transferConfigs/{transfer_config}/runs/{run}"]
+	};
+
+	string name = 1;
+	google.protobuf.Timestamp schedule_time = 3;
+	google.protobuf.Timestamp run_time = 10;
+	google.rpc.Status error_status = 21;
+	google.protobuf.Timestamp start_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Struct params = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	oneof destination {
+		string destination_dataset_id = 2 [
+			(google.api.field_behavior) = OUTPUT_ONLY
+		];
+	}
+	string data_source_id = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	TransferState state = 8;
+	int64 user_id = 11;
+	string schedule = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string notification_pubsub_topic = 23 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	EmailPreferences email_preferences = 25 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message TransferMessage {
+
+	enum MessageSeverity {
+
+		MESSAGE_SEVERITY_UNSPECIFIED = 0;
+		INFO = 1;
+		WARNING = 2;
+		ERROR = 3;
+	}
+
+	google.protobuf.Timestamp message_time = 1;
+	MessageSeverity severity = 2;
+	string message_text = 3;
+}

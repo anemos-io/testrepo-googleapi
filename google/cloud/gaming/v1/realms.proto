@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package google.cloud.gaming.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/gaming/v1/common.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.gaming.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gaming/v1;gaming";
+
+
+message ListRealmsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gameservices.googleapis.com/Realm"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListRealmsResponse {
+
+	repeated Realm realms = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetRealmRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gameservices.googleapis.com/Realm"
+		}
+	];
+}
+
+message CreateRealmRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "gameservices.googleapis.com/Realm"
+		}
+	];
+	string realm_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Realm realm = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteRealmRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "gameservices.googleapis.com/Realm"
+		}
+	];
+}
+
+message UpdateRealmRequest {
+
+	Realm realm = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PreviewRealmUpdateRequest {
+
+	Realm realm = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Timestamp preview_time = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message PreviewRealmUpdateResponse {
+
+	string etag = 2;
+	google.cloud.gaming.v1.TargetState target_state = 3;
+}
+
+message Realm {
+	option (google.api.resource) = {
+		type: "gameservices.googleapis.com/Realm"
+		pattern: ["projects/{project}/locations/{location}/realms/{realm}"]
+	};
+
+	string name = 1;
+	google.protobuf.Timestamp create_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> labels = 4;
+	string time_zone = 6 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string etag = 7;
+	string description = 8;
+}

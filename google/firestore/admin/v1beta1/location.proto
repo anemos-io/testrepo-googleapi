@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package google.firestore.admin.v1beta1;
+
+import "google/type/latlng.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.firestore.admin.v1beta1";
+option java_outer_classname = "LocationProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firestore/admin/v1beta1;admin";
+option objc_class_prefix = "GCFS";
+option csharp_namespace = "Google.Cloud.Firestore.Admin.V1Beta1";
+
+
+message LocationMetadata {
+
+}

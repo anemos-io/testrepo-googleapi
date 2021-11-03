@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+package google.cloud.gaming.v1beta;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.gaming.v1beta";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/gaming/v1beta;gaming";
+
+
+message OperationMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string status_message = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated string unreachable = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, OperationStatus> operation_status = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message OperationStatus {
+
+	enum ErrorCode {
+
+		ERROR_CODE_UNSPECIFIED = 0;
+		INTERNAL_ERROR = 1;
+		PERMISSION_DENIED = 2;
+		CLUSTER_CONNECTION = 3;
+	}
+
+	bool done = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	ErrorCode error_code = 2;
+	string error_message = 3;
+}
+
+message LabelSelector {
+
+	map<string, string> labels = 1;
+}
+
+message RealmSelector {
+
+	repeated string realms = 1;
+}
+
+message Schedule {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	google.protobuf.Duration cron_job_duration = 3;
+	string cron_spec = 4;
+}
+
+message SpecSource {
+
+	string game_server_config_name = 1;
+	string name = 2;
+}
+
+message TargetDetails {
+
+	message TargetFleetDetails {
+
+		message TargetFleet {
+
+			string name = 1;
+			SpecSource spec_source = 2;
+		}
+
+		message TargetFleetAutoscaler {
+
+			string name = 1;
+			SpecSource spec_source = 2;
+		}
+
+		TargetFleet fleet = 1;
+		TargetFleetAutoscaler autoscaler = 2;
+	}
+
+	string game_server_cluster_name = 1;
+	string game_server_deployment_name = 2;
+	repeated TargetFleetDetails fleet_details = 3;
+}
+
+message TargetState {
+
+	repeated TargetDetails details = 1;
+}
+
+message DeployedFleetDetails {
+
+	message DeployedFleet {
+
+		message DeployedFleetStatus {
+
+			int64 ready_replicas = 1;
+			int64 allocated_replicas = 2;
+			int64 reserved_replicas = 3;
+			int64 replicas = 4;
+		}
+
+		string fleet = 1;
+		string fleet_spec = 2;
+		SpecSource spec_source = 3;
+		DeployedFleetStatus status = 5;
+	}
+
+	message DeployedFleetAutoscaler {
+
+		string autoscaler = 1;
+		SpecSource spec_source = 4;
+		string fleet_autoscaler_spec = 3;
+	}
+
+	DeployedFleet deployed_fleet = 1;
+	DeployedFleetAutoscaler deployed_autoscaler = 2;
+}

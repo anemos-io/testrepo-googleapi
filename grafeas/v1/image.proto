@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package grafeas.v1;
+
+option java_package = "io.grafeas.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/grafeas/v1;grafeas";
+option objc_class_prefix = "GRA";
+
+
+message Layer {
+
+	string directive = 1;
+	string arguments = 2;
+}
+
+message Fingerprint {
+
+	string v1_name = 1;
+	repeated string v2_blob = 2;
+	string v2_name = 3;
+}
+
+message ImageNote {
+
+	string resource_url = 1;
+	Fingerprint fingerprint = 2;
+}
+
+message ImageOccurrence {
+
+	Fingerprint fingerprint = 1;
+	int32 distance = 2;
+	repeated Layer layer_info = 3;
+	string base_resource_url = 4;
+}

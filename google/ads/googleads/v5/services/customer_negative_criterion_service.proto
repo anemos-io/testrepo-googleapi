@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.services;
+
+import "google/ads/googleads/v5/resources/customer_negative_criterion.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v5.services";
+option java_outer_classname = "CustomerNegativeCriterionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V5::Services";
+
+
+service CustomerNegativeCriterionService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetCustomerNegativeCriterion(google.ads.googleads.v5.services.GetCustomerNegativeCriterionRequest) returns (google.ads.googleads.v5.resources.CustomerNegativeCriterion) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v5/{resource_name=customers/*/customerNegativeCriteria/*}"
+		};
+
+	}
+	rpc MutateCustomerNegativeCriteria(google.ads.googleads.v5.services.MutateCustomerNegativeCriteriaRequest) returns (google.ads.googleads.v5.services.MutateCustomerNegativeCriteriaResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}/customerNegativeCriteria:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCustomerNegativeCriterionRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CustomerNegativeCriterion"
+		}
+	];
+}
+
+message MutateCustomerNegativeCriteriaRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CustomerNegativeCriterionOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+}
+
+message CustomerNegativeCriterionOperation {
+
+	oneof operation {
+		google.ads.googleads.v5.resources.CustomerNegativeCriterion create = 1;
+		string remove = 2;
+	}
+}
+
+message MutateCustomerNegativeCriteriaResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateCustomerNegativeCriteriaResult results = 2;
+}
+
+message MutateCustomerNegativeCriteriaResult {
+
+	string resource_name = 1;
+}

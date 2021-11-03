@@ -1,0 +1,168 @@
+syntax = "proto3";
+
+package google.firestore.admin.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/firestore/admin/v1beta1/index.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.firestore.admin.v1beta1";
+option java_outer_classname = "FirestoreAdminProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firestore/admin/v1beta1;admin";
+option objc_class_prefix = "GCFS";
+option csharp_namespace = "Google.Cloud.Firestore.Admin.V1Beta1";
+
+
+enum OperationState {
+
+	STATE_UNSPECIFIED = 0;
+	INITIALIZING = 1;
+	PROCESSING = 2;
+	CANCELLING = 3;
+	FINALIZING = 4;
+	SUCCESSFUL = 5;
+	FAILED = 6;
+	CANCELLED = 7;
+}
+
+service FirestoreAdmin {
+	option (google.api.default_host) = "firestore.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/datastore";
+
+	rpc CreateIndex(google.firestore.admin.v1beta1.CreateIndexRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/databases/*}/indexes"
+			body: "index"
+		};
+
+	}
+	rpc ListIndexes(google.firestore.admin.v1beta1.ListIndexesRequest) returns (google.firestore.admin.v1beta1.ListIndexesResponse) {
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/databases/*}/indexes"
+		};
+
+	}
+	rpc GetIndex(google.firestore.admin.v1beta1.GetIndexRequest) returns (google.firestore.admin.v1beta1.Index) {
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/databases/*/indexes/*}"
+		};
+
+	}
+	rpc DeleteIndex(google.firestore.admin.v1beta1.DeleteIndexRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/databases/*/indexes/*}"
+		};
+
+	}
+	rpc ExportDocuments(google.firestore.admin.v1beta1.ExportDocumentsRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/databases/*}:exportDocuments"
+			body: "*"
+		};
+
+	}
+	rpc ImportDocuments(google.firestore.admin.v1beta1.ImportDocumentsRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1beta1/{name=projects/*/databases/*}:importDocuments"
+			body: "*"
+		};
+
+	}
+}
+
+message IndexOperationMetadata {
+
+	enum OperationType {
+
+		OPERATION_TYPE_UNSPECIFIED = 0;
+		CREATING_INDEX = 1;
+	}
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	string index = 3;
+	OperationType operation_type = 4;
+	bool cancelled = 5;
+	Progress document_progress = 6;
+}
+
+message Progress {
+
+	int64 work_completed = 1;
+	int64 work_estimated = 2;
+}
+
+message CreateIndexRequest {
+
+	string parent = 1;
+	google.firestore.admin.v1beta1.Index index = 2;
+}
+
+message GetIndexRequest {
+
+	string name = 1;
+}
+
+message ListIndexesRequest {
+
+	string parent = 1;
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message DeleteIndexRequest {
+
+	string name = 1;
+}
+
+message ListIndexesResponse {
+
+	repeated google.firestore.admin.v1beta1.Index indexes = 1;
+	string next_page_token = 2;
+}
+
+message ExportDocumentsRequest {
+
+	string name = 1;
+	repeated string collection_ids = 3;
+	string output_uri_prefix = 4;
+}
+
+message ImportDocumentsRequest {
+
+	string name = 1;
+	repeated string collection_ids = 3;
+	string input_uri_prefix = 4;
+}
+
+message ExportDocumentsResponse {
+
+	string output_uri_prefix = 1;
+}
+
+message ExportDocumentsMetadata {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	OperationState operation_state = 3;
+	Progress progress_documents = 4;
+	Progress progress_bytes = 5;
+	repeated string collection_ids = 6;
+	string output_uri_prefix = 7;
+}
+
+message ImportDocumentsMetadata {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+	OperationState operation_state = 3;
+	Progress progress_documents = 4;
+	Progress progress_bytes = 5;
+	repeated string collection_ids = 6;
+	string input_uri_prefix = 7;
+}

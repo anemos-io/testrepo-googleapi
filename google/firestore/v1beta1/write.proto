@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package google.firestore.v1beta1;
+
+import "google/firestore/v1beta1/common.proto";
+import "google/firestore/v1beta1/document.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.firestore.v1beta1";
+option java_outer_classname = "WriteProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/firestore/v1beta1;firestore";
+option objc_class_prefix = "GCFS";
+option csharp_namespace = "Google.Cloud.Firestore.V1Beta1";
+option php_namespace = "Google\\Cloud\\Firestore\\V1beta1";
+option ruby_package = "Google::Cloud::Firestore::V1beta1";
+
+
+message Write {
+
+	oneof operation {
+		google.firestore.v1beta1.Document update = 1;
+		string delete = 2;
+		DocumentTransform transform = 6;
+	}
+	google.firestore.v1beta1.DocumentMask update_mask = 3;
+	google.firestore.v1beta1.Precondition current_document = 4;
+}
+
+message DocumentTransform {
+
+	message FieldTransform {
+
+		enum ServerValue {
+
+			SERVER_VALUE_UNSPECIFIED = 0;
+			REQUEST_TIME = 1;
+		}
+
+		string field_path = 1;
+		oneof transform_type {
+			ServerValue set_to_server_value = 2;
+			google.firestore.v1beta1.Value increment = 3;
+			google.firestore.v1beta1.Value maximum = 4;
+			google.firestore.v1beta1.Value minimum = 5;
+			google.firestore.v1beta1.ArrayValue append_missing_elements = 6;
+			google.firestore.v1beta1.ArrayValue remove_all_from_array = 7;
+		}
+	}
+
+	string document = 1;
+	repeated FieldTransform field_transforms = 2;
+}
+
+message WriteResult {
+
+	google.protobuf.Timestamp update_time = 1;
+	repeated google.firestore.v1beta1.Value transform_results = 2;
+}
+
+message DocumentChange {
+
+	google.firestore.v1beta1.Document document = 1;
+	repeated int32 target_ids = 5;
+	repeated int32 removed_target_ids = 6;
+}
+
+message DocumentDelete {
+
+	string document = 1;
+	repeated int32 removed_target_ids = 6;
+	google.protobuf.Timestamp read_time = 4;
+}
+
+message DocumentRemove {
+
+	string document = 1;
+	repeated int32 removed_target_ids = 2;
+	google.protobuf.Timestamp read_time = 4;
+}
+
+message ExistenceFilter {
+
+	int32 target_id = 1;
+	int32 count = 2;
+}

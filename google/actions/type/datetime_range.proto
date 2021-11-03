@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package google.actions.type;
+
+import "google/type/datetime.proto";
+
+option java_package = "com.google.actions.type";
+option java_outer_classname = "DateTimeRangeProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/type/date_time_range;date_time_range";
+option objc_class_prefix = "AOGTP";
+
+
+message DateTimeRange {
+
+	google.type.DateTime start = 1;
+	google.type.DateTime end = 2;
+}

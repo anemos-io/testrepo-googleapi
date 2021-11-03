@@ -1,0 +1,664 @@
+syntax = "proto3";
+
+package google.pubsub.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.pubsub.v1";
+option java_outer_classname = "PubsubProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/pubsub/v1;pubsub";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.PubSub.V1";
+option php_namespace = "Google\\Cloud\\PubSub\\V1";
+option ruby_package = "Google::Cloud::PubSub::V1";
+
+
+service Publisher {
+	option (google.api.default_host) = "pubsub.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/pubsub";
+
+	rpc CreateTopic(google.pubsub.v1.Topic) returns (google.pubsub.v1.Topic) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			put: "/v1/{name=projects/*/topics/*}"
+			body: "*"
+		};
+
+	}
+	rpc UpdateTopic(google.pubsub.v1.UpdateTopicRequest) returns (google.pubsub.v1.Topic) {
+		option (google.api.http) = {
+			patch: "/v1/{topic.name=projects/*/topics/*}"
+			body: "*"
+		};
+
+	}
+	rpc Publish(google.pubsub.v1.PublishRequest) returns (google.pubsub.v1.PublishResponse) {
+		option (google.api.method_signature) = "topic,messages";
+		option (google.api.http) = {
+			post: "/v1/{topic=projects/*/topics/*}:publish"
+			body: "*"
+		};
+
+	}
+	rpc GetTopic(google.pubsub.v1.GetTopicRequest) returns (google.pubsub.v1.Topic) {
+		option (google.api.method_signature) = "topic";
+		option (google.api.http) = {
+			get: "/v1/{topic=projects/*/topics/*}"
+		};
+
+	}
+	rpc ListTopics(google.pubsub.v1.ListTopicsRequest) returns (google.pubsub.v1.ListTopicsResponse) {
+		option (google.api.method_signature) = "project";
+		option (google.api.http) = {
+			get: "/v1/{project=projects/*}/topics"
+		};
+
+	}
+	rpc ListTopicSubscriptions(google.pubsub.v1.ListTopicSubscriptionsRequest) returns (google.pubsub.v1.ListTopicSubscriptionsResponse) {
+		option (google.api.method_signature) = "topic";
+		option (google.api.http) = {
+			get: "/v1/{topic=projects/*/topics/*}/subscriptions"
+		};
+
+	}
+	rpc ListTopicSnapshots(google.pubsub.v1.ListTopicSnapshotsRequest) returns (google.pubsub.v1.ListTopicSnapshotsResponse) {
+		option (google.api.method_signature) = "topic";
+		option (google.api.http) = {
+			get: "/v1/{topic=projects/*/topics/*}/snapshots"
+		};
+
+	}
+	rpc DeleteTopic(google.pubsub.v1.DeleteTopicRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "topic";
+		option (google.api.http) = {
+			delete: "/v1/{topic=projects/*/topics/*}"
+		};
+
+	}
+	rpc DetachSubscription(google.pubsub.v1.DetachSubscriptionRequest) returns (google.pubsub.v1.DetachSubscriptionResponse) {
+		option (google.api.http) = {
+			post: "/v1/{subscription=projects/*/subscriptions/*}:detach"
+		};
+
+	}
+}
+
+service Subscriber {
+	option (google.api.default_host) = "pubsub.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/pubsub";
+
+	rpc CreateSubscription(google.pubsub.v1.Subscription) returns (google.pubsub.v1.Subscription) {
+		option (google.api.method_signature) = "name,topic,push_config,ack_deadline_seconds";
+		option (google.api.http) = {
+			put: "/v1/{name=projects/*/subscriptions/*}"
+			body: "*"
+		};
+
+	}
+	rpc GetSubscription(google.pubsub.v1.GetSubscriptionRequest) returns (google.pubsub.v1.Subscription) {
+		option (google.api.method_signature) = "subscription";
+		option (google.api.http) = {
+			get: "/v1/{subscription=projects/*/subscriptions/*}"
+		};
+
+	}
+	rpc UpdateSubscription(google.pubsub.v1.UpdateSubscriptionRequest) returns (google.pubsub.v1.Subscription) {
+		option (google.api.http) = {
+			patch: "/v1/{subscription.name=projects/*/subscriptions/*}"
+			body: "*"
+		};
+
+	}
+	rpc ListSubscriptions(google.pubsub.v1.ListSubscriptionsRequest) returns (google.pubsub.v1.ListSubscriptionsResponse) {
+		option (google.api.method_signature) = "project";
+		option (google.api.http) = {
+			get: "/v1/{project=projects/*}/subscriptions"
+		};
+
+	}
+	rpc DeleteSubscription(google.pubsub.v1.DeleteSubscriptionRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "subscription";
+		option (google.api.http) = {
+			delete: "/v1/{subscription=projects/*/subscriptions/*}"
+		};
+
+	}
+	rpc ModifyAckDeadline(google.pubsub.v1.ModifyAckDeadlineRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "subscription,ack_ids,ack_deadline_seconds";
+		option (google.api.http) = {
+			post: "/v1/{subscription=projects/*/subscriptions/*}:modifyAckDeadline"
+			body: "*"
+		};
+
+	}
+	rpc Acknowledge(google.pubsub.v1.AcknowledgeRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "subscription,ack_ids";
+		option (google.api.http) = {
+			post: "/v1/{subscription=projects/*/subscriptions/*}:acknowledge"
+			body: "*"
+		};
+
+	}
+	rpc Pull(google.pubsub.v1.PullRequest) returns (google.pubsub.v1.PullResponse) {
+		option (google.api.method_signature) = "subscription,return_immediately,max_messages";
+		option (google.api.http) = {
+			post: "/v1/{subscription=projects/*/subscriptions/*}:pull"
+			body: "*"
+		};
+
+	}
+	rpc StreamingPull(stream google.pubsub.v1.StreamingPullRequest) returns (stream google.pubsub.v1.StreamingPullResponse) {}
+	rpc ModifyPushConfig(google.pubsub.v1.ModifyPushConfigRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "subscription,push_config";
+		option (google.api.http) = {
+			post: "/v1/{subscription=projects/*/subscriptions/*}:modifyPushConfig"
+			body: "*"
+		};
+
+	}
+	rpc GetSnapshot(google.pubsub.v1.GetSnapshotRequest) returns (google.pubsub.v1.Snapshot) {
+		option (google.api.method_signature) = "snapshot";
+		option (google.api.http) = {
+			get: "/v1/{snapshot=projects/*/snapshots/*}"
+		};
+
+	}
+	rpc ListSnapshots(google.pubsub.v1.ListSnapshotsRequest) returns (google.pubsub.v1.ListSnapshotsResponse) {
+		option (google.api.method_signature) = "project";
+		option (google.api.http) = {
+			get: "/v1/{project=projects/*}/snapshots"
+		};
+
+	}
+	rpc CreateSnapshot(google.pubsub.v1.CreateSnapshotRequest) returns (google.pubsub.v1.Snapshot) {
+		option (google.api.method_signature) = "name,subscription";
+		option (google.api.http) = {
+			put: "/v1/{name=projects/*/snapshots/*}"
+			body: "*"
+		};
+
+	}
+	rpc UpdateSnapshot(google.pubsub.v1.UpdateSnapshotRequest) returns (google.pubsub.v1.Snapshot) {
+		option (google.api.http) = {
+			patch: "/v1/{snapshot.name=projects/*/snapshots/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteSnapshot(google.pubsub.v1.DeleteSnapshotRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "snapshot";
+		option (google.api.http) = {
+			delete: "/v1/{snapshot=projects/*/snapshots/*}"
+		};
+
+	}
+	rpc Seek(google.pubsub.v1.SeekRequest) returns (google.pubsub.v1.SeekResponse) {
+		option (google.api.http) = {
+			post: "/v1/{subscription=projects/*/subscriptions/*}:seek"
+			body: "*"
+		};
+
+	}
+}
+
+message MessageStoragePolicy {
+
+	repeated string allowed_persistence_regions = 1;
+}
+
+message Topic {
+	option (google.api.resource) = {
+		type: "pubsub.googleapis.com/Topic"
+		pattern: ["projects/{project}/topics/{topic}","_deleted-topic_"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	map<string, string> labels = 2;
+	MessageStoragePolicy message_storage_policy = 3;
+	string kms_key_name = 5;
+}
+
+message PubsubMessage {
+
+	bytes data = 1;
+	map<string, string> attributes = 2;
+	string message_id = 3;
+	google.protobuf.Timestamp publish_time = 4;
+	string ordering_key = 5;
+}
+
+message GetTopicRequest {
+
+	string topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Topic"
+		}
+	];
+}
+
+message UpdateTopicRequest {
+
+	Topic topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PublishRequest {
+
+	string topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Topic"
+		}
+	];
+	repeated PubsubMessage messages = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PublishResponse {
+
+	repeated string message_ids = 1;
+}
+
+message ListTopicsRequest {
+
+	string project = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTopicsResponse {
+
+	repeated Topic topics = 1;
+	string next_page_token = 2;
+}
+
+message ListTopicSubscriptionsRequest {
+
+	string topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Topic"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTopicSubscriptionsResponse {
+
+	repeated string subscriptions = 1 [
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+	string next_page_token = 2;
+}
+
+message ListTopicSnapshotsRequest {
+
+	string topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Topic"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListTopicSnapshotsResponse {
+
+	repeated string snapshots = 1;
+	string next_page_token = 2;
+}
+
+message DeleteTopicRequest {
+
+	string topic = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Topic"
+		}
+	];
+}
+
+message DetachSubscriptionRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+}
+
+message DetachSubscriptionResponse {
+
+}
+
+message Subscription {
+	option (google.api.resource) = {
+		type: "pubsub.googleapis.com/Subscription"
+		pattern: ["projects/{project}/subscriptions/{subscription}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string topic = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Topic"
+		}
+	];
+	PushConfig push_config = 4;
+	int32 ack_deadline_seconds = 5;
+	bool retain_acked_messages = 7;
+	google.protobuf.Duration message_retention_duration = 8;
+	map<string, string> labels = 9;
+	bool enable_message_ordering = 10;
+	ExpirationPolicy expiration_policy = 11;
+	string filter = 12;
+	DeadLetterPolicy dead_letter_policy = 13;
+	RetryPolicy retry_policy = 14;
+	bool detached = 15;
+}
+
+message RetryPolicy {
+
+	google.protobuf.Duration minimum_backoff = 1;
+	google.protobuf.Duration maximum_backoff = 2;
+}
+
+message DeadLetterPolicy {
+
+	string dead_letter_topic = 1;
+	int32 max_delivery_attempts = 2;
+}
+
+message ExpirationPolicy {
+
+	google.protobuf.Duration ttl = 1;
+}
+
+message PushConfig {
+
+	message OidcToken {
+
+		string service_account_email = 1;
+		string audience = 2;
+	}
+
+	string push_endpoint = 1;
+	map<string, string> attributes = 2;
+	oneof authentication_method {
+		OidcToken oidc_token = 3;
+	}
+}
+
+message ReceivedMessage {
+
+	string ack_id = 1;
+	PubsubMessage message = 2;
+	int32 delivery_attempt = 3;
+}
+
+message GetSubscriptionRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+}
+
+message UpdateSubscriptionRequest {
+
+	Subscription subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListSubscriptionsRequest {
+
+	string project = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListSubscriptionsResponse {
+
+	repeated Subscription subscriptions = 1;
+	string next_page_token = 2;
+}
+
+message DeleteSubscriptionRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+}
+
+message ModifyPushConfigRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+	PushConfig push_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PullRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+	bool return_immediately = 2 [
+		deprecated = true,
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 max_messages = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message PullResponse {
+
+	repeated ReceivedMessage received_messages = 1;
+}
+
+message ModifyAckDeadlineRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+	repeated string ack_ids = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 ack_deadline_seconds = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message AcknowledgeRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+	repeated string ack_ids = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message StreamingPullRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+	repeated string ack_ids = 2;
+	repeated int32 modify_deadline_seconds = 3;
+	repeated string modify_deadline_ack_ids = 4;
+	int32 stream_ack_deadline_seconds = 5 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string client_id = 6;
+	int64 max_outstanding_messages = 7;
+	int64 max_outstanding_bytes = 8;
+}
+
+message StreamingPullResponse {
+
+	repeated ReceivedMessage received_messages = 1;
+}
+
+message CreateSnapshotRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Snapshot"
+		}
+	];
+	string subscription = 2 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+	map<string, string> labels = 3;
+}
+
+message UpdateSnapshotRequest {
+
+	Snapshot snapshot = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Snapshot {
+	option (google.api.resource) = {
+		type: "pubsub.googleapis.com/Snapshot"
+		pattern: ["projects/{project}/snapshots/{snapshot}"]
+	};
+
+	string name = 1;
+	string topic = 2 [
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Topic"
+		}
+	];
+	google.protobuf.Timestamp expire_time = 3;
+	map<string, string> labels = 4;
+}
+
+message GetSnapshotRequest {
+
+	string snapshot = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Snapshot"
+		}
+	];
+}
+
+message ListSnapshotsRequest {
+
+	string project = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListSnapshotsResponse {
+
+	repeated Snapshot snapshots = 1;
+	string next_page_token = 2;
+}
+
+message DeleteSnapshotRequest {
+
+	string snapshot = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Snapshot"
+		}
+	];
+}
+
+message SeekRequest {
+
+	string subscription = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "pubsub.googleapis.com/Subscription"
+		}
+	];
+	oneof target {
+		google.protobuf.Timestamp time = 2;
+		string snapshot = 3 [
+			(google.api.resource_reference) = {
+				type: "pubsub.googleapis.com/Snapshot"
+			}
+		];
+	}
+}
+
+message SeekResponse {
+
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.errors";
+option java_outer_classname = "SharedSetErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V2::Errors";
+
+
+message SharedSetErrorEnum {
+
+	enum SharedSetError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		CUSTOMER_CANNOT_CREATE_SHARED_SET_OF_THIS_TYPE = 2;
+		DUPLICATE_NAME = 3;
+		SHARED_SET_REMOVED = 4;
+		SHARED_SET_IN_USE = 5;
+	}
+
+}

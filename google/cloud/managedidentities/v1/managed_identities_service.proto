@@ -1,0 +1,299 @@
+syntax = "proto3";
+
+package google.cloud.managedidentities.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/managedidentities/v1/resource.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.managedidentities.v1";
+option java_outer_classname = "ManagedIdentitiesServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/managedidentities/v1;managedidentities";
+option objc_class_prefix = "GCMI";
+option csharp_namespace = "Google.Cloud.ManagedIdentities.V1";
+option php_namespace = "Google\\Cloud\\ManagedIdentities\\V1";
+
+
+service ManagedIdentitiesService {
+	option (google.api.default_host) = "managedidentities.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateMicrosoftAdDomain(google.cloud.managedidentities.v1.CreateMicrosoftAdDomainRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Domain"
+			metadata_type: "OpMetadata"
+		};
+		option (google.api.method_signature) = "parent,domain_name,domain";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/locations/global}/domains"
+			body: "domain"
+		};
+
+	}
+	rpc ResetAdminPassword(google.cloud.managedidentities.v1.ResetAdminPasswordRequest) returns (google.cloud.managedidentities.v1.ResetAdminPasswordResponse) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/global/domains/*}:resetAdminPassword"
+			body: "*"
+		};
+
+	}
+	rpc ListDomains(google.cloud.managedidentities.v1.ListDomainsRequest) returns (google.cloud.managedidentities.v1.ListDomainsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/locations/global}/domains"
+		};
+
+	}
+	rpc GetDomain(google.cloud.managedidentities.v1.GetDomainRequest) returns (google.cloud.managedidentities.v1.Domain) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/locations/global/domains/*}"
+		};
+
+	}
+	rpc UpdateDomain(google.cloud.managedidentities.v1.UpdateDomainRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Domain"
+			metadata_type: "OpMetadata"
+		};
+		option (google.api.method_signature) = "domain,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{domain.name=projects/*/locations/global/domains/*}"
+			body: "domain"
+		};
+
+	}
+	rpc DeleteDomain(google.cloud.managedidentities.v1.DeleteDomainRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "OpMetadata"
+		};
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/locations/global/domains/*}"
+		};
+
+	}
+	rpc AttachTrust(google.cloud.managedidentities.v1.AttachTrustRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Domain"
+			metadata_type: "OpMetadata"
+		};
+		option (google.api.method_signature) = "name,trust";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/global/domains/*}:attachTrust"
+			body: "*"
+		};
+
+	}
+	rpc ReconfigureTrust(google.cloud.managedidentities.v1.ReconfigureTrustRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Domain"
+			metadata_type: "OpMetadata"
+		};
+		option (google.api.method_signature) = "name,target_domain_name,target_dns_ip_addresses";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/global/domains/*}:reconfigureTrust"
+			body: "*"
+		};
+
+	}
+	rpc DetachTrust(google.cloud.managedidentities.v1.DetachTrustRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Domain"
+			metadata_type: "OpMetadata"
+		};
+		option (google.api.method_signature) = "name,trust";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/global/domains/*}:detachTrust"
+			body: "*"
+		};
+
+	}
+	rpc ValidateTrust(google.cloud.managedidentities.v1.ValidateTrustRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Domain"
+			metadata_type: "OpMetadata"
+		};
+		option (google.api.method_signature) = "name,trust";
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/locations/global/domains/*}:validateTrust"
+			body: "*"
+		};
+
+	}
+}
+
+message OpMetadata {
+
+	google.protobuf.Timestamp create_time = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp end_time = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string target = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string verb = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool requested_cancellation = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string api_version = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message CreateMicrosoftAdDomainRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+	string domain_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.managedidentities.v1.Domain domain = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ResetAdminPasswordRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+}
+
+message ResetAdminPasswordResponse {
+
+	string password = 1;
+}
+
+message ListDomainsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListDomainsResponse {
+
+	repeated google.cloud.managedidentities.v1.Domain domains = 1;
+	string next_page_token = 2;
+	repeated string unreachable = 3;
+}
+
+message GetDomainRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+}
+
+message UpdateDomainRequest {
+
+	google.protobuf.FieldMask update_mask = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.cloud.managedidentities.v1.Domain domain = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteDomainRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+}
+
+message AttachTrustRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+	google.cloud.managedidentities.v1.Trust trust = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ReconfigureTrustRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+	string target_domain_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string target_dns_ip_addresses = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DetachTrustRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+	google.cloud.managedidentities.v1.Trust trust = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ValidateTrustRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "managedidentities.googleapis.com/Domain"
+		}
+	];
+	google.cloud.managedidentities.v1.Trust trust = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

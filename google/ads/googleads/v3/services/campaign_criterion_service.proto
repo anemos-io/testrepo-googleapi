@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package google.ads.googleads.v3.services;
+
+import "google/ads/googleads/v3/resources/campaign_criterion.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v3.services";
+option java_outer_classname = "CampaignCriterionServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v3/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V3.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V3\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V3::Services";
+
+
+service CampaignCriterionService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc GetCampaignCriterion(google.ads.googleads.v3.services.GetCampaignCriterionRequest) returns (google.ads.googleads.v3.resources.CampaignCriterion) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v3/{resource_name=customers/*/campaignCriteria/*}"
+		};
+
+	}
+	rpc MutateCampaignCriteria(google.ads.googleads.v3.services.MutateCampaignCriteriaRequest) returns (google.ads.googleads.v3.services.MutateCampaignCriteriaResponse) {
+		option (google.api.method_signature) = "customer_id,operations";
+		option (google.api.http) = {
+			post: "/v3/customers/{customer_id=*}/campaignCriteria:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message GetCampaignCriterionRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignCriterion"
+		}
+	];
+}
+
+message MutateCampaignCriteriaRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CampaignCriterionOperation operations = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3;
+	bool validate_only = 4;
+}
+
+message CampaignCriterionOperation {
+
+	google.protobuf.FieldMask update_mask = 4;
+	oneof operation {
+		google.ads.googleads.v3.resources.CampaignCriterion create = 1;
+		google.ads.googleads.v3.resources.CampaignCriterion update = 2;
+		string remove = 3;
+	}
+}
+
+message MutateCampaignCriteriaResponse {
+
+	google.rpc.Status partial_failure_error = 3;
+	repeated MutateCampaignCriterionResult results = 2;
+}
+
+message MutateCampaignCriterionResult {
+
+	string resource_name = 1;
+}

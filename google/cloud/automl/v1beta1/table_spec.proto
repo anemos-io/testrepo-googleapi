@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/api/resource.proto";
+import "google/cloud/automl/v1beta1/io.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message TableSpec {
+	option (google.api.resource) = {
+		type: "automl.googleapis.com/TableSpec"
+		pattern: ["projects/{project}/locations/{location}/datasets/{dataset}/tableSpecs/{table_spec}"]
+	};
+
+	string name = 1;
+	string time_column_spec_id = 2;
+	int64 row_count = 3;
+	int64 valid_row_count = 4;
+	int64 column_count = 7;
+	repeated google.cloud.automl.v1beta1.InputConfig input_configs = 5;
+	string etag = 6;
+}

@@ -1,0 +1,218 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.services;
+
+import "google/ads/googleads/v5/common/criteria.proto";
+import "google/ads/googleads/v5/enums/frequency_cap_time_unit.proto";
+import "google/ads/googleads/v5/enums/reach_plan_ad_length.proto";
+import "google/ads/googleads/v5/enums/reach_plan_age_range.proto";
+import "google/ads/googleads/v5/enums/reach_plan_network.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.google.ads.googleads.v5.services";
+option java_outer_classname = "ReachPlanServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V5::Services";
+
+
+service ReachPlanService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc ListPlannableLocations(google.ads.googleads.v5.services.ListPlannableLocationsRequest) returns (google.ads.googleads.v5.services.ListPlannableLocationsResponse) {
+		option (google.api.http) = {
+			post: "/v5:listPlannableLocations"
+			body: "*"
+		};
+
+	}
+	rpc ListPlannableProducts(google.ads.googleads.v5.services.ListPlannableProductsRequest) returns (google.ads.googleads.v5.services.ListPlannableProductsResponse) {
+		option (google.api.method_signature) = "plannable_location_id";
+		option (google.api.http) = {
+			post: "/v5:listPlannableProducts"
+			body: "*"
+		};
+
+	}
+	rpc GenerateProductMixIdeas(google.ads.googleads.v5.services.GenerateProductMixIdeasRequest) returns (google.ads.googleads.v5.services.GenerateProductMixIdeasResponse) {
+		option (google.api.method_signature) = "customer_id,plannable_location_id,currency_code,budget_micros";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}:generateProductMixIdeas"
+			body: "*"
+		};
+
+	}
+	rpc GenerateReachForecast(google.ads.googleads.v5.services.GenerateReachForecastRequest) returns (google.ads.googleads.v5.services.GenerateReachForecastResponse) {
+		option (google.api.method_signature) = "customer_id,campaign_duration,planned_products";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}:generateReachForecast"
+			body: "*"
+		};
+
+	}
+}
+
+message ListPlannableLocationsRequest {
+
+}
+
+message ListPlannableLocationsResponse {
+
+	repeated PlannableLocation plannable_locations = 1;
+}
+
+message PlannableLocation {
+
+	google.protobuf.StringValue id = 1;
+	google.protobuf.StringValue name = 2;
+	google.protobuf.Int64Value parent_country_id = 3;
+}
+
+message ListPlannableProductsRequest {
+
+	google.protobuf.StringValue plannable_location_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListPlannableProductsResponse {
+
+	repeated ProductMetadata product_metadata = 1;
+}
+
+message ProductMetadata {
+
+	google.protobuf.StringValue plannable_product_code = 1;
+	PlannableTargeting plannable_targeting = 2;
+}
+
+message PlannableTargeting {
+
+	repeated google.ads.googleads.v5.enums.ReachPlanAgeRangeEnum.ReachPlanAgeRange age_ranges = 1;
+	repeated google.ads.googleads.v5.common.GenderInfo genders = 2;
+	repeated google.ads.googleads.v5.common.DeviceInfo devices = 3;
+	repeated google.ads.googleads.v5.enums.ReachPlanNetworkEnum.ReachPlanNetwork networks = 4;
+}
+
+message GenerateProductMixIdeasRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.StringValue plannable_location_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.StringValue currency_code = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int64Value budget_micros = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Preferences preferences = 5;
+}
+
+message Preferences {
+
+	google.protobuf.BoolValue is_skippable = 1;
+	google.protobuf.BoolValue starts_with_sound = 2;
+	google.ads.googleads.v5.enums.ReachPlanAdLengthEnum.ReachPlanAdLength ad_length = 3;
+	google.protobuf.BoolValue top_content_only = 4;
+	google.protobuf.BoolValue has_guaranteed_price = 5;
+}
+
+message GenerateProductMixIdeasResponse {
+
+	repeated ProductAllocation product_allocation = 1;
+}
+
+message ProductAllocation {
+
+	google.protobuf.StringValue plannable_product_code = 1;
+	google.protobuf.Int64Value budget_micros = 2;
+}
+
+message GenerateReachForecastRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.StringValue currency_code = 2;
+	CampaignDuration campaign_duration = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.Int32Value cookie_frequency_cap = 4;
+	FrequencyCap cookie_frequency_cap_setting = 8;
+	google.protobuf.Int32Value min_effective_frequency = 5;
+	Targeting targeting = 6;
+	repeated PlannedProduct planned_products = 7 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message FrequencyCap {
+
+	google.protobuf.Int32Value impressions = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.ads.googleads.v5.enums.FrequencyCapTimeUnitEnum.FrequencyCapTimeUnit time_unit = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message Targeting {
+
+	google.protobuf.StringValue plannable_location_id = 1;
+	google.ads.googleads.v5.enums.ReachPlanAgeRangeEnum.ReachPlanAgeRange age_range = 2;
+	repeated google.ads.googleads.v5.common.GenderInfo genders = 3;
+	repeated google.ads.googleads.v5.common.DeviceInfo devices = 4;
+	google.ads.googleads.v5.enums.ReachPlanNetworkEnum.ReachPlanNetwork network = 5;
+}
+
+message CampaignDuration {
+
+	google.protobuf.Int32Value duration_in_days = 1;
+}
+
+message PlannedProduct {
+
+	google.protobuf.StringValue plannable_product_code = 1;
+	google.protobuf.Int64Value budget_micros = 2;
+}
+
+message GenerateReachForecastResponse {
+
+	OnTargetAudienceMetrics on_target_audience_metrics = 1;
+	ReachCurve reach_curve = 2;
+}
+
+message ReachCurve {
+
+	repeated ReachForecast reach_forecasts = 1;
+}
+
+message ReachForecast {
+
+	google.protobuf.Int64Value cost_micros = 1;
+	Forecast forecast = 2;
+	repeated ProductAllocation forecasted_product_allocations = 3;
+}
+
+message Forecast {
+
+	google.protobuf.Int64Value on_target_reach = 1;
+	google.protobuf.Int64Value total_reach = 2;
+	google.protobuf.Int64Value on_target_impressions = 3;
+	google.protobuf.Int64Value total_impressions = 4;
+}
+
+message OnTargetAudienceMetrics {
+
+	google.protobuf.Int64Value youtube_audience_size = 1;
+	google.protobuf.Int64Value census_audience_size = 2;
+}

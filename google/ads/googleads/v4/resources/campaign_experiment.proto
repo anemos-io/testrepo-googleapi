@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.resources;
+
+import "google/ads/googleads/v4/enums/campaign_experiment_status.proto";
+import "google/ads/googleads/v4/enums/campaign_experiment_traffic_split_type.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v4.resources";
+option java_outer_classname = "CampaignExperimentProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V4::Resources";
+
+
+message CampaignExperiment {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/CampaignExperiment"
+		pattern: ["customers/{customer}/campaignExperiments/{campaign_experiment}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignExperiment"
+		}
+	];
+	google.protobuf.Int64Value id = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue campaign_draft = 3 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/CampaignDraft"
+		}
+	];
+	google.protobuf.StringValue name = 4;
+	google.protobuf.StringValue description = 5;
+	google.protobuf.Int64Value traffic_split_percent = 6 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.ads.googleads.v4.enums.CampaignExperimentTrafficSplitTypeEnum.CampaignExperimentTrafficSplitType traffic_split_type = 7 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	google.protobuf.StringValue experiment_campaign = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Campaign"
+		}
+	];
+	google.ads.googleads.v4.enums.CampaignExperimentStatusEnum.CampaignExperimentStatus status = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue long_running_operation = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue start_date = 11;
+	google.protobuf.StringValue end_date = 12;
+}

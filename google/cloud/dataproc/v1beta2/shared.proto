@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package google.cloud.dataproc.v1beta2;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.dataproc.v1beta2";
+option java_outer_classname = "SharedProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/dataproc/v1beta2;dataproc";
+
+
+enum Component {
+
+	COMPONENT_UNSPECIFIED = 0;
+	ANACONDA = 5;
+	DOCKER = 13;
+	DRUID = 9;
+	FLINK = 14;
+	HIVE_WEBHCAT = 3;
+	JUPYTER = 1;
+	KERBEROS = 7;
+	PRESTO = 6;
+	RANGER = 12;
+	SOLR = 10;
+	ZEPPELIN = 4;
+	ZOOKEEPER = 8;
+}

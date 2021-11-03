@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+package google.ads.googleads.v4.services;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.ads.googleads.v4.services";
+option java_outer_classname = "ConversionUploadServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v4/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V4.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V4\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V4::Services";
+
+
+service ConversionUploadService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc UploadClickConversions(google.ads.googleads.v4.services.UploadClickConversionsRequest) returns (google.ads.googleads.v4.services.UploadClickConversionsResponse) {
+		option (google.api.method_signature) = "customer_id,conversions,partial_failure";
+		option (google.api.http) = {
+			post: "/v4/customers/{customer_id=*}:uploadClickConversions"
+			body: "*"
+		};
+
+	}
+	rpc UploadCallConversions(google.ads.googleads.v4.services.UploadCallConversionsRequest) returns (google.ads.googleads.v4.services.UploadCallConversionsResponse) {
+		option (google.api.method_signature) = "customer_id,conversions,partial_failure";
+		option (google.api.http) = {
+			post: "/v4/customers/{customer_id=*}:uploadCallConversions"
+			body: "*"
+		};
+
+	}
+}
+
+message UploadClickConversionsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated ClickConversion conversions = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 4;
+}
+
+message UploadClickConversionsResponse {
+
+	google.rpc.Status partial_failure_error = 1;
+	repeated ClickConversionResult results = 2;
+}
+
+message UploadCallConversionsRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated CallConversion conversions = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_failure = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool validate_only = 4;
+}
+
+message UploadCallConversionsResponse {
+
+	google.rpc.Status partial_failure_error = 1;
+	repeated CallConversionResult results = 2;
+}
+
+message ClickConversion {
+
+	google.protobuf.StringValue gclid = 1;
+	google.protobuf.StringValue conversion_action = 2;
+	google.protobuf.StringValue conversion_date_time = 3;
+	google.protobuf.DoubleValue conversion_value = 4;
+	google.protobuf.StringValue currency_code = 5;
+	google.protobuf.StringValue order_id = 6;
+	ExternalAttributionData external_attribution_data = 7;
+}
+
+message CallConversion {
+
+	google.protobuf.StringValue caller_id = 1;
+	google.protobuf.StringValue call_start_date_time = 2;
+	google.protobuf.StringValue conversion_action = 3;
+	google.protobuf.StringValue conversion_date_time = 4;
+	google.protobuf.DoubleValue conversion_value = 5;
+	google.protobuf.StringValue currency_code = 6;
+}
+
+message ExternalAttributionData {
+
+	google.protobuf.DoubleValue external_attribution_credit = 1;
+	google.protobuf.StringValue external_attribution_model = 2;
+}
+
+message ClickConversionResult {
+
+	google.protobuf.StringValue gclid = 1;
+	google.protobuf.StringValue conversion_action = 2;
+	google.protobuf.StringValue conversion_date_time = 3;
+}
+
+message CallConversionResult {
+
+	google.protobuf.StringValue caller_id = 1;
+	google.protobuf.StringValue call_start_date_time = 2;
+	google.protobuf.StringValue conversion_action = 3;
+	google.protobuf.StringValue conversion_date_time = 4;
+}

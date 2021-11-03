@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/monitoring/dashboard/v1/dashboard.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/client.proto";
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "DashboardsServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+service DashboardsService {
+	option (google.api.default_host) = "monitoring.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/monitoring,https://www.googleapis.com/auth/monitoring.read,https://www.googleapis.com/auth/monitoring.write";
+
+	rpc CreateDashboard(google.monitoring.dashboard.v1.CreateDashboardRequest) returns (google.monitoring.dashboard.v1.Dashboard) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/dashboards"
+			body: "dashboard"
+		};
+
+	}
+	rpc ListDashboards(google.monitoring.dashboard.v1.ListDashboardsRequest) returns (google.monitoring.dashboard.v1.ListDashboardsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/dashboards"
+		};
+
+	}
+	rpc GetDashboard(google.monitoring.dashboard.v1.GetDashboardRequest) returns (google.monitoring.dashboard.v1.Dashboard) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/dashboards/*}"
+		};
+
+	}
+	rpc DeleteDashboard(google.monitoring.dashboard.v1.DeleteDashboardRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/dashboards/*}"
+		};
+
+	}
+	rpc UpdateDashboard(google.monitoring.dashboard.v1.UpdateDashboardRequest) returns (google.monitoring.dashboard.v1.Dashboard) {
+		option (google.api.http) = {
+			patch: "/v1/{dashboard.name=projects/*/dashboards/*}"
+			body: "dashboard"
+		};
+
+	}
+}
+
+message CreateDashboardRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.monitoring.dashboard.v1.Dashboard dashboard = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListDashboardsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListDashboardsResponse {
+
+	repeated google.monitoring.dashboard.v1.Dashboard dashboards = 1;
+	string next_page_token = 2;
+}
+
+message GetDashboardRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "monitoring.googleapis.com/Dashboard"
+		}
+	];
+}
+
+message DeleteDashboardRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "monitoring.googleapis.com/Dashboard"
+		}
+	];
+}
+
+message UpdateDashboardRequest {
+
+	google.monitoring.dashboard.v1.Dashboard dashboard = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}

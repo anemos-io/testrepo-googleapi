@@ -1,0 +1,202 @@
+syntax = "proto3";
+
+package google.devtools.clouderrorreporting.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/devtools/clouderrorreporting/v1beta1/common.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.devtools.clouderrorreporting.v1beta1";
+option java_outer_classname = "ErrorStatsServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/clouderrorreporting/v1beta1;clouderrorreporting";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.ErrorReporting.V1Beta1";
+option php_namespace = "Google\\Cloud\\ErrorReporting\\V1beta1";
+option ruby_package = "Google::Cloud::ErrorReporting::V1beta1";
+
+
+enum TimedCountAlignment {
+
+	ERROR_COUNT_ALIGNMENT_UNSPECIFIED = 0;
+	ALIGNMENT_EQUAL_ROUNDED = 1;
+	ALIGNMENT_EQUAL_AT_END = 2;
+}
+
+enum ErrorGroupOrder {
+
+	GROUP_ORDER_UNSPECIFIED = 0;
+	COUNT_DESC = 1;
+	LAST_SEEN_DESC = 2;
+	CREATED_DESC = 3;
+	AFFECTED_USERS_DESC = 4;
+}
+
+service ErrorStatsService {
+	option (google.api.default_host) = "clouderrorreporting.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListGroupStats(google.devtools.clouderrorreporting.v1beta1.ListGroupStatsRequest) returns (google.devtools.clouderrorreporting.v1beta1.ListGroupStatsResponse) {
+		option (google.api.method_signature) = "project_name,time_range";
+		option (google.api.http) = {
+			get: "/v1beta1/{project_name=projects/*}/groupStats"
+		};
+
+	}
+	rpc ListEvents(google.devtools.clouderrorreporting.v1beta1.ListEventsRequest) returns (google.devtools.clouderrorreporting.v1beta1.ListEventsResponse) {
+		option (google.api.method_signature) = "project_name,group_id";
+		option (google.api.http) = {
+			get: "/v1beta1/{project_name=projects/*}/events"
+		};
+
+	}
+	rpc DeleteEvents(google.devtools.clouderrorreporting.v1beta1.DeleteEventsRequest) returns (google.devtools.clouderrorreporting.v1beta1.DeleteEventsResponse) {
+		option (google.api.method_signature) = "project_name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{project_name=projects/*}/events"
+		};
+
+	}
+}
+
+message ListGroupStatsRequest {
+
+	string project_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	repeated string group_id = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ServiceContextFilter service_filter = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	QueryTimeRange time_range = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Duration timed_count_duration = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	TimedCountAlignment alignment = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp alignment_time = 8 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	ErrorGroupOrder order = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 11 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 12 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListGroupStatsResponse {
+
+	repeated ErrorGroupStats error_group_stats = 1;
+	string next_page_token = 2;
+	google.protobuf.Timestamp time_range_begin = 4;
+}
+
+message ErrorGroupStats {
+
+	google.devtools.clouderrorreporting.v1beta1.ErrorGroup group = 1;
+	int64 count = 2;
+	int64 affected_users_count = 3;
+	repeated TimedCount timed_counts = 4;
+	google.protobuf.Timestamp first_seen_time = 5;
+	google.protobuf.Timestamp last_seen_time = 6;
+	repeated google.devtools.clouderrorreporting.v1beta1.ServiceContext affected_services = 7;
+	int32 num_affected_services = 8;
+	google.devtools.clouderrorreporting.v1beta1.ErrorEvent representative = 9;
+}
+
+message TimedCount {
+
+	int64 count = 1;
+	google.protobuf.Timestamp start_time = 2;
+	google.protobuf.Timestamp end_time = 3;
+}
+
+message ListEventsRequest {
+
+	string project_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string group_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	ServiceContextFilter service_filter = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	QueryTimeRange time_range = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 7 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListEventsResponse {
+
+	repeated google.devtools.clouderrorreporting.v1beta1.ErrorEvent error_events = 1;
+	string next_page_token = 2;
+	google.protobuf.Timestamp time_range_begin = 4;
+}
+
+message QueryTimeRange {
+
+	enum Period {
+
+		PERIOD_UNSPECIFIED = 0;
+		PERIOD_1_HOUR = 1;
+		PERIOD_6_HOURS = 2;
+		PERIOD_1_DAY = 3;
+		PERIOD_1_WEEK = 4;
+		PERIOD_30_DAYS = 5;
+	}
+
+	Period period = 1;
+}
+
+message ServiceContextFilter {
+
+	string service = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string version = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string resource_type = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteEventsRequest {
+
+	string project_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+}
+
+message DeleteEventsResponse {
+
+}

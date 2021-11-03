@@ -1,0 +1,630 @@
+syntax = "proto3";
+
+package google.devtools.cloudbuild.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloudbuild.v1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/cloudbuild/v1;cloudbuild";
+option objc_class_prefix = "GCB";
+option ruby_package = "Google::Cloud::Build::V1";
+
+
+service CloudBuild {
+	option (google.api.default_host) = "cloudbuild.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateBuild(google.devtools.cloudbuild.v1.CreateBuildRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Build"
+			metadata_type: "BuildOperationMetadata"
+		};
+		option (google.api.method_signature) = "project_id,build";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/builds"
+			body: "build"
+		};
+
+	}
+	rpc GetBuild(google.devtools.cloudbuild.v1.GetBuildRequest) returns (google.devtools.cloudbuild.v1.Build) {
+		option (google.api.method_signature) = "project_id,id";
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/builds/{id}"
+		};
+
+	}
+	rpc ListBuilds(google.devtools.cloudbuild.v1.ListBuildsRequest) returns (google.devtools.cloudbuild.v1.ListBuildsResponse) {
+		option (google.api.method_signature) = "project_id,filter";
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/builds"
+		};
+
+	}
+	rpc CancelBuild(google.devtools.cloudbuild.v1.CancelBuildRequest) returns (google.devtools.cloudbuild.v1.Build) {
+		option (google.api.method_signature) = "project_id,id";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/builds/{id}:cancel"
+			body: "*"
+		};
+
+	}
+	rpc RetryBuild(google.devtools.cloudbuild.v1.RetryBuildRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Build"
+			metadata_type: "BuildOperationMetadata"
+		};
+		option (google.api.method_signature) = "project_id,id";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/builds/{id}:retry"
+			body: "*"
+		};
+
+	}
+	rpc CreateBuildTrigger(google.devtools.cloudbuild.v1.CreateBuildTriggerRequest) returns (google.devtools.cloudbuild.v1.BuildTrigger) {
+		option (google.api.method_signature) = "project_id,trigger";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/triggers"
+			body: "trigger"
+		};
+
+	}
+	rpc GetBuildTrigger(google.devtools.cloudbuild.v1.GetBuildTriggerRequest) returns (google.devtools.cloudbuild.v1.BuildTrigger) {
+		option (google.api.method_signature) = "project_id,trigger_id";
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/triggers/{trigger_id}"
+		};
+
+	}
+	rpc ListBuildTriggers(google.devtools.cloudbuild.v1.ListBuildTriggersRequest) returns (google.devtools.cloudbuild.v1.ListBuildTriggersResponse) {
+		option (google.api.method_signature) = "project_id";
+		option (google.api.http) = {
+			get: "/v1/projects/{project_id}/triggers"
+		};
+
+	}
+	rpc DeleteBuildTrigger(google.devtools.cloudbuild.v1.DeleteBuildTriggerRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "project_id,trigger_id";
+		option (google.api.http) = {
+			delete: "/v1/projects/{project_id}/triggers/{trigger_id}"
+		};
+
+	}
+	rpc UpdateBuildTrigger(google.devtools.cloudbuild.v1.UpdateBuildTriggerRequest) returns (google.devtools.cloudbuild.v1.BuildTrigger) {
+		option (google.api.method_signature) = "project_id,trigger_id,trigger";
+		option (google.api.http) = {
+			patch: "/v1/projects/{project_id}/triggers/{trigger_id}"
+			body: "trigger"
+		};
+
+	}
+	rpc RunBuildTrigger(google.devtools.cloudbuild.v1.RunBuildTriggerRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "Build"
+			metadata_type: "BuildOperationMetadata"
+		};
+		option (google.api.method_signature) = "project_id,trigger_id,source";
+		option (google.api.http) = {
+			post: "/v1/projects/{project_id}/triggers/{trigger_id}:run"
+			body: "source"
+		};
+
+	}
+	rpc CreateWorkerPool(google.devtools.cloudbuild.v1.CreateWorkerPoolRequest) returns (google.devtools.cloudbuild.v1.WorkerPool) {}
+	rpc GetWorkerPool(google.devtools.cloudbuild.v1.GetWorkerPoolRequest) returns (google.devtools.cloudbuild.v1.WorkerPool) {}
+	rpc DeleteWorkerPool(google.devtools.cloudbuild.v1.DeleteWorkerPoolRequest) returns (google.protobuf.Empty) {}
+	rpc UpdateWorkerPool(google.devtools.cloudbuild.v1.UpdateWorkerPoolRequest) returns (google.devtools.cloudbuild.v1.WorkerPool) {}
+	rpc ListWorkerPools(google.devtools.cloudbuild.v1.ListWorkerPoolsRequest) returns (google.devtools.cloudbuild.v1.ListWorkerPoolsResponse) {}
+}
+
+message RetryBuildRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message RunBuildTriggerRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string trigger_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	RepoSource source = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message StorageSource {
+
+	string bucket = 1;
+	string object = 2;
+	int64 generation = 3;
+}
+
+message RepoSource {
+
+	string project_id = 1;
+	string repo_name = 2;
+	oneof revision {
+		string branch_name = 3;
+		string tag_name = 4;
+		string commit_sha = 5;
+	}
+	string dir = 7;
+	bool invert_regex = 8;
+	map<string, string> substitutions = 9;
+}
+
+message Source {
+
+	oneof source {
+		StorageSource storage_source = 2;
+		RepoSource repo_source = 3;
+	}
+}
+
+message BuiltImage {
+
+	string name = 1;
+	string digest = 3;
+	TimeSpan push_timing = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message BuildStep {
+
+	string name = 1;
+	repeated string env = 2;
+	repeated string args = 3;
+	string dir = 4;
+	string id = 5;
+	repeated string wait_for = 6;
+	string entrypoint = 7;
+	repeated string secret_env = 8;
+	repeated Volume volumes = 9;
+	TimeSpan timing = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	TimeSpan pull_timing = 13;
+	google.protobuf.Duration timeout = 11;
+	Status status = 12;
+}
+
+message Volume {
+
+	string name = 1;
+	string path = 2;
+}
+
+message Results {
+
+	repeated BuiltImage images = 2;
+	repeated string build_step_images = 3;
+	string artifact_manifest = 4;
+	int64 num_artifacts = 5;
+	repeated bytes build_step_outputs = 6;
+	TimeSpan artifact_timing = 7;
+}
+
+message ArtifactResult {
+
+	string location = 1;
+	repeated FileHashes file_hash = 2;
+}
+
+message Build {
+
+	enum Status {
+
+		STATUS_UNKNOWN = 0;
+		QUEUED = 1;
+		WORKING = 2;
+		SUCCESS = 3;
+		FAILURE = 4;
+		INTERNAL_ERROR = 5;
+		TIMEOUT = 6;
+		CANCELLED = 7;
+		EXPIRED = 9;
+	}
+
+	string id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string project_id = 16 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	Status status = 2;
+	string status_detail = 24;
+	Source source = 3;
+	repeated BuildStep steps = 11;
+	Results results = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp start_time = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp finish_time = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Duration timeout = 12;
+	repeated string images = 13;
+	google.protobuf.Duration queue_ttl = 40;
+	Artifacts artifacts = 37;
+	string logs_bucket = 19;
+	SourceProvenance source_provenance = 21;
+	string build_trigger_id = 22;
+	BuildOptions options = 23;
+	string log_url = 25 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	map<string, string> substitutions = 29;
+	repeated string tags = 31;
+	repeated Secret secrets = 32;
+	map<string, TimeSpan> timing = 33 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message Artifacts {
+
+	message ArtifactObjects {
+
+		string location = 1;
+		repeated string paths = 2;
+		TimeSpan timing = 3;
+	}
+
+	repeated string images = 1;
+	ArtifactObjects objects = 2;
+}
+
+message TimeSpan {
+
+	google.protobuf.Timestamp start_time = 1;
+	google.protobuf.Timestamp end_time = 2;
+}
+
+message BuildOperationMetadata {
+
+	Build build = 1;
+}
+
+message SourceProvenance {
+
+	StorageSource resolved_storage_source = 3;
+	RepoSource resolved_repo_source = 6;
+	map<string, FileHashes> file_hashes = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message FileHashes {
+
+	repeated Hash file_hash = 1;
+}
+
+message Hash {
+
+	enum HashType {
+
+		NONE = 0;
+		SHA256 = 1;
+		MD5 = 2;
+	}
+
+	HashType type = 1;
+	bytes value = 2;
+}
+
+message Secret {
+
+	string kms_key_name = 1;
+	map<string, bytes> secret_env = 3;
+}
+
+message CreateBuildRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	Build build = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetBuildRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListBuildsRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+	string filter = 8;
+}
+
+message ListBuildsResponse {
+
+	repeated Build builds = 1;
+	string next_page_token = 2;
+}
+
+message CancelBuildRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BuildTrigger {
+
+	string id = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string description = 10;
+	string name = 21;
+	repeated string tags = 19;
+	RepoSource trigger_template = 7;
+	GitHubEventsConfig github = 13;
+	oneof build_template {
+		Build build = 4;
+		string filename = 8;
+	}
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool disabled = 9;
+	map<string, string> substitutions = 11;
+	repeated string ignored_files = 15;
+	repeated string included_files = 16;
+}
+
+message GitHubEventsConfig {
+
+	int64 installation_id = 1 [
+		deprecated = true
+	];
+	string owner = 6;
+	string name = 7;
+	oneof event {
+		PullRequestFilter pull_request = 4;
+		PushFilter push = 5;
+	}
+}
+
+message PullRequestFilter {
+
+	enum CommentControl {
+
+		COMMENTS_DISABLED = 0;
+		COMMENTS_ENABLED = 1;
+	}
+
+	oneof git_ref {
+		string branch = 2;
+	}
+	CommentControl comment_control = 5;
+	bool invert_regex = 6;
+}
+
+message PushFilter {
+
+	oneof git_ref {
+		string branch = 2;
+		string tag = 3;
+	}
+	bool invert_regex = 4;
+}
+
+message CreateBuildTriggerRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	BuildTrigger trigger = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetBuildTriggerRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string trigger_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListBuildTriggersRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	int32 page_size = 2;
+	string page_token = 3;
+}
+
+message ListBuildTriggersResponse {
+
+	repeated BuildTrigger triggers = 1;
+	string next_page_token = 2;
+}
+
+message DeleteBuildTriggerRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string trigger_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateBuildTriggerRequest {
+
+	string project_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string trigger_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	BuildTrigger trigger = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message BuildOptions {
+
+	enum VerifyOption {
+
+		NOT_VERIFIED = 0;
+		VERIFIED = 1;
+	}
+
+	enum MachineType {
+
+		UNSPECIFIED = 0;
+		N1_HIGHCPU_8 = 1;
+		N1_HIGHCPU_32 = 2;
+	}
+
+	enum SubstitutionOption {
+
+		MUST_MATCH = 0;
+		ALLOW_LOOSE = 1;
+	}
+
+	enum LogStreamingOption {
+
+		STREAM_DEFAULT = 0;
+		STREAM_ON = 1;
+		STREAM_OFF = 2;
+	}
+
+	enum LoggingMode {
+
+		LOGGING_UNSPECIFIED = 0;
+		LEGACY = 1;
+		GCS_ONLY = 2;
+	}
+
+	repeated HashType source_provenance_hash = 1;
+	VerifyOption requested_verify_option = 2;
+	MachineType machine_type = 3;
+	int64 disk_size_gb = 6;
+	SubstitutionOption substitution_option = 4;
+	LogStreamingOption log_streaming_option = 5;
+	string worker_pool = 7;
+	LoggingMode logging = 11;
+	repeated string env = 12;
+	repeated string secret_env = 13;
+	repeated Volume volumes = 14;
+}
+
+message WorkerPool {
+
+	enum Region {
+
+		REGION_UNSPECIFIED = 0;
+		US_CENTRAL1 = 1;
+		US_WEST1 = 2;
+		US_EAST1 = 3;
+		US_EAST4 = 4;
+	}
+
+	enum Status {
+
+		STATUS_UNSPECIFIED = 0;
+		CREATING = 1;
+		RUNNING = 2;
+		DELETING = 3;
+		DELETED = 4;
+	}
+
+	string name = 14;
+	string project_id = 2;
+	string service_account_email = 3;
+	int64 worker_count = 4;
+	WorkerConfig worker_config = 16;
+	repeated Region regions = 9;
+	google.protobuf.Timestamp create_time = 11;
+	google.protobuf.Timestamp update_time = 17;
+	google.protobuf.Timestamp delete_time = 12;
+	Status status = 13;
+}
+
+message WorkerConfig {
+
+	string machine_type = 1;
+	int64 disk_size_gb = 2;
+	Network network = 3;
+	string tag = 4;
+}
+
+message Network {
+
+	string project_id = 1;
+	string network = 2;
+	string subnetwork = 3;
+}
+
+message CreateWorkerPoolRequest {
+
+	string parent = 1;
+	WorkerPool worker_pool = 2;
+}
+
+message GetWorkerPoolRequest {
+
+	string name = 1;
+}
+
+message DeleteWorkerPoolRequest {
+
+	string name = 1;
+}
+
+message UpdateWorkerPoolRequest {
+
+	string name = 2;
+	WorkerPool worker_pool = 3;
+}
+
+message ListWorkerPoolsRequest {
+
+	string parent = 1;
+}
+
+message ListWorkerPoolsResponse {
+
+	repeated WorkerPool worker_pools = 1;
+}

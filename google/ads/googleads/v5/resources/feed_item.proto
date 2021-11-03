@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.resources;
+
+import "google/ads/googleads/v5/common/custom_parameter.proto";
+import "google/ads/googleads/v5/common/feed_common.proto";
+import "google/ads/googleads/v5/common/policy.proto";
+import "google/ads/googleads/v5/enums/feed_item_quality_approval_status.proto";
+import "google/ads/googleads/v5/enums/feed_item_quality_disapproval_reason.proto";
+import "google/ads/googleads/v5/enums/feed_item_status.proto";
+import "google/ads/googleads/v5/enums/feed_item_validation_status.proto";
+import "google/ads/googleads/v5/enums/geo_targeting_restriction.proto";
+import "google/ads/googleads/v5/enums/placeholder_type.proto";
+import "google/ads/googleads/v5/enums/policy_approval_status.proto";
+import "google/ads/googleads/v5/enums/policy_review_status.proto";
+import "google/ads/googleads/v5/errors/feed_item_validation_error.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v5.resources";
+option java_outer_classname = "FeedItemProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/resources;resources";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Resources";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Resources";
+option ruby_package = "Google::Ads::GoogleAds::V5::Resources";
+
+
+message FeedItem {
+	option (google.api.resource) = {
+		type: "googleads.googleapis.com/FeedItem"
+		pattern: ["customers/{customer}/feedItems/{feed_item}"]
+	};
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/FeedItem"
+		}
+	];
+	google.protobuf.StringValue feed = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/Feed"
+		}
+	];
+	google.protobuf.Int64Value id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue start_date_time = 4;
+	google.protobuf.StringValue end_date_time = 5;
+	repeated FeedItemAttributeValue attribute_values = 6;
+	google.ads.googleads.v5.enums.GeoTargetingRestrictionEnum.GeoTargetingRestriction geo_targeting_restriction = 7;
+	repeated google.ads.googleads.v5.common.CustomParameter url_custom_parameters = 8;
+	google.ads.googleads.v5.enums.FeedItemStatusEnum.FeedItemStatus status = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated FeedItemPlaceholderPolicyInfo policy_infos = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message FeedItemAttributeValue {
+
+	google.protobuf.Int64Value feed_attribute_id = 1;
+	google.protobuf.Int64Value integer_value = 2;
+	google.protobuf.BoolValue boolean_value = 3;
+	google.protobuf.StringValue string_value = 4;
+	google.protobuf.DoubleValue double_value = 5;
+	google.ads.googleads.v5.common.Money price_value = 6;
+	repeated google.protobuf.Int64Value integer_values = 7;
+	repeated google.protobuf.BoolValue boolean_values = 8;
+	repeated google.protobuf.StringValue string_values = 9;
+	repeated google.protobuf.DoubleValue double_values = 10;
+}
+
+message FeedItemPlaceholderPolicyInfo {
+
+	google.ads.googleads.v5.enums.PlaceholderTypeEnum.PlaceholderType placeholder_type_enum = 10 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue feed_mapping_resource_name = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v5.enums.PolicyReviewStatusEnum.PolicyReviewStatus review_status = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v5.enums.PolicyApprovalStatusEnum.PolicyApprovalStatus approval_status = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.ads.googleads.v5.common.PolicyTopicEntry policy_topic_entries = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v5.enums.FeedItemValidationStatusEnum.FeedItemValidationStatus validation_status = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated FeedItemValidationError validation_errors = 7 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.ads.googleads.v5.enums.FeedItemQualityApprovalStatusEnum.FeedItemQualityApprovalStatus quality_approval_status = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.ads.googleads.v5.enums.FeedItemQualityDisapprovalReasonEnum.FeedItemQualityDisapprovalReason quality_disapproval_reasons = 9 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message FeedItemValidationError {
+
+	google.ads.googleads.v5.errors.FeedItemValidationErrorEnum.FeedItemValidationError validation_error = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue description = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	repeated google.protobuf.Int64Value feed_attribute_ids = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.StringValue extra_info = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

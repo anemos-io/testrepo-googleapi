@@ -1,0 +1,150 @@
+syntax = "proto3";
+
+package google.cloud.recommendationengine.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/recommendationengine/v1beta1/catalog.proto";
+import "google/cloud/recommendationengine/v1beta1/import.proto";
+import "google/cloud/recommendationengine/v1beta1/recommendationengine_resources.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.recommendationengine.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/recommendationengine/v1beta1;recommendationengine";
+option objc_class_prefix = "RECAI";
+option csharp_namespace = "Google.Cloud.RecommendationEngine.V1Beta1";
+option php_namespace = "Google\\Cloud\\RecommendationEngine\\V1beta1";
+option ruby_package = "Google::Cloud::RecommendationEngine::V1beta1";
+
+
+service CatalogService {
+	option (google.api.default_host) = "recommendationengine.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateCatalogItem(google.cloud.recommendationengine.v1beta1.CreateCatalogItemRequest) returns (google.cloud.recommendationengine.v1beta1.CatalogItem) {
+		option (google.api.method_signature) = "parent,catalog_item";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/catalogs/*}/catalogItems"
+			body: "catalog_item"
+		};
+
+	}
+	rpc GetCatalogItem(google.cloud.recommendationengine.v1beta1.GetCatalogItemRequest) returns (google.cloud.recommendationengine.v1beta1.CatalogItem) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1beta1/{name=projects/*/locations/*/catalogs/*/catalogItems/**}"
+		};
+
+	}
+	rpc ListCatalogItems(google.cloud.recommendationengine.v1beta1.ListCatalogItemsRequest) returns (google.cloud.recommendationengine.v1beta1.ListCatalogItemsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1beta1/{parent=projects/*/locations/*/catalogs/*}/catalogItems"
+		};
+
+	}
+	rpc UpdateCatalogItem(google.cloud.recommendationengine.v1beta1.UpdateCatalogItemRequest) returns (google.cloud.recommendationengine.v1beta1.CatalogItem) {
+		option (google.api.method_signature) = "name,catalog_item,update_mask";
+		option (google.api.http) = {
+			patch: "/v1beta1/{name=projects/*/locations/*/catalogs/*/catalogItems/**}"
+			body: "catalog_item"
+		};
+
+	}
+	rpc DeleteCatalogItem(google.cloud.recommendationengine.v1beta1.DeleteCatalogItemRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1beta1/{name=projects/*/locations/*/catalogs/*/catalogItems/**}"
+		};
+
+	}
+	rpc ImportCatalogItems(google.cloud.recommendationengine.v1beta1.ImportCatalogItemsRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.cloud.recommendationengine.v1beta1.ImportCatalogItemsResponse"
+			metadata_type: "google.cloud.recommendationengine.v1beta1.ImportMetadata"
+		};
+		option (google.api.method_signature) = "parent,request_id,input_config,errors_config";
+		option (google.api.http) = {
+			post: "/v1beta1/{parent=projects/*/locations/*/catalogs/*}/catalogItems:import"
+			body: "*"
+		};
+
+	}
+}
+
+message CreateCatalogItemRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/Catalog"
+		}
+	];
+	google.cloud.recommendationengine.v1beta1.CatalogItem catalog_item = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetCatalogItemRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/CatalogItemPath"
+		}
+	];
+}
+
+message ListCatalogItemsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/Catalog"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListCatalogItemsResponse {
+
+	repeated google.cloud.recommendationengine.v1beta1.CatalogItem catalog_items = 1;
+	string next_page_token = 2;
+}
+
+message UpdateCatalogItemRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/CatalogItemPath"
+		}
+	];
+	google.cloud.recommendationengine.v1beta1.CatalogItem catalog_item = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteCatalogItemRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "recommendationengine.googleapis.com/CatalogItemPath"
+		}
+	];
+}

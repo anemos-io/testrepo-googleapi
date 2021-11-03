@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.errors";
+option java_outer_classname = "AssetErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V2::Errors";
+
+
+message AssetErrorEnum {
+
+	enum AssetError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		CUSTOMER_NOT_WHITELISTED_FOR_ASSET_TYPE = 2;
+		DUPLICATE_ASSET = 3;
+		DUPLICATE_ASSET_NAME = 4;
+		ASSET_DATA_IS_MISSING = 5;
+		CANNOT_MODIFY_ASSET_NAME = 6;
+	}
+
+}

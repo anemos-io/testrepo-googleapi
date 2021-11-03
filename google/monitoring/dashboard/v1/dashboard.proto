@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package google.monitoring.dashboard.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/monitoring/dashboard/v1/layouts.proto";
+
+option java_package = "com.google.monitoring.dashboard.v1";
+option java_outer_classname = "DashboardsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/monitoring/dashboard/v1;dashboard";
+option ruby_package = "Google::Cloud::Monitoring::Dashboard::V1";
+
+
+message Dashboard {
+	option (google.api.resource) = {
+		type: "monitoring.googleapis.com/Dashboard"
+		pattern: ["projects/{project}/dashboards/{dashboard}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string display_name = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string etag = 4;
+	oneof layout {
+		google.monitoring.dashboard.v1.GridLayout grid_layout = 5;
+		google.monitoring.dashboard.v1.RowLayout row_layout = 8;
+		google.monitoring.dashboard.v1.ColumnLayout column_layout = 9;
+	}
+}

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.errors;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.errors";
+option java_outer_classname = "MutateJobErrorProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/errors;errors";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Errors";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Errors";
+option ruby_package = "Google::Ads::GoogleAds::V2::Errors";
+
+
+message MutateJobErrorEnum {
+
+	enum MutateJobError {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		CANNOT_MODIFY_JOB_AFTER_JOB_STARTS_RUNNING = 2;
+		EMPTY_OPERATIONS = 3;
+		INVALID_SEQUENCE_TOKEN = 4;
+		RESULTS_NOT_READY = 5;
+		INVALID_PAGE_SIZE = 6;
+	}
+
+}

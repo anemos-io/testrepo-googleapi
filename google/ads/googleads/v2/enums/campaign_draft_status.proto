@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package google.ads.googleads.v2.enums;
+
+import "google/api/annotations.proto";
+
+option java_package = "com.google.ads.googleads.v2.enums";
+option java_outer_classname = "CampaignDraftStatusProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v2/enums;enums";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V2.Enums";
+option php_namespace = "Google\\Ads\\GoogleAds\\V2\\Enums";
+option ruby_package = "Google::Ads::GoogleAds::V2::Enums";
+
+
+message CampaignDraftStatusEnum {
+
+	enum CampaignDraftStatus {
+
+		UNSPECIFIED = 0;
+		UNKNOWN = 1;
+		PROPOSED = 2;
+		REMOVED = 3;
+		PROMOTING = 5;
+		PROMOTED = 4;
+		PROMOTE_FAILED = 6;
+	}
+
+}

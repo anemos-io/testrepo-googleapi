@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.cloud.automl.v1beta1;
+
+import "google/api/resource.proto";
+import "google/cloud/automl/v1beta1/image.proto";
+import "google/cloud/automl/v1beta1/tables.proto";
+import "google/cloud/automl/v1beta1/text.proto";
+import "google/cloud/automl/v1beta1/translation.proto";
+import "google/cloud/automl/v1beta1/video.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.cloud.automl.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/automl/v1beta1;automl";
+option php_namespace = "Google\\Cloud\\AutoMl\\V1beta1";
+option ruby_package = "Google::Cloud::AutoML::V1beta1";
+
+
+message Dataset {
+	option (google.api.resource) = {
+		type: "automl.googleapis.com/Dataset"
+		pattern: ["projects/{project}/locations/{location}/datasets/{dataset}"]
+	};
+
+	oneof dataset_metadata {
+		google.cloud.automl.v1beta1.TranslationDatasetMetadata translation_dataset_metadata = 23;
+		google.cloud.automl.v1beta1.ImageClassificationDatasetMetadata image_classification_dataset_metadata = 24;
+		google.cloud.automl.v1beta1.TextClassificationDatasetMetadata text_classification_dataset_metadata = 25;
+		google.cloud.automl.v1beta1.ImageObjectDetectionDatasetMetadata image_object_detection_dataset_metadata = 26;
+		google.cloud.automl.v1beta1.VideoClassificationDatasetMetadata video_classification_dataset_metadata = 31;
+		google.cloud.automl.v1beta1.VideoObjectTrackingDatasetMetadata video_object_tracking_dataset_metadata = 29;
+		google.cloud.automl.v1beta1.TextExtractionDatasetMetadata text_extraction_dataset_metadata = 28;
+		google.cloud.automl.v1beta1.TextSentimentDatasetMetadata text_sentiment_dataset_metadata = 30;
+		google.cloud.automl.v1beta1.TablesDatasetMetadata tables_dataset_metadata = 33;
+	}
+	string name = 1;
+	string display_name = 2;
+	string description = 3;
+	int32 example_count = 21;
+	google.protobuf.Timestamp create_time = 14;
+	string etag = 17;
+}

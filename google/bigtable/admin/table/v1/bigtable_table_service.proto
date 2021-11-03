@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package google.bigtable.admin.table.v1;
+
+import "google/api/annotations.proto";
+import "google/bigtable/admin/table/v1/bigtable_table_data.proto";
+import "google/bigtable/admin/table/v1/bigtable_table_service_messages.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.google.bigtable.admin.table.v1";
+option java_outer_classname = "BigtableTableServicesProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/bigtable/admin/table/v1;table";
+
+
+service BigtableTableService {
+
+	rpc CreateTable(google.bigtable.admin.table.v1.CreateTableRequest) returns (google.bigtable.admin.table.v1.Table) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/zones/*/clusters/*}/tables"
+			body: "*"
+		};
+
+	}
+	rpc ListTables(google.bigtable.admin.table.v1.ListTablesRequest) returns (google.bigtable.admin.table.v1.ListTablesResponse) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/zones/*/clusters/*}/tables"
+		};
+
+	}
+	rpc GetTable(google.bigtable.admin.table.v1.GetTableRequest) returns (google.bigtable.admin.table.v1.Table) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/zones/*/clusters/*/tables/*}"
+		};
+
+	}
+	rpc DeleteTable(google.bigtable.admin.table.v1.DeleteTableRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/zones/*/clusters/*/tables/*}"
+		};
+
+	}
+	rpc RenameTable(google.bigtable.admin.table.v1.RenameTableRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/zones/*/clusters/*/tables/*}:rename"
+			body: "*"
+		};
+
+	}
+	rpc CreateColumnFamily(google.bigtable.admin.table.v1.CreateColumnFamilyRequest) returns (google.bigtable.admin.table.v1.ColumnFamily) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/zones/*/clusters/*/tables/*}/columnFamilies"
+			body: "*"
+		};
+
+	}
+	rpc UpdateColumnFamily(google.bigtable.admin.table.v1.ColumnFamily) returns (google.bigtable.admin.table.v1.ColumnFamily) {
+		option (google.api.http) = {
+			put: "/v1/{name=projects/*/zones/*/clusters/*/tables/*/columnFamilies/*}"
+			body: "*"
+		};
+
+	}
+	rpc DeleteColumnFamily(google.bigtable.admin.table.v1.DeleteColumnFamilyRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/zones/*/clusters/*/tables/*/columnFamilies/*}"
+		};
+
+	}
+	rpc BulkDeleteRows(google.bigtable.admin.table.v1.BulkDeleteRowsRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/{table_name=projects/*/zones/*/clusters/*/tables/*}:bulkDeleteRows"
+			body: "*"
+		};
+
+	}
+}

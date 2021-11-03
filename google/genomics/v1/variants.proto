@@ -1,0 +1,404 @@
+syntax = "proto3";
+
+package google.genomics.v1;
+
+import "google/api/annotations.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+
+option java_package = "com.google.genomics.v1";
+option java_outer_classname = "VariantsProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/genomics/v1;genomics";
+option cc_enable_arenas = true;
+
+
+enum InfoMergeOperation {
+
+	INFO_MERGE_OPERATION_UNSPECIFIED = 0;
+	IGNORE_NEW = 1;
+	MOVE_TO_CALLS = 2;
+}
+
+service StreamingVariantService {
+
+	rpc StreamVariants(google.genomics.v1.StreamVariantsRequest) returns (stream google.genomics.v1.StreamVariantsResponse) {
+		option (google.api.http) = {
+			post: "/v1/variants:stream"
+			body: "*"
+		};
+
+	}
+}
+
+service VariantServiceV1 {
+
+	rpc ImportVariants(google.genomics.v1.ImportVariantsRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1/variants:import"
+			body: "*"
+		};
+
+	}
+	rpc CreateVariantSet(google.genomics.v1.CreateVariantSetRequest) returns (google.genomics.v1.VariantSet) {
+		option (google.api.http) = {
+			post: "/v1/variantsets"
+			body: "variant_set"
+		};
+
+	}
+	rpc ExportVariantSet(google.genomics.v1.ExportVariantSetRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1/variantsets/{variant_set_id}:export"
+			body: "*"
+		};
+
+	}
+	rpc GetVariantSet(google.genomics.v1.GetVariantSetRequest) returns (google.genomics.v1.VariantSet) {
+		option (google.api.http) = {
+			get: "/v1/variantsets/{variant_set_id}"
+		};
+
+	}
+	rpc SearchVariantSets(google.genomics.v1.SearchVariantSetsRequest) returns (google.genomics.v1.SearchVariantSetsResponse) {
+		option (google.api.http) = {
+			post: "/v1/variantsets/search"
+			body: "*"
+		};
+
+	}
+	rpc DeleteVariantSet(google.genomics.v1.DeleteVariantSetRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/variantsets/{variant_set_id}"
+		};
+
+	}
+	rpc UpdateVariantSet(google.genomics.v1.UpdateVariantSetRequest) returns (google.genomics.v1.VariantSet) {
+		option (google.api.http) = {
+			patch: "/v1/variantsets/{variant_set_id}"
+			body: "variant_set"
+		};
+
+	}
+	rpc SearchVariants(google.genomics.v1.SearchVariantsRequest) returns (google.genomics.v1.SearchVariantsResponse) {
+		option (google.api.http) = {
+			post: "/v1/variants/search"
+			body: "*"
+		};
+
+	}
+	rpc CreateVariant(google.genomics.v1.CreateVariantRequest) returns (google.genomics.v1.Variant) {
+		option (google.api.http) = {
+			post: "/v1/variants"
+			body: "variant"
+		};
+
+	}
+	rpc UpdateVariant(google.genomics.v1.UpdateVariantRequest) returns (google.genomics.v1.Variant) {
+		option (google.api.http) = {
+			patch: "/v1/variants/{variant_id}"
+			body: "variant"
+		};
+
+	}
+	rpc DeleteVariant(google.genomics.v1.DeleteVariantRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/variants/{variant_id}"
+		};
+
+	}
+	rpc GetVariant(google.genomics.v1.GetVariantRequest) returns (google.genomics.v1.Variant) {
+		option (google.api.http) = {
+			get: "/v1/variants/{variant_id}"
+		};
+
+	}
+	rpc MergeVariants(google.genomics.v1.MergeVariantsRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			post: "/v1/variants:merge"
+			body: "*"
+		};
+
+	}
+	rpc SearchCallSets(google.genomics.v1.SearchCallSetsRequest) returns (google.genomics.v1.SearchCallSetsResponse) {
+		option (google.api.http) = {
+			post: "/v1/callsets/search"
+			body: "*"
+		};
+
+	}
+	rpc CreateCallSet(google.genomics.v1.CreateCallSetRequest) returns (google.genomics.v1.CallSet) {
+		option (google.api.http) = {
+			post: "/v1/callsets"
+			body: "call_set"
+		};
+
+	}
+	rpc UpdateCallSet(google.genomics.v1.UpdateCallSetRequest) returns (google.genomics.v1.CallSet) {
+		option (google.api.http) = {
+			patch: "/v1/callsets/{call_set_id}"
+			body: "call_set"
+		};
+
+	}
+	rpc DeleteCallSet(google.genomics.v1.DeleteCallSetRequest) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/callsets/{call_set_id}"
+		};
+
+	}
+	rpc GetCallSet(google.genomics.v1.GetCallSetRequest) returns (google.genomics.v1.CallSet) {
+		option (google.api.http) = {
+			get: "/v1/callsets/{call_set_id}"
+		};
+
+	}
+}
+
+message VariantSetMetadata {
+
+	enum Type {
+
+		TYPE_UNSPECIFIED = 0;
+		INTEGER = 1;
+		FLOAT = 2;
+		FLAG = 3;
+		CHARACTER = 4;
+		STRING = 5;
+	}
+
+	string key = 1;
+	string value = 2;
+	string id = 4;
+	Type type = 5;
+	string number = 8;
+	string description = 7;
+	map<string, google.protobuf.ListValue> info = 3;
+}
+
+message VariantSet {
+
+	string dataset_id = 1;
+	string id = 2;
+	string reference_set_id = 6;
+	repeated ReferenceBound reference_bounds = 5;
+	repeated VariantSetMetadata metadata = 4;
+	string name = 7;
+	string description = 8;
+}
+
+message Variant {
+
+	string variant_set_id = 15;
+	string id = 2;
+	repeated string names = 3;
+	int64 created = 12;
+	string reference_name = 14;
+	int64 start = 16;
+	int64 end = 13;
+	string reference_bases = 6;
+	repeated string alternate_bases = 7;
+	double quality = 8;
+	repeated string filter = 9;
+	map<string, google.protobuf.ListValue> info = 10;
+	repeated VariantCall calls = 11;
+}
+
+message VariantCall {
+
+	string call_set_id = 8;
+	string call_set_name = 9;
+	repeated int32 genotype = 7;
+	string phaseset = 5;
+	repeated double genotype_likelihood = 6;
+	map<string, google.protobuf.ListValue> info = 2;
+}
+
+message CallSet {
+
+	string id = 1;
+	string name = 2;
+	string sample_id = 7;
+	repeated string variant_set_ids = 6;
+	int64 created = 5;
+	map<string, google.protobuf.ListValue> info = 4;
+}
+
+message ReferenceBound {
+
+	string reference_name = 1;
+	int64 upper_bound = 2;
+}
+
+message ImportVariantsRequest {
+
+	enum Format {
+
+		FORMAT_UNSPECIFIED = 0;
+		FORMAT_VCF = 1;
+		FORMAT_COMPLETE_GENOMICS = 2;
+	}
+
+	string variant_set_id = 1;
+	repeated string source_uris = 2;
+	Format format = 3;
+	bool normalize_reference_names = 5;
+	map<string, InfoMergeOperation> info_merge_config = 6;
+}
+
+message ImportVariantsResponse {
+
+	repeated string call_set_ids = 1;
+}
+
+message CreateVariantSetRequest {
+
+	VariantSet variant_set = 1;
+}
+
+message ExportVariantSetRequest {
+
+	enum Format {
+
+		FORMAT_UNSPECIFIED = 0;
+		FORMAT_BIGQUERY = 1;
+	}
+
+	string variant_set_id = 1;
+	repeated string call_set_ids = 2;
+	string project_id = 3;
+	Format format = 4;
+	string bigquery_dataset = 5;
+	string bigquery_table = 6;
+}
+
+message GetVariantSetRequest {
+
+	string variant_set_id = 1;
+}
+
+message SearchVariantSetsRequest {
+
+	repeated string dataset_ids = 1;
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message SearchVariantSetsResponse {
+
+	repeated VariantSet variant_sets = 1;
+	string next_page_token = 2;
+}
+
+message DeleteVariantSetRequest {
+
+	string variant_set_id = 1;
+}
+
+message UpdateVariantSetRequest {
+
+	string variant_set_id = 1;
+	VariantSet variant_set = 2;
+	google.protobuf.FieldMask update_mask = 5;
+}
+
+message SearchVariantsRequest {
+
+	repeated string variant_set_ids = 1;
+	string variant_name = 2;
+	repeated string call_set_ids = 3;
+	string reference_name = 4;
+	int64 start = 5;
+	int64 end = 6;
+	string page_token = 7;
+	int32 page_size = 8;
+	int32 max_calls = 9;
+}
+
+message SearchVariantsResponse {
+
+	repeated Variant variants = 1;
+	string next_page_token = 2;
+}
+
+message CreateVariantRequest {
+
+	Variant variant = 1;
+}
+
+message UpdateVariantRequest {
+
+	string variant_id = 1;
+	Variant variant = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteVariantRequest {
+
+	string variant_id = 1;
+}
+
+message GetVariantRequest {
+
+	string variant_id = 1;
+}
+
+message MergeVariantsRequest {
+
+	string variant_set_id = 1;
+	repeated Variant variants = 2;
+	map<string, InfoMergeOperation> info_merge_config = 3;
+}
+
+message SearchCallSetsRequest {
+
+	repeated string variant_set_ids = 1;
+	string name = 2;
+	string page_token = 3;
+	int32 page_size = 4;
+}
+
+message SearchCallSetsResponse {
+
+	repeated CallSet call_sets = 1;
+	string next_page_token = 2;
+}
+
+message CreateCallSetRequest {
+
+	CallSet call_set = 1;
+}
+
+message UpdateCallSetRequest {
+
+	string call_set_id = 1;
+	CallSet call_set = 2;
+	google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteCallSetRequest {
+
+	string call_set_id = 1;
+}
+
+message GetCallSetRequest {
+
+	string call_set_id = 1;
+}
+
+message StreamVariantsRequest {
+
+	string project_id = 1;
+	string variant_set_id = 2;
+	repeated string call_set_ids = 3;
+	string reference_name = 4;
+	int64 start = 5;
+	int64 end = 6;
+}
+
+message StreamVariantsResponse {
+
+	repeated Variant variants = 1;
+}

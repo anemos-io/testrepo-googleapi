@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/devtools/resultstore/v2/common.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+message Configuration {
+
+	message Id {
+
+		string invocation_id = 1;
+		string configuration_id = 2;
+	}
+
+	string name = 1;
+	Id id = 2;
+	google.devtools.resultstore.v2.StatusAttributes status_attributes = 3;
+	ConfigurationAttributes configuration_attributes = 5;
+	repeated google.devtools.resultstore.v2.Property properties = 6;
+	string display_name = 8;
+}
+
+message ConfigurationAttributes {
+
+	string cpu = 1;
+}

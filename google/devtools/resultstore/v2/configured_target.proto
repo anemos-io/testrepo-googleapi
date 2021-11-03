@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/devtools/resultstore/v2/common.proto";
+import "google/devtools/resultstore/v2/file.proto";
+import "google/protobuf/duration.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+message ConfiguredTarget {
+
+	message Id {
+
+		string invocation_id = 1;
+		string target_id = 2;
+		string configuration_id = 3;
+	}
+
+	string name = 1;
+	Id id = 2;
+	google.devtools.resultstore.v2.StatusAttributes status_attributes = 3;
+	google.devtools.resultstore.v2.Timing timing = 4;
+	ConfiguredTestAttributes test_attributes = 6;
+	repeated google.devtools.resultstore.v2.Property properties = 7;
+	repeated google.devtools.resultstore.v2.File files = 8;
+}
+
+message ConfiguredTestAttributes {
+
+	int32 total_run_count = 2;
+	int32 total_shard_count = 3;
+	google.protobuf.Duration timeout_duration = 5;
+}

@@ -1,0 +1,697 @@
+syntax = "proto3";
+
+package google.logging.v2;
+
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.logging.v2";
+option java_outer_classname = "LoggingConfigProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/logging/v2;logging";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Logging.V2";
+option php_namespace = "Google\\Cloud\\Logging\\V2";
+option ruby_package = "Google::Cloud::Logging::V2";
+option (google.api.resource_definition) = {
+	type: "logging.googleapis.com/OrganizationLocation"
+	pattern: ["organizations/{organization}/locations/{location}"]
+};
+option (google.api.resource_definition) = {
+	type: "logging.googleapis.com/FolderLocation"
+	pattern: ["folders/{folder}/locations/{location}"]
+};
+option (google.api.resource_definition) = {
+	type: "logging.googleapis.com/BillingAccountLocation"
+	pattern: ["billingAccounts/{billing_account}/locations/{location}"]
+};
+
+
+enum LifecycleState {
+
+	LIFECYCLE_STATE_UNSPECIFIED = 0;
+	ACTIVE = 1;
+	DELETE_REQUESTED = 2;
+}
+
+service ConfigServiceV2 {
+	option (google.api.default_host) = "logging.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/logging.admin,https://www.googleapis.com/auth/logging.read";
+
+	rpc ListBuckets(google.logging.v2.ListBucketsRequest) returns (google.logging.v2.ListBucketsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=*/*/locations/*}/buckets"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*/locations/*}/buckets"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=organizations/*/locations/*}/buckets"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=folders/*/locations/*}/buckets"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=billingAccounts/*/locations/*}/buckets"
+			}
+		};
+
+	}
+	rpc GetBucket(google.logging.v2.GetBucketRequest) returns (google.logging.v2.LogBucket) {
+		option (google.api.http) = {
+			get: "/v2/{name=*/*/locations/*/buckets/*}"
+			additional_bindings: {
+				get: "/v2/{name=projects/*/locations/*/buckets/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=organizations/*/locations/*/buckets/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=folders/*/locations/*/buckets/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=billingAccounts/*/buckets/*}"
+			}
+		};
+
+	}
+	rpc UpdateBucket(google.logging.v2.UpdateBucketRequest) returns (google.logging.v2.LogBucket) {
+		option (google.api.http) = {
+			patch: "/v2/{name=*/*/locations/*/buckets/*}"
+			body: "bucket"
+			additional_bindings: {
+				patch: "/v2/{name=projects/*/locations/*/buckets/*}"
+				body: "bucket"
+			}
+			additional_bindings: {
+				patch: "/v2/{name=organizations/*/locations/*/buckets/*}"
+				body: "bucket"
+			}
+			additional_bindings: {
+				patch: "/v2/{name=folders/*/locations/*/buckets/*}"
+				body: "bucket"
+			}
+			additional_bindings: {
+				patch: "/v2/{name=billingAccounts/*/locations/*/buckets/*}"
+				body: "bucket"
+			}
+		};
+
+	}
+	rpc ListSinks(google.logging.v2.ListSinksRequest) returns (google.logging.v2.ListSinksResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=*/*}/sinks"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*}/sinks"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=organizations/*}/sinks"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=folders/*}/sinks"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=billingAccounts/*}/sinks"
+			}
+		};
+
+	}
+	rpc GetSink(google.logging.v2.GetSinkRequest) returns (google.logging.v2.LogSink) {
+		option (google.api.method_signature) = "sink_name";
+		option (google.api.http) = {
+			get: "/v2/{sink_name=*/*/sinks/*}"
+			additional_bindings: {
+				get: "/v2/{sink_name=projects/*/sinks/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{sink_name=organizations/*/sinks/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{sink_name=folders/*/sinks/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{sink_name=billingAccounts/*/sinks/*}"
+			}
+		};
+
+	}
+	rpc CreateSink(google.logging.v2.CreateSinkRequest) returns (google.logging.v2.LogSink) {
+		option (google.api.method_signature) = "parent,sink";
+		option (google.api.http) = {
+			post: "/v2/{parent=*/*}/sinks"
+			body: "sink"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*}/sinks"
+				body: "sink"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=organizations/*}/sinks"
+				body: "sink"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=folders/*}/sinks"
+				body: "sink"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=billingAccounts/*}/sinks"
+				body: "sink"
+			}
+		};
+
+	}
+	rpc UpdateSink(google.logging.v2.UpdateSinkRequest) returns (google.logging.v2.LogSink) {
+		option (google.api.method_signature) = "sink_name,sink,update_mask";
+		option (google.api.method_signature) = "sink_name,sink";
+		option (google.api.http) = {
+			put: "/v2/{sink_name=*/*/sinks/*}"
+			body: "sink"
+			additional_bindings: {
+				put: "/v2/{sink_name=projects/*/sinks/*}"
+				body: "sink"
+			}
+			additional_bindings: {
+				put: "/v2/{sink_name=organizations/*/sinks/*}"
+				body: "sink"
+			}
+			additional_bindings: {
+				put: "/v2/{sink_name=folders/*/sinks/*}"
+				body: "sink"
+			}
+			additional_bindings: {
+				put: "/v2/{sink_name=billingAccounts/*/sinks/*}"
+				body: "sink"
+			}
+			additional_bindings: {
+				patch: "/v2/{sink_name=projects/*/sinks/*}"
+				body: "sink"
+			}
+			additional_bindings: {
+				patch: "/v2/{sink_name=organizations/*/sinks/*}"
+				body: "sink"
+			}
+			additional_bindings: {
+				patch: "/v2/{sink_name=folders/*/sinks/*}"
+				body: "sink"
+			}
+			additional_bindings: {
+				patch: "/v2/{sink_name=billingAccounts/*/sinks/*}"
+				body: "sink"
+			}
+		};
+
+	}
+	rpc DeleteSink(google.logging.v2.DeleteSinkRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "sink_name";
+		option (google.api.http) = {
+			delete: "/v2/{sink_name=*/*/sinks/*}"
+			additional_bindings: {
+				delete: "/v2/{sink_name=projects/*/sinks/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{sink_name=organizations/*/sinks/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{sink_name=folders/*/sinks/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{sink_name=billingAccounts/*/sinks/*}"
+			}
+		};
+
+	}
+	rpc ListExclusions(google.logging.v2.ListExclusionsRequest) returns (google.logging.v2.ListExclusionsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=*/*}/exclusions"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*}/exclusions"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=organizations/*}/exclusions"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=folders/*}/exclusions"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=billingAccounts/*}/exclusions"
+			}
+		};
+
+	}
+	rpc GetExclusion(google.logging.v2.GetExclusionRequest) returns (google.logging.v2.LogExclusion) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v2/{name=*/*/exclusions/*}"
+			additional_bindings: {
+				get: "/v2/{name=projects/*/exclusions/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=organizations/*/exclusions/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=folders/*/exclusions/*}"
+			}
+			additional_bindings: {
+				get: "/v2/{name=billingAccounts/*/exclusions/*}"
+			}
+		};
+
+	}
+	rpc CreateExclusion(google.logging.v2.CreateExclusionRequest) returns (google.logging.v2.LogExclusion) {
+		option (google.api.method_signature) = "parent,exclusion";
+		option (google.api.http) = {
+			post: "/v2/{parent=*/*}/exclusions"
+			body: "exclusion"
+			additional_bindings: {
+				post: "/v2/{parent=projects/*}/exclusions"
+				body: "exclusion"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=organizations/*}/exclusions"
+				body: "exclusion"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=folders/*}/exclusions"
+				body: "exclusion"
+			}
+			additional_bindings: {
+				post: "/v2/{parent=billingAccounts/*}/exclusions"
+				body: "exclusion"
+			}
+		};
+
+	}
+	rpc UpdateExclusion(google.logging.v2.UpdateExclusionRequest) returns (google.logging.v2.LogExclusion) {
+		option (google.api.method_signature) = "name,exclusion,update_mask";
+		option (google.api.http) = {
+			patch: "/v2/{name=*/*/exclusions/*}"
+			body: "exclusion"
+			additional_bindings: {
+				patch: "/v2/{name=projects/*/exclusions/*}"
+				body: "exclusion"
+			}
+			additional_bindings: {
+				patch: "/v2/{name=organizations/*/exclusions/*}"
+				body: "exclusion"
+			}
+			additional_bindings: {
+				patch: "/v2/{name=folders/*/exclusions/*}"
+				body: "exclusion"
+			}
+			additional_bindings: {
+				patch: "/v2/{name=billingAccounts/*/exclusions/*}"
+				body: "exclusion"
+			}
+		};
+
+	}
+	rpc DeleteExclusion(google.logging.v2.DeleteExclusionRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v2/{name=*/*/exclusions/*}"
+			additional_bindings: {
+				delete: "/v2/{name=projects/*/exclusions/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{name=organizations/*/exclusions/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{name=folders/*/exclusions/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{name=billingAccounts/*/exclusions/*}"
+			}
+		};
+
+	}
+	rpc GetCmekSettings(google.logging.v2.GetCmekSettingsRequest) returns (google.logging.v2.CmekSettings) {
+		option (google.api.http) = {
+			get: "/v2/{name=*/*}/cmekSettings"
+			additional_bindings: {
+				get: "/v2/{name=organizations/*}/cmekSettings"
+			}
+		};
+
+	}
+	rpc UpdateCmekSettings(google.logging.v2.UpdateCmekSettingsRequest) returns (google.logging.v2.CmekSettings) {
+		option (google.api.http) = {
+			patch: "/v2/{name=*/*}/cmekSettings"
+			body: "cmek_settings"
+			additional_bindings: {
+				patch: "/v2/{name=organizations/*}/cmekSettings"
+				body: "cmek_settings"
+			}
+		};
+
+	}
+}
+
+message LogBucket {
+	option (google.api.resource) = {
+		type: "logging.googleapis.com/LogBucket"
+		pattern: ["projects/{project}/locations/{location}/buckets/{bucket}","organizations/{organization}/locations/{location}/buckets/{bucket}","folders/{folder}/locations/{location}/buckets/{bucket}","billingAccounts/{billing_account}/locations/{location}/buckets/{bucket}"]
+	};
+
+	string name = 1;
+	string description = 3;
+	google.protobuf.Timestamp create_time = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	int32 retention_days = 11;
+	LifecycleState lifecycle_state = 12 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message LogSink {
+	option (google.api.resource) = {
+		type: "logging.googleapis.com/LogSink"
+		pattern: ["projects/{project}/sinks/{sink}","organizations/{organization}/sinks/{sink}","folders/{folder}/sinks/{sink}","billingAccounts/{billing_account}/sinks/{sink}"]
+	};
+
+	enum VersionFormat {
+
+		VERSION_FORMAT_UNSPECIFIED = 0;
+		V2 = 1;
+		V1 = 2;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string destination = 3 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "*"
+		}
+	];
+	string filter = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string description = 18 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool disabled = 19 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	VersionFormat output_version_format = 6 [
+		deprecated = true
+	];
+	string writer_identity = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	bool include_children = 9 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	oneof options {
+		BigQueryOptions bigquery_options = 12 [
+			(google.api.field_behavior) = OPTIONAL
+		];
+	}
+	google.protobuf.Timestamp create_time = 13 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 14 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message BigQueryOptions {
+
+	bool use_partitioned_tables = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool uses_timestamp_column_partitioning = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListBucketsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "logging.googleapis.com/LogBucket"
+		}
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListBucketsResponse {
+
+	repeated LogBucket buckets = 1;
+	string next_page_token = 2;
+}
+
+message UpdateBucketRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogBucket"
+		}
+	];
+	LogBucket bucket = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message GetBucketRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogBucket"
+		}
+	];
+}
+
+message ListSinksRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "logging.googleapis.com/LogSink"
+		}
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListSinksResponse {
+
+	repeated LogSink sinks = 1;
+	string next_page_token = 2;
+}
+
+message GetSinkRequest {
+
+	string sink_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogSink"
+		}
+	];
+}
+
+message CreateSinkRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "logging.googleapis.com/LogSink"
+		}
+	];
+	LogSink sink = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool unique_writer_identity = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message UpdateSinkRequest {
+
+	string sink_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogSink"
+		}
+	];
+	LogSink sink = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool unique_writer_identity = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.FieldMask update_mask = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message DeleteSinkRequest {
+
+	string sink_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogSink"
+		}
+	];
+}
+
+message LogExclusion {
+	option (google.api.resource) = {
+		type: "logging.googleapis.com/LogExclusion"
+		pattern: ["projects/{project}/exclusions/{exclusion}","organizations/{organization}/exclusions/{exclusion}","folders/{folder}/exclusions/{exclusion}","billingAccounts/{billing_account}/exclusions/{exclusion}"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string description = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string filter = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool disabled = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	google.protobuf.Timestamp create_time = 5 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp update_time = 6 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListExclusionsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "logging.googleapis.com/LogExclusion"
+		}
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListExclusionsResponse {
+
+	repeated LogExclusion exclusions = 1;
+	string next_page_token = 2;
+}
+
+message GetExclusionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogExclusion"
+		}
+	];
+}
+
+message CreateExclusionRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "logging.googleapis.com/LogExclusion"
+		}
+	];
+	LogExclusion exclusion = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message UpdateExclusionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogExclusion"
+		}
+	];
+	LogExclusion exclusion = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteExclusionRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/LogExclusion"
+		}
+	];
+}
+
+message GetCmekSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/CmekSettings"
+		}
+	];
+}
+
+message UpdateCmekSettingsRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	CmekSettings cmek_settings = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CmekSettings {
+	option (google.api.resource) = {
+		type: "logging.googleapis.com/CmekSettings"
+		pattern: ["projects/{project}/cmekSettings","organizations/{organization}/cmekSettings","folders/{folder}/cmekSettings","billingAccounts/{billing_account}/cmekSettings"]
+	};
+
+	string name = 1 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	string kms_key_name = 2;
+	string service_account_id = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}

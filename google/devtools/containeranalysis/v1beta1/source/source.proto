@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package grafeas.v1beta1.source;
+
+option java_package = "io.grafeas.v1beta1.source";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/source;source";
+option objc_class_prefix = "GRA";
+
+
+message SourceContext {
+
+	oneof context {
+		CloudRepoSourceContext cloud_repo = 1;
+		GerritSourceContext gerrit = 2;
+		GitSourceContext git = 3;
+	}
+	map<string, string> labels = 4;
+}
+
+message AliasContext {
+
+	enum Kind {
+
+		KIND_UNSPECIFIED = 0;
+		FIXED = 1;
+		MOVABLE = 2;
+		OTHER = 4;
+	}
+
+	Kind kind = 1;
+	string name = 2;
+}
+
+message CloudRepoSourceContext {
+
+	RepoId repo_id = 1;
+	oneof revision {
+		string revision_id = 2;
+		AliasContext alias_context = 3;
+	}
+}
+
+message GerritSourceContext {
+
+	string host_uri = 1;
+	string gerrit_project = 2;
+	oneof revision {
+		string revision_id = 3;
+		AliasContext alias_context = 4;
+	}
+}
+
+message GitSourceContext {
+
+	string url = 1;
+	string revision_id = 2;
+}
+
+message RepoId {
+
+	oneof id {
+		ProjectRepoId project_repo_id = 1;
+		string uid = 2;
+	}
+}
+
+message ProjectRepoId {
+
+	string project_id = 1;
+	string repo_name = 2;
+}

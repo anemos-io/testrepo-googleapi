@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package google.ads.googleads.v5.services;
+
+import "google/ads/googleads/v5/resources/merchant_center_link.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.ads.googleads.v5.services";
+option java_outer_classname = "MerchantCenterLinkServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/ads/googleads/v5/services;services";
+option objc_class_prefix = "GAA";
+option csharp_namespace = "Google.Ads.GoogleAds.V5.Services";
+option php_namespace = "Google\\Ads\\GoogleAds\\V5\\Services";
+option ruby_package = "Google::Ads::GoogleAds::V5::Services";
+
+
+service MerchantCenterLinkService {
+	option (google.api.default_host) = "googleads.googleapis.com";
+
+	rpc ListMerchantCenterLinks(google.ads.googleads.v5.services.ListMerchantCenterLinksRequest) returns (google.ads.googleads.v5.services.ListMerchantCenterLinksResponse) {
+		option (google.api.method_signature) = "customer_id";
+		option (google.api.http) = {
+			get: "/v5/customers/{customer_id=*}/merchantCenterLinks"
+		};
+
+	}
+	rpc GetMerchantCenterLink(google.ads.googleads.v5.services.GetMerchantCenterLinkRequest) returns (google.ads.googleads.v5.resources.MerchantCenterLink) {
+		option (google.api.method_signature) = "resource_name";
+		option (google.api.http) = {
+			get: "/v5/{resource_name=customers/*/merchantCenterLinks/*}"
+		};
+
+	}
+	rpc MutateMerchantCenterLink(google.ads.googleads.v5.services.MutateMerchantCenterLinkRequest) returns (google.ads.googleads.v5.services.MutateMerchantCenterLinkResponse) {
+		option (google.api.method_signature) = "customer_id,operation";
+		option (google.api.http) = {
+			post: "/v5/customers/{customer_id=*}/merchantCenterLinks:mutate"
+			body: "*"
+		};
+
+	}
+}
+
+message ListMerchantCenterLinksRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListMerchantCenterLinksResponse {
+
+	repeated google.ads.googleads.v5.resources.MerchantCenterLink merchant_center_links = 1;
+}
+
+message GetMerchantCenterLinkRequest {
+
+	string resource_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "googleads.googleapis.com/MerchantCenterLink"
+		}
+	];
+}
+
+message MutateMerchantCenterLinkRequest {
+
+	string customer_id = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	MerchantCenterLinkOperation operation = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message MerchantCenterLinkOperation {
+
+	google.protobuf.FieldMask update_mask = 3;
+	oneof operation {
+		google.ads.googleads.v5.resources.MerchantCenterLink update = 1;
+		string remove = 2;
+	}
+}
+
+message MutateMerchantCenterLinkResponse {
+
+	MutateMerchantCenterLinkResult result = 2;
+}
+
+message MutateMerchantCenterLinkResult {
+
+	string resource_name = 1;
+}

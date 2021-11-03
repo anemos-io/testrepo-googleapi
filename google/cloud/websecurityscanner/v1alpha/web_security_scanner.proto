@@ -1,0 +1,295 @@
+syntax = "proto3";
+
+package google.cloud.websecurityscanner.v1alpha;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/websecurityscanner/v1alpha/crawled_url.proto";
+import "google/cloud/websecurityscanner/v1alpha/finding.proto";
+import "google/cloud/websecurityscanner/v1alpha/finding_type_stats.proto";
+import "google/cloud/websecurityscanner/v1alpha/scan_config.proto";
+import "google/cloud/websecurityscanner/v1alpha/scan_run.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.google.cloud.websecurityscanner.v1alpha";
+option java_outer_classname = "WebSecurityScannerProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/websecurityscanner/v1alpha;websecurityscanner";
+
+
+service WebSecurityScanner {
+	option (google.api.default_host) = "websecurityscanner.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc CreateScanConfig(google.cloud.websecurityscanner.v1alpha.CreateScanConfigRequest) returns (google.cloud.websecurityscanner.v1alpha.ScanConfig) {
+		option (google.api.method_signature) = "parent,scan_config";
+		option (google.api.http) = {
+			post: "/v1alpha/{parent=projects/*}/scanConfigs"
+			body: "scan_config"
+		};
+
+	}
+	rpc DeleteScanConfig(google.cloud.websecurityscanner.v1alpha.DeleteScanConfigRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1alpha/{name=projects/*/scanConfigs/*}"
+		};
+
+	}
+	rpc GetScanConfig(google.cloud.websecurityscanner.v1alpha.GetScanConfigRequest) returns (google.cloud.websecurityscanner.v1alpha.ScanConfig) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/scanConfigs/*}"
+		};
+
+	}
+	rpc ListScanConfigs(google.cloud.websecurityscanner.v1alpha.ListScanConfigsRequest) returns (google.cloud.websecurityscanner.v1alpha.ListScanConfigsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*}/scanConfigs"
+		};
+
+	}
+	rpc UpdateScanConfig(google.cloud.websecurityscanner.v1alpha.UpdateScanConfigRequest) returns (google.cloud.websecurityscanner.v1alpha.ScanConfig) {
+		option (google.api.method_signature) = "scan_config,update_mask";
+		option (google.api.http) = {
+			patch: "/v1alpha/{scan_config.name=projects/*/scanConfigs/*}"
+			body: "scan_config"
+		};
+
+	}
+	rpc StartScanRun(google.cloud.websecurityscanner.v1alpha.StartScanRunRequest) returns (google.cloud.websecurityscanner.v1alpha.ScanRun) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1alpha/{name=projects/*/scanConfigs/*}:start"
+			body: "*"
+		};
+
+	}
+	rpc GetScanRun(google.cloud.websecurityscanner.v1alpha.GetScanRunRequest) returns (google.cloud.websecurityscanner.v1alpha.ScanRun) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/scanConfigs/*/scanRuns/*}"
+		};
+
+	}
+	rpc ListScanRuns(google.cloud.websecurityscanner.v1alpha.ListScanRunsRequest) returns (google.cloud.websecurityscanner.v1alpha.ListScanRunsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/scanConfigs/*}/scanRuns"
+		};
+
+	}
+	rpc StopScanRun(google.cloud.websecurityscanner.v1alpha.StopScanRunRequest) returns (google.cloud.websecurityscanner.v1alpha.ScanRun) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			post: "/v1alpha/{name=projects/*/scanConfigs/*/scanRuns/*}:stop"
+			body: "*"
+		};
+
+	}
+	rpc ListCrawledUrls(google.cloud.websecurityscanner.v1alpha.ListCrawledUrlsRequest) returns (google.cloud.websecurityscanner.v1alpha.ListCrawledUrlsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/scanConfigs/*/scanRuns/*}/crawledUrls"
+		};
+
+	}
+	rpc GetFinding(google.cloud.websecurityscanner.v1alpha.GetFindingRequest) returns (google.cloud.websecurityscanner.v1alpha.Finding) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1alpha/{name=projects/*/scanConfigs/*/scanRuns/*/findings/*}"
+		};
+
+	}
+	rpc ListFindings(google.cloud.websecurityscanner.v1alpha.ListFindingsRequest) returns (google.cloud.websecurityscanner.v1alpha.ListFindingsResponse) {
+		option (google.api.method_signature) = "parent,filter";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/scanConfigs/*/scanRuns/*}/findings"
+		};
+
+	}
+	rpc ListFindingTypeStats(google.cloud.websecurityscanner.v1alpha.ListFindingTypeStatsRequest) returns (google.cloud.websecurityscanner.v1alpha.ListFindingTypeStatsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1alpha/{parent=projects/*/scanConfigs/*/scanRuns/*}/findingTypeStats"
+		};
+
+	}
+}
+
+message CreateScanConfigRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	google.cloud.websecurityscanner.v1alpha.ScanConfig scan_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message DeleteScanConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanConfig"
+		}
+	];
+}
+
+message GetScanConfigRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanConfig"
+		}
+	];
+}
+
+message ListScanConfigsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "cloudresourcemanager.googleapis.com/Project"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message UpdateScanConfigRequest {
+
+	google.cloud.websecurityscanner.v1alpha.ScanConfig scan_config = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	google.protobuf.FieldMask update_mask = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+}
+
+message ListScanConfigsResponse {
+
+	repeated google.cloud.websecurityscanner.v1alpha.ScanConfig scan_configs = 1;
+	string next_page_token = 2;
+}
+
+message StartScanRunRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanConfig"
+		}
+	];
+}
+
+message GetScanRunRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanRun"
+		}
+	];
+}
+
+message ListScanRunsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanConfig"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListScanRunsResponse {
+
+	repeated google.cloud.websecurityscanner.v1alpha.ScanRun scan_runs = 1;
+	string next_page_token = 2;
+}
+
+message StopScanRunRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanRun"
+		}
+	];
+}
+
+message ListCrawledUrlsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanRun"
+		}
+	];
+	string page_token = 2;
+	int32 page_size = 3;
+}
+
+message ListCrawledUrlsResponse {
+
+	repeated google.cloud.websecurityscanner.v1alpha.CrawledUrl crawled_urls = 1;
+	string next_page_token = 2;
+}
+
+message GetFindingRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/Finding"
+		}
+	];
+}
+
+message ListFindingsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanRun"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string page_token = 3;
+	int32 page_size = 4;
+}
+
+message ListFindingsResponse {
+
+	repeated google.cloud.websecurityscanner.v1alpha.Finding findings = 1;
+	string next_page_token = 2;
+}
+
+message ListFindingTypeStatsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "websecurityscanner.googleapis.com/ScanRun"
+		}
+	];
+}
+
+message ListFindingTypeStatsResponse {
+
+	repeated google.cloud.websecurityscanner.v1alpha.FindingTypeStats finding_type_stats = 1;
+}

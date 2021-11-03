@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package google.cloud.texttospeech.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+
+option java_package = "com.google.cloud.texttospeech.v1beta1";
+option java_outer_classname = "TextToSpeechProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/texttospeech/v1beta1;texttospeech";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.TextToSpeech.V1beta1";
+option php_namespace = "Google\\Cloud\\TextToSpeech\\V1beta1";
+option ruby_package = "Google::Cloud::TextToSpeech::V1beta1";
+
+
+enum SsmlVoiceGender {
+
+	SSML_VOICE_GENDER_UNSPECIFIED = 0;
+	MALE = 1;
+	FEMALE = 2;
+	NEUTRAL = 3;
+}
+
+enum AudioEncoding {
+
+	AUDIO_ENCODING_UNSPECIFIED = 0;
+	LINEAR16 = 1;
+	MP3 = 2;
+	MP3_64_KBPS = 4;
+	OGG_OPUS = 3;
+	MULAW = 5;
+}
+
+service TextToSpeech {
+	option (google.api.default_host) = "texttospeech.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc ListVoices(google.cloud.texttospeech.v1beta1.ListVoicesRequest) returns (google.cloud.texttospeech.v1beta1.ListVoicesResponse) {
+		option (google.api.method_signature) = "language_code";
+		option (google.api.http) = {
+			get: "/v1beta1/voices"
+		};
+
+	}
+	rpc SynthesizeSpeech(google.cloud.texttospeech.v1beta1.SynthesizeSpeechRequest) returns (google.cloud.texttospeech.v1beta1.SynthesizeSpeechResponse) {
+		option (google.api.method_signature) = "input,voice,audio_config";
+		option (google.api.http) = {
+			post: "/v1beta1/text:synthesize"
+			body: "*"
+		};
+
+	}
+}
+
+message ListVoicesRequest {
+
+	string language_code = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListVoicesResponse {
+
+	repeated Voice voices = 1;
+}
+
+message Voice {
+
+	repeated string language_codes = 1;
+	string name = 2;
+	SsmlVoiceGender ssml_gender = 3;
+	int32 natural_sample_rate_hertz = 4;
+}
+
+message SynthesizeSpeechRequest {
+
+	enum TimepointType {
+
+		TIMEPOINT_TYPE_UNSPECIFIED = 0;
+		SSML_MARK = 1;
+	}
+
+	SynthesisInput input = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	VoiceSelectionParams voice = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	AudioConfig audio_config = 3 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated TimepointType enable_time_pointing = 4;
+}
+
+message SynthesisInput {
+
+	oneof input_source {
+		string text = 1;
+		string ssml = 2;
+	}
+}
+
+message VoiceSelectionParams {
+
+	string language_code = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string name = 2;
+	SsmlVoiceGender ssml_gender = 3;
+}
+
+message AudioConfig {
+
+	AudioEncoding audio_encoding = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	double speaking_rate = 2 [
+		(google.api.field_behavior) = INPUT_ONLY,
+		(google.api.field_behavior) = OPTIONAL
+	];
+	double pitch = 3 [
+		(google.api.field_behavior) = INPUT_ONLY,
+		(google.api.field_behavior) = OPTIONAL
+	];
+	double volume_gain_db = 4 [
+		(google.api.field_behavior) = INPUT_ONLY,
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 sample_rate_hertz = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated string effects_profile_id = 6 [
+		(google.api.field_behavior) = INPUT_ONLY,
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message SynthesizeSpeechResponse {
+
+	bytes audio_content = 1;
+	repeated Timepoint timepoints = 2;
+	AudioConfig audio_config = 4;
+}
+
+message Timepoint {
+
+	string mark_name = 4;
+	double time_seconds = 3;
+}

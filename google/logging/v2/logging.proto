@@ -1,0 +1,202 @@
+syntax = "proto3";
+
+package google.logging.v2;
+
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/monitored_resource.proto";
+import "google/api/resource.proto";
+import "google/logging/v2/log_entry.proto";
+import "google/logging/v2/logging_config.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/api/annotations.proto";
+
+option java_package = "com.google.logging.v2";
+option java_outer_classname = "LoggingProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/logging/v2;logging";
+option cc_enable_arenas = true;
+option csharp_namespace = "Google.Cloud.Logging.V2";
+option php_namespace = "Google\\Cloud\\Logging\\V2";
+option ruby_package = "Google::Cloud::Logging::V2";
+
+
+service LoggingServiceV2 {
+	option (google.api.default_host) = "logging.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/logging.admin,https://www.googleapis.com/auth/logging.read,https://www.googleapis.com/auth/logging.write";
+
+	rpc DeleteLog(google.logging.v2.DeleteLogRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "log_name";
+		option (google.api.http) = {
+			delete: "/v2/{log_name=projects/*/logs/*}"
+			additional_bindings: {
+				delete: "/v2/{log_name=*/*/logs/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{log_name=organizations/*/logs/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{log_name=folders/*/logs/*}"
+			}
+			additional_bindings: {
+				delete: "/v2/{log_name=billingAccounts/*/logs/*}"
+			}
+		};
+
+	}
+	rpc WriteLogEntries(google.logging.v2.WriteLogEntriesRequest) returns (google.logging.v2.WriteLogEntriesResponse) {
+		option (google.api.method_signature) = "log_name,resource,labels,entries";
+		option (google.api.http) = {
+			post: "/v2/entries:write"
+			body: "*"
+		};
+
+	}
+	rpc ListLogEntries(google.logging.v2.ListLogEntriesRequest) returns (google.logging.v2.ListLogEntriesResponse) {
+		option (google.api.method_signature) = "resource_names,filter,order_by";
+		option (google.api.http) = {
+			post: "/v2/entries:list"
+			body: "*"
+		};
+
+	}
+	rpc ListMonitoredResourceDescriptors(google.logging.v2.ListMonitoredResourceDescriptorsRequest) returns (google.logging.v2.ListMonitoredResourceDescriptorsResponse) {
+		option (google.api.http) = {
+			get: "/v2/monitoredResourceDescriptors"
+		};
+
+	}
+	rpc ListLogs(google.logging.v2.ListLogsRequest) returns (google.logging.v2.ListLogsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v2/{parent=*/*}/logs"
+			additional_bindings: {
+				get: "/v2/{parent=projects/*}/logs"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=organizations/*}/logs"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=folders/*}/logs"
+			}
+			additional_bindings: {
+				get: "/v2/{parent=billingAccounts/*}/logs"
+			}
+		};
+
+	}
+}
+
+message DeleteLogRequest {
+
+	string log_name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/Log"
+		}
+	];
+}
+
+message WriteLogEntriesRequest {
+
+	string log_name = 1 [
+		(google.api.field_behavior) = OPTIONAL
+		(google.api.resource_reference) = {
+			type: "logging.googleapis.com/Log"
+		}
+	];
+	google.api.MonitoredResource resource = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	map<string, string> labels = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	repeated google.logging.v2.LogEntry entries = 4 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	bool partial_success = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	bool dry_run = 6 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message WriteLogEntriesResponse {
+
+}
+
+message WriteLogEntriesPartialErrors {
+
+	map<int32, google.rpc.Status> log_entry_errors = 1;
+}
+
+message ListLogEntriesRequest {
+
+	repeated string resource_names = 8 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "logging.googleapis.com/Log"
+		}
+	];
+	string filter = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string order_by = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	int32 page_size = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListLogEntriesResponse {
+
+	repeated google.logging.v2.LogEntry entries = 1;
+	string next_page_token = 2;
+}
+
+message ListMonitoredResourceDescriptorsRequest {
+
+	int32 page_size = 1 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListMonitoredResourceDescriptorsResponse {
+
+	repeated google.api.MonitoredResourceDescriptor resource_descriptors = 1;
+	string next_page_token = 2;
+}
+
+message ListLogsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			child_type: "logging.googleapis.com/Log"
+		}
+	];
+	int32 page_size = 2 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string page_token = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message ListLogsResponse {
+
+	repeated string log_names = 3;
+	string next_page_token = 2;
+}

@@ -1,0 +1,164 @@
+syntax = "proto3";
+
+package google.cloud.ml.v1;
+
+import "google/api/annotations.proto";
+import "google/api/auth.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.ml.api.v1";
+option java_outer_classname = "ModelServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/ml/v1;ml";
+
+
+service ModelService {
+
+	rpc CreateModel(google.cloud.ml.v1.CreateModelRequest) returns (google.cloud.ml.v1.Model) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*}/models"
+			body: "model"
+		};
+
+	}
+	rpc ListModels(google.cloud.ml.v1.ListModelsRequest) returns (google.cloud.ml.v1.ListModelsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*}/models"
+		};
+
+	}
+	rpc GetModel(google.cloud.ml.v1.GetModelRequest) returns (google.cloud.ml.v1.Model) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/models/*}"
+		};
+
+	}
+	rpc DeleteModel(google.cloud.ml.v1.DeleteModelRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/models/*}"
+		};
+
+	}
+	rpc CreateVersion(google.cloud.ml.v1.CreateVersionRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/models/*}/versions"
+			body: "version"
+		};
+
+	}
+	rpc ListVersions(google.cloud.ml.v1.ListVersionsRequest) returns (google.cloud.ml.v1.ListVersionsResponse) {
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/models/*}/versions"
+		};
+
+	}
+	rpc GetVersion(google.cloud.ml.v1.GetVersionRequest) returns (google.cloud.ml.v1.Version) {
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/models/*/versions/*}"
+		};
+
+	}
+	rpc DeleteVersion(google.cloud.ml.v1.DeleteVersionRequest) returns (google.longrunning.Operation) {
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/models/*/versions/*}"
+		};
+
+	}
+	rpc SetDefaultVersion(google.cloud.ml.v1.SetDefaultVersionRequest) returns (google.cloud.ml.v1.Version) {
+		option (google.api.http) = {
+			post: "/v1/{name=projects/*/models/*/versions/*}:setDefault"
+			body: "*"
+		};
+
+	}
+}
+
+message Model {
+
+	string name = 1;
+	string description = 2;
+	Version default_version = 3;
+	repeated string regions = 4;
+	bool online_prediction_logging = 5;
+}
+
+message Version {
+
+	string name = 1;
+	string description = 2;
+	bool is_default = 3;
+	string deployment_uri = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp last_use_time = 6;
+	string runtime_version = 8;
+	ManualScaling manual_scaling = 9;
+}
+
+message ManualScaling {
+
+	int32 nodes = 1;
+}
+
+message CreateModelRequest {
+
+	string parent = 1;
+	Model model = 2;
+}
+
+message ListModelsRequest {
+
+	string parent = 1;
+	string page_token = 4;
+	int32 page_size = 5;
+}
+
+message ListModelsResponse {
+
+	repeated Model models = 1;
+	string next_page_token = 2;
+}
+
+message GetModelRequest {
+
+	string name = 1;
+}
+
+message DeleteModelRequest {
+
+	string name = 1;
+}
+
+message CreateVersionRequest {
+
+	string parent = 1;
+	Version version = 2;
+}
+
+message ListVersionsRequest {
+
+	string parent = 1;
+	string page_token = 4;
+	int32 page_size = 5;
+}
+
+message ListVersionsResponse {
+
+	repeated Version versions = 1;
+	string next_page_token = 2;
+}
+
+message GetVersionRequest {
+
+	string name = 1;
+}
+
+message DeleteVersionRequest {
+
+	string name = 1;
+}
+
+message SetDefaultVersionRequest {
+
+	string name = 1;
+}

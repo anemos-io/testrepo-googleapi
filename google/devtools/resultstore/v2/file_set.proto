@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package google.devtools.resultstore.v2;
+
+import "google/devtools/resultstore/v2/file.proto";
+
+option java_package = "com.google.devtools.resultstore.v2";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/devtools/resultstore/v2;resultstore";
+
+
+message FileSet {
+
+	message Id {
+
+		string invocation_id = 1;
+		string file_set_id = 2;
+	}
+
+	string name = 1;
+	Id id = 2;
+	repeated string file_sets = 3;
+	repeated google.devtools.resultstore.v2.File files = 4;
+}

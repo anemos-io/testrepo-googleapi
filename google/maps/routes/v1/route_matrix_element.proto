@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package google.maps.routes.v1;
+
+import "google/maps/routes/v1/fallback_info.proto";
+import "google/maps/routes/v1/route.proto";
+import "google/protobuf/duration.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.maps.routes.v1";
+option java_outer_classname = "ComputeRouteMatrixElementProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/maps/routes/v1;routes";
+option cc_enable_arenas = true;
+option objc_class_prefix = "GMRS";
+option csharp_namespace = "Google.Maps.Routes.V1";
+option php_namespace = "Google\\Maps\\Routes\\V1";
+
+
+enum RouteMatrixElementCondition {
+
+	ROUTE_MATRIX_ELEMENT_CONDITION_UNSPECIFIED = 0;
+	ROUTE_EXISTS = 1;
+	ROUTE_NOT_FOUND = 2;
+}
+
+message RouteMatrixElement {
+
+	int32 origin_index = 1;
+	int32 destination_index = 2;
+	google.rpc.Status status = 3;
+	RouteMatrixElementCondition condition = 9;
+	int32 distance_meters = 4;
+	google.protobuf.Duration duration = 5;
+	google.protobuf.Duration static_duration = 6;
+	google.maps.routes.v1.RouteTravelAdvisory travel_advisory = 7;
+	google.maps.routes.v1.FallbackInfo fallback_info = 8;
+}

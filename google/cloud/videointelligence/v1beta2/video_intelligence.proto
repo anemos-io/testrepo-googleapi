@@ -1,0 +1,213 @@
+syntax = "proto3";
+
+package google.cloud.videointelligence.v1beta2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+option java_package = "com.google.cloud.videointelligence.v1beta2";
+option java_outer_classname = "VideoIntelligenceServiceProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/videointelligence/v1beta2;videointelligence";
+option csharp_namespace = "Google.Cloud.VideoIntelligence.V1Beta2";
+option php_namespace = "Google\\Cloud\\VideoIntelligence\\V1beta2";
+option ruby_package = "Google::Cloud::VideoIntelligence::V1beta2";
+
+
+enum Feature {
+
+	FEATURE_UNSPECIFIED = 0;
+	LABEL_DETECTION = 1;
+	SHOT_CHANGE_DETECTION = 2;
+	EXPLICIT_CONTENT_DETECTION = 3;
+	FACE_DETECTION = 4;
+}
+
+enum LabelDetectionMode {
+
+	LABEL_DETECTION_MODE_UNSPECIFIED = 0;
+	SHOT_MODE = 1;
+	FRAME_MODE = 2;
+	SHOT_AND_FRAME_MODE = 3;
+}
+
+enum Likelihood {
+
+	LIKELIHOOD_UNSPECIFIED = 0;
+	VERY_UNLIKELY = 1;
+	UNLIKELY = 2;
+	POSSIBLE = 3;
+	LIKELY = 4;
+	VERY_LIKELY = 5;
+}
+
+service VideoIntelligenceService {
+	option (google.api.default_host) = "videointelligence.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform";
+
+	rpc AnnotateVideo(google.cloud.videointelligence.v1beta2.AnnotateVideoRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "AnnotateVideoResponse"
+			metadata_type: "AnnotateVideoProgress"
+		};
+		option (google.api.method_signature) = "input_uri,features";
+		option (google.api.http) = {
+			post: "/v1beta2/videos:annotate"
+			body: "*"
+		};
+
+	}
+}
+
+message AnnotateVideoRequest {
+
+	string input_uri = 1;
+	bytes input_content = 6;
+	repeated Feature features = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	VideoContext video_context = 3;
+	string output_uri = 4 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+	string location_id = 5 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message VideoContext {
+
+	repeated VideoSegment segments = 1;
+	LabelDetectionConfig label_detection_config = 2;
+	ShotChangeDetectionConfig shot_change_detection_config = 3;
+	ExplicitContentDetectionConfig explicit_content_detection_config = 4;
+	FaceDetectionConfig face_detection_config = 5;
+}
+
+message LabelDetectionConfig {
+
+	LabelDetectionMode label_detection_mode = 1;
+	bool stationary_camera = 2;
+	string model = 3;
+}
+
+message ShotChangeDetectionConfig {
+
+	string model = 1;
+}
+
+message ExplicitContentDetectionConfig {
+
+	string model = 1;
+}
+
+message FaceDetectionConfig {
+
+	string model = 1;
+	bool include_bounding_boxes = 2;
+}
+
+message VideoSegment {
+
+	google.protobuf.Duration start_time_offset = 1;
+	google.protobuf.Duration end_time_offset = 2;
+}
+
+message LabelSegment {
+
+	VideoSegment segment = 1;
+	float confidence = 2;
+}
+
+message LabelFrame {
+
+	google.protobuf.Duration time_offset = 1;
+	float confidence = 2;
+}
+
+message Entity {
+
+	string entity_id = 1;
+	string description = 2;
+	string language_code = 3;
+}
+
+message LabelAnnotation {
+
+	Entity entity = 1;
+	repeated Entity category_entities = 2;
+	repeated LabelSegment segments = 3;
+	repeated LabelFrame frames = 4;
+}
+
+message ExplicitContentFrame {
+
+	google.protobuf.Duration time_offset = 1;
+	Likelihood pornography_likelihood = 2;
+}
+
+message ExplicitContentAnnotation {
+
+	repeated ExplicitContentFrame frames = 1;
+}
+
+message NormalizedBoundingBox {
+
+	float left = 1;
+	float top = 2;
+	float right = 3;
+	float bottom = 4;
+}
+
+message FaceSegment {
+
+	VideoSegment segment = 1;
+}
+
+message FaceFrame {
+
+	repeated NormalizedBoundingBox normalized_bounding_boxes = 1;
+	google.protobuf.Duration time_offset = 2;
+}
+
+message FaceAnnotation {
+
+	bytes thumbnail = 1;
+	repeated FaceSegment segments = 2;
+	repeated FaceFrame frames = 3;
+}
+
+message VideoAnnotationResults {
+
+	string input_uri = 1;
+	repeated LabelAnnotation segment_label_annotations = 2;
+	repeated LabelAnnotation shot_label_annotations = 3;
+	repeated LabelAnnotation frame_label_annotations = 4;
+	repeated FaceAnnotation face_annotations = 5;
+	repeated VideoSegment shot_annotations = 6;
+	ExplicitContentAnnotation explicit_annotation = 7;
+	google.rpc.Status error = 9;
+}
+
+message AnnotateVideoResponse {
+
+	repeated VideoAnnotationResults annotation_results = 1;
+}
+
+message VideoAnnotationProgress {
+
+	string input_uri = 1;
+	int32 progress_percent = 2;
+	google.protobuf.Timestamp start_time = 3;
+	google.protobuf.Timestamp update_time = 4;
+}
+
+message AnnotateVideoProgress {
+
+	repeated VideoAnnotationProgress annotation_progress = 1;
+}

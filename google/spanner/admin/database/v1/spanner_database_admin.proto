@@ -1,0 +1,391 @@
+syntax = "proto3";
+
+package google.spanner.admin.database.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/iam/v1/iam_policy.proto";
+import "google/iam/v1/policy.proto";
+import "google/longrunning/operations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/spanner/admin/database/v1/backup.proto";
+import "google/spanner/admin/database/v1/common.proto";
+
+option java_package = "com.google.spanner.admin.database.v1";
+option java_outer_classname = "SpannerDatabaseAdminProto";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/spanner/admin/database/v1;database";
+option csharp_namespace = "Google.Cloud.Spanner.Admin.Database.V1";
+option php_namespace = "Google\\Cloud\\Spanner\\Admin\\Database\\V1";
+option ruby_package = "Google::Cloud::Spanner::Admin::Database::V1";
+option (google.api.resource_definition) = {
+	type: "spanner.googleapis.com/Instance"
+	pattern: ["projects/{project}/instances/{instance}"]
+};
+
+
+enum RestoreSourceType {
+
+	TYPE_UNSPECIFIED = 0;
+	BACKUP = 1;
+}
+
+service DatabaseAdmin {
+	option (google.api.default_host) = "spanner.googleapis.com";
+	option (google.api.oauth_scopes) = "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/spanner.admin";
+
+	rpc ListDatabases(google.spanner.admin.database.v1.ListDatabasesRequest) returns (google.spanner.admin.database.v1.ListDatabasesResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/instances/*}/databases"
+		};
+
+	}
+	rpc CreateDatabase(google.spanner.admin.database.v1.CreateDatabaseRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.spanner.admin.database.v1.Database"
+			metadata_type: "google.spanner.admin.database.v1.CreateDatabaseMetadata"
+		};
+		option (google.api.method_signature) = "parent,create_statement";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/instances/*}/databases"
+			body: "*"
+		};
+
+	}
+	rpc GetDatabase(google.spanner.admin.database.v1.GetDatabaseRequest) returns (google.spanner.admin.database.v1.Database) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/instances/*/databases/*}"
+		};
+
+	}
+	rpc UpdateDatabaseDdl(google.spanner.admin.database.v1.UpdateDatabaseDdlRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.protobuf.Empty"
+			metadata_type: "google.spanner.admin.database.v1.UpdateDatabaseDdlMetadata"
+		};
+		option (google.api.method_signature) = "database,statements";
+		option (google.api.http) = {
+			patch: "/v1/{database=projects/*/instances/*/databases/*}/ddl"
+			body: "*"
+		};
+
+	}
+	rpc DropDatabase(google.spanner.admin.database.v1.DropDatabaseRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "database";
+		option (google.api.http) = {
+			delete: "/v1/{database=projects/*/instances/*/databases/*}"
+		};
+
+	}
+	rpc GetDatabaseDdl(google.spanner.admin.database.v1.GetDatabaseDdlRequest) returns (google.spanner.admin.database.v1.GetDatabaseDdlResponse) {
+		option (google.api.method_signature) = "database";
+		option (google.api.http) = {
+			get: "/v1/{database=projects/*/instances/*/databases/*}/ddl"
+		};
+
+	}
+	rpc SetIamPolicy(google.iam.v1.SetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource,policy";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/instances/*/databases/*}:setIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/instances/*/backups/*}:setIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc GetIamPolicy(google.iam.v1.GetIamPolicyRequest) returns (google.iam.v1.Policy) {
+		option (google.api.method_signature) = "resource";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/instances/*/databases/*}:getIamPolicy"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/instances/*/backups/*}:getIamPolicy"
+				body: "*"
+			}
+		};
+
+	}
+	rpc TestIamPermissions(google.iam.v1.TestIamPermissionsRequest) returns (google.iam.v1.TestIamPermissionsResponse) {
+		option (google.api.method_signature) = "resource,permissions";
+		option (google.api.http) = {
+			post: "/v1/{resource=projects/*/instances/*/databases/*}:testIamPermissions"
+			body: "*"
+			additional_bindings: {
+				post: "/v1/{resource=projects/*/instances/*/backups/*}:testIamPermissions"
+				body: "*"
+			}
+		};
+
+	}
+	rpc CreateBackup(google.spanner.admin.database.v1.CreateBackupRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.spanner.admin.database.v1.Backup"
+			metadata_type: "google.spanner.admin.database.v1.CreateBackupMetadata"
+		};
+		option (google.api.method_signature) = "parent,backup,backup_id";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/instances/*}/backups"
+			body: "backup"
+		};
+
+	}
+	rpc GetBackup(google.spanner.admin.database.v1.GetBackupRequest) returns (google.spanner.admin.database.v1.Backup) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			get: "/v1/{name=projects/*/instances/*/backups/*}"
+		};
+
+	}
+	rpc UpdateBackup(google.spanner.admin.database.v1.UpdateBackupRequest) returns (google.spanner.admin.database.v1.Backup) {
+		option (google.api.method_signature) = "backup,update_mask";
+		option (google.api.http) = {
+			patch: "/v1/{backup.name=projects/*/instances/*/backups/*}"
+			body: "backup"
+		};
+
+	}
+	rpc DeleteBackup(google.spanner.admin.database.v1.DeleteBackupRequest) returns (google.protobuf.Empty) {
+		option (google.api.method_signature) = "name";
+		option (google.api.http) = {
+			delete: "/v1/{name=projects/*/instances/*/backups/*}"
+		};
+
+	}
+	rpc ListBackups(google.spanner.admin.database.v1.ListBackupsRequest) returns (google.spanner.admin.database.v1.ListBackupsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/instances/*}/backups"
+		};
+
+	}
+	rpc RestoreDatabase(google.spanner.admin.database.v1.RestoreDatabaseRequest) returns (google.longrunning.Operation) {
+		option (google.longrunning.operation_info) = {
+			response_type: "google.spanner.admin.database.v1.Database"
+			metadata_type: "google.spanner.admin.database.v1.RestoreDatabaseMetadata"
+		};
+		option (google.api.method_signature) = "parent,database_id,backup";
+		option (google.api.http) = {
+			post: "/v1/{parent=projects/*/instances/*}/databases:restore"
+			body: "*"
+		};
+
+	}
+	rpc ListDatabaseOperations(google.spanner.admin.database.v1.ListDatabaseOperationsRequest) returns (google.spanner.admin.database.v1.ListDatabaseOperationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/instances/*}/databaseOperations"
+		};
+
+	}
+	rpc ListBackupOperations(google.spanner.admin.database.v1.ListBackupOperationsRequest) returns (google.spanner.admin.database.v1.ListBackupOperationsResponse) {
+		option (google.api.method_signature) = "parent";
+		option (google.api.http) = {
+			get: "/v1/{parent=projects/*/instances/*}/backupOperations"
+		};
+
+	}
+}
+
+message RestoreInfo {
+
+	RestoreSourceType source_type = 1;
+	oneof source_info {
+		google.spanner.admin.database.v1.BackupInfo backup_info = 2;
+	}
+}
+
+message Database {
+	option (google.api.resource) = {
+		type: "spanner.googleapis.com/Database"
+		pattern: ["projects/{project}/instances/{instance}/databases/{database}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		CREATING = 1;
+		READY = 2;
+		READY_OPTIMIZING = 3;
+	}
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	State state = 2 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp create_time = 3 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	RestoreInfo restore_info = 4 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+}
+
+message ListDatabasesRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Instance"
+		}
+	];
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListDatabasesResponse {
+
+	repeated Database databases = 1;
+	string next_page_token = 2;
+}
+
+message CreateDatabaseRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Instance"
+		}
+	];
+	string create_statement = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	repeated string extra_statements = 3 [
+		(google.api.field_behavior) = OPTIONAL
+	];
+}
+
+message CreateDatabaseMetadata {
+
+	string database = 1 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+}
+
+message GetDatabaseRequest {
+
+	string name = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+}
+
+message UpdateDatabaseDdlRequest {
+
+	string database = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+	repeated string statements = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	string operation_id = 3;
+}
+
+message UpdateDatabaseDdlMetadata {
+
+	string database = 1 [
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+	repeated string statements = 2;
+	repeated google.protobuf.Timestamp commit_timestamps = 3;
+}
+
+message DropDatabaseRequest {
+
+	string database = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+}
+
+message GetDatabaseDdlRequest {
+
+	string database = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Database"
+		}
+	];
+}
+
+message GetDatabaseDdlResponse {
+
+	repeated string statements = 1;
+}
+
+message ListDatabaseOperationsRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Instance"
+		}
+	];
+	string filter = 2;
+	int32 page_size = 3;
+	string page_token = 4;
+}
+
+message ListDatabaseOperationsResponse {
+
+	repeated google.longrunning.Operation operations = 1;
+	string next_page_token = 2;
+}
+
+message RestoreDatabaseRequest {
+
+	string parent = 1 [
+		(google.api.field_behavior) = REQUIRED
+		(google.api.resource_reference) = {
+			type: "spanner.googleapis.com/Instance"
+		}
+	];
+	string database_id = 2 [
+		(google.api.field_behavior) = REQUIRED
+	];
+	oneof source {
+		string backup = 3 [
+			(google.api.resource_reference) = {
+				type: "spanner.googleapis.com/Backup"
+			}
+		];
+	}
+}
+
+message RestoreDatabaseMetadata {
+
+	string name = 1;
+	RestoreSourceType source_type = 2;
+	oneof source_info {
+		google.spanner.admin.database.v1.BackupInfo backup_info = 3;
+	}
+	google.spanner.admin.database.v1.OperationProgress progress = 4;
+	google.protobuf.Timestamp cancel_time = 5;
+	string optimize_database_operation_name = 6;
+}
+
+message OptimizeRestoredDatabaseMetadata {
+
+	string name = 1;
+	google.spanner.admin.database.v1.OperationProgress progress = 2;
+}

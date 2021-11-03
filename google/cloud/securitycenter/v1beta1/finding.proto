@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package google.cloud.securitycenter.v1beta1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/cloud/securitycenter/v1beta1/security_marks.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.google.cloud.securitycenter.v1beta1";
+option java_multiple_files = true;
+option go_package = "google.golang.org/genproto/googleapis/cloud/securitycenter/v1beta1;securitycenter";
+
+
+message Finding {
+	option (google.api.resource) = {
+		type: "securitycenter.googleapis.com/Finding"
+		pattern: ["organizations/{organization}/sources/{source}/findings/{finding}"]
+	};
+
+	enum State {
+
+		STATE_UNSPECIFIED = 0;
+		ACTIVE = 1;
+		INACTIVE = 2;
+	}
+
+	string name = 1;
+	string parent = 2 [
+		(google.api.field_behavior) = IMMUTABLE
+	];
+	string resource_name = 3;
+	State state = 4;
+	string category = 5;
+	string external_uri = 6;
+	map<string, google.protobuf.Value> source_properties = 7;
+	google.cloud.securitycenter.v1beta1.SecurityMarks security_marks = 8 [
+		(google.api.field_behavior) = OUTPUT_ONLY
+	];
+	google.protobuf.Timestamp event_time = 9;
+	google.protobuf.Timestamp create_time = 10;
+}
